@@ -29,6 +29,10 @@ import "./people-picker.css";
 import "./swipe-row.css";
 import "./calendar-v2.css";
 import "./landscape.css";
+import "./audit-fixes-a.css";
+import "./calendar-card.css";
+import "./shopping-v2.css";
+import "./audit-fixes-b.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

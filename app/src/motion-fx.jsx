@@ -98,12 +98,15 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avat
  useEffect(()=>{if(!removed)return;const t=setTimeout(()=>setRemoved(null),6000);return()=>clearTimeout(t)},[removed]);
  const style=fxStyleFor(appearance,role),[card,setCard]=useState(null),[party,setParty]=useState(0),[failed,setFailed]=useState(false),[previewToast,setPreviewToast]=useState(''),shownAt=useRef(0),styleRef=useRef(style);
  styleRef.current=style;
+ const routeRef=useRef(route);routeRef.current=route;
  useEffect(()=>fxBus.on((type,fx)=>{
   if(type==='failed'){setCard(null);setFailed(true);setTimeout(()=>setFailed(false),4500);return}
   if(type!=='celebrate')return;
   const s=fx.style||styleRef.current;
   if(s==='calm'){if(fx.preview||CREATE_KINDS.has(fx.kind)){const k=KINDS[fx.kind]||KINDS.task,r=fx.record||{},n=T(r.title||'',r.he||r.title||'');setPreviewToast(fx.preview?T('Saved.','נשמר.'):T(k.en,k.he)+(n?' '+n:''))}return}
   if(!fx.preview&&(CREATE_KINDS.has(fx.kind)?appearance?.fxCreate===false:appearance?.fxComplete===false))return;
+  // Adding items on the Shopping page itself: the new row is the feedback; no pop-up covering the add bar.
+  if(!fx.preview&&fx.kind==='shopping'&&String(routeRef.current||'').startsWith('shopping'))return;
   shownAt.current=Date.now();setCard({...fx,key:shownAt.current});
   if(!reducedMotion()&&(s==='party'||fx.kind==='shopping-done'||fx.levelUp))setParty(shownAt.current);
  }),[appearance?.fxCreate,appearance?.fxComplete,T]);

@@ -12,7 +12,7 @@ import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog}
 import {visibleState} from './state.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
-import {dueReminders,digestDue,approvalRequests,childUpdates,agenda,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
+import {dueReminders,digestDue,approvalRequests,childUpdates,ownerDoneUpdates,overdueAlerts,agenda,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
 
 // The "/" menu. Registered when a bot connects, on Test connection, and re-registered automatically by the
 // scheduler whenever this list changes (COMMANDS_VERSION), so older bots get new commands without reconnecting.
@@ -391,6 +391,9 @@ export async function deliverReminders(env,now){
    const digest=digestDue(visible,memberId,{date,time});if(digest)outbox.push({key:digest.key,build:async()=>['<b>'+L(lang,'Good morning! Your day','בוקר טוב! היום שלכם')+'</b>\n'+(digest.items.length?digest.items.map(i=>itemLine(i,lang)).join('\n'):L(lang,'Nothing scheduled for you today.','אין לכם פעילויות מתוכננות להיום.'))]});
    if(!quiet){
     for(const request of approvalRequests(visible,memberId,{date},role)){const who=home.state.members.find(m=>m.id===request.task.memberId);outbox.push({key:request.key,build:async()=>['<b>'+L(lang,'Approval needed','נדרש אישור')+'</b>\n'+esc(lang==='he'?who?.he||who?.name:who?.name)+' · '+esc(title(request.task,lang)),[[await button(env,row.household_id,memberId,L(lang,'Approve','אישור'),{type:'approve',taskId:request.task.id,date})]]]})}
+    const nameOf=id=>{const m=home.state.members.find(x=>x.id===id);return lang==='he'?m?.he||m?.name:m?.name},reported=new Set(childUpdates(visible,memberId,{date,time},role,childPrefs).map(u=>u.entry.taskId+':'+u.entry.date));
+    for(const u of ownerDoneUpdates(visible,memberId,{date}))if(!reported.has(u.task.id+':'+u.date))outbox.push({key:u.key,build:async()=>[esc(nameOf(u.actorId))+' '+L(lang,'completed','השלים/ה')+': <b>'+esc(title(u.task,lang))+'</b> ✓']});
+    for(const alert of overdueAlerts(visible,memberId,{date,time}))outbox.push({key:alert.key,build:async()=>['<b>'+L(lang,'Not done yet','עדיין לא בוצע')+'</b>\n'+esc(title(alert.task,lang))+(alert.assignee?'':' · '+esc(nameOf(alert.task.memberId)))+' · '+esc(alert.date+(alert.task.time?' '+alert.task.time:'')),alert.assignee&&alert.date===date?[[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:alert.task.id,date})]]:[]]});
     for(const update of childUpdates(visible,memberId,{date,time},role,childPrefs)){const who=home.state.members.find(m=>m.id===update.entry.memberId);outbox.push({key:update.key,build:async()=>[esc(lang==='he'?who?.he||who?.name:who?.name)+' '+L(lang,'completed','השלים/ה')+': <b>'+esc(title(update.entry,lang))+'</b> ✓']})}
    }
    for(const snooze of snoozes.filter(s=>s.member_id===memberId)){

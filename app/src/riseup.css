@@ -45,3 +45,36 @@
 @media (max-width:700px){
  .money-controls .money-toolbar>.button.secondary{width:calc(50% - 7px);flex:1 1 calc(50% - 7px);min-width:0;padding-inline:10px;font-size:calc(15px * var(--text-scale,1))}
 }
+/* Expenses toolbar (audit): row 1 = view tabs + one primary Add at the end; row 2 = month, scope and sources,
+   one 44px row; amounts shrink to fit their tiles; strips scroll without visible scrollbars. */
+.money-controls{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important}
+.money-row{display:flex;align-items:center;gap:12px 16px;min-width:0}
+.money-row .money-nav{flex:1 1 auto;min-width:0}
+.money-nav .tabs{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none}
+.money-nav .tabs::-webkit-scrollbar{display:none}
+.money-add{flex:none;margin-inline-start:auto}
+.money-add .button{min-height:48px;white-space:nowrap}
+.money-controls .money-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start!important;gap:10px 12px}
+.money-controls .money-toolbar>*{min-height:44px}
+.money-controls .money-toolbar .expense-month{height:44px;align-items:center}
+.money-controls .money-toolbar .expense-month .icon-button{width:44px;height:44px}
+.money-controls .money-toolbar .expense-month label{height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+.money-controls .money-toolbar .tabs{display:inline-flex;align-items:center}
+.money-controls .money-toolbar .tabs>button{min-height:44px}
+.money-source-actions{display:flex;gap:10px;margin-inline-start:auto;flex-wrap:wrap}
+.money-source-actions .button{min-height:44px;height:44px;padding-block:0;white-space:nowrap}
+.money-tile strong{font-size:clamp(17px,2.1vw,calc(28px * var(--text-scale,1)))!important;overflow-wrap:anywhere;max-width:100%}
+.money-tile{min-width:0}
+.money-hero-value{font-size:clamp(34px,4.6vw,calc(60px * var(--text-scale,1)))!important;overflow-wrap:anywhere}
+@media (max-width:700px){
+ .money-row{flex-direction:column;align-items:stretch}
+ .money-add{margin-inline-start:0}.money-add .button{width:100%;justify-content:center}
+ .money-source-actions{width:100%;margin-inline-start:0}
+ .money-source-actions .button{flex:1 1 0;min-width:0;justify-content:center;font-size:calc(15px * var(--text-scale,1))}
+}
+.money-add .button{height:48px;min-height:48px;padding-block:0}
+.money-short{display:none}
+@media (min-width:701px) and (max-width:1300px){.money-long{display:none}.money-short{display:inline}.money-controls .money-toolbar .expense-month label{min-width:0}.money-controls .money-toolbar .expense-month input{width:9.5em}}
+.money-controls .money-toolbar .tabs.nav-filter{height:44px;padding:0;margin:0;align-self:center}
+@media (min-width:701px) and (max-width:1300px){.money-controls .money-toolbar .expense-month input{width:9.1em}.money-controls .money-toolbar .expense-month label{padding-inline:12px}.money-source-actions .button{padding-inline:16px}.money-controls .money-toolbar{gap:10px}}
+@media (min-width:701px) and (max-width:1300px){.money-controls .money-toolbar .tabs.nav-filter>button{padding-inline:12px}.money-source-actions{gap:8px}}

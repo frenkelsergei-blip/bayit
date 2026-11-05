@@ -4,8 +4,8 @@ import {CaretDown,X} from '@phosphor-icons/react';
 import {usePhone} from './detail-panel';
 
 // Phone "More" menu: a bottom sheet that fits on one screen (no scrolling) instead of the tall desktop sidebar.
-export function MobileMenu({T,root,items,extras,go,onClose,family}){
- const phone=usePhone(),sheet=useRef(null);
+export function MobileMenu({T,root,items,extras,go,onClose,family,asSheet=false}){
+ const phone=usePhone()||asSheet,sheet=useRef(null);
  useEffect(()=>{if(!phone)return;const html=document.documentElement,previous=html.style.overflow;html.style.overflow='hidden';sheet.current?.querySelector('[aria-current=page],.mobile-menu-grid button')?.focus({preventScroll:true});const key=e=>{if(e.key==='Escape'&&!document.querySelector('.family-popover'))onClose()};document.addEventListener('keydown',key);return()=>{html.style.overflow=previous;document.removeEventListener('keydown',key)}},[phone]);
  if(!phone)return null;
  const tile=([key,Icon,label])=><button key={key} className={root===key?'selected':''} aria-current={root===key?'page':undefined} onClick={()=>go(key)}><span className="mobile-menu-icon"><Icon size={25}/></span><span className="mobile-menu-label">{label}</span></button>;

@@ -1,10 +1,11 @@
 // Tasks page: shareable task lists, one-row filters (range, date, people, status, search), tasks grouped by
 // day with overdue and anytime groups, subtasks, and a detail panel in the Calendar detail style.
 import React,{useMemo,useState} from 'react';
-import {ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,CalendarDots,UserCircle,Stack,PencilSimple,Trash,X,Check,ListChecks,NotePencil,CaretDown} from '@phosphor-icons/react';
+import {Bell,ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,CalendarDots,UserCircle,Stack,PencilSimple,Trash,X,Check,ListChecks,NotePencil,CaretDown} from '@phosphor-icons/react';
 import {occursOn,completionState} from './domain';
 import {DateField} from './date-field';
 import {AvatarStack} from './avatar-stack';
+import {CreatedBy,fmtMinutes} from './created-by';
 import {SwipeRow} from './swipe-row';
 import {canAccessList,applyListAudience,createTaskList} from '../../shared/task-lists.mjs';
 import {PeoplePicker} from './people-picker';
@@ -43,7 +44,7 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
 
  const rangeButtons=[['today',a.T('Today','היום')],['week',a.T('This week','השבוע')],['upcoming',a.T('Upcoming','בקרוב')]];
  return <div className="tasks-v2">
-  <Heading title={a.T('Little things, shared.','דברים קטנים, ביחד.')} subtitle={new Date(anchor+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',month:'long',day:'numeric'})} action={<><Button icon={Plus} onClick={()=>a.go('tasks/new'+(listId!=='all'?'?list='+encodeURIComponent(listId):''))}>{a.T('New task','משימה חדשה')}</Button><Button secondary icon={Plus} onClick={()=>setSheet({mode:'new'})}>{a.T('New list','רשימה חדשה')}</Button></>}/>
+  <Heading title={a.T('Little things, shared.','דברים קטנים, ביחד.')} subtitle={new Date(anchor+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',month:'long',day:'numeric'})} action={<><Button icon={Plus} onClick={()=>a.go('tasks/new'+(listId!=='all'?'?list='+encodeURIComponent(listId):''))}>{a.T('New task','משימה חדשה')}</Button></>}/>
 
   <div className="tasks-lists" role="tablist" aria-label={a.T('Task lists','רשימות משימות')}>
    <button type="button" role="tab" aria-selected={listId==='all'} className={'tasks-list-card'+(listId==='all'?' chosen':'')} onClick={()=>setListId('all')}><span className="tasks-list-icon"><Stack size={26}/></span><span className="tasks-list-text"><strong>{a.T('All tasks','כל המשימות')}</strong><small>{a.T('Everything you can see','כל מה שגלוי לכם')}</small></span><span className="tasks-list-count">{countIn('all')}</span></button>
@@ -70,7 +71,7 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
    </section>)}
    {!total&&<Empty text={search||person!=='all'||listId!=='all'?a.T('No tasks match these filters.','אין משימות שמתאימות לסינון.'):a.T('Nothing here yet. Add the next little thing.','עוד אין כאן משימות. הוסיפו את הדבר הקטן הבא.')}/>}
   </section>
-  <DetailPanel open={detailOpen} onClose={()=>setDetailOpen(false)} title={a.T('Task details','פרטי המשימה')} className="calendar-event-details">{current?<TaskDetail a={a} t={current.t} date={current.date} lists={lists} canEdit={canEdit(current.t)} ui={{Button,Badge,Avatar,Icon,Checkbox}} repeatLabel={repeatLabel} onClose={()=>setDetailOpen(false)}/>:<Empty text={a.T('Choose a task to see its details.','בחרו משימה כדי לראות פרטים.')}/>}</DetailPanel>
+  <DetailPanel open={detailOpen} onClose={()=>setDetailOpen(false)} title={a.T('Task details','פרטי המשימה')} className="calendar-event-details" sheetBreakpoint={1280}>{current?<TaskDetail a={a} t={current.t} date={current.date} lists={lists} canEdit={canEdit(current.t)} ui={{Button,Badge,Avatar,Icon,Checkbox}} repeatLabel={repeatLabel} onClose={()=>setDetailOpen(false)}/>:<Empty text={a.T('Choose a task to see its details.','בחרו משימה כדי לראות פרטים.')}/>}</DetailPanel>
   </div>
   {sheet&&<ListSheet a={a} sheet={sheet} ui={{Button,Avatar,Icon}} onClose={()=>setSheet(null)} onCreated={id=>{setListId(id);setSheet(null)}} onDeleted={()=>{setListId('all');setSheet(null)}}/>}
  </div>;
@@ -86,7 +87,7 @@ function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbo
   {t.routine&&<div className="journal-detail-kind"><Badge color="yellow">{a.T('Kids routine','שגרת ילדים')}{t.xp?' · +'+t.xp+' XP':''}</Badge></div>}
   <div className="calendar-detail-row"><UserCircle size={27}/><span className="tasks-detail-person"><Avatar who={t.memberId} size={34}/>{a.name(t.memberId)}</span></div>
   <div className="calendar-detail-row"><CalendarDots size={27}/><strong>{when}</strong>{t.time&&<time dir="ltr" className="tasks-detail-time">· {t.time}</time>}</div>
-  {repeatLabel(t)&&<div className="calendar-detail-row"><Repeat size={27}/><span>{repeatLabel(t)}</span></div>}
+  {repeatLabel(t)&&<div className="calendar-detail-row"><Repeat size={27}/><span>{repeatLabel(t)}{t.until&&<> · {a.T('until ','עד ')}{new Date(t.until+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',day:'numeric',month:'short',year:'numeric'})}</>}</span></div>}
   {!t.shoppingListId&&<div className="calendar-detail-row"><Stack size={27}/>{owner&&!t.routine?<select className="tasks-detail-list" aria-label={a.T('List','רשימה')} value={t.listId||''} onChange={e=>edit((x,d)=>{const target=(d.taskLists||[]).find(r=>r.id===e.target.value);if(target)applyListAudience(x,target);else delete x.listId})}><option value="">{a.T('No list','ללא רשימה')}</option>{lists.filter(x=>canAccessList(x,a.user)).map(x=><option key={x.id} value={x.id}>{a.lang==='he'?x.he||x.name:x.name}</option>)}</select>:<span>{l?(a.lang==='he'?l.he||l.name:l.name):a.T('No list','ללא רשימה')}</span>}</div>}
   <div className="calendar-detail-row"><span className="journal-detail-lock">{t.visibility==='private'?<LockSimple size={27}/>:<Users size={27}/>}</span><span>{t.visibility==='private'?a.T('Only me','רק אני'):t.visibility==='selected'?a.T('Selected people','אנשים נבחרים'):a.T('Whole family','כל המשפחה')}</span></div>
   <div className="calendar-detail-section tasks-subtasks"><div className="calendar-detail-row"><ListChecks size={27}/><span>{a.T('Subtasks','תת־משימות')}</span>{t.subtasks?.length>0&&<small>{t.subtasks.filter(s=>s.done).length}/{t.subtasks.length}</small>}</div>
@@ -95,7 +96,7 @@ function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbo
    {!canEdit&&!(t.subtasks||[]).length&&<p className="muted">{a.T('No steps yet.','אין עדיין שלבים.')}</p>}
   </div>
   {t.shoppingListId&&<div className="calendar-detail-row tasks-detail-trip"><ShoppingCart size={27}/><span>{a.T('Shopping trip','קנייה מתוכננת')}</span><Button secondary onClick={()=>a.go('shopping?list='+encodeURIComponent(t.shoppingListId))}>{a.T('Open shopping list','פתיחת רשימת הקניות')}</Button></div>}{(t.note||t.noteHe)&&<div className="calendar-detail-section"><div className="calendar-detail-row"><NotePencil size={27}/><span>{a.T('Note','הערה')}</span></div><p className="journal-detail-text">{a.lang==='he'?t.noteHe||t.note:t.note}</p></div>}
-  <div className="journal-detail-actions">{canEdit&&<Button icon={PencilSimple} onClick={()=>a.go((t.routine?'kids':'tasks')+'/edit?'+t.id)}>{a.T('Edit task','עריכת משימה')}</Button>}{owner&&<Button secondary icon={Trash} onClick={()=>{a.remove('tasks',t.id,a.text(t));onClose?.()}}>{a.T('Delete','מחיקה')}</Button>}</div>
+  <CreatedBy a={a} record={t} Avatar={Avatar}/>{(t.notifyOwnerOnDone||t.overdueAlert)&&t.ownerId===a.user&&<p className="created-by-updates"><Bell size={16}/>{[t.notifyOwnerOnDone&&a.T('You’ll be told when it’s done','תקבלו עדכון כשזה יבוצע'),t.overdueAlert&&a.T('Overdue alert after '+fmtMinutes(t.overdueAlert.afterMinutes,a),'התראת איחור אחרי '+fmtMinutes(t.overdueAlert.afterMinutes,a))].filter(Boolean).join(' · ')}</p>}<div className="journal-detail-actions">{canEdit&&<Button icon={PencilSimple} onClick={()=>a.go((t.routine?'kids':'tasks')+'/edit?'+t.id)}>{a.T('Edit task','עריכת משימה')}</Button>}{owner&&<Button secondary icon={Trash} onClick={()=>{a.remove('tasks',t.id,a.text(t));onClose?.()}}>{a.T('Delete','מחיקה')}</Button>}</div>
  </div>;
 }
 

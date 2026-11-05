@@ -1,0 +1,54 @@
+/* Audit fixes (A): calendar/tasks layout on tablets, week cells, time inputs, delivery text, birthday, sidebar edge. */
+/* Calendar and Tasks: under 1280px the details open as a sheet, so the grid/list gets the full width. */
+@media(max-width:1280px){.calendar-reference-layout{grid-template-columns:minmax(0,1fr)!important}.task-list-layout.tasks-v2-layout{grid-template-columns:minmax(0,1fr)!important}}
+/* Time, date and number inputs read left-to-right even in Hebrew (19:30, not 30:19) */
+input[type=time],input[type=date],input[type=number]{direction:ltr;unicode-bidi:isolate}
+[dir=rtl] input[type=time],[dir=rtl] input[type=number]{text-align:right}
+/* One field look for time inputs next to DateField */
+input[type=time]{height:52px;min-height:52px;box-sizing:border-box;border-radius:16px;font-weight:700;font-size:max(16px,calc(17px * var(--text-scale,1)));line-height:52px;padding-block:0}
+input[type=time]::-webkit-date-and-time-value{margin:0;text-align:start;line-height:52px}
+.two-fields.date-time-fields{grid-template-columns:1fr 1fr!important}
+.kids-form input[type=number],.routine-form input[type=number]{height:52px;min-height:52px;box-sizing:border-box}
+/* Delivery info as plain text (was chips that looked like toggles) */
+.calendar-delivery-text{margin:6px 0 4px;color:var(--muted);font-size:calc(14px * var(--text-scale,1));line-height:1.45}
+/* Birthday: same field as other dates */
+.birthday-fields .date-field{display:flex;width:100%;margin-top:8px}
+/* Safari tints its bottom bar from the fixed sidebar touching the bottom edge; keep the edge page-coloured. */
+body::after{content:"";position:fixed;inset-inline:0;bottom:0;height:1px;background:var(--bg);z-index:39;pointer-events:none}
+/* Header action pairs share one height and centre line */
+.heading-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.heading-actions>.button{min-height:52px;width:auto}
+/* Tablets: details open as a centred pop-up (phones keep the bottom sheet) */
+@media(min-width:701px) and (max-width:1280px) and (min-height:521px){
+ .detail-sheet-backdrop{align-items:center!important;padding:32px!important}
+ .detail-sheet{max-width:620px!important;border-radius:28px!important;max-height:86dvh!important}
+}
+/* Tablets: the More menu is a centred pop-up too */
+@media(min-width:701px) and (min-height:521px){
+ .mobile-menu{inset:auto!important;left:50%!important;top:50%!important;bottom:auto!important;transform:translate(-50%,-50%);width:min(640px,calc(100vw - 64px));max-height:86dvh;border-radius:28px!important;padding:16px 20px 20px!important;box-shadow:0 30px 80px #10152a40}
+ .mobile-menu-handle{display:none!important}
+ .drawer-backdrop{display:block!important;position:fixed;inset:0;background:#06102b66;backdrop-filter:blur(3px);z-index:60;border:0}
+ .app-shell .sidebar.open{position:fixed}
+}
+/* Icon rail (tablets, or the collapsed menu): five main places + More; the rest live in the More pop-up */
+.sidebar-more{display:none!important}
+@media(min-width:701px) and (max-width:1100px) and (min-height:521px){
+ .app-shell .sidebar nav>button.rail-extra{display:none!important}
+ .app-shell .sidebar .sidebar-bottom>button:not(.sidebar-toggle):not(.rail-keep){display:none!important}
+ .app-shell .sidebar nav>.sidebar-more{display:flex!important}
+}
+@media(min-width:1101px){
+ :root[data-menu=slim] .app-shell .sidebar nav>button.rail-extra{display:none!important}
+ :root[data-menu=slim] .app-shell .sidebar .sidebar-bottom>button:not(.sidebar-toggle):not(.rail-keep){display:none!important}
+ :root[data-menu=slim] .app-shell .sidebar nav>.sidebar-more{display:flex!important}
+}
+
+/* Settings › Quick menu */
+.quick-nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
+.quick-nav-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:16px;border:1.5px solid var(--border);background:var(--surface,#fff);color:var(--text);font:inherit;font-weight:750;font-size:calc(14px * var(--text-scale,1));cursor:pointer}
+.quick-nav-tile svg{color:var(--primary)}
+.quick-nav-tile.on{background:var(--primary);border-color:var(--primary);color:var(--onPrimary,#fff)}
+.quick-nav-tile.on svg{color:inherit}
+.quick-nav-tile:disabled{opacity:.45;cursor:not-allowed}
+.quick-nav-order{position:absolute;top:6px;inset-inline-end:8px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--onPrimary,#fff);color:var(--primary);font-size:12px;font-weight:900}
+.quick-nav-count{display:block;margin-top:6px;color:var(--muted);font-weight:700}

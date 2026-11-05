@@ -1,0 +1,155 @@
+/* audit-fixes-b (2026-11-05 UI audit): Household add actions + Expenses ledger, Statistics and Journal person
+   chips, Ask AI section tabs, Settings shortcuts, Profile member strip. Shared control height: 44px filters,
+   48px primary actions; every toolbar centres its items. */
+
+/* ---------- Household: one primary "Add …" action, same size and place on every tab ---------- */
+.household-toolbar,.expense-toolbar,.documents-toolbar{align-items:center}
+.household-toolbar-end{justify-content:flex-end;margin:20px 0 6px}
+.maintenance-toolbar{margin:22px 0 24px;flex-wrap:nowrap}
+.household-toolbar-title{margin:0;min-width:0;font-size:calc(30px * var(--font-adjust,1));line-height:1.15}
+.household-add.household-add{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:none;height:48px;min-height:48px;padding:0 22px 0 18px;margin-inline-start:auto;border-radius:999px;font-size:calc(16px * var(--text-scale,1));line-height:1;white-space:nowrap}
+html[dir=rtl] .household-add.household-add{padding:0 18px 0 22px}
+.household-add.household-add>svg{width:22px;height:22px;flex:none}
+.household-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-inline-start:auto}
+.household-actions>.household-add.household-add{margin-inline-start:0}
+.household-actions>.button,.household-actions>.camera-button{box-sizing:border-box;height:48px;min-height:48px;padding-block:0;display:inline-flex;align-items:center;gap:8px}
+/* Documents: the Documents/Contacts switch shrinks so the actions stay on the first row */
+.documents-toolbar>.tabs{flex:1 1 300px;max-width:620px;min-width:min(100%,300px)}
+.documents-toolbar>.household-actions{margin-inline-start:auto}
+.household-actions.household-actions>label.button{height:48px;min-height:48px!important}
+.documents-toolbar{margin-top:20px}
+.documents-toolbar>.tabs{margin-block:0!important}
+/* Pantry: search + Add on the first row, location filters on their own row */
+.pantry-reference>.household-toolbar>.household-location-filters{order:1;flex-basis:100%}
+.pantry-reference>.household-toolbar>.search{min-height:48px}
+/* Expenses: month + Add on the first row, shared/mine on the second */
+.expense-toolbar{justify-content:flex-start;gap:0 14px}
+.expense-toolbar>.tabs{order:1;flex:0 0 auto;margin-top:12px}
+.expense-toolbar::after{content:"";order:0;flex-basis:100%;height:0}
+.expense-toolbar>.household-add{order:0}
+.expense-month{display:flex;align-items:center;gap:8px}
+.expense-month>.icon-button{width:44px;height:44px;min-width:44px;min-height:44px;flex:none;display:grid;place-items:center}
+html[dir=rtl] .expense-month>.icon-button>svg{transform:scaleX(-1)}
+.expense-month>label{min-height:44px;height:44px;box-sizing:border-box;display:flex;align-items:center}
+/* Pantry quantity: 36px tap targets */
+.pantry-quantity .stepper{width:auto!important;min-width:0;gap:2px!important;padding:2px 3px!important;min-height:40px}
+.pantry-quantity .stepper button{min-width:36px!important;min-height:36px!important;width:36px;height:36px;padding:0!important;display:grid!important;place-items:center;border-radius:50%}
+.pantry-quantity .stepper strong{min-width:22px;text-align:center;font-variant-numeric:tabular-nums}
+
+@media(max-width:700px){
+ /* Add sits at the top end of every Household tab on phones */
+ .household-toolbar>.household-add,.expense-toolbar>.household-add{order:-1}
+ .expense-toolbar::after{display:none}
+ .expense-toolbar{row-gap:12px}
+ .expense-toolbar>.tabs{margin-top:0}
+ .expense-toolbar>.expense-month{flex-basis:100%;order:0}
+ .expense-month>label{flex:1;min-width:0}
+ .documents-toolbar>.household-actions{order:-1;flex-basis:100%;justify-content:flex-end}
+ .documents-toolbar>.tabs{flex-basis:100%;max-width:none}
+ .household-actions>.button.quiet{order:1}
+ .maintenance-toolbar>.household-add{order:0}
+ .household-toolbar-title{font-size:calc(26px * var(--font-adjust,1))}
+ .household-add.household-add{font-size:calc(15px * var(--text-scale,1));padding:0 18px 0 14px}
+ html[dir=rtl] .household-add.household-add{padding:0 14px 0 18px}
+}
+
+/* ---------- Expenses: summary amount never leaves its tile ---------- */
+.expense-metrics>section{min-width:0;container-type:inline-size}
+.expense-metrics>section>div{min-width:0;max-width:100%}
+.expense-metrics>section strong{display:block;max-width:100%;white-space:nowrap;font-size:clamp(19px,14.5cqi,31px)}
+.expense-metrics>section h3{overflow-wrap:break-word}
+.expense-summary>.section-title{align-items:center;gap:10px}
+.expense-add-bill{display:inline-flex;align-items:center;gap:6px;min-height:40px;white-space:nowrap;flex:none}
+
+/* Expenses ledger on phones: one card per expense instead of a squeezed table */
+@media(max-width:700px){
+ .expenses-reference .data-table{overflow:visible!important;border:0;background:none;box-shadow:none;padding:0}
+ .expenses-reference .data-table table,.expenses-reference .data-table tbody{display:block;width:100%;min-width:0}
+ .expenses-reference .data-table thead{display:none}
+ .expenses-reference tr.expense-ledger-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"name name amount" "payer date receipt";align-items:center;gap:8px 10px;padding:12px 14px;margin:0 0 10px;border-radius:20px;background:var(--surface,#fff);border:1px solid var(--border)}
+ .expenses-reference tr.expense-ledger-row>td{display:block;padding:0!important;border:0!important;min-width:0;background:none!important;height:auto}
+ .expense-cell-name{grid-area:name}
+ .expense-cell-amount{grid-area:amount;justify-self:end}
+ .expense-cell-amount strong{font-size:calc(18px * var(--text-scale,1));white-space:nowrap}
+ .expense-cell-payer{grid-area:payer}
+ .expense-cell-date{grid-area:date;color:var(--muted);font-size:calc(14px * var(--text-scale,1));white-space:nowrap}
+ .expense-cell-receipt{grid-area:receipt;justify-self:end}
+ .expense-cell-receipt .icon-button{width:40px;height:40px;min-width:40px}
+ .expense-no-receipt{display:none}
+ .expenses-reference .expense-name{min-width:0;width:100%}
+ .expenses-reference .expense-name>span{min-width:0}
+ .expenses-reference .expense-name strong{overflow-wrap:anywhere}
+ .expense-cell-payer .expense-person{font-size:calc(13px * var(--text-scale,1))}
+ .expense-cell-payer .expense-person .avatar{width:30px!important;height:30px!important}
+}
+
+/* ---------- Statistics: three aligned 44px filters + shared person chips ---------- */
+.statistics-filter-grid{display:flex!important;flex-wrap:wrap;align-items:center;gap:12px;margin:18px 0 14px}
+.statistics-filter-grid>.stat-select-icon{flex:1 1 220px;min-width:0}
+.statistics-filter-grid>.statistics-scope{flex:0 0 auto;margin:0!important}
+.statistics-filter-grid .stat-select-icon .select-button{height:44px;min-height:44px;padding-block:0;padding-inline-start:46px;border-radius:14px;font-size:calc(16px * var(--font-adjust,1))}
+.statistics-filter-grid .stat-select-icon>svg{width:22px;height:22px;inset-inline-start:15px}
+.statistics-scope>.tabs.nav-filter.nav-filter{align-items:center;margin:0;padding:0;overflow:visible}
+.statistics-scope>.tabs.nav-filter.nav-filter>button{box-sizing:border-box;height:44px;min-height:44px;padding:0 18px;font-size:calc(15px * var(--font-adjust,1))}
+.statistics-people{display:flex;align-items:center;margin:0 0 22px}
+.statistics-person-chips,.journal-person-chips{margin:0!important;gap:10px!important;flex-wrap:wrap}
+.statistics-person-chips .calendar-all-members,.journal-person-chips .calendar-all-members{min-height:44px;padding:0 16px;border-radius:999px;font-size:calc(15px * var(--font-adjust,1));font-weight:800}
+.statistics-person-chips .calendar-person,.journal-person-chips .calendar-person{--chip-avatar:40px;min-height:44px;font-size:calc(15px * var(--font-adjust,1))}
+.statistics-person-chips .calendar-person>.avatar,.journal-person-chips .calendar-person>.avatar{width:40px!important;height:40px!important;margin-block:0!important}
+.statistics-summary-card{min-width:0}
+.statistics-summary-card .summary-value{max-width:calc(100% - 26px)}
+@media(max-width:1279px){.statistics-summary-card{overflow:clip}}
+@media(max-width:700px){
+ .statistics-filter-grid>.stat-select-icon{flex:1 1 100%}
+ .statistics-filter-grid>.statistics-scope{flex:1 1 100%}
+ .statistics-scope>.tabs.nav-filter.nav-filter{width:100%;margin-inline:0}
+ .statistics-scope>.tabs.nav-filter.nav-filter>button{flex:1;justify-content:center}
+ .statistics-people{margin-bottom:18px}
+}
+
+/* ---------- Journal filters: month, person chips and search share one 44px line height ---------- */
+.journal-filters{display:flex!important;flex-wrap:wrap;align-items:center;gap:12px}
+.journal-filters>.select-control{flex:0 0 220px;min-width:0}
+.journal-filters .select-button{height:44px;min-height:44px;padding-block:0}
+.journal-filters>.journal-person-chips{flex:0 1 auto}
+.journal-filters>.search{flex:1 1 260px;min-width:0;width:auto;min-height:44px;height:44px;box-sizing:border-box}
+@media(max-width:700px){
+ .journal-filters>.select-control,.journal-filters>.people-picker{flex:1 1 0;min-width:0}
+ .journal-filters .select-button{white-space:nowrap}
+ .journal-filters .select-button>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+ .journal-filters>.people-picker .people-picker-button{width:100%;min-height:44px;height:44px;padding-block:0}
+ .journal-filters>.people-picker .people-picker-name{flex:1;min-width:0;text-align:start}
+ .journal-filters>.people-picker .avatar-stack-item:nth-child(n+3){display:none}
+ .journal-filters>.search{flex-basis:100%}
+}
+
+/* ---------- Ask AI: section tabs, one connection entry, one action row ---------- */
+.ai-view-tabs{margin:0!important;display:block}
+.ai-view-tabs>.tabs.nav-section{margin-block:18px 22px}
+.suggestion-actions{display:flex!important;flex-direction:row!important;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+.suggestion-actions>.button{box-sizing:border-box;height:48px;min-height:48px;padding-block:0;display:inline-flex;align-items:center;gap:8px;width:auto;flex:none;margin:0}
+
+@media(max-width:700px){.suggestion-actions{gap:6px}.suggestion-actions>.button{padding-inline:14px;font-size:calc(14px * var(--text-scale,1))}.suggestion-actions>.button.quiet{padding-inline:10px}}
+
+/* ---------- Settings ---------- */
+.settings-shortcuts{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.settings-shortcuts>.button{height:48px;min-height:48px;padding-block:0;display:inline-flex;align-items:center;gap:8px;width:auto;margin:0;white-space:nowrap}
+.family-embedded-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;margin:0 0 18px}
+.family-embedded-actions>.button{height:48px;min-height:48px;padding-block:0}
+.privacy-family-link{hyphens:manual;-webkit-hyphens:manual;text-wrap:balance;white-space:normal}
+.privacy-family-link .nowrap{white-space:nowrap}
+@media(max-width:700px){.family-embedded-actions{justify-content:flex-start}}
+
+/* ---------- Profile / family photo ---------- */
+/* Change photo and Take photo: same outlined pill, same height, side by side */
+.family-photo-actions>.control-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:44px;min-height:44px;box-sizing:border-box;padding:0 16px;margin:0;border-radius:999px;border:1.5px solid var(--border);background:var(--surface,#fff);color:var(--text);font:inherit;font-size:calc(15px * var(--text-scale,1));font-weight:800;line-height:1;white-space:nowrap;cursor:pointer}
+.family-photo-actions>.control-button>svg{width:19px;height:19px;flex:none}
+.family-photo-actions>.control-button{flex-direction:row!important}
+.family-photo-actions>.control-button>span{display:inline;margin:0}
+/* Phones and tablets: the member switcher is one swipeable row (no second-row orphan, no visible scrollbar) */
+@media(max-width:1100px){.profile-member-tabs{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none}.profile-member-tabs::-webkit-scrollbar{display:none}.profile-member-tabs>.member-chip{flex:none;min-width:0!important}}
+@media(max-width:700px){
+ .profile-member-tabs{flex-wrap:nowrap!important;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-ms-overflow-style:none;margin-inline:-16px!important;padding:4px 16px;scroll-padding-inline:16px}
+ .profile-member-tabs::-webkit-scrollbar{display:none;width:0;height:0}
+ .profile-member-tabs>.member-chip{flex:none}
+}

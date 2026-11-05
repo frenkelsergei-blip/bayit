@@ -53,3 +53,24 @@ export function childUpdates(visible,memberId,{date,time},role,childPrefs){
  const now=minutes(time);if(role!=='parent'||now===null)return [];
  return (visible.history||[]).filter(h=>h.date===date&&h.done&&h.memberId!==memberId&&childPrefs[h.memberId]===true&&(h.actorId||h.memberId)!==memberId&&minutes(h.time)!==null&&now-minutes(h.time)>=0&&now-minutes(h.time)<=60).slice(0,10).map(entry=>({key:'update:'+entry.id,entry}));
 }
+
+// Owner updates: the owner of a task marked "notify me when done" hears when someone else completes it.
+// Keys match the in-app inbox ('done:<task>:<date>') so a person is told once per channel.
+const shiftDay=(date,days)=>new Date(Date.parse(date+'T12:00:00Z')+days*86400000).toISOString().slice(0,10);
+export function ownerDoneUpdates(visible,memberId,{date}){
+ const out=[];
+ for(const task of visible.tasks||[]){if(task.ownerId!==memberId||task.notifyOwnerOnDone!==true)continue;
+  for(const day of [date,shiftDay(date,-1)]){const c=task.completions?.[day];if(c?.state==='done'&&c.actorId&&c.actorId!==memberId)out.push({key:'done:'+task.id+':'+day,task,date:day,actorId:c.actorId})}}
+ return out.slice(0,10);
+}
+
+// Overdue alerts: a task with overdueAlert {afterMinutes} that is still not done that long after its date and time
+// (23:59 when it has no time) alerts its owner and the person it is assigned to. Today and the two previous days.
+// Keys match the in-app inbox ('overdue:<task>:<date>').
+const wall=(day,time)=>Date.parse(day+'T'+(time||'23:59')+':00Z')/60000;
+export function overdueAlerts(visible,memberId,{date,time}){
+ const now=wall(date,time),out=[];
+ for(const task of visible.tasks||[]){const after=Number(task.overdueAlert?.afterMinutes);if(!(after>0)||!task.date||(task.ownerId!==memberId&&task.memberId!==memberId))continue;
+  for(const day of [date,shiftDay(date,-1),shiftDay(date,-2)]){if(!occursOn(task,day)||!open(task,day))continue;if(now>=wall(day,task.time)+after)out.push({key:'overdue:'+task.id+':'+day,task,date:day,assignee:task.memberId===memberId})}}
+ return out.slice(0,10);
+}

@@ -22,8 +22,9 @@ async function riseupGet(env,token,path){
 
 // RiseUp category labels and expense types (Hebrew) mapped to Bayit categories. Anything unknown falls back to Bayit's own rules.
 const CATEGORY_MAP=[
- ['savings',/חיסכון|פנסיה|גמל|השתלמות|השקע/],['mortgage',/משכנת|שכירות|שכר דירה|דיור/],['taxes',/מס|ארנונה|ביטוח לאומי|אגר/],
- ['insurance',/ביטוח/],['health',/בריאות|פארם|רפוא|קופת חולים|תרופות/],['groceries',/מזון|סופר|מכולת|קניות לבית/],['dining',/מסעד|בתי קפה|אוכל בחוץ|משלוחי אוכל|בילוי.*אוכל/],
+ // Order matters: "מסעדות" (restaurants) must win before taxes, and taxes match whole words only ("מס" is also the start of other words).
+ ['savings',/חיסכון|פנסיה|גמל|השתלמות|השקע/],['mortgage',/משכנת|שכירות|שכר דירה|דיור/],['dining',/מסעד|בתי קפה|אוכל בחוץ|משלוחי אוכל|בילוי.*אוכל/],['taxes',/(^|\s)(מס|מסים|מיסים|ארנונה)($|\s)|מס הכנסה|ביטוח לאומי|אגר/],
+ ['insurance',/ביטוח/],['health',/בריאות|פארם|רפוא|קופת חולים|תרופות/],['groceries',/מזון|סופר|מכולת|קניות לבית/],
  ['car',/רכב|דלק|תחבורה|חניה|כביש/],['utilities',/חשמל|מים|גז|תקשורת|סלולר|אינטרנט|טלוויזיה|חשבונות/],['kids',/ילדים|חינוך|גן|צהרון|חוגים|בית ספר/],
  ['subscriptions',/מנוי|דיגיטל|אפליקציות|סטרימינג/],['leisure',/פנאי|ספורט|בילוי|תרבות|חופש|נופש|טיול/],['home',/בית|ריהוט|תחזוקה|ניקיון/],
  ['shopping',/ביגוד|הנעלה|קניות|אופנה|אלקטרוניקה/],['gifts',/מתנ|תרומ/],['fees',/עמל/],['transfers',/העבר|מזומן|ביט|פייבוקס|צ׳ק|צ'ק|שיק/]
@@ -57,7 +58,7 @@ export async function syncRiseup(env,{householdId,memberId,token,visibility,allo
   for(const r of rows){
    if(r.excluded)continue;const fingerprint=await hash(householdId+'|riseup|'+memberId+'|'+r.externalId);keep.push(fingerprint);count++;
    statements.push(env.DB.prepare(`INSERT INTO finance_transactions(id,household_id,import_id,owner_id,visibility,allowed_ids,source,account,member_id,date,charge_date,month,description,name_key,amount,currency,category,kind,card_issuer,installment_n,installment_of,standing_order,foreign_tx,fingerprint,created_at) VALUES(?,?,?,?,?,?,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?)
-     ON CONFLICT(household_id,fingerprint) DO UPDATE SET visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order`).bind(crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,r.accountLabel||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp));
+     ON CONFLICT(household_id,fingerprint) DO UPDATE SET category=CASE WHEN finance_transactions.category='taxes' AND excluded.category!='taxes' THEN excluded.category ELSE finance_transactions.category END,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order`).bind(crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,r.accountLabel||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp));
   }
   // An empty month is left alone (a RiseUp hiccup must not wipe a month); otherwise rows RiseUp no longer returns are removed.
   if(keep.length)statements.push(env.DB.prepare("DELETE FROM finance_transactions WHERE household_id=? AND import_id=? AND month=? AND fingerprint NOT IN ("+keep.map(()=>'?').join(',')+")").bind(householdId,importId,month,...keep));

@@ -130,3 +130,9 @@ test('"Both parents" reaches every adult, including one who joins after connecti
   assert.match(finance,/requireAdult\(home,actorId\)/,'every finance API call requires an adult');
  }finally{globalThis.fetch=realFetch}
 });
+
+test('restaurants are dining, not taxes; real taxes still match', ()=>{
+ assert.equal(riseupCategory(tx('r',{categoryLabel:'מסעדות',businessName:'ארומה'})),'dining');
+ assert.equal(riseupCategory(tx('t',{categoryLabel:'מס הכנסה',businessName:'רשות המסים'})),'taxes');
+ assert.equal(riseupCategory(tx('a',{categoryLabel:'ארנונה',businessName:'עיריית תל אביב'})),'taxes');
+});

@@ -40,5 +40,12 @@ export function AppearanceSettings({app:a,ui:{Tabs}}){
     <label className={'accent-swatch accent-custom'+(accent&&!ACCENTS.some(c=>c.toLowerCase()===accent.toLowerCase())?' selected':'')} title={a.T('Choose any color','בחירת צבע חופשי')} style={accent?{'--swatch':accent}:undefined}><input type="color" aria-label={a.T('Custom button color','צבע כפתורים אישי')} value={accent||'#0240de'} onChange={e=>change({accent:e.target.value})}/><span>+</span></label>
    </div></div>
   <p className="settings-hint">{a.T('Your colors are personal and saved automatically. Day and night keep the same theme.','הצבעים אישיים ונשמרים אוטומטית. יום ולילה שומרים על אותה ערכה.')}</p>
+  <QuickNavPicker a={a} appearance={appearance} change={change}/>
  </div>
+}
+// Which places get their own icon in the narrow menu (tablet) and the phone bottom bar; the rest are under More.
+function QuickNavPicker({a,appearance,change}){
+ const places=a.places||[],chosen=Array.isArray(appearance.quickNav)&&appearance.quickNav.length?appearance.quickNav:['today','calendar','tasks','shopping','kids'];
+ const toggle=key=>{const next=chosen.includes(key)?chosen.filter(k=>k!==key):chosen.length>=5?chosen:[...chosen,key];if(next.length)change({quickNav:places.map(p=>p[0]).filter(k=>next.includes(k))})};
+ return <div className="appearance-block quick-nav"><span className="field-label">{a.T('Quick menu','תפריט מהיר')}</span><p className="settings-hint">{a.T('Choose up to 5 places that get their own icon in the narrow menu on tablets. On phones the first 4 appear in the bottom bar. Everything else is under “More”.','בחרו עד 5 מקומות שיקבלו סמל משלהם בתפריט הצר בטאבלט. בטלפון 4 הראשונים יופיעו בסרגל התחתון. כל השאר נמצא תחת „עוד”.')}</p><div className="quick-nav-grid" role="group" aria-label={a.T('Quick menu','תפריט מהיר')}>{places.map(([key,Icon,label])=>{const on=chosen.includes(key),full=!on&&chosen.length>=5;return <button type="button" key={key} aria-pressed={on} disabled={full} className={'quick-nav-tile'+(on?' on':'')} onClick={()=>toggle(key)}><Icon size={24}/><span>{label}</span>{on&&<b className="quick-nav-order">{chosen.indexOf(key)+1}</b>}</button>})}</div><small className="quick-nav-count">{a.T(chosen.length+' of 5 chosen',chosen.length+' מתוך 5 נבחרו')}</small></div>
 }

@@ -121,3 +121,7 @@
 .tasks-col-lock{display:grid;place-items:center;color:var(--muted)}
 @media(max-width:1250px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) minmax(44px,140px) 76px 20px}}
 @media(max-width:700px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 34px 64px 18px;column-gap:10px}.tasks-col-xp .badge{font-size:12px;padding:3px 7px}}
+
+/* Task rows: flexible title column; at tablet widths the assignee shows as a photo only */
+.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 150px 84px 22px}
+@media(max-width:1280px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 40px 76px 20px}.task-list-layout .task-row.tasks-row>.tasks-assignee span{display:none}.task-list-layout .task-row.tasks-row>.tasks-assignee{padding-inline-end:0;background:none!important}}

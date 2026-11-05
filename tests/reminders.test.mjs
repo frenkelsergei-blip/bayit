@@ -70,3 +70,28 @@ test('an item shortly after midnight is reminded from 00:00 on the same day',()=
  const d=home();d.tasks.push({id:'early',title:'early',ownerId:'parent-one',visibility:'family',allowedIds:[],date,memberId:'parent-one',time:'00:07'});d.profiles['parent-one'].notificationPrefs={quietStart:'00:00',quietEnd:'00:00'};
  assert.deepEqual(dueReminders(visibleState(d,'parent-one'),'parent-one',{date,time:'00:00'}).map(r=>r.record.id),['early']);
 });
+
+import {ownerDoneUpdates,overdueAlerts} from '../app/cloud/reminders.mjs';
+const own=(extra)=>({id:'t1',title:'Laundry',date:'2026-11-05',time:'18:00',repeat:'once',memberId:'kid',ownerId:'mom',visibility:'family',allowedIds:[],...extra});
+
+test('owner hears when someone else completes a "notify me" task, once per day key, never for their own completion', ()=>{
+ const done=own({notifyOwnerOnDone:true,completions:{'2026-11-05':{state:'done',actorId:'kid'}}});
+ const out=ownerDoneUpdates({tasks:[done]},'mom',{date:'2026-11-05'});
+ assert.equal(out.length,1);assert.equal(out[0].key,'done:t1:2026-11-05');assert.equal(out[0].actorId,'kid');
+ assert.equal(ownerDoneUpdates({tasks:[own({completions:{'2026-11-05':{state:'done',actorId:'kid'}}})]},'mom',{date:'2026-11-05'}).length,0,'only when the owner opted in');
+ assert.equal(ownerDoneUpdates({tasks:[own({notifyOwnerOnDone:true,completions:{'2026-11-05':{state:'done',actorId:'mom'}}})]},'mom',{date:'2026-11-05'}).length,0,'not for the owner\'s own completion');
+ assert.equal(ownerDoneUpdates({tasks:[done]},'kid',{date:'2026-11-05'}).length,0,'only the owner is told');
+});
+
+test('overdue alerts go to the owner and the assignee after the chosen delay, for today and the two days before', ()=>{
+ const task=own({overdueAlert:{afterMinutes:30}});
+ assert.equal(overdueAlerts({tasks:[task]},'mom',{date:'2026-11-05',time:'18:29'}).length,0,'not before time + delay');
+ const owner=overdueAlerts({tasks:[task]},'mom',{date:'2026-11-05',time:'18:30'});assert.equal(owner.length,1);assert.equal(owner[0].key,'overdue:t1:2026-11-05');assert.equal(owner[0].assignee,false);
+ const assignee=overdueAlerts({tasks:[task]},'kid',{date:'2026-11-05',time:'18:30'});assert.equal(assignee[0].assignee,true);
+ assert.equal(overdueAlerts({tasks:[task]},'dad',{date:'2026-11-05',time:'20:00'}).length,0,'not for other people');
+ assert.equal(overdueAlerts({tasks:[own({overdueAlert:{afterMinutes:30},completions:{'2026-11-05':{state:'done',actorId:'kid'}}})]},'mom',{date:'2026-11-05',time:'20:00'}).length,0,'not when done');
+ assert.equal(overdueAlerts({tasks:[own({time:'',overdueAlert:{afterMinutes:60}})]},'mom',{date:'2026-11-06',time:'00:58'}).length,0,'no time means 23:59 + delay');
+ assert.equal(overdueAlerts({tasks:[own({time:'',overdueAlert:{afterMinutes:60}})]},'mom',{date:'2026-11-06',time:'00:59'}).length,1);
+ assert.equal(overdueAlerts({tasks:[task]},'mom',{date:'2026-11-08',time:'09:00'}).length,0,'older than two days is not repeated');
+ assert.equal(overdueAlerts({tasks:[own({date:'',overdueAlert:{afterMinutes:30}})]},'mom',{date:'2026-11-05',time:'23:00'}).length,0,'anytime tasks have no due time');
+});
