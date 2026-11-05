@@ -2,9 +2,11 @@
 // AI chat with Apply/Undo, reminder buttons and the scheduled reminder tick.
 // Every message is built from visibleState(state, recipient), the same access rules as the app.
 import {json,fail,random,hash,sameDigest,bodyJSON,encryptKey,decryptKey,localDate,localTime,base64} from './util.mjs';
-import {importStatement,applyImport} from './finance.mjs';
+import {importStatement,applyImport,visibleFinance} from './finance.mjs';
 import {refreshDueConnections} from './riseup.mjs';
-import {CATEGORY} from '../../shared/finance.mjs';
+import {CATEGORY,monthSummary,monthOf} from '../../shared/finance.mjs';
+import {describeAction,taskStateNow,taskStateDate} from '../../shared/ai-actions.mjs';
+import {HOME_CURRENCY_SYMBOL} from '../../shared/home-config.mjs';
 import {SPEECH_PROVIDERS,MAX_VOICE_SECONDS,MAX_VOICE_BYTES,DAILY_VOICE_SECONDS,speechAvailability,transcribe} from './speech.mjs';
 import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog} from './assistant.mjs';
 import {visibleState} from './state.mjs';
@@ -12,6 +14,13 @@ import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
 import {dueReminders,digestDue,approvalRequests,childUpdates,agenda,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
 
+// The "/" menu. Registered when a bot connects, on Test connection, and re-registered automatically by the
+// scheduler whenever this list changes (COMMANDS_VERSION), so older bots get new commands without reconnecting.
+const COMMANDS_VERSION='2';
+const COMMANDS={en:[['today','My day'],['tasks','My tasks · tap to complete'],['week','The next 7 days'],['shopping','Shopping list · tap to check off'],['lists','All my lists'],['note','Write a note: /note text'],['expenses','Spending this month'],['mine','Private request: /mine text'],['help','What I can do'],['stop','Unlink this chat']],
+ he:[['today','היום שלי'],['tasks','המשימות שלי · הקשה מסמנת כבוצע'],['week','7 הימים הקרובים'],['shopping','רשימת הקניות · הקשה מסמנת כנקנה'],['lists','כל הרשימות שלי'],['note','כתיבת הערה: /note טקסט'],['expenses','ההוצאות החודש'],['mine','בקשה פרטית: /mine טקסט'],['help','מה אני יודע לעשות'],['stop','ניתוק הצ׳אט']]};
+async function registerCommands(env,token){let ok=true;for(const lang of ['en','he']){try{await tg(env,token,'setMyCommands',{commands:COMMANDS[lang].map(([command,description])=>({command,description})),...(lang==='he'?{language_code:'he'}:{})})}catch{ok=false}}return ok}
+async function ensureCommands(env,bot){const name='tg-commands:'+bot.household_id,row=await env.DB.prepare('SELECT detail FROM service_heartbeats WHERE name=?').bind(name).first();if(row?.detail===COMMANDS_VERSION)return;if(await registerCommands(env,bot.token))await env.DB.prepare("INSERT INTO service_heartbeats(name,at,detail) VALUES(?,?,?) ON CONFLICT(name) DO UPDATE SET at=excluded.at,detail=excluded.detail").bind(name,Date.now(),COMMANDS_VERSION).run()}
 const LINK_MINUTES=30,ACTION_DAYS=2,MAX_PER_MEMBER_TICK=10,SNOOZE_MINUTES=10,TURN_MINUTES=30;
 const TOKEN_PATTERN=/^\d{5,16}:[A-Za-z0-9_-]{30,60}$/;
 const L=(lang,en,he)=>lang==='he'?he:en;
@@ -56,10 +65,11 @@ async function downloadFile(env,bot,fileId,maxBytes,lang){
 // ---- Message text ----
 function itemLine(item,lang){const r=item.record,when=item.time||r.time?esc(item.time||r.time)+' · ':'',done=item.state==='done'?' ✓':item.state==='pending'?L(lang,' (waiting for approval)',' (ממתין לאישור)'):'';return '• '+when+esc(title(r,lang))+done}
 function reminderText(item,lang,now){const left=minutes(item.time)-minutes(now),lead=left>0?L(lang,'in '+left+' min','בעוד '+left+' דקות'):L(lang,'now','עכשיו'),kind=item.kind==='event'?L(lang,'Event','אירוע'):item.category==='routines'?L(lang,'Routine','שגרה'):L(lang,'Task','משימה');return '<b>'+L(lang,'Reminder','תזכורת')+'</b> · '+lead+'\n<b>'+esc(title(item.record,lang))+'</b>\n'+kind+' · '+esc(item.time)}
-function planText(plan,lang,lists){return plan.actions.map(a=>{if(a.kind==='shopping.list.create')return '• '+L(lang,'New list: ','רשימה חדשה: ')+esc(a.title);if(a.kind==='shopping.add'){const list=lists.find(l=>l.id===a.listId);return '• '+esc(a.title)+' — '+esc(a.quantity+' '+a.unit)+(list?' ('+esc(title(list,lang))+')':'')}return '• '+esc(a.title)+' — '+esc(a.date)+(a.time?' '+esc(a.time):'')}).join('\n')}
+const money=v=>(v<0?'−':'')+HOME_CURRENCY_SYMBOL+Math.abs(Math.round(v)).toLocaleString('en-US');
+function planText(plan,lang,lists){return plan.actions.map(a=>{const described=describeAction(a,lang,money);if(described)return '• '+esc(described);if(a.kind==='shopping.list.create')return '• '+L(lang,'New list: ','רשימה חדשה: ')+esc(a.title);if(a.kind==='shopping.add'){const list=lists.find(l=>l.id===a.listId);return '• '+esc(a.title)+' — '+esc(a.quantity+' '+a.unit)+(list?' ('+esc(title(list,lang))+')':'')}return '• '+esc(a.title)+' — '+esc(a.date)+(a.time?' '+esc(a.time):'')}).join('\n')}
 const helpText=lang=>L(lang,
- '<b>Bayit on Telegram</b>\nWrite in your own words, send a photo (a schedule, a list, an invitation), a voice message, or a Max/Leumi statement PDF, for example “add milk and eggs to the shopping list”. The AI prepares the change and you press Apply.\n\n/today – your day\n/shopping – your active shopping list\n/mine &lt;request&gt; – use your private space\n/stop – unlink this chat\n\nYou only see what you can see in the app.',
- '<b>Bayit בטלגרם</b>\nכתבו במילים שלכם, שלחו תמונה (מערכת שעות, רשימה, הזמנה), הודעה קולית או דף חשבון PDF של מקס/לאומי, למשל „להוסיף חלב וביצים לרשימת הקניות”. ה־AI מכין את השינוי ואתם לוחצים על החלה.\n\n/today – היום שלכם\n/shopping – רשימת הקניות הפעילה\n/mine &lt;בקשה&gt; – המרחב הפרטי שלכם\n/stop – ניתוק הצ׳אט\n\nמוצג רק מה שמותר לכם לראות באפליקציה.');
+ '<b>Bayit on Telegram</b> · your home assistant\nJust write in your own words, send a photo or a voice message. For example:\n• “add milk and eggs to the shopping list”\n• “move the dentist to Thursday at 10”\n• “mark take out the trash as done”\n• “delete the swimming practice on Friday”\n• “remember that Noa’s teacher is Dana”\n• “how much did we spend on food this month?”\nThe AI prepares the change and you press <b>Apply</b> (and Undo if needed).\n\n/today – your day\n/tasks – your tasks, tap ✓ to complete\n/week – the next 7 days\n/shopping – tap items to check them off\n/lists – all your lists\n/note &lt;text&gt; – save a note\n/expenses – spending this month\n/mine &lt;request&gt; – use your private space\n/stop – unlink this chat\n\nYou only see what you can see in the app.',
+ '<b>Bayit בטלגרם</b> · העוזר של הבית\nפשוט כתבו במילים שלכם, שלחו תמונה או הודעה קולית. למשל:\n• „להוסיף חלב וביצים לרשימת הקניות”\n• „להעביר את רופא השיניים ליום חמישי ב־10”\n• „לסמן שהוצאתי את הזבל”\n• „למחוק את אימון השחייה ביום שישי”\n• „לזכור שהמורה של נועה היא דנה”\n• „כמה הוצאנו על אוכל החודש?”\nה־AI מכין את השינוי ואתם לוחצים <b>החלה</b> (ואפשר לבטל).\n\n/today – היום שלכם\n/tasks – המשימות, ✓ לסימון\n/week – 7 הימים הקרובים\n/shopping – הקשה מסמנת כנקנה\n/lists – כל הרשימות\n/note &lt;טקסט&gt; – שמירת הערה\n/expenses – ההוצאות החודש\n/mine &lt;בקשה&gt; – המרחב הפרטי שלכם\n/stop – ניתוק הצ׳אט\n\nמוצג רק מה שמותר לכם לראות באפליקציה.');
 
 // ---- Web API used by Settings → Notifications ----
 export async function handleTelegramAPI(request,env,user,home,path,url){
@@ -76,7 +86,7 @@ export async function handleTelegramAPI(request,env,user,home,path,url){
   const me=await tg(env,token,'getMe');if(!me?.is_bot||!me.username)throw fail('This token does not belong to a Telegram bot.');
   const previous=await botRow(env,home.id),hookId=random(18),secret=random(32);
   await tg(env,token,'setWebhook',{url:url.origin+'/api/telegram/hook/'+hookId,secret_token:secret,allowed_updates:['message','callback_query'],drop_pending_updates:true,max_connections:10});
-  for(const [lang,description] of [['',null],['he',null]]){void description;const c=lang==='he'?[['today','היום שלי'],['shopping','רשימת הקניות'],['mine','בקשה פרטית'],['help','עזרה'],['stop','ניתוק']]:[['today','My day'],['shopping','Shopping list'],['mine','Private request'],['help','Help'],['stop','Unlink this chat']];try{await tg(env,token,'setMyCommands',{commands:c.map(([command,description])=>({command,description})),...(lang?{language_code:lang}:{})})}catch{}}
+  await registerCommands(env,token);await env.DB.prepare("INSERT INTO service_heartbeats(name,at,detail) VALUES(?,?,?) ON CONFLICT(name) DO UPDATE SET at=excluded.at,detail=excluded.detail").bind('tg-commands:'+home.id,Date.now(),COMMANDS_VERSION).run();
   const statements=[env.DB.prepare('INSERT INTO telegram_bots(household_id,ciphertext,bot_id,bot_username,hook_id,secret_hash,connected_by,connected_at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(household_id) DO UPDATE SET ciphertext=excluded.ciphertext,bot_id=excluded.bot_id,bot_username=excluded.bot_username,hook_id=excluded.hook_id,secret_hash=excluded.secret_hash,connected_by=excluded.connected_by,connected_at=excluded.connected_at').bind(home.id,await encryptKey(token,env,aad(home.id)),String(me.id),me.username,hookId,await hash(secret),actor,new Date().toISOString())];
   // Chats belong to a specific bot. A different bot needs everyone to press Start again.
   if(previous&&previous.bot_id!==String(me.id))statements.push(env.DB.prepare('DELETE FROM telegram_links WHERE household_id=?').bind(home.id),env.DB.prepare('DELETE FROM telegram_link_tokens WHERE household_id=?').bind(home.id));
@@ -95,7 +105,7 @@ export async function handleTelegramAPI(request,env,user,home,path,url){
  }
  const bot=await withToken(env,await botRow(env,home.id));
  if(action==='check'&&request.method==='POST'){
-  if(!bot)throw fail('Connect a Telegram bot first.',409);const [me,info]=[await tg(env,bot.token,'getMe'),await tg(env,bot.token,'getWebhookInfo')];
+  if(!bot)throw fail('Connect a Telegram bot first.',409);const [me,info]=[await tg(env,bot.token,'getMe'),await tg(env,bot.token,'getWebhookInfo')];await registerCommands(env,bot.token);
   const expected=url.origin+'/api/telegram/hook/'+bot.hook_id;
   return json({ok:info.url===expected&&!info.last_error_message,botUsername:me.username,webhookMatches:info.url===expected,pendingUpdates:info.pending_update_count||0,lastError:info.last_error_message||'',lastErrorAt:info.last_error_date?new Date(info.last_error_date*1000).toISOString():null,checkedAt:new Date().toISOString()});
  }
@@ -144,6 +154,11 @@ async function onMessage(env,bot,message){
  if(cmd==='stop'){await env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND member_id=?').bind(bot.household_id,memberId).run();return send(env,bot,chat.id,L(lang,'This chat was unlinked. You can connect again from Bayit settings.','הצ׳אט נותק. אפשר להתחבר שוב מהגדרות Bayit.'))}
  if(cmd==='today')return sendToday(env,bot,home,memberId,link.chat_id,lang);
  if(cmd==='shopping')return sendShopping(env,bot,home,memberId,link.chat_id,lang);
+ if(cmd==='tasks')return sendTasks(env,bot,home,memberId,role,link.chat_id,lang);
+ if(cmd==='week')return sendWeek(env,bot,home,memberId,link.chat_id,lang);
+ if(cmd==='lists')return sendLists(env,bot,home,memberId,link.chat_id,lang);
+ if(cmd==='expenses')return sendExpenses(env,bot,home,memberId,role,link.chat_id,lang);
+ if(cmd==='note')return saveNote(env,bot,home,memberId,link.chat_id,lang,rest.join(' '));
  if(message.document&&(message.document.mime_type==='application/pdf'||/\.pdf$/i.test(message.document.file_name||''))){
   try{return await handleStatement(env,bot,home,link,role,lang,message.document)}
   catch(error){return send(env,bot,chat.id,esc(error.status?error.message:L(lang,'This statement could not be read. Nothing was changed.','לא ניתן היה לקרוא את הדף. דבר לא שונה.')))}
@@ -172,16 +187,72 @@ async function linkChat(env,bot,message,token,lang){
 
 async function sendToday(env,bot,home,memberId,chatId,lang){
  const date=localDate(),visible=visibleState(home.state,memberId),items=agenda(visible,memberId,date);
- if(!items.length)return send(env,bot,chatId,L(lang,'Nothing scheduled for you today.','אין לכם פעילויות מתוכננות להיום.'));
- const rows=[];for(const item of items.filter(i=>i.kind!=='event'&&i.state==='open').slice(0,5))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(item.record,lang),40),{type:'done',taskId:item.record.id,date})]);
- return send(env,bot,chatId,'<b>'+L(lang,'Your day','היום שלכם')+'</b>\n'+items.map(i=>itemLine(i,lang)).join('\n'),rows);
+ const anytime=(visible.tasks||[]).filter(t=>!t.date&&t.memberId===memberId&&taskStateNow(t,date)==='open').length,more=anytime?'\n\n'+L(lang,anytime+' anytime task'+(anytime===1?'':'s')+' · /tasks',anytime+' משימות בכל זמן · /tasks'):'';
+ if(!items.length)return send(env,bot,chatId,L(lang,'Nothing scheduled for you today.','אין לכם פעילויות מתוכננות להיום.')+more);
+ const rows=[];for(const item of items.filter(i=>i.kind!=='event'&&i.state==='open').slice(0,5))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(item.record,lang),40),{type:'done',taskId:item.record.id,date,keep:true})]);
+ return send(env,bot,chatId,'<b>'+L(lang,'Your day','היום שלכם')+'</b>\n'+items.map(i=>itemLine(i,lang)).join('\n')+more,rows);
 }
 
-async function sendShopping(env,bot,home,memberId,chatId,lang){
- const visible=visibleState(home.state,memberId),lists=(visible.shoppingLists||[]).filter(l=>l.status==='active'),chosen=visible.preferences.activeShoppingListByUser?.[memberId],list=lists.find(l=>l.id===chosen)||lists[0];
+async function sendShopping(env,bot,home,memberId,chatId,lang,listId){
+ const visible=visibleState(home.state,memberId),lists=(visible.shoppingLists||[]).filter(l=>l.status==='active'),chosen=listId||visible.preferences.activeShoppingListByUser?.[memberId],list=lists.find(l=>l.id===chosen)||lists[0];
  if(!list)return send(env,bot,chatId,L(lang,'You have no active shopping list.','אין לכם רשימת קניות פעילה.'));
- const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id&&!i.done);
- return send(env,bot,chatId,'<b>'+esc(title(list,lang))+'</b>\n'+(items.length?items.slice(0,60).map(i=>'• '+esc(title(i,lang))+(i.quantity?' — '+esc(i.quantity):'')).join('\n'):L(lang,'Everything on this list has been collected.','כל הפריטים ברשימה נאספו.')));
+ const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id&&!i.done),rows=[];
+ for(const item of items.slice(0,24))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(item,lang)+(item.quantity&&!/^1 items?$/.test(item.quantity)?' · '+item.quantity:''),48),{type:'buy',itemId:item.id,keep:true})]);
+ const others=lists.filter(l=>l.id!==list.id).slice(0,6);if(others.length){const switches=[];for(const other of others)switches.push(await button(env,bot.household_id,memberId,'🛒 '+cut(title(other,lang),24),{type:'shoplist',listId:other.id,keep:true}));for(let i=0;i<switches.length;i+=2)rows.push(switches.slice(i,i+2))}
+ const extra=items.length>24?'\n'+L(lang,'…and '+(items.length-24)+' more in the app.','…ועוד '+(items.length-24)+' באפליקציה.'):'';
+ return send(env,bot,chatId,'<b>'+esc(title(list,lang))+'</b> · '+L(lang,items.length+' left',items.length+' נותרו')+'\n'+(items.length?L(lang,'Tap an item to check it off.','הקישו על פריט כדי לסמן אותו כנקנה.'):L(lang,'Everything on this list has been collected.','כל הפריטים ברשימה נאספו.'))+extra,rows);
+}
+
+// /tasks: today's tasks plus "anytime" tasks for this person; parents also see approvals waiting.
+async function sendTasks(env,bot,home,memberId,role,chatId,lang){
+ const today=localDate(),visible=visibleState(home.state,memberId),mine=(visible.tasks||[]).filter(t=>t.memberId===memberId&&(!t.date||occursOn(t,today)));
+ const line=t=>{const state=taskStateNow(t,today),sub=t.subtasks?.length?' ('+t.subtasks.filter(x=>x.done).length+'/'+t.subtasks.length+')':'';return (state==='done'?'✓ <s>':state==='pending'?'⏳ ':'• ')+(t.time?esc(t.time)+' · ':'')+esc(title(t,lang))+sub+(state==='done'?'</s>':'')};
+ const dated=mine.filter(t=>t.date).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99')),anytime=mine.filter(t=>!t.date&&taskStateNow(t,today)!=='done'),rows=[];
+ for(const t of [...dated,...anytime].filter(t=>taskStateNow(t,today)==='open').slice(0,12))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(t,lang),44),{type:'done',taskId:t.id,date:taskStateDate(t,today),keep:true})]);
+ let text='<b>'+L(lang,'Your tasks','המשימות שלכם')+'</b>\n'+(dated.length?dated.map(line).join('\n'):L(lang,'Nothing scheduled for today.','אין משימות מתוכננות להיום.'));
+ if(anytime.length)text+='\n\n<b>'+L(lang,'Anytime','בכל זמן')+'</b>\n'+anytime.slice(0,15).map(line).join('\n');
+ if(role==='parent'){const waiting=(visible.tasks||[]).filter(t=>t.memberId!==memberId&&(!t.date||occursOn(t,today))&&taskStateNow(t,today)==='pending');if(waiting.length){text+='\n\n<b>'+L(lang,'Waiting for your approval','ממתין לאישורכם')+'</b>';for(const t of waiting.slice(0,6)){const who=home.state.members.find(m=>m.id===t.memberId);text+='\n⏳ '+esc(lang==='he'?who?.he||who?.name:who?.name)+' · '+esc(title(t,lang));rows.push([await button(env,bot.household_id,memberId,L(lang,'Approve: ','אישור: ')+cut(title(t,lang),36),{type:'approve',taskId:t.id,date:taskStateDate(t,today),keep:true})])}}}
+ return send(env,bot,chatId,text+'\n\n<i>'+L(lang,'To change or add tasks, just write, e.g. “move laundry to tomorrow”.','כדי לשנות או להוסיף, פשוט כתבו, למשל „להעביר את הכביסה למחר”.')+'</i>',rows);
+}
+
+// /week: everything on the calendar this person can see for the next 7 days.
+async function sendWeek(env,bot,home,memberId,chatId,lang){
+ const visible=visibleState(home.state,memberId),start=localDate(),days=[];
+ for(let i=0;i<7;i++){const date=new Date(Date.parse(start+'T12:00:00Z')+i*86400000).toISOString().slice(0,10),events=(visible.events||[]).filter(e=>occursOn(e,date)).sort((a,b)=>(a.time||'').localeCompare(b.time||''));if(!events.length)continue;
+  const label=new Date(date+'T12:00:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-GB',{weekday:'short',day:'numeric',month:'short'});
+  days.push('<b>'+esc(label)+'</b>\n'+events.slice(0,8).map(e=>{const who=(e.memberIds||[]).map(id=>home.state.members.find(m=>m.id===id)).filter(Boolean).map(m=>lang==='he'?m.he||m.name:m.name);return '• '+(e.time?esc(e.time)+' · ':'')+esc(title(e,lang))+(who.length&&who.length<home.state.members.length?' · '+esc(who.join(', ')):'')+(e.visibility==='private'?' 🔒':'')}).join('\n'))}
+ return send(env,bot,chatId,days.length?'<b>'+L(lang,'The next 7 days','7 הימים הקרובים')+'</b>\n\n'+days.join('\n\n'):L(lang,'Nothing on the calendar for the next 7 days.','אין אירועים ביומן ב־7 הימים הקרובים.'));
+}
+
+// /lists: shopping lists (tap to open) and task lists with what is left.
+async function sendLists(env,bot,home,memberId,chatId,lang){
+ const visible=visibleState(home.state,memberId),today=localDate(),shopping=(visible.shoppingLists||[]).filter(l=>l.status==='active'),taskLists=visible.taskLists||[],rows=[];
+ let text='<b>'+L(lang,'Shopping lists','רשימות קניות')+'</b>\n'+(shopping.length?shopping.map(l=>'🛒 '+esc(title(l,lang))+' · '+(visible.shopping||[]).filter(i=>(i.listId||'week')===l.id&&!i.done).length).join('\n'):L(lang,'None','אין'));
+ for(const l of shopping.slice(0,8))rows.push([await button(env,bot.household_id,memberId,L(lang,'Open ','פתיחת ')+cut(title(l,lang),30),{type:'shoplist',listId:l.id,keep:true})]);
+ if(taskLists.length)text+='\n\n<b>'+L(lang,'Task lists','רשימות משימות')+'</b>\n'+taskLists.map(l=>'📋 '+esc(title(l,lang))+' · '+L(lang,(visible.tasks||[]).filter(t=>t.listId===l.id&&taskStateNow(t,today)!=='done').length+' open',(visible.tasks||[]).filter(t=>t.listId===l.id&&taskStateNow(t,today)!=='done').length+' פתוחות')+(l.visibility==='private'?' 🔒':'')).join('\n');
+ return send(env,bot,chatId,text,rows);
+}
+
+// /expenses: this person's view of the latest month (adults only, same visibility as the Expenses page).
+async function sendExpenses(env,bot,home,memberId,role,chatId,lang){
+ if(role==='child')return send(env,bot,chatId,L(lang,'Expenses are available to adult accounts.','ההוצאות זמינות למבוגרים בלבד.'));
+ let fin;try{fin=await visibleFinance(env,home,memberId)}catch{fin={transactions:[],groups:[]}}
+ const rows=fin.transactions.filter(t=>t.visibility!=='private'),thisMonth=localDate().slice(0,7),month=[...new Set(rows.map(monthOf))].sort().at(-1)||thisMonth,sum=monthSummary(rows,fin.groups||[],month);
+ const visible=visibleState(home.state,memberId),manual=(visible.expenses||[]).filter(e=>e.date?.slice(0,7)===thisMonth&&e.visibility!=='private'),manualTotal=manual.reduce((n,e)=>n+(Number(e.amount)||0),0);
+ const label=new Date(month+'-15T12:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-GB',{month:'long',year:'numeric'});
+ if(!sum.count&&!manual.length)return send(env,bot,chatId,L(lang,'No expenses yet. Import a Leumi/Max statement PDF here, connect RiseUp in the app, or write “add 120 for groceries”.','אין הוצאות עדיין. שלחו כאן PDF של לאומי/מקס, חברו RiseUp באפליקציה, או כתבו „להוסיף 120 על קניות”.'));
+ let text='<b>'+L(lang,'Expenses · ','הוצאות · ')+esc(label)+'</b>';
+ if(sum.count)text+='\n'+L(lang,'In ','נכנס ')+money(sum.income/100)+' · '+L(lang,'Spent ','יצא ')+money(sum.expenses/100)+(sum.savings?' · '+L(lang,'Saved ','נחסך ')+money(sum.savings/100):'')+'\n<b>'+L(lang,'Left ','נשאר ')+money(sum.net/100)+'</b>\n\n'+sum.byCategory.filter(c=>c.amount>0).slice(0,6).map(c=>'• '+esc(lang==='he'?CATEGORY[c.category]?.he||c.category:CATEGORY[c.category]?.en||c.category)+' — '+money(c.amount/100)).join('\n');
+ if(manual.length)text+='\n\n'+L(lang,'Recorded by hand this month: ','נרשם ידנית החודש: ')+money(manualTotal)+' ('+manual.length+')';
+ return send(env,bot,chatId,text+'\n\n<i>'+L(lang,'Ask anything, e.g. “what are our fixed bills?”. Only shared expenses are shown here; use /mine for your private ones.','אפשר לשאול כל דבר, למשל „מה החיובים הקבועים שלנו?”. מוצגות כאן רק הוצאות משותפות; /mine למרחב הפרטי.')+'</i>');
+}
+
+// /note <text>: saves a family note right away (the person typed it), with Undo.
+async function saveNote(env,bot,home,memberId,chatId,lang,raw){
+ const body=String(raw||'').trim().slice(0,2000);if(!body)return send(env,bot,chatId,L(lang,'Write the note after the command, for example: /note Noa’s teacher is Dana','כתבו את ההערה אחרי הפקודה, למשל: /note המורה של נועה היא דנה'));
+ const firstLine=body.split('\n')[0],titleText=firstLine.length>60?firstLine.slice(0,57)+'…':firstLine,plan={id:crypto.randomUUID(),actorId:memberId,scope:'family',actions:[{kind:'note.create',title:titleText,text:body,date:localDate(),time:localTime(new Date()),memberIds:[],icon:'bayit-activities-notebook'}]};
+ const {result:receipt}=await asMember(env,home.id,memberId,data=>applyAIPlan(data,plan,memberId,home.state.members,catalog));
+ return send(env,bot,chatId,'<b>'+L(lang,'Saved to the home journal','נשמר ביומן הבית')+'</b> · '+esc(titleText),[[await button(env,home.id,memberId,L(lang,'Undo','ביטול השינוי'),{type:'undo',operationId:receipt.id})]]);
 }
 
 async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label}={}){
@@ -258,13 +329,23 @@ async function onCallback(env,bot,query){
  const payload=JSON.parse(action.payload),memberId=link.member_id,release=()=>env.DB.prepare('UPDATE telegram_actions SET used_at=NULL WHERE id=?').bind(id).run();
  const home0=await loadHousehold(env,bot.household_id),lang=languageOf(home0.state,memberId,langHint);
  const clearButtons=()=>tg(env,bot.token,'editMessageReplyMarkup',{chat_id:chatId,message_id:query.message.message_id,reply_markup:{inline_keyboard:[]}}).catch(()=>{});
+ // List messages (/tasks, /shopping, /today) keep their other buttons: only the pressed one is removed.
+ const dropButton=()=>{const rows=(query.message.reply_markup?.inline_keyboard||[]).map(r=>r.filter(b=>b.callback_data!==query.data)).filter(r=>r.length);return tg(env,bot.token,'editMessageReplyMarkup',{chat_id:chatId,message_id:query.message.message_id,reply_markup:{inline_keyboard:rows}}).catch(()=>{})},settle=()=>payload.keep?dropButton():clearButtons();
  try{
   if(payload.type==='discard'){await clearButtons();return answer(L(lang,'Discarded. Nothing was changed.','בוטל. דבר לא שונה.'))}
   if(payload.type==='snooze'){await env.DB.prepare('INSERT INTO telegram_snoozes(id,household_id,member_id,payload,due_at) VALUES(?,?,?,?,?)').bind(crypto.randomUUID(),bot.household_id,memberId,JSON.stringify(payload.item),Date.now()+SNOOZE_MINUTES*60000).run();await clearButtons();return answer(L(lang,'I will remind you again in '+SNOOZE_MINUTES+' minutes.','אזכיר שוב בעוד '+SNOOZE_MINUTES+' דקות.'))}
   if(payload.type==='done'||payload.type==='approve'){
    const today=localDate();if(payload.date!==today)throw fail(L(lang,'Only today’s activities can be completed from Telegram.','מטלגרם אפשר להשלים רק פעילויות של היום.'),400);
-   const {result}=await asMember(env,bot.household_id,memberId,(data,role)=>{const task=data.tasks.find(t=>t.id===payload.taskId);if(!task||!occursOn(task,payload.date))throw fail(L(lang,'This activity is no longer available.','הפעילות הזאת כבר אינה זמינה.'),404);const before=completionState(task,payload.date);if(before==='done')return 'already';if(payload.type==='approve'&&(role!=='parent'||before!=='pending'))throw fail(L(lang,'This approval is no longer waiting.','האישור הזה כבר אינו ממתין.'),409);if(payload.type==='done'&&before==='pending')return 'pending';const outcome=completeTask(task,{date:payload.date,actorId:memberId,actorRole:role==='parent'?'parent':'child',time:localTime(),instant:new Date().toISOString()});return outcome.state});
-   await clearButtons();return answer(result==='already'?L(lang,'Already done.','כבר הושלם.'):result==='pending'?L(lang,'Sent to a parent for approval.','נשלח לאישור הורה.'):payload.type==='approve'?L(lang,'Approved.','אושר.'):L(lang,'Marked as done.','סומן כהושלם.'));
+   const {result}=await asMember(env,bot.household_id,memberId,(data,role)=>{const task=data.tasks.find(t=>t.id===payload.taskId);if(!task||!(task.date?occursOn(task,payload.date):payload.date===today))throw fail(L(lang,'This activity is no longer available.','הפעילות הזאת כבר אינה זמינה.'),404);const before=completionState(task,payload.date);if(before==='done')return 'already';if(payload.type==='approve'&&(role!=='parent'||before!=='pending'))throw fail(L(lang,'This approval is no longer waiting.','האישור הזה כבר אינו ממתין.'),409);if(payload.type==='done'&&before==='pending')return 'pending';const outcome=completeTask(task,{date:payload.date,actorId:memberId,actorRole:role==='parent'?'parent':'child',time:localTime(),instant:new Date().toISOString()});return outcome.state});
+   await settle();return answer(result==='already'?L(lang,'Already done.','כבר הושלם.'):result==='pending'?L(lang,'Sent to a parent for approval.','נשלח לאישור הורה.'):payload.type==='approve'?L(lang,'Approved.','אושר.'):L(lang,'Marked as done.','סומן כהושלם.'));
+  }
+  if(payload.type==='buy'){
+   const {result}=await asMember(env,bot.household_id,memberId,data=>{const item=(data.shopping||[]).find(i=>i.id===payload.itemId);if(!item)throw fail(L(lang,'This item is no longer on the list.','הפריט כבר אינו ברשימה.'),404);if(item.done)return {already:true,item};item.done=true;item.boughtAt=new Date().toISOString();item.boughtBy=memberId;return {item}});
+   await dropButton();return answer(result.already?L(lang,'Already checked off.','כבר סומן.'):L(lang,'Checked off: ','סומן: ')+title(result.item,lang));
+  }
+  if(payload.type==='shoplist'){
+   await commitAsMember(env,home0,memberId,data=>{data.preferences.activeShoppingListByUser={...data.preferences.activeShoppingListByUser,[memberId]:payload.listId}}).catch(()=>{});
+   await release();await sendShopping(env,bot,home0,memberId,chatId,lang,payload.listId);return answer('');
   }
   if(payload.type==='apply'){
    const {home,result:receipt}=await asMember(env,bot.household_id,memberId,data=>applyAIPlan(data,payload.plan,memberId,home0.state.members,catalog));
@@ -299,6 +380,7 @@ export async function deliverReminders(env,now){
  for(const row of bots){
   const links=(await linksFor(env,row.household_id)).filter(l=>!l.blocked);if(!links.length)continue;summary.households++;
   let bot,home;try{bot=await withToken(env,row);home=await loadHousehold(env,row.household_id)}catch{summary.failed++;continue}
+  try{await ensureCommands(env,bot)}catch{}
   // Only the yes/no "Update parents" choice of each child is shared with parents' delivery.
   const childPrefs=Object.fromEntries(home.state.members.filter(m=>m.role==='child').map(m=>[m.id,notificationPrefs(home.state.profiles[m.id]).parentUpdates!==false]));
   const snoozes=(await env.DB.prepare('SELECT * FROM telegram_snoozes WHERE household_id=? AND sent_at IS NULL AND due_at<=?').bind(row.household_id,now.getTime()).all()).results;

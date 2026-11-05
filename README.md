@@ -28,7 +28,7 @@ Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop �
 | **Household** | Meals and pantry, **Expenses**, maintenance, and documents (files in private storage). |
 | **Expenses** | Import **Bank Leumi** and **Max** statements (PDF), or connect **[RiseUp](docs/riseup.md)** (optional) to read transactions daily. Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
 | **Ask AI** | Your choice of AI (**Claude, OpenAI/Codex, Gemini, Grok**, or any OpenAI-compatible service) answers questions from records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
-| **Telegram** | Your own family bot: reminders with Done and Snooze buttons, a morning summary, parent approvals, and chat with your AI. It understands text, **photos** and **voice messages**, and accepts statement PDFs. |
+| **Telegram** | Your own family bot that works as a home assistant. It sends reminders with Done and Snooze buttons, a morning summary and parent approvals. Its **/** menu covers today, tasks, the week, shopping, lists, notes and expenses, with tap-to-complete. In plain words, by text, **photo** or **voice**, it adds, completes, moves, edits or deletes tasks, events, shopping items and notes. Every change waits for Apply and can be undone. It also accepts statement PDFs. |
 | **Privacy** | Every note, task and event has an owner and visibility (private, family, or selected people). The server enforces it, and AI, reminders, statistics and widgets follow the same rules. |
 
 <p align="center">
