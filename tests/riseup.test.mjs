@@ -114,3 +114,19 @@ test('daily refresh syncs due connections, backs off after an outage and skips f
   assert.equal(e.DB.db.prepare('SELECT status FROM finance_connections').get().status,'error');
  }finally{globalThis.fetch=realFetch}
 });
+
+test('"Both parents" reaches every adult, including one who joins after connecting, and never a child', {skip:!sqlite&&'node:sqlite unavailable'}, async()=>{
+ const e=env(),realFetch=globalThis.fetch;
+ try{
+  fakeRiseup({'2026-11':[tx('n1',{cashflowDate:'2026-11'})]});
+  // Only mom is in the home when she connects.
+  await connectRiseup(e,{home:{id:'h1',state:{members:[{id:'mom',role:'parent'}]}},memberId:'mom',adults:['mom'],token:TOKEN,visibility:'shared',months:1});
+  const row=e.DB.db.prepare('SELECT visibility,allowed_ids FROM finance_connections').get(),tx1=e.DB.db.prepare('SELECT * FROM finance_transactions').get();
+  assert.equal(row.visibility,'family');assert.equal(tx1.visibility,'family');
+  const {canSee}=await import('../app/src/data.js'),seen=id=>canSee({ownerId:tx1.owner_id,visibility:tx1.visibility,allowedIds:JSON.parse(tx1.allowed_ids||'[]')},id);
+  assert.ok(seen('dad'),'an adult who joined later sees the shared transactions');
+  // Children are kept out by the role checks around money data, not by the row itself.
+  const {readFileSync}=await import('node:fs'),finance=readFileSync(new URL('../app/cloud/finance.mjs',import.meta.url),'utf8');
+  assert.match(finance,/requireAdult\(home,actorId\)/,'every finance API call requires an adult');
+ }finally{globalThis.fetch=realFetch}
+});

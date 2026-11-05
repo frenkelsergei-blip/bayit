@@ -13,7 +13,9 @@ const PENDING_HOURS=24;
 const adults=state=>state.members.filter(m=>m.role!=='child').map(m=>m.id);
 const requireAdult=(home,actorId)=>{if(roleOf(home.state,actorId)==='child')throw fail('Expenses are available to adult accounts.',403)};
 const access=(row,actorId)=>canSee({ownerId:row.owner_id,visibility:row.visibility,allowedIds:JSON.parse(row.allowed_ids||'[]')},actorId);
-const sharing=(home,actorId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'selected',allowed:adults(home.state).filter(id=>id!==actorId)};
+// Shared money data is visible to every adult in the home, including adults who join later. Children never get
+// money data: the finance API requires an adult, and the assistant and Telegram check the role too.
+const sharing=(home,actorId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'family',allowed:[]};
 
 async function rulesFor(env,householdId){return Object.fromEntries((await env.DB.prepare('SELECT name_key,category FROM finance_rules WHERE household_id=?').bind(householdId).all()).results.map(r=>[r.name_key,r.category]))}
 
@@ -138,7 +140,7 @@ export async function handleFinanceAPI(request,env,home,path,url){
    const r=await syncConnection(env,row,adultIds);return json({synced:true,count:r.count});
   }
   if(!parts[2]&&request.method==='PATCH'){
-   const body=await bodyJSON(request,2000),visibility=body.visibility===undefined?row.visibility:body.visibility==='private'?'private':'selected',allowed=visibility==='private'?[]:adultIds.filter(id=>id!==actorId),months=body.months===undefined?row.months_back:Math.max(1,Math.min(12,Number(body.months)||3)),prefer=body.preferOverStatements===undefined?row.prefer_over_statements:body.preferOverStatements?1:0;
+   const body=await bodyJSON(request,2000),visibility=body.visibility===undefined?(row.visibility==='private'?'private':'family'):body.visibility==='private'?'private':'family',allowed=[],months=body.months===undefined?row.months_back:Math.max(1,Math.min(12,Number(body.months)||3)),prefer=body.preferOverStatements===undefined?row.prefer_over_statements:body.preferOverStatements?1:0;
    await env.DB.batch([env.DB.prepare("UPDATE finance_connections SET visibility=?,allowed_ids=?,months_back=?,prefer_over_statements=? WHERE household_id=? AND member_id=? AND provider='riseup'").bind(visibility,JSON.stringify(allowed),months,prefer,home.id,actorId),env.DB.prepare("UPDATE finance_transactions SET visibility=?,allowed_ids=? WHERE household_id=? AND import_id=?").bind(visibility,JSON.stringify(allowed),home.id,'riseup:'+actorId)]);
    return json({updated:true});
   }

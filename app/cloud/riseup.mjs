@@ -67,7 +67,8 @@ export async function syncRiseup(env,{householdId,memberId,token,visibility,allo
  return {count,balances:balances?balances.map(b=>({source:b.source,label:b.accountNickname||b.source,account:b.accountNumberHash,balance:Math.round(Number(b.balance)*100),lastUpdated:b.lastUpdated})):null};
 }
 
-const sharingFor=(adults,memberId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'selected',allowed:adults.filter(id=>id!==memberId)};
+// "Both parents" means every adult in the home, now and later (see sharing() in finance.mjs).
+const sharingFor=(adults,memberId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'family',allowed:[]};
 
 export async function connectRiseup(env,{home,memberId,adults,token,visibility,months,preferOverStatements=true}){
  token=String(token||'').trim();if(!token.startsWith(PREFIX)||token.length<20||token.length>400)throw fail('Paste the RiseUp token (it starts with riseup_pat_).');
