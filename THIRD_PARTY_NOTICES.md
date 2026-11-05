@@ -10,6 +10,10 @@ Bayit's own code is MIT-licensed (see `LICENSE`). These bundled assets and libra
 | React, Recharts, Vite | npm dependencies | MIT |
 | Auth.js (`@auth/core`, `@auth/d1-adapter`) | npm dependencies | ISC |
 | unpdf (bundles Mozilla pdf.js) | npm dependency | MIT (unpdf) / Apache-2.0 (pdf.js) |
+| AI provider marks (OpenAI) | `app/public/assets/icons/providers/openai.svg` | Simple Icons 13.21.0 icon data, CC0 1.0 |
+| AI provider marks (Claude, Gemini, Grok) | `app/public/assets/icons/providers/{anthropic,gemini,xai}.svg` | LobeHub Icons (`@lobehub/icons-static-svg` 1.102.0), MIT, Copyright (c) LobeHub |
+
+The provider marks only identify the service a household connects to. The trademarks belong to their owners, and Bayit isn't affiliated with or endorsed by them.
 
 ## Generated artwork
 

@@ -1,0 +1,28 @@
+// Opening screen control. The screen itself lives in index.html so it paints before the bundle loads.
+import React,{useEffect} from 'react';
+import {ArrowRight} from '@phosphor-icons/react';
+export const hideSplash=()=>window.__bayitSplash?.hide();
+export const showSplash=()=>window.__bayitSplash?.show();
+// Keep the opening screen up while something is still loading (cloud household open / switch).
+export function SplashHold(){useEffect(()=>{showSplash()},[]);return null}
+export function SplashOff(){useEffect(()=>{hideSplash()},[]);return null}
+
+// Title with the real underline and rays on the final word (same as the opening screen).
+export function SunriseTitle({text,as:Tag='h1'}){const words=String(text).split(' '),tail=words.pop(),prefix=words.join(' ');return <Tag className="sunrise-title">{prefix}{prefix?' ':''}<span className="sunrise-end">{tail}<img className="sunrise-u" src="/assets/generated/title-underline-clean.png" alt=""/><img className="sunrise-r" src="/assets/generated/title-rays.png" alt=""/></span></Tag>}
+
+// Signed-out entry screen in the same "Quiet sunrise" style as the opening screen.
+export function SignInSunrise({T,language,setLanguage,busy,configured,onGoogle,onDemo,error}){
+ return <main className="sunrise-entry"><div className="sunrise-glow" aria-hidden="true"/>
+  <div className="language-toggle sunrise-lang"><button className={language==='en'?'active':''} onClick={()=>setLanguage('en')}>EN</button><button className={language==='he'?'active':''} onClick={()=>setLanguage('he')}>עברית</button></div>
+  <section className="sunrise-stack">
+   <img className="sunrise-logo" src="/assets/generated/bayit-logo-512.png" alt="bayit"/>
+   <SunriseTitle text={T('Your home, together.','הבית שלכם, ביחד.')}/>
+   <p className="sunrise-sub">{T('One home. Your own accounts. All the little things, shared.','בית אחד. חשבון אישי לכל אחד. כל הדברים הקטנים, ביחד.')}</p>
+   <button className="button sunrise-google" disabled={busy||!configured} onClick={onGoogle}>{T('Continue with Google','המשך עם Google')}<ArrowRight size={22}/></button>
+   {error&&<p role="alert" className="ai-error">{error}</p>}
+   {!configured&&<div className="cloud-setup-note sunrise-note"><strong>{T('Google sign-in is awaiting the owner’s setup.','כניסה עם Google ממתינה להגדרה של בעל ההתקנה.')}</strong><p>{T('You can explore the interactive preview now. Shared family data becomes available after sign-in is connected.','אפשר להתנסות בתצוגה האינטראקטיבית כבר עכשיו. מידע משפחתי משותף יהיה זמין אחרי חיבור הכניסה.')}</p></div>}
+   <button className="text-link" onClick={onDemo}>{T('Explore with sample data','התנסות עם מידע לדוגמה')}</button>
+  </section>
+  <small className="sunrise-foot">{T('Sign in with your Google account to create your family or join an invitation.','היכנסו עם חשבון Google כדי ליצור משפחה או להצטרף להזמנה.')}</small>
+ </main>;
+}

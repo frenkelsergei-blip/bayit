@@ -41,7 +41,8 @@ import {ConnectionsHub,ConnectionsIcon} from './connections-hub';
 import './today-tasks.css';
 import {Select} from "./Select";
 import {AboutSettings,UpdateBanner,useAutomaticUpdateCheck,APP_VERSION} from './app-version';
-import {FxLayer,BellFx,SaveStatus,trackSave,detectFx,fxStyleFor} from './motion-fx';
+import {FxLayer,BellFx,SaveStatus,trackSave,detectFx,fxStyleFor,EmptyHello,pickHelper} from './motion-fx';
+import {hideSplash} from './splash';
 import defaultIconCatalog from '../../design-system/bayit-icons.json';
 import en from '../../design-system/copy.en.json';
 import he from '../../design-system/copy.he.json';
@@ -76,7 +77,7 @@ function Scope({value,onChange}){const a=useApp(),members=a.members,member=a.mem
 function Week({selected=anchor,onChange=()=>{}}){const a=useApp(),start=+a.data.preferences.weekStarts||0,first=new Date(selected+'T12:00:00Z');first.setUTCDate(first.getUTCDate()-(first.getUTCDay()-start+7)%7);return <div className="week-strip">{Array.from({length:7},(_,i)=>{const day=new Date(first.getTime()+i*86400000),date=day.toISOString().slice(0,10),weekday=day.getUTCDay();return <button type="button" aria-pressed={selected===date} key={date} className={selected===date?'active':''} onClick={()=>onChange(date)}><span className="week-day">{a.lang==='he'?weekdaysHe[weekday]:weekdaysEn[weekday]}</span><span className="week-date">{a.lang==='he'?<>{day.getUTCDate()}<span className="week-month"> {day.toLocaleDateString('he-IL',{month:'short',timeZone:'UTC'})}</span></>:<><span className="week-month">{day.toLocaleDateString('en-US',{month:'short',timeZone:'UTC'})} </span>{day.getUTCDate()}</>}</span></button>})}</div>}
 
 
-function Empty({text}){return <div className="empty"><BookOpen size={42}/><p>{text}</p></div>}
+function Empty({text}){const a=useApp();return <EmptyHello text={text} src={asset(pickHelper(a?.data?.profiles,text))}/>}
 
 export function App({cloud}={}){
   const [data,setData]=useState(()=>cloud?.initialData||initial()),[lang,setLang]=useState(()=>cloud?.initialData.profiles?.[cloud.actorId]?.locale||readStored('bayit-lang','en')),[theme,setTheme]=useState(()=>JSON.parse(localStorage.getItem('bayit-theme')||'"light"')),[user,setUser]=useState(cloud?.actorId||'daniel'),[route,setRoute]=useState(location.hash.slice(1)||'today'),[toast,setToast]=useState(''),[drawer,setDrawer]=useState(false),[iconPicker,setIconPicker]=useState(null),[catalog,setCatalog]=useState(defaultIconCatalog),[selectedChild,setSelectedChild]=useState('itai'),[homes,setHomes]=useState(()=>cloud?.session.memberships||readStored('bayit-homes-v1',[])),[familyMenu,setFamilyMenu]=useState(false),[notificationsOpen,setNotificationsOpen]=useState(false);
@@ -89,6 +90,7 @@ export function App({cloud}={}){
   useEffect(()=>{persist('bayit-theme',theme);document.documentElement.dataset.theme=theme},[theme]);
   useEffect(()=>{const callback=()=>{setRoute(location.hash.slice(1)||'today');setDrawer(false);window.scrollTo(0,0)};window.addEventListener('hashchange',callback);return()=>window.removeEventListener('hashchange',callback)},[]);
   useEffect(()=>{if(toast){const timer=setTimeout(()=>setToast(''),4200);return()=>clearTimeout(timer)}},[toast]);
+  useEffect(()=>{hideSplash()},[]);
   useEffect(()=>{fetch('/assets/icons/catalog.json').then(r=>r.json()).then(setCatalog).catch(()=>{})},[]);
   const members=(data.members||defaultMembers).map(m=>({...m,color:data.profiles[m.id]?.color||m.color})),member=who=>members.find(m=>m.id===who)||defaultMember(who);
   const T=(english,hebrew)=>lang==='he'?hebrew:english,copy=lang==='he'?he:en;

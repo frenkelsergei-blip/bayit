@@ -1,0 +1,9 @@
+/* AI provider picker: brand mark on a white tile beside the name (works in day and night). */
+.ai-providers{grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
+.ai-provider{flex-direction:row;align-items:center;gap:12px;padding:12px 14px;min-height:68px}
+.ai-provider-logo{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#fff;color:#10152a;box-shadow:inset 0 0 0 1px #10152a1a,0 2px 6px #10152a14}
+.ai-provider-logo img{width:26px;height:26px;object-fit:contain}
+.ai-provider-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.ai-provider-text strong,.ai-provider-text small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.ai-provider.on .ai-provider-logo{box-shadow:inset 0 0 0 2px var(--primary),0 2px 6px #10152a14}
+@media(max-width:700px){.ai-provider-text small{white-space:normal;line-height:1.25}.ai-providers{grid-template-columns:1fr 1fr}.ai-provider{padding:10px 12px;gap:10px}.ai-provider-logo{width:38px;height:38px;border-radius:12px}.ai-provider-logo img{width:22px;height:22px}}

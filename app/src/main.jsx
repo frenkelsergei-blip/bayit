@@ -11,6 +11,10 @@ import "./family-profiles.css";
 import "./navigation.css";
 import "./motion-fx.css";
 import "./skeleton.css";
+import "./provider-logos.css";
+import "./sidebar-fit.css";
+import "./theme-color.js";
+import "./splash.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -170,3 +170,26 @@
 @media(prefers-reduced-motion:reduce){.fx-confetti{display:none}.fx-life>span{animation:fx-life var(--life,4600ms) linear forwards!important}}
 :root[data-motion=reduced] .fx-confetti{display:none}
 :root[data-motion=reduced] .fx-life>span{animation:fx-life var(--life,4600ms) linear forwards!important}
+
+/* ---------- empty states: pixel helper + speech bubble ---------- */
+.empty.empty-hello{display:flex;flex-direction:column;align-items:center;gap:14px;padding:44px 20px}
+.empty-helper{width:auto;height:118px;image-rendering:pixelated;transform-origin:50% 100%}
+.empty-bubble{position:relative;margin:0;max-width:340px;padding:14px 20px;border-radius:22px;background:var(--surface,#fff);border:2px solid var(--border);color:var(--text);font-weight:750;font-size:calc(17px * var(--text-scale,1));line-height:1.4;box-shadow:0 8px 24px #10152a14}
+.empty-bubble::before{content:"";position:absolute;top:-10px;left:50%;width:16px;height:16px;margin-left:-8px;background:inherit;border-top:2px solid var(--border);border-left:2px solid var(--border);transform:rotate(45deg)}
+.detail-panel .empty.empty-hello{padding:26px 10px}
+.detail-panel .empty-helper{height:84px}
+.detail-panel .empty-bubble{font-size:calc(15px * var(--text-scale,1))}
+:root:is([data-fx=playful],[data-fx=party]) .empty-helper{animation:fx-hello 2.6s .3s ease-in-out infinite}
+:root:is([data-fx=playful],[data-fx=party]) .empty-bubble{animation:fx-bubble .45s .15s cubic-bezier(.2,1.6,.4,1) backwards}
+@keyframes fx-hello{0%,60%,100%{transform:rotate(0) translateY(0)}68%{transform:rotate(-6deg) translateY(-6px)}76%{transform:rotate(5deg) translateY(-3px)}84%{transform:rotate(-3deg) translateY(-5px)}92%{transform:rotate(0) translateY(0)}}
+@keyframes fx-bubble{from{opacity:0;transform:scale(.8) translateY(6px)}}
+
+/* ---------- check-off bursts ---------- */
+.check-burst{position:fixed;z-index:118;width:0;height:0;pointer-events:none}
+.check-burst img{position:absolute;left:-7px;top:-7px;width:14px;height:14px;image-rendering:pixelated;opacity:0;animation:fx-check-spark .65s cubic-bezier(.15,.8,.3,1) both}
+.check-burst img.check-bag{left:-14px;top:-14px;width:28px;height:28px;animation:fx-check-bag .9s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes fx-check-spark{0%{opacity:0;transform:rotate(var(--a)) translateX(6px) scale(.4)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(34px) scale(1)}}
+@keyframes fx-check-bag{0%{opacity:0;transform:translate(0,0) scale(.3)}30%{opacity:1;transform:translate(26px,-26px) scale(1.1)}70%{opacity:1;transform:translate(34px,-38px) scale(1)}100%{opacity:0;transform:translate(38px,-50px) scale(.8)}}
+[dir=rtl] .check-burst img.check-bag{animation-name:fx-check-bag-rtl}
+@keyframes fx-check-bag-rtl{0%{opacity:0;transform:translate(0,0) scale(.3)}30%{opacity:1;transform:translate(-26px,-26px) scale(1.1)}70%{opacity:1;transform:translate(-34px,-38px) scale(1)}100%{opacity:0;transform:translate(-38px,-50px) scale(.8)}}
+:root[data-motion=reduced] .check-burst{display:none}

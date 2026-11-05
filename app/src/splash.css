@@ -1,0 +1,29 @@
+/* "Quiet sunrise" entry screens (signed-out sign-in, and the signed-in create/join step) — matches index.html #splash. */
+.sunrise-entry{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:max(28px,env(safe-area-inset-top)) 24px max(28px,env(safe-area-inset-bottom));overflow:hidden;background:var(--bg);text-align:center}
+.sunrise-glow,.cloud-entry::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 78% 74% at 50% 44%,#ffd4515e 0%,#ffd45136 36%,#ffd4511c 66%,#ffd4510c 100%);pointer-events:none;z-index:0}
+:root[data-theme=dark] .sunrise-glow,:root[data-theme=dark] .cloud-entry::before{background:radial-gradient(ellipse 78% 74% at 50% 44%,#527dff40 0%,#527dff1f 36%,#ffd4510d 66%,transparent 100%)}
+.sunrise-stack{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.8vmin,26px);width:min(780px,100%)}
+.sunrise-stack>.sunrise-sub,.sunrise-stack>.sunrise-note{max-width:560px}
+.sunrise-logo{width:clamp(190px,32vmin,360px);height:auto}
+:root[data-theme=dark] .sunrise-logo{filter:brightness(0) invert(1)}
+.sunrise-title{margin:0;font-size:clamp(32px,6.4vmin,72px);font-weight:950;line-height:1.16;letter-spacing:-.02em;max-width:min(22ch,100%)}
+.sunrise-end{position:relative;display:inline-block;white-space:nowrap}
+.sunrise-u{position:absolute;left:-3%;bottom:-.26em;width:106%;height:.32em;object-fit:fill}
+.sunrise-r{position:absolute;right:-.52em;top:-.4em;width:.56em;height:.56em;object-fit:contain}
+[dir=rtl] .sunrise-r{right:auto;left:-.52em;transform:scaleX(-1)}
+.sunrise-sub{margin:0;color:var(--muted);font-size:clamp(17px,2.3vmin,22px);line-height:1.45;max-width:30ch}
+.sunrise-google{width:min(380px,100%);min-height:60px;font-size:calc(20px * var(--font-adjust,1));margin-top:6px}
+.sunrise-note{text-align:start;width:100%}
+.sunrise-lang{position:absolute;z-index:2;top:max(20px,env(safe-area-inset-top));right:24px;width:170px}
+.sunrise-foot{position:relative;z-index:1;margin-top:clamp(18px,4vh,40px);color:var(--muted);font-size:14px;max-width:46ch}
+:root:not([data-motion=reduced]) .sunrise-stack>*{animation:sunrise-in .6s cubic-bezier(.2,.9,.3,1) backwards}
+:root:not([data-motion=reduced]) .sunrise-stack>*:nth-child(2){animation-delay:.08s}
+:root:not([data-motion=reduced]) .sunrise-stack>*:nth-child(n+3){animation-delay:.16s}
+@keyframes sunrise-in{from{opacity:0;transform:translateY(12px)}}
+@media(prefers-reduced-motion:reduce){.sunrise-stack>*{animation:none!important}}
+@media(max-height:520px){.sunrise-entry{justify-content:flex-start;padding-top:64px}.sunrise-logo{width:170px}.sunrise-title{font-size:30px}.sunrise-foot{display:none}}
+/* Signed-in "create or join your family" step: same sunrise background, logo centred. */
+.cloud-entry{position:relative;min-height:100vh;min-height:100dvh}
+.cloud-entry>*{position:relative;z-index:1}
+.cloud-entry{overflow:clip}
+[dir=rtl] .sunrise-google svg{transform:scaleX(-1)}

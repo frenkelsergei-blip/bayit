@@ -113,6 +113,7 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avat
   {shown&&<div role="status" className={'toast'+(style!=='calm'?' fx-toast':'')+(failed?' fx-toast-failed':'')}>{style!=='calm'?<img className="fx-toast-sprite" src={sprite(failed?'undo':'check-badge')} alt=""/>:failed?<WarningCircle size={23}/>:<CheckCircle size={23}/>}{shown}</div>}
   {card&&<Celebration key={'card-'+card.key} fx={card} style={style} T={T} go={go} undo={undo} characterSrc={characterSrc} avatar={avatar} close={()=>setCard(null)}/>}
   {party>0&&<Confetti key={'confetti-'+party}/>}
+  {style!=='calm'&&<CheckBursts/>}
  </>;
 }
 
@@ -159,4 +160,26 @@ export function FxSettings({appearance={},role,change,T,Switch,Button}){
   <p className="fx-settings-note">{T('Reduce motion (Comfort & accessibility, or your device setting) always wins and keeps everything still.','הפחתת תנועה (בנוחות ונגישות או בהגדרות המכשיר) תמיד גוברת ומשאירה הכול שקט.')}</p>
   <Button secondary icon={Play} onClick={preview}>{T('Preview animation','תצוגה מקדימה')}</Button>
  </div>;
+}
+
+// --- Empty states: a pixel helper says the message in a speech bubble ---
+const HELPERS=['tom','maya','ari','lia','dana','yoni','noa','itai'];
+// Prefer characters nobody in this family uses, so the helper never looks like a specific member.
+export function pickHelper(profiles={},text=''){
+ const used=new Set(Object.values(profiles||{}).map(p=>p?.character).filter(Boolean)),pool=HELPERS.filter(h=>!used.has(h)),list=pool.length?pool:HELPERS;
+ let hash=0;for(const ch of String(text))hash=(hash*31+ch.charCodeAt(0))>>>0;
+ return 'avatar-'+list[hash%list.length]+(hash%2?'-cape':'-cap')+'.png';
+}
+export function EmptyHello({text,src}){
+ return <div className="empty empty-hello"><img className="empty-helper" src={src} alt=""/><p className="empty-bubble">{text}</p></div>;
+}
+
+// --- Check-off bursts: sparks (and a tiny bag for shopping) where a checkbox was ticked ---
+export function CheckBursts(){
+ const [bursts,setBursts]=useState([]);
+ useEffect(()=>{
+  const onChange=e=>{const box=e.target;if(!(box instanceof HTMLInputElement)||box.type!=='checkbox'||!box.checked)return;const row=box.closest('.shopping-item,.task-row,.widget-item,.meal-ingredient');if(!row)return;const fx=document.documentElement.dataset.fx;if(fx==='calm'||reducedMotion())return;const r=box.getBoundingClientRect(),id=Date.now()+Math.random();setBursts(list=>[...list.slice(-4),{id,x:r.left+r.width/2,y:r.top+r.height/2,shop:row.classList.contains('shopping-item')||!!row.closest('.today-shopping,.shopping-widget')}]);setTimeout(()=>setBursts(list=>list.filter(b=>b.id!==id)),1000)};
+  document.addEventListener('change',onChange,true);return()=>document.removeEventListener('change',onChange,true);
+ },[]);
+ return bursts.map(b=><div key={b.id} className="check-burst" style={{left:b.x,top:b.y}} aria-hidden="true">{[0,1,2,3,4,5].map(i=><img key={i} src={sprite(SPARKS[i])} alt="" style={{'--a':(i*60+15)+'deg'}}/>)}{b.shop&&<img className="check-bag" src={sprite('shopping-bag')} alt=""/>}</div>);
 }

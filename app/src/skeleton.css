@@ -26,47 +26,15 @@
 .skel-widget-hero{display:grid;gap:12px;padding:6px 0 4px}
 .skel-chip-wrap{display:inline-flex;vertical-align:middle}
 
-/* ---------- boot shell (before the household opens) ---------- */
-.skel-boot{min-height:100vh;min-height:100dvh;background:var(--bg);display:grid;grid-template-columns:263px minmax(0,1fr);position:relative}
-.skel-boot-side{display:flex;flex-direction:column;gap:6px;padding:26px 16px 22px;background:var(--sidebar,var(--bg));border-inline-end:1px solid var(--border)}
-.skel-boot-logo{width:150px;height:auto;align-self:center;margin-bottom:22px}
-[data-theme=dark] .skel-boot-logo,[data-theme=dark] .skel-boot-top img{filter:brightness(0) invert(1)}
-.skel-boot-family{display:flex;align-items:center;gap:12px;padding:12px;border-radius:24px;border:1px solid var(--border);margin-bottom:18px}
-.skel-boot-family>div{display:grid;gap:8px}
-.skel-boot-nav{display:flex;align-items:center;gap:14px;padding:12px 14px}
-.skel-boot-main{padding:44px 48px;display:grid;gap:26px;align-content:start;max-width:1400px;width:100%}
-.skel-boot-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
-.skel-boot-head>div{display:grid;gap:16px}
-[dir=rtl] .skel-boot-head{direction:ltr;justify-content:flex-end}
-[dir=rtl] .skel-boot-head>div{justify-items:end}
-.skel-boot-actions{display:flex;justify-content:flex-end}
-.skel-boot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:22px}
-.skel-boot-top,.skel-boot-tabs{display:none}
-.skel-boot-pill{position:fixed;left:50%;top:50%;width:max-content;max-width:calc(100vw - 32px);transform:translate(-50%,-50%);display:flex;align-items:center;gap:12px;padding:14px 22px 14px 16px;border-radius:999px;background:var(--surface,#fff);color:var(--text);border:1px solid var(--border);box-shadow:0 18px 50px #10152a26;font-weight:800;font-size:18px;white-space:nowrap;animation:skel-fade .4s .25s ease-out backwards}
-.skel-boot-pill img{width:34px;height:34px;image-rendering:pixelated;animation:skel-hop .9s ease-in-out infinite}
-.skel-boot .skel-boot-pill{left:calc(50% + 131px)}
-[dir=rtl] .skel-boot .skel-boot-pill{left:calc(50% - 131px)}
-
-@media(max-width:1100px){.skel-boot{grid-template-columns:88px minmax(0,1fr)}.skel-boot-side{padding-inline:8px;align-items:center}.skel-boot-logo{width:52px}.skel-boot-family>div,.skel-boot-nav>.skel+.skel{display:none}.skel-boot .skel-boot-pill{left:calc(50% + 44px)}[dir=rtl] .skel-boot .skel-boot-pill{left:calc(50% - 44px)}.skel-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1100px){.skel-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){
- .skel-boot{grid-template-columns:1fr;grid-template-rows:auto 1fr}
- .skel-boot-side{display:none}
- .skel-boot-head>.skel{display:none}
- .skel-boot-top{display:flex;direction:ltr;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
- .skel-boot-top img{height:38px;width:auto}
- .skel-boot-main{padding:24px 18px 110px;gap:20px}
- .skel-boot-grid,.skel-money-grid,.skel-field-pair{grid-template-columns:1fr}
- .skel-boot-actions{justify-content:flex-start}
- .skel-boot-tabs{display:flex;justify-content:space-around;position:fixed;bottom:0;inset-inline:0;padding:12px 8px max(14px,env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--border)}
- .skel-boot .skel-boot-pill,[dir=rtl] .skel-boot .skel-boot-pill{left:50%;font-size:16px}
+ .skel-money-grid,.skel-field-pair{grid-template-columns:1fr}
  .skel-hero{min-height:220px}
  .skel-metrics{grid-template-columns:1fr 1fr}
  .skel-row>.skel:last-child:not(:only-child){display:none}
 }
-
 @keyframes skel-shimmer{from{background-position:150% 0}to{background-position:-50% 0}}
 @keyframes skel-fade{from{opacity:0;transform:translateY(6px)}}
-@keyframes skel-hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @media(prefers-reduced-motion:reduce){.skel{animation:none!important}}
 :root[data-motion=reduced] .skel{animation:none!important}
 /* Skeletons on the cobalt Expenses widget */

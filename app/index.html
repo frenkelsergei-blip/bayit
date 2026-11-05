@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bayit · A little more together</title>
-    <meta name="theme-color" content="#0845f5" />
+    <meta name="theme-color" content="#FEFAF5" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Bayit" />
     <link rel="icon" type="image/png" href="/app-icon-192.png" />
@@ -13,6 +13,59 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Opening screen "Quiet sunrise": paints before the app bundle loads; hidden by src/splash.js. -->
+    <style>
+      @font-face{font-family:'Nunito Sans';src:url('/assets/fonts/nunitosans/font.woff2');font-weight:200 1000;font-display:swap}
+      @font-face{font-family:Heebo;src:url('/assets/fonts/heebo/font.woff2');font-weight:100 900;font-display:swap}
+      #splash{--sp-bg:#FEFAF5;--sp-text:#000024;--sp-muted:#686D82;--sp-blue:#0240DE;--sp-yellow:#FFC83D;--sp-track:#0240de1f;position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(14px,3.2vmin,30px);padding:max(24px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));background:var(--sp-bg);color:var(--sp-text);font-family:'Nunito Sans',system-ui,sans-serif;text-align:center;overflow:hidden;transition:opacity .45s ease,visibility .45s}
+      #splash.sp-dark{--sp-bg:#10152A;--sp-text:#FFFFFF;--sp-muted:#B9B2E6;--sp-blue:#527DFF;--sp-track:#ffffff1f}
+      #splash[dir=rtl]{font-family:Heebo,system-ui,sans-serif}
+      #splash .sp-glow{position:absolute;inset:0;background:radial-gradient(ellipse 78% 74% at 50% 44%,#ffd4515e 0%,#ffd45136 36%,#ffd4511c 66%,#ffd4510c 100%);pointer-events:none;animation:sp-breathe 4s ease-in-out infinite}
+      #splash.sp-dark .sp-glow{background:radial-gradient(ellipse 78% 74% at 50% 44%,#527dff40 0%,#527dff1f 36%,#ffd4510d 66%,transparent 100%)}
+      #splash>*:not(.sp-glow){position:relative}
+      #splash .sp-logo{width:clamp(220px,46vmin,520px);height:auto;animation:sp-in .7s cubic-bezier(.2,.9,.3,1) both}
+      #splash.sp-dark .sp-logo{filter:brightness(0) invert(1)}
+      #splash .sp-title{margin:0;font-size:clamp(34px,7.6vmin,92px);font-weight:950;line-height:1.16;letter-spacing:-.02em;max-width:min(22ch,100%);animation:sp-in .7s .12s cubic-bezier(.2,.9,.3,1) both}
+      #splash .sp-end{position:relative;display:inline-block;white-space:nowrap}
+      #splash .sp-u{position:absolute;left:-3%;bottom:-.26em;width:106%;height:.32em;object-fit:fill;animation:sp-draw .6s .55s ease-out both}
+      #splash[dir=rtl] .sp-u{animation-name:sp-draw-rtl}
+      #splash .sp-r{position:absolute;right:-.52em;top:-.4em;width:.56em;height:.56em;object-fit:contain;animation:sp-pop .45s .95s cubic-bezier(.2,1.8,.4,1) both}
+      #splash[dir=rtl] .sp-r{right:auto;left:-.52em;transform:scaleX(-1)}
+      #splash .sp-sub{margin:clamp(4px,1.4vmin,14px) 0 0;color:var(--sp-muted);font-size:clamp(16px,2.4vmin,24px);font-weight:650;animation:sp-in .6s .3s ease-out both}
+      #splash .sp-bar{position:relative;width:clamp(170px,30vmin,320px);height:6px;border-radius:6px;background:var(--sp-track);overflow:hidden;animation:sp-in .6s .4s ease-out both}
+      #splash .sp-bar i{position:absolute;inset:0;border-radius:inherit;background:var(--sp-blue);transform-origin:left;animation:sp-fill 2.4s .5s cubic-bezier(.3,.6,.3,1) both}
+      #splash[dir=rtl] .sp-bar i{transform-origin:right}
+      #splash .sp-bar b{position:absolute;top:50%;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--sp-yellow);box-shadow:0 0 0 3px var(--sp-bg);animation:sp-dot 1.6s .5s ease-in-out infinite alternate}
+      #splash .sp-bar{overflow:visible}
+      #splash .sp-ver{position:absolute;bottom:max(18px,env(safe-area-inset-bottom));left:0;right:0;color:var(--sp-muted);font-size:13px;font-weight:700;letter-spacing:.04em;opacity:.8}
+      #splash.sp-out{opacity:0;visibility:hidden;pointer-events:none}
+      @media(max-height:480px){#splash{gap:10px}#splash .sp-logo{width:clamp(170px,34vmin,300px)}#splash .sp-title{font-size:clamp(26px,8vmin,44px)}#splash .sp-ver{display:none}}
+      @keyframes sp-in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+      @keyframes sp-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}
+      @keyframes sp-draw-rtl{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
+      @keyframes sp-pop{from{opacity:0;scale:.2}}
+      @keyframes sp-fill{from{transform:scaleX(.08)}to{transform:scaleX(.86)}}
+      @keyframes sp-dot{from{left:6%}to{left:94%}}
+      @keyframes sp-breathe{0%,100%{opacity:.82}50%{opacity:1}}
+      @media(prefers-reduced-motion:reduce){#splash *{animation:none!important}#splash .sp-bar i{transform:scaleX(.6)}#splash .sp-bar b{left:60%}}
+    </style>
+    <div id="splash" role="status" aria-live="polite">
+      <div class="sp-glow" aria-hidden="true"></div>
+      <img class="sp-logo" src="/assets/generated/bayit-logo-512.png" alt="bayit" />
+      <h1 class="sp-title"><span class="sp-pre">Your home,</span> <span class="sp-end"><span class="sp-word">together.</span><img class="sp-u" src="/assets/generated/title-underline-clean.png" alt="" /><img class="sp-r" src="/assets/generated/title-rays.png" alt="" /></span></h1>
+      <p class="sp-sub">Opening your home…</p>
+      <div class="sp-bar" aria-hidden="true"><i></i><b></b></div>
+      <small class="sp-ver">bayit</small>
+    </div>
+    <script>
+      (function(){var s=document.getElementById('splash'),get=function(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},theme=get('bayit-theme','light'),lang=get('bayit-lang','en');
+        if(theme==='dark'){s.classList.add('sp-dark');var m=document.querySelector('meta[name=theme-color]');if(m)m.content='#10152A'}
+        if(lang==='he'){s.dir='rtl';s.lang='he';s.querySelector('.sp-pre').textContent='הבית שלכם,';s.querySelector('.sp-word').textContent='ביחד.';s.querySelector('.sp-sub').textContent='פותחים את הבית שלכם…'}
+        var shown=performance.now(),timer=0;
+        window.__bayitSplash={hide:function(){clearTimeout(timer);timer=setTimeout(function(){s.classList.add('sp-out');timer=setTimeout(function(){if(s.classList.contains('sp-out'))s.style.display='none'},500)},Math.max(0,1100-(performance.now()-shown)))},
+          show:function(){clearTimeout(timer);s.style.display='';s.classList.remove('sp-out');shown=performance.now()}};
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
