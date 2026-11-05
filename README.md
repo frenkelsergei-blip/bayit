@@ -67,6 +67,8 @@ npm run dev -- --host 127.0.0.1 --port 4173
 
 Open <http://127.0.0.1:4173/?demo=1>. For the full cloud setup (sign-in, sharing, expenses, Telegram), follow **[docs/self-hosting.md](docs/self-hosting.md)**.
 
+**Let your AI agent do it.** Open the repository in Claude Code, Codex or another agent that reads skills, and ask: "Install Bayit on my Cloudflare", "Run Bayit with Docker on my Raspberry Pi", "Update my Bayit" or "Help me connect Telegram". The [skills](.agents/skills/README.md) follow the same steps as these guides. They never put your keys in files or chat, and they ask before deploying.
+
 **Prefer your own machine or another provider?** Bayit also runs with Docker on a home computer, NAS, Raspberry Pi, free cloud server or VPS. It's the same code, with SQLite and a local folder instead of D1 and R2: `cp .env.example .env && docker compose up -d --build`. See **[docs/self-hosting-docker.md](docs/self-hosting-docker.md)**.
 
 ## Make it yours

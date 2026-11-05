@@ -2,6 +2,8 @@
 
 Bayit is built so families and contributors can adapt it. These are the main extension points, from easiest to deepest.
 
+> **Using an AI coding agent?** The repository ships skills in `.agents/skills/` (Claude Code reads them through `.claude/skills/`) that walk through installing, updating and each extension below. Ask your agent, for example, "add Discount Bank statement import". See [.agents/skills/README.md](../.agents/skills/README.md).
+
 ## Country, timezone and currency
 
 `shared/home-config.mjs` holds `HOME_TIMEZONE`, `HOME_CURRENCY` and `HOME_CURRENCY_SYMBOL`. Dates, reminders, statements and the AI assistant all read the timezone from there. Currency formatting in the Money page currently uses ₪, so search `app/src/money*.jsx` for `₪` if you change it.
@@ -40,7 +42,7 @@ Categories and their keyword rules are in `shared/finance.mjs` (`CATEGORIES`, `R
 
 ## AI providers
 
-Households choose their provider in **Settings → AI**. The list lives in `shared/ai-providers.mjs` and the adapters in `app/cloud/ai-providers.mjs`. Every provider uses one of three wire formats:
+Households choose their provider in **Settings → Accounts & connections → AI assistant**. The list lives in `shared/ai-providers.mjs` and the adapters in `app/cloud/ai-providers.mjs`. Every provider uses one of three wire formats:
 
 | Format | Providers | Notes |
 | --- | --- | --- |

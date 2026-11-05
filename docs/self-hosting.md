@@ -72,16 +72,17 @@ Pages cannot run on a schedule, so a small Worker wakes once a minute and asks y
    npm run deploy:reminders
    npx wrangler secret put REMINDER_CRON_SECRET --config wrangler.cron.jsonc
    ```
-3. A new cron schedule can take a few minutes to start. **Settings → Notifications → Telegram** shows when it last ran.
+3. A new cron schedule can take a few minutes to start. **Settings → Accounts & connections → Telegram** shows when it last ran.
 
 ## 7. Connect the extras (inside the app)
 
 | Feature | Where | You need |
 | --- | --- | --- |
-| AI (Ask AI, Telegram chat, photos, money tips) | Settings → AI | An API key from **Claude (Anthropic), OpenAI, Google Gemini, xAI Grok**, or any OpenAI-compatible service (OpenRouter, Groq, Together, or a self-hosted Ollama/LM Studio behind https). Each household picks its own provider and key. |
-| Telegram bot | Settings → Notifications → Telegram | A bot token from **@BotFather**. Each person taps **Connect** and then **Start**. |
-| Voice messages | Settings → Notifications → Telegram → Photos & voice | Cloudflare Workers AI. It's already bound as `AI` in `wrangler.jsonc` and runs on your account's daily allowance. |
-| Money | Household → Money → Import statement | Bank Leumi or Max statement PDFs. No bank passwords are needed. |
+| AI (Ask AI, Telegram chat, photos, expense tips) | Settings → Accounts & connections → AI assistant | An API key from **Claude (Anthropic), OpenAI, Google Gemini, xAI Grok**, or any OpenAI-compatible service (OpenRouter, Groq, Together, or a self-hosted Ollama/LM Studio behind https). Each household picks its own provider and key. |
+| Telegram bot | Settings → Accounts & connections → Telegram | A bot token from **@BotFather**. Each person taps **Connect** and then **Start**. |
+| Voice messages | Settings → Accounts & connections → Telegram → Photos & voice | Cloudflare Workers AI. It's already bound as `AI` in `wrangler.jsonc` and runs on your account's daily allowance. |
+| Expenses | Household → Expenses → Import statement | Bank Leumi or Max statement PDFs. No bank passwords are needed. |
+| RiseUp (optional) | Settings → Accounts & connections → RiseUp | A RiseUp account and a read-only token. See [riseup.md](riseup.md). |
 
 ## Updating
 
