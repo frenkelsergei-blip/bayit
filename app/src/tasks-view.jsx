@@ -5,6 +5,7 @@ import {ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,Calendar
 import {occursOn,completionState} from './domain';
 import {DateField} from './date-field';
 import {AvatarStack} from './avatar-stack';
+import {SwipeRow} from './swipe-row';
 import {canAccessList,applyListAudience,createTaskList} from '../../shared/task-lists.mjs';
 import {PeoplePicker} from './people-picker';
 
@@ -59,13 +60,13 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
 
   <div className="split task-list-layout tasks-v2-layout"><section className="tasks-groups">
    {groups.map(g=><section key={g.key} className={'tasks-group '+(g.tone?'tone-'+g.tone:'')}><h3><span>{g.title}</span><small>{g.rows.length}</small></h3>
-    {g.rows.map(({t,date})=>{const state=completionState(t,date),l=listOf(t),focused=current&&current.t.id===t.id&&current.date===date;return <div key={t.id+date} className={'task-row detailed tasks-row'+(state==='done'?' done':'')+(focused?' focused':'')}>
+    {g.rows.map(({t,date})=>{const state=completionState(t,date),l=listOf(t),focused=current&&current.t.id===t.id&&current.date===date;return <SwipeRow key={t.id+date} onDelete={t.ownerId===a.user?()=>a.remove('tasks',t.id,a.text(t)):null} label={a.T('Delete','מחיקה')}><div className={'task-row detailed tasks-row'+(state==='done'?' done':'')+(focused?' focused':'')}>
      <Checkbox checked={state==='done'} disabled={state==='pending'&&!parent} onChange={()=>a.toggleTask(t.id,date)} aria-label={a.text(t)}/>
      <Icon code={t.icon}/>
      <button type="button" className="task-title tasks-row-main" onClick={()=>pick(t,date)}><strong>{a.text(t)}</strong><small className="tasks-meta">{t.time&&<span dir="ltr"><Clock size={14}/>{t.time}</span>}{repeatLabel(t)&&<span><Repeat size={14}/>{repeatLabel(t)}</span>}{l&&<span className="tasks-meta-list">{he?l.he||l.name:l.name}</span>}{subProgress(t)&&<span><ListChecks size={14}/>{subProgress(t)}</span>}{tripProgress(t)&&<span className="tasks-meta-trip"><ShoppingCart size={14}/>{a.T(tripProgress(t)+' in the bag',tripProgress(t)+' בסל')}</span>}{state==='pending'&&<span>{a.T('Waiting for a parent','ממתין להורה')}</span>}</small></button>
      <span className={'tasks-assignee '+a.member(t.memberId).color}><Avatar who={t.memberId} size={30}/><span>{a.name(t.memberId)}</span></span>
      <span className="tasks-col-xp">{!!t.xp&&<Badge color="green">+{t.xp} XP</Badge>}</span><span className="tasks-col-lock" aria-label={t.visibility==='private'?a.T('Private','פרטי'):undefined}>{t.visibility==='private'&&<LockSimple size={18}/>}</span>
-    </div>})}
+    </div></SwipeRow>})}
    </section>)}
    {!total&&<Empty text={search||person!=='all'||listId!=='all'?a.T('No tasks match these filters.','אין משימות שמתאימות לסינון.'):a.T('Nothing here yet. Add the next little thing.','עוד אין כאן משימות. הוסיפו את הדבר הקטן הבא.')}/>}
   </section>
@@ -75,7 +76,7 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
  </div>;
 }
 
-function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbox},repeatLabel}){
+function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbox},repeatLabel,onClose}){
  const [newSub,setNewSub]=useState(''),locale=a.lang==='he'?'he-IL':'en-US',l=lists.find(x=>x.id===t.listId),owner=t.ownerId===a.user;
  const when=t.date?new Date(date+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',day:'numeric',month:'long'}):a.T('Anytime','בלי תאריך');
  const edit=fn=>a.update(d=>{const x=d.tasks.find(r=>r.id===t.id);if(x)fn(x,d)});
@@ -94,7 +95,7 @@ function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbo
    {!canEdit&&!(t.subtasks||[]).length&&<p className="muted">{a.T('No steps yet.','אין עדיין שלבים.')}</p>}
   </div>
   {t.shoppingListId&&<div className="calendar-detail-row tasks-detail-trip"><ShoppingCart size={27}/><span>{a.T('Shopping trip','קנייה מתוכננת')}</span><Button secondary onClick={()=>a.go('shopping?list='+encodeURIComponent(t.shoppingListId))}>{a.T('Open shopping list','פתיחת רשימת הקניות')}</Button></div>}{(t.note||t.noteHe)&&<div className="calendar-detail-section"><div className="calendar-detail-row"><NotePencil size={27}/><span>{a.T('Note','הערה')}</span></div><p className="journal-detail-text">{a.lang==='he'?t.noteHe||t.note:t.note}</p></div>}
-  <div className="journal-detail-actions">{canEdit&&<Button icon={PencilSimple} onClick={()=>a.go((t.routine?'kids':'tasks')+'/edit?'+t.id)}>{a.T('Edit task','עריכת משימה')}</Button>}{owner&&<Button secondary icon={Trash} onClick={()=>{if(window.confirm(a.T('Delete this task?','למחוק את המשימה?')))a.update(d=>{d.tasks=d.tasks.filter(x=>x.id!==t.id)})}}>{a.T('Delete','מחיקה')}</Button>}</div>
+  <div className="journal-detail-actions">{canEdit&&<Button icon={PencilSimple} onClick={()=>a.go((t.routine?'kids':'tasks')+'/edit?'+t.id)}>{a.T('Edit task','עריכת משימה')}</Button>}{owner&&<Button secondary icon={Trash} onClick={()=>{a.remove('tasks',t.id,a.text(t));onClose?.()}}>{a.T('Delete','מחיקה')}</Button>}</div>
  </div>;
 }
 

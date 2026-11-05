@@ -21,7 +21,10 @@ export function fxStyleFor(appearance={},role){return FX_STYLES.includes(appeara
 const reducedMotion=()=>document.documentElement.dataset.motion==='reduced'||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 // --- what just happened? Compare the state before and after one update. ---
+// Set while restoring deleted records (Undo), so a restore isn't celebrated as something new.
+export const fxQuiet={on:false};
 export function detectFx(prev,next){
+ if(fxQuiet.on)return null;
  const added=key=>{const before=new Set((prev[key]||[]).map(x=>x.id));return (next[key]||[]).filter(x=>x&&!before.has(x.id))};
  for(const t of next.tasks||[]){const old=(prev.tasks||[]).find(o=>o.id===t.id);if(!old)continue;for(const [date,c] of Object.entries(t.completions||{})){const was=old.completions?.[date]?.state;if(!c||c.state===was)continue;if(c.state==='done'){const level=x=>Math.floor((x||0)/100)+1,before=level(prev.profiles?.[t.memberId]?.xp),after=level(next.profiles?.[t.memberId]?.xp);return {kind:'complete',record:t,date,xp:t.xp||0,memberId:t.memberId,routine:!!t.routine,levelUp:after>before?after:0}}if(c.state==='pending')return {kind:'pending',record:t,date,memberId:t.memberId,routine:!!t.routine}}}
  const events=added('events');if(events.length)return {kind:'event',record:events[0],collection:'events',ids:events.map(e=>e.id),memberIds:events[0].memberIds||[]};
@@ -90,6 +93,9 @@ function Celebration({fx,style,T,go,undo,characterSrc,avatar,close}){
 
 // Renders toasts and celebrations. Replaces the plain bottom toast in App.
 export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avatar}){
+ const [removed,setRemoved]=useState(null);
+ useEffect(()=>fxBus.on((type,payload)=>{if(type==='deleted')setRemoved({...payload,key:Date.now()})}),[]);
+ useEffect(()=>{if(!removed)return;const t=setTimeout(()=>setRemoved(null),6000);return()=>clearTimeout(t)},[removed]);
  const style=fxStyleFor(appearance,role),[card,setCard]=useState(null),[party,setParty]=useState(0),[failed,setFailed]=useState(false),[previewToast,setPreviewToast]=useState(''),shownAt=useRef(0),styleRef=useRef(style);
  styleRef.current=style;
  useEffect(()=>fxBus.on((type,fx)=>{
@@ -110,7 +116,8 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avat
  if(decided.current.message!==message)decided.current={message,absorbed:!!(message&&!failed&&Date.now()-shownAt.current<1500)};
  const shown=previewToast||(!decided.current.absorbed&&message);
  return <>
-  {shown&&<div role="status" className={'toast'+(style!=='calm'?' fx-toast':'')+(failed?' fx-toast-failed':'')}>{style!=='calm'?<img className="fx-toast-sprite" src={sprite(failed?'undo':'check-badge')} alt=""/>:failed?<WarningCircle size={23}/>:<CheckCircle size={23}/>}{shown}</div>}
+  {removed&&<div role="status" key={removed.key} className="toast fx-toast undo-toast"><img className="fx-toast-sprite" src={sprite('undo')} alt=""/><span>{removed.label?T('Deleted “'+removed.label+'”','נמחק „'+removed.label+'”'):T('Deleted','נמחק')}</span><button type="button" onClick={()=>{removed.restore();setRemoved(null)}}>{T('Undo','ביטול')}</button></div>}
+  {!removed&&shown&&<div role="status" className={'toast'+(style!=='calm'?' fx-toast':'')+(failed?' fx-toast-failed':'')}>{style!=='calm'?<img className="fx-toast-sprite" src={sprite(failed?'undo':'check-badge')} alt=""/>:failed?<WarningCircle size={23}/>:<CheckCircle size={23}/>}{shown}</div>}
   {card&&<Celebration key={'card-'+card.key} fx={card} style={style} T={T} go={go} undo={undo} characterSrc={characterSrc} avatar={avatar} close={()=>setCard(null)}/>}
   {party>0&&<Confetti key={'confetti-'+party}/>}
   {style!=='calm'&&<CheckBursts/>}

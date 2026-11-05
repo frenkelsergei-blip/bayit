@@ -1,0 +1,19 @@
+/* SwipeRow and the Undo toast for deletions. */
+.swipe-row{position:relative;overflow:hidden;touch-action:pan-y;border-radius:inherit}
+.swipe-content{position:relative;z-index:1;background:var(--bg);transition:transform .22s cubic-bezier(.2,.9,.3,1);will-change:transform}
+.swipe-delete{position:absolute;inset-block:0;inset-inline-end:0;z-index:0;width:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:0;background:#d94a3a;color:#fff;font:inherit;font-weight:850;font-size:13px;cursor:pointer}
+.swipe-delete span{max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.swipe-row.open .swipe-content{box-shadow:0 0 0 1px var(--border)}
+:root[data-motion=reduced] .swipe-content{transition:none}
+.undo-toast{display:flex;align-items:center;gap:14px}
+.undo-toast button{border:0;border-radius:999px;padding:7px 14px;background:color-mix(in srgb,var(--bg) 18%,transparent);color:inherit;font:inherit;font-weight:900;cursor:pointer;white-space:nowrap}
+.undo-toast button:hover{background:color-mix(in srgb,var(--bg) 30%,transparent)}
+/* Shopping "All your lists" on phones: name on its own line, one tidy row of equal compact icon buttons below. */
+@media(max-width:700px){
+ .list-manager-rows article{flex-wrap:wrap;gap:8px 10px;padding:12px 0}
+ .list-manager-rows .list-open{flex:1 1 100%;min-width:0}
+ .list-manager-rows .list-open strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+ .list-manager-rows .list-row-actions{flex:1 1 100%;display:flex;justify-content:flex-start;gap:8px;padding-inline-start:44px}
+ .list-manager-rows .list-row-actions .icon-button{width:42px!important;height:42px!important;min-width:42px;min-height:42px;padding:0!important;display:inline-grid!important;place-items:center}
+ .list-manager-rows .list-row-actions .icon-button svg{width:20px;height:20px}
+}

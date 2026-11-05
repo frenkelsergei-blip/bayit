@@ -2,7 +2,8 @@ import React,{useState,useEffect,useRef,useId} from 'react';
 import {createPortal} from 'react-dom';
 import {X} from '@phosphor-icons/react';
 export function useMedia(media){const [matches,setMatches]=useState(()=>window.matchMedia(media).matches);useEffect(()=>{const query=window.matchMedia(media),change=()=>setMatches(query.matches);change();query.addEventListener('change',change);return()=>query.removeEventListener('change',change)},[media]);return matches}
-export const usePhone=()=>useMedia('(max-width:700px)');
+// Phones, including phones turned sideways (short landscape), use sheets and the phone menu.
+export const usePhone=()=>useMedia('(max-width:700px), (max-height:520px) and (orientation:landscape)');
 // Phones and tablets show details in a sheet over the page; wide screens keep the side panel.
 export const useSheet=()=>useMedia('(max-width:1100px)');
 export function DetailPanel({children,open,onClose,title='Details',className='',sheetBreakpoint=1100}){
