@@ -14,3 +14,5 @@
 .calendar-reference-event>.avatar-stack>.avatar-stack-more{display:inline-grid!important;place-items:center;height:var(--stack-size)!important;min-width:var(--stack-size)!important}
 .calendar-reference-event:has(>.avatar-stack){grid-template-columns:auto minmax(0,1fr) auto!important}
 @media(max-width:700px){.calendar-reference-event>.avatar-stack{--stack-size:24px!important}}
+/* In Today agenda rows and Journal entries the stack gets its own line under the title, with breathing room. */
+.agenda-row .avatar-stack,.journal-record .avatar-stack{display:flex;width:max-content;margin-top:8px}
