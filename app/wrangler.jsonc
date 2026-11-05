@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bayit",
+  "pages_build_output_dir": "dist/pages",
+  "compatibility_date": "2026-11-04",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bayit-home",
+      "migrations_dir": "cloud/migrations",
+      "database_id": "<your-d1-database-id>"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "FILES",
+      "bucket_name": "bayit-home-files"
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  }
+}

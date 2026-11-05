@@ -1,0 +1,18 @@
+{
+  // Companion scheduler for the bayit Pages project. Deploy with: npm run deploy:reminders
+  // Secret required on this Worker AND on the Pages project: REMINDER_CRON_SECRET (same value).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bayit-reminders",
+  "main": "cloud/reminder-cron.mjs",
+  "compatibility_date": "2026-11-04",
+  "workers_dev": false,
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+  "vars": {
+    "BAYIT_ORIGIN": "https://<your-project>.pages.dev"
+  },
+  "observability": {
+    "enabled": false
+  }
+}

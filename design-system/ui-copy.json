@@ -1,0 +1,1722 @@
+[
+  {
+    "id": "ui-001",
+    "en": "The Levi family",
+    "he": "משפחת לוי"
+  },
+  {
+    "id": "ui-002",
+    "en": "Who can see this?",
+    "he": "מי יכול לראות את זה?"
+  },
+  {
+    "id": "ui-003",
+    "en": "Only me",
+    "he": "רק אני"
+  },
+  {
+    "id": "ui-004",
+    "en": "Whole family",
+    "he": "כל המשפחה"
+  },
+  {
+    "id": "ui-005",
+    "en": "Selected people",
+    "he": "אנשים שאבחר"
+  },
+  {
+    "id": "ui-006",
+    "en": "Family",
+    "he": "משפחתי"
+  },
+  {
+    "id": "ui-007",
+    "en": "Mine",
+    "he": "שלי"
+  },
+  {
+    "id": "ui-008",
+    "en": "The Levi",
+    "he": "משפחת לוי"
+  },
+  {
+    "id": "ui-009",
+    "en": "family",
+    "he": ""
+  },
+  {
+    "id": "ui-010",
+    "en": "Preview user",
+    "he": "משתמש לתצוגה"
+  },
+  {
+    "id": "ui-011",
+    "en": "Switch day / night",
+    "he": "החלפת מצב יום ולילה"
+  },
+  {
+    "id": "ui-012",
+    "en": "My space",
+    "he": "המקום שלי"
+  },
+  {
+    "id": "ui-013",
+    "en": "Today",
+    "he": "היום"
+  },
+  {
+    "id": "ui-014",
+    "en": "Calendar",
+    "he": "יומן"
+  },
+  {
+    "id": "ui-015",
+    "en": "Tasks",
+    "he": "משימות"
+  },
+  {
+    "id": "ui-016",
+    "en": "More",
+    "he": "עוד"
+  },
+  {
+    "id": "ui-017",
+    "en": "Shopping",
+    "he": "קניות"
+  },
+  {
+    "id": "ui-018",
+    "en": "Repeats",
+    "he": "חוזר"
+  },
+  {
+    "id": "ui-019",
+    "en": "What did we forget to buy last week?",
+    "he": "מה שכחנו לקנות בשבוע שעבר?"
+  },
+  {
+    "id": "ui-020",
+    "en": "Olive oil is still unchecked on last week’s list.",
+    "he": "שמן זית עדיין לא מסומן ברשימה מהשבוע שעבר."
+  },
+  {
+    "id": "ui-021",
+    "en": "Shopping list · Oct 29",
+    "he": "רשימת קניות · 29 באוקטובר"
+  },
+  {
+    "id": "ui-022",
+    "en": "Sample data",
+    "he": "מידע לדוגמה"
+  },
+  {
+    "id": "ui-023",
+    "en": "Make room for family.",
+    "he": "השבוע שלנו, ביחד."
+  },
+  {
+    "id": "ui-024",
+    "en": "November 1–7, 2026",
+    "he": "1–7 בנובמבר 2026"
+  },
+  {
+    "id": "ui-025",
+    "en": "New event",
+    "he": "אירוע חדש"
+  },
+  {
+    "id": "ui-026",
+    "en": "Morning",
+    "he": "בוקר"
+  },
+  {
+    "id": "ui-027",
+    "en": "Afternoon",
+    "he": "צהריים"
+  },
+  {
+    "id": "ui-028",
+    "en": "Evening",
+    "he": "ערב"
+  },
+  {
+    "id": "ui-029",
+    "en": "Reminder",
+    "he": "תזכורת"
+  },
+  {
+    "id": "ui-030",
+    "en": "30 min before",
+    "he": "30 דקות לפני"
+  },
+  {
+    "id": "ui-031",
+    "en": "Phone & tablet",
+    "he": "טלפון וטאבלט"
+  },
+  {
+    "id": "ui-032",
+    "en": "Edit event",
+    "he": "עריכת אירוע"
+  },
+  {
+    "id": "ui-033",
+    "en": "Your private calendar is ready.",
+    "he": "היומן הפרטי שלכם מוכן."
+  },
+  {
+    "id": "ui-034",
+    "en": "Little things, shared.",
+    "he": "דברים קטנים, ביחד."
+  },
+  {
+    "id": "ui-035",
+    "en": "New task",
+    "he": "משימה חדשה"
+  },
+  {
+    "id": "ui-036",
+    "en": "All",
+    "he": "הכל"
+  },
+  {
+    "id": "ui-037",
+    "en": "Children",
+    "he": "ילדים"
+  },
+  {
+    "id": "ui-038",
+    "en": "Completed",
+    "he": "הושלם"
+  },
+  {
+    "id": "ui-039",
+    "en": "Daily",
+    "he": "יומי"
+  },
+  {
+    "id": "ui-040",
+    "en": "Activity history",
+    "he": "היסטוריית ביצוע"
+  },
+  {
+    "id": "ui-041",
+    "en": "Reopened",
+    "he": "נפתח מחדש"
+  },
+  {
+    "id": "ui-042",
+    "en": "Updates appear when a task is marked.",
+    "he": "העדכונים מופיעים עם סימון המשימה."
+  },
+  {
+    "id": "ui-043",
+    "en": "Choose who to share with.",
+    "he": "בחרו עם מי לשתף."
+  },
+  {
+    "id": "ui-044",
+    "en": "Saved to your home.",
+    "he": "נשמר בבית שלכם."
+  },
+  {
+    "id": "ui-045",
+    "en": "A routine of your own.",
+    "he": "שגרה משלכם."
+  },
+  {
+    "id": "ui-046",
+    "en": "One little thing to do.",
+    "he": "עוד משהו קטן לעשות."
+  },
+  {
+    "id": "ui-047",
+    "en": "Something to look forward to.",
+    "he": "משהו לצפות לו."
+  },
+  {
+    "id": "ui-048",
+    "en": "Kids / Manage routines / New activity",
+    "he": "ילדים / ניהול שגרות / פעילות חדשה"
+  },
+  {
+    "id": "ui-049",
+    "en": "Create and choose who can see it",
+    "he": "צרו ובחרו מי יכול לראות"
+  },
+  {
+    "id": "ui-050",
+    "en": "Save",
+    "he": "שמירה"
+  },
+  {
+    "id": "ui-051",
+    "en": "Name",
+    "he": "שם"
+  },
+  {
+    "id": "ui-052",
+    "en": "Take a shower",
+    "he": "מקלחת"
+  },
+  {
+    "id": "ui-053",
+    "en": "Give it a name",
+    "he": "תנו לזה שם"
+  },
+  {
+    "id": "ui-054",
+    "en": "Date",
+    "he": "תאריך"
+  },
+  {
+    "id": "ui-055",
+    "en": "Time",
+    "he": "שעה"
+  },
+  {
+    "id": "ui-056",
+    "en": "Repeats",
+    "he": "חזרה"
+  },
+  {
+    "id": "ui-057",
+    "en": "Once",
+    "he": "פעם אחת"
+  },
+  {
+    "id": "ui-058",
+    "en": "Daily",
+    "he": "כל יום"
+  },
+  {
+    "id": "ui-059",
+    "en": "Weekly",
+    "he": "כל שבוע"
+  },
+  {
+    "id": "ui-060",
+    "en": "Family members",
+    "he": "בני המשפחה"
+  },
+  {
+    "id": "ui-061",
+    "en": "Reward",
+    "he": "תגמול"
+  },
+  {
+    "id": "ui-062",
+    "en": "Parent confirms completion",
+    "he": "אישור הורה להשלמה"
+  },
+  {
+    "id": "ui-063",
+    "en": "Turn order",
+    "he": "סדר התורות"
+  },
+  {
+    "id": "ui-064",
+    "en": "Alternate daily",
+    "he": "מתחלף מדי יום"
+  },
+  {
+    "id": "ui-065",
+    "en": "Fixed order",
+    "he": "סדר קבוע"
+  },
+  {
+    "id": "ui-066",
+    "en": "Together",
+    "he": "ביחד"
+  },
+  {
+    "id": "ui-067",
+    "en": "Note",
+    "he": "הערה"
+  },
+  {
+    "id": "ui-068",
+    "en": "Make it yours.",
+    "he": "בדיוק בשבילכם."
+  },
+  {
+    "id": "ui-069",
+    "en": "Choose from 4,495 icons",
+    "he": "בחירה מתוך 4,495 אייקונים"
+  },
+  {
+    "id": "ui-070",
+    "en": "Your new activity",
+    "he": "הפעילות החדשה שלכם"
+  },
+  {
+    "id": "ui-071",
+    "en": "Every day",
+    "he": "כל יום"
+  },
+  {
+    "id": "ui-072",
+    "en": "On your schedule",
+    "he": "לפי התכנון שלכם"
+  },
+  {
+    "id": "ui-073",
+    "en": "Good things for home.",
+    "he": "דברים טובים לבית."
+  },
+  {
+    "id": "ui-074",
+    "en": "Shared shopping, a little easier",
+    "he": "קניות משותפות, קצת יותר קלות"
+  },
+  {
+    "id": "ui-075",
+    "en": "Add item",
+    "he": "הוספת פריט"
+  },
+  {
+    "id": "ui-076",
+    "en": "This week",
+    "he": "השבוע"
+  },
+  {
+    "id": "ui-077",
+    "en": "School supplies",
+    "he": "ציוד לבית הספר"
+  },
+  {
+    "id": "ui-078",
+    "en": "Household",
+    "he": "לבית"
+  },
+  {
+    "id": "ui-079",
+    "en": "of",
+    "he": "מתוך"
+  },
+  {
+    "id": "ui-080",
+    "en": "packed",
+    "he": "נאספו"
+  },
+  {
+    "id": "ui-081",
+    "en": "Delete item",
+    "he": "מחיקת פריט"
+  },
+  {
+    "id": "ui-082",
+    "en": "Add an item…",
+    "he": "הוספת פריט…"
+  },
+  {
+    "id": "ui-083",
+    "en": "Quantity",
+    "he": "כמות"
+  },
+  {
+    "id": "ui-084",
+    "en": "A little help with the list.",
+    "he": "קצת עזרה עם הרשימה."
+  },
+  {
+    "id": "ui-085",
+    "en": "Rice",
+    "he": "אורז"
+  },
+  {
+    "id": "ui-086",
+    "en": "Suggested from your previous list.",
+    "he": "הצעה מהרשימה הקודמת שלכם."
+  },
+  {
+    "id": "ui-087",
+    "en": "Already on the list.",
+    "he": "כבר נמצא ברשימה."
+  },
+  {
+    "id": "ui-088",
+    "en": "Added to your list.",
+    "he": "נוסף לרשימה."
+  },
+  {
+    "id": "ui-089",
+    "en": "Add to list",
+    "he": "הוספה לרשימה"
+  },
+  {
+    "id": "ui-090",
+    "en": "Sample suggestion · Oct 29",
+    "he": "הצעה לדוגמה · 29 באוקטובר"
+  },
+  {
+    "id": "ui-091",
+    "en": "Recurring items",
+    "he": "פריטים חוזרים"
+  },
+  {
+    "id": "ui-092",
+    "en": "Milk every week",
+    "he": "חלב בכל שבוע"
+  },
+  {
+    "id": "ui-093",
+    "en": "Note saved.",
+    "he": "ההערה נשמרה."
+  },
+  {
+    "id": "ui-094",
+    "en": "A place just for you.",
+    "he": "מקום רק בשבילי."
+  },
+  {
+    "id": "ui-095",
+    "en": "Your home has a memory.",
+    "he": "הבית שלכם זוכר."
+  },
+  {
+    "id": "ui-096",
+    "en": "Private · only you can see this space",
+    "he": "פרטי · רק אתם רואים את המרחב הזה"
+  },
+  {
+    "id": "ui-097",
+    "en": "Events, notes and little moments",
+    "he": "אירועים, הערות ורגעים קטנים"
+  },
+  {
+    "id": "ui-098",
+    "en": "New note",
+    "he": "הערה חדשה"
+  },
+  {
+    "id": "ui-099",
+    "en": "Search your notes…",
+    "he": "חיפוש בהערות שלכם…"
+  },
+  {
+    "id": "ui-100",
+    "en": "Family calendar",
+    "he": "היומן המשפחתי"
+  },
+  {
+    "id": "ui-101",
+    "en": "Your next thought belongs here.",
+    "he": "כאן המקום למחשבה הבאה שלכם."
+  },
+  {
+    "id": "ui-102",
+    "en": "Edit note",
+    "he": "עריכת הערה"
+  },
+  {
+    "id": "ui-103",
+    "en": "Title",
+    "he": "כותרת"
+  },
+  {
+    "id": "ui-104",
+    "en": "Save note",
+    "he": "שמירת הערה"
+  },
+  {
+    "id": "ui-105",
+    "en": "Delete note",
+    "he": "מחיקת הערה"
+  },
+  {
+    "id": "ui-106",
+    "en": "Choose a note or create one.",
+    "he": "בחרו הערה או צרו חדשה."
+  },
+  {
+    "id": "ui-107",
+    "en": "Small steps. Big adventures.",
+    "he": "צעדים קטנים. הרפתקאות גדולות."
+  },
+  {
+    "id": "ui-108",
+    "en": "New activity",
+    "he": "פעילות חדשה"
+  },
+  {
+    "id": "ui-109",
+    "en": "Manage turns",
+    "he": "ניהול תורות"
+  },
+  {
+    "id": "ui-110",
+    "en": "Pixel explorer in a cozy home garden",
+    "he": "הרפתקן פיקסל ארט בגינת הבית"
+  },
+  {
+    "id": "ui-111",
+    "en": "Level",
+    "he": "רמה"
+  },
+  {
+    "id": "ui-112",
+    "en": "Moon cape unlocks at Level 5",
+    "he": "גלימת הירח נפתחת ברמה 5"
+  },
+  {
+    "id": "ui-113",
+    "en": "Customize hero",
+    "he": "שדרוג הדמות"
+  },
+  {
+    "id": "ui-114",
+    "en": "Today’s little quests",
+    "he": "המשימות הקטנות להיום"
+  },
+  {
+    "id": "ui-115",
+    "en": "earned",
+    "he": "נוספו"
+  },
+  {
+    "id": "ui-116",
+    "en": "Done",
+    "he": "סיימתי"
+  },
+  {
+    "id": "ui-117",
+    "en": "Today: Itai first, Noa next",
+    "he": "היום: איתי ראשון, נועה אחריו"
+  },
+  {
+    "id": "ui-118",
+    "en": "View turns",
+    "he": "צפייה בתורות"
+  },
+  {
+    "id": "ui-119",
+    "en": "Little wins, collected.",
+    "he": "ההישגים הקטנים שלכם."
+  },
+  {
+    "id": "ui-120",
+    "en": "Whose turn is it?",
+    "he": "של מי התור?"
+  },
+  {
+    "id": "ui-121",
+    "en": "Kids / Turns & history",
+    "he": "ילדים / תורות והיסטוריה"
+  },
+  {
+    "id": "ui-122",
+    "en": "Swap turns",
+    "he": "החלפת תורות"
+  },
+  {
+    "id": "ui-123",
+    "en": "Rotates daily",
+    "he": "מתחלף מדי יום"
+  },
+  {
+    "id": "ui-124",
+    "en": "SECOND",
+    "he": "שני"
+  },
+  {
+    "id": "ui-125",
+    "en": "FIRST",
+    "he": "ראשון"
+  },
+  {
+    "id": "ui-126",
+    "en": "Completion history",
+    "he": "היסטוריית ביצוע"
+  },
+  {
+    "id": "ui-127",
+    "en": "Activity",
+    "he": "פעילות"
+  },
+  {
+    "id": "ui-128",
+    "en": "Planned order",
+    "he": "הסדר המתוכנן"
+  },
+  {
+    "id": "ui-129",
+    "en": "Up next ",
+    "he": "התור הבא "
+  },
+  {
+    "id": "ui-130",
+    "en": "Times are recorded when each person marks Done.",
+    "he": "הזמן נרשם כאשר מסמנים שהפעילות הושלמה."
+  },
+  {
+    "id": "ui-131",
+    "en": "Make your hero yours.",
+    "he": "הדמות שלכם, בדרך שלכם."
+  },
+  {
+    "id": "ui-132",
+    "en": "Accessories",
+    "he": "אביזרים"
+  },
+  {
+    "id": "ui-133",
+    "en": "Achievements",
+    "he": "הישגים"
+  },
+  {
+    "id": "ui-134",
+    "en": "Owned",
+    "he": "בבעלותכם"
+  },
+  {
+    "id": "ui-135",
+    "en": "Your hero is ready!",
+    "he": "הדמות שלכם מוכנה!"
+  },
+  {
+    "id": "ui-136",
+    "en": "Equip selected item",
+    "he": "שימוש בפריט שנבחר"
+  },
+  {
+    "id": "ui-137",
+    "en": "Use original outfit",
+    "he": "חזרה ללבוש המקורי"
+  },
+  {
+    "id": "ui-138",
+    "en": "Still unchecked: ",
+    "he": "עדיין לא סומנו: "
+  },
+  {
+    "id": "ui-139",
+    "en": "This week’s shopping list",
+    "he": "רשימת הקניות השבועית"
+  },
+  {
+    "id": "ui-140",
+    "en": "The earlier shared note is from October 21. Itai stayed home from kindergarten.",
+    "he": "הרישום המשותף הקודם הוא מ־21 באוקטובר. איתי נשאר בבית ולא הלך לגן."
+  },
+  {
+    "id": "ui-141",
+    "en": "I found no matching record in this scope.",
+    "he": "לא נמצא רישום מתאים במרחב הזה."
+  },
+  {
+    "id": "ui-142",
+    "en": "Open tasks in your accessible records: ",
+    "he": "משימות פתוחות במידע שמותר לכם לראות: "
+  },
+  {
+    "id": "ui-143",
+    "en": "Tasks · current list",
+    "he": "משימות · הרשימה הנוכחית"
+  },
+  {
+    "id": "ui-144",
+    "en": "Ask your home.",
+    "he": "שאלו את הבית."
+  },
+  {
+    "id": "ui-145",
+    "en": "Answers from your family’s records.",
+    "he": "תשובות מתוך הרישומים של המשפחה."
+  },
+  {
+    "id": "ui-146",
+    "en": "Demo answers",
+    "he": "תשובות לדוגמה"
+  },
+  {
+    "id": "ui-147",
+    "en": "Ask your home",
+    "he": "שאלו את הבית"
+  },
+  {
+    "id": "ui-148",
+    "en": "Daily suggestions",
+    "he": "הצעות יומיות"
+  },
+  {
+    "id": "ui-149",
+    "en": "Only records you can access",
+    "he": "רק מידע שמותר לכם לראות"
+  },
+  {
+    "id": "ui-150",
+    "en": "Question",
+    "he": "שאלה"
+  },
+  {
+    "id": "ui-151",
+    "en": "Sources",
+    "he": "מקורות"
+  },
+  {
+    "id": "ui-152",
+    "en": "Home journal · Oct 21",
+    "he": "יומן הבית · 21 באוקטובר"
+  },
+  {
+    "id": "ui-153",
+    "en": "Itai is staying home. Not well today.",
+    "he": "איתי נשאר היום בבית. לא מרגיש טוב."
+  },
+  {
+    "id": "ui-154",
+    "en": "Open original record",
+    "he": "פתיחת הרישום המקורי"
+  },
+  {
+    "id": "ui-155",
+    "en": "Private records from other accounts are not included.",
+    "he": "רישומים פרטיים של משתמשים אחרים אינם נכללים."
+  },
+  {
+    "id": "ui-156",
+    "en": "Connect your AI provider",
+    "he": "חיבור ספק AI משלכם"
+  },
+  {
+    "id": "ui-157",
+    "en": "Reminder added to your day.",
+    "he": "התזכורת נוספה ליום שלכם."
+  },
+  {
+    "id": "ui-158",
+    "en": "A little help, right on time.",
+    "he": "קצת עזרה, בדיוק בזמן."
+  },
+  {
+    "id": "ui-159",
+    "en": "Today’s suggestions",
+    "he": "ההצעות להיום"
+  },
+  {
+    "id": "ui-160",
+    "en": "Prepare tomorrow’s school bags?",
+    "he": "להכין את תיקי בית הספר למחר?"
+  },
+  {
+    "id": "ui-161",
+    "en": "Olive oil is still on the list.",
+    "he": "שמן זית עדיין ברשימה."
+  },
+  {
+    "id": "ui-162",
+    "en": "You often do this on Wednesday evenings. Add a 19:30 reminder?",
+    "he": "אתם עושים את זה לעיתים קרובות ברביעי בערב. להוסיף תזכורת ל־19:30?"
+  },
+  {
+    "id": "ui-163",
+    "en": "Include it in your next grocery reminder?",
+    "he": "לכלול אותו בתזכורת הקניות הבאה?"
+  },
+  {
+    "id": "ui-164",
+    "en": "Based on shared records",
+    "he": "מבוסס על רישומים משותפים"
+  },
+  {
+    "id": "ui-165",
+    "en": "View source records",
+    "he": "צפייה ברישומי המקור"
+  },
+  {
+    "id": "ui-166",
+    "en": "Add reminder",
+    "he": "הוספת תזכורת"
+  },
+  {
+    "id": "ui-167",
+    "en": "Edit",
+    "he": "עריכה"
+  },
+  {
+    "id": "ui-168",
+    "en": "Dismiss",
+    "he": "דחייה"
+  },
+  {
+    "id": "ui-169",
+    "en": "All caught up. New ideas will appear here.",
+    "he": "הכל מעודכן. רעיונות חדשים יופיעו כאן."
+  },
+  {
+    "id": "ui-170",
+    "en": "Smart suggestions",
+    "he": "הצעות חכמות"
+  },
+  {
+    "id": "ui-171",
+    "en": "Enable daily ideas",
+    "he": "הפעלת הצעות יומיות"
+  },
+  {
+    "id": "ui-172",
+    "en": "Frequency",
+    "he": "תדירות"
+  },
+  {
+    "id": "ui-173",
+    "en": "Quiet from",
+    "he": "שקט החל מ־"
+  },
+  {
+    "id": "ui-174",
+    "en": "Until",
+    "he": "עד"
+  },
+  {
+    "id": "ui-175",
+    "en": "Suggestions change your plans only when you accept.",
+    "he": "הצעות משנות את התכנון רק לאחר אישור שלכם."
+  },
+  {
+    "id": "ui-176",
+    "en": "Ready for tomorrow?",
+    "he": "מוכנים למחר?"
+  },
+  {
+    "id": "ui-177",
+    "en": "Add a 19:30 school-bag reminder.",
+    "he": "הוסיפו תזכורת לתיקי בית הספר ב־19:30."
+  },
+  {
+    "id": "ui-178",
+    "en": "Notification preview",
+    "he": "תצוגה מקדימה של התראה"
+  },
+  {
+    "id": "ui-179",
+    "en": "Delivery settings",
+    "he": "הגדרות משלוח"
+  },
+  {
+    "id": "ui-180",
+    "en": "Room for everyone.",
+    "he": "מקום לכולם בבית."
+  },
+  {
+    "id": "ui-181",
+    "en": "Family profiles",
+    "he": "פרופילי המשפחה"
+  },
+  {
+    "id": "ui-182",
+    "en": "Profile saved.",
+    "he": "הפרופיל נשמר."
+  },
+  {
+    "id": "ui-183",
+    "en": "Save changes",
+    "he": "שמירת שינויים"
+  },
+  {
+    "id": "ui-184",
+    "en": "Parent",
+    "he": "הורה"
+  },
+  {
+    "id": "ui-185",
+    "en": "Child",
+    "he": "ילד"
+  },
+  {
+    "id": "ui-186",
+    "en": "Display name",
+    "he": "שם לתצוגה"
+  },
+  {
+    "id": "ui-187",
+    "en": "Interface language",
+    "he": "שפת הממשק"
+  },
+  {
+    "id": "ui-188",
+    "en": "Calendar color selected.",
+    "he": "נבחר צבע ללוח השנה."
+  },
+  {
+    "id": "ui-189",
+    "en": "Customize avatar",
+    "he": "התאמת דמות"
+  },
+  {
+    "id": "ui-190",
+    "en": "Open my private space",
+    "he": "פתיחת המרחב הפרטי שלי"
+  },
+  {
+    "id": "ui-191",
+    "en": "Your family",
+    "he": "המשפחה שלכם"
+  },
+  {
+    "id": "ui-192",
+    "en": "Personal notes stay private to their owner.",
+    "he": "הערות אישיות נשארות פרטיות לבעליהן."
+  },
+  {
+    "id": "ui-193",
+    "en": "Notification preferences",
+    "he": "העדפות התראות"
+  },
+  {
+    "id": "ui-194",
+    "en": "This design preview has no live connection. Configure the server adapter in the production phase.",
+    "he": "אין חיבור חי בתצוגת העיצוב. החיבור לשרת יוגדר בשלב המימוש הבא."
+  },
+  {
+    "id": "ui-195",
+    "en": "A home that works your way.",
+    "he": "בית שעובד בדרך שלכם."
+  },
+  {
+    "id": "ui-196",
+    "en": "Your installation. Your preferences.",
+    "he": "ההתקנה שלכם. ההעדפות שלכם."
+  },
+  {
+    "id": "ui-197",
+    "en": "General",
+    "he": "כללי"
+  },
+  {
+    "id": "ui-198",
+    "en": "Notifications & Telegram",
+    "he": "התראות וטלגרם"
+  },
+  {
+    "id": "ui-199",
+    "en": "AI connection",
+    "he": "חיבור AI"
+  },
+  {
+    "id": "ui-200",
+    "en": "Asset library",
+    "he": "ספריית אסטים"
+  },
+  {
+    "id": "ui-201",
+    "en": "Household settings",
+    "he": "הגדרות הבית"
+  },
+  {
+    "id": "ui-202",
+    "en": "Household name",
+    "he": "שם המשפחה"
+  },
+  {
+    "id": "ui-203",
+    "en": "Default language",
+    "he": "שפת ברירת מחדל"
+  },
+  {
+    "id": "ui-204",
+    "en": "Appearance",
+    "he": "מראה"
+  },
+  {
+    "id": "ui-205",
+    "en": "Day",
+    "he": "יום"
+  },
+  {
+    "id": "ui-206",
+    "en": "Night",
+    "he": "לילה"
+  },
+  {
+    "id": "ui-207",
+    "en": "Timezone",
+    "he": "אזור זמן"
+  },
+  {
+    "id": "ui-208",
+    "en": "Week starts on",
+    "he": "השבוע מתחיל ב־"
+  },
+  {
+    "id": "ui-209",
+    "en": "Sunday",
+    "he": "יום ראשון"
+  },
+  {
+    "id": "ui-210",
+    "en": "Monday",
+    "he": "יום שני"
+  },
+  {
+    "id": "ui-211",
+    "en": "Parent confirmation for rewards",
+    "he": "אישור הורה לתגמולים"
+  },
+  {
+    "id": "ui-212",
+    "en": "Preferences saved.",
+    "he": "ההעדפות נשמרו."
+  },
+  {
+    "id": "ui-213",
+    "en": "Privacy & sharing",
+    "he": "פרטיות ושיתוף"
+  },
+  {
+    "id": "ui-214",
+    "en": "Personal notes begin private. Shared family plans live in the family calendar.",
+    "he": "הערות אישיות מתחילות כפרטיות. תוכניות משותפות נמצאות ביומן המשפחתי."
+  },
+  {
+    "id": "ui-215",
+    "en": "Local design preview",
+    "he": "תצוגת עיצוב מקומית"
+  },
+  {
+    "id": "ui-216",
+    "en": "Fictional data is saved in this browser. Server authentication and delivery adapters are in the implementation plan.",
+    "he": "נתוני הדוגמה נשמרים בדפדפן הזה. אימות משתמשים וחיבורי משלוח לשרת נמצאים בתוכנית המימוש."
+  },
+  {
+    "id": "ui-217",
+    "en": "Export preview data",
+    "he": "ייצוא נתוני הדוגמה"
+  },
+  {
+    "id": "ui-218",
+    "en": "The right nudge",
+    "he": "התזכורת הנכונה"
+  },
+  {
+    "id": "ui-219",
+    "en": "In-app notifications",
+    "he": "התראות באפליקציה"
+  },
+  {
+    "id": "ui-220",
+    "en": "Remind before",
+    "he": "להזכיר לפני"
+  },
+  {
+    "id": "ui-221",
+    "en": "minutes",
+    "he": "דקות"
+  },
+  {
+    "id": "ui-222",
+    "en": "Quiet from",
+    "he": "שקט מ־"
+  },
+  {
+    "id": "ui-223",
+    "en": "Update parents after completion",
+    "he": "עדכון הורים לאחר השלמה"
+  },
+  {
+    "id": "ui-224",
+    "en": "Phone push",
+    "he": "התראות בטלפון"
+  },
+  {
+    "id": "ui-225",
+    "en": "Not configured",
+    "he": "לא הוגדר"
+  },
+  {
+    "id": "ui-226",
+    "en": "Enable",
+    "he": "הפעלה"
+  },
+  {
+    "id": "ui-227",
+    "en": "Tablet",
+    "he": "טאבלט"
+  },
+  {
+    "id": "ui-228",
+    "en": "Not paired",
+    "he": "לא מקושר"
+  },
+  {
+    "id": "ui-229",
+    "en": "Pair device",
+    "he": "קישור מכשיר"
+  },
+  {
+    "id": "ui-230",
+    "en": "Daily suggestion settings",
+    "he": "הגדרות הצעות יומיות"
+  },
+  {
+    "id": "ui-231",
+    "en": "Use your own Telegram bot",
+    "he": "בוט הטלגרם שלכם"
+  },
+  {
+    "id": "ui-232",
+    "en": "Not connected",
+    "he": "לא מחובר"
+  },
+  {
+    "id": "ui-233",
+    "en": "Bot token",
+    "he": "אסימון בוט"
+  },
+  {
+    "id": "ui-234",
+    "en": "Configured on your server",
+    "he": "יוגדר בשרת שלכם"
+  },
+  {
+    "id": "ui-235",
+    "en": "Create a bot with @BotFather. Each recipient starts that bot to link their account.",
+    "he": "צרו בוט עם @BotFather. כל נמען מפעיל את הבוט כדי לקשר את החשבון שלו."
+  },
+  {
+    "id": "ui-236",
+    "en": "Test connection",
+    "he": "בדיקת חיבור"
+  },
+  {
+    "id": "ui-237",
+    "en": "Not linked",
+    "he": "לא מקושר"
+  },
+  {
+    "id": "ui-238",
+    "en": "Messages and reminders only, using your installation’s credentials.",
+    "he": "הודעות ותזכורות בלבד, עם פרטי החיבור של ההתקנה שלכם."
+  },
+  {
+    "id": "ui-239",
+    "en": "Your AI. Your family’s memory.",
+    "he": "ה־AI שלכם. הזיכרון של המשפחה."
+  },
+  {
+    "id": "ui-240",
+    "en": "Provider",
+    "he": "ספק"
+  },
+  {
+    "id": "ui-241",
+    "en": "Stored on your server in the production app",
+    "he": "יישמר בשרת שלכם באפליקציה המלאה"
+  },
+  {
+    "id": "ui-242",
+    "en": "Records AI may use",
+    "he": "המידע שה־AI רשאי להשתמש בו"
+  },
+  {
+    "id": "ui-243",
+    "en": "Only the requesting person’s accessible records can be used.",
+    "he": "ניתן להשתמש רק ברישומים שמותר למבקש לראות."
+  },
+  {
+    "id": "ui-244",
+    "en": "Ask your own records.",
+    "he": "שאלו את הרישומים שלכם."
+  },
+  {
+    "id": "ui-245",
+    "en": "Connect the provider account for this installation. No shared bayit service key.",
+    "he": "חברו חשבון ספק עבור ההתקנה הזאת. אין מפתח שירות מרכזי משותף."
+  },
+  {
+    "id": "ui-246",
+    "en": "Explore demo answers",
+    "he": "צפייה בתשובות לדוגמה"
+  },
+  {
+    "id": "ui-247",
+    "en": "Meals",
+    "he": "ארוחות"
+  },
+  {
+    "id": "ui-248",
+    "en": "Pantry",
+    "he": "מזווה"
+  },
+  {
+    "id": "ui-249",
+    "en": "Expenses",
+    "he": "הוצאות"
+  },
+  {
+    "id": "ui-250",
+    "en": "Maintenance",
+    "he": "תחזוקה"
+  },
+  {
+    "id": "ui-251",
+    "en": "Documents",
+    "he": "מסמכים"
+  },
+  {
+    "id": "ui-252",
+    "en": "What’s for dinner?",
+    "he": "מה אוכלים הערב?"
+  },
+  {
+    "id": "ui-253",
+    "en": "Know what’s already home.",
+    "he": "דעו מה כבר יש בבית."
+  },
+  {
+    "id": "ui-254",
+    "en": "A clearer picture of home.",
+    "he": "תמונה ברורה של הוצאות הבית."
+  },
+  {
+    "id": "ui-255",
+    "en": "Keep home running smoothly.",
+    "he": "כדי שהבית ימשיך לעבוד."
+  },
+  {
+    "id": "ui-256",
+    "en": "The things you always need.",
+    "he": "הדברים שתמיד צריך."
+  },
+  {
+    "id": "ui-257",
+    "en": "Already on your list.",
+    "he": "כבר נמצא ברשימה."
+  },
+  {
+    "id": "ui-258",
+    "en": "Added to shopping.",
+    "he": "נוסף לקניות."
+  },
+  {
+    "id": "ui-259",
+    "en": "Household · Plan and organize together",
+    "he": "ניהול הבית · מתכננים ומתארגנים ביחד"
+  },
+  {
+    "id": "ui-260",
+    "en": "Today’s meals",
+    "he": "הארוחות להיום"
+  },
+  {
+    "id": "ui-261",
+    "en": "Homemade pizza",
+    "he": "פיצה ביתית"
+  },
+  {
+    "id": "ui-262",
+    "en": "Serves 4",
+    "he": "4 סועדים"
+  },
+  {
+    "id": "ui-263",
+    "en": "Add missing ingredients",
+    "he": "הוספת מצרכים חסרים"
+  },
+  {
+    "id": "ui-264",
+    "en": "Home inventory",
+    "he": "המלאי בבית"
+  },
+  {
+    "id": "ui-265",
+    "en": "Low",
+    "he": "נמוך"
+  },
+  {
+    "id": "ui-266",
+    "en": "Running low.",
+    "he": "עומד להיגמר."
+  },
+  {
+    "id": "ui-267",
+    "en": "Toothpaste",
+    "he": "משחת שיניים"
+  },
+  {
+    "id": "ui-268",
+    "en": "Add to shopping",
+    "he": "הוספה לקניות"
+  },
+  {
+    "id": "ui-269",
+    "en": "Update quantities whenever items are used.",
+    "he": "עדכנו כמויות כאשר משתמשים בפריטים."
+  },
+  {
+    "id": "ui-270",
+    "en": "Spent this month",
+    "he": "הוצאות החודש"
+  },
+  {
+    "id": "ui-271",
+    "en": "Monthly budget",
+    "he": "תקציב חודשי"
+  },
+  {
+    "id": "ui-272",
+    "en": "Bills due",
+    "he": "חשבונות קרובים"
+  },
+  {
+    "id": "ui-273",
+    "en": "Expense ledger",
+    "he": "רישום הוצאות"
+  },
+  {
+    "id": "ui-274",
+    "en": "Category",
+    "he": "קטגוריה"
+  },
+  {
+    "id": "ui-275",
+    "en": "Amount",
+    "he": "סכום"
+  },
+  {
+    "id": "ui-276",
+    "en": "Paid by",
+    "he": "שולם על ידי"
+  },
+  {
+    "id": "ui-277",
+    "en": "Expense name",
+    "he": "שם ההוצאה"
+  },
+  {
+    "id": "ui-278",
+    "en": "Upcoming bills",
+    "he": "חשבונות קרובים"
+  },
+  {
+    "id": "ui-279",
+    "en": "Water · ₪160 · Nov 8",
+    "he": "מים · ₪160 · 8 בנובמבר"
+  },
+  {
+    "id": "ui-280",
+    "en": "Internet · ₪120 · Dec 3",
+    "he": "אינטרנט · ₪120 · 3 בדצמבר"
+  },
+  {
+    "id": "ui-281",
+    "en": "Selected adults only",
+    "he": "למבוגרים שנבחרו בלבד"
+  },
+  {
+    "id": "ui-282",
+    "en": "Upcoming",
+    "he": "בקרוב"
+  },
+  {
+    "id": "ui-283",
+    "en": "Replace water filter",
+    "he": "החלפת מסנן מים"
+  },
+  {
+    "id": "ui-284",
+    "en": "Next date",
+    "he": "התאריך הבא"
+  },
+  {
+    "id": "ui-285",
+    "en": "Repeat interval",
+    "he": "תדירות"
+  },
+  {
+    "id": "ui-286",
+    "en": "Every 6 months",
+    "he": "כל חצי שנה"
+  },
+  {
+    "id": "ui-287",
+    "en": "Every month",
+    "he": "כל חודש"
+  },
+  {
+    "id": "ui-288",
+    "en": "Maintenance preference saved.",
+    "he": "הגדרת התחזוקה נשמרה."
+  },
+  {
+    "id": "ui-289",
+    "en": "Add filter to shopping",
+    "he": "הוספת מסנן לקניות"
+  },
+  {
+    "id": "ui-290",
+    "en": "Contacts",
+    "he": "אנשי קשר"
+  },
+  {
+    "id": "ui-291",
+    "en": "Parents only",
+    "he": "הורים בלבד"
+  },
+  {
+    "id": "ui-292",
+    "en": "Add document",
+    "he": "הוספת מסמך"
+  },
+  {
+    "id": "ui-293",
+    "en": "Useful contacts",
+    "he": "אנשי קשר שימושיים"
+  },
+  {
+    "id": "ui-294",
+    "en": "Appliance repair",
+    "he": "תיקון מוצרי חשמל"
+  },
+  {
+    "id": "ui-295",
+    "en": "Kindergarten",
+    "he": "גן הילדים"
+  },
+  {
+    "id": "ui-296",
+    "en": "Plumber",
+    "he": "אינסטלטור"
+  },
+  {
+    "id": "ui-297",
+    "en": "Add phone number",
+    "he": "הוספת מספר טלפון"
+  },
+  {
+    "id": "ui-298",
+    "en": "Everything in its place.",
+    "he": "לכל דבר יש מקום."
+  },
+  {
+    "id": "ui-299",
+    "en": "Set who can see each document or contact. Uploaded files in this preview are labels only.",
+    "he": "קבעו מי יכול לראות כל מסמך או איש קשר. העלאת קבצים בתצוגה הזאת מוסיפה שם בלבד."
+  },
+  {
+    "id": "ui-300",
+    "en": "Private until shared",
+    "he": "פרטי עד לשיתוף"
+  },
+  {
+    "id": "ui-301",
+    "en": "What keeps your home going?",
+    "he": "מה מניע את הבית שלכם?"
+  },
+  {
+    "id": "ui-302",
+    "en": "Every little step adds up.",
+    "he": "כל צעד קטן מצטבר."
+  },
+  {
+    "id": "ui-303",
+    "en": "Sample data · November 4, 2026",
+    "he": "נתוני דוגמה · 4 בנובמבר 2026"
+  },
+  {
+    "id": "ui-304",
+    "en": "Use Settings → Export preview data.",
+    "he": "ניתן לייצא נתונים דרך ההגדרות."
+  },
+  {
+    "id": "ui-305",
+    "en": "Export data",
+    "he": "ייצוא נתונים"
+  },
+  {
+    "id": "ui-306",
+    "en": "Activities & goals",
+    "he": "פעילויות ויעדים"
+  },
+  {
+    "id": "ui-307",
+    "en": "Shared records only",
+    "he": "רישומים משותפים בלבד"
+  },
+  {
+    "id": "ui-308",
+    "en": "Only your private records",
+    "he": "הרישומים הפרטיים שלכם בלבד"
+  },
+  {
+    "id": "ui-309",
+    "en": "Private tasks completed",
+    "he": "משימות פרטיות שהושלמו"
+  },
+  {
+    "id": "ui-310",
+    "en": "Private notes",
+    "he": "הערות פרטיות"
+  },
+  {
+    "id": "ui-311",
+    "en": "Private events",
+    "he": "אירועים פרטיים"
+  },
+  {
+    "id": "ui-312",
+    "en": "Other family members’ private records are excluded.",
+    "he": "רישומים פרטיים של בני משפחה אחרים אינם נכללים."
+  },
+  {
+    "id": "ui-313",
+    "en": "Items checked off",
+    "he": "פריטים שנקנו"
+  },
+  {
+    "id": "ui-314",
+    "en": "Completed",
+    "he": "הושלמו"
+  },
+  {
+    "id": "ui-315",
+    "en": "Shopping trips",
+    "he": "סבבי קנייה"
+  },
+  {
+    "id": "ui-316",
+    "en": "Weekly goal",
+    "he": "יעד שבועי"
+  },
+  {
+    "id": "ui-317",
+    "en": "Most frequent",
+    "he": "הכי נפוץ"
+  },
+  {
+    "id": "ui-318",
+    "en": "Goal progress",
+    "he": "עמידה ביעד"
+  },
+  {
+    "id": "ui-319",
+    "en": "Milk",
+    "he": "חלב"
+  },
+  {
+    "id": "ui-320",
+    "en": "Shopping trend",
+    "he": "מגמת קניות"
+  },
+  {
+    "id": "ui-321",
+    "en": "Shared activities over the last 7 days",
+    "he": "פעילויות משותפות בשבעת הימים האחרונים"
+  },
+  {
+    "id": "ui-322",
+    "en": "Most purchased items",
+    "he": "הפריטים הנקנים ביותר"
+  },
+  {
+    "id": "ui-323",
+    "en": "Member progress",
+    "he": "התקדמות בני המשפחה"
+  },
+  {
+    "id": "ui-324",
+    "en": "By category",
+    "he": "לפי קטגוריה"
+  },
+  {
+    "id": "ui-325",
+    "en": "Family challenge",
+    "he": "האתגר המשפחתי"
+  },
+  {
+    "id": "ui-326",
+    "en": "Activity history",
+    "he": "היסטוריית הפעילות"
+  },
+  {
+    "id": "ui-327",
+    "en": "Person",
+    "he": "בן משפחה"
+  },
+  {
+    "id": "ui-328",
+    "en": "Task",
+    "he": "משימה"
+  },
+  {
+    "id": "ui-329",
+    "en": "Brush teeth",
+    "he": "צחצוח שיניים"
+  },
+  {
+    "id": "ui-330",
+    "en": "Find your little icon.",
+    "he": "מצאו את האייקון שלכם."
+  },
+  {
+    "id": "ui-331",
+    "en": "All icons",
+    "he": "כל האייקונים"
+  },
+  {
+    "id": "ui-332",
+    "en": "Favorites",
+    "he": "מועדפים"
+  },
+  {
+    "id": "ui-333",
+    "en": "My images",
+    "he": "התמונות שלי"
+  },
+  {
+    "id": "ui-334",
+    "en": "Search shower, dinner, gardening…",
+    "he": "חיפוש מקלחת, ארוחה, גינון…"
+  },
+  {
+    "id": "ui-335",
+    "en": "All categories",
+    "he": "כל הקטגוריות"
+  },
+  {
+    "id": "ui-336",
+    "en": "Upload an image",
+    "he": "העלאת תמונה"
+  },
+  {
+    "id": "ui-337",
+    "en": "Choose an image under 2 MB.",
+    "he": "בחרו תמונה עד 2 MB."
+  },
+  {
+    "id": "ui-338",
+    "en": "icons · OpenMoji",
+    "he": "אייקונים · OpenMoji"
+  },
+  {
+    "id": "ui-339",
+    "en": "Show more",
+    "he": "הצגת עוד"
+  },
+  {
+    "id": "ui-340",
+    "en": "Local files with attribution",
+    "he": "קבצים מקומיים עם ייחוס"
+  },
+  {
+    "id": "ui-341",
+    "en": "Choose icon",
+    "he": "בחירת אייקון"
+  },
+  {
+    "id": "ui-342",
+    "en": "A little something for everything.",
+    "he": "משהו קטן לכל דבר."
+  },
+  {
+    "id": "ui-343",
+    "en": "4,495 icons, personal images and pixel-art assets",
+    "he": "4,495 אייקונים, תמונות אישיות ואסטים של פיקסל ארט"
+  },
+  {
+    "id": "ui-344",
+    "en": "Selected icon",
+    "he": "האייקון שנבחר"
+  }
+]

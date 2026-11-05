@@ -1,0 +1,1265 @@
+{
+  "collection": "activities",
+  "atlas": "assets/generated/atlases/activities-50.png",
+  "rawAtlas": "assets/generated/atlases/activities-50-raw.png",
+  "dimensions": [
+    1774,
+    887
+  ],
+  "columns": 10,
+  "rows": 5,
+  "prompt": "assets/generated/atlases/activities-50.prompt.txt",
+  "alphaCleanup": "Low-opacity generated gutter haze removed at alpha100; foreground remapped to255 at alpha252.",
+  "icons": [
+    {
+      "id": "activity-toothbrush",
+      "slug": "toothbrush",
+      "name": "Blue toothbrush",
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "box": [
+        0,
+        0,
+        191,
+        186
+      ],
+      "contentBox": [
+        38,
+        33,
+        168,
+        163
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/toothbrush-64.png",
+        "128": "assets/icons/bayit/activities/toothbrush-128.png",
+        "256": "assets/icons/bayit/activities/toothbrush-256.png"
+      }
+    },
+    {
+      "id": "activity-toothpaste",
+      "slug": "toothpaste",
+      "name": "Toothpaste tube",
+      "index": 1,
+      "row": 0,
+      "column": 1,
+      "box": [
+        191,
+        0,
+        350,
+        186
+      ],
+      "contentBox": [
+        216,
+        22,
+        321,
+        171
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/toothpaste-64.png",
+        "128": "assets/icons/bayit/activities/toothpaste-128.png",
+        "256": "assets/icons/bayit/activities/toothpaste-256.png"
+      }
+    },
+    {
+      "id": "activity-shower",
+      "slug": "shower",
+      "name": "Showerhead with blue water",
+      "index": 2,
+      "row": 0,
+      "column": 2,
+      "box": [
+        350,
+        0,
+        526,
+        186
+      ],
+      "contentBox": [
+        381,
+        22,
+        505,
+        163
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/shower-64.png",
+        "128": "assets/icons/bayit/activities/shower-128.png",
+        "256": "assets/icons/bayit/activities/shower-256.png"
+      }
+    },
+    {
+      "id": "activity-bathtub",
+      "slug": "bathtub",
+      "name": "Bathtub with rubber duck",
+      "index": 3,
+      "row": 0,
+      "column": 3,
+      "box": [
+        526,
+        0,
+        719,
+        186
+      ],
+      "contentBox": [
+        548,
+        33,
+        696,
+        168
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/bathtub-64.png",
+        "128": "assets/icons/bayit/activities/bathtub-128.png",
+        "256": "assets/icons/bayit/activities/bathtub-256.png"
+      }
+    },
+    {
+      "id": "activity-soap",
+      "slug": "soap",
+      "name": "Pump soap",
+      "index": 4,
+      "row": 0,
+      "column": 4,
+      "box": [
+        719,
+        0,
+        887,
+        186
+      ],
+      "contentBox": [
+        743,
+        27,
+        873,
+        165
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/soap-64.png",
+        "128": "assets/icons/bayit/activities/soap-128.png",
+        "256": "assets/icons/bayit/activities/soap-256.png"
+      }
+    },
+    {
+      "id": "activity-hand-towel",
+      "slug": "hand-towel",
+      "name": "Hand towel",
+      "index": 5,
+      "row": 0,
+      "column": 5,
+      "box": [
+        887,
+        0,
+        1071,
+        186
+      ],
+      "contentBox": [
+        902,
+        43,
+        1055,
+        160
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/hand-towel-64.png",
+        "128": "assets/icons/bayit/activities/hand-towel-128.png",
+        "256": "assets/icons/bayit/activities/hand-towel-256.png"
+      }
+    },
+    {
+      "id": "activity-hairbrush",
+      "slug": "hairbrush",
+      "name": "Hairbrush",
+      "index": 6,
+      "row": 0,
+      "column": 6,
+      "box": [
+        1071,
+        0,
+        1233,
+        186
+      ],
+      "contentBox": [
+        1088,
+        24,
+        1215,
+        164
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/hairbrush-64.png",
+        "128": "assets/icons/bayit/activities/hairbrush-128.png",
+        "256": "assets/icons/bayit/activities/hairbrush-256.png"
+      }
+    },
+    {
+      "id": "activity-sneakers",
+      "slug": "sneakers",
+      "name": "Blue sneakers",
+      "index": 7,
+      "row": 0,
+      "column": 7,
+      "box": [
+        1233,
+        0,
+        1419,
+        186
+      ],
+      "contentBox": [
+        1252,
+        36,
+        1402,
+        159
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/sneakers-64.png",
+        "128": "assets/icons/bayit/activities/sneakers-128.png",
+        "256": "assets/icons/bayit/activities/sneakers-256.png"
+      }
+    },
+    {
+      "id": "activity-folded-shirt",
+      "slug": "folded-shirt",
+      "name": "Folded shirt",
+      "index": 8,
+      "row": 0,
+      "column": 8,
+      "box": [
+        1419,
+        0,
+        1591,
+        186
+      ],
+      "contentBox": [
+        1438,
+        31,
+        1571,
+        161
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/folded-shirt-64.png",
+        "128": "assets/icons/bayit/activities/folded-shirt-128.png",
+        "256": "assets/icons/bayit/activities/folded-shirt-256.png"
+      }
+    },
+    {
+      "id": "activity-bed",
+      "slug": "bed",
+      "name": "Made bed",
+      "index": 9,
+      "row": 0,
+      "column": 9,
+      "box": [
+        1591,
+        0,
+        1774,
+        186
+      ],
+      "contentBox": [
+        1613,
+        38,
+        1747,
+        162
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/bed-64.png",
+        "128": "assets/icons/bayit/activities/bed-128.png",
+        "256": "assets/icons/bayit/activities/bed-256.png"
+      }
+    },
+    {
+      "id": "activity-backpack",
+      "slug": "backpack",
+      "name": "School backpack",
+      "index": 10,
+      "row": 1,
+      "column": 0,
+      "box": [
+        0,
+        186,
+        186,
+        361
+      ],
+      "contentBox": [
+        27,
+        204,
+        168,
+        347
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/backpack-64.png",
+        "128": "assets/icons/bayit/activities/backpack-128.png",
+        "256": "assets/icons/bayit/activities/backpack-256.png"
+      }
+    },
+    {
+      "id": "activity-book",
+      "slug": "book",
+      "name": "Closed blue book",
+      "index": 11,
+      "row": 1,
+      "column": 1,
+      "box": [
+        186,
+        186,
+        369,
+        361
+      ],
+      "contentBox": [
+        205,
+        205,
+        341,
+        345
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/book-64.png",
+        "128": "assets/icons/bayit/activities/book-128.png",
+        "256": "assets/icons/bayit/activities/book-256.png"
+      }
+    },
+    {
+      "id": "activity-pencils",
+      "slug": "pencils",
+      "name": "Pencils in yellow cup",
+      "index": 12,
+      "row": 1,
+      "column": 2,
+      "box": [
+        369,
+        186,
+        523,
+        361
+      ],
+      "contentBox": [
+        398,
+        203,
+        501,
+        344
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/pencils-64.png",
+        "128": "assets/icons/bayit/activities/pencils-128.png",
+        "256": "assets/icons/bayit/activities/pencils-256.png"
+      }
+    },
+    {
+      "id": "activity-notebook",
+      "slug": "notebook",
+      "name": "Notebook",
+      "index": 13,
+      "row": 1,
+      "column": 3,
+      "box": [
+        523,
+        186,
+        703,
+        361
+      ],
+      "contentBox": [
+        547,
+        213,
+        685,
+        343
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/notebook-64.png",
+        "128": "assets/icons/bayit/activities/notebook-128.png",
+        "256": "assets/icons/bayit/activities/notebook-256.png"
+      }
+    },
+    {
+      "id": "activity-lunchbox",
+      "slug": "lunchbox",
+      "name": "Lunchbox",
+      "index": 14,
+      "row": 1,
+      "column": 4,
+      "box": [
+        703,
+        186,
+        898,
+        361
+      ],
+      "contentBox": [
+        723,
+        212,
+        876,
+        341
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/lunchbox-64.png",
+        "128": "assets/icons/bayit/activities/lunchbox-128.png",
+        "256": "assets/icons/bayit/activities/lunchbox-256.png"
+      }
+    },
+    {
+      "id": "activity-water-glass",
+      "slug": "water-glass",
+      "name": "Drinking glass of water",
+      "index": 15,
+      "row": 1,
+      "column": 5,
+      "box": [
+        898,
+        186,
+        1049,
+        361
+      ],
+      "contentBox": [
+        922,
+        214,
+        1031,
+        341
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/water-glass-64.png",
+        "128": "assets/icons/bayit/activities/water-glass-128.png",
+        "256": "assets/icons/bayit/activities/water-glass-256.png"
+      }
+    },
+    {
+      "id": "activity-healthy-dinner",
+      "slug": "healthy-dinner",
+      "name": "Healthy dinner plate",
+      "index": 16,
+      "row": 1,
+      "column": 6,
+      "box": [
+        1049,
+        186,
+        1241,
+        361
+      ],
+      "contentBox": [
+        1068,
+        220,
+        1229,
+        337
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/healthy-dinner-64.png",
+        "128": "assets/icons/bayit/activities/healthy-dinner-128.png",
+        "256": "assets/icons/bayit/activities/healthy-dinner-256.png"
+      }
+    },
+    {
+      "id": "activity-oatmeal",
+      "slug": "oatmeal",
+      "name": "Breakfast oatmeal with fruit",
+      "index": 17,
+      "row": 1,
+      "column": 7,
+      "box": [
+        1241,
+        186,
+        1410,
+        361
+      ],
+      "contentBox": [
+        1255,
+        203,
+        1396,
+        342
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/oatmeal-64.png",
+        "128": "assets/icons/bayit/activities/oatmeal-128.png",
+        "256": "assets/icons/bayit/activities/oatmeal-256.png"
+      }
+    },
+    {
+      "id": "activity-cooking-pot",
+      "slug": "cooking-pot",
+      "name": "Cooking pot",
+      "index": 18,
+      "row": 1,
+      "column": 8,
+      "box": [
+        1410,
+        186,
+        1596,
+        361
+      ],
+      "contentBox": [
+        1425,
+        212,
+        1584,
+        338
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/cooking-pot-64.png",
+        "128": "assets/icons/bayit/activities/cooking-pot-128.png",
+        "256": "assets/icons/bayit/activities/cooking-pot-256.png"
+      }
+    },
+    {
+      "id": "activity-dishwashing",
+      "slug": "dishwashing",
+      "name": "Dishwashing plate with bubbles",
+      "index": 19,
+      "row": 1,
+      "column": 9,
+      "box": [
+        1596,
+        186,
+        1774,
+        361
+      ],
+      "contentBox": [
+        1610,
+        208,
+        1749,
+        341
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/dishwashing-64.png",
+        "128": "assets/icons/bayit/activities/dishwashing-128.png",
+        "256": "assets/icons/bayit/activities/dishwashing-256.png"
+      }
+    },
+    {
+      "id": "activity-laundry",
+      "slug": "laundry",
+      "name": "Laundry basket",
+      "index": 20,
+      "row": 2,
+      "column": 0,
+      "box": [
+        0,
+        361,
+        190,
+        533
+      ],
+      "contentBox": [
+        22,
+        388,
+        175,
+        509
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/laundry-64.png",
+        "128": "assets/icons/bayit/activities/laundry-128.png",
+        "256": "assets/icons/bayit/activities/laundry-256.png"
+      }
+    },
+    {
+      "id": "activity-broom",
+      "slug": "broom",
+      "name": "Broom",
+      "index": 21,
+      "row": 2,
+      "column": 1,
+      "box": [
+        190,
+        361,
+        350,
+        533
+      ],
+      "contentBox": [
+        207,
+        376,
+        337,
+        523
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/broom-64.png",
+        "128": "assets/icons/bayit/activities/broom-128.png",
+        "256": "assets/icons/bayit/activities/broom-256.png"
+      }
+    },
+    {
+      "id": "activity-vacuum",
+      "slug": "vacuum",
+      "name": "Vacuum cleaner",
+      "index": 22,
+      "row": 2,
+      "column": 2,
+      "box": [
+        350,
+        361,
+        538,
+        533
+      ],
+      "contentBox": [
+        365,
+        377,
+        520,
+        517
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/vacuum-64.png",
+        "128": "assets/icons/bayit/activities/vacuum-128.png",
+        "256": "assets/icons/bayit/activities/vacuum-256.png"
+      }
+    },
+    {
+      "id": "activity-mop-bucket",
+      "slug": "mop-bucket",
+      "name": "Mop and bucket",
+      "index": 23,
+      "row": 2,
+      "column": 3,
+      "box": [
+        538,
+        361,
+        711,
+        533
+      ],
+      "contentBox": [
+        557,
+        377,
+        695,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/mop-bucket-64.png",
+        "128": "assets/icons/bayit/activities/mop-bucket-128.png",
+        "256": "assets/icons/bayit/activities/mop-bucket-256.png"
+      }
+    },
+    {
+      "id": "activity-houseplant",
+      "slug": "houseplant",
+      "name": "Houseplant",
+      "index": 24,
+      "row": 2,
+      "column": 4,
+      "box": [
+        711,
+        361,
+        884,
+        533
+      ],
+      "contentBox": [
+        728,
+        376,
+        869,
+        519
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/houseplant-64.png",
+        "128": "assets/icons/bayit/activities/houseplant-128.png",
+        "256": "assets/icons/bayit/activities/houseplant-256.png"
+      }
+    },
+    {
+      "id": "activity-watering-can",
+      "slug": "watering-can",
+      "name": "Watering can",
+      "index": 25,
+      "row": 2,
+      "column": 5,
+      "box": [
+        884,
+        361,
+        1062,
+        533
+      ],
+      "contentBox": [
+        900,
+        382,
+        1050,
+        505
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/watering-can-64.png",
+        "128": "assets/icons/bayit/activities/watering-can-128.png",
+        "256": "assets/icons/bayit/activities/watering-can-256.png"
+      }
+    },
+    {
+      "id": "activity-pet-food",
+      "slug": "pet-food",
+      "name": "Pet food bowl",
+      "index": 26,
+      "row": 2,
+      "column": 6,
+      "box": [
+        1062,
+        361,
+        1238,
+        533
+      ],
+      "contentBox": [
+        1075,
+        399,
+        1226,
+        503
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/pet-food-64.png",
+        "128": "assets/icons/bayit/activities/pet-food-128.png",
+        "256": "assets/icons/bayit/activities/pet-food-256.png"
+      }
+    },
+    {
+      "id": "activity-dog-leash",
+      "slug": "dog-leash",
+      "name": "Dog walking leash",
+      "index": 27,
+      "row": 2,
+      "column": 7,
+      "box": [
+        1238,
+        361,
+        1411,
+        533
+      ],
+      "contentBox": [
+        1252,
+        384,
+        1398,
+        519
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/dog-leash-64.png",
+        "128": "assets/icons/bayit/activities/dog-leash-128.png",
+        "256": "assets/icons/bayit/activities/dog-leash-256.png"
+      }
+    },
+    {
+      "id": "activity-toybox",
+      "slug": "toybox",
+      "name": "Tidy toybox with teddy bear",
+      "index": 28,
+      "row": 2,
+      "column": 8,
+      "box": [
+        1411,
+        361,
+        1600,
+        533
+      ],
+      "contentBox": [
+        1426,
+        382,
+        1583,
+        519
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/toybox-64.png",
+        "128": "assets/icons/bayit/activities/toybox-128.png",
+        "256": "assets/icons/bayit/activities/toybox-256.png"
+      }
+    },
+    {
+      "id": "activity-recycling",
+      "slug": "recycling",
+      "name": "Recycling bin",
+      "index": 29,
+      "row": 2,
+      "column": 9,
+      "box": [
+        1600,
+        361,
+        1774,
+        533
+      ],
+      "contentBox": [
+        1618,
+        380,
+        1746,
+        514
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/recycling-64.png",
+        "128": "assets/icons/bayit/activities/recycling-128.png",
+        "256": "assets/icons/bayit/activities/recycling-256.png"
+      }
+    },
+    {
+      "id": "activity-bicycle",
+      "slug": "bicycle",
+      "name": "Bicycle",
+      "index": 30,
+      "row": 3,
+      "column": 0,
+      "box": [
+        0,
+        533,
+        193,
+        701
+      ],
+      "contentBox": [
+        18,
+        560,
+        176,
+        672
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/bicycle-64.png",
+        "128": "assets/icons/bayit/activities/bicycle-128.png",
+        "256": "assets/icons/bayit/activities/bicycle-256.png"
+      }
+    },
+    {
+      "id": "activity-football",
+      "slug": "football",
+      "name": "Football",
+      "index": 31,
+      "row": 3,
+      "column": 1,
+      "box": [
+        193,
+        533,
+        359,
+        701
+      ],
+      "contentBox": [
+        211,
+        560,
+        336,
+        680
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/football-64.png",
+        "128": "assets/icons/bayit/activities/football-128.png",
+        "256": "assets/icons/bayit/activities/football-256.png"
+      }
+    },
+    {
+      "id": "activity-basketball",
+      "slug": "basketball",
+      "name": "Basketball",
+      "index": 32,
+      "row": 3,
+      "column": 2,
+      "box": [
+        359,
+        533,
+        526,
+        701
+      ],
+      "contentBox": [
+        383,
+        557,
+        511,
+        681
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/basketball-64.png",
+        "128": "assets/icons/bayit/activities/basketball-128.png",
+        "256": "assets/icons/bayit/activities/basketball-256.png"
+      }
+    },
+    {
+      "id": "activity-swim-goggles",
+      "slug": "swim-goggles",
+      "name": "Swimming goggles",
+      "index": 33,
+      "row": 3,
+      "column": 3,
+      "box": [
+        526,
+        533,
+        713,
+        701
+      ],
+      "contentBox": [
+        542,
+        566,
+        699,
+        665
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/swim-goggles-64.png",
+        "128": "assets/icons/bayit/activities/swim-goggles-128.png",
+        "256": "assets/icons/bayit/activities/swim-goggles-256.png"
+      }
+    },
+    {
+      "id": "activity-music",
+      "slug": "music",
+      "name": "Musical notes",
+      "index": 34,
+      "row": 3,
+      "column": 4,
+      "box": [
+        713,
+        533,
+        881,
+        701
+      ],
+      "contentBox": [
+        729,
+        545,
+        864,
+        678
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/music-64.png",
+        "128": "assets/icons/bayit/activities/music-128.png",
+        "256": "assets/icons/bayit/activities/music-256.png"
+      }
+    },
+    {
+      "id": "activity-piano",
+      "slug": "piano",
+      "name": "Piano keys",
+      "index": 35,
+      "row": 3,
+      "column": 5,
+      "box": [
+        881,
+        533,
+        1062,
+        701
+      ],
+      "contentBox": [
+        900,
+        567,
+        1049,
+        669
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/piano-64.png",
+        "128": "assets/icons/bayit/activities/piano-128.png",
+        "256": "assets/icons/bayit/activities/piano-256.png"
+      }
+    },
+    {
+      "id": "activity-puzzle",
+      "slug": "puzzle",
+      "name": "Puzzle pieces",
+      "index": 36,
+      "row": 3,
+      "column": 6,
+      "box": [
+        1062,
+        533,
+        1236,
+        701
+      ],
+      "contentBox": [
+        1077,
+        558,
+        1223,
+        668
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/puzzle-64.png",
+        "128": "assets/icons/bayit/activities/puzzle-128.png",
+        "256": "assets/icons/bayit/activities/puzzle-256.png"
+      }
+    },
+    {
+      "id": "activity-board-game",
+      "slug": "board-game",
+      "name": "Board game",
+      "index": 37,
+      "row": 3,
+      "column": 7,
+      "box": [
+        1236,
+        533,
+        1416,
+        701
+      ],
+      "contentBox": [
+        1250,
+        548,
+        1404,
+        678
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/board-game-64.png",
+        "128": "assets/icons/bayit/activities/board-game-128.png",
+        "256": "assets/icons/bayit/activities/board-game-256.png"
+      }
+    },
+    {
+      "id": "activity-painting",
+      "slug": "painting",
+      "name": "Paint palette",
+      "index": 38,
+      "row": 3,
+      "column": 8,
+      "box": [
+        1416,
+        533,
+        1596,
+        701
+      ],
+      "contentBox": [
+        1430,
+        552,
+        1580,
+        682
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/painting-64.png",
+        "128": "assets/icons/bayit/activities/painting-128.png",
+        "256": "assets/icons/bayit/activities/painting-256.png"
+      }
+    },
+    {
+      "id": "activity-scissors",
+      "slug": "scissors",
+      "name": "Craft scissors",
+      "index": 39,
+      "row": 3,
+      "column": 9,
+      "box": [
+        1596,
+        533,
+        1774,
+        701
+      ],
+      "contentBox": [
+        1614,
+        550,
+        1743,
+        687
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/scissors-64.png",
+        "128": "assets/icons/bayit/activities/scissors-128.png",
+        "256": "assets/icons/bayit/activities/scissors-256.png"
+      }
+    },
+    {
+      "id": "activity-moon-stars",
+      "slug": "moon-stars",
+      "name": "Crescent moon and stars",
+      "index": 40,
+      "row": 4,
+      "column": 0,
+      "box": [
+        0,
+        701,
+        181,
+        887
+      ],
+      "contentBox": [
+        25,
+        728,
+        164,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/moon-stars-64.png",
+        "128": "assets/icons/bayit/activities/moon-stars-128.png",
+        "256": "assets/icons/bayit/activities/moon-stars-256.png"
+      }
+    },
+    {
+      "id": "activity-sun",
+      "slug": "sun",
+      "name": "Friendly sun",
+      "index": 41,
+      "row": 4,
+      "column": 1,
+      "box": [
+        181,
+        701,
+        363,
+        887
+      ],
+      "contentBox": [
+        199,
+        717,
+        347,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/sun-64.png",
+        "128": "assets/icons/bayit/activities/sun-128.png",
+        "256": "assets/icons/bayit/activities/sun-256.png"
+      }
+    },
+    {
+      "id": "activity-alarm-clock",
+      "slug": "alarm-clock",
+      "name": "Alarm clock",
+      "index": 42,
+      "row": 4,
+      "column": 2,
+      "box": [
+        363,
+        701,
+        534,
+        887
+      ],
+      "contentBox": [
+        380,
+        724,
+        516,
+        858
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/alarm-clock-64.png",
+        "128": "assets/icons/bayit/activities/alarm-clock-128.png",
+        "256": "assets/icons/bayit/activities/alarm-clock-256.png"
+      }
+    },
+    {
+      "id": "activity-medicine",
+      "slug": "medicine",
+      "name": "Medicine bottle and spoon",
+      "index": 43,
+      "row": 4,
+      "column": 3,
+      "box": [
+        534,
+        701,
+        709,
+        887
+      ],
+      "contentBox": [
+        553,
+        722,
+        693,
+        861
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/medicine-64.png",
+        "128": "assets/icons/bayit/activities/medicine-128.png",
+        "256": "assets/icons/bayit/activities/medicine-256.png"
+      }
+    },
+    {
+      "id": "activity-thermometer",
+      "slug": "thermometer",
+      "name": "Thermometer",
+      "index": 44,
+      "row": 4,
+      "column": 4,
+      "box": [
+        709,
+        701,
+        894,
+        887
+      ],
+      "contentBox": [
+        726,
+        722,
+        878,
+        855
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/thermometer-64.png",
+        "128": "assets/icons/bayit/activities/thermometer-128.png",
+        "256": "assets/icons/bayit/activities/thermometer-256.png"
+      }
+    },
+    {
+      "id": "activity-stethoscope",
+      "slug": "stethoscope",
+      "name": "Stethoscope",
+      "index": 45,
+      "row": 4,
+      "column": 5,
+      "box": [
+        894,
+        701,
+        1062,
+        887
+      ],
+      "contentBox": [
+        912,
+        717,
+        1048,
+        861
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/stethoscope-64.png",
+        "128": "assets/icons/bayit/activities/stethoscope-128.png",
+        "256": "assets/icons/bayit/activities/stethoscope-256.png"
+      }
+    },
+    {
+      "id": "activity-birthday-cake",
+      "slug": "birthday-cake",
+      "name": "Birthday cake",
+      "index": 46,
+      "row": 4,
+      "column": 6,
+      "box": [
+        1062,
+        701,
+        1242,
+        887
+      ],
+      "contentBox": [
+        1078,
+        718,
+        1227,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/birthday-cake-64.png",
+        "128": "assets/icons/bayit/activities/birthday-cake-128.png",
+        "256": "assets/icons/bayit/activities/birthday-cake-256.png"
+      }
+    },
+    {
+      "id": "activity-gift",
+      "slug": "gift",
+      "name": "Gift box",
+      "index": 47,
+      "row": 4,
+      "column": 7,
+      "box": [
+        1242,
+        701,
+        1410,
+        887
+      ],
+      "contentBox": [
+        1259,
+        723,
+        1397,
+        856
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/gift-64.png",
+        "128": "assets/icons/bayit/activities/gift-128.png",
+        "256": "assets/icons/bayit/activities/gift-256.png"
+      }
+    },
+    {
+      "id": "activity-family-house",
+      "slug": "family-house",
+      "name": "Family house",
+      "index": 48,
+      "row": 4,
+      "column": 8,
+      "box": [
+        1410,
+        701,
+        1594,
+        887
+      ],
+      "contentBox": [
+        1425,
+        723,
+        1583,
+        850
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/family-house-64.png",
+        "128": "assets/icons/bayit/activities/family-house-128.png",
+        "256": "assets/icons/bayit/activities/family-house-256.png"
+      }
+    },
+    {
+      "id": "activity-car",
+      "slug": "car",
+      "name": "Car",
+      "index": 49,
+      "row": 4,
+      "column": 9,
+      "box": [
+        1594,
+        701,
+        1774,
+        887
+      ],
+      "contentBox": [
+        1607,
+        736,
+        1753,
+        849
+      ],
+      "files": {
+        "64": "assets/icons/bayit/activities/car-64.png",
+        "128": "assets/icons/bayit/activities/car-128.png",
+        "256": "assets/icons/bayit/activities/car-256.png"
+      }
+    }
+  ]
+}

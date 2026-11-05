@@ -1,0 +1,956 @@
+{
+  "collection": "groceries",
+  "atlas": "assets/generated/atlases/groceries-50.png",
+  "icons": [
+    {
+      "id": "bayit-groceries-tomatoes",
+      "slug": "tomatoes",
+      "name": "Tomatoes",
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "box": [
+        0,
+        0,
+        191,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/tomatoes-64.png",
+        "128": "assets/icons/bayit/groceries/tomatoes-128.png",
+        "256": "assets/icons/bayit/groceries/tomatoes-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-cucumber",
+      "slug": "cucumber",
+      "name": "Cucumber",
+      "index": 1,
+      "row": 0,
+      "column": 1,
+      "box": [
+        191,
+        0,
+        372,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/cucumber-64.png",
+        "128": "assets/icons/bayit/groceries/cucumber-128.png",
+        "256": "assets/icons/bayit/groceries/cucumber-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-apple",
+      "slug": "apple",
+      "name": "Apple",
+      "index": 2,
+      "row": 0,
+      "column": 2,
+      "box": [
+        372,
+        0,
+        545,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/apple-64.png",
+        "128": "assets/icons/bayit/groceries/apple-128.png",
+        "256": "assets/icons/bayit/groceries/apple-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-banana",
+      "slug": "banana",
+      "name": "Banana",
+      "index": 3,
+      "row": 0,
+      "column": 3,
+      "box": [
+        545,
+        0,
+        710,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/banana-64.png",
+        "128": "assets/icons/bayit/groceries/banana-128.png",
+        "256": "assets/icons/bayit/groceries/banana-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-orange",
+      "slug": "orange",
+      "name": "Orange",
+      "index": 4,
+      "row": 0,
+      "column": 4,
+      "box": [
+        710,
+        0,
+        887,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/orange-64.png",
+        "128": "assets/icons/bayit/groceries/orange-128.png",
+        "256": "assets/icons/bayit/groceries/orange-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-lemon",
+      "slug": "lemon",
+      "name": "Lemon",
+      "index": 5,
+      "row": 0,
+      "column": 5,
+      "box": [
+        887,
+        0,
+        1064,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/lemon-64.png",
+        "128": "assets/icons/bayit/groceries/lemon-128.png",
+        "256": "assets/icons/bayit/groceries/lemon-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-avocado",
+      "slug": "avocado",
+      "name": "Avocado",
+      "index": 6,
+      "row": 0,
+      "column": 6,
+      "box": [
+        1064,
+        0,
+        1242,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/avocado-64.png",
+        "128": "assets/icons/bayit/groceries/avocado-128.png",
+        "256": "assets/icons/bayit/groceries/avocado-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-carrot",
+      "slug": "carrot",
+      "name": "Carrot",
+      "index": 7,
+      "row": 0,
+      "column": 7,
+      "box": [
+        1242,
+        0,
+        1418,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/carrot-64.png",
+        "128": "assets/icons/bayit/groceries/carrot-128.png",
+        "256": "assets/icons/bayit/groceries/carrot-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-potato",
+      "slug": "potato",
+      "name": "Potato",
+      "index": 8,
+      "row": 0,
+      "column": 8,
+      "box": [
+        1418,
+        0,
+        1583,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/potato-64.png",
+        "128": "assets/icons/bayit/groceries/potato-128.png",
+        "256": "assets/icons/bayit/groceries/potato-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-onion",
+      "slug": "onion",
+      "name": "Onion",
+      "index": 9,
+      "row": 0,
+      "column": 9,
+      "box": [
+        1583,
+        0,
+        1774,
+        183
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/onion-64.png",
+        "128": "assets/icons/bayit/groceries/onion-128.png",
+        "256": "assets/icons/bayit/groceries/onion-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-lettuce",
+      "slug": "lettuce",
+      "name": "Lettuce",
+      "index": 10,
+      "row": 1,
+      "column": 0,
+      "box": [
+        0,
+        183,
+        191,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/lettuce-64.png",
+        "128": "assets/icons/bayit/groceries/lettuce-128.png",
+        "256": "assets/icons/bayit/groceries/lettuce-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-broccoli",
+      "slug": "broccoli",
+      "name": "Broccoli",
+      "index": 11,
+      "row": 1,
+      "column": 1,
+      "box": [
+        191,
+        183,
+        372,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/broccoli-64.png",
+        "128": "assets/icons/bayit/groceries/broccoli-128.png",
+        "256": "assets/icons/bayit/groceries/broccoli-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-pepper",
+      "slug": "pepper",
+      "name": "Pepper",
+      "index": 12,
+      "row": 1,
+      "column": 2,
+      "box": [
+        372,
+        183,
+        545,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/pepper-64.png",
+        "128": "assets/icons/bayit/groceries/pepper-128.png",
+        "256": "assets/icons/bayit/groceries/pepper-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-mushrooms",
+      "slug": "mushrooms",
+      "name": "Mushrooms",
+      "index": 13,
+      "row": 1,
+      "column": 3,
+      "box": [
+        545,
+        183,
+        710,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/mushrooms-64.png",
+        "128": "assets/icons/bayit/groceries/mushrooms-128.png",
+        "256": "assets/icons/bayit/groceries/mushrooms-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-strawberries",
+      "slug": "strawberries",
+      "name": "Strawberries",
+      "index": 14,
+      "row": 1,
+      "column": 4,
+      "box": [
+        710,
+        183,
+        887,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/strawberries-64.png",
+        "128": "assets/icons/bayit/groceries/strawberries-128.png",
+        "256": "assets/icons/bayit/groceries/strawberries-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-grapes",
+      "slug": "grapes",
+      "name": "Grapes",
+      "index": 15,
+      "row": 1,
+      "column": 5,
+      "box": [
+        887,
+        183,
+        1064,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/grapes-64.png",
+        "128": "assets/icons/bayit/groceries/grapes-128.png",
+        "256": "assets/icons/bayit/groceries/grapes-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-watermelon",
+      "slug": "watermelon",
+      "name": "Watermelon",
+      "index": 16,
+      "row": 1,
+      "column": 6,
+      "box": [
+        1064,
+        183,
+        1242,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/watermelon-64.png",
+        "128": "assets/icons/bayit/groceries/watermelon-128.png",
+        "256": "assets/icons/bayit/groceries/watermelon-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-pear",
+      "slug": "pear",
+      "name": "Pear",
+      "index": 17,
+      "row": 1,
+      "column": 7,
+      "box": [
+        1242,
+        183,
+        1418,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/pear-64.png",
+        "128": "assets/icons/bayit/groceries/pear-128.png",
+        "256": "assets/icons/bayit/groceries/pear-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-peach",
+      "slug": "peach",
+      "name": "Peach",
+      "index": 18,
+      "row": 1,
+      "column": 8,
+      "box": [
+        1418,
+        183,
+        1583,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/peach-64.png",
+        "128": "assets/icons/bayit/groceries/peach-128.png",
+        "256": "assets/icons/bayit/groceries/peach-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-berries",
+      "slug": "berries",
+      "name": "Berries",
+      "index": 19,
+      "row": 1,
+      "column": 9,
+      "box": [
+        1583,
+        183,
+        1774,
+        360
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/berries-64.png",
+        "128": "assets/icons/bayit/groceries/berries-128.png",
+        "256": "assets/icons/bayit/groceries/berries-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-milk-carton",
+      "slug": "milk-carton",
+      "name": "Milk carton",
+      "index": 20,
+      "row": 2,
+      "column": 0,
+      "box": [
+        0,
+        360,
+        191,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/milk-carton-64.png",
+        "128": "assets/icons/bayit/groceries/milk-carton-128.png",
+        "256": "assets/icons/bayit/groceries/milk-carton-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-eggs",
+      "slug": "eggs",
+      "name": "Eggs in carton",
+      "index": 21,
+      "row": 2,
+      "column": 1,
+      "box": [
+        191,
+        360,
+        372,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/eggs-64.png",
+        "128": "assets/icons/bayit/groceries/eggs-128.png",
+        "256": "assets/icons/bayit/groceries/eggs-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-cheese",
+      "slug": "cheese",
+      "name": "Cheese wedge",
+      "index": 22,
+      "row": 2,
+      "column": 2,
+      "box": [
+        372,
+        360,
+        545,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/cheese-64.png",
+        "128": "assets/icons/bayit/groceries/cheese-128.png",
+        "256": "assets/icons/bayit/groceries/cheese-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-yogurt",
+      "slug": "yogurt",
+      "name": "Yogurt cup",
+      "index": 23,
+      "row": 2,
+      "column": 3,
+      "box": [
+        545,
+        360,
+        710,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/yogurt-64.png",
+        "128": "assets/icons/bayit/groceries/yogurt-128.png",
+        "256": "assets/icons/bayit/groceries/yogurt-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-butter",
+      "slug": "butter",
+      "name": "Butter pack",
+      "index": 24,
+      "row": 2,
+      "column": 4,
+      "box": [
+        710,
+        360,
+        887,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/butter-64.png",
+        "128": "assets/icons/bayit/groceries/butter-128.png",
+        "256": "assets/icons/bayit/groceries/butter-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-bread",
+      "slug": "bread",
+      "name": "Bread loaf with slices",
+      "index": 25,
+      "row": 2,
+      "column": 5,
+      "box": [
+        887,
+        360,
+        1064,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/bread-64.png",
+        "128": "assets/icons/bayit/groceries/bread-128.png",
+        "256": "assets/icons/bayit/groceries/bread-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-pita",
+      "slug": "pita",
+      "name": "Pita bread",
+      "index": 26,
+      "row": 2,
+      "column": 6,
+      "box": [
+        1064,
+        360,
+        1242,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/pita-64.png",
+        "128": "assets/icons/bayit/groceries/pita-128.png",
+        "256": "assets/icons/bayit/groceries/pita-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-rice",
+      "slug": "rice",
+      "name": "Rice bag with scoop",
+      "index": 27,
+      "row": 2,
+      "column": 7,
+      "box": [
+        1242,
+        360,
+        1418,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/rice-64.png",
+        "128": "assets/icons/bayit/groceries/rice-128.png",
+        "256": "assets/icons/bayit/groceries/rice-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-pasta",
+      "slug": "pasta",
+      "name": "Dry pasta packet",
+      "index": 28,
+      "row": 2,
+      "column": 8,
+      "box": [
+        1418,
+        360,
+        1583,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/pasta-64.png",
+        "128": "assets/icons/bayit/groceries/pasta-128.png",
+        "256": "assets/icons/bayit/groceries/pasta-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-flour",
+      "slug": "flour",
+      "name": "Flour bag",
+      "index": 29,
+      "row": 2,
+      "column": 9,
+      "box": [
+        1583,
+        360,
+        1774,
+        535
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/flour-64.png",
+        "128": "assets/icons/bayit/groceries/flour-128.png",
+        "256": "assets/icons/bayit/groceries/flour-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-olive-oil",
+      "slug": "olive-oil",
+      "name": "Olive oil bottle",
+      "index": 30,
+      "row": 3,
+      "column": 0,
+      "box": [
+        0,
+        535,
+        191,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/olive-oil-64.png",
+        "128": "assets/icons/bayit/groceries/olive-oil-128.png",
+        "256": "assets/icons/bayit/groceries/olive-oil-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-salt",
+      "slug": "salt",
+      "name": "Salt shaker",
+      "index": 31,
+      "row": 3,
+      "column": 1,
+      "box": [
+        191,
+        535,
+        372,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/salt-64.png",
+        "128": "assets/icons/bayit/groceries/salt-128.png",
+        "256": "assets/icons/bayit/groceries/salt-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-sugar",
+      "slug": "sugar",
+      "name": "Sugar bag",
+      "index": 32,
+      "row": 3,
+      "column": 2,
+      "box": [
+        372,
+        535,
+        545,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/sugar-64.png",
+        "128": "assets/icons/bayit/groceries/sugar-128.png",
+        "256": "assets/icons/bayit/groceries/sugar-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-honey",
+      "slug": "honey",
+      "name": "Honey jar",
+      "index": 33,
+      "row": 3,
+      "column": 3,
+      "box": [
+        545,
+        535,
+        710,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/honey-64.png",
+        "128": "assets/icons/bayit/groceries/honey-128.png",
+        "256": "assets/icons/bayit/groceries/honey-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-coffee",
+      "slug": "coffee",
+      "name": "Coffee jar",
+      "index": 34,
+      "row": 3,
+      "column": 4,
+      "box": [
+        710,
+        535,
+        887,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/coffee-64.png",
+        "128": "assets/icons/bayit/groceries/coffee-128.png",
+        "256": "assets/icons/bayit/groceries/coffee-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-tea",
+      "slug": "tea",
+      "name": "Tea bag box",
+      "index": 35,
+      "row": 3,
+      "column": 5,
+      "box": [
+        887,
+        535,
+        1064,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/tea-64.png",
+        "128": "assets/icons/bayit/groceries/tea-128.png",
+        "256": "assets/icons/bayit/groceries/tea-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-oats",
+      "slug": "oats",
+      "name": "Oats jar",
+      "index": 36,
+      "row": 3,
+      "column": 6,
+      "box": [
+        1064,
+        535,
+        1242,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/oats-64.png",
+        "128": "assets/icons/bayit/groceries/oats-128.png",
+        "256": "assets/icons/bayit/groceries/oats-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-cereal",
+      "slug": "cereal",
+      "name": "Cereal box",
+      "index": 37,
+      "row": 3,
+      "column": 7,
+      "box": [
+        1242,
+        535,
+        1418,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/cereal-64.png",
+        "128": "assets/icons/bayit/groceries/cereal-128.png",
+        "256": "assets/icons/bayit/groceries/cereal-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-chocolate",
+      "slug": "chocolate",
+      "name": "Chocolate squares",
+      "index": 38,
+      "row": 3,
+      "column": 8,
+      "box": [
+        1418,
+        535,
+        1583,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/chocolate-64.png",
+        "128": "assets/icons/bayit/groceries/chocolate-128.png",
+        "256": "assets/icons/bayit/groceries/chocolate-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-beans",
+      "slug": "beans",
+      "name": "Canned beans",
+      "index": 39,
+      "row": 3,
+      "column": 9,
+      "box": [
+        1583,
+        535,
+        1774,
+        710
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/beans-64.png",
+        "128": "assets/icons/bayit/groceries/beans-128.png",
+        "256": "assets/icons/bayit/groceries/beans-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-chicken",
+      "slug": "chicken",
+      "name": "Chicken fillet",
+      "index": 40,
+      "row": 4,
+      "column": 0,
+      "box": [
+        0,
+        710,
+        191,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/chicken-64.png",
+        "128": "assets/icons/bayit/groceries/chicken-128.png",
+        "256": "assets/icons/bayit/groceries/chicken-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-fish",
+      "slug": "fish",
+      "name": "Fish fillet",
+      "index": 41,
+      "row": 4,
+      "column": 1,
+      "box": [
+        191,
+        710,
+        372,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/fish-64.png",
+        "128": "assets/icons/bayit/groceries/fish-128.png",
+        "256": "assets/icons/bayit/groceries/fish-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-beef",
+      "slug": "beef",
+      "name": "Beef steak",
+      "index": 42,
+      "row": 4,
+      "column": 2,
+      "box": [
+        372,
+        710,
+        545,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/beef-64.png",
+        "128": "assets/icons/bayit/groceries/beef-128.png",
+        "256": "assets/icons/bayit/groceries/beef-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-lentils",
+      "slug": "lentils",
+      "name": "Lentils bag",
+      "index": 43,
+      "row": 4,
+      "column": 3,
+      "box": [
+        545,
+        710,
+        710,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/lentils-64.png",
+        "128": "assets/icons/bayit/groceries/lentils-128.png",
+        "256": "assets/icons/bayit/groceries/lentils-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-chickpeas",
+      "slug": "chickpeas",
+      "name": "Chickpeas jar",
+      "index": 44,
+      "row": 4,
+      "column": 4,
+      "box": [
+        710,
+        710,
+        887,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/chickpeas-64.png",
+        "128": "assets/icons/bayit/groceries/chickpeas-128.png",
+        "256": "assets/icons/bayit/groceries/chickpeas-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-water",
+      "slug": "water",
+      "name": "Water bottle",
+      "index": 45,
+      "row": 4,
+      "column": 5,
+      "box": [
+        887,
+        710,
+        1064,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/water-64.png",
+        "128": "assets/icons/bayit/groceries/water-128.png",
+        "256": "assets/icons/bayit/groceries/water-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-orange-juice",
+      "slug": "orange-juice",
+      "name": "Orange juice carton",
+      "index": 46,
+      "row": 4,
+      "column": 6,
+      "box": [
+        1064,
+        710,
+        1242,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/orange-juice-64.png",
+        "128": "assets/icons/bayit/groceries/orange-juice-128.png",
+        "256": "assets/icons/bayit/groceries/orange-juice-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-toilet-paper",
+      "slug": "toilet-paper",
+      "name": "Toilet paper rolls",
+      "index": 47,
+      "row": 4,
+      "column": 7,
+      "box": [
+        1242,
+        710,
+        1418,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/toilet-paper-64.png",
+        "128": "assets/icons/bayit/groceries/toilet-paper-128.png",
+        "256": "assets/icons/bayit/groceries/toilet-paper-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-dish-soap",
+      "slug": "dish-soap",
+      "name": "Dish soap bottle",
+      "index": 48,
+      "row": 4,
+      "column": 8,
+      "box": [
+        1418,
+        710,
+        1583,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/dish-soap-64.png",
+        "128": "assets/icons/bayit/groceries/dish-soap-128.png",
+        "256": "assets/icons/bayit/groceries/dish-soap-256.png"
+      }
+    },
+    {
+      "id": "bayit-groceries-laundry-detergent",
+      "slug": "laundry-detergent",
+      "name": "Laundry detergent bottle",
+      "index": 49,
+      "row": 4,
+      "column": 9,
+      "box": [
+        1583,
+        710,
+        1774,
+        887
+      ],
+      "files": {
+        "64": "assets/icons/bayit/groceries/laundry-detergent-64.png",
+        "128": "assets/icons/bayit/groceries/laundry-detergent-128.png",
+        "256": "assets/icons/bayit/groceries/laundry-detergent-256.png"
+      }
+    }
+  ]
+}

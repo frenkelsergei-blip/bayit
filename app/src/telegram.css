@@ -1,0 +1,96 @@
+/* Telegram panel (Settings → Notifications). Overrides the earlier placeholder rules in refinements.css.
+   The panel is a size container, so its layout follows the card's own width rather than the window. */
+.split.notification-settings{grid-template-columns:minmax(0,1.25fr) minmax(400px,1fr)}
+@media(max-width:1180px){.split.notification-settings{grid-template-columns:minmax(0,1fr)}}
+
+aside.telegram-panel{container-type:inline-size;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:28px;align-self:start}
+.telegram-panel h2,.telegram-panel h3,.telegram-panel p{margin:0}
+
+.telegram-head{display:flex;align-items:center;gap:16px}
+.telegram-logo-tile{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--surface);color:var(--primary);box-shadow:0 6px 16px rgba(19,31,74,.12)}
+.telegram-head>div{min-width:0;display:flex;flex-direction:column;gap:4px}
+aside.telegram-panel .telegram-head h2{font-size:calc(32px * var(--text-scale,1));line-height:1.1}
+.telegram-head p{font-size:calc(16px * var(--text-scale,1));line-height:1.4;color:var(--muted)}
+
+/* Connection status card */
+.telegram-conn{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px 16px;border-radius:18px;background:var(--surface);box-shadow:inset 0 0 0 2px var(--peach)}
+.telegram-conn.is-on{box-shadow:inset 0 0 0 2px var(--green)}
+.telegram-conn-icon{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--peach);color:var(--text)}
+.telegram-conn.is-on .telegram-conn-icon{background:var(--green)}
+.telegram-conn>div{min-width:0;display:flex;flex-direction:column;gap:2px}
+.telegram-conn strong{font-size:calc(18px * var(--text-scale,1));line-height:1.25}
+.telegram-conn small{font-size:calc(15px * var(--text-scale,1));color:var(--muted);overflow-wrap:anywhere;text-align:start}
+
+.telegram-section{display:flex;flex-direction:column;gap:14px;padding:22px 0;border-top:1px solid var(--border)}
+.telegram-section:first-of-type{margin-top:22px}
+.telegram-step{display:flex;align-items:center;gap:12px;font-size:calc(21px * var(--text-scale,1));line-height:1.25}
+.telegram-step>span{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;font-size:calc(16px * var(--text-scale,1))}
+.telegram-copy{font-size:calc(16px * var(--text-scale,1));line-height:1.5}
+
+.telegram-form{display:flex;flex-direction:column;gap:14px}
+.telegram-form label{display:flex;flex-direction:column;gap:8px;font-weight:800;font-size:calc(17px * var(--text-scale,1))}
+.telegram-form input{text-align:left}
+.telegram-howto{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px;font-size:calc(16px * var(--text-scale,1));line-height:1.45}
+.telegram-fine{display:flex;align-items:flex-start;gap:8px;color:var(--muted);line-height:1.45}
+.telegram-fine svg{flex:none;margin-top:2px}
+
+/* Bot actions: two equal buttons side by side, stacked when the card is narrow. */
+.telegram-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+aside.telegram-panel .telegram-actions .button{width:100%;min-width:0;justify-content:center;align-self:stretch;white-space:nowrap;font-size:calc(16px * var(--text-scale,1));padding:12px 16px;min-height:48px}
+aside.telegram-panel .telegram-actions .button.quiet{box-shadow:inset 0 0 0 2px var(--border)}
+
+.telegram-schedule{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--surface);font-size:calc(15px * var(--text-scale,1));line-height:1.4}
+.telegram-schedule img{flex:none}
+.telegram-schedule[data-stale="true"]{box-shadow:inset 0 0 0 2px var(--peach)}
+
+/* Family rows */
+.telegram-members{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+aside.telegram-panel .telegram-member{display:grid;grid-template-columns:46px minmax(0,1fr) auto;align-items:center;gap:12px;width:auto;padding:12px 14px;border:0;border-radius:18px;background:var(--surface)}
+.telegram-member-name{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0}
+aside.telegram-panel .telegram-member-name strong{font-size:calc(17px * var(--text-scale,1));line-height:1.25;overflow-wrap:anywhere}
+.telegram-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 7px;border-radius:999px;font-size:calc(13px * var(--text-scale,1));font-weight:800;line-height:1.3;background:var(--bg);color:var(--muted);box-shadow:inset 0 0 0 1px var(--border)}
+[dir="rtl"] .telegram-chip{padding:3px 7px 3px 10px}
+.telegram-chip.is-on{background:var(--green);color:var(--text);box-shadow:none}
+.telegram-chip.is-paused{background:var(--peach);color:var(--text);box-shadow:none}
+.telegram-member-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+aside.telegram-panel .telegram-member-actions .button{width:auto;min-height:38px;padding:7px 14px;font-size:calc(14px * var(--text-scale,1));align-self:auto;white-space:nowrap}
+aside.telegram-panel .telegram-member-actions .button svg{width:18px;height:18px}
+
+.telegram-notice{margin:14px 0 0;padding:12px 15px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-size:calc(15px * var(--text-scale,1));line-height:1.45}
+.telegram-panel .ai-error{margin-top:14px}
+.telegram-link-note{display:flex;flex-direction:column;gap:6px;margin:0;padding:12px 14px;border-radius:16px;border:2px dashed var(--primary)}
+.telegram-link-note a{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:var(--primary)}
+
+/* Morning summary: the sun sits centred beside the label and time picker */
+.telegram-digest{display:grid;grid-template-columns:48px minmax(0,1fr);align-items:center;gap:14px;padding:12px 14px;border-radius:18px;background:var(--surface)}
+.telegram-digest>img{display:block}
+.telegram-digest>div{display:flex;flex-direction:column;gap:8px;min-width:0;font-size:calc(15px * var(--text-scale,1));line-height:1.35}
+.telegram-digest>div>:last-child{width:100%}
+
+.telegram-foot{display:flex;align-items:flex-start;gap:12px;padding-top:20px;border-top:1px solid var(--border)}
+.telegram-foot img{flex:none}
+.telegram-foot small{line-height:1.5}
+aside.telegram-panel>.button{margin-top:16px}
+
+/* Narrow card (side column on smaller laptops, phones) */
+@container (max-width:380px){
+ .telegram-actions{grid-template-columns:1fr}
+ aside.telegram-panel .telegram-member{grid-template-columns:42px minmax(0,1fr)}
+ .telegram-member-actions{grid-column:1/-1}
+ aside.telegram-panel .telegram-member-actions .button{flex:1;justify-content:center}
+}
+@media(max-width:700px){
+ aside.telegram-panel{padding:22px 18px}
+ aside.telegram-panel .telegram-head h2{font-size:calc(27px * var(--text-scale,1))}
+ .telegram-logo-tile{width:56px;height:56px;border-radius:18px}
+}
+/* Photos & voice */
+.telegram-media{display:flex;flex-direction:column;gap:10px}
+.telegram-media-row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start;padding:14px;border-radius:18px;background:var(--surface)}
+.telegram-media-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--lilac);color:var(--primary)}
+.telegram-media-row>div{display:flex;flex-direction:column;gap:8px;min-width:0}
+.telegram-media-row small{line-height:1.45;color:var(--muted)}
+aside.telegram-panel .telegram-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:800;font-size:calc(17px * var(--text-scale,1));min-height:44px}
+.telegram-toggle .switch:disabled{opacity:.5;cursor:default}
+.telegram-media-select{display:flex;flex-direction:column;gap:8px;font-weight:800;font-size:calc(17px * var(--text-scale,1))}
+.telegram-media-select>:last-child{width:100%;font-weight:400}

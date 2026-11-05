@@ -1,0 +1,170 @@
+/* UX polish, 2026-11-05: field focus, iPhone fields, phone editor actions, calendar alignment, version panel.
+   Loaded after the other stylesheets. Uses semantic tokens only, so day/night and palettes keep working. */
+
+/* ---------- Fields: one soft focus ring on the field itself instead of an outline drawn around it ---------- */
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea,.select-button{transition:border-color .15s ease,box-shadow .15s ease}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):focus,select:focus,textarea:focus,.select-button:focus-visible{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+:root[data-contrast=high] input:not([type=checkbox]):not([type=radio]):focus,:root[data-contrast=high] textarea:focus,:root[data-contrast=high] .select-button:focus-visible{box-shadow:0 0 0 3px var(--primary)}
+/* Borderless inputs inside a composite control: the container shows the focus. */
+.ask-input input:focus,.search input:focus,.inline-add input:focus{box-shadow:none!important;border-color:transparent}
+.ask-input:focus-within,.search:focus-within,.inline-add:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+input,textarea{-webkit-tap-highlight-color:transparent}
+textarea{resize:vertical;line-height:1.45}
+
+/* iOS zooms the page when a focused field is under 16px. Keep touch fields at 16px or more. */
+@media (pointer:coarse){input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea,.select-button{font-size:max(16px,calc(17px * var(--text-scale,1)))!important}}
+
+/* Date and time: iOS draws a native control with its own minimum width that overlaps the next field. */
+input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:52px;line-height:1.25;text-align:start;background-color:var(--surface);color:var(--text)}
+input[type=date]::-webkit-date-and-time-value,input[type=time]::-webkit-date-and-time-value{text-align:start;margin:0;min-height:1.25em}
+input[type=date]::-webkit-calendar-picker-indicator,input[type=time]::-webkit-calendar-picker-indicator{opacity:.6;cursor:pointer;margin-inline-start:6px}
+:root[data-theme=dark] input[type=date]::-webkit-calendar-picker-indicator,:root[data-theme=dark] input[type=time]::-webkit-calendar-picker-indicator{filter:invert(1)}
+.two-fields>label,.date-time-fields>label{min-width:0;display:flex;flex-direction:column;gap:inherit}
+.date-time-fields{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+
+/* ---------- Task / event editor ---------- */
+.name-row{display:flex;align-items:flex-end;gap:12px}
+.name-row>label{flex:1;min-width:0}
+.name-row input{min-height:54px}
+.icon-choice-button{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:54px;min-width:76px;padding:0 10px 0 12px;border-radius:15px;background:var(--selected);color:var(--primary);border:1px solid transparent}
+.icon-choice-button img,.icon-choice-button .color-icon{width:38px;height:38px}
+.icon-choice-button:hover{border-color:var(--primary)}
+.phone-quick-icons{display:none}
+.form-sticky-actions{display:none}
+
+@media(max-width:700px){
+ .record-editor .page-actions{display:none}
+ .record-editor .editor-art{display:none}
+ .record-editor .editor-split{display:block}
+ .record-editor .form-stack{gap:18px}
+ .phone-quick-icons{display:block;margin-top:-6px}
+ .phone-quick-icons .icon-mini-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+ .phone-quick-icons .icon-mini-grid button{padding:6px;aspect-ratio:1;display:grid;place-items:center;border-radius:14px;background:var(--surfaceSoft)}
+ .phone-quick-icons .icon-mini-grid button.active{background:var(--surface)}
+ .phone-quick-icons .icon-mini-grid img{width:32px;height:32px}
+ .date-time-fields{gap:10px}
+ /* Save stays reachable above the tab bar, so nobody scrolls back up to finish. */
+ .form-sticky-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:10px;position:sticky;bottom:calc(74px + env(safe-area-inset-bottom));z-index:30;margin:22px -18px 0;padding:12px 18px;background:color-mix(in srgb,var(--bg) 94%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border)}
+ .form-sticky-actions .button{width:100%;justify-content:center;min-height:52px;margin:0}
+ /* The routine builder keeps its library above the form on phone. */
+ .record-editor .routine-preview{display:none}
+}
+
+/* ---------- Calendar week / agenda ---------- */
+/* Cards in a row share the row height, so every event lines up with its day. */
+.calendar-reference-day{align-items:stretch}
+.calendar-reference-slot{justify-content:center}
+.calendar-reference-slot>.calendar-reference-event{flex:1 1 auto}
+.calendar-reference-slot>.calendar-empty-slot{flex:1 1 auto}
+.calendar-reference-day>.calendar-date-label{align-self:stretch}
+.reference-agenda .calendar-reference-day>.calendar-date-label{grid-row:1/span var(--slots,1)}
+/* One calendar icon, and the whole date field opens the picker. */
+.calendar-period-control label{position:relative}
+.calendar-period-control input[type=date]{min-height:0;background:transparent;border:0;padding-inline:4px;box-shadow:none!important}
+.calendar-period-control input[type=date]::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:auto;height:auto;opacity:0;margin:0;cursor:pointer}
+.calendar-period-control:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+
+@media(max-width:700px){
+ .calendar-reference-day,.reference-agenda .calendar-reference-day{min-height:0;align-items:stretch;border-radius:0;row-gap:8px}
+ .calendar-reference-day.current-day{border-radius:22px;border-bottom-color:transparent}
+ .calendar-reference-day>.calendar-date-label,.reference-agenda .calendar-reference-day>.calendar-date-label{grid-row:1/span var(--slots,1);align-self:stretch;min-height:64px}
+ .calendar-reference-slot>.calendar-empty-slot{min-height:64px}
+ /* Scope and view switches become two full-width segmented rows instead of wrapping. */
+ .calendar-reference-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+ .calendar-reference-controls>.tabs{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);width:100%}
+ .calendar-reference-controls>.tabs button{justify-content:center;min-height:44px}
+ .calendar-period-control{width:100%}
+}
+
+/* ---------- Page actions on phone: one tidy row ---------- */
+@media(max-width:700px){
+ .page-actions>.heading-actions{width:100%;flex-wrap:wrap}
+ .page-actions .button{min-height:46px;white-space:nowrap}
+ .page-actions>.heading-actions>.button:last-child{flex:1 1 auto;justify-content:center}
+}
+
+/* ---------- Sample-data notice: in the page flow on phone instead of floating over fields ---------- */
+@media(max-width:700px){
+ .cloud-demo-banner{position:relative;inset:auto;bottom:auto;transform:none;max-width:none;width:auto;border-radius:0;padding:7px 14px;text-align:center;box-shadow:none;z-index:1}
+}
+
+/* ---------- Version and updates ---------- */
+.update-banner{position:fixed;top:16px;inset-inline-start:50%;transform:translateX(-50%);z-index:300;display:flex;align-items:center;gap:12px;padding:10px 12px 10px 18px;border-radius:999px;background:var(--text);color:var(--bg);box-shadow:0 8px 30px #0003;font-weight:700;max-width:calc(100vw - 32px)}
+[dir=rtl] .update-banner{transform:translateX(50%)}
+.update-banner>svg{color:var(--accent);flex:none}
+.update-banner button{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:var(--onPrimary);border-radius:999px;padding:8px 14px;font-weight:800;white-space:nowrap}
+@media(max-width:700px){.update-banner{top:auto;bottom:calc(84px + env(safe-area-inset-bottom));width:calc(100vw - 32px);justify-content:space-between;font-size:14px}}
+.about-settings{display:grid;gap:22px;max-width:860px;margin-top:28px}
+.about-settings section{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:24px}
+.about-version-card{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.about-version-card img{border-radius:18px;flex:none}
+.about-version-card>div{display:flex;flex-direction:column;gap:4px;flex:1;min-width:180px}
+.about-version-number{font-size:calc(40px * var(--text-scale,1));font-weight:950;letter-spacing:-.5px;line-height:1.1}
+.about-version-card small,.about-update-card small{color:var(--muted)}
+.about-update-card{display:grid;gap:16px}
+.about-update-status{display:flex;align-items:flex-start;gap:12px}
+.about-update-status>svg{color:var(--primary);flex:none;margin-top:2px}
+.about-update-status>div{display:flex;flex-direction:column;gap:4px}
+.about-update-note{color:var(--muted);font-size:calc(15px * var(--text-scale,1));line-height:1.45}
+.about-release-notes{display:grid;gap:18px}
+.about-release-notes h2{font-size:calc(26px * var(--text-scale,1))}
+.about-release-notes article{display:grid;gap:8px;padding-top:16px;border-top:1px solid var(--border)}
+.about-release-notes article header{display:flex;align-items:baseline;gap:12px}
+.about-release-notes article strong{font-size:calc(20px * var(--text-scale,1))}
+.about-release-notes ul{display:grid;gap:6px;padding-inline-start:20px;line-height:1.45}
+.app-version-link{font-size:calc(13px * var(--menu-scale,1));color:var(--muted);text-align:start;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:700px){.about-settings{margin-top:18px;gap:16px}.about-settings section{padding:18px;border-radius:20px}.about-update-card .heading-actions .button{width:100%;justify-content:center}}
+
+/* ---------- Tablet: details open in a sheet instead of squeezing beside or far below the content ---------- */
+@media(min-width:701px) and (max-width:1100px){
+ .detail-sheet-backdrop{align-items:center;padding:32px}
+ .detail-sheet{max-width:620px;border-radius:28px;max-height:86dvh}
+ .calendar-reference-layout{grid-template-columns:minmax(0,1fr)}
+ .calendar-reference-event strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
+ .calendar-reference-event>.avatar{display:block}
+}
+
+/* ---------- Page titles: rays sit at the upper corner of the final word, never in the line above ---------- */
+/* Same ray position as a one-line title; a wrapped title gets room above its last line instead. */
+.page-heading h1{padding-inline-end:.45em}
+.page-heading h1.title-wrapped .title-end{margin-top:.38em}
+
+/* ---------- Tabs and chip rows: wrapped rows fill the width, so no single chip is left alone ---------- */
+@media(max-width:700px){
+ .tabs{flex-wrap:wrap}
+ .tabs>button{flex:1 1 auto;justify-content:center;min-height:44px}
+ .appearance-row{grid-template-columns:minmax(0,1fr)}
+ .statistics-filter-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .statistics-history .data-table{overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .statistics-history .data-table table{min-width:560px}
+}
+@media(max-width:480px){.two-fields:not(.date-time-fields){grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- Shopping add form: one control height so the Quantity and Unit labels line up ---------- */
+.shopping-add input{min-height:50px}
+.shopping-add label{justify-content:flex-end}
+
+/* Routine builder in a family without child profiles */
+.empty-assignees{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:18px;background:var(--surfaceSoft);border:1px dashed var(--border);margin-top:8px;font-weight:650}
+
+/* ---------- Calendar portraits: a light ring and soft shadow so small avatars read clearly ---------- */
+.calendar-reference-event>.avatar,.calendar-person>.avatar,.calendar-detail-people .avatar,.calendar-detail-heading>.avatar,.month-event .avatar{border-radius:50%;box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px color-mix(in srgb,var(--primary) 22%,transparent),0 4px 10px rgba(16,21,42,.2);background:var(--surface)}
+.calendar-reference-event>.avatar{width:36px;height:36px;flex:none}
+.calendar-reference-event>.avatar img,.calendar-person>.avatar img,.calendar-detail-people .avatar img{border-radius:50%}
+.calendar-reference-event{grid-template-columns:38px minmax(0,1fr) 38px}
+.reference-agenda .calendar-reference-event{grid-template-columns:43px minmax(0,1fr) 44px}
+.reference-agenda .calendar-reference-event>.avatar{width:40px;height:40px}
+.calendar-reference-event.selected-event>.avatar{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary),0 4px 10px rgba(16,21,42,.22)}
+:root[data-theme=dark] .calendar-reference-event>.avatar,:root[data-theme=dark] .calendar-person>.avatar,:root[data-theme=dark] .calendar-detail-people .avatar{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px color-mix(in srgb,var(--primary) 45%,transparent),0 4px 12px rgba(0,0,0,.45)}
+@media(max-width:1100px) and (min-width:701px){.calendar-reference-event{grid-template-columns:30px minmax(0,1fr) 32px}.calendar-reference-event>.avatar{width:30px;height:30px}}
+@media(max-width:700px){.calendar-reference-event,.reference-agenda .calendar-reference-event{grid-template-columns:36px minmax(0,1fr) 40px}.calendar-reference-event>.avatar{width:38px;height:38px}}
+
+/* ---------- Hebrew: title accents mirror with the reading direction ---------- */
+[dir=rtl] .title-end.generated .title-rays img,[dir=rtl] .title-end.generated .title-underline img,[dir=rtl] .summary-rays img,[dir=rtl] .summary-underline img,[dir=rtl] .calendar-detail-heading h2 img{scale:-1 1}
+/* Wider screens: keep event words whole next to the larger portrait. */
+@media(min-width:1101px){
+ .calendar-reference-week:not(.reference-agenda) .calendar-reference-event{grid-template-columns:30px minmax(0,1fr) 34px;gap:7px;padding:10px 9px}
+ .calendar-reference-week:not(.reference-agenda) .calendar-reference-event>.avatar{width:34px;height:34px}
+ .calendar-reference-week:not(.reference-agenda) .calendar-reference-event .calendar-event-glyph,.calendar-reference-week:not(.reference-agenda) .calendar-reference-event>.color-icon{width:30px;height:30px}
+}
+.calendar-reference-event strong{overflow-wrap:break-word;word-break:normal;hyphens:manual}

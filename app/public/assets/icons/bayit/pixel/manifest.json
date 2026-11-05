@@ -1,0 +1,990 @@
+{
+  "collection": "pixel",
+  "atlas": "assets/generated/atlases/pixel-50.png",
+  "sourceDimensions": [
+    1774,
+    887
+  ],
+  "grid": {
+    "columns": 10,
+    "rows": 5
+  },
+  "prompt": "Use case: illustration-story. Asset type: EXACTLY 50 original cozy pixel-art inventory/activity/profile sprites in ONE transparent atlas. Input images are STYLE REFERENCES ONLY: match Bayit hero and badge palette (vivid cobalt blue, golden yellow, navy outline, warm cream, soft lilac, warm brown and leafy green), crisp hard square pixels and simple 32/48pixel sprite silhouettes legible at64px. Do not reproduce a character. CANVAS: wide 2:1, target2560x1280 (2048x1024 acceptable), EXACT invisible regular grid of10 columns and5 rows. All50 cells equal square size. Every sprite centered in its cell, occupies60% of cell width/height, with20% clear transparent safe margin EACH SIDE; never cross cell boundaries. Match each icon's size optically. No labels/numbers/gridlines. No soft edges or blur. All sprites distinct, fully contained, no neighboring pieces. Exactly one requested sprite per cell.\nROW1 left-to-right: blue baseball cap; blue moon cape with golden crescent; yellow scarf; green backpack; lantern; blue star wizard hat; pair blue sneakers; wooden shield; heart badge; sun badge.\nROW2 left-to-right: moon badge; school bag badge; toothbrush badge; shower badge; helping hand badge; gold trophy; gold medal; silver medal; bronze medal; yellow star.\nROW3 left-to-right: blue house; cozy bed; open reading book; pencil cup; toy chest; puzzle piece; bicycle; football/soccer ball; musical note; paint palette.\nROW4 left-to-right: friendly dog; friendly cat; rabbit; bird; tiny friendly dragon; tree; houseplant; flowerpot; watering can; vegetable basket.\nROW5 left-to-right: milk carton; sliced bread; apple; rice bag with tiny rice grains emblem; dinner plate; alarm clock; calendar with simple blank grid no digits; gift box; rain cloud; smiling sun.\nBadge icons are compact round medallions with the specified motif. Do not put other sprites on medallions. All50 sprites must be drawn in strict row-major order with no omission or duplicate. True transparent alpha background throughout, including between every sprite. No text, words, letters, digits, UI, frames around cells, scenery, background, ground/floor shadows, extra decorative objects or watermarks. Original game sprite artwork, not existing copyrighted characters. Activity/profile art; only garment sprites depict wearable items.\n",
+  "cleanup": {
+    "alphaThreshold": 128,
+    "minimumComponentPixels": 20,
+    "method": "Connected silhouettes assigned by centroid to nearest source cell; full bounds cropped and centered. No sprite resampling except nearest-neighbor export.",
+    "tileSubjectMaximumFraction": 0.6
+  },
+  "icons": [
+    {
+      "id": "pixel-blue-cap",
+      "slug": "blue-cap",
+      "name": "Blue cap",
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "box": [
+        26,
+        45,
+        179,
+        153
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/blue-cap-64.png",
+        "128": "assets/icons/bayit/pixel/blue-cap-128.png",
+        "256": "assets/icons/bayit/pixel/blue-cap-256.png"
+      }
+    },
+    {
+      "id": "pixel-moon-cape",
+      "slug": "moon-cape",
+      "name": "Moon cape",
+      "index": 1,
+      "row": 0,
+      "column": 1,
+      "box": [
+        209,
+        32,
+        376,
+        175
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/moon-cape-64.png",
+        "128": "assets/icons/bayit/pixel/moon-cape-128.png",
+        "256": "assets/icons/bayit/pixel/moon-cape-256.png"
+      }
+    },
+    {
+      "id": "pixel-yellow-scarf",
+      "slug": "yellow-scarf",
+      "name": "Yellow scarf",
+      "index": 2,
+      "row": 0,
+      "column": 2,
+      "box": [
+        403,
+        35,
+        545,
+        179
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/yellow-scarf-64.png",
+        "128": "assets/icons/bayit/pixel/yellow-scarf-128.png",
+        "256": "assets/icons/bayit/pixel/yellow-scarf-256.png"
+      }
+    },
+    {
+      "id": "pixel-green-backpack",
+      "slug": "green-backpack",
+      "name": "Green backpack",
+      "index": 3,
+      "row": 0,
+      "column": 3,
+      "box": [
+        579,
+        31,
+        721,
+        175
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/green-backpack-64.png",
+        "128": "assets/icons/bayit/pixel/green-backpack-128.png",
+        "256": "assets/icons/bayit/pixel/green-backpack-256.png"
+      }
+    },
+    {
+      "id": "pixel-lantern",
+      "slug": "lantern",
+      "name": "Lantern",
+      "index": 4,
+      "row": 0,
+      "column": 4,
+      "box": [
+        763,
+        31,
+        857,
+        171
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/lantern-64.png",
+        "128": "assets/icons/bayit/pixel/lantern-128.png",
+        "256": "assets/icons/bayit/pixel/lantern-256.png"
+      }
+    },
+    {
+      "id": "pixel-star-wizard-hat",
+      "slug": "star-wizard-hat",
+      "name": "Star wizard hat",
+      "index": 5,
+      "row": 0,
+      "column": 5,
+      "box": [
+        899,
+        32,
+        1056,
+        172
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/star-wizard-hat-64.png",
+        "128": "assets/icons/bayit/pixel/star-wizard-hat-128.png",
+        "256": "assets/icons/bayit/pixel/star-wizard-hat-256.png"
+      }
+    },
+    {
+      "id": "pixel-blue-sneakers",
+      "slug": "blue-sneakers",
+      "name": "Blue sneakers",
+      "index": 6,
+      "row": 0,
+      "column": 6,
+      "box": [
+        1079,
+        47,
+        1244,
+        165
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/blue-sneakers-64.png",
+        "128": "assets/icons/bayit/pixel/blue-sneakers-128.png",
+        "256": "assets/icons/bayit/pixel/blue-sneakers-256.png"
+      }
+    },
+    {
+      "id": "pixel-wooden-shield",
+      "slug": "wooden-shield",
+      "name": "Wooden shield",
+      "index": 7,
+      "row": 0,
+      "column": 7,
+      "box": [
+        1275,
+        33,
+        1397,
+        178
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/wooden-shield-64.png",
+        "128": "assets/icons/bayit/pixel/wooden-shield-128.png",
+        "256": "assets/icons/bayit/pixel/wooden-shield-256.png"
+      }
+    },
+    {
+      "id": "pixel-heart-badge",
+      "slug": "heart-badge",
+      "name": "Heart badge",
+      "index": 8,
+      "row": 0,
+      "column": 8,
+      "box": [
+        1436,
+        34,
+        1575,
+        172
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/heart-badge-64.png",
+        "128": "assets/icons/bayit/pixel/heart-badge-128.png",
+        "256": "assets/icons/bayit/pixel/heart-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-sun-badge",
+      "slug": "sun-badge",
+      "name": "Sun badge",
+      "index": 9,
+      "row": 0,
+      "column": 9,
+      "box": [
+        1605,
+        34,
+        1743,
+        173
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/sun-badge-64.png",
+        "128": "assets/icons/bayit/pixel/sun-badge-128.png",
+        "256": "assets/icons/bayit/pixel/sun-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-moon-badge",
+      "slug": "moon-badge",
+      "name": "Moon badge",
+      "index": 10,
+      "row": 1,
+      "column": 0,
+      "box": [
+        31,
+        211,
+        178,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/moon-badge-64.png",
+        "128": "assets/icons/bayit/pixel/moon-badge-128.png",
+        "256": "assets/icons/bayit/pixel/moon-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-schoolbag-badge",
+      "slug": "schoolbag-badge",
+      "name": "School bag badge",
+      "index": 11,
+      "row": 1,
+      "column": 1,
+      "box": [
+        212,
+        211,
+        359,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/schoolbag-badge-64.png",
+        "128": "assets/icons/bayit/pixel/schoolbag-badge-128.png",
+        "256": "assets/icons/bayit/pixel/schoolbag-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-toothbrush-badge",
+      "slug": "toothbrush-badge",
+      "name": "Toothbrush badge",
+      "index": 12,
+      "row": 1,
+      "column": 2,
+      "box": [
+        394,
+        211,
+        540,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/toothbrush-badge-64.png",
+        "128": "assets/icons/bayit/pixel/toothbrush-badge-128.png",
+        "256": "assets/icons/bayit/pixel/toothbrush-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-shower-badge",
+      "slug": "shower-badge",
+      "name": "Shower badge",
+      "index": 13,
+      "row": 1,
+      "column": 3,
+      "box": [
+        569,
+        211,
+        715,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/shower-badge-64.png",
+        "128": "assets/icons/bayit/pixel/shower-badge-128.png",
+        "256": "assets/icons/bayit/pixel/shower-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-helping-hand-badge",
+      "slug": "helping-hand-badge",
+      "name": "Helping hand badge",
+      "index": 14,
+      "row": 1,
+      "column": 4,
+      "box": [
+        743,
+        211,
+        889,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/helping-hand-badge-64.png",
+        "128": "assets/icons/bayit/pixel/helping-hand-badge-128.png",
+        "256": "assets/icons/bayit/pixel/helping-hand-badge-256.png"
+      }
+    },
+    {
+      "id": "pixel-trophy",
+      "slug": "trophy",
+      "name": "Trophy",
+      "index": 15,
+      "row": 1,
+      "column": 5,
+      "box": [
+        918,
+        219,
+        1048,
+        349
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/trophy-64.png",
+        "128": "assets/icons/bayit/pixel/trophy-128.png",
+        "256": "assets/icons/bayit/pixel/trophy-256.png"
+      }
+    },
+    {
+      "id": "pixel-gold-medal",
+      "slug": "gold-medal",
+      "name": "Gold medal",
+      "index": 16,
+      "row": 1,
+      "column": 6,
+      "box": [
+        1102,
+        216,
+        1210,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/gold-medal-64.png",
+        "128": "assets/icons/bayit/pixel/gold-medal-128.png",
+        "256": "assets/icons/bayit/pixel/gold-medal-256.png"
+      }
+    },
+    {
+      "id": "pixel-silver-medal",
+      "slug": "silver-medal",
+      "name": "Silver medal",
+      "index": 17,
+      "row": 1,
+      "column": 7,
+      "box": [
+        1280,
+        216,
+        1388,
+        356
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/silver-medal-64.png",
+        "128": "assets/icons/bayit/pixel/silver-medal-128.png",
+        "256": "assets/icons/bayit/pixel/silver-medal-256.png"
+      }
+    },
+    {
+      "id": "pixel-bronze-medal",
+      "slug": "bronze-medal",
+      "name": "Bronze medal",
+      "index": 18,
+      "row": 1,
+      "column": 8,
+      "box": [
+        1451,
+        216,
+        1558,
+        357
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/bronze-medal-64.png",
+        "128": "assets/icons/bayit/pixel/bronze-medal-128.png",
+        "256": "assets/icons/bayit/pixel/bronze-medal-256.png"
+      }
+    },
+    {
+      "id": "pixel-yellow-star",
+      "slug": "yellow-star",
+      "name": "Yellow star",
+      "index": 19,
+      "row": 1,
+      "column": 9,
+      "box": [
+        1610,
+        224,
+        1737,
+        343
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/yellow-star-64.png",
+        "128": "assets/icons/bayit/pixel/yellow-star-128.png",
+        "256": "assets/icons/bayit/pixel/yellow-star-256.png"
+      }
+    },
+    {
+      "id": "pixel-blue-house",
+      "slug": "blue-house",
+      "name": "Blue house",
+      "index": 20,
+      "row": 2,
+      "column": 0,
+      "box": [
+        25,
+        388,
+        182,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/blue-house-64.png",
+        "128": "assets/icons/bayit/pixel/blue-house-128.png",
+        "256": "assets/icons/bayit/pixel/blue-house-256.png"
+      }
+    },
+    {
+      "id": "pixel-cozy-bed",
+      "slug": "cozy-bed",
+      "name": "Cozy bed",
+      "index": 21,
+      "row": 2,
+      "column": 1,
+      "box": [
+        211,
+        395,
+        359,
+        523
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/cozy-bed-64.png",
+        "128": "assets/icons/bayit/pixel/cozy-bed-128.png",
+        "256": "assets/icons/bayit/pixel/cozy-bed-256.png"
+      }
+    },
+    {
+      "id": "pixel-reading-book",
+      "slug": "reading-book",
+      "name": "Reading book",
+      "index": 22,
+      "row": 2,
+      "column": 2,
+      "box": [
+        388,
+        403,
+        545,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/reading-book-64.png",
+        "128": "assets/icons/bayit/pixel/reading-book-128.png",
+        "256": "assets/icons/bayit/pixel/reading-book-256.png"
+      }
+    },
+    {
+      "id": "pixel-pencil-cup",
+      "slug": "pencil-cup",
+      "name": "Pencil cup",
+      "index": 23,
+      "row": 2,
+      "column": 3,
+      "box": [
+        584,
+        388,
+        688,
+        523
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/pencil-cup-64.png",
+        "128": "assets/icons/bayit/pixel/pencil-cup-128.png",
+        "256": "assets/icons/bayit/pixel/pencil-cup-256.png"
+      }
+    },
+    {
+      "id": "pixel-toy-chest",
+      "slug": "toy-chest",
+      "name": "Toy chest",
+      "index": 24,
+      "row": 2,
+      "column": 4,
+      "box": [
+        727,
+        391,
+        891,
+        523
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/toy-chest-64.png",
+        "128": "assets/icons/bayit/pixel/toy-chest-128.png",
+        "256": "assets/icons/bayit/pixel/toy-chest-256.png"
+      }
+    },
+    {
+      "id": "pixel-puzzle",
+      "slug": "puzzle",
+      "name": "Puzzle",
+      "index": 25,
+      "row": 2,
+      "column": 5,
+      "box": [
+        930,
+        392,
+        1040,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/puzzle-64.png",
+        "128": "assets/icons/bayit/pixel/puzzle-128.png",
+        "256": "assets/icons/bayit/pixel/puzzle-256.png"
+      }
+    },
+    {
+      "id": "pixel-bicycle",
+      "slug": "bicycle",
+      "name": "Bicycle",
+      "index": 26,
+      "row": 2,
+      "column": 6,
+      "box": [
+        1080,
+        398,
+        1244,
+        514
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/bicycle-64.png",
+        "128": "assets/icons/bayit/pixel/bicycle-128.png",
+        "256": "assets/icons/bayit/pixel/bicycle-256.png"
+      }
+    },
+    {
+      "id": "pixel-football",
+      "slug": "football",
+      "name": "Football",
+      "index": 27,
+      "row": 2,
+      "column": 7,
+      "box": [
+        1275,
+        398,
+        1395,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/football-64.png",
+        "128": "assets/icons/bayit/pixel/football-128.png",
+        "256": "assets/icons/bayit/pixel/football-256.png"
+      }
+    },
+    {
+      "id": "pixel-musical-note",
+      "slug": "musical-note",
+      "name": "Musical note",
+      "index": 28,
+      "row": 2,
+      "column": 8,
+      "box": [
+        1436,
+        398,
+        1562,
+        516
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/musical-note-64.png",
+        "128": "assets/icons/bayit/pixel/musical-note-128.png",
+        "256": "assets/icons/bayit/pixel/musical-note-256.png"
+      }
+    },
+    {
+      "id": "pixel-paint-palette",
+      "slug": "paint-palette",
+      "name": "Paint palette",
+      "index": 29,
+      "row": 2,
+      "column": 9,
+      "box": [
+        1603,
+        392,
+        1744,
+        518
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/paint-palette-64.png",
+        "128": "assets/icons/bayit/pixel/paint-palette-128.png",
+        "256": "assets/icons/bayit/pixel/paint-palette-256.png"
+      }
+    },
+    {
+      "id": "pixel-dog",
+      "slug": "dog",
+      "name": "Dog",
+      "index": 30,
+      "row": 3,
+      "column": 0,
+      "box": [
+        31,
+        557,
+        163,
+        696
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/dog-64.png",
+        "128": "assets/icons/bayit/pixel/dog-128.png",
+        "256": "assets/icons/bayit/pixel/dog-256.png"
+      }
+    },
+    {
+      "id": "pixel-cat",
+      "slug": "cat",
+      "name": "Cat",
+      "index": 31,
+      "row": 3,
+      "column": 1,
+      "box": [
+        208,
+        557,
+        345,
+        696
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/cat-64.png",
+        "128": "assets/icons/bayit/pixel/cat-128.png",
+        "256": "assets/icons/bayit/pixel/cat-256.png"
+      }
+    },
+    {
+      "id": "pixel-rabbit",
+      "slug": "rabbit",
+      "name": "Rabbit",
+      "index": 32,
+      "row": 3,
+      "column": 2,
+      "box": [
+        396,
+        556,
+        508,
+        696
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/rabbit-64.png",
+        "128": "assets/icons/bayit/pixel/rabbit-128.png",
+        "256": "assets/icons/bayit/pixel/rabbit-256.png"
+      }
+    },
+    {
+      "id": "pixel-bird",
+      "slug": "bird",
+      "name": "Bird",
+      "index": 33,
+      "row": 3,
+      "column": 3,
+      "box": [
+        564,
+        571,
+        704,
+        691
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/bird-64.png",
+        "128": "assets/icons/bayit/pixel/bird-128.png",
+        "256": "assets/icons/bayit/pixel/bird-256.png"
+      }
+    },
+    {
+      "id": "pixel-tiny-friendly-dragon",
+      "slug": "tiny-friendly-dragon",
+      "name": "Tiny friendly dragon",
+      "index": 34,
+      "row": 3,
+      "column": 4,
+      "box": [
+        732,
+        549,
+        871,
+        697
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/tiny-friendly-dragon-64.png",
+        "128": "assets/icons/bayit/pixel/tiny-friendly-dragon-128.png",
+        "256": "assets/icons/bayit/pixel/tiny-friendly-dragon-256.png"
+      }
+    },
+    {
+      "id": "pixel-tree",
+      "slug": "tree",
+      "name": "Tree",
+      "index": 35,
+      "row": 3,
+      "column": 5,
+      "box": [
+        909,
+        551,
+        1055,
+        691
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/tree-64.png",
+        "128": "assets/icons/bayit/pixel/tree-128.png",
+        "256": "assets/icons/bayit/pixel/tree-256.png"
+      }
+    },
+    {
+      "id": "pixel-houseplant",
+      "slug": "houseplant",
+      "name": "Houseplant",
+      "index": 36,
+      "row": 3,
+      "column": 6,
+      "box": [
+        1091,
+        551,
+        1240,
+        696
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/houseplant-64.png",
+        "128": "assets/icons/bayit/pixel/houseplant-128.png",
+        "256": "assets/icons/bayit/pixel/houseplant-256.png"
+      }
+    },
+    {
+      "id": "pixel-flowerpot",
+      "slug": "flowerpot",
+      "name": "Flowerpot",
+      "index": 37,
+      "row": 3,
+      "column": 7,
+      "box": [
+        1273,
+        551,
+        1395,
+        696
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/flowerpot-64.png",
+        "128": "assets/icons/bayit/pixel/flowerpot-128.png",
+        "256": "assets/icons/bayit/pixel/flowerpot-256.png"
+      }
+    },
+    {
+      "id": "pixel-watering-can",
+      "slug": "watering-can",
+      "name": "Watering can",
+      "index": 38,
+      "row": 3,
+      "column": 8,
+      "box": [
+        1425,
+        569,
+        1584,
+        684
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/watering-can-64.png",
+        "128": "assets/icons/bayit/pixel/watering-can-128.png",
+        "256": "assets/icons/bayit/pixel/watering-can-256.png"
+      }
+    },
+    {
+      "id": "pixel-vegetable-basket",
+      "slug": "vegetable-basket",
+      "name": "Vegetable basket",
+      "index": 39,
+      "row": 3,
+      "column": 9,
+      "box": [
+        1608,
+        553,
+        1744,
+        687
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/vegetable-basket-64.png",
+        "128": "assets/icons/bayit/pixel/vegetable-basket-128.png",
+        "256": "assets/icons/bayit/pixel/vegetable-basket-256.png"
+      }
+    },
+    {
+      "id": "pixel-milk-carton",
+      "slug": "milk-carton",
+      "name": "Milk carton",
+      "index": 40,
+      "row": 4,
+      "column": 0,
+      "box": [
+        40,
+        730,
+        152,
+        858
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/milk-carton-64.png",
+        "128": "assets/icons/bayit/pixel/milk-carton-128.png",
+        "256": "assets/icons/bayit/pixel/milk-carton-256.png"
+      }
+    },
+    {
+      "id": "pixel-bread",
+      "slug": "bread",
+      "name": "Bread",
+      "index": 41,
+      "row": 4,
+      "column": 1,
+      "box": [
+        200,
+        740,
+        353,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/bread-64.png",
+        "128": "assets/icons/bayit/pixel/bread-128.png",
+        "256": "assets/icons/bayit/pixel/bread-256.png"
+      }
+    },
+    {
+      "id": "pixel-apple",
+      "slug": "apple",
+      "name": "Apple",
+      "index": 42,
+      "row": 4,
+      "column": 2,
+      "box": [
+        388,
+        729,
+        504,
+        858
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/apple-64.png",
+        "128": "assets/icons/bayit/pixel/apple-128.png",
+        "256": "assets/icons/bayit/pixel/apple-256.png"
+      }
+    },
+    {
+      "id": "pixel-rice-bag",
+      "slug": "rice-bag",
+      "name": "Rice bag",
+      "index": 43,
+      "row": 4,
+      "column": 3,
+      "box": [
+        545,
+        729,
+        685,
+        858
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/rice-bag-64.png",
+        "128": "assets/icons/bayit/pixel/rice-bag-128.png",
+        "256": "assets/icons/bayit/pixel/rice-bag-256.png"
+      }
+    },
+    {
+      "id": "pixel-dinner-plate",
+      "slug": "dinner-plate",
+      "name": "Dinner plate",
+      "index": 44,
+      "row": 4,
+      "column": 4,
+      "box": [
+        708,
+        741,
+        879,
+        853
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/dinner-plate-64.png",
+        "128": "assets/icons/bayit/pixel/dinner-plate-128.png",
+        "256": "assets/icons/bayit/pixel/dinner-plate-256.png"
+      }
+    },
+    {
+      "id": "pixel-alarm-clock",
+      "slug": "alarm-clock",
+      "name": "Alarm clock",
+      "index": 45,
+      "row": 4,
+      "column": 5,
+      "box": [
+        914,
+        727,
+        1048,
+        864
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/alarm-clock-64.png",
+        "128": "assets/icons/bayit/pixel/alarm-clock-128.png",
+        "256": "assets/icons/bayit/pixel/alarm-clock-256.png"
+      }
+    },
+    {
+      "id": "pixel-calendar",
+      "slug": "calendar",
+      "name": "Calendar",
+      "index": 46,
+      "row": 4,
+      "column": 6,
+      "box": [
+        1092,
+        733,
+        1221,
+        853
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/calendar-64.png",
+        "128": "assets/icons/bayit/pixel/calendar-128.png",
+        "256": "assets/icons/bayit/pixel/calendar-256.png"
+      }
+    },
+    {
+      "id": "pixel-gift-box",
+      "slug": "gift-box",
+      "name": "Gift box",
+      "index": 47,
+      "row": 4,
+      "column": 7,
+      "box": [
+        1270,
+        728,
+        1403,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/gift-box-64.png",
+        "128": "assets/icons/bayit/pixel/gift-box-128.png",
+        "256": "assets/icons/bayit/pixel/gift-box-256.png"
+      }
+    },
+    {
+      "id": "pixel-rain-cloud",
+      "slug": "rain-cloud",
+      "name": "Rain cloud",
+      "index": 48,
+      "row": 4,
+      "column": 8,
+      "box": [
+        1436,
+        727,
+        1573,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/rain-cloud-64.png",
+        "128": "assets/icons/bayit/pixel/rain-cloud-128.png",
+        "256": "assets/icons/bayit/pixel/rain-cloud-256.png"
+      }
+    },
+    {
+      "id": "pixel-smiling-sun",
+      "slug": "smiling-sun",
+      "name": "Smiling sun",
+      "index": 49,
+      "row": 4,
+      "column": 9,
+      "box": [
+        1600,
+        722,
+        1745,
+        859
+      ],
+      "files": {
+        "64": "assets/icons/bayit/pixel/smiling-sun-64.png",
+        "128": "assets/icons/bayit/pixel/smiling-sun-128.png",
+        "256": "assets/icons/bayit/pixel/smiling-sun-256.png"
+      }
+    }
+  ],
+  "normalizedAtlas": "assets/generated/atlases/pixel-50-normalized.png",
+  "contactSheet": "assets/generated/atlases/pixel-50-contact-sheet.png",
+  "qa": {
+    "all50VisuallyInspected": true,
+    "exportCutoffs": false,
+    "adjacentSpriteContamination": false,
+    "exportSizes": [
+      64,
+      128,
+      256
+    ],
+    "alpha": "binary transparent after threshold cleanup",
+    "limitations": [
+      "Native generated atlas is1774x887 rather than requested2048x1024 or2560x1280. Normalized atlas is2560x1280 using nearest-neighbor scaling.",
+      "Source does not respect20% cell margins and several sprites cross mathematical cell boundaries; connected silhouette isolation preserved complete sprites and all exports have20% safe margins.",
+      "Rice bag shows a wheat/grain stalk emblem rather than individual rice grains.",
+      "School bag badge motif resembles a brown satchel."
+    ]
+  }
+}

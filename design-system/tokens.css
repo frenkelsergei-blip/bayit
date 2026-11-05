@@ -1,0 +1,3 @@
+:root{--bg:#FEFAF5;--sidebar:#FEFAF5;--surface:#FFFFFF;--surfaceSoft:#F6EFE8;--text:#000024;--muted:#686D82;--primary:#0240DE;--onPrimary:#FFFFFF;--selected:#D5DFFA;--border:#E9E2DA;--yellow:#FEEDC1;--accent:#FFD451;--peach:#FFDCC8;--lilac:#E4DCFF;--green:#DFF2D1;--danger:#A83231}
+:root[data-theme="dark"]{--bg:#10152A;--sidebar:#151C34;--surface:#1C2541;--surfaceSoft:#202B48;--text:#FFF9EE;--muted:#A6AFCA;--primary:#527DFF;--onPrimary:#FFFFFF;--selected:#273C6F;--border:#36415E;--yellow:#3C3223;--accent:#FFD451;--peach:#644737;--lilac:#443B65;--green:#334E3E;--danger:#FFABA6}
+

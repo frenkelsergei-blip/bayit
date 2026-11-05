@@ -1,0 +1,170 @@
+[
+  {
+    "id": "01",
+    "title": "היום בבית",
+    "requirement": "סדר היום המשפחתי משימות להיום ושאלה קצרה ל־AI",
+    "file": "concept/screens/01-today.png"
+  },
+  {
+    "id": "02",
+    "title": "לוח שנה משפחתי",
+    "requirement": "תכנון שבועי פתוח עם מסלולי יום ואירועים צבעוניים",
+    "file": "concept/screens/02-calendar.png"
+  },
+  {
+    "id": "03",
+    "title": "יצירת אירוע",
+    "requirement": "יצירת אירוע תאריך משתתפים הערות תזכורת ונראות",
+    "file": "concept/screens/03-event-editor.png"
+  },
+  {
+    "id": "04",
+    "title": "משימות משפחתיות",
+    "requirement": "רשימת משימות עם סינון שיוך השלמה והיסטוריה",
+    "file": "concept/screens/04-tasks.png"
+  },
+  {
+    "id": "05",
+    "title": "פעילות חדשה ובחירת אייקונים",
+    "requirement": "יצירת פעילות חוזרת אייקון תגמול אישור הורה ותורות",
+    "file": "concept/screens/05-activity-builder.png"
+  },
+  {
+    "id": "06",
+    "title": "רשימות קניות",
+    "requirement": "רשימות קניות כמויות קטגוריות שיתוף והצעות",
+    "file": "concept/screens/06-shopping.png"
+  },
+  {
+    "id": "07",
+    "title": "יומן הבית והערות מתוארכות",
+    "requirement": "ציר זמן משפחתי הערות מתוארכות חיפוש ועריכה",
+    "file": "concept/screens/07-home-journal.png"
+  },
+  {
+    "id": "08",
+    "title": "שגרות הילדים",
+    "requirement": "פעילויות ילדים ניסיון דמות ותצוגת ההתקדמות",
+    "file": "concept/screens/08-kids.png"
+  },
+  {
+    "id": "09",
+    "title": "תורות והיסטוריית ביצוע",
+    "requirement": "סדר מתוכנן לעומת השלמה בפועל והשוואה בין ילדים",
+    "file": "concept/screens/09-turns-history.png"
+  },
+  {
+    "id": "10",
+    "title": "הישגים ושדרוג הדמות",
+    "requirement": "פריטים פתוחים ונעולים לבוש ותגי הישגים",
+    "file": "concept/screens/10-avatar-achievements.png"
+  },
+  {
+    "id": "11",
+    "title": "שאלות ל־AI על המידע שלכם",
+    "requirement": "שאלות על מידע נגיש עם הפניה לרישומי המקור",
+    "file": "concept/screens/11-ask-ai.png"
+  },
+  {
+    "id": "12",
+    "title": "פרופילים ובני המשפחה",
+    "requirement": "עריכת פרופיל בחירת תמונה שפה צבע ותפקיד",
+    "file": "concept/screens/12-profile-family.png"
+  },
+  {
+    "id": "13",
+    "title": "הגדרות ופרטיות",
+    "requirement": "העדפות בית שפה זמן הרשאות גיבוי וייצוא",
+    "file": "concept/screens/13-settings.png"
+  },
+  {
+    "id": "14",
+    "title": "התראות וחיבור Telegram",
+    "requirement": "ערוצי התראה שעות שקטות ובוט עצמאי לכל התקנה",
+    "file": "concept/screens/14-notifications.png"
+  },
+  {
+    "id": "15",
+    "title": "חיבור ספק AI משלכם",
+    "requirement": "ספק AI מפתח שרת והרשאות מידע ללא חשיפת סודות",
+    "file": "concept/screens/15-ai-connection.png"
+  },
+  {
+    "id": "16",
+    "title": "אזור הילדים בנייד",
+    "requirement": "פעילויות ילדים בממשק נייד עם פעולות מגע ברורות",
+    "file": "concept/screens/16-mobile-child.png"
+  },
+  {
+    "id": "17",
+    "title": "מרחב אישי בטאבלט",
+    "requirement": "הערות אישיות יומן פרטי ומשימות אישיות בטאבלט",
+    "file": "concept/screens/17-private-space.png"
+  },
+  {
+    "id": "18",
+    "title": "שיתוף והרשאות",
+    "requirement": "בחירת פרטיות משפחה או אנשים מסוימים לכל פריט",
+    "file": "concept/screens/18-sharing-permissions.png"
+  },
+  {
+    "id": "19",
+    "title": "תכנון ארוחות",
+    "requirement": "תכנון ארוחות מתכונים ומצרכים חסרים לרשימת קניות",
+    "file": "concept/screens/19-meal-planning.png"
+  },
+  {
+    "id": "20",
+    "title": "מזווה ומלאי",
+    "requirement": "מלאי מזווה בית וחומרי ניקוי עם כמויות ופריטים חסרים",
+    "file": "concept/screens/20-pantry.png"
+  },
+  {
+    "id": "21",
+    "title": "חשבונות והוצאות",
+    "requirement": "רישום הוצאות תקציב חשבונות חוזרים וקבלות",
+    "file": "concept/screens/21-household-expenses.png"
+  },
+  {
+    "id": "22",
+    "title": "תחזוקת הבית",
+    "requirement": "טיפולי בית תקופתיים היסטוריית תחזוקה ואנשי מקצוע",
+    "file": "concept/screens/22-maintenance.png"
+  },
+  {
+    "id": "23",
+    "title": "מסמכים ואנשי קשר",
+    "requirement": "מסמכים תוקף אחריות חוזים ואנשי קשר לפי הרשאות",
+    "file": "concept/screens/23-documents-contacts.png"
+  },
+  {
+    "id": "24",
+    "title": "דף הבית בנייד",
+    "requirement": "היום המשפחתי והמרחב שלי בממשק נייד",
+    "file": "concept/screens/24-mobile-parent.png"
+  },
+  {
+    "id": "25",
+    "title": "יעדים, סטטיסטיקות ודירוגים",
+    "requirement": "יעדים השלמות נקודות דירוגים והיסטוריית פעילות",
+    "file": "concept/screens/25-family-statistics.png"
+  },
+  {
+    "id": "26",
+    "title": "סטטיסטיקת קניות",
+    "requirement": "תדירות קניות פריטים מובילים קטגוריות ומגמות",
+    "file": "concept/screens/26-shopping-statistics.png"
+  },
+  {
+    "id": "27",
+    "title": "הצעות יומיות והתראות חכמות",
+    "requirement": "הצעות יומיות המבוססות על הרגלים והקשר מאושר",
+    "file": "concept/screens/27-daily-suggestions.png"
+  },
+  {
+    "id": "28",
+    "title": "מסך הבית במצב לילה",
+    "requirement": "אותו מבנה תוכן עם פלטת לילה וסמנטיקה זהה",
+    "file": "concept/screens/28-today-dark.png"
+  }
+]

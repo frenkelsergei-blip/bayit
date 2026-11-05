@@ -1,0 +1,563 @@
+{
+  "openmojiVersion": "17.0.0",
+  "iconCount": 4495,
+  "formats": [
+    "SVG",
+    "PNG72"
+  ],
+  "generated": [
+    {
+      "id": "avatar-daniel-256",
+      "file": "assets/generated/avatar-daniel-256.png",
+      "width": 256,
+      "height": 256,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "eb5135c6e94707a02f030256ae1497f159ccdb42c46d4c6cc23a59bd7ab8d4c6"
+    },
+    {
+      "id": "avatar-daniel",
+      "file": "assets/generated/avatar-daniel.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "a6da00d406ca8dda5142df217cf24d294d3c55a5fbf8a307f286c2b1af9f2635"
+    },
+    {
+      "id": "avatar-hila-256",
+      "file": "assets/generated/avatar-hila-256.png",
+      "width": 256,
+      "height": 256,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "d164e976b8b2ff8a101740154079fa297e16d2023aefabb40c88d5f2001f4dfa"
+    },
+    {
+      "id": "avatar-hila",
+      "file": "assets/generated/avatar-hila.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "47aeb1cf1c4b5a52bd8889664a4b151b806f11b19fe1b79955173ff1bcb15a67"
+    },
+    {
+      "id": "avatar-itai-bust",
+      "file": "assets/generated/avatar-itai-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "40bc1d36ddbcb69704d9b7ae27d3f30cd7ccf6ac088718d7fda38656681e2427"
+    },
+    {
+      "id": "avatar-itai-cap-bust",
+      "file": "assets/generated/avatar-itai-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "4e19dcf804a96e1c0eb713e9e2303ecd29411cfe149c6e83e7b838bf76b72f6f"
+    },
+    {
+      "id": "avatar-itai-cap",
+      "file": "assets/generated/avatar-itai-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "704fcffd3a0d8acafa61127d458d6d7343a23a6ebd39fd24278034449ab4cb99"
+    },
+    {
+      "id": "avatar-itai-cape-bust",
+      "file": "assets/generated/avatar-itai-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "3997c46523b79925db7e7264a53a890c4538ec01c3b02048fa5f474e61345ea3"
+    },
+    {
+      "id": "avatar-itai-cape",
+      "file": "assets/generated/avatar-itai-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "21e5dcaba6d3703077625c456b500220d1824844c6d982dd1149a12037782e96"
+    },
+    {
+      "id": "avatar-itai",
+      "file": "assets/generated/avatar-itai.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "5858e4193958be5874ad3bc02b3d68f156b1c349341564546205a9ce1c62a598"
+    },
+    {
+      "id": "avatar-noa-bust",
+      "file": "assets/generated/avatar-noa-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "66b77cde4248f5a35947ad1fc197f3a79a92bf5b912cae9137fde181a20d1225"
+    },
+    {
+      "id": "avatar-noa-cap-bust",
+      "file": "assets/generated/avatar-noa-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "5720b973522b2c0f6ce57dd9738f69d229cffef4d15a70725fb3a842731eb525"
+    },
+    {
+      "id": "avatar-noa-cap",
+      "file": "assets/generated/avatar-noa-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "e6e36a66270317d60b0e3ec9b9c56ec92f52cfeff01eeb9438c37e587a006c5a"
+    },
+    {
+      "id": "avatar-noa-cape-bust",
+      "file": "assets/generated/avatar-noa-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "8720cf33d03f6836c458d9d3e86b80d0632bcee2749f0c42707fbe06f5f43478"
+    },
+    {
+      "id": "avatar-noa-cape",
+      "file": "assets/generated/avatar-noa-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "0ba975f8b78f96ff60c732c9abd72c417be8bf4f20aaba5bc57cf5ce2da46c19"
+    },
+    {
+      "id": "avatar-noa",
+      "file": "assets/generated/avatar-noa.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "fe699a1b0abe2ac00d3faca102cdb93720d1d7f359ccf4e6ad5c4dcfd06c76e2"
+    },
+    {
+      "id": "badge-evening-explorer",
+      "file": "assets/generated/badge-evening-explorer.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "0c30c0e25e20e029b62b9cfb1732bedb19d45cff0bba34a18cf1414c6587cbc0"
+    },
+    {
+      "id": "badge-morning-helper",
+      "file": "assets/generated/badge-morning-helper.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "c0dd42053683fa2f72091f33778e2b1511a1397e27d4204f7090352d475eac93"
+    },
+    {
+      "id": "badge-school-ready",
+      "file": "assets/generated/badge-school-ready.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "d052d7201cc3fc599f5d10c73acdb3123de9ee84305036b4ad5a926c581c50b3"
+    },
+    {
+      "id": "bayit-logo-512",
+      "file": "assets/generated/bayit-logo-512.png",
+      "width": 512,
+      "height": 171,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "c49376f53d0f419d6d2b48db84f196912f347a11d841ee3467d5544f95dfc7f8"
+    },
+    {
+      "id": "bayit-logo",
+      "file": "assets/generated/bayit-logo.png",
+      "width": 2172,
+      "height": 724,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "d71436902e5835a7eb17ed281e52941486e8aed7f6b05b1e6ee54b73314254ec"
+    },
+    {
+      "id": "family-portrait-256",
+      "file": "assets/generated/family-portrait-256.png",
+      "width": 256,
+      "height": 256,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "fcc20c7a40b02c2ee9bad122857fada1c903737ebf3e5caee5701bb4565812df"
+    },
+    {
+      "id": "family-portrait",
+      "file": "assets/generated/family-portrait.png",
+      "width": 768,
+      "height": 768,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "e06847d595df548af07078b83040a6f05be56773de1977ee642ca58e7961aaed"
+    },
+    {
+      "id": "heading-accent",
+      "file": "assets/generated/heading-accent.png",
+      "width": 2172,
+      "height": 724,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "db88fc604d6ccf2c87146d788aa2ccc0c40c0c45b49e7d277742bb71546f3108"
+    },
+    {
+      "id": "item-blue-cap",
+      "file": "assets/generated/item-blue-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "869add735741a47e858a8325e11c3bf848e14b805122b042c6001782aa0a3f22"
+    },
+    {
+      "id": "item-moon-cape",
+      "file": "assets/generated/item-moon-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "d0f96a9c464baa518054f16760c7a3651cbebd53d93c0bd934504a7587722328"
+    },
+    {
+      "id": "kids-garden",
+      "file": "assets/generated/kids-garden.png",
+      "width": 1448,
+      "height": 1086,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "668531fece9753e5c3adda8e70706a0a86460e8a05a110b1af3345d1343f1265"
+    },
+    {
+      "id": "kids-hero",
+      "file": "assets/generated/kids-hero.png",
+      "width": 1448,
+      "height": 1086,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "41b475c1663499a74c73ee63fe1e5b898136f330f5233eef1ed6eb0606d9c4f7"
+    },
+    {
+      "id": "title-rays",
+      "file": "assets/generated/title-rays.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "cb64ed7d1bf170c41ef62281ad26f5d346003fae4e01c2617d9b01bdcbe1aa5e"
+    },
+    {
+      "id": "title-underline",
+      "file": "assets/generated/title-underline.png",
+      "width": 2172,
+      "height": 724,
+      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
+      "sha256": "51bb94ac605ced6d02970a830cc28d7615ca05797f016b2de054829ec1058530"
+    },
+    {
+      "id": "title-underline-clean",
+      "file": "assets/generated/title-underline-clean.png",
+      "width": 1800,
+      "height": 133,
+      "source": "Built-in ImageGen; work/qa/refinement-20261104/title-underline-clean-provenance.json",
+      "sha256": "e55010ab6bb3f33d16575d101f4849a2562e67ba0d30f0abe6fe00671b13365c"
+    },
+    {
+      "id": "avatar-maya",
+      "file": "assets/generated/avatar-maya.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "d334151c11aa5cc1dc9480d4229f9c74fc1a0de3f3a05e2184f966a5d4ca7117"
+    },
+    {
+      "id": "avatar-maya-bust",
+      "file": "assets/generated/avatar-maya-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "68aa03eb5606735004b0a0d841fe1705562a5e84a0535b7564907ca4f2ec2f21"
+    },
+    {
+      "id": "avatar-maya-cap",
+      "file": "assets/generated/avatar-maya-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b93e9f4e785a078fe5eba913f5d3b5d1d613c99a61fe442041ed8e1cb8354332"
+    },
+    {
+      "id": "avatar-maya-cap-bust",
+      "file": "assets/generated/avatar-maya-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "fb94195271ce9970afb9e47958d15cfaf9c6a42906ff07dc6531a75f975032fe"
+    },
+    {
+      "id": "avatar-maya-cape",
+      "file": "assets/generated/avatar-maya-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "f8d0108111dde9b2aeaac5219304502917f7c3e1b0d575d8cca0ce6dd19268be"
+    },
+    {
+      "id": "avatar-maya-cape-bust",
+      "file": "assets/generated/avatar-maya-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "d45ac8d4491792bdfabbf5959b48cae9780025af887187eadb38ff70daea2c06"
+    },
+    {
+      "id": "avatar-ari",
+      "file": "assets/generated/avatar-ari.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "77773b0e79508a63a0b1efa1b927fd76e6782b18b38f7aeb7d311966b2d90309"
+    },
+    {
+      "id": "avatar-ari-bust",
+      "file": "assets/generated/avatar-ari-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "90a4b65323f8e03e914c011dad6a7edfd3d446b05b57abf840c38ba6bfb84810"
+    },
+    {
+      "id": "avatar-ari-cap",
+      "file": "assets/generated/avatar-ari-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b5f434e3cdae7dd05034908c174f89c88aa5bf40ed1bd6e1ce8f10beefc7e3a2"
+    },
+    {
+      "id": "avatar-ari-cap-bust",
+      "file": "assets/generated/avatar-ari-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "36ef647f944686461165ef7740ef18f800dde9d2046de2d740467f66e33d1de0"
+    },
+    {
+      "id": "avatar-ari-cape",
+      "file": "assets/generated/avatar-ari-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "9b4fae3cd092c808cfd0aa706aa38968fa51c204a48d85ee8d43171c75f9ce8d"
+    },
+    {
+      "id": "avatar-ari-cape-bust",
+      "file": "assets/generated/avatar-ari-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "44272974c0d0ce5bd5bccec6849f8bff51d9d4686265126fa3a080ce724b095e"
+    },
+    {
+      "id": "avatar-lia",
+      "file": "assets/generated/avatar-lia.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "3938f922be2d024414e1146d95989fc0a6c905720ad76511b3e0e19e1d0eea12"
+    },
+    {
+      "id": "avatar-lia-bust",
+      "file": "assets/generated/avatar-lia-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "fb9574a46bd6483847f26df48121a69994223e14bc1eb4b8de15353c3b22f742"
+    },
+    {
+      "id": "avatar-lia-cap",
+      "file": "assets/generated/avatar-lia-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b0f81b4d0663a7c4aae331481b4535e1499659e911e3f3b7bdd9dbe9e89f1aa0"
+    },
+    {
+      "id": "avatar-lia-cap-bust",
+      "file": "assets/generated/avatar-lia-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "89499f6226fcd8a7fe2a642739238b507cc4cc6cf2f984fc33235ffb8d8f5f0a"
+    },
+    {
+      "id": "avatar-lia-cape",
+      "file": "assets/generated/avatar-lia-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "312feac2e4a719bc42be1bf4b9a67b3f1dc2e5c2141d647c89b35190bdcba524"
+    },
+    {
+      "id": "avatar-lia-cape-bust",
+      "file": "assets/generated/avatar-lia-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "d73413326e23ef6e8f82dab8b3c2dcc7d9c7a7114e8fc3b6758696f8556c7b1c"
+    },
+    {
+      "id": "avatar-tom",
+      "file": "assets/generated/avatar-tom.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "57b1ec757e400ffb57eea36fd837a1a8cbfeb5cc4730730db6e82f067bfbfe1b"
+    },
+    {
+      "id": "avatar-tom-bust",
+      "file": "assets/generated/avatar-tom-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "43f3c985fffe1d0ec3c52205dc589787b402bf5f2879c8193b82be4666c293e6"
+    },
+    {
+      "id": "avatar-tom-cap",
+      "file": "assets/generated/avatar-tom-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "79243a3cddcfb6d26a73f028f541f5e18fdf27fca2db50b90444e86e3e44c77c"
+    },
+    {
+      "id": "avatar-tom-cap-bust",
+      "file": "assets/generated/avatar-tom-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "bb90788ce3017df6d22e3b8a774160ca74ebebe4c17c6060ff83e28664e514bf"
+    },
+    {
+      "id": "avatar-tom-cape",
+      "file": "assets/generated/avatar-tom-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "ef6e991a3f005b212b2e5a8ab633964c0c2dd1c3659cea8c5abc9bc18ff09bde"
+    },
+    {
+      "id": "avatar-tom-cape-bust",
+      "file": "assets/generated/avatar-tom-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "83b0989b0da8e18a6d9236b043729861a92a66e863e70e73af46410348d6609c"
+    },
+    {
+      "id": "avatar-dana",
+      "file": "assets/generated/avatar-dana.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "60ee2d68c0dfe33273f13fd6e5aa4f50b99c5a50da5abbafe14bf81af33d9315"
+    },
+    {
+      "id": "avatar-dana-bust",
+      "file": "assets/generated/avatar-dana-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "a35bddacb6c8a43ff7f5c67abbfc7601483855658719b07a5afa0ccbe93cb698"
+    },
+    {
+      "id": "avatar-dana-cap",
+      "file": "assets/generated/avatar-dana-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "58a0d73e50f89336c6f002df441a3cc918e757d41c76dc6f1af98cfed2d4bc85"
+    },
+    {
+      "id": "avatar-dana-cap-bust",
+      "file": "assets/generated/avatar-dana-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "6a153d6680131accddffe975f2b4eb4ef6a19f20b463d4f255bebd70f04fe2e2"
+    },
+    {
+      "id": "avatar-dana-cape",
+      "file": "assets/generated/avatar-dana-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "f8b7dce8f4010b6170c147496ae68f8b338c2af204fccec8bb2963429b382da1"
+    },
+    {
+      "id": "avatar-dana-cape-bust",
+      "file": "assets/generated/avatar-dana-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "a0d5d43a6ba834e2a535edff694fd26e236de5892421122a4282cff49c7d7416"
+    },
+    {
+      "id": "avatar-yoni",
+      "file": "assets/generated/avatar-yoni.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "fa94b09b85d15b5acb33aea55074a8b099de4200958c54e1a91a95f9d4ccaf0f"
+    },
+    {
+      "id": "avatar-yoni-bust",
+      "file": "assets/generated/avatar-yoni-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "56164194c8fd42376b85218b68ce3f88d509fd39b2cbdb02c63be4eea085995a"
+    },
+    {
+      "id": "avatar-yoni-cap",
+      "file": "assets/generated/avatar-yoni-cap.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b765d5ef8fc42d6cf94b0d5ad71dff469c85aa5e4f015c45fcae249e8ee8e654"
+    },
+    {
+      "id": "avatar-yoni-cap-bust",
+      "file": "assets/generated/avatar-yoni-cap-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "192421047d6a179e90b390981737f76c34648d5ed5b53f21c858833187231edb"
+    },
+    {
+      "id": "avatar-yoni-cape",
+      "file": "assets/generated/avatar-yoni-cape.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "bc53e525655ef11c4327c8835a9e6ac5954e9f0fbea8497309eff0cb9dd2e69c"
+    },
+    {
+      "id": "avatar-yoni-cape-bust",
+      "file": "assets/generated/avatar-yoni-cape-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "6b53dd1af72ec538481183115f11e075c7bead7a37ed3385ee15f1505d32ef8e"
+    }
+  ],
+  "attribution": "assets/ATTRIBUTION.md",
+  "nativeBayit": {
+    "count": 150,
+    "categories": {
+      "groceries": 50,
+      "activities": 50,
+      "pixel": 50
+    },
+    "sizes": [
+      64,
+      128,
+      256
+    ],
+    "format": "transparent PNG",
+    "catalog": "design-system/bayit-icons.json",
+    "method": "Three generated atlas sheets, sliced, alpha-trimmed and exported to uniform icon canvases. Source sheets and prompts retained in assets/generated/atlases."
+  }
+}

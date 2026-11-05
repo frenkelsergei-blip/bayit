@@ -1,0 +1,3180 @@
+[
+  {
+    "id": "bayit-groceries-tomatoes",
+    "name": "Tomatoes",
+    "he": "עגבניות",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Tomatoes עגבניות Produce ירקות ופירות",
+    "aliases": [
+      "1F345"
+    ],
+    "file": "/assets/icons/bayit/groceries/tomatoes-128.png",
+    "png": "/assets/icons/bayit/groceries/tomatoes-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/tomatoes-64.png",
+      "128": "/assets/icons/bayit/groceries/tomatoes-128.png",
+      "256": "/assets/icons/bayit/groceries/tomatoes-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-cucumber",
+    "name": "Cucumber",
+    "he": "מלפפון",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Cucumber מלפפון Produce ירקות ופירות",
+    "aliases": [
+      "1F952"
+    ],
+    "file": "/assets/icons/bayit/groceries/cucumber-128.png",
+    "png": "/assets/icons/bayit/groceries/cucumber-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/cucumber-64.png",
+      "128": "/assets/icons/bayit/groceries/cucumber-128.png",
+      "256": "/assets/icons/bayit/groceries/cucumber-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-apple",
+    "name": "Apple",
+    "he": "תפוח",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Apple תפוח Produce ירקות ופירות",
+    "aliases": [
+      "1F34E"
+    ],
+    "file": "/assets/icons/bayit/groceries/apple-128.png",
+    "png": "/assets/icons/bayit/groceries/apple-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/apple-64.png",
+      "128": "/assets/icons/bayit/groceries/apple-128.png",
+      "256": "/assets/icons/bayit/groceries/apple-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-banana",
+    "name": "Banana",
+    "he": "בננה",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Banana בננה Produce ירקות ופירות",
+    "aliases": [
+      "1F34C"
+    ],
+    "file": "/assets/icons/bayit/groceries/banana-128.png",
+    "png": "/assets/icons/bayit/groceries/banana-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/banana-64.png",
+      "128": "/assets/icons/bayit/groceries/banana-128.png",
+      "256": "/assets/icons/bayit/groceries/banana-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-orange",
+    "name": "Orange",
+    "he": "תפוז",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Orange תפוז Produce ירקות ופירות",
+    "aliases": [
+      "1F34A"
+    ],
+    "file": "/assets/icons/bayit/groceries/orange-128.png",
+    "png": "/assets/icons/bayit/groceries/orange-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/orange-64.png",
+      "128": "/assets/icons/bayit/groceries/orange-128.png",
+      "256": "/assets/icons/bayit/groceries/orange-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-lemon",
+    "name": "Lemon",
+    "he": "לימון",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Lemon לימון Produce ירקות ופירות",
+    "aliases": [
+      "1F34B"
+    ],
+    "file": "/assets/icons/bayit/groceries/lemon-128.png",
+    "png": "/assets/icons/bayit/groceries/lemon-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/lemon-64.png",
+      "128": "/assets/icons/bayit/groceries/lemon-128.png",
+      "256": "/assets/icons/bayit/groceries/lemon-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-avocado",
+    "name": "Avocado",
+    "he": "אבוקדו",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Avocado אבוקדו Produce ירקות ופירות",
+    "aliases": [
+      "1F951"
+    ],
+    "file": "/assets/icons/bayit/groceries/avocado-128.png",
+    "png": "/assets/icons/bayit/groceries/avocado-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/avocado-64.png",
+      "128": "/assets/icons/bayit/groceries/avocado-128.png",
+      "256": "/assets/icons/bayit/groceries/avocado-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-carrot",
+    "name": "Carrot",
+    "he": "גזר",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Carrot גזר Produce ירקות ופירות",
+    "aliases": [
+      "1F955"
+    ],
+    "file": "/assets/icons/bayit/groceries/carrot-128.png",
+    "png": "/assets/icons/bayit/groceries/carrot-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/carrot-64.png",
+      "128": "/assets/icons/bayit/groceries/carrot-128.png",
+      "256": "/assets/icons/bayit/groceries/carrot-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-potato",
+    "name": "Potato",
+    "he": "תפוח אדמה",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Potato תפוח אדמה Produce ירקות ופירות",
+    "aliases": [
+      "1F954"
+    ],
+    "file": "/assets/icons/bayit/groceries/potato-128.png",
+    "png": "/assets/icons/bayit/groceries/potato-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/potato-64.png",
+      "128": "/assets/icons/bayit/groceries/potato-128.png",
+      "256": "/assets/icons/bayit/groceries/potato-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-onion",
+    "name": "Onion",
+    "he": "בצל",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Onion בצל Produce ירקות ופירות",
+    "aliases": [
+      "1F9C5"
+    ],
+    "file": "/assets/icons/bayit/groceries/onion-128.png",
+    "png": "/assets/icons/bayit/groceries/onion-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/onion-64.png",
+      "128": "/assets/icons/bayit/groceries/onion-128.png",
+      "256": "/assets/icons/bayit/groceries/onion-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-lettuce",
+    "name": "Lettuce",
+    "he": "חסה",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Lettuce חסה Produce ירקות ופירות",
+    "aliases": [
+      "1F96C"
+    ],
+    "file": "/assets/icons/bayit/groceries/lettuce-128.png",
+    "png": "/assets/icons/bayit/groceries/lettuce-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/lettuce-64.png",
+      "128": "/assets/icons/bayit/groceries/lettuce-128.png",
+      "256": "/assets/icons/bayit/groceries/lettuce-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-broccoli",
+    "name": "Broccoli",
+    "he": "ברוקולי",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Broccoli ברוקולי Produce ירקות ופירות",
+    "aliases": [
+      "1F966"
+    ],
+    "file": "/assets/icons/bayit/groceries/broccoli-128.png",
+    "png": "/assets/icons/bayit/groceries/broccoli-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/broccoli-64.png",
+      "128": "/assets/icons/bayit/groceries/broccoli-128.png",
+      "256": "/assets/icons/bayit/groceries/broccoli-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-pepper",
+    "name": "Pepper",
+    "he": "פלפל",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Pepper פלפל Produce ירקות ופירות",
+    "aliases": [
+      "1FAD1"
+    ],
+    "file": "/assets/icons/bayit/groceries/pepper-128.png",
+    "png": "/assets/icons/bayit/groceries/pepper-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/pepper-64.png",
+      "128": "/assets/icons/bayit/groceries/pepper-128.png",
+      "256": "/assets/icons/bayit/groceries/pepper-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-mushrooms",
+    "name": "Mushrooms",
+    "he": "פטריות",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Mushrooms פטריות Produce ירקות ופירות",
+    "aliases": [
+      "1F344"
+    ],
+    "file": "/assets/icons/bayit/groceries/mushrooms-128.png",
+    "png": "/assets/icons/bayit/groceries/mushrooms-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/mushrooms-64.png",
+      "128": "/assets/icons/bayit/groceries/mushrooms-128.png",
+      "256": "/assets/icons/bayit/groceries/mushrooms-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-strawberries",
+    "name": "Strawberries",
+    "he": "תותים",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Strawberries תותים Produce ירקות ופירות",
+    "aliases": [
+      "1F353"
+    ],
+    "file": "/assets/icons/bayit/groceries/strawberries-128.png",
+    "png": "/assets/icons/bayit/groceries/strawberries-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/strawberries-64.png",
+      "128": "/assets/icons/bayit/groceries/strawberries-128.png",
+      "256": "/assets/icons/bayit/groceries/strawberries-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-grapes",
+    "name": "Grapes",
+    "he": "ענבים",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Grapes ענבים Produce ירקות ופירות",
+    "aliases": [
+      "1F347"
+    ],
+    "file": "/assets/icons/bayit/groceries/grapes-128.png",
+    "png": "/assets/icons/bayit/groceries/grapes-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/grapes-64.png",
+      "128": "/assets/icons/bayit/groceries/grapes-128.png",
+      "256": "/assets/icons/bayit/groceries/grapes-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-watermelon",
+    "name": "Watermelon",
+    "he": "אבטיח",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Watermelon אבטיח Produce ירקות ופירות",
+    "aliases": [
+      "1F349"
+    ],
+    "file": "/assets/icons/bayit/groceries/watermelon-128.png",
+    "png": "/assets/icons/bayit/groceries/watermelon-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/watermelon-64.png",
+      "128": "/assets/icons/bayit/groceries/watermelon-128.png",
+      "256": "/assets/icons/bayit/groceries/watermelon-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-pear",
+    "name": "Pear",
+    "he": "אגס",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Pear אגס Produce ירקות ופירות",
+    "aliases": [
+      "1F350"
+    ],
+    "file": "/assets/icons/bayit/groceries/pear-128.png",
+    "png": "/assets/icons/bayit/groceries/pear-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/pear-64.png",
+      "128": "/assets/icons/bayit/groceries/pear-128.png",
+      "256": "/assets/icons/bayit/groceries/pear-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-peach",
+    "name": "Peach",
+    "he": "אפרסק",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Peach אפרסק Produce ירקות ופירות",
+    "aliases": [
+      "1F351"
+    ],
+    "file": "/assets/icons/bayit/groceries/peach-128.png",
+    "png": "/assets/icons/bayit/groceries/peach-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/peach-64.png",
+      "128": "/assets/icons/bayit/groceries/peach-128.png",
+      "256": "/assets/icons/bayit/groceries/peach-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-berries",
+    "name": "Berries",
+    "he": "פירות יער",
+    "group": "Produce",
+    "groupHe": "ירקות ופירות",
+    "collection": "groceries",
+    "subgroup": "Produce",
+    "tags": "Berries פירות יער Produce ירקות ופירות",
+    "aliases": [
+      "1FAD0"
+    ],
+    "file": "/assets/icons/bayit/groceries/berries-128.png",
+    "png": "/assets/icons/bayit/groceries/berries-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/berries-64.png",
+      "128": "/assets/icons/bayit/groceries/berries-128.png",
+      "256": "/assets/icons/bayit/groceries/berries-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-milk-carton",
+    "name": "Milk carton",
+    "he": "חלב",
+    "group": "Dairy",
+    "groupHe": "מוצרי חלב",
+    "collection": "groceries",
+    "subgroup": "Dairy",
+    "tags": "Milk carton חלב Dairy מוצרי חלב",
+    "aliases": [
+      "1F95B"
+    ],
+    "file": "/assets/icons/bayit/groceries/milk-carton-128.png",
+    "png": "/assets/icons/bayit/groceries/milk-carton-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/milk-carton-64.png",
+      "128": "/assets/icons/bayit/groceries/milk-carton-128.png",
+      "256": "/assets/icons/bayit/groceries/milk-carton-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-eggs",
+    "name": "Eggs in carton",
+    "he": "ביצים",
+    "group": "Dairy",
+    "groupHe": "מוצרי חלב",
+    "collection": "groceries",
+    "subgroup": "Dairy",
+    "tags": "Eggs in carton ביצים Dairy מוצרי חלב",
+    "aliases": [
+      "1F95A"
+    ],
+    "file": "/assets/icons/bayit/groceries/eggs-128.png",
+    "png": "/assets/icons/bayit/groceries/eggs-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/eggs-64.png",
+      "128": "/assets/icons/bayit/groceries/eggs-128.png",
+      "256": "/assets/icons/bayit/groceries/eggs-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-cheese",
+    "name": "Cheese wedge",
+    "he": "גבינה",
+    "group": "Dairy",
+    "groupHe": "מוצרי חלב",
+    "collection": "groceries",
+    "subgroup": "Dairy",
+    "tags": "Cheese wedge גבינה Dairy מוצרי חלב",
+    "aliases": [
+      "1F9C0"
+    ],
+    "file": "/assets/icons/bayit/groceries/cheese-128.png",
+    "png": "/assets/icons/bayit/groceries/cheese-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/cheese-64.png",
+      "128": "/assets/icons/bayit/groceries/cheese-128.png",
+      "256": "/assets/icons/bayit/groceries/cheese-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-yogurt",
+    "name": "Yogurt cup",
+    "he": "יוגורט",
+    "group": "Dairy",
+    "groupHe": "מוצרי חלב",
+    "collection": "groceries",
+    "subgroup": "Dairy",
+    "tags": "Yogurt cup יוגורט Dairy מוצרי חלב",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/yogurt-128.png",
+    "png": "/assets/icons/bayit/groceries/yogurt-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/yogurt-64.png",
+      "128": "/assets/icons/bayit/groceries/yogurt-128.png",
+      "256": "/assets/icons/bayit/groceries/yogurt-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-butter",
+    "name": "Butter pack",
+    "he": "חמאה",
+    "group": "Dairy",
+    "groupHe": "מוצרי חלב",
+    "collection": "groceries",
+    "subgroup": "Dairy",
+    "tags": "Butter pack חמאה Dairy מוצרי חלב",
+    "aliases": [
+      "1F9C8"
+    ],
+    "file": "/assets/icons/bayit/groceries/butter-128.png",
+    "png": "/assets/icons/bayit/groceries/butter-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/butter-64.png",
+      "128": "/assets/icons/bayit/groceries/butter-128.png",
+      "256": "/assets/icons/bayit/groceries/butter-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-bread",
+    "name": "Bread loaf with slices",
+    "he": "לחם",
+    "group": "Bakery",
+    "groupHe": "מאפים",
+    "collection": "groceries",
+    "subgroup": "Bakery",
+    "tags": "Bread loaf with slices לחם Bakery מאפים",
+    "aliases": [
+      "1F35E"
+    ],
+    "file": "/assets/icons/bayit/groceries/bread-128.png",
+    "png": "/assets/icons/bayit/groceries/bread-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/bread-64.png",
+      "128": "/assets/icons/bayit/groceries/bread-128.png",
+      "256": "/assets/icons/bayit/groceries/bread-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-pita",
+    "name": "Pita bread",
+    "he": "פיתה",
+    "group": "Bakery",
+    "groupHe": "מאפים",
+    "collection": "groceries",
+    "subgroup": "Bakery",
+    "tags": "Pita bread פיתה Bakery מאפים",
+    "aliases": [
+      "1FAD3"
+    ],
+    "file": "/assets/icons/bayit/groceries/pita-128.png",
+    "png": "/assets/icons/bayit/groceries/pita-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/pita-64.png",
+      "128": "/assets/icons/bayit/groceries/pita-128.png",
+      "256": "/assets/icons/bayit/groceries/pita-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-rice",
+    "name": "Rice bag with scoop",
+    "he": "אורז",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Rice bag with scoop אורז Pantry מזווה",
+    "aliases": [
+      "1F35A"
+    ],
+    "file": "/assets/icons/bayit/groceries/rice-128.png",
+    "png": "/assets/icons/bayit/groceries/rice-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/rice-64.png",
+      "128": "/assets/icons/bayit/groceries/rice-128.png",
+      "256": "/assets/icons/bayit/groceries/rice-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-pasta",
+    "name": "Dry pasta packet",
+    "he": "פסטה",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Dry pasta packet פסטה Pantry מזווה",
+    "aliases": [
+      "1F35D"
+    ],
+    "file": "/assets/icons/bayit/groceries/pasta-128.png",
+    "png": "/assets/icons/bayit/groceries/pasta-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/pasta-64.png",
+      "128": "/assets/icons/bayit/groceries/pasta-128.png",
+      "256": "/assets/icons/bayit/groceries/pasta-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-flour",
+    "name": "Flour bag",
+    "he": "קמח",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Flour bag קמח Pantry מזווה",
+    "aliases": [
+      "1F33E"
+    ],
+    "file": "/assets/icons/bayit/groceries/flour-128.png",
+    "png": "/assets/icons/bayit/groceries/flour-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/flour-64.png",
+      "128": "/assets/icons/bayit/groceries/flour-128.png",
+      "256": "/assets/icons/bayit/groceries/flour-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-olive-oil",
+    "name": "Olive oil bottle",
+    "he": "שמן זית",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Olive oil bottle שמן זית Pantry מזווה",
+    "aliases": [
+      "1FAD2"
+    ],
+    "file": "/assets/icons/bayit/groceries/olive-oil-128.png",
+    "png": "/assets/icons/bayit/groceries/olive-oil-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/olive-oil-64.png",
+      "128": "/assets/icons/bayit/groceries/olive-oil-128.png",
+      "256": "/assets/icons/bayit/groceries/olive-oil-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-salt",
+    "name": "Salt shaker",
+    "he": "מלח",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Salt shaker מלח Pantry מזווה",
+    "aliases": [
+      "1F9C2"
+    ],
+    "file": "/assets/icons/bayit/groceries/salt-128.png",
+    "png": "/assets/icons/bayit/groceries/salt-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/salt-64.png",
+      "128": "/assets/icons/bayit/groceries/salt-128.png",
+      "256": "/assets/icons/bayit/groceries/salt-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-sugar",
+    "name": "Sugar bag",
+    "he": "סוכר",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Sugar bag סוכר Pantry מזווה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/sugar-128.png",
+    "png": "/assets/icons/bayit/groceries/sugar-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/sugar-64.png",
+      "128": "/assets/icons/bayit/groceries/sugar-128.png",
+      "256": "/assets/icons/bayit/groceries/sugar-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-honey",
+    "name": "Honey jar",
+    "he": "דבש",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Honey jar דבש Pantry מזווה",
+    "aliases": [
+      "1F36F"
+    ],
+    "file": "/assets/icons/bayit/groceries/honey-128.png",
+    "png": "/assets/icons/bayit/groceries/honey-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/honey-64.png",
+      "128": "/assets/icons/bayit/groceries/honey-128.png",
+      "256": "/assets/icons/bayit/groceries/honey-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-coffee",
+    "name": "Coffee jar",
+    "he": "קפה",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Coffee jar קפה Pantry מזווה",
+    "aliases": [
+      "2615"
+    ],
+    "file": "/assets/icons/bayit/groceries/coffee-128.png",
+    "png": "/assets/icons/bayit/groceries/coffee-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/coffee-64.png",
+      "128": "/assets/icons/bayit/groceries/coffee-128.png",
+      "256": "/assets/icons/bayit/groceries/coffee-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-tea",
+    "name": "Tea bag box",
+    "he": "תה",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Tea bag box תה Pantry מזווה",
+    "aliases": [
+      "1F375"
+    ],
+    "file": "/assets/icons/bayit/groceries/tea-128.png",
+    "png": "/assets/icons/bayit/groceries/tea-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/tea-64.png",
+      "128": "/assets/icons/bayit/groceries/tea-128.png",
+      "256": "/assets/icons/bayit/groceries/tea-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-oats",
+    "name": "Oats jar",
+    "he": "שיבולת שועל",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Oats jar שיבולת שועל Pantry מזווה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/oats-128.png",
+    "png": "/assets/icons/bayit/groceries/oats-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/oats-64.png",
+      "128": "/assets/icons/bayit/groceries/oats-128.png",
+      "256": "/assets/icons/bayit/groceries/oats-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-cereal",
+    "name": "Cereal box",
+    "he": "דגני בוקר",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Cereal box דגני בוקר Pantry מזווה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/cereal-128.png",
+    "png": "/assets/icons/bayit/groceries/cereal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/cereal-64.png",
+      "128": "/assets/icons/bayit/groceries/cereal-128.png",
+      "256": "/assets/icons/bayit/groceries/cereal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-chocolate",
+    "name": "Chocolate squares",
+    "he": "שוקולד",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Chocolate squares שוקולד Pantry מזווה",
+    "aliases": [
+      "1F36B"
+    ],
+    "file": "/assets/icons/bayit/groceries/chocolate-128.png",
+    "png": "/assets/icons/bayit/groceries/chocolate-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/chocolate-64.png",
+      "128": "/assets/icons/bayit/groceries/chocolate-128.png",
+      "256": "/assets/icons/bayit/groceries/chocolate-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-beans",
+    "name": "Canned beans",
+    "he": "שעועית בשימורים",
+    "group": "Pantry",
+    "groupHe": "מזווה",
+    "collection": "groceries",
+    "subgroup": "Pantry",
+    "tags": "Canned beans שעועית בשימורים Pantry מזווה",
+    "aliases": [
+      "1F96B"
+    ],
+    "file": "/assets/icons/bayit/groceries/beans-128.png",
+    "png": "/assets/icons/bayit/groceries/beans-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/beans-64.png",
+      "128": "/assets/icons/bayit/groceries/beans-128.png",
+      "256": "/assets/icons/bayit/groceries/beans-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-chicken",
+    "name": "Chicken fillet",
+    "he": "עוף",
+    "group": "Protein",
+    "groupHe": "חלבון",
+    "collection": "groceries",
+    "subgroup": "Protein",
+    "tags": "Chicken fillet עוף Protein חלבון",
+    "aliases": [
+      "1F357"
+    ],
+    "file": "/assets/icons/bayit/groceries/chicken-128.png",
+    "png": "/assets/icons/bayit/groceries/chicken-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/chicken-64.png",
+      "128": "/assets/icons/bayit/groceries/chicken-128.png",
+      "256": "/assets/icons/bayit/groceries/chicken-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-fish",
+    "name": "Fish fillet",
+    "he": "דג",
+    "group": "Protein",
+    "groupHe": "חלבון",
+    "collection": "groceries",
+    "subgroup": "Protein",
+    "tags": "Fish fillet דג Protein חלבון",
+    "aliases": [
+      "1F41F"
+    ],
+    "file": "/assets/icons/bayit/groceries/fish-128.png",
+    "png": "/assets/icons/bayit/groceries/fish-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/fish-64.png",
+      "128": "/assets/icons/bayit/groceries/fish-128.png",
+      "256": "/assets/icons/bayit/groceries/fish-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-beef",
+    "name": "Beef steak",
+    "he": "בשר",
+    "group": "Protein",
+    "groupHe": "חלבון",
+    "collection": "groceries",
+    "subgroup": "Protein",
+    "tags": "Beef steak בשר Protein חלבון",
+    "aliases": [
+      "1F969"
+    ],
+    "file": "/assets/icons/bayit/groceries/beef-128.png",
+    "png": "/assets/icons/bayit/groceries/beef-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/beef-64.png",
+      "128": "/assets/icons/bayit/groceries/beef-128.png",
+      "256": "/assets/icons/bayit/groceries/beef-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-lentils",
+    "name": "Lentils bag",
+    "he": "עדשים",
+    "group": "Protein",
+    "groupHe": "חלבון",
+    "collection": "groceries",
+    "subgroup": "Protein",
+    "tags": "Lentils bag עדשים Protein חלבון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/lentils-128.png",
+    "png": "/assets/icons/bayit/groceries/lentils-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/lentils-64.png",
+      "128": "/assets/icons/bayit/groceries/lentils-128.png",
+      "256": "/assets/icons/bayit/groceries/lentils-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-chickpeas",
+    "name": "Chickpeas jar",
+    "he": "חומוס",
+    "group": "Protein",
+    "groupHe": "חלבון",
+    "collection": "groceries",
+    "subgroup": "Protein",
+    "tags": "Chickpeas jar חומוס Protein חלבון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/chickpeas-128.png",
+    "png": "/assets/icons/bayit/groceries/chickpeas-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/chickpeas-64.png",
+      "128": "/assets/icons/bayit/groceries/chickpeas-128.png",
+      "256": "/assets/icons/bayit/groceries/chickpeas-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-water",
+    "name": "Water bottle",
+    "he": "בקבוק מים",
+    "group": "Drinks",
+    "groupHe": "משקאות",
+    "collection": "groceries",
+    "subgroup": "Drinks",
+    "tags": "Water bottle בקבוק מים Drinks משקאות",
+    "aliases": [
+      "1F4A7"
+    ],
+    "file": "/assets/icons/bayit/groceries/water-128.png",
+    "png": "/assets/icons/bayit/groceries/water-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/water-64.png",
+      "128": "/assets/icons/bayit/groceries/water-128.png",
+      "256": "/assets/icons/bayit/groceries/water-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-orange-juice",
+    "name": "Orange juice carton",
+    "he": "מיץ תפוזים",
+    "group": "Drinks",
+    "groupHe": "משקאות",
+    "collection": "groceries",
+    "subgroup": "Drinks",
+    "tags": "Orange juice carton מיץ תפוזים Drinks משקאות",
+    "aliases": [
+      "1F9C3"
+    ],
+    "file": "/assets/icons/bayit/groceries/orange-juice-128.png",
+    "png": "/assets/icons/bayit/groceries/orange-juice-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/orange-juice-64.png",
+      "128": "/assets/icons/bayit/groceries/orange-juice-128.png",
+      "256": "/assets/icons/bayit/groceries/orange-juice-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-toilet-paper",
+    "name": "Toilet paper rolls",
+    "he": "נייר טואלט",
+    "group": "Household",
+    "groupHe": "לבית",
+    "collection": "groceries",
+    "subgroup": "Household",
+    "tags": "Toilet paper rolls נייר טואלט Household לבית",
+    "aliases": [
+      "1F9FB"
+    ],
+    "file": "/assets/icons/bayit/groceries/toilet-paper-128.png",
+    "png": "/assets/icons/bayit/groceries/toilet-paper-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/toilet-paper-64.png",
+      "128": "/assets/icons/bayit/groceries/toilet-paper-128.png",
+      "256": "/assets/icons/bayit/groceries/toilet-paper-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-dish-soap",
+    "name": "Dish soap bottle",
+    "he": "סבון כלים",
+    "group": "Household",
+    "groupHe": "לבית",
+    "collection": "groceries",
+    "subgroup": "Household",
+    "tags": "Dish soap bottle סבון כלים Household לבית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/dish-soap-128.png",
+    "png": "/assets/icons/bayit/groceries/dish-soap-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/dish-soap-64.png",
+      "128": "/assets/icons/bayit/groceries/dish-soap-128.png",
+      "256": "/assets/icons/bayit/groceries/dish-soap-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-groceries-laundry-detergent",
+    "name": "Laundry detergent bottle",
+    "he": "חומר כביסה",
+    "group": "Household",
+    "groupHe": "לבית",
+    "collection": "groceries",
+    "subgroup": "Household",
+    "tags": "Laundry detergent bottle חומר כביסה Household לבית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/groceries/laundry-detergent-128.png",
+    "png": "/assets/icons/bayit/groceries/laundry-detergent-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/groceries/laundry-detergent-64.png",
+      "128": "/assets/icons/bayit/groceries/laundry-detergent-128.png",
+      "256": "/assets/icons/bayit/groceries/laundry-detergent-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-toothbrush",
+    "name": "Blue toothbrush",
+    "he": "צחצוח שיניים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Blue toothbrush צחצוח שיניים Hygiene היגיינה",
+    "aliases": [
+      "1FAA5"
+    ],
+    "file": "/assets/icons/bayit/activities/toothbrush-128.png",
+    "png": "/assets/icons/bayit/activities/toothbrush-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toothbrush-64.png",
+      "128": "/assets/icons/bayit/activities/toothbrush-128.png",
+      "256": "/assets/icons/bayit/activities/toothbrush-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-toothpaste",
+    "name": "Toothpaste tube",
+    "he": "משחת שיניים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Toothpaste tube משחת שיניים Hygiene היגיינה",
+    "aliases": [
+      "1F9B7"
+    ],
+    "file": "/assets/icons/bayit/activities/toothpaste-128.png",
+    "png": "/assets/icons/bayit/activities/toothpaste-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toothpaste-64.png",
+      "128": "/assets/icons/bayit/activities/toothpaste-128.png",
+      "256": "/assets/icons/bayit/activities/toothpaste-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-shower",
+    "name": "Showerhead with blue water",
+    "he": "מקלחת",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Showerhead with blue water מקלחת Hygiene היגיינה",
+    "aliases": [
+      "1F6BF"
+    ],
+    "file": "/assets/icons/bayit/activities/shower-128.png",
+    "png": "/assets/icons/bayit/activities/shower-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/shower-64.png",
+      "128": "/assets/icons/bayit/activities/shower-128.png",
+      "256": "/assets/icons/bayit/activities/shower-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-bathtub",
+    "name": "Bathtub with rubber duck",
+    "he": "אמבטיה",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Bathtub with rubber duck אמבטיה Hygiene היגיינה",
+    "aliases": [
+      "1F6C1"
+    ],
+    "file": "/assets/icons/bayit/activities/bathtub-128.png",
+    "png": "/assets/icons/bayit/activities/bathtub-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bathtub-64.png",
+      "128": "/assets/icons/bayit/activities/bathtub-128.png",
+      "256": "/assets/icons/bayit/activities/bathtub-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-soap",
+    "name": "Pump soap",
+    "he": "שטיפת ידיים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Pump soap שטיפת ידיים Hygiene היגיינה",
+    "aliases": [
+      "1F9FC"
+    ],
+    "file": "/assets/icons/bayit/activities/soap-128.png",
+    "png": "/assets/icons/bayit/activities/soap-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/soap-64.png",
+      "128": "/assets/icons/bayit/activities/soap-128.png",
+      "256": "/assets/icons/bayit/activities/soap-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-hand-towel",
+    "name": "Hand towel",
+    "he": "מגבת",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Hand towel מגבת Hygiene היגיינה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/hand-towel-128.png",
+    "png": "/assets/icons/bayit/activities/hand-towel-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/hand-towel-64.png",
+      "128": "/assets/icons/bayit/activities/hand-towel-128.png",
+      "256": "/assets/icons/bayit/activities/hand-towel-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-hairbrush",
+    "name": "Hairbrush",
+    "he": "סירוק שיער",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Hairbrush סירוק שיער Hygiene היגיינה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/hairbrush-128.png",
+    "png": "/assets/icons/bayit/activities/hairbrush-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/hairbrush-64.png",
+      "128": "/assets/icons/bayit/activities/hairbrush-128.png",
+      "256": "/assets/icons/bayit/activities/hairbrush-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-sneakers",
+    "name": "Blue sneakers",
+    "he": "נעליים",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Blue sneakers נעליים Routines שגרות",
+    "aliases": [
+      "1F45F"
+    ],
+    "file": "/assets/icons/bayit/activities/sneakers-128.png",
+    "png": "/assets/icons/bayit/activities/sneakers-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/sneakers-64.png",
+      "128": "/assets/icons/bayit/activities/sneakers-128.png",
+      "256": "/assets/icons/bayit/activities/sneakers-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-folded-shirt",
+    "name": "Folded shirt",
+    "he": "התלבשות",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Folded shirt התלבשות Routines שגרות",
+    "aliases": [
+      "1F455"
+    ],
+    "file": "/assets/icons/bayit/activities/folded-shirt-128.png",
+    "png": "/assets/icons/bayit/activities/folded-shirt-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/folded-shirt-64.png",
+      "128": "/assets/icons/bayit/activities/folded-shirt-128.png",
+      "256": "/assets/icons/bayit/activities/folded-shirt-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-bed",
+    "name": "Made bed",
+    "he": "סידור המיטה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Made bed סידור המיטה Routines שגרות",
+    "aliases": [
+      "1F6CF"
+    ],
+    "file": "/assets/icons/bayit/activities/bed-128.png",
+    "png": "/assets/icons/bayit/activities/bed-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bed-64.png",
+      "128": "/assets/icons/bayit/activities/bed-128.png",
+      "256": "/assets/icons/bayit/activities/bed-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-backpack",
+    "name": "School backpack",
+    "he": "תיק לבית הספר",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "School backpack תיק לבית הספר School בית ספר",
+    "aliases": [
+      "1F392"
+    ],
+    "file": "/assets/icons/bayit/activities/backpack-128.png",
+    "png": "/assets/icons/bayit/activities/backpack-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/backpack-64.png",
+      "128": "/assets/icons/bayit/activities/backpack-128.png",
+      "256": "/assets/icons/bayit/activities/backpack-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-book",
+    "name": "Closed blue book",
+    "he": "קריאה",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Closed blue book קריאה School בית ספר",
+    "aliases": [
+      "1F4D6"
+    ],
+    "file": "/assets/icons/bayit/activities/book-128.png",
+    "png": "/assets/icons/bayit/activities/book-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/book-64.png",
+      "128": "/assets/icons/bayit/activities/book-128.png",
+      "256": "/assets/icons/bayit/activities/book-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-pencils",
+    "name": "Pencils in yellow cup",
+    "he": "ציור",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Pencils in yellow cup ציור School בית ספר",
+    "aliases": [
+      "1F58D"
+    ],
+    "file": "/assets/icons/bayit/activities/pencils-128.png",
+    "png": "/assets/icons/bayit/activities/pencils-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/pencils-64.png",
+      "128": "/assets/icons/bayit/activities/pencils-128.png",
+      "256": "/assets/icons/bayit/activities/pencils-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-notebook",
+    "name": "Notebook",
+    "he": "מחברת",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Notebook מחברת School בית ספר",
+    "aliases": [
+      "1F4D3"
+    ],
+    "file": "/assets/icons/bayit/activities/notebook-128.png",
+    "png": "/assets/icons/bayit/activities/notebook-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/notebook-64.png",
+      "128": "/assets/icons/bayit/activities/notebook-128.png",
+      "256": "/assets/icons/bayit/activities/notebook-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-lunchbox",
+    "name": "Lunchbox",
+    "he": "קופסת אוכל",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Lunchbox קופסת אוכל School בית ספר",
+    "aliases": [
+      "1F371"
+    ],
+    "file": "/assets/icons/bayit/activities/lunchbox-128.png",
+    "png": "/assets/icons/bayit/activities/lunchbox-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/lunchbox-64.png",
+      "128": "/assets/icons/bayit/activities/lunchbox-128.png",
+      "256": "/assets/icons/bayit/activities/lunchbox-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-water-glass",
+    "name": "Drinking glass of water",
+    "he": "שתיית מים",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Drinking glass of water שתיית מים Meals ארוחות",
+    "aliases": [
+      "1F6B0"
+    ],
+    "file": "/assets/icons/bayit/activities/water-glass-128.png",
+    "png": "/assets/icons/bayit/activities/water-glass-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/water-glass-64.png",
+      "128": "/assets/icons/bayit/activities/water-glass-128.png",
+      "256": "/assets/icons/bayit/activities/water-glass-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-healthy-dinner",
+    "name": "Healthy dinner plate",
+    "he": "ארוחת ערב",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Healthy dinner plate ארוחת ערב Meals ארוחות",
+    "aliases": [
+      "1F37D"
+    ],
+    "file": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+    "png": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/healthy-dinner-64.png",
+      "128": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+      "256": "/assets/icons/bayit/activities/healthy-dinner-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-oatmeal",
+    "name": "Breakfast oatmeal with fruit",
+    "he": "ארוחת בוקר",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Breakfast oatmeal with fruit ארוחת בוקר Meals ארוחות",
+    "aliases": [
+      "1F963"
+    ],
+    "file": "/assets/icons/bayit/activities/oatmeal-128.png",
+    "png": "/assets/icons/bayit/activities/oatmeal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/oatmeal-64.png",
+      "128": "/assets/icons/bayit/activities/oatmeal-128.png",
+      "256": "/assets/icons/bayit/activities/oatmeal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-cooking-pot",
+    "name": "Cooking pot",
+    "he": "בישול",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Cooking pot בישול Meals ארוחות",
+    "aliases": [
+      "1F373"
+    ],
+    "file": "/assets/icons/bayit/activities/cooking-pot-128.png",
+    "png": "/assets/icons/bayit/activities/cooking-pot-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/cooking-pot-64.png",
+      "128": "/assets/icons/bayit/activities/cooking-pot-128.png",
+      "256": "/assets/icons/bayit/activities/cooking-pot-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-dishwashing",
+    "name": "Dishwashing plate with bubbles",
+    "he": "שטיפת כלים",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Dishwashing plate with bubbles שטיפת כלים Meals ארוחות",
+    "aliases": [
+      "1F9FD"
+    ],
+    "file": "/assets/icons/bayit/activities/dishwashing-128.png",
+    "png": "/assets/icons/bayit/activities/dishwashing-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/dishwashing-64.png",
+      "128": "/assets/icons/bayit/activities/dishwashing-128.png",
+      "256": "/assets/icons/bayit/activities/dishwashing-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-laundry",
+    "name": "Laundry basket",
+    "he": "כביסה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Laundry basket כביסה Chores מטלות",
+    "aliases": [
+      "1F9FA"
+    ],
+    "file": "/assets/icons/bayit/activities/laundry-128.png",
+    "png": "/assets/icons/bayit/activities/laundry-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/laundry-64.png",
+      "128": "/assets/icons/bayit/activities/laundry-128.png",
+      "256": "/assets/icons/bayit/activities/laundry-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-broom",
+    "name": "Broom",
+    "he": "טאטוא",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Broom טאטוא Chores מטלות",
+    "aliases": [
+      "1F9F9"
+    ],
+    "file": "/assets/icons/bayit/activities/broom-128.png",
+    "png": "/assets/icons/bayit/activities/broom-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/broom-64.png",
+      "128": "/assets/icons/bayit/activities/broom-128.png",
+      "256": "/assets/icons/bayit/activities/broom-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-vacuum",
+    "name": "Vacuum cleaner",
+    "he": "שאיבת אבק",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Vacuum cleaner שאיבת אבק Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/vacuum-128.png",
+    "png": "/assets/icons/bayit/activities/vacuum-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/vacuum-64.png",
+      "128": "/assets/icons/bayit/activities/vacuum-128.png",
+      "256": "/assets/icons/bayit/activities/vacuum-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-mop-bucket",
+    "name": "Mop and bucket",
+    "he": "שטיפת רצפה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Mop and bucket שטיפת רצפה Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/mop-bucket-128.png",
+    "png": "/assets/icons/bayit/activities/mop-bucket-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/mop-bucket-64.png",
+      "128": "/assets/icons/bayit/activities/mop-bucket-128.png",
+      "256": "/assets/icons/bayit/activities/mop-bucket-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-houseplant",
+    "name": "Houseplant",
+    "he": "עציץ",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Houseplant עציץ Chores מטלות",
+    "aliases": [
+      "1FAB4"
+    ],
+    "file": "/assets/icons/bayit/activities/houseplant-128.png",
+    "png": "/assets/icons/bayit/activities/houseplant-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/houseplant-64.png",
+      "128": "/assets/icons/bayit/activities/houseplant-128.png",
+      "256": "/assets/icons/bayit/activities/houseplant-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-watering-can",
+    "name": "Watering can",
+    "he": "השקיה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Watering can השקיה Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/watering-can-128.png",
+    "png": "/assets/icons/bayit/activities/watering-can-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/watering-can-64.png",
+      "128": "/assets/icons/bayit/activities/watering-can-128.png",
+      "256": "/assets/icons/bayit/activities/watering-can-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-pet-food",
+    "name": "Pet food bowl",
+    "he": "האכלת חיית מחמד",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Pet food bowl האכלת חיית מחמד Chores מטלות",
+    "aliases": [
+      "1F415"
+    ],
+    "file": "/assets/icons/bayit/activities/pet-food-128.png",
+    "png": "/assets/icons/bayit/activities/pet-food-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/pet-food-64.png",
+      "128": "/assets/icons/bayit/activities/pet-food-128.png",
+      "256": "/assets/icons/bayit/activities/pet-food-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-dog-leash",
+    "name": "Dog walking leash",
+    "he": "טיול עם הכלב",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Dog walking leash טיול עם הכלב Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/dog-leash-128.png",
+    "png": "/assets/icons/bayit/activities/dog-leash-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/dog-leash-64.png",
+      "128": "/assets/icons/bayit/activities/dog-leash-128.png",
+      "256": "/assets/icons/bayit/activities/dog-leash-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-toybox",
+    "name": "Tidy toybox with teddy bear",
+    "he": "סידור צעצועים",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Tidy toybox with teddy bear סידור צעצועים Chores מטלות",
+    "aliases": [
+      "1F9F8"
+    ],
+    "file": "/assets/icons/bayit/activities/toybox-128.png",
+    "png": "/assets/icons/bayit/activities/toybox-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toybox-64.png",
+      "128": "/assets/icons/bayit/activities/toybox-128.png",
+      "256": "/assets/icons/bayit/activities/toybox-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-recycling",
+    "name": "Recycling bin",
+    "he": "מחזור",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Recycling bin מחזור Chores מטלות",
+    "aliases": [
+      "267B"
+    ],
+    "file": "/assets/icons/bayit/activities/recycling-128.png",
+    "png": "/assets/icons/bayit/activities/recycling-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/recycling-64.png",
+      "128": "/assets/icons/bayit/activities/recycling-128.png",
+      "256": "/assets/icons/bayit/activities/recycling-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-bicycle",
+    "name": "Bicycle",
+    "he": "רכיבה על אופניים",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Bicycle רכיבה על אופניים Play משחק ופנאי",
+    "aliases": [
+      "1F6B2"
+    ],
+    "file": "/assets/icons/bayit/activities/bicycle-128.png",
+    "png": "/assets/icons/bayit/activities/bicycle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bicycle-64.png",
+      "128": "/assets/icons/bayit/activities/bicycle-128.png",
+      "256": "/assets/icons/bayit/activities/bicycle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-football",
+    "name": "Football",
+    "he": "כדורגל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Football כדורגל Play משחק ופנאי",
+    "aliases": [
+      "26BD"
+    ],
+    "file": "/assets/icons/bayit/activities/football-128.png",
+    "png": "/assets/icons/bayit/activities/football-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/football-64.png",
+      "128": "/assets/icons/bayit/activities/football-128.png",
+      "256": "/assets/icons/bayit/activities/football-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-basketball",
+    "name": "Basketball",
+    "he": "כדורסל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Basketball כדורסל Play משחק ופנאי",
+    "aliases": [
+      "1F3C0"
+    ],
+    "file": "/assets/icons/bayit/activities/basketball-128.png",
+    "png": "/assets/icons/bayit/activities/basketball-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/basketball-64.png",
+      "128": "/assets/icons/bayit/activities/basketball-128.png",
+      "256": "/assets/icons/bayit/activities/basketball-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-swim-goggles",
+    "name": "Swimming goggles",
+    "he": "שחייה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Swimming goggles שחייה Play משחק ופנאי",
+    "aliases": [
+      "1F93F"
+    ],
+    "file": "/assets/icons/bayit/activities/swim-goggles-128.png",
+    "png": "/assets/icons/bayit/activities/swim-goggles-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/swim-goggles-64.png",
+      "128": "/assets/icons/bayit/activities/swim-goggles-128.png",
+      "256": "/assets/icons/bayit/activities/swim-goggles-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-music",
+    "name": "Musical notes",
+    "he": "מוזיקה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Musical notes מוזיקה Play משחק ופנאי",
+    "aliases": [
+      "1F3B5"
+    ],
+    "file": "/assets/icons/bayit/activities/music-128.png",
+    "png": "/assets/icons/bayit/activities/music-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/music-64.png",
+      "128": "/assets/icons/bayit/activities/music-128.png",
+      "256": "/assets/icons/bayit/activities/music-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-piano",
+    "name": "Piano keys",
+    "he": "פסנתר",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Piano keys פסנתר Play משחק ופנאי",
+    "aliases": [
+      "1F3B9"
+    ],
+    "file": "/assets/icons/bayit/activities/piano-128.png",
+    "png": "/assets/icons/bayit/activities/piano-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/piano-64.png",
+      "128": "/assets/icons/bayit/activities/piano-128.png",
+      "256": "/assets/icons/bayit/activities/piano-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-puzzle",
+    "name": "Puzzle pieces",
+    "he": "פאזל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Puzzle pieces פאזל Play משחק ופנאי",
+    "aliases": [
+      "1F9E9"
+    ],
+    "file": "/assets/icons/bayit/activities/puzzle-128.png",
+    "png": "/assets/icons/bayit/activities/puzzle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/puzzle-64.png",
+      "128": "/assets/icons/bayit/activities/puzzle-128.png",
+      "256": "/assets/icons/bayit/activities/puzzle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-board-game",
+    "name": "Board game",
+    "he": "משחק קופסה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Board game משחק קופסה Play משחק ופנאי",
+    "aliases": [
+      "1F3B2"
+    ],
+    "file": "/assets/icons/bayit/activities/board-game-128.png",
+    "png": "/assets/icons/bayit/activities/board-game-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/board-game-64.png",
+      "128": "/assets/icons/bayit/activities/board-game-128.png",
+      "256": "/assets/icons/bayit/activities/board-game-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-painting",
+    "name": "Paint palette",
+    "he": "ציור בצבעים",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Paint palette ציור בצבעים Play משחק ופנאי",
+    "aliases": [
+      "1F3A8"
+    ],
+    "file": "/assets/icons/bayit/activities/painting-128.png",
+    "png": "/assets/icons/bayit/activities/painting-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/painting-64.png",
+      "128": "/assets/icons/bayit/activities/painting-128.png",
+      "256": "/assets/icons/bayit/activities/painting-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-scissors",
+    "name": "Craft scissors",
+    "he": "יצירה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Craft scissors יצירה Play משחק ופנאי",
+    "aliases": [
+      "2702"
+    ],
+    "file": "/assets/icons/bayit/activities/scissors-128.png",
+    "png": "/assets/icons/bayit/activities/scissors-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/scissors-64.png",
+      "128": "/assets/icons/bayit/activities/scissors-128.png",
+      "256": "/assets/icons/bayit/activities/scissors-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-moon-stars",
+    "name": "Crescent moon and stars",
+    "he": "שעת שינה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Crescent moon and stars שעת שינה Routines שגרות",
+    "aliases": [
+      "1F319"
+    ],
+    "file": "/assets/icons/bayit/activities/moon-stars-128.png",
+    "png": "/assets/icons/bayit/activities/moon-stars-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/moon-stars-64.png",
+      "128": "/assets/icons/bayit/activities/moon-stars-128.png",
+      "256": "/assets/icons/bayit/activities/moon-stars-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-sun",
+    "name": "Friendly sun",
+    "he": "בוקר",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Friendly sun בוקר Routines שגרות",
+    "aliases": [
+      "1F31E"
+    ],
+    "file": "/assets/icons/bayit/activities/sun-128.png",
+    "png": "/assets/icons/bayit/activities/sun-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/sun-64.png",
+      "128": "/assets/icons/bayit/activities/sun-128.png",
+      "256": "/assets/icons/bayit/activities/sun-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-alarm-clock",
+    "name": "Alarm clock",
+    "he": "שעון מעורר",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Alarm clock שעון מעורר Routines שגרות",
+    "aliases": [
+      "23F0"
+    ],
+    "file": "/assets/icons/bayit/activities/alarm-clock-128.png",
+    "png": "/assets/icons/bayit/activities/alarm-clock-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/alarm-clock-64.png",
+      "128": "/assets/icons/bayit/activities/alarm-clock-128.png",
+      "256": "/assets/icons/bayit/activities/alarm-clock-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-medicine",
+    "name": "Medicine bottle and spoon",
+    "he": "תרופה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Medicine bottle and spoon תרופה Routines שגרות",
+    "aliases": [
+      "1F48A"
+    ],
+    "file": "/assets/icons/bayit/activities/medicine-128.png",
+    "png": "/assets/icons/bayit/activities/medicine-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/medicine-64.png",
+      "128": "/assets/icons/bayit/activities/medicine-128.png",
+      "256": "/assets/icons/bayit/activities/medicine-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-thermometer",
+    "name": "Thermometer",
+    "he": "מד חום",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Thermometer מד חום Routines שגרות",
+    "aliases": [
+      "1F321"
+    ],
+    "file": "/assets/icons/bayit/activities/thermometer-128.png",
+    "png": "/assets/icons/bayit/activities/thermometer-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/thermometer-64.png",
+      "128": "/assets/icons/bayit/activities/thermometer-128.png",
+      "256": "/assets/icons/bayit/activities/thermometer-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-stethoscope",
+    "name": "Stethoscope",
+    "he": "רופא",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Stethoscope רופא Routines שגרות",
+    "aliases": [
+      "1FA7A"
+    ],
+    "file": "/assets/icons/bayit/activities/stethoscope-128.png",
+    "png": "/assets/icons/bayit/activities/stethoscope-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/stethoscope-64.png",
+      "128": "/assets/icons/bayit/activities/stethoscope-128.png",
+      "256": "/assets/icons/bayit/activities/stethoscope-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-birthday-cake",
+    "name": "Birthday cake",
+    "he": "יום הולדת",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Birthday cake יום הולדת Routines שגרות",
+    "aliases": [
+      "1F382"
+    ],
+    "file": "/assets/icons/bayit/activities/birthday-cake-128.png",
+    "png": "/assets/icons/bayit/activities/birthday-cake-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/birthday-cake-64.png",
+      "128": "/assets/icons/bayit/activities/birthday-cake-128.png",
+      "256": "/assets/icons/bayit/activities/birthday-cake-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-gift",
+    "name": "Gift box",
+    "he": "מתנה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Gift box מתנה Routines שגרות",
+    "aliases": [
+      "1F381"
+    ],
+    "file": "/assets/icons/bayit/activities/gift-128.png",
+    "png": "/assets/icons/bayit/activities/gift-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/gift-64.png",
+      "128": "/assets/icons/bayit/activities/gift-128.png",
+      "256": "/assets/icons/bayit/activities/gift-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-family-house",
+    "name": "Family house",
+    "he": "בית המשפחה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Family house בית המשפחה Routines שגרות",
+    "aliases": [
+      "1F3E0"
+    ],
+    "file": "/assets/icons/bayit/activities/family-house-128.png",
+    "png": "/assets/icons/bayit/activities/family-house-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/family-house-64.png",
+      "128": "/assets/icons/bayit/activities/family-house-128.png",
+      "256": "/assets/icons/bayit/activities/family-house-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-car",
+    "name": "Car",
+    "he": "הסעה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Car הסעה Routines שגרות",
+    "aliases": [
+      "1F697"
+    ],
+    "file": "/assets/icons/bayit/activities/car-128.png",
+    "png": "/assets/icons/bayit/activities/car-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/car-64.png",
+      "128": "/assets/icons/bayit/activities/car-128.png",
+      "256": "/assets/icons/bayit/activities/car-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-pixel-blue-cap",
+    "name": "Blue cap",
+    "he": "כובע כחול",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Blue cap כובע כחול Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/blue-cap-128.png",
+    "png": "/assets/icons/bayit/pixel/blue-cap-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/blue-cap-64.png",
+      "128": "/assets/icons/bayit/pixel/blue-cap-128.png",
+      "256": "/assets/icons/bayit/pixel/blue-cap-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-moon-cape",
+    "name": "Moon cape",
+    "he": "גלימת ירח",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Moon cape גלימת ירח Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/moon-cape-128.png",
+    "png": "/assets/icons/bayit/pixel/moon-cape-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/moon-cape-64.png",
+      "128": "/assets/icons/bayit/pixel/moon-cape-128.png",
+      "256": "/assets/icons/bayit/pixel/moon-cape-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-yellow-scarf",
+    "name": "Yellow scarf",
+    "he": "צעיף צהוב",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Yellow scarf צעיף צהוב Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/yellow-scarf-128.png",
+    "png": "/assets/icons/bayit/pixel/yellow-scarf-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/yellow-scarf-64.png",
+      "128": "/assets/icons/bayit/pixel/yellow-scarf-128.png",
+      "256": "/assets/icons/bayit/pixel/yellow-scarf-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-green-backpack",
+    "name": "Green backpack",
+    "he": "תרמיל ירוק",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Green backpack תרמיל ירוק Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/green-backpack-128.png",
+    "png": "/assets/icons/bayit/pixel/green-backpack-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/green-backpack-64.png",
+      "128": "/assets/icons/bayit/pixel/green-backpack-128.png",
+      "256": "/assets/icons/bayit/pixel/green-backpack-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-lantern",
+    "name": "Lantern",
+    "he": "עששית",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Lantern עששית Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/lantern-128.png",
+    "png": "/assets/icons/bayit/pixel/lantern-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/lantern-64.png",
+      "128": "/assets/icons/bayit/pixel/lantern-128.png",
+      "256": "/assets/icons/bayit/pixel/lantern-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-star-wizard-hat",
+    "name": "Star wizard hat",
+    "he": "כובע קוסם",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Star wizard hat כובע קוסם Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/star-wizard-hat-128.png",
+    "png": "/assets/icons/bayit/pixel/star-wizard-hat-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/star-wizard-hat-64.png",
+      "128": "/assets/icons/bayit/pixel/star-wizard-hat-128.png",
+      "256": "/assets/icons/bayit/pixel/star-wizard-hat-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-blue-sneakers",
+    "name": "Blue sneakers",
+    "he": "נעליים כחולות",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Blue sneakers נעליים כחולות Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/blue-sneakers-128.png",
+    "png": "/assets/icons/bayit/pixel/blue-sneakers-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/blue-sneakers-64.png",
+      "128": "/assets/icons/bayit/pixel/blue-sneakers-128.png",
+      "256": "/assets/icons/bayit/pixel/blue-sneakers-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-wooden-shield",
+    "name": "Wooden shield",
+    "he": "מגן",
+    "group": "Accessories",
+    "groupHe": "אביזרים",
+    "collection": "pixel",
+    "subgroup": "Accessories",
+    "tags": "Wooden shield מגן Accessories אביזרים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/wooden-shield-128.png",
+    "png": "/assets/icons/bayit/pixel/wooden-shield-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/wooden-shield-64.png",
+      "128": "/assets/icons/bayit/pixel/wooden-shield-128.png",
+      "256": "/assets/icons/bayit/pixel/wooden-shield-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-heart-badge",
+    "name": "Heart badge",
+    "he": "תג לב",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Heart badge תג לב Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/heart-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/heart-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/heart-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/heart-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/heart-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-sun-badge",
+    "name": "Sun badge",
+    "he": "תג שמש",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Sun badge תג שמש Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/sun-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/sun-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/sun-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/sun-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/sun-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-moon-badge",
+    "name": "Moon badge",
+    "he": "תג ירח",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Moon badge תג ירח Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/moon-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/moon-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/moon-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/moon-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/moon-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-schoolbag-badge",
+    "name": "School bag badge",
+    "he": "תג תיק בית ספר",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "School bag badge תג תיק בית ספר Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/schoolbag-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/schoolbag-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/schoolbag-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/schoolbag-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/schoolbag-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-toothbrush-badge",
+    "name": "Toothbrush badge",
+    "he": "תג צחצוח שיניים",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Toothbrush badge תג צחצוח שיניים Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/toothbrush-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/toothbrush-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/toothbrush-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/toothbrush-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/toothbrush-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-shower-badge",
+    "name": "Shower badge",
+    "he": "תג מקלחת",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Shower badge תג מקלחת Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/shower-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/shower-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/shower-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/shower-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/shower-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-helping-hand-badge",
+    "name": "Helping hand badge",
+    "he": "תג עזרה",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Helping hand badge תג עזרה Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/helping-hand-badge-128.png",
+    "png": "/assets/icons/bayit/pixel/helping-hand-badge-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/helping-hand-badge-64.png",
+      "128": "/assets/icons/bayit/pixel/helping-hand-badge-128.png",
+      "256": "/assets/icons/bayit/pixel/helping-hand-badge-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-trophy",
+    "name": "Trophy",
+    "he": "גביע",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Trophy גביע Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/trophy-128.png",
+    "png": "/assets/icons/bayit/pixel/trophy-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/trophy-64.png",
+      "128": "/assets/icons/bayit/pixel/trophy-128.png",
+      "256": "/assets/icons/bayit/pixel/trophy-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-gold-medal",
+    "name": "Gold medal",
+    "he": "מדליית זהב",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Gold medal מדליית זהב Badges תגים והישגים",
+    "aliases": [
+      "1F3C5"
+    ],
+    "file": "/assets/icons/bayit/pixel/gold-medal-128.png",
+    "png": "/assets/icons/bayit/pixel/gold-medal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/gold-medal-64.png",
+      "128": "/assets/icons/bayit/pixel/gold-medal-128.png",
+      "256": "/assets/icons/bayit/pixel/gold-medal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-silver-medal",
+    "name": "Silver medal",
+    "he": "מדליית כסף",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Silver medal מדליית כסף Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/silver-medal-128.png",
+    "png": "/assets/icons/bayit/pixel/silver-medal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/silver-medal-64.png",
+      "128": "/assets/icons/bayit/pixel/silver-medal-128.png",
+      "256": "/assets/icons/bayit/pixel/silver-medal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-bronze-medal",
+    "name": "Bronze medal",
+    "he": "מדליית ארד",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Bronze medal מדליית ארד Badges תגים והישגים",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/bronze-medal-128.png",
+    "png": "/assets/icons/bayit/pixel/bronze-medal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/bronze-medal-64.png",
+      "128": "/assets/icons/bayit/pixel/bronze-medal-128.png",
+      "256": "/assets/icons/bayit/pixel/bronze-medal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-yellow-star",
+    "name": "Yellow star",
+    "he": "כוכב",
+    "group": "Badges",
+    "groupHe": "תגים והישגים",
+    "collection": "pixel",
+    "subgroup": "Badges",
+    "tags": "Yellow star כוכב Badges תגים והישגים",
+    "aliases": [
+      "2B50"
+    ],
+    "file": "/assets/icons/bayit/pixel/yellow-star-128.png",
+    "png": "/assets/icons/bayit/pixel/yellow-star-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/yellow-star-64.png",
+      "128": "/assets/icons/bayit/pixel/yellow-star-128.png",
+      "256": "/assets/icons/bayit/pixel/yellow-star-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-blue-house",
+    "name": "Blue house",
+    "he": "בית כחול",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Blue house בית כחול Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/blue-house-128.png",
+    "png": "/assets/icons/bayit/pixel/blue-house-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/blue-house-64.png",
+      "128": "/assets/icons/bayit/pixel/blue-house-128.png",
+      "256": "/assets/icons/bayit/pixel/blue-house-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-cozy-bed",
+    "name": "Cozy bed",
+    "he": "מיטה",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Cozy bed מיטה Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/cozy-bed-128.png",
+    "png": "/assets/icons/bayit/pixel/cozy-bed-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/cozy-bed-64.png",
+      "128": "/assets/icons/bayit/pixel/cozy-bed-128.png",
+      "256": "/assets/icons/bayit/pixel/cozy-bed-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-reading-book",
+    "name": "Reading book",
+    "he": "ספר",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Reading book ספר Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/reading-book-128.png",
+    "png": "/assets/icons/bayit/pixel/reading-book-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/reading-book-64.png",
+      "128": "/assets/icons/bayit/pixel/reading-book-128.png",
+      "256": "/assets/icons/bayit/pixel/reading-book-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-pencil-cup",
+    "name": "Pencil cup",
+    "he": "כלי כתיבה",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Pencil cup כלי כתיבה Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/pencil-cup-128.png",
+    "png": "/assets/icons/bayit/pixel/pencil-cup-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/pencil-cup-64.png",
+      "128": "/assets/icons/bayit/pixel/pencil-cup-128.png",
+      "256": "/assets/icons/bayit/pixel/pencil-cup-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-toy-chest",
+    "name": "Toy chest",
+    "he": "ארגז צעצועים",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Toy chest ארגז צעצועים Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/toy-chest-128.png",
+    "png": "/assets/icons/bayit/pixel/toy-chest-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/toy-chest-64.png",
+      "128": "/assets/icons/bayit/pixel/toy-chest-128.png",
+      "256": "/assets/icons/bayit/pixel/toy-chest-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-puzzle",
+    "name": "Puzzle",
+    "he": "פאזל",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Puzzle פאזל Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/puzzle-128.png",
+    "png": "/assets/icons/bayit/pixel/puzzle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/puzzle-64.png",
+      "128": "/assets/icons/bayit/pixel/puzzle-128.png",
+      "256": "/assets/icons/bayit/pixel/puzzle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-bicycle",
+    "name": "Bicycle",
+    "he": "אופניים",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Bicycle אופניים Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/bicycle-128.png",
+    "png": "/assets/icons/bayit/pixel/bicycle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/bicycle-64.png",
+      "128": "/assets/icons/bayit/pixel/bicycle-128.png",
+      "256": "/assets/icons/bayit/pixel/bicycle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-football",
+    "name": "Football",
+    "he": "כדורגל",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Football כדורגל Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/football-128.png",
+    "png": "/assets/icons/bayit/pixel/football-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/football-64.png",
+      "128": "/assets/icons/bayit/pixel/football-128.png",
+      "256": "/assets/icons/bayit/pixel/football-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-musical-note",
+    "name": "Musical note",
+    "he": "תו מוזיקה",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Musical note תו מוזיקה Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/musical-note-128.png",
+    "png": "/assets/icons/bayit/pixel/musical-note-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/musical-note-64.png",
+      "128": "/assets/icons/bayit/pixel/musical-note-128.png",
+      "256": "/assets/icons/bayit/pixel/musical-note-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-paint-palette",
+    "name": "Paint palette",
+    "he": "פלטת צבעים",
+    "group": "Home",
+    "groupHe": "בית",
+    "collection": "pixel",
+    "subgroup": "Home",
+    "tags": "Paint palette פלטת צבעים Home בית",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/paint-palette-128.png",
+    "png": "/assets/icons/bayit/pixel/paint-palette-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/paint-palette-64.png",
+      "128": "/assets/icons/bayit/pixel/paint-palette-128.png",
+      "256": "/assets/icons/bayit/pixel/paint-palette-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-dog",
+    "name": "Dog",
+    "he": "כלב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "pixel",
+    "subgroup": "Pets",
+    "tags": "Dog כלב Pets חיות מחמד",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/dog-128.png",
+    "png": "/assets/icons/bayit/pixel/dog-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/dog-64.png",
+      "128": "/assets/icons/bayit/pixel/dog-128.png",
+      "256": "/assets/icons/bayit/pixel/dog-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-cat",
+    "name": "Cat",
+    "he": "חתול",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "pixel",
+    "subgroup": "Pets",
+    "tags": "Cat חתול Pets חיות מחמד",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/cat-128.png",
+    "png": "/assets/icons/bayit/pixel/cat-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/cat-64.png",
+      "128": "/assets/icons/bayit/pixel/cat-128.png",
+      "256": "/assets/icons/bayit/pixel/cat-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-rabbit",
+    "name": "Rabbit",
+    "he": "ארנב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "pixel",
+    "subgroup": "Pets",
+    "tags": "Rabbit ארנב Pets חיות מחמד",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/rabbit-128.png",
+    "png": "/assets/icons/bayit/pixel/rabbit-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/rabbit-64.png",
+      "128": "/assets/icons/bayit/pixel/rabbit-128.png",
+      "256": "/assets/icons/bayit/pixel/rabbit-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-bird",
+    "name": "Bird",
+    "he": "ציפור",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "pixel",
+    "subgroup": "Pets",
+    "tags": "Bird ציפור Pets חיות מחמד",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/bird-128.png",
+    "png": "/assets/icons/bayit/pixel/bird-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/bird-64.png",
+      "128": "/assets/icons/bayit/pixel/bird-128.png",
+      "256": "/assets/icons/bayit/pixel/bird-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-tiny-friendly-dragon",
+    "name": "Tiny friendly dragon",
+    "he": "דרקון ידידותי",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "pixel",
+    "subgroup": "Pets",
+    "tags": "Tiny friendly dragon דרקון ידידותי Pets חיות מחמד",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/tiny-friendly-dragon-128.png",
+    "png": "/assets/icons/bayit/pixel/tiny-friendly-dragon-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/tiny-friendly-dragon-64.png",
+      "128": "/assets/icons/bayit/pixel/tiny-friendly-dragon-128.png",
+      "256": "/assets/icons/bayit/pixel/tiny-friendly-dragon-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-tree",
+    "name": "Tree",
+    "he": "עץ",
+    "group": "Nature",
+    "groupHe": "טבע",
+    "collection": "pixel",
+    "subgroup": "Nature",
+    "tags": "Tree עץ Nature טבע",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/tree-128.png",
+    "png": "/assets/icons/bayit/pixel/tree-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/tree-64.png",
+      "128": "/assets/icons/bayit/pixel/tree-128.png",
+      "256": "/assets/icons/bayit/pixel/tree-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-houseplant",
+    "name": "Houseplant",
+    "he": "עציץ",
+    "group": "Nature",
+    "groupHe": "טבע",
+    "collection": "pixel",
+    "subgroup": "Nature",
+    "tags": "Houseplant עציץ Nature טבע",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/houseplant-128.png",
+    "png": "/assets/icons/bayit/pixel/houseplant-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/houseplant-64.png",
+      "128": "/assets/icons/bayit/pixel/houseplant-128.png",
+      "256": "/assets/icons/bayit/pixel/houseplant-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-flowerpot",
+    "name": "Flowerpot",
+    "he": "פרחים",
+    "group": "Nature",
+    "groupHe": "טבע",
+    "collection": "pixel",
+    "subgroup": "Nature",
+    "tags": "Flowerpot פרחים Nature טבע",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/flowerpot-128.png",
+    "png": "/assets/icons/bayit/pixel/flowerpot-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/flowerpot-64.png",
+      "128": "/assets/icons/bayit/pixel/flowerpot-128.png",
+      "256": "/assets/icons/bayit/pixel/flowerpot-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-watering-can",
+    "name": "Watering can",
+    "he": "משפך השקיה",
+    "group": "Nature",
+    "groupHe": "טבע",
+    "collection": "pixel",
+    "subgroup": "Nature",
+    "tags": "Watering can משפך השקיה Nature טבע",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/watering-can-128.png",
+    "png": "/assets/icons/bayit/pixel/watering-can-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/watering-can-64.png",
+      "128": "/assets/icons/bayit/pixel/watering-can-128.png",
+      "256": "/assets/icons/bayit/pixel/watering-can-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-vegetable-basket",
+    "name": "Vegetable basket",
+    "he": "סל ירקות",
+    "group": "Nature",
+    "groupHe": "טבע",
+    "collection": "pixel",
+    "subgroup": "Nature",
+    "tags": "Vegetable basket סל ירקות Nature טבע",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/vegetable-basket-128.png",
+    "png": "/assets/icons/bayit/pixel/vegetable-basket-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/vegetable-basket-64.png",
+      "128": "/assets/icons/bayit/pixel/vegetable-basket-128.png",
+      "256": "/assets/icons/bayit/pixel/vegetable-basket-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-milk-carton",
+    "name": "Milk carton",
+    "he": "חלב",
+    "group": "Food",
+    "groupHe": "אוכל",
+    "collection": "pixel",
+    "subgroup": "Food",
+    "tags": "Milk carton חלב Food אוכל",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/milk-carton-128.png",
+    "png": "/assets/icons/bayit/pixel/milk-carton-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/milk-carton-64.png",
+      "128": "/assets/icons/bayit/pixel/milk-carton-128.png",
+      "256": "/assets/icons/bayit/pixel/milk-carton-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-bread",
+    "name": "Bread",
+    "he": "לחם",
+    "group": "Food",
+    "groupHe": "אוכל",
+    "collection": "pixel",
+    "subgroup": "Food",
+    "tags": "Bread לחם Food אוכל",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/bread-128.png",
+    "png": "/assets/icons/bayit/pixel/bread-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/bread-64.png",
+      "128": "/assets/icons/bayit/pixel/bread-128.png",
+      "256": "/assets/icons/bayit/pixel/bread-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-apple",
+    "name": "Apple",
+    "he": "תפוח",
+    "group": "Food",
+    "groupHe": "אוכל",
+    "collection": "pixel",
+    "subgroup": "Food",
+    "tags": "Apple תפוח Food אוכל",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/apple-128.png",
+    "png": "/assets/icons/bayit/pixel/apple-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/apple-64.png",
+      "128": "/assets/icons/bayit/pixel/apple-128.png",
+      "256": "/assets/icons/bayit/pixel/apple-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-rice-bag",
+    "name": "Rice bag",
+    "he": "שק אורז",
+    "group": "Food",
+    "groupHe": "אוכל",
+    "collection": "pixel",
+    "subgroup": "Food",
+    "tags": "Rice bag שק אורז Food אוכל",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/rice-bag-128.png",
+    "png": "/assets/icons/bayit/pixel/rice-bag-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/rice-bag-64.png",
+      "128": "/assets/icons/bayit/pixel/rice-bag-128.png",
+      "256": "/assets/icons/bayit/pixel/rice-bag-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-dinner-plate",
+    "name": "Dinner plate",
+    "he": "צלחת ארוחת ערב",
+    "group": "Food",
+    "groupHe": "אוכל",
+    "collection": "pixel",
+    "subgroup": "Food",
+    "tags": "Dinner plate צלחת ארוחת ערב Food אוכל",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/dinner-plate-128.png",
+    "png": "/assets/icons/bayit/pixel/dinner-plate-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/dinner-plate-64.png",
+      "128": "/assets/icons/bayit/pixel/dinner-plate-128.png",
+      "256": "/assets/icons/bayit/pixel/dinner-plate-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-alarm-clock",
+    "name": "Alarm clock",
+    "he": "שעון מעורר",
+    "group": "Planning",
+    "groupHe": "תכנון",
+    "collection": "pixel",
+    "subgroup": "Planning",
+    "tags": "Alarm clock שעון מעורר Planning תכנון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/alarm-clock-128.png",
+    "png": "/assets/icons/bayit/pixel/alarm-clock-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/alarm-clock-64.png",
+      "128": "/assets/icons/bayit/pixel/alarm-clock-128.png",
+      "256": "/assets/icons/bayit/pixel/alarm-clock-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-calendar",
+    "name": "Calendar",
+    "he": "לוח שנה",
+    "group": "Planning",
+    "groupHe": "תכנון",
+    "collection": "pixel",
+    "subgroup": "Planning",
+    "tags": "Calendar לוח שנה Planning תכנון",
+    "aliases": [
+      "1F4C5"
+    ],
+    "file": "/assets/icons/bayit/pixel/calendar-128.png",
+    "png": "/assets/icons/bayit/pixel/calendar-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/calendar-64.png",
+      "128": "/assets/icons/bayit/pixel/calendar-128.png",
+      "256": "/assets/icons/bayit/pixel/calendar-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-gift-box",
+    "name": "Gift box",
+    "he": "מתנה",
+    "group": "Planning",
+    "groupHe": "תכנון",
+    "collection": "pixel",
+    "subgroup": "Planning",
+    "tags": "Gift box מתנה Planning תכנון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/gift-box-128.png",
+    "png": "/assets/icons/bayit/pixel/gift-box-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/gift-box-64.png",
+      "128": "/assets/icons/bayit/pixel/gift-box-128.png",
+      "256": "/assets/icons/bayit/pixel/gift-box-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-rain-cloud",
+    "name": "Rain cloud",
+    "he": "ענן גשם",
+    "group": "Planning",
+    "groupHe": "תכנון",
+    "collection": "pixel",
+    "subgroup": "Planning",
+    "tags": "Rain cloud ענן גשם Planning תכנון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/rain-cloud-128.png",
+    "png": "/assets/icons/bayit/pixel/rain-cloud-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/rain-cloud-64.png",
+      "128": "/assets/icons/bayit/pixel/rain-cloud-128.png",
+      "256": "/assets/icons/bayit/pixel/rain-cloud-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  },
+  {
+    "id": "bayit-pixel-smiling-sun",
+    "name": "Smiling sun",
+    "he": "שמש מחייכת",
+    "group": "Planning",
+    "groupHe": "תכנון",
+    "collection": "pixel",
+    "subgroup": "Planning",
+    "tags": "Smiling sun שמש מחייכת Planning תכנון",
+    "aliases": [],
+    "file": "/assets/icons/bayit/pixel/smiling-sun-128.png",
+    "png": "/assets/icons/bayit/pixel/smiling-sun-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/pixel/smiling-sun-64.png",
+      "128": "/assets/icons/bayit/pixel/smiling-sun-128.png",
+      "256": "/assets/icons/bayit/pixel/smiling-sun-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": true
+  }
+]

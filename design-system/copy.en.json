@@ -1,0 +1,23 @@
+{
+  "brand": "bayit",
+  "todayTitle": "A little more together.",
+  "todaySubtitle": "Wednesday, November 4",
+  "ourDay": "Our day",
+  "thingsToDo": "Little things to do",
+  "addToDay": "Add to our day",
+  "assistantTitle": "Your home remembers",
+  "askPlaceholder": "Ask about your family's days…",
+  "nav": [
+    "Today",
+    "Calendar",
+    "Tasks",
+    "Shopping",
+    "Home journal",
+    "Kids",
+    "Household",
+    "Statistics",
+    "Ask AI"
+  ],
+  "profile": "My profile",
+  "settings": "Settings"
+}

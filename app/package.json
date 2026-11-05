@@ -1,0 +1,38 @@
+{
+  "name": "bayit",
+  "version": "1.4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "preview": "vite preview",
+    "test:sites": "node --test tests/sites-worker.test.mjs",
+    "dev:ai": "node ../server/local-ai.mjs",
+    "test:ai": "node --test ../tests/ai.test.mjs",
+    "build:cloud": "node cloud/build.mjs",
+    "deploy:cloud": "npm run build:pages && wrangler pages deploy dist/pages --project-name bayit --branch main --force",
+    "test:domain": "node --test ../tests/*.test.mjs",
+    "build:pages": "npm run build:cloud && node cloud/prepare-pages.mjs",
+    "deploy:reminders": "wrangler deploy --config wrangler.cron.jsonc",
+    "test:telegram": "node ../tests/e2e/test-telegram-api.mjs",
+    "test:cloud-api": "node ../tests/e2e/test-cloud-api.mjs"
+  },
+  "dependencies": {
+    "@auth/core": "^0.41.3",
+    "@auth/d1-adapter": "^1.11.3",
+    "@phosphor-icons/react": "^2.1.10",
+    "@vitejs/plugin-react": "5.0.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "recharts": "^3.10.1",
+    "unpdf": "1.8.1",
+    "vite": "6.4.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "wrangler": "^4.157.0"
+  },
+  "license": "MIT",
+  "description": "Bayit: a bilingual (Hebrew/English) family home app on Cloudflare Pages"
+}
