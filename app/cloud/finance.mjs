@@ -72,11 +72,15 @@ export async function undoImport(env,home,actorId,importId){
 }
 
 const toClient=r=>({id:r.id,importId:r.import_id,ownerId:r.owner_id,visibility:r.visibility,source:r.source,account:r.account,memberId:r.member_id,date:r.date,chargeDate:r.charge_date,month:r.month,description:r.description,amount:r.amount,currency:r.currency,originalAmount:r.original_amount,category:r.category,kind:r.kind,cardIssuer:r.card_issuer,balance:r.balance,seq:r.seq,installmentN:r.installment_n,installmentOf:r.installment_of,standingOrder:!!r.standing_order,foreign:!!r.foreign_tx});
+async function financeConnections(env,home,actorId){
+ let connectionRows=[];try{connectionRows=(await env.DB.prepare('SELECT * FROM finance_connections WHERE household_id=?').bind(home.id).all()).results}catch{} // before migration 0006
+ const connections=connectionRows.map(c=>{const mine=c.member_id===actorId,seeData=mine||access({owner_id:c.member_id,visibility:c.visibility,allowed_ids:c.allowed_ids},actorId);return {provider:c.provider,memberId:c.member_id,mine,status:c.status,lastSyncAt:c.last_sync_at,lastCount:seeData?c.last_count:null,lastError:mine?c.last_error:null,visibility:c.visibility,monthsBack:mine?c.months_back:null,preferOverStatements:!!c.prefer_over_statements,balances:seeData&&c.balances?JSON.parse(c.balances):null,scopes:mine?JSON.parse(c.scopes||'[]'):null,seeData}}).filter(c=>c.seeData).map(({seeData,...c})=>c);
+ return {rows:connectionRows,connections};
+}
 export async function visibleFinance(env,home,actorId){
  let tx=(await env.DB.prepare('SELECT * FROM finance_transactions WHERE household_id=? ORDER BY date DESC,seq ASC LIMIT 20000').bind(home.id).all()).results.filter(r=>access(r,actorId)).map(toClient);
  // Live connections (RiseUp). When a connection prefers itself over statements, statement rows are set aside for the months it covers.
- let connectionRows=[];try{connectionRows=(await env.DB.prepare('SELECT * FROM finance_connections WHERE household_id=?').bind(home.id).all()).results}catch{} // before migration 0006
- const connections=connectionRows.map(c=>{const mine=c.member_id===actorId,seeData=mine||access({owner_id:c.member_id,visibility:c.visibility,allowed_ids:c.allowed_ids},actorId);return {provider:c.provider,memberId:c.member_id,mine,status:c.status,lastSyncAt:c.last_sync_at,lastCount:seeData?c.last_count:null,lastError:mine?c.last_error:null,visibility:c.visibility,monthsBack:mine?c.months_back:null,preferOverStatements:!!c.prefer_over_statements,balances:seeData&&c.balances?JSON.parse(c.balances):null,scopes:mine?JSON.parse(c.scopes||'[]'):null,seeData}}).filter(c=>c.seeData).map(({seeData,...c})=>c);
+ const {rows:connectionRows,connections}=await financeConnections(env,home,actorId);
  let setAside=0;const preferring=new Set(connectionRows.filter(c=>c.prefer_over_statements).map(c=>'riseup:'+c.member_id));
  if(preferring.size){const covered=new Set(tx.filter(t=>t.source==='riseup'&&preferring.has(t.importId)).map(t=>t.month)),before=tx.length;tx=tx.filter(t=>!(['leumi','max'].includes(t.source)&&covered.has(t.month)));setAside=before-tx.length}
  const groups=(await env.DB.prepare('SELECT * FROM finance_groups WHERE household_id=?').bind(home.id).all()).results.filter(r=>access(r,actorId)).map(g=>({issuer:g.issuer,card:g.card,kind:g.kind,chargeDate:g.charge_date,total:g.total}));
@@ -87,7 +91,7 @@ export async function visibleFinance(env,home,actorId){
 
 export async function financeInsights(env,home,actorId,month,language){
  requireAdult(home,actorId);
- const ai=await householdAI(env,home.id).catch(()=>{throw fail('Connect an AI provider in Settings → AI to get money tips.',409)});
+ const ai=await householdAI(env,home.id).catch(()=>{throw fail('Connect an AI provider in Settings → Accounts & connections to get money tips.',409)});
  const day=new Date().toISOString().slice(0,10);await env.DB.prepare('INSERT INTO ai_usage(household_id,member_id,day,requests) VALUES(?,?,?,1) ON CONFLICT(household_id,member_id,day) DO UPDATE SET requests=requests+1').bind(home.id,actorId,day).run();const usage=await env.DB.prepare('SELECT requests FROM ai_usage WHERE household_id=? AND member_id=? AND day=?').bind(home.id,actorId,day).first();if(usage.requests>100)throw fail('The daily AI request limit has been reached.',429);
  const {transactions,groups}=await visibleFinance(env,home,actorId);if(!transactions.length)throw fail('Import a statement first.',409);
  const context=insightContext(transactions,groups,month),he=language==='he';
@@ -123,6 +127,7 @@ export async function handleFinanceAPI(request,env,home,path,url){
   }
   await env.DB.prepare('UPDATE finance_transactions SET category=? WHERE id=?').bind(body.category,row.id).run();return json({updated:1});
  }
+ if(parts[0]==='connections'&&!parts[1]&&request.method==='GET'){const {connections}=await financeConnections(env,home,actorId);return json({connections,riseup:{tokensUrl:RISEUP_TOKENS_URL,apiVersion:RISEUP_API_VERSION}})}
  if(parts[0]==='connections'&&parts[1]==='riseup'){
   const adultIds=home.state.members.filter(m=>m.role!=='child').map(m=>m.id),row=await env.DB.prepare("SELECT * FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup'").bind(home.id,actorId).first();
   if(!parts[2]&&request.method==='POST'){const body=await bodyJSON(request,4000);const r=await connectRiseup(env,{home,memberId:actorId,adults:adultIds,token:body.token,visibility:body.visibility==='private'?'private':'shared',months:body.months,preferOverStatements:body.preferOverStatements!==false});return json({connected:true,count:r.count,balances:!!r.balances},201)}

@@ -22,3 +22,25 @@ jobs:
       - run: npm run test:domain
       - run: npm run build:cloud
       - run: npm run test:sites
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build -f app/host/Dockerfile -t bayit:ci .
+      - name: Start it and check health, the app and the API
+        run: |
+          docker run -d --name bayit -p 8080:8080 bayit:ci
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8080/api/health && break; sleep 1; done
+          curl -sf http://127.0.0.1:8080/api/health
+          curl -sf -o /dev/null http://127.0.0.1:8080/
+          curl -sf http://127.0.0.1:8080/version.json
+          curl -s http://127.0.0.1:8080/api/config | grep -q '"storage"'
+          docker logs bayit
+      - name: Data survives a restart
+        run: |
+          docker exec bayit ls /data/bayit.sqlite /data/secrets.json
+          docker restart bayit
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8080/api/health && break; sleep 1; done
+          curl -sf http://127.0.0.1:8080/api/health
+          docker logs bayit 2>&1 | tail -1

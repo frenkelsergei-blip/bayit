@@ -10,6 +10,7 @@ import "./themes.css";
 import "./family-profiles.css";
 import "./navigation.css";
 import "./motion-fx.css";
+import "./skeleton.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

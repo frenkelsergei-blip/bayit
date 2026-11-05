@@ -35,7 +35,7 @@ const message=(chatId,text,userId=chatId,type='private')=>({message:{message_id:
 const press=(chatId,data,userId=chatId)=>({callback_query:{id:'cb'+updateId,from:{id:userId,is_bot:false,first_name:'Fixture'},message:{message_id:messageId,chat:{id:chatId,type:'private'}},data}});
 const tick=secret=>fetch(base+'/api/internal/reminders',{method:'POST',headers:{Authorization:'Bearer '+secret}}).then(async r=>({status:r.status,...await r.json()}));
 const jerusalem=d=>({date:d.toLocaleDateString('en-CA',{timeZone:'Asia/Jerusalem'}),time:d.toLocaleTimeString('en-GB',{timeZone:'Asia/Jerusalem',hour:'2-digit',minute:'2-digit',hourCycle:'h23'})});
-function d1(sql){const file=(process.env.FIXTURE_DIR||os.tmpdir())+'/bayit-telegram-fixture.sql';return fs.writeFile(file,sql).then(()=>execFileSync('npx',['wrangler','d1','execute','bayit-home','--local','--config','wrangler.worker.jsonc','--persist-to',persist,'--file',file],{cwd:new URL('../../app/',import.meta.url),stdio:'pipe'}))}
+function d1(sql){if(process.env.BAYIT_SQLITE)return import('node:sqlite').then(({DatabaseSync})=>{const db=new DatabaseSync(process.env.BAYIT_SQLITE);db.exec('PRAGMA busy_timeout=5000');db.exec(sql);db.close()});const file=(process.env.FIXTURE_DIR||os.tmpdir())+'/bayit-telegram-fixture.sql';return fs.writeFile(file,sql).then(()=>execFileSync('npx',['wrangler','d1','execute','bayit-home','--local','--config','wrangler.worker.jsonc','--persist-to',persist,'--file',file],{cwd:new URL('../../app/',import.meta.url),stdio:'pipe'}))}
 try{
 // Household with a parent (one) and a separate adult account (two).
 const created=await api('one','/api/households',{name:'Telegram QA family'});assert.equal(created.status,201);home=created.id;

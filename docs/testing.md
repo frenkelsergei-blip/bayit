@@ -39,3 +39,17 @@ BAYIT_TEST_ORIGIN=http://127.0.0.1:8791 npm run test:cloud-api
 ```
 
 The `*_TEST_ORIGIN` variables accept **loopback addresses only**, and production never sets them.
+
+### Against the Node/Docker host
+
+The same suites run against `app/host` (SQLite and a local file folder instead of D1 and R2):
+
+```bash
+cd app && npm run build:host
+DATA=$(mktemp -d)
+DATA_DIR=$DATA PORT=8095 GOOGLE_CLIENT_ID=local-test GOOGLE_CLIENT_SECRET=local-test REMINDER_CRON_SECRET=local-test-cron-secret \
+  TELEGRAM_API_ORIGIN=http://127.0.0.1:8899 AI_TEST_ORIGIN=http://127.0.0.1:8899 SPEECH_TEST_ORIGIN=http://127.0.0.1:8899 npm run start:host &
+node -e "new (require('node:sqlite').DatabaseSync)('$DATA/bayit.sqlite').exec(require('fs').readFileSync('../tests/e2e/cloud-fixtures.sql','utf8'))"
+BAYIT_TEST_ORIGIN=http://127.0.0.1:8095 BAYIT_SQLITE=$DATA/bayit.sqlite node ../tests/e2e/test-telegram-api.mjs
+BAYIT_TEST_ORIGIN=http://127.0.0.1:8095 node ../tests/e2e/test-cloud-api.mjs
+```

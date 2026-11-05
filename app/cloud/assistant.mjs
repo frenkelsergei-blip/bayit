@@ -9,7 +9,7 @@ export {catalog};
 
 // Provider-neutral AI access lives in ai-providers.mjs; these helpers read the household's stored choice.
 export {listModels} from './ai-providers.mjs';
-export async function householdAI(env,householdId){const stored=await aiStatusRecord(env,householdId);if(!stored?.ciphertext)throw fail('Connect your household’s AI in Settings → AI first.',409);if(!stored.model||!stored.verified)throw fail('Choose and test a model first.',409);return {stored,provider:stored.provider||'anthropic',baseUrl:stored.base_url||'',model:stored.model,key:await decryptKey(stored.ciphertext,env,householdId)}}
+export async function householdAI(env,householdId){const stored=await aiStatusRecord(env,householdId);if(!stored?.ciphertext)throw fail('Connect your household’s AI in Settings → Accounts & connections first.',409);if(!stored.model||!stored.verified)throw fail('Choose and test a model first.',409);return {stored,provider:stored.provider||'anthropic',baseUrl:stored.base_url||'',model:stored.model,key:await decryptKey(stored.ciphertext,env,householdId)}}
 export const aiReady=stored=>!!(stored?.ciphertext&&stored.verified&&stored.model);
 
 export async function accounts(env,id){return (await env.DB.prepare('SELECT m.user_id,m.member_id,m.role,u.name,u.image FROM memberships m JOIN users u ON u.id=m.user_id WHERE m.household_id=? ORDER BY m.created_at').bind(id).all()).results}

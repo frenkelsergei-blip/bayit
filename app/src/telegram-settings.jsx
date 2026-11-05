@@ -3,6 +3,7 @@ import {TelegramLogo,Link,LinkBreak,PaperPlaneTilt,ArrowSquareOut,ArrowClockwise
 import {cloudHeaders} from './cloud-transport';
 import {Select} from './Select';
 import './telegram.css';
+import {WidgetSkeleton} from './skeleton';
 
 async function api(path,body,method=body===undefined?'GET':'POST'){
  const response=await fetch('/api/telegram/'+path,{method,headers:{...cloudHeaders(),...(body===undefined?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(30000)});
@@ -11,7 +12,7 @@ async function api(path,body,method=body===undefined?'GET':'POST'){
 }
 const clock=iso=>iso?new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}):'';
 
-// Settings → Notifications → Telegram. States shown here come only from the server; nothing claims a
+// Settings → Accounts & connections → Telegram. States shown here come only from the server; nothing claims a
 // delivery unless Telegram's API accepted the message.
 export function TelegramSettings({app:a,ui:{Button,Badge,Avatar},recipient}){
  const cloud=!!a.cloud,[status,setStatus]=useState(null),[busy,setBusy]=useState(''),[error,setError]=useState(''),[notice,setNotice]=useState(''),[pending,setPending]=useState(null),tokenInput=useRef(null);
@@ -31,6 +32,7 @@ export function TelegramSettings({app:a,ui:{Button,Badge,Avatar},recipient}){
  const media=status?.media,canManage=!!status?.canManage,setMedia=change=>run('media',async()=>setStatus(await api('media',change)));
  // Same markup and classes as the app's Switch, with a disabled state for members who cannot manage it.
  const Toggle=({checked,onChange,label,disabled})=><label className="switch-row telegram-toggle"><span>{label}</span><button type="button" role="switch" aria-checked={!!checked} disabled={disabled} className={'switch '+(checked?'on':'')} onClick={()=>onChange(!checked)}><span/></button></label>;
+ if(cloud&&!status)return <aside className="warm-panel telegram-panel" aria-labelledby="telegram-title"><header className="telegram-head"><span className="telegram-logo-tile"><TelegramLogo size={38} weight="fill"/></span><div><h2 id="telegram-title">{a.T('Telegram','טלגרם')}</h2><p>{a.T('Reminders and Bayit chat in your own bot','תזכורות וצ׳אט עם Bayit בבוט שלכם')}</p></div></header><WidgetSkeleton rows={3} label={a.T('Checking the Telegram connection…','בודקים את החיבור לטלגרם…')}/></aside>;
  return <aside className="warm-panel telegram-panel" aria-labelledby="telegram-title">
   <header className="telegram-head">
    <span className="telegram-logo-tile"><TelegramLogo size={38} weight="fill"/></span>
@@ -74,7 +76,7 @@ export function TelegramSettings({app:a,ui:{Button,Badge,Avatar},recipient}){
   <section className="telegram-section">
    <Step n="4">{a.T('Photos & voice','תמונות והודעות קוליות')}</Step>
    <div className="telegram-media">
-    <div className="telegram-media-row"><span className="telegram-media-icon"><Camera size={26} weight="duotone"/></span><div><Toggle checked={!!media?.photos} disabled={!connected||!canManage||!!busy} onChange={v=>setMedia({photos:v})} label={a.T('Read photos with AI','קריאת תמונות עם AI')}/><small>{a.T('Send a schedule, a list or an invitation; the AI prepares events, tasks or items for you to apply.','שלחו מערכת שעות, רשימה או הזמנה; ה־AI מכין אירועים, משימות או פריטים לאישורכם.')}{connected&&media&&!media.aiConnected?' '+a.T('Needs an AI provider connected in Settings → AI.','דורש חיבור ספק AI בהגדרות ← AI.'):''}</small></div></div>
+    <div className="telegram-media-row"><span className="telegram-media-icon"><Camera size={26} weight="duotone"/></span><div><Toggle checked={!!media?.photos} disabled={!connected||!canManage||!!busy} onChange={v=>setMedia({photos:v})} label={a.T('Read photos with AI','קריאת תמונות עם AI')}/><small>{a.T('Send a schedule, a list or an invitation; the AI prepares events, tasks or items for you to apply.','שלחו מערכת שעות, רשימה או הזמנה; ה־AI מכין אירועים, משימות או פריטים לאישורכם.')}{connected&&media&&!media.aiConnected?' '+a.T('Needs an AI provider connected in Settings → Accounts & connections.','דורש חיבור ספק AI בהגדרות ← חשבונות וחיבורים.'):''}</small></div></div>
     <div className="telegram-media-row"><span className="telegram-media-icon"><Microphone size={26} weight="duotone"/></span><div><label className="telegram-media-select"><span>{a.T('Voice messages','הודעות קוליות')}</span><Select aria-label={a.T('Voice transcription provider','ספק תמלול קולי')} value={media?.speechProvider||'off'} disabled={!connected||!canManage||!!busy} onChange={e=>setMedia({speechProvider:e.target.value})}><option value="off">{a.T('Off','כבוי')}</option><option value="cloudflare" disabled={!media?.speechAvailable?.cloudflare}>{a.T('Cloudflare Workers AI · this installation','Cloudflare Workers AI · ההתקנה הזו')}</option></Select></label><small>{a.T('Transcribed on your own Cloudflare account (about $0.0005 a minute after the free daily allowance). Up to 2 minutes per message and 60 minutes a day. You see what was heard before anything is prepared.','התמלול מתבצע בחשבון Cloudflare שלכם (כ־0.0005$ לדקה אחרי המכסה היומית החינמית). עד 2 דקות להודעה ו־60 דקות ביום. תראו מה נשמע לפני שמשהו מוכן.')}</small></div></div>
     {connected&&!canManage&&<small className="telegram-fine"><LockSimple size={17}/>{a.T('A parent manages photos and voice for the household.','הורה מנהל תמונות והודעות קוליות עבור הבית.')}</small>}
    </div>

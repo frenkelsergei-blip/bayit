@@ -6,8 +6,8 @@ import {ExpensesView} from './expenses-view';
 import {CATEGORY,CATEGORIES,flowOf,monthOf,shiftMonth,monthSummary,recurringPayments,forecast,linkCardPayments} from '../../shared/finance.mjs';
 import {MoneyHero,MoneyTile,FlowChart,CategoryRing,ForecastBar,NavArrow} from './money-charts';
 import {CategoryCards,CategorySheet} from './money-detail';
-import {RiseupConnect} from './riseup-connect';
 import './money.css';
+import {PageSkeleton} from './skeleton';
 
 async function api(path,{method='GET',body,headers={}}={}){
  const response=await fetch('/api/finance/'+path,{method,headers:{...cloudHeaders(),...headers,...(body&&!(body instanceof Blob)&&!(body instanceof ArrayBuffer)?{'Content-Type':'application/json'}:{})},body:body&&!(body instanceof Blob)&&!(body instanceof ArrayBuffer)?JSON.stringify(body):body,signal:AbortSignal.timeout(60000)});
@@ -20,7 +20,7 @@ const SOURCE={leumi:['Bank Leumi','בנק לאומי'],max:['Max','מקס'],manu
 
 export function MoneyView({app:a,ui}){
  const {Button,Icon,Avatar,Tabs,Select,Empty}=ui;
- const [data,setData]=useState(null),[error,setError]=useState(''),[tab,setTab]=useState('overview'),[scope,setScope]=useState('family'),[month,setMonth]=useState(null),[importing,setImporting]=useState(false),[insights,setInsights]=useState(null),[insightBusy,setInsightBusy]=useState(false),[insightError,setInsightError]=useState(''),[sheet,setSheet]=useState(null),[ledgerCategory,setLedgerCategory]=useState('all'),[connecting,setConnecting]=useState(false);
+ const [data,setData]=useState(null),[error,setError]=useState(''),[tab,setTab]=useState('overview'),[scope,setScope]=useState('family'),[month,setMonth]=useState(null),[importing,setImporting]=useState(false),[insights,setInsights]=useState(null),[insightBusy,setInsightBusy]=useState(false),[insightError,setInsightError]=useState(''),[sheet,setSheet]=useState(null),[ledgerCategory,setLedgerCategory]=useState('all');
  const he=a.lang==='he',T=a.T,money=(agorot,{sign=false,fraction}={})=>{const v=agorot/100;return (sign&&v>0?'+':v<0&&sign?'−':'')+'₪'+Math.abs(v).toLocaleString(he?'he-IL':'en-US',{maximumFractionDigits:fraction??(Math.abs(v)>=1000?0:2)})};
  const catName=id=>he?CATEGORY[id]?.he:CATEGORY[id]?.en,monthName=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'long',year:'numeric'}),shortMonth=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'short'});
  const load=async()=>{try{setData(await api('data'));setError('')}catch(e){setError(e.message)}};
@@ -46,7 +46,7 @@ export function MoneyView({app:a,ui}){
  const partial=months.length&&!complete(current)&&coverage.length;
 
  if(error&&!data)return <div className="money-page"><p role="alert" className="ai-error">{error}</p><Button secondary onClick={load}>{T('Try again','לנסות שוב')}</Button></div>;
- if(!data)return <div className="money-page"><p className="muted">{T('Loading your expenses…','טוענים את ההוצאות…')}</p></div>;
+ if(!data)return <div className="money-page"><PageSkeleton variant="money" label={T('Loading your expenses…','טוענים את ההוצאות…')}/></div>;
 
  const delta=(now,before)=>before?Math.round((now-before)/before*100):null;
  const metric=(Glyph,label,value,color,sub)=><section className={'money-metric '+color}><span className="money-metric-icon"><Glyph size={30} weight="duotone"/></span><div><h3>{label}</h3><strong>{value}</strong>{sub&&<small>{sub}</small>}</div></section>;
@@ -61,15 +61,15 @@ export function MoneyView({app:a,ui}){
   <Tabs variant="filter" value={scope} onChange={setScope} items={[["family",T('Together','ביחד'),UsersThree],["private",T('Just me','רק אני'),LockSimple]]}/>
   <Button icon={PencilSimple} onClick={()=>setTab('manual')}>{T('Add by hand','רישום ידני')}</Button>
   <Button secondary icon={UploadSimple} onClick={()=>setImporting(true)}>{T('Import statement','ייבוא דף חשבון')}</Button>
-  <Button secondary icon={myLink?ArrowsClockwise:Bank} onClick={()=>setConnecting(true)}>{myLink?'RiseUp':T('Connect RiseUp','חיבור RiseUp')}</Button>
+  <Button secondary icon={myLink?ArrowsClockwise:Bank} onClick={()=>a.go('settings/connections?open=riseup')}>{myLink?'RiseUp':T('Connect RiseUp','חיבור RiseUp')}</Button>
  </div>;
  const nav=<Tabs variant="view" value={tab} onChange={v=>{setTab(v);if(v!=='transactions')setLedgerCategory('all')}} items={[["overview",T('Summary','סיכום'),ChartLineUp],["transactions",T('Transactions','תנועות'),Receipt,rows.filter(t=>monthOf(t)===current).length],["recurring",T('Fixed bills','חיובים קבועים'),ArrowsClockwise,recurring.length]]}/>;
  const noData=!(data.transactions||[]).length;
 
  return <div className="money-page">
   <div className="money-controls"><div className="money-nav">{nav}</div>{toolbar}</div>
-  {tab==='manual'?<ExpensesView app={a} ui={ui}/>:noData?<MoneyWelcome a={a} onImport={()=>setImporting(true)} onConnect={()=>setConnecting(true)}/>:<>
-   {data.setAside>0&&<p className="money-partial"><Info size={18}/>{T('RiseUp is used for the months it covers, so '+data.setAside+' rows from imported statements are set aside to avoid double counting.','RiseUp משמש לחודשים שהוא מכסה, ולכן '+data.setAside+' שורות מדפי חשבון שיובאו הוסתרו כדי לא לספור פעמיים.')} <button type="button" className="text-link" onClick={()=>setConnecting(true)}>{T('Change','שינוי')}</button></p>}
+  {tab==='manual'?<ExpensesView app={a} ui={ui}/>:noData?<MoneyWelcome a={a} onImport={()=>setImporting(true)} onConnect={()=>a.go('settings/connections?open=riseup')}/>:<>
+   {data.setAside>0&&<p className="money-partial"><Info size={18}/>{T('RiseUp is used for the months it covers, so '+data.setAside+' rows from imported statements are set aside to avoid double counting.','RiseUp משמש לחודשים שהוא מכסה, ולכן '+data.setAside+' שורות מדפי חשבון שיובאו הוסתרו כדי לא לספור פעמיים.')} <button type="button" className="text-link" onClick={()=>a.go('settings/connections?open=riseup')}>{T('Change','שינוי')}</button></p>}
    {partial?<p className="money-partial"><Info size={18}/>{T('Partial month: your bank statements cover only part of ','חודש חלקי: דפי הבנק מכסים רק חלק מ')}{monthName(current)}.</p>:null}
    {tab==='overview'&&<div className="money-board">
     <MoneyHero a={a} T={T} money={money} monthName={monthName} summary={summary} month={current} live={liveBalance}/>
@@ -91,13 +91,12 @@ export function MoneyView({app:a,ui}){
      <small className="muted">{T('Estimate from '+outlook.basedOnMonths+' month(s) of statements.','הערכה לפי '+outlook.basedOnMonths+' חודשי דפי חשבון.')}</small>
     </section>
     <div className="money-span-7"><MoneyInsights a={a} T={T} month={current} insights={insights} busy={insightBusy} error={insightError} onAsk={async()=>{setInsightBusy(true);setInsightError('');try{setInsights(await api('insights',{method:'POST',body:{month:current,language:a.lang}}))}catch(e){setInsightError(e.message)}finally{setInsightBusy(false)}}}/></div>
-    <div className="money-span-5 money-sources"><Connections a={a} T={T} data={data} Avatar={Avatar} onOpen={()=>setConnecting(true)}/><Statements a={a} T={T} data={data} onRemove={async id=>{if(!window.confirm(T('Remove this statement and its transactions?','להסיר את הדף ואת התנועות שלו?')))return;try{await api('imports/'+id,{method:'DELETE'});await load()}catch(e){setError(e.message)}}}/></div>
+    <div className="money-span-5 money-sources"><Connections a={a} T={T} data={data} Avatar={Avatar} onOpen={()=>a.go('settings/connections?open=riseup')}/><Statements a={a} T={T} data={data} onRemove={async id=>{if(!window.confirm(T('Remove this statement and its transactions?','להסיר את הדף ואת התנועות שלו?')))return;try{await api('imports/'+id,{method:'DELETE'});await load()}catch(e){setError(e.message)}}}/></div>
    </div>}
    {tab==='transactions'&&<Ledger key={ledgerCategory} initialCategory={ledgerCategory} a={a} ui={ui} T={T} money={money} catName={catName} rows={rows} month={current} links={links} data={data} reload={load}/>}
    {tab==='recurring'&&<RecurringView a={a} ui={ui} T={T} money={money} catName={catName} monthName={monthName} recurring={recurring} outlook={outlook} latest={months.at(-1)}/>}
   </>}
   {sheet&&<CategorySheet a={a} T={T} money={money} catName={catName} rows={rows} groups={groups} month={current} item={sheet} Icon={Icon} Avatar={Avatar} onClose={()=>setSheet(null)} onOpenLedger={c=>{setSheet(null);setLedgerCategory(c);setTab('transactions')}}/>}
-  {connecting&&<RiseupConnect a={a} data={data} Avatar={Avatar} onClose={()=>setConnecting(false)} onChanged={load}/>}
   {importing&&<ImportDialog a={a} ui={ui} T={T} money={money} catName={catName} onClose={()=>setImporting(false)} onApplied={async()=>{setImporting(false);await load();setTab('overview')}}/>}
  </div>;
 }

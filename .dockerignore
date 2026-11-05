@@ -1,0 +1,10 @@
+# Only what the Docker build needs.
+*
+!app
+!shared
+!design-system
+app/node_modules
+app/dist
+app/.wrangler
+app/design-qa.md
+**/.DS_Store

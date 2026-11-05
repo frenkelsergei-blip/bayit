@@ -65,7 +65,9 @@ npm install
 npm run dev -- --host 127.0.0.1 --port 4173
 ```
 
-Open <http://127.0.0.1:4173/?demo=1>. For the full cloud setup (sign-in, sharing, money, Telegram), follow **[docs/self-hosting.md](docs/self-hosting.md)**.
+Open <http://127.0.0.1:4173/?demo=1>. For the full cloud setup (sign-in, sharing, expenses, Telegram), follow **[docs/self-hosting.md](docs/self-hosting.md)**.
+
+**Prefer your own machine or another provider?** Bayit also runs with Docker on a home computer, NAS, Raspberry Pi, free cloud server or VPS. It's the same code, with SQLite and a local folder instead of D1 and R2: `cp .env.example .env && docker compose up -d --build`. See **[docs/self-hosting-docker.md](docs/self-hosting-docker.md)**.
 
 ## Make it yours
 

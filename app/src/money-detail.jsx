@@ -4,6 +4,7 @@ import {X,TrendUp,TrendDown,ArrowRight,ArrowLeft,Receipt,Storefront,ChartBar} fr
 import {ResponsiveContainer,BarChart,Bar,XAxis,Cell,Tooltip} from 'recharts';
 import {cloudHeaders} from './cloud-transport';
 import {CATEGORY,monthOf,shiftMonth,monthSummary,normalizeName,forecast,recurringPayments} from '../../shared/finance.mjs';
+import {WidgetSkeleton} from './skeleton';
 
 const tint=(hex,alpha)=>{const h=(hex||'#cccccc').replace('#','');const n=parseInt(h.length===3?h.split('').map(c=>c+c).join(''):h,16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${alpha})`};
 export const pct=(a,b)=>b?Math.round((a-b)/b*100):null;
@@ -64,7 +65,7 @@ const shekel=(v,he)=>(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleSt
 export function MoneyWidget({app:a,ui:{Button}}){
  const {data,failed,view}=useFinance(a),T=a.T,he=a.lang==='he',money=v=>shekel(v,he);
  if(failed)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><p className="muted">{T('Expenses are available after signing in.','ההוצאות זמינות לאחר התחברות.')}</p></>;
- if(!data)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><p className="muted">{T('Loading…','טוען…')}</p></>;
+ if(!data)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><WidgetSkeleton hero rows={2} label={T('Loading expenses…','טוענים הוצאות…')}/></>;
  if(!view)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><div className="widget-empty"><img src="/assets/generated/money-hero-320.png" alt="" width="84" height="84"/><p>{T('Import a bank or card statement to see your month.','ייבאו דף חשבון או כרטיס כדי לראות את החודש.')}</p><Button secondary onClick={()=>a.go('household/expenses')}>{T('Import statement','ייבוא דף חשבון')}</Button></div></>;
  const {s,f,month}=view,income=Math.max(s.income,1);
  return <div className="money-widget">
@@ -85,7 +86,7 @@ export function BillsWidget({app:a,ui:{Icon}}){
  // Bills expected in the coming month (the same forecast the Money page uses), in date order from today.
  const bills=useMemo(()=>{if(!view)return [];const today=new Date().toISOString().slice(0,10),list=view.f.due.filter(r=>(CATEGORY[r.category]?.flow||'expense')==='expense').map(r=>({...r,due:view.f.month+'-'+String(Math.min(28,r.nextDay||1)).padStart(2,'0')}));const upcoming=list.filter(r=>r.due>=today);return (upcoming.length?upcoming:list).sort((x,y)=>x.due.localeCompare(y.due)).slice(0,4)},[view]);
  return <div className="bills-widget"><div className="section-title"><h2>{T('Coming up: bills','חשבונות קרובים')}</h2></div>
-  {failed?<p className="muted">{T('Available after signing in.','זמין לאחר התחברות.')}</p>:!data?<p className="muted">{T('Loading…','טוען…')}</p>:!bills.length?<p className="muted">{T('Fixed bills appear after two months of statements.','חיובים קבועים יופיעו אחרי חודשיים של דפי חשבון.')}</p>:<ul>{bills.map(r=><li key={r.key}><Icon code={CATEGORY[r.category]?.icon} size={34}/><strong>{r.description}</strong><b>{shekel(r.typical,he)}</b><span className="money-due">{new Date(r.due+'T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{day:'numeric',month:'short'})}</span></li>)}</ul>}
+  {failed?<p className="muted">{T('Available after signing in.','זמין לאחר התחברות.')}</p>:!data?<WidgetSkeleton rows={3} label={T('Loading bills…','טוענים חשבונות…')}/>:!bills.length?<p className="muted">{T('Fixed bills appear after two months of statements.','חיובים קבועים יופיעו אחרי חודשיים של דפי חשבון.')}</p>:<ul>{bills.map(r=><li key={r.key}><Icon code={CATEGORY[r.category]?.icon} size={34}/><strong>{r.description}</strong><b>{shekel(r.typical,he)}</b><span className="money-due">{new Date(r.due+'T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{day:'numeric',month:'short'})}</span></li>)}</ul>}
   <button className="text-link widget-more" onClick={()=>a.go('household/expenses')}>{T('All fixed bills','כל החיובים הקבועים')}{he?<ArrowLeft size={18}/>:<ArrowRight size={18}/>}</button>
  </div>;
 }

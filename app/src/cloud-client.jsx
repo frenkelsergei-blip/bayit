@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useMemo} from 'react';
 import {House,UsersThree,Link,Plus,ArrowRight,CheckCircle,DownloadSimple,ArrowCounterClockwise} from '@phosphor-icons/react';
 import {configureCloudTransport} from './cloud-transport';
+import {AppBootSkeleton} from './skeleton';
 import {HouseholdClient,request} from './household-sync.js';
 export {HouseholdClient};
 export async function googleSignOut(){const result=await request('/api/auth/csrf'),form=document.createElement('form');form.method='POST';form.action='/api/auth/signout';for(const [name,value]of Object.entries({csrfToken:result.csrfToken,callbackUrl:location.origin})){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.append(input)}document.body.append(form);form.submit()}
@@ -21,7 +22,7 @@ export function CloudRoot({App}){
  useEffect(()=>{if(!demo)load();else configureCloudTransport('');const change=()=>setRoute(location.hash);window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change)},[]);
  const client=useMemo(()=>loaded?new HouseholdClient(loaded.id,loaded):null,[loaded?.id]);
  if(demo)return <><div className="cloud-demo-banner">Sample data · saved on this device only <a href={location.origin+'/#signin'}>Sign in</a></div><App/></>;
- if(loading)return <div className="cloud-loading"><img src="/assets/generated/bayit-logo-512.png" alt="bayit"/><p>Opening your home…</p></div>;
+ if(loading)return <AppBootSkeleton/>;
  if(error)return <div className="cloud-loading"><h2>We couldn’t open your home.</h2><p>{error}</p><button className="button" onClick={load}>Try again</button></div>;
  if(!session?.user||!loaded||route.startsWith('#join'))return <CloudEntry config={config} session={session} onHousehold={chooseHousehold}/>;
  const cloud={config,session,initialData:loaded.data,actorId:loaded.actorId,householdId:loaded.id,client,chooseHousehold,refresh:load,signOut:googleSignOut};

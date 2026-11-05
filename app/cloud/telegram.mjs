@@ -135,7 +135,7 @@ async function onMessage(env,bot,message){
  const text=String(message.text||'').trim(),[command,...rest]=text.split(/\s+/),cmd=command?.startsWith('/')?command.slice(1).split('@')[0].toLowerCase():'';
  if(cmd==='start'&&rest[0])return linkChat(env,bot,message,rest[0],langHint);
  const link=await env.DB.prepare('SELECT * FROM telegram_links WHERE household_id=? AND chat_id=?').bind(bot.household_id,String(chat.id)).first();
- if(!link||link.telegram_user_id!==String(from.id))return send(env,bot,chat.id,L(langHint,'This chat is not linked yet. In Bayit, open Settings → Notifications → Telegram and choose Connect.','הצ׳אט עדיין לא מקושר. ב־Bayit פתחו הגדרות ← התראות ← טלגרם ובחרו חיבור.'));
+ if(!link||link.telegram_user_id!==String(from.id))return send(env,bot,chat.id,L(langHint,'This chat is not linked yet. In Bayit, open Settings → Accounts & connections → Telegram and choose Connect.','הצ׳אט עדיין לא מקושר. ב־Bayit פתחו הגדרות ← חשבונות וחיבורים ← טלגרם ובחרו חיבור.'));
  if(link.blocked)await env.DB.prepare('UPDATE telegram_links SET blocked=0 WHERE household_id=? AND member_id=?').bind(bot.household_id,link.member_id).run();
  const home=await loadHousehold(env,bot.household_id),memberId=link.member_id,role=roleOf(home.state,memberId);
  if(!role){await env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND member_id=?').bind(bot.household_id,memberId).run();return send(env,bot,chat.id,L(langHint,'This family profile is no longer available.','פרופיל המשפחה הזה כבר אינו זמין.'))}
@@ -186,7 +186,7 @@ async function sendShopping(env,bot,home,memberId,chatId,lang){
 
 async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label}={}){
  const stored=await aiStatusRecord(env,home.id);
- if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → AI.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← AI.'));
+ if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → Accounts & connections.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← חשבונות וחיבורים.'));
  if(!question.trim())return send(env,bot,link.chat_id,helpText(lang));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const turns=link.turns&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
@@ -202,8 +202,8 @@ async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label
 
 async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
  const settings=await mediaSettings(env,home.id);
- if(!settings.photos)return send(env,bot,link.chat_id,L(lang,'Photos are turned off for this household. A parent can turn them on in Settings → Notifications → Telegram.','תמונות כבויות בבית הזה. הורה יכול להפעיל אותן בהגדרות ← התראות ← טלגרם.'));
- const stored=await aiStatusRecord(env,home.id);if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → AI.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← AI.'));
+ if(!settings.photos)return send(env,bot,link.chat_id,L(lang,'Photos are turned off for this household. A parent can turn them on in Settings → Accounts & connections → Telegram.','תמונות כבויות בבית הזה. הורה יכול להפעיל אותן בהגדרות ← חשבונות וחיבורים ← טלגרם.'));
+ const stored=await aiStatusRecord(env,home.id);if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → Accounts & connections.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← חשבונות וחיבורים.'));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const {bytes,path}=await downloadFile(env,bot,photo.file_id,MAX_PHOTO_BYTES,lang),mediaType=photo.mime_type||IMAGE_TYPES[path.split('.').pop()?.toLowerCase()];
  if(!Object.values(IMAGE_TYPES).includes(mediaType))return send(env,bot,link.chat_id,L(lang,'Send a JPG, PNG, WebP or GIF image.','שלחו תמונה מסוג JPG,‏ PNG,‏ WebP או GIF.'));
@@ -229,7 +229,7 @@ async function handleStatement(env,bot,home,link,role,lang,document){
 
 async function handleVoice(env,bot,home,link,role,lang,voice,scope){
  const settings=await mediaSettings(env,home.id);
- if(settings.speechProvider==='off')return send(env,bot,link.chat_id,L(lang,'Voice messages are turned off for this household. A parent can turn them on in Settings → Notifications → Telegram.','הודעות קוליות כבויות בבית הזה. הורה יכול להפעיל אותן בהגדרות ← התראות ← טלגרם.'));
+ if(settings.speechProvider==='off')return send(env,bot,link.chat_id,L(lang,'Voice messages are turned off for this household. A parent can turn them on in Settings → Accounts & connections → Telegram.','הודעות קוליות כבויות בבית הזה. הורה יכול להפעיל אותן בהגדרות ← חשבונות וחיבורים ← טלגרם.'));
  if(!speechAvailability(env)[settings.speechProvider])return send(env,bot,link.chat_id,L(lang,'The voice service is not available on this installation right now.','שירות ההודעות הקוליות אינו זמין כרגע בהתקנה הזו.'));
  const seconds=Math.max(1,Math.ceil(Number(voice.duration)||0));if(seconds>MAX_VOICE_SECONDS)return send(env,bot,link.chat_id,L(lang,'Please keep voice messages under '+MAX_VOICE_SECONDS/60+' minutes.','נא לשלוח הודעות קוליות של עד '+MAX_VOICE_SECONDS/60+' דקות.'));
  const day=localDate(),used=(await env.DB.prepare('SELECT seconds FROM speech_usage WHERE household_id=? AND day=?').bind(home.id,day).first())?.seconds||0;

@@ -1,6 +1,6 @@
 {
   "name": "bayit",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,6 +16,8 @@
     "build:pages": "npm run build:cloud && node cloud/prepare-pages.mjs",
     "deploy:reminders": "wrangler deploy --config wrangler.cron.jsonc",
     "test:telegram": "node ../tests/e2e/test-telegram-api.mjs",
+    "build:host": "npm run build:cloud && node host/build-host.mjs",
+    "start:host": "node --disable-warning=ExperimentalWarning dist/host/server.mjs",
     "test:cloud-api": "node ../tests/e2e/test-cloud-api.mjs"
   },
   "dependencies": {

@@ -2,6 +2,8 @@
 
 Bayit runs entirely on **your own Cloudflare account**: a Pages project with a Function, a D1 database, a private R2 bucket, optional Workers AI, and a tiny cron Worker for reminders. The free Cloudflare plan is enough for a family. Every external service (Google sign-in, Claude, Telegram) uses credentials **you** create.
 
+> Prefer your own machine, a NAS, a Raspberry Pi or another cloud provider? See [Run Bayit anywhere with Docker](self-hosting-docker.md).
+
 > Time: about 30–45 minutes. You need a Cloudflare account, a Google account, Node.js 20+, and the `wrangler` CLI (installed with the app).
 
 ## 1. Get the code and dependencies

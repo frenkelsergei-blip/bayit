@@ -1,0 +1,7 @@
+/* Today → Things to do: the same row anatomy as the Tasks screen (checkbox, icon, title, owner), fitted to the widget. */
+.today-task-row{display:grid!important;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;column-gap:12px!important}
+.today-task-row .task-title{min-width:0;text-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:3px;overflow-wrap:anywhere}
+.today-task-meta{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:calc(13px * var(--text-scale,1));font-weight:750;color:var(--muted)}
+.today-task-meta b{color:#1f8a57}
+.today-task-row .badge{max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:420px){.today-task-row .badge{max-width:110px}}

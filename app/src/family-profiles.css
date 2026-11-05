@@ -48,3 +48,16 @@
 .birthday-input.empty input:focus,.birthday-input.empty input:focus::-webkit-datetime-edit{color:var(--text)}
 .birthday-placeholder{position:absolute;inset-inline-start:46px;color:var(--muted);font-weight:600;pointer-events:none}
 .birthday-input.empty input:focus+.birthday-placeholder{display:none}
+.photo-choices{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.photo-choices .photo-choice{margin-top:12px}
+.family-add-photo .photo-choices .photo-choice{margin-top:0}
+.family-photo-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+@media(max-width:480px){.family-photo-actions{justify-content:center}}
+.camera-button{display:inline-flex!important;align-items:center;gap:8px;cursor:pointer}
+.camera-button.disabled{opacity:.55;pointer-events:none}
+.photo-field{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+@media(max-width:700px){
+ .actions:has(> .camera-button){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+ .actions:has(> .camera-button)>:first-child:not(label){grid-column:1/-1;justify-self:start}
+ .actions:has(> .camera-button)>label{justify-content:center;width:100%;min-height:50px}
+}
