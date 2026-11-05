@@ -25,6 +25,7 @@ import "./scroll-hints.css";
 import "./scroll-hints.js";
 import "./person-chips.css";
 import "./avatar-stack.css";
+import "./people-picker.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

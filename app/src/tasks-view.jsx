@@ -6,6 +6,7 @@ import {occursOn,completionState} from './domain';
 import {DateField} from './date-field';
 import {AvatarStack} from './avatar-stack';
 import {canAccessList,applyListAudience,createTaskList} from '../../shared/task-lists.mjs';
+import {PeoplePicker} from './people-picker';
 
 const addDays=(v,n)=>{const d=new Date(v+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 const uid=()=>crypto.randomUUID();
@@ -51,7 +52,7 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
 
   <div className="tasks-filters">
    <div className="tasks-range" role="group" aria-label={a.T('When','מתי')}>{rangeButtons.map(([k,t])=><button type="button" key={k} aria-pressed={range===k} className={range===k?'on':''} onClick={()=>setRange(k)}>{t}</button>)}<DateField variant="toolbar" className={'tasks-day'+(range==='day'?' on':'')} required aria-label={a.T('Choose a day','בחירת יום')} value={day} onChange={e=>{if(e.target.value){setDay(e.target.value);setRange('day')}}}/></div>
-   <div className="tasks-people calendar-person-legend"><button type="button" className={'calendar-all-members '+(person==='all'?'chosen':'')} onClick={()=>setPerson('all')}><Users size={18}/>{a.T('Everyone','כולם')}</button>{a.members.filter(m=>parent||m.id===a.user).map(m=><button type="button" key={m.id} aria-pressed={person===m.id} className={'calendar-person '+m.color+(person===m.id?' chosen':'')} onClick={()=>setPerson(person===m.id?'all':m.id)}><Avatar who={m.id} size={40}/><span>{a.name(m.id)}</span></button>)}</div>
+   <PeoplePicker value={person} onChange={setPerson} people={a.members.filter(m=>parent||m.id===a.user).map(m=>m.id)} allLabel={a.T('Everyone','כולם')} title={a.T('Whose tasks','המשימות של')} T={a.T} Avatar={Avatar} name={a.name} member={a.member}/><div className="tasks-people calendar-person-legend has-people-picker"><button type="button" className={'calendar-all-members '+(person==='all'?'chosen':'')} onClick={()=>setPerson('all')}><Users size={18}/>{a.T('Everyone','כולם')}</button>{a.members.filter(m=>parent||m.id===a.user).map(m=><button type="button" key={m.id} aria-pressed={person===m.id} className={'calendar-person '+m.color+(person===m.id?' chosen':'')} onClick={()=>setPerson(person===m.id?'all':m.id)}><Avatar who={m.id} size={40}/><span>{a.name(m.id)}</span></button>)}</div>
    <div className="tasks-status" role="group" aria-label={a.T('Status','מצב')}>{[['all',a.T('All','הכל')],['open',a.T('To do','לביצוע')],['done',a.T('Done','בוצע')]].map(([k,t])=><button type="button" key={k} aria-pressed={status===k} className={status===k?'on':''} onClick={()=>setStatus(k)}>{t}</button>)}</div>
    <label className="tasks-search"><MagnifyingGlass size={18}/><input type="search" value={search} onChange={e=>setSearch(e.target.value)} placeholder={a.T('Search tasks','חיפוש משימות')} aria-label={a.T('Search tasks','חיפוש משימות')}/></label>
   </div>
