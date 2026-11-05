@@ -161,3 +161,19 @@ footer{text-align:center;padding:50px 16px 60px;color:var(--muted)}footer>img{ma
 @media(max-width:560px){body{font-size:17px}.grid{grid-template-columns:minmax(0,1fr)}.hero-stage{min-height:340px}.toast{font-size:13px}.toast img{width:30px;height:30px}.float{width:44px}.counters{grid-template-columns:minmax(0,1fr)}.crew img{width:100px;height:100px}.player{padding:14px;border-radius:26px}.big{font-size:40px}.brand span{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.toast{opacity:1;transform:none}.t2,.t3{display:none}}
 .msg .ok{color:#1f8a57}
+
+/* Hero v2: nothing covers the screens; notifications share one slot above the laptop; iPhone-style frame */
+.hero-stage{min-height:0;aspect-ratio:1.18}
+.laptop{top:13%;width:82%;inset-inline-start:0}
+.phone{width:26%;inset-inline-end:1%;bottom:0;padding:2.1%;border-radius:clamp(26px,3.6vw,48px);background:linear-gradient(145deg,#2b2f3a,#0c0e14);box-shadow:0 0 0 2px #3a3f4c,0 24px 50px rgba(0,0,0,.35);z-index:3}
+.phone img{width:100%;aspect-ratio:852/1846;object-fit:cover;object-position:top;border-radius:clamp(20px,2.9vw,38px)}
+.phone .island{position:absolute;top:3.3%;left:50%;transform:translateX(-50%);width:30%;height:2.6%;border-radius:999px;background:#05060a;z-index:2}
+.phone:before,.phone:after{content:"";position:absolute;width:3px;border-radius:3px;background:#3a3f4c}
+.phone:before{inset-inline-end:-3px;top:24%;height:11%}
+.phone:after{inset-inline-start:-3px;top:18%;height:7%;box-shadow:0 calc(1.4vw + 22px) 0 #3a3f4c}
+.toast{z-index:4}
+.t1,.t2,.t3{top:0;bottom:auto;inset-inline-start:0;inset-inline-end:auto}
+.f1{inset-inline-end:30%;inset-inline-start:auto;top:0;width:54px}
+.f3{inset-inline-start:3%;inset-inline-end:auto;bottom:0;top:auto;width:52px}
+@media(max-width:1100px){.hero-stage{max-width:760px;margin:0 auto;width:100%}}
+@media(max-width:560px){.hero-stage{aspect-ratio:.95}.laptop{top:23%;width:86%}.phone{width:30%}.toast{font-size:12px;padding:8px 10px}.f1{width:40px}.f3{width:38px}}
