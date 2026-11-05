@@ -5,12 +5,13 @@ import {householdAI,roleOf} from './assistant.mjs';
 import {generate} from './ai-providers.mjs';
 import {canSee} from '../src/data.js';
 import {pdfRows,MAX_STATEMENT_BYTES} from './statement-pdf.mjs';
+import {connectRiseup,syncConnection,RISEUP_TOKENS_URL,RISEUP_API_VERSION} from './riseup.mjs';
 import {parseStatement} from '../../shared/finance-parse.mjs';
 import {rowsFromStatement,groupsFromStatement,normalizeName,fingerprintText,monthOf,insightContext,CATEGORY,CATEGORIES} from '../../shared/finance.mjs';
 
 const PENDING_HOURS=24;
 const adults=state=>state.members.filter(m=>m.role!=='child').map(m=>m.id);
-const requireAdult=(home,actorId)=>{if(roleOf(home.state,actorId)==='child')throw fail('Money is available to adult accounts.',403)};
+const requireAdult=(home,actorId)=>{if(roleOf(home.state,actorId)==='child')throw fail('Expenses are available to adult accounts.',403)};
 const access=(row,actorId)=>canSee({ownerId:row.owner_id,visibility:row.visibility,allowedIds:JSON.parse(row.allowed_ids||'[]')},actorId);
 const sharing=(home,actorId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'selected',allowed:adults(home.state).filter(id=>id!==actorId)};
 
@@ -70,13 +71,18 @@ export async function undoImport(env,home,actorId,importId){
  await env.DB.batch([env.DB.prepare('DELETE FROM finance_transactions WHERE household_id=? AND import_id=?').bind(home.id,importId),env.DB.prepare('DELETE FROM finance_groups WHERE household_id=? AND import_id=?').bind(home.id,importId),env.DB.prepare("UPDATE finance_imports SET status='removed',payload=NULL WHERE id=?").bind(importId)]);
 }
 
-const toClient=r=>({id:r.id,importId:r.import_id,ownerId:r.owner_id,visibility:r.visibility,source:r.source,account:r.account,memberId:r.member_id,date:r.date,chargeDate:r.charge_date,description:r.description,amount:r.amount,currency:r.currency,originalAmount:r.original_amount,category:r.category,kind:r.kind,cardIssuer:r.card_issuer,balance:r.balance,seq:r.seq,installmentN:r.installment_n,installmentOf:r.installment_of,standingOrder:!!r.standing_order,foreign:!!r.foreign_tx});
+const toClient=r=>({id:r.id,importId:r.import_id,ownerId:r.owner_id,visibility:r.visibility,source:r.source,account:r.account,memberId:r.member_id,date:r.date,chargeDate:r.charge_date,month:r.month,description:r.description,amount:r.amount,currency:r.currency,originalAmount:r.original_amount,category:r.category,kind:r.kind,cardIssuer:r.card_issuer,balance:r.balance,seq:r.seq,installmentN:r.installment_n,installmentOf:r.installment_of,standingOrder:!!r.standing_order,foreign:!!r.foreign_tx});
 export async function visibleFinance(env,home,actorId){
- const tx=(await env.DB.prepare('SELECT * FROM finance_transactions WHERE household_id=? ORDER BY date DESC,seq ASC LIMIT 20000').bind(home.id).all()).results.filter(r=>access(r,actorId)).map(toClient);
+ let tx=(await env.DB.prepare('SELECT * FROM finance_transactions WHERE household_id=? ORDER BY date DESC,seq ASC LIMIT 20000').bind(home.id).all()).results.filter(r=>access(r,actorId)).map(toClient);
+ // Live connections (RiseUp). When a connection prefers itself over statements, statement rows are set aside for the months it covers.
+ let connectionRows=[];try{connectionRows=(await env.DB.prepare('SELECT * FROM finance_connections WHERE household_id=?').bind(home.id).all()).results}catch{} // before migration 0006
+ const connections=connectionRows.map(c=>{const mine=c.member_id===actorId,seeData=mine||access({owner_id:c.member_id,visibility:c.visibility,allowed_ids:c.allowed_ids},actorId);return {provider:c.provider,memberId:c.member_id,mine,status:c.status,lastSyncAt:c.last_sync_at,lastCount:seeData?c.last_count:null,lastError:mine?c.last_error:null,visibility:c.visibility,monthsBack:mine?c.months_back:null,preferOverStatements:!!c.prefer_over_statements,balances:seeData&&c.balances?JSON.parse(c.balances):null,scopes:mine?JSON.parse(c.scopes||'[]'):null,seeData}}).filter(c=>c.seeData).map(({seeData,...c})=>c);
+ let setAside=0;const preferring=new Set(connectionRows.filter(c=>c.prefer_over_statements).map(c=>'riseup:'+c.member_id));
+ if(preferring.size){const covered=new Set(tx.filter(t=>t.source==='riseup'&&preferring.has(t.importId)).map(t=>t.month)),before=tx.length;tx=tx.filter(t=>!(['leumi','max'].includes(t.source)&&covered.has(t.month)));setAside=before-tx.length}
  const groups=(await env.DB.prepare('SELECT * FROM finance_groups WHERE household_id=?').bind(home.id).all()).results.filter(r=>access(r,actorId)).map(g=>({issuer:g.issuer,card:g.card,kind:g.kind,chargeDate:g.charge_date,total:g.total}));
  const imports=(await env.DB.prepare("SELECT id,owner_id,source,kind,file_name,period_from,period_to,statement_date,status,checks,tx_count,new_count,visibility,allowed_ids,created_at,applied_at FROM finance_imports WHERE household_id=? AND status='applied' ORDER BY created_at DESC LIMIT 200").bind(home.id).all()).results.filter(r=>access(r,actorId)).map(r=>({id:r.id,ownerId:r.owner_id,source:r.source,kind:r.kind,fileName:r.file_name,periodFrom:r.period_from,periodTo:r.period_to,statementDate:r.statement_date,checksOk:JSON.parse(r.checks||'[]').every(c=>c.ok),count:r.tx_count,newCount:r.new_count,visibility:r.visibility,appliedAt:r.applied_at}));
  const cards=(await env.DB.prepare('SELECT source,account,member_id,holder FROM finance_cards WHERE household_id=?').bind(home.id).all()).results.map(c=>({source:c.source,account:c.account,memberId:c.member_id}));
- return {transactions:tx,groups,imports,cards};
+ return {transactions:tx,groups,imports,cards,connections,setAside,riseup:{tokensUrl:RISEUP_TOKENS_URL,apiVersion:RISEUP_API_VERSION}};
 }
 
 export async function financeInsights(env,home,actorId,month,language){
@@ -116,6 +122,22 @@ export async function handleFinanceAPI(request,env,home,path,url){
    return json({updated:same.length});
   }
   await env.DB.prepare('UPDATE finance_transactions SET category=? WHERE id=?').bind(body.category,row.id).run();return json({updated:1});
+ }
+ if(parts[0]==='connections'&&parts[1]==='riseup'){
+  const adultIds=home.state.members.filter(m=>m.role!=='child').map(m=>m.id),row=await env.DB.prepare("SELECT * FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup'").bind(home.id,actorId).first();
+  if(!parts[2]&&request.method==='POST'){const body=await bodyJSON(request,4000);const r=await connectRiseup(env,{home,memberId:actorId,adults:adultIds,token:body.token,visibility:body.visibility==='private'?'private':'shared',months:body.months,preferOverStatements:body.preferOverStatements!==false});return json({connected:true,count:r.count,balances:!!r.balances},201)}
+  if(!row)throw fail('Connect your RiseUp account first.',404);
+  if(parts[2]==='sync'&&request.method==='POST'){
+   if(row.last_attempt_at>Date.now()-60000)throw fail('RiseUp was just synced. Try again in a minute.',429);
+   await env.DB.prepare("UPDATE finance_connections SET last_attempt_at=? WHERE household_id=? AND member_id=? AND provider='riseup'").bind(Date.now(),home.id,actorId).run();
+   const r=await syncConnection(env,row,adultIds);return json({synced:true,count:r.count});
+  }
+  if(!parts[2]&&request.method==='PATCH'){
+   const body=await bodyJSON(request,2000),visibility=body.visibility===undefined?row.visibility:body.visibility==='private'?'private':'selected',allowed=visibility==='private'?[]:adultIds.filter(id=>id!==actorId),months=body.months===undefined?row.months_back:Math.max(1,Math.min(12,Number(body.months)||3)),prefer=body.preferOverStatements===undefined?row.prefer_over_statements:body.preferOverStatements?1:0;
+   await env.DB.batch([env.DB.prepare("UPDATE finance_connections SET visibility=?,allowed_ids=?,months_back=?,prefer_over_statements=? WHERE household_id=? AND member_id=? AND provider='riseup'").bind(visibility,JSON.stringify(allowed),months,prefer,home.id,actorId),env.DB.prepare("UPDATE finance_transactions SET visibility=?,allowed_ids=? WHERE household_id=? AND import_id=?").bind(visibility,JSON.stringify(allowed),home.id,'riseup:'+actorId)]);
+   return json({updated:true});
+  }
+  if(!parts[2]&&request.method==='DELETE'){const keep=url.searchParams.get('keep')==='1';const ops=[env.DB.prepare("DELETE FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup'").bind(home.id,actorId)];if(!keep)ops.push(env.DB.prepare('DELETE FROM finance_transactions WHERE household_id=? AND import_id=?').bind(home.id,'riseup:'+actorId));await env.DB.batch(ops);return json({removed:true,keptTransactions:keep})}
  }
  if(parts[0]==='insights'&&request.method==='POST'){const body=await bodyJSON(request,1000);if(!/^\d{4}-\d{2}$/.test(body.month||''))throw fail('Choose a month.');return json(await financeInsights(env,home,actorId,body.month,body.language))}
  throw fail('Unknown money endpoint.',404);

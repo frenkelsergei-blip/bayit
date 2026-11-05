@@ -1,0 +1,610 @@
+{
+ "spark-yellow": {
+  "atlasBox": [
+   0,
+   0,
+   222,
+   222
+  ],
+  "bbox": [
+   89,
+   92,
+   185,
+   190
+  ],
+  "touchesEdge": false,
+  "native": [
+   96,
+   98
+  ]
+ },
+ "spark-cobalt": {
+  "atlasBox": [
+   222,
+   0,
+   444,
+   222
+  ],
+  "bbox": [
+   92,
+   103,
+   162,
+   174
+  ],
+  "touchesEdge": false,
+  "native": [
+   70,
+   71
+  ]
+ },
+ "twinkle-lilac": {
+  "atlasBox": [
+   444,
+   0,
+   665,
+   222
+  ],
+  "bbox": [
+   79,
+   100,
+   157,
+   177
+  ],
+  "touchesEdge": false,
+  "native": [
+   78,
+   77
+  ]
+ },
+ "confetti-cobalt": {
+  "atlasBox": [
+   665,
+   0,
+   887,
+   222
+  ],
+  "bbox": [
+   91,
+   116,
+   137,
+   160
+  ],
+  "touchesEdge": false,
+  "native": [
+   46,
+   44
+  ]
+ },
+ "confetti-yellow": {
+  "atlasBox": [
+   887,
+   0,
+   1109,
+   222
+  ],
+  "bbox": [
+   87,
+   116,
+   131,
+   160
+  ],
+  "touchesEdge": false,
+  "native": [
+   44,
+   44
+  ]
+ },
+ "confetti-lilac": {
+  "atlasBox": [
+   1109,
+   0,
+   1330,
+   222
+  ],
+  "bbox": [
+   68,
+   100,
+   144,
+   177
+  ],
+  "touchesEdge": false,
+  "native": [
+   76,
+   77
+  ]
+ },
+ "confetti-apricot": {
+  "atlasBox": [
+   1330,
+   0,
+   1552,
+   222
+  ],
+  "bbox": [
+   62,
+   97,
+   146,
+   179
+  ],
+  "touchesEdge": false,
+  "native": [
+   84,
+   82
+  ]
+ },
+ "confetti-green": {
+  "atlasBox": [
+   1552,
+   0,
+   1774,
+   222
+  ],
+  "bbox": [
+   77,
+   116,
+   123,
+   160
+  ],
+  "touchesEdge": false,
+  "native": [
+   46,
+   44
+  ]
+ },
+ "coin": {
+  "atlasBox": [
+   0,
+   222,
+   222,
+   444
+  ],
+  "bbox": [
+   81,
+   74,
+   185,
+   177
+  ],
+  "touchesEdge": false,
+  "native": [
+   104,
+   103
+  ]
+ },
+ "coin-side": {
+  "atlasBox": [
+   222,
+   222,
+   444,
+   444
+  ],
+  "bbox": [
+   107,
+   74,
+   147,
+   176
+  ],
+  "touchesEdge": false,
+  "native": [
+   40,
+   102
+  ]
+ },
+ "heart": {
+  "atlasBox": [
+   444,
+   222,
+   665,
+   444
+  ],
+  "bbox": [
+   64,
+   84,
+   168,
+   171
+  ],
+  "touchesEdge": false,
+  "native": [
+   104,
+   87
+  ]
+ },
+ "trophy": {
+  "atlasBox": [
+   665,
+   222,
+   887,
+   444
+  ],
+  "bbox": [
+   52,
+   74,
+   171,
+   176
+  ],
+  "touchesEdge": false,
+  "native": [
+   119,
+   102
+  ]
+ },
+ "medal": {
+  "atlasBox": [
+   887,
+   222,
+   1109,
+   444
+  ],
+  "bbox": [
+   59,
+   67,
+   154,
+   183
+  ],
+  "touchesEdge": false,
+  "native": [
+   95,
+   116
+  ]
+ },
+ "check-badge": {
+  "atlasBox": [
+   1109,
+   222,
+   1330,
+   444
+  ],
+  "bbox": [
+   52,
+   72,
+   158,
+   179
+  ],
+  "touchesEdge": false,
+  "native": [
+   106,
+   107
+  ]
+ },
+ "bolt": {
+  "atlasBox": [
+   1330,
+   222,
+   1552,
+   444
+  ],
+  "bbox": [
+   62,
+   72,
+   139,
+   183
+  ],
+  "touchesEdge": false,
+  "native": [
+   77,
+   111
+  ]
+ },
+ "crown": {
+  "atlasBox": [
+   1552,
+   222,
+   1774,
+   444
+  ],
+  "bbox": [
+   39,
+   79,
+   161,
+   171
+  ],
+  "touchesEdge": false,
+  "native": [
+   122,
+   92
+  ]
+ },
+ "calendar-check": {
+  "atlasBox": [
+   0,
+   444,
+   222,
+   665
+  ],
+  "bbox": [
+   81,
+   48,
+   185,
+   158
+  ],
+  "touchesEdge": false,
+  "native": [
+   104,
+   110
+  ]
+ },
+ "clipboard-check": {
+  "atlasBox": [
+   222,
+   444,
+   444,
+   665
+  ],
+  "bbox": [
+   76,
+   43,
+   172,
+   160
+  ],
+  "touchesEdge": false,
+  "native": [
+   96,
+   117
+  ]
+ },
+ "shopping-bag": {
+  "atlasBox": [
+   444,
+   444,
+   665,
+   665
+  ],
+  "bbox": [
+   64,
+   52,
+   169,
+   162
+  ],
+  "touchesEdge": false,
+  "native": [
+   105,
+   110
+  ]
+ },
+ "cart": {
+  "atlasBox": [
+   665,
+   444,
+   887,
+   665
+  ],
+  "bbox": [
+   52,
+   63,
+   172,
+   161
+  ],
+  "touchesEdge": false,
+  "native": [
+   120,
+   98
+  ]
+ },
+ "note": {
+  "atlasBox": [
+   887,
+   444,
+   1109,
+   665
+  ],
+  "bbox": [
+   52,
+   60,
+   167,
+   154
+  ],
+  "touchesEdge": false,
+  "native": [
+   115,
+   94
+  ]
+ },
+ "envelope-lock": {
+  "atlasBox": [
+   1109,
+   444,
+   1330,
+   665
+  ],
+  "bbox": [
+   48,
+   66,
+   158,
+   162
+  ],
+  "touchesEdge": false,
+  "native": [
+   110,
+   96
+  ]
+ },
+ "house": {
+  "atlasBox": [
+   1330,
+   444,
+   1552,
+   665
+  ],
+  "bbox": [
+   36,
+   55,
+   166,
+   158
+  ],
+  "touchesEdge": false,
+  "native": [
+   130,
+   103
+  ]
+ },
+ "cloud-up": {
+  "atlasBox": [
+   1552,
+   444,
+   1774,
+   665
+  ],
+  "bbox": [
+   38,
+   64,
+   159,
+   152
+  ],
+  "touchesEdge": false,
+  "native": [
+   121,
+   88
+  ]
+ },
+ "bell": {
+  "atlasBox": [
+   0,
+   665,
+   222,
+   887
+  ],
+  "bbox": [
+   71,
+   43,
+   195,
+   152
+  ],
+  "touchesEdge": false,
+  "native": [
+   124,
+   109
+  ]
+ },
+ "party-popper": {
+  "atlasBox": [
+   222,
+   665,
+   444,
+   887
+  ],
+  "bbox": [
+   73,
+   35,
+   182,
+   150
+  ],
+  "touchesEdge": false,
+  "native": [
+   109,
+   115
+  ]
+ },
+ "gift": {
+  "atlasBox": [
+   444,
+   665,
+   665,
+   887
+  ],
+  "bbox": [
+   63,
+   41,
+   171,
+   150
+  ],
+  "touchesEdge": false,
+  "native": [
+   108,
+   109
+  ]
+ },
+ "balloon": {
+  "atlasBox": [
+   665,
+   665,
+   887,
+   887
+  ],
+  "bbox": [
+   73,
+   40,
+   155,
+   152
+  ],
+  "touchesEdge": false,
+  "native": [
+   82,
+   112
+  ]
+ },
+ "rocket": {
+  "atlasBox": [
+   887,
+   665,
+   1109,
+   887
+  ],
+  "bbox": [
+   50,
+   41,
+   159,
+   152
+  ],
+  "touchesEdge": false,
+  "native": [
+   109,
+   111
+  ]
+ },
+ "rainbow": {
+  "atlasBox": [
+   1109,
+   665,
+   1330,
+   887
+  ],
+  "bbox": [
+   37,
+   53,
+   170,
+   140
+  ],
+  "touchesEdge": false,
+  "native": [
+   133,
+   87
+  ]
+ },
+ "cloud-check": {
+  "atlasBox": [
+   1330,
+   665,
+   1552,
+   887
+  ],
+  "bbox": [
+   40,
+   52,
+   162,
+   143
+  ],
+  "touchesEdge": false,
+  "native": [
+   122,
+   91
+  ]
+ },
+ "undo": {
+  "atlasBox": [
+   1552,
+   665,
+   1774,
+   887
+  ],
+  "bbox": [
+   45,
+   47,
+   155,
+   145
+  ],
+  "touchesEdge": false,
+  "native": [
+   110,
+   98
+  ]
+ }
+}

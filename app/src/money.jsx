@@ -1,11 +1,12 @@
 import React,{useState,useEffect,useMemo,useRef} from 'react';
-import {ArrowLeft,ArrowRight,CalendarDots,UsersThree,LockSimple,UploadSimple,TrendUp,TrendDown,PiggyBank,Scales,Bank,Sparkle,X,Check,CheckCircle,WarningCircle,ArrowsClockwise,MagnifyingGlass,Trash,FilePdf,TelegramLogo,ChartLineUp,Receipt,Lightbulb,Info} from '@phosphor-icons/react';
+import {PencilSimple,ArrowLeft,ArrowRight,CalendarDots,UsersThree,LockSimple,UploadSimple,TrendUp,TrendDown,PiggyBank,Scales,Bank,Sparkle,X,Check,CheckCircle,WarningCircle,ArrowsClockwise,MagnifyingGlass,Trash,FilePdf,TelegramLogo,ChartLineUp,Receipt,Lightbulb,Info} from '@phosphor-icons/react';
 import {ResponsiveContainer,PieChart,Pie,Cell,Tooltip,BarChart,Bar,XAxis,YAxis,CartesianGrid,Legend} from 'recharts';
 import {cloudHeaders} from './cloud-transport';
 import {ExpensesView} from './expenses-view';
 import {CATEGORY,CATEGORIES,flowOf,monthOf,shiftMonth,monthSummary,recurringPayments,forecast,linkCardPayments} from '../../shared/finance.mjs';
 import {MoneyHero,MoneyTile,FlowChart,CategoryRing,ForecastBar,NavArrow} from './money-charts';
 import {CategoryCards,CategorySheet} from './money-detail';
+import {RiseupConnect} from './riseup-connect';
 import './money.css';
 
 async function api(path,{method='GET',body,headers={}}={}){
@@ -15,11 +16,11 @@ async function api(path,{method='GET',body,headers={}}={}){
 }
 // Manual expenses recorded in Bills & manual join the same picture.
 const MANUAL_CATEGORY={Groceries:'groceries',Utilities:'utilities',Cleaning:'home',School:'kids',Health:'health',Other:'other'};
-const SOURCE={leumi:['Bank Leumi','בנק לאומי'],max:['Max','מקס'],manual:['Recorded','נרשם ידנית']};
+const SOURCE={leumi:['Bank Leumi','בנק לאומי'],max:['Max','מקס'],manual:['Recorded','נרשם ידנית'],riseup:['RiseUp','RiseUp']};
 
 export function MoneyView({app:a,ui}){
  const {Button,Icon,Avatar,Tabs,Select,Empty}=ui;
- const [data,setData]=useState(null),[error,setError]=useState(''),[tab,setTab]=useState('overview'),[scope,setScope]=useState('family'),[month,setMonth]=useState(null),[importing,setImporting]=useState(false),[insights,setInsights]=useState(null),[insightBusy,setInsightBusy]=useState(false),[insightError,setInsightError]=useState(''),[sheet,setSheet]=useState(null),[ledgerCategory,setLedgerCategory]=useState('all');
+ const [data,setData]=useState(null),[error,setError]=useState(''),[tab,setTab]=useState('overview'),[scope,setScope]=useState('family'),[month,setMonth]=useState(null),[importing,setImporting]=useState(false),[insights,setInsights]=useState(null),[insightBusy,setInsightBusy]=useState(false),[insightError,setInsightError]=useState(''),[sheet,setSheet]=useState(null),[ledgerCategory,setLedgerCategory]=useState('all'),[connecting,setConnecting]=useState(false);
  const he=a.lang==='he',T=a.T,money=(agorot,{sign=false,fraction}={})=>{const v=agorot/100;return (sign&&v>0?'+':v<0&&sign?'−':'')+'₪'+Math.abs(v).toLocaleString(he?'he-IL':'en-US',{maximumFractionDigits:fraction??(Math.abs(v)>=1000?0:2)})};
  const catName=id=>he?CATEGORY[id]?.he:CATEGORY[id]?.en,monthName=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'long',year:'numeric'}),shortMonth=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'short'});
  const load=async()=>{try{setData(await api('data'));setError('')}catch(e){setError(e.message)}};
@@ -31,7 +32,8 @@ export function MoneyView({app:a,ui}){
  const rows=useMemo(()=>all.filter(t=>scope==='private'?t.visibility==='private':t.visibility!=='private'),[all,scope]);
  const groups=data?.groups||[];
  const months=useMemo(()=>[...new Set(rows.map(monthOf))].sort(),[rows]);
- const coverage=useMemo(()=>(data?.imports||[]).filter(i=>i.kind==='bank').map(i=>[i.periodFrom,i.periodTo]),[data]);
+ // Bank statements cover their period; a live RiseUp connection covers every finished month it returned.
+ const coverage=useMemo(()=>{const thisMonth=new Date().toISOString().slice(0,7),live=[...new Set((data?.transactions||[]).filter(t=>t.source==='riseup'&&t.month<thisMonth).map(t=>t.month))];return [...(data?.imports||[]).filter(i=>i.kind==='bank').map(i=>[i.periodFrom,i.periodTo]),...live.map(m=>[m+'-01',m+'-31'])]},[data]);
  const complete=m=>coverage.some(([f,t])=>f<=m+'-01'&&t>=m+'-28');
  useEffect(()=>{if(!month&&months.length){const done=[...months].reverse().find(complete);setMonth(done||months.at(-1))}},[months.join(),coverage.length]);
  const current=month||months.at(-1)||new Date().toISOString().slice(0,7);
@@ -44,26 +46,33 @@ export function MoneyView({app:a,ui}){
  const partial=months.length&&!complete(current)&&coverage.length;
 
  if(error&&!data)return <div className="money-page"><p role="alert" className="ai-error">{error}</p><Button secondary onClick={load}>{T('Try again','לנסות שוב')}</Button></div>;
- if(!data)return <div className="money-page"><p className="muted">{T('Loading your money picture…','טוענים את תמונת הכסף…')}</p></div>;
+ if(!data)return <div className="money-page"><p className="muted">{T('Loading your expenses…','טוענים את ההוצאות…')}</p></div>;
 
  const delta=(now,before)=>before?Math.round((now-before)/before*100):null;
  const metric=(Glyph,label,value,color,sub)=><section className={'money-metric '+color}><span className="money-metric-icon"><Glyph size={30} weight="duotone"/></span><div><h3>{label}</h3><strong>{value}</strong>{sub&&<small>{sub}</small>}</div></section>;
  const change=(now,before,invert)=>{const d=delta(now,before);if(d===null||!isFinite(d))return null;const up=d>0;return <span className={'money-change '+((up!==!!invert)?'bad':'good')}>{up?<TrendUp size={14}/>:<TrendDown size={14}/>}{Math.abs(d)}% {T('vs last month','מהחודש שעבר')}</span>};
 
+ const myLink=(data.connections||[]).find(c=>c.provider==='riseup'&&c.mine);
+ // Live bank balances from RiseUp connections this person may see (shared ones in Together, own private ones in Just me).
+ const liveList=(data.connections||[]).filter(c=>c.balances?.length&&(scope==='private'?c.mine&&c.visibility==='private':c.visibility!=='private')).flatMap(c=>c.balances.filter(b=>b.source!=='creditCard'));
+ const liveBalance=liveList.length?{amount:liveList.reduce((n,b)=>n+b.balance,0)}:null;
  const toolbar=<div className="money-toolbar">
   <div className="expense-month"><button className="icon-button" aria-label={T('Previous month','החודש הקודם')} onClick={()=>setMonth(shiftMonth(current,-1))}>{he?<ArrowRight size={21}/>:<ArrowLeft size={21}/>}</button><label><CalendarDots size={22}/><input aria-label={T('Month','חודש')} type="month" value={current} onChange={e=>e.target.value&&setMonth(e.target.value)}/></label><button className="icon-button" aria-label={T('Next month','החודש הבא')} onClick={()=>setMonth(shiftMonth(current,1))}>{he?<ArrowLeft size={21}/>:<ArrowRight size={21}/>}</button></div>
-  <Tabs value={scope} onChange={setScope} items={[["family",T('Together','ביחד'),UsersThree],["private",T('Just me','רק אני'),LockSimple]]}/>
-  <Button icon={UploadSimple} onClick={()=>setImporting(true)}>{T('Import statement','ייבוא דף חשבון')}</Button>
+  <Tabs variant="filter" value={scope} onChange={setScope} items={[["family",T('Together','ביחד'),UsersThree],["private",T('Just me','רק אני'),LockSimple]]}/>
+  <Button icon={PencilSimple} onClick={()=>setTab('manual')}>{T('Add by hand','רישום ידני')}</Button>
+  <Button secondary icon={UploadSimple} onClick={()=>setImporting(true)}>{T('Import statement','ייבוא דף חשבון')}</Button>
+  <Button secondary icon={myLink?ArrowsClockwise:Bank} onClick={()=>setConnecting(true)}>{myLink?'RiseUp':T('Connect RiseUp','חיבור RiseUp')}</Button>
  </div>;
- const nav=<Tabs value={tab} onChange={v=>{setTab(v);if(v!=='transactions')setLedgerCategory('all')}} items={[["overview",T('Summary','סיכום'),ChartLineUp],["transactions",T('Transactions','תנועות'),Receipt],["recurring",T('Fixed bills','חיובים קבועים'),ArrowsClockwise],["manual",T('Add by hand','רישום ידני'),Scales]]}/>;
+ const nav=<Tabs variant="view" value={tab} onChange={v=>{setTab(v);if(v!=='transactions')setLedgerCategory('all')}} items={[["overview",T('Summary','סיכום'),ChartLineUp],["transactions",T('Transactions','תנועות'),Receipt,rows.filter(t=>monthOf(t)===current).length],["recurring",T('Fixed bills','חיובים קבועים'),ArrowsClockwise,recurring.length]]}/>;
  const noData=!(data.transactions||[]).length;
 
  return <div className="money-page">
   <div className="money-controls"><div className="money-nav">{nav}</div>{toolbar}</div>
-  {tab==='manual'?<ExpensesView app={a} ui={ui}/>:noData?<MoneyWelcome a={a} onImport={()=>setImporting(true)}/>:<>
+  {tab==='manual'?<ExpensesView app={a} ui={ui}/>:noData?<MoneyWelcome a={a} onImport={()=>setImporting(true)} onConnect={()=>setConnecting(true)}/>:<>
+   {data.setAside>0&&<p className="money-partial"><Info size={18}/>{T('RiseUp is used for the months it covers, so '+data.setAside+' rows from imported statements are set aside to avoid double counting.','RiseUp משמש לחודשים שהוא מכסה, ולכן '+data.setAside+' שורות מדפי חשבון שיובאו הוסתרו כדי לא לספור פעמיים.')} <button type="button" className="text-link" onClick={()=>setConnecting(true)}>{T('Change','שינוי')}</button></p>}
    {partial?<p className="money-partial"><Info size={18}/>{T('Partial month: your bank statements cover only part of ','חודש חלקי: דפי הבנק מכסים רק חלק מ')}{monthName(current)}.</p>:null}
    {tab==='overview'&&<div className="money-board">
-    <MoneyHero a={a} T={T} money={money} monthName={monthName} summary={summary} month={current}/>
+    <MoneyHero a={a} T={T} money={money} monthName={monthName} summary={summary} month={current} live={liveBalance}/>
     <div className="money-tiles">
      <MoneyTile T={T} tone="in" icon="1F4B0" label={T('Money in','נכנס')} value={money(summary.income)} series={trend.map(x=>x.s.income)} delta={delta(summary.income,previous.income)}/>
      <MoneyTile T={T} tone="out" icon="1F6D2" label={T('Spent','יצא')} value={money(summary.expenses)} series={trend.map(x=>x.s.expenses)} delta={delta(summary.expenses,previous.expenses)} invert/>
@@ -82,18 +91,19 @@ export function MoneyView({app:a,ui}){
      <small className="muted">{T('Estimate from '+outlook.basedOnMonths+' month(s) of statements.','הערכה לפי '+outlook.basedOnMonths+' חודשי דפי חשבון.')}</small>
     </section>
     <div className="money-span-7"><MoneyInsights a={a} T={T} month={current} insights={insights} busy={insightBusy} error={insightError} onAsk={async()=>{setInsightBusy(true);setInsightError('');try{setInsights(await api('insights',{method:'POST',body:{month:current,language:a.lang}}))}catch(e){setInsightError(e.message)}finally{setInsightBusy(false)}}}/></div>
-    <div className="money-span-5"><Statements a={a} T={T} data={data} onRemove={async id=>{if(!window.confirm(T('Remove this statement and its transactions?','להסיר את הדף ואת התנועות שלו?')))return;try{await api('imports/'+id,{method:'DELETE'});await load()}catch(e){setError(e.message)}}}/></div>
+    <div className="money-span-5 money-sources"><Connections a={a} T={T} data={data} Avatar={Avatar} onOpen={()=>setConnecting(true)}/><Statements a={a} T={T} data={data} onRemove={async id=>{if(!window.confirm(T('Remove this statement and its transactions?','להסיר את הדף ואת התנועות שלו?')))return;try{await api('imports/'+id,{method:'DELETE'});await load()}catch(e){setError(e.message)}}}/></div>
    </div>}
    {tab==='transactions'&&<Ledger key={ledgerCategory} initialCategory={ledgerCategory} a={a} ui={ui} T={T} money={money} catName={catName} rows={rows} month={current} links={links} data={data} reload={load}/>}
    {tab==='recurring'&&<RecurringView a={a} ui={ui} T={T} money={money} catName={catName} monthName={monthName} recurring={recurring} outlook={outlook} latest={months.at(-1)}/>}
   </>}
   {sheet&&<CategorySheet a={a} T={T} money={money} catName={catName} rows={rows} groups={groups} month={current} item={sheet} Icon={Icon} Avatar={Avatar} onClose={()=>setSheet(null)} onOpenLedger={c=>{setSheet(null);setLedgerCategory(c);setTab('transactions')}}/>}
+  {connecting&&<RiseupConnect a={a} data={data} Avatar={Avatar} onClose={()=>setConnecting(false)} onChanged={load}/>}
   {importing&&<ImportDialog a={a} ui={ui} T={T} money={money} catName={catName} onClose={()=>setImporting(false)} onApplied={async()=>{setImporting(false);await load();setTab('overview')}}/>}
  </div>;
 }
 
 export const dueLabel=(r,lang)=>new Date(r.nextMonth+'-'+String(Math.min(28,r.nextDay||1)).padStart(2,'0')+'T12:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-US',{day:'numeric',month:'short'});
-function MoneyWelcome({a,onImport}){const T=a.T;return <section className="money-welcome"><img src="/assets/icons/bayit/pixel/blue-house-128.png" alt="" width="96" height="96"/><h2>{T('See where the money goes.','לראות לאן הכסף הולך.')}</h2><p>{T('Import a Bank Leumi account statement and your Max card statements (PDF). Bayit checks every total against the statement, avoids counting card charges twice, and builds your monthly picture.','ייבאו דף חשבון של בנק לאומי ודפי פירוט של מקס (PDF). Bayit בודק כל סכום מול הדף, לא סופר חיובי כרטיס פעמיים, ובונה את תמונת החודש.')}</p><div className="money-welcome-steps"><span><FilePdf size={24}/>{T('Download the PDF from Leumi or Max','מורידים PDF מלאומי או ממקס')}</span><span><UploadSimple size={24}/>{T('Import it here','מייבאים כאן')}</span><span><TelegramLogo size={24}/>{T('…or send it to your Bayit bot','…או שולחים לבוט של Bayit')}</span></div><button type="button" className="button" onClick={onImport}><UploadSimple size={23}/> {T('Import statement','ייבוא דף חשבון')}</button></section>}
+function MoneyWelcome({a,onImport,onConnect}){const T=a.T;return <section className="money-welcome"><img src="/assets/icons/bayit/pixel/blue-house-128.png" alt="" width="96" height="96"/><h2>{T('See where the money goes.','לראות לאן הכסף הולך.')}</h2><p>{T('Import a Bank Leumi account statement and your Max card statements (PDF). Bayit checks every total against the statement, avoids counting card charges twice, and builds your monthly picture.','ייבאו דף חשבון של בנק לאומי ודפי פירוט של מקס (PDF). Bayit בודק כל סכום מול הדף, לא סופר חיובי כרטיס פעמיים, ובונה את תמונת החודש.')}</p><div className="money-welcome-steps"><span><FilePdf size={24}/>{T('Download the PDF from Leumi or Max','מורידים PDF מלאומי או ממקס')}</span><span><UploadSimple size={24}/>{T('Import it here','מייבאים כאן')}</span><span><TelegramLogo size={24}/>{T('…or send it to your Bayit bot','…או שולחים לבוט של Bayit')}</span></div><div className="money-welcome-actions"><button type="button" className="button" onClick={onImport}><UploadSimple size={23}/> {T('Import statement','ייבוא דף חשבון')}</button><button type="button" className="button secondary" onClick={onConnect}><Bank size={23}/> {T('Or connect RiseUp','או לחבר RiseUp')}</button></div><small className="muted">{T('RiseUp is optional: if you already use it, Bayit can read your transactions from it every day.','RiseUp הוא אופציונלי: אם אתם כבר משתמשים בו, Bayit יכול לקרוא ממנו את התנועות כל יום.')}</small></section>}
 
 function MoneyInsights({a,T,month,insights,busy,error,onAsk}){
  return <section className="money-card money-insights"><div className="section-title"><h2 className="icon-heading"><Sparkle size={26} weight="duotone"/>{T('AI tips','טיפים מה־AI')}</h2></div>
@@ -104,6 +114,11 @@ function MoneyInsights({a,T,month,insights,busy,error,onAsk}){
 }
 
 const fmtRange=(from,to,lang)=>[from,to].map(d=>new Date(d+'T12:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-GB',{day:'numeric',month:'short'})).join(' – ');
+function Connections({a,T,data,Avatar,onOpen}){
+ const list=(data.connections||[]).filter(c=>c.provider==='riseup');if(!list.length)return null;
+ const when=ts=>ts?new Date(ts).toLocaleString(a.lang==='he'?'he-IL':'en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
+ return <section className="money-card money-statements money-connections"><div className="section-title"><h2>{T('Live connections','חיבורים חיים')}</h2><button type="button" className="money-total-pill" onClick={onOpen}>{T('Manage','ניהול')}</button></div><ul>{list.map(c=><li key={c.memberId}><Avatar who={c.memberId} size={30}/><div><strong>RiseUp · {a.name(c.memberId)}</strong><small>{T('Last sync ','סנכרון אחרון ')}{when(c.lastSyncAt)}{c.lastCount!=null?' · '+c.lastCount+' '+T('transactions','תנועות'):''} · {c.visibility==='private'?T('Only me','רק אני'):T('Shared','משותף')}</small>{c.balances?.length>0&&<small className="money-balances">{c.balances.map(b=>(b.label||'')+' '+(b.balance<0?'−':'')+'₪'+Math.abs(Math.round(b.balance/100)).toLocaleString()).join(' · ')}</small>}</div>{c.status==='ok'?<span className="money-ok" title={T('Working','פועל')}><CheckCircle size={20} weight="fill"/></span>:<span className="money-warn" title={T('Needs attention','דורש טיפול')}><WarningCircle size={20} weight="fill"/></span>}</li>)}</ul></section>;
+}
 function Statements({a,T,data,onRemove}){
  const list=data.imports||[];if(!list.length)return null;
  return <section className="money-card money-statements"><div className="section-title"><h2>{T('Imported statements','דפי חשבון שיובאו')}</h2></div><ul>{list.map(i=><li key={i.id}><FilePdf size={26} weight="duotone"/><div><strong>{(a.lang==='he'?SOURCE[i.source]?.[1]:SOURCE[i.source]?.[0])||i.source} · {i.kind==='card'?new Date((i.statementDate||i.periodTo)+'T12:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-US',{month:'long',year:'numeric'}):fmtRange(i.periodFrom,i.periodTo,a.lang)}</strong><small>{i.newCount} {T('transactions','תנועות')} · {i.visibility==='private'?T('Only me','רק אני'):T('Shared','משותף')}</small></div>{i.checksOk?<span className="money-ok" title={T('Totals match the statement','הסכומים תואמים לדף')}><CheckCircle size={20} weight="fill"/></span>:<span className="money-warn" title={T('Check totals','לבדוק סכומים')}><WarningCircle size={20} weight="fill"/></span>}{i.ownerId===data.me&&<button className="icon-button" aria-label={T('Remove statement','הסרת דף')} onClick={()=>onRemove(i.id)}><Trash size={20}/></button>}</li>)}</ul></section>;
@@ -158,7 +173,7 @@ function ImportDialog({a,ui:{Button,Select,Avatar},T,money,catName,onClose,onApp
    <p className={preview.ok?'money-ok':'money-warn'}>{preview.ok?<CheckCircle size={20} weight="fill"/>:<WarningCircle size={20} weight="fill"/>}{preview.ok?T('Every total matches the statement ('+preview.checks.length+' checks).','כל הסכומים תואמים לדף ('+preview.checks.length+' בדיקות).'):T('Some totals do not match the statement. You can still import, but please review the transactions.','חלק מהסכומים אינם תואמים לדף. אפשר לייבא, אבל כדאי לבדוק את התנועות.')}</p>
    <div className="money-preview-totals">{preview.moneyIn>0&&<span><small>{T('Money in','הכנסות')}</small><b className="good">{money(preview.moneyIn)}</b></span>}<span><small>{T('Spending','הוצאות')}</small><b>{money(preview.moneyOut)}</b></span>{preview.cardPayments>0&&<span><small>{T('Card payments','חיובי כרטיסים')}</small><b>{money(preview.cardPayments)}</b></span>}</div>
    {preview.kind==='card'&&<div className="money-owners"><h3>{T('Whose card is it?','של מי הכרטיס?')}</h3>{preview.accounts.map(x=><label key={x.account}><span>••{x.account} <small>{x.holder}</small></span><Select aria-label={T('Card owner','בעל הכרטיס')} value={owners[x.account]||''} onChange={e=>setOwners({...owners,[x.account]:e.target.value})}>{adults.map(m=><option key={m.id} value={m.id}>{a.name(m.id)}</option>)}</Select></label>)}</div>}
-   <div className="money-visibility"><h3>{T('Who can see these transactions?','מי יכול לראות את התנועות?')}</h3><div className="money-choice"><button type="button" className={visibility==='shared'?'on':''} onClick={()=>setVisibility('shared')}><UsersThree size={22}/>{T('Both parents','שני ההורים')}</button><button type="button" className={visibility==='private'?'on':''} onClick={()=>setVisibility('private')}><LockSimple size={22}/>{T('Only me','רק אני')}</button></div><small className="muted">{T('Children never see money.','ילדים אף פעם לא רואים את ניהול הכסף.')}</small></div>
+   <div className="money-visibility"><h3>{T('Who can see these transactions?','מי יכול לראות את התנועות?')}</h3><div className="money-choice"><button type="button" className={visibility==='shared'?'on':''} onClick={()=>setVisibility('shared')}><UsersThree size={22}/>{T('Both parents','שני ההורים')}</button><button type="button" className={visibility==='private'?'on':''} onClick={()=>setVisibility('private')}><LockSimple size={22}/>{T('Only me','רק אני')}</button></div><small className="muted">{T('Children never see expenses.','ילדים אף פעם לא רואים את ההוצאות.')}</small></div>
    {preview.byCategory.length>0&&<ul className="money-category-list compact">{preview.byCategory.slice(0,5).map(c=><li key={c.category}><strong>{catName(c.category)}</strong><b>{money(c.amount)}</b></li>)}</ul>}
    <div className="money-preview-actions"><Button icon={Check} disabled={busy||!preview.newCount} onClick={apply}>{busy?T('Adding…','מוסיפים…'):T('Add '+preview.newCount+' transactions','הוספת '+preview.newCount+' תנועות')}</Button><Button secondary disabled={busy} onClick={()=>setPreview(null)}>{T('Choose another file','בחירת קובץ אחר')}</Button></div>
   </div>}

@@ -1,0 +1,172 @@
+/* Bayit motion layer — pixel celebrations, bell nudges, save status, page entrances.
+   :root[data-fx] is calm | playful | party. :root[data-motion=reduced] (refinements.css) and
+   prefers-reduced-motion stop every animation. */
+
+.fx-card,.fx-confetti,.fx-toast-sprite,.save-sprite,.fx-mini img,.bell-spark{image-rendering:pixelated}
+
+/* ---------- celebration card ---------- */
+.fx-card{position:fixed;z-index:120;bottom:28px;width:min(400px,calc(100vw - 32px));background:var(--surface,#fffdf8);color:var(--text);border:2px solid color-mix(in srgb,var(--primary) 70%,transparent);border-radius:28px;box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 12%,transparent),0 24px 60px #10152a33;padding:18px 22px 20px;display:grid;gap:12px;overflow:hidden;text-align:center}
+.fx-center{left:50%;transform:translateX(-50%);animation:fx-spring-up .62s cubic-bezier(.2,1.5,.4,1) both}
+.fx-corner{inset-inline-end:28px;width:min(430px,calc(100vw - 32px));grid-template-columns:132px minmax(0,1fr);align-items:center;text-align:start;animation:fx-slide-in .55s cubic-bezier(.2,1.35,.4,1) both}
+.fx-corner .fx-life,.fx-corner .fx-actions{grid-column:1/-1}
+.fx-close{position:absolute;top:12px;inset-inline-end:12px;z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.fx-close:hover{background:var(--lilac);color:var(--text)}
+
+.fx-stage{position:relative;height:150px;display:grid;place-items:center;pointer-events:none}
+.fx-corner .fx-stage{height:132px}
+.fx-floor{position:absolute;bottom:8px;left:50%;width:84px;height:8px;margin-left:-42px;border-radius:50%;background:color-mix(in srgb,var(--primary) 22%,transparent);animation:fx-shadow 1.1s .25s ease-in-out 2 both}
+.fx-hero{position:relative;z-index:1;height:136px;width:auto;max-width:150px;object-fit:contain;transform-origin:50% 100%;animation:fx-jump 1.1s .2s cubic-bezier(.3,0,.3,1) 2 both}
+.fx-corner .fx-hero{height:120px}
+.fx-corner .fx-stage{--dist:62px}
+.fx-corner .fx-prop{inset-inline-end:auto;inset-inline-start:2px;top:0;width:38px;height:38px}
+.fx-corner .fx-hero-sprite{height:84px}
+.fx-hero-sprite{height:96px;animation:fx-prop-in .45s .1s cubic-bezier(.2,1.6,.4,1) both,fx-jump 1s .6s cubic-bezier(.3,0,.3,1) 2}
+.fx-prop{position:absolute;z-index:2;width:52px;height:52px;top:6px;inset-inline-end:calc(50% - 92px);animation:fx-prop-in .5s .35s cubic-bezier(.2,1.6,.4,1) both,fx-bob 1.4s .9s ease-in-out infinite alternate}
+.fx-spark{position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px;opacity:0;animation:fx-burst .95s calc(.18s + var(--i) * 35ms) cubic-bezier(.15,.8,.3,1) both}
+.fx-spark:nth-child(odd){width:16px;height:16px;margin:-8px}
+.fx-coin{position:absolute;left:50%;top:60%;width:24px;height:24px;margin:-12px;opacity:0;animation:fx-coin 1s calc(.45s + var(--i) * 120ms) cubic-bezier(.3,.6,.4,1) both}
+
+.fx-copy{display:grid;gap:6px;justify-items:center;padding-inline:8px}
+.fx-corner .fx-copy{justify-items:start;padding-inline:0 26px}
+.fx-title{font-size:calc(30px * var(--text-scale,1));font-weight:950;line-height:1.15;letter-spacing:-.5px;color:var(--text);animation:fx-fade-up .45s .25s ease-out both}
+.fx-corner .fx-title{font-size:calc(25px * var(--text-scale,1))}
+.fx-title-end{position:relative;display:inline-block;white-space:nowrap}
+.fx-underline{position:absolute;left:-4%;bottom:-.24em;width:108%;height:.34em;object-fit:fill;pointer-events:none;animation:fx-draw .55s .55s ease-out both}
+[dir=rtl] .fx-underline{animation-name:fx-draw-rtl}
+.fx-rays{position:absolute;inset-inline-end:-.5em;top:-.42em;width:.6em;height:.6em;object-fit:contain;pointer-events:none;animation:fx-rays .45s .85s cubic-bezier(.2,1.8,.4,1) both}
+[dir=rtl] .fx-rays{transform:scaleX(-1)}
+.fx-copy p{margin:4px 0 0;color:var(--muted);font-size:calc(17px * var(--text-scale,1));line-height:1.4;animation:fx-fade-up .45s .35s ease-out both}
+.fx-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;animation:fx-fade-up .45s .42s ease-out both}
+.fx-corner .fx-meta{justify-content:flex-start}
+.fx-face .avatar{width:34px!important;height:34px!important;border:2px solid var(--surface,#fff);border-radius:50%}
+.fx-face+.fx-face{margin-inline-start:-14px}
+.fx-xp{font-weight:950;color:var(--primary);background:color-mix(in srgb,var(--accent) 45%,transparent);padding:4px 12px;border-radius:999px;font-size:calc(16px * var(--text-scale,1));animation:fx-xp .9s .4s cubic-bezier(.2,1.6,.4,1) both}
+
+.fx-life{display:block;height:6px;border-radius:6px;background:color-mix(in srgb,var(--primary) 14%,transparent);overflow:hidden}
+.fx-life>span{display:block;height:100%;background:var(--primary);border-radius:inherit;transform-origin:left;animation:fx-life var(--life,4600ms) linear forwards}
+[dir=rtl] .fx-life>span{transform-origin:right}
+.fx-card:hover .fx-life>span,.fx-card:focus-within .fx-life>span{animation-play-state:paused}
+.fx-actions{display:flex;gap:10px;justify-content:center}
+.fx-actions .button{width:auto;flex:1;min-height:46px;padding:10px 18px;font-size:calc(17px * var(--text-scale,1))}
+
+/* party style: a bigger stage */
+:root[data-fx=party] .fx-center .fx-stage{height:176px}
+:root[data-fx=party] .fx-center .fx-hero{height:164px}
+
+/* ---------- confetti ---------- */
+.fx-confetti{position:fixed;inset:0;z-index:119;pointer-events:none;overflow:hidden}
+.fx-confetti img{position:absolute;top:-30px;left:var(--x);width:var(--s);height:var(--s);animation:fx-fall var(--t) var(--d) cubic-bezier(.3,.2,.6,1) both}
+
+/* ---------- toast (playful) ---------- */
+.toast.fx-toast{animation:fx-toast-in .45s cubic-bezier(.2,1.5,.4,1) both;border-radius:20px}
+.fx-toast-sprite{width:30px;height:30px;flex:none;animation:fx-pop .5s .1s cubic-bezier(.2,1.8,.4,1) both}
+.toast.fx-toast-failed{background:#ffe3da;color:#5c1d10;border:2px solid #ff9c80}
+[data-theme=dark] .toast.fx-toast-failed{background:#4a2219;color:#ffd9cf;border-color:#a8503b}
+
+/* ---------- bell ---------- */
+.bell-glyph{position:relative;display:grid;place-items:center;font-style:normal;transform-origin:50% 8%}
+.bell-glyph.ring{animation:fx-ring 1.2s ease-in-out both}
+.bell-spark{position:absolute;width:16px;height:16px;top:-8px;inset-inline-end:-10px;animation:fx-pop .6s .2s cubic-bezier(.2,1.8,.4,1) both,fx-twinkle 1s .8s ease-in-out both}
+.bell-count{animation:fx-pop .45s cubic-bezier(.2,1.8,.4,1) both}
+.mobile-top .bell-count{position:absolute;top:2px;inset-inline-end:0;background:var(--accent);color:#10152a;border:2px solid var(--bg);border-radius:15px;min-width:21px;height:21px;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.mobile-top>button:last-child{position:relative}
+:root[data-fx=calm] .bell-glyph.ring,:root[data-fx-header=off] .bell-glyph.ring{animation:none}
+:root[data-fx=calm] .bell-spark,:root[data-fx-header=off] .bell-spark{display:none}
+
+/* ---------- save status (sits beside the bell, never moves it) ---------- */
+.heading-utilities{position:relative}
+.save-status{position:absolute;z-index:3;left:-8px;bottom:-6px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface,#fff);color:var(--text);box-shadow:0 2px 10px #10152a2e;border:2px solid var(--lilac);animation:fx-pop .35s cubic-bezier(.2,1.8,.4,1) both;pointer-events:none}
+.save-status.save-saved,.save-status.save-local{border-color:var(--green)}
+.save-status.save-failed{border-color:#ff9c80;background:#ffe3da;color:#5c1d10}
+.save-sprite{width:22px;height:22px}
+.save-glyph{display:none}
+.save-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.save-dots{display:none}
+.save-saving .save-sprite{animation:fx-bob .5s ease-in-out infinite alternate}
+.save-saved .save-sprite,.save-local .save-sprite,.save-failed .save-sprite{animation:fx-pop .45s .05s cubic-bezier(.2,1.8,.4,1) both}
+:root[data-fx=calm] .save-sprite,:root[data-fx-header=off] .save-sprite{display:none}
+:root[data-fx=calm] .save-glyph,:root[data-fx-header=off] .save-glyph{display:block;width:18px;height:18px}
+.mobile-top .save-status{left:auto;bottom:auto;right:50px;top:30px;width:26px;height:26px}
+.mobile-top .save-sprite{width:19px;height:19px}
+
+/* ---------- page entrance ---------- */
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter>*{animation:fx-rise .5s cubic-bezier(.2,.8,.2,1) backwards}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter>*:nth-child(2){animation-delay:.06s}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter>*:nth-child(3){animation-delay:.12s}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter>*:nth-child(4){animation-delay:.18s}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter>*:nth-child(n+5){animation-delay:.24s}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter .page-heading .title-underline{animation:fx-draw .6s .2s ease-out backwards}
+[dir=rtl]:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter .page-heading .title-underline{animation-name:fx-draw-rtl}
+:root:is([data-fx=playful],[data-fx=party]) .main-content.fx-enter .page-heading .title-rays{animation:fx-rays .45s .6s cubic-bezier(.2,1.8,.4,1) backwards}
+
+/* ---------- micro-interactions ---------- */
+:root:is([data-fx=playful],[data-fx=party]) .button{transition:transform .14s ease,box-shadow .2s ease,background-color .2s ease}
+:root:is([data-fx=playful],[data-fx=party]) .button:active{transform:scale(.96)}
+:root:is([data-fx=playful],[data-fx=party]) .checkbox-control>svg{transform:scale(.3);transition:opacity .12s ease,transform .32s cubic-bezier(.2,1.9,.4,1)}
+:root:is([data-fx=playful],[data-fx=party]) .checkbox-control input:checked+svg{transform:scale(1)}
+:root:is([data-fx=playful],[data-fx=party]) .shopping-item strong,:root:is([data-fx=playful],[data-fx=party]) .task-row strong{transition:color .3s ease,text-decoration-color .3s ease}
+
+/* ---------- settings ---------- */
+.fx-settings{display:grid;gap:14px}
+.fx-style-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.fx-style-option{display:grid;gap:12px;padding:12px;border-radius:22px;border:2px solid var(--border);background:var(--surface,#fff);color:var(--text);text-align:start;cursor:pointer;font:inherit}
+.fx-style-option.selected{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+.fx-style-text{display:grid;gap:3px}
+.fx-style-text strong{font-size:calc(19px * var(--text-scale,1));font-weight:900}
+.fx-style-text small{color:var(--muted);font-size:calc(14px * var(--text-scale,1));line-height:1.35}
+.fx-mini{position:relative;display:block;height:118px;border-radius:14px;background:var(--bg);overflow:hidden;border:1px solid var(--border)}
+.fx-mini-bar{position:absolute;top:12px;inset-inline:12px;height:9px;border-radius:9px;background:color-mix(in srgb,var(--primary) 25%,transparent)}
+.fx-mini-line{position:absolute;top:32px;inset-inline:12px 30%;height:8px;border-radius:8px;background:var(--border)}
+.fx-mini-line.short{top:48px;inset-inline-end:50%}
+.fx-mini-toast{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;align-items:center;padding:5px 10px;border-radius:10px;background:var(--text);color:var(--bg);font-size:12px;font-weight:800;white-space:nowrap}
+.fx-mini-card{position:absolute;inset:26px 18% 8px;display:grid;justify-items:center;align-content:end;border-radius:12px;border:2px solid var(--primary);background:var(--surface,#fff);padding:4px}
+.fx-mini-card img{height:52px;width:auto}
+.fx-mini-card b{font-size:12px;font-weight:900}
+.fx-mini-spark{position:absolute;width:14px!important;height:14px!important}
+.fx-mini-spark.a{top:8px;left:12%}.fx-mini-spark.b{top:22px;right:12%}
+.fx-mini-hero{position:absolute;bottom:4px;left:50%;height:82px;transform:translateX(-50%)}
+.fx-mini-confetti{position:absolute;width:10px;height:10px}
+.fx-style-option:hover .fx-mini-card img,.fx-style-option:hover .fx-mini-hero{animation:fx-pop-jump .9s ease-in-out}
+.fx-settings-note{margin:0;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--lilac) 60%,transparent);font-size:calc(15px * var(--text-scale,1))}
+.fx-settings>.button{justify-self:start;width:auto}
+
+/* ---------- phone ---------- */
+@media(max-width:700px){
+ .fx-card,.fx-corner{left:10px;right:10px;inset-inline:10px;width:auto;transform:none;bottom:calc(84px + env(safe-area-inset-bottom));border-radius:26px 26px 22px 22px;animation:fx-sheet-up .55s cubic-bezier(.2,1.3,.4,1) both}
+ .fx-corner{grid-template-columns:104px minmax(0,1fr)}
+ .fx-stage{height:122px}.fx-hero{height:112px}.fx-hero.fx-hero-sprite{height:80px}.fx-corner .fx-stage{height:104px}.fx-corner .fx-hero{height:96px}.fx-corner .fx-hero.fx-hero-sprite{height:70px}
+ .fx-title{font-size:calc(26px * var(--text-scale,1))}
+ .fx-style-options{grid-template-columns:1fr}
+ .fx-mini{height:96px}
+}
+
+/* ---------- keyframes ---------- */
+@keyframes fx-spring-up{from{opacity:0;transform:translate(-50%,40px) scale(.86)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes fx-sheet-up{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
+@keyframes fx-slide-in{from{opacity:0;transform:translateY(30px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes fx-jump{0%{transform:translateY(0) scale(1.06,.9)}18%{transform:translateY(0) scale(.94,1.08)}48%{transform:translateY(-22px) scale(1)}78%{transform:translateY(0) scale(1.06,.92)}100%{transform:translateY(0) scale(1)}}
+@keyframes fx-pop-jump{0%{transform:scale(.4);opacity:0}25%{transform:scale(1.1) translateY(-14px);opacity:1}55%{transform:scale(1) translateY(0)}75%{transform:scale(1.04,.94)}100%{transform:none}}
+@keyframes fx-shadow{0%,100%{transform:scaleX(1)}48%{transform:scaleX(.6);opacity:.5}}
+@keyframes fx-prop-in{from{opacity:0;transform:scale(.2) rotate(-30deg)}to{opacity:1;transform:none}}
+@keyframes fx-bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+@keyframes fx-burst{0%{opacity:0;transform:rotate(var(--a)) translateX(10px) scale(.4)}25%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--dist,120px)) rotate(calc(var(--a) * -1)) scale(1)}}
+@keyframes fx-coin{0%{opacity:0;transform:translate(0,0) scale(.6)}20%{opacity:1}100%{opacity:0;transform:translate(calc(var(--i) * 16px - 24px),-96px) scale(1)}}
+@keyframes fx-fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fx-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes fx-draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fx-draw-rtl{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fx-rays{from{opacity:0;transform:scale(.2) rotate(-20deg)}to{opacity:1;transform:none}}
+@keyframes fx-xp{0%{opacity:0;transform:translateY(14px) scale(.6)}60%{opacity:1;transform:translateY(-4px) scale(1.12)}100%{transform:none}}
+@keyframes fx-life{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@keyframes fx-fall{0%{opacity:0;transform:translate(0,0) rotate(0)}8%{opacity:1}100%{opacity:.9;transform:translate(var(--dx),110vh) rotate(var(--r))}}
+@keyframes fx-toast-in{from{opacity:0;translate:0 24px;scale:.92}to{opacity:1;translate:0 0;scale:1}}
+@keyframes fx-pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes fx-twinkle{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes fx-ring{0%,100%{transform:rotate(0)}10%{transform:rotate(16deg)}22%{transform:rotate(-14deg)}34%{transform:rotate(11deg)}46%{transform:rotate(-8deg)}58%{transform:rotate(5deg)}70%{transform:rotate(-2deg)}}
+@keyframes fx-dot{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
+@keyframes fx-rise{from{opacity:0;transform:translateY(16px)}}
+
+/* Reduced motion: the card still appears (it is information) but nothing moves; no confetti. */
+@media(prefers-reduced-motion:reduce){.fx-confetti{display:none}.fx-life>span{animation:fx-life var(--life,4600ms) linear forwards!important}}
+:root[data-motion=reduced] .fx-confetti{display:none}
+:root[data-motion=reduced] .fx-life>span{animation:fx-life var(--life,4600ms) linear forwards!important}

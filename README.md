@@ -25,8 +25,8 @@ Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop �
 | **Tasks & routines** | Tasks with owners, routines for kids with weekdays, times, rewards, approvals and turn-taking. |
 | **Shopping** | Multiple lists, categories, quantities and units, history-based suggestions, and lists that move from trip to trip. |
 | **Kids** | Pixel characters, XP and achievements, a wardrobe (cap and moon cape), and turn history. |
-| **Household** | Meals and pantry, **Money**, maintenance, and documents (files in private storage). |
-| **Money** | Import **Bank Leumi** and **Max** statements (PDF). Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
+| **Household** | Meals and pantry, **Expenses**, maintenance, and documents (files in private storage). |
+| **Expenses** | Import **Bank Leumi** and **Max** statements (PDF), or connect **[RiseUp](docs/riseup.md)** (optional) to read transactions daily. Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
 | **Ask AI** | Your choice of AI (**Claude, OpenAI/Codex, Gemini, Grok**, or any OpenAI-compatible service) answers questions from records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
 | **Telegram** | Your own family bot: reminders with Done and Snooze buttons, a morning summary, parent approvals, and chat with your AI. It understands text, **photos** and **voice messages**, and accepts statement PDFs. |
 | **Privacy** | Every note, task and event has an owner and visibility (private, family, or selected people). The server enforces it, and AI, reminders, statistics and widgets follow the same rules. |

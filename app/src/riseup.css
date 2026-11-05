@@ -1,0 +1,47 @@
+/* Optional RiseUp connection panel and Money "Live connections" card. */
+.riseup-panel{max-width:660px;display:flex;flex-direction:column;gap:16px}
+.riseup-intro{margin:0;line-height:1.5}
+.riseup-steps{display:flex;flex-direction:column;gap:16px}
+.riseup-steps ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.riseup-steps li{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:18px;background:var(--surface);box-shadow:inset 0 0 0 2px var(--border)}
+.riseup-steps li>span{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;font-weight:900}
+.riseup-steps li>div{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+.riseup-steps li p{margin:0;color:var(--muted);line-height:1.45}
+.riseup-steps li .text-link{align-self:flex-start;display:inline-flex;align-items:center;gap:6px}
+.riseup-steps input[type=password]{width:100%;min-height:48px;font-size:max(16px,calc(16px * var(--text-scale,1)))}
+.riseup-field{display:flex;flex-direction:column;gap:6px;font-weight:800}
+.riseup-field select{min-height:46px;max-width:160px}
+.riseup-check{display:flex;align-items:flex-start;gap:10px;line-height:1.45}
+.riseup-check input{flex:none;width:22px;height:22px;margin-top:2px;accent-color:var(--primary)}
+.riseup-panel .money-privacy{display:flex;align-items:flex-start;gap:8px;margin:0}
+.riseup-panel .money-privacy svg{flex:none;margin-top:2px}
+.riseup-panel>form>.button,.riseup-status>.button{align-self:flex-start}
+.riseup-status{display:flex;flex-direction:column;gap:16px}
+.riseup-status .telegram-conn{margin-top:0}
+.riseup-status hr{width:100%;border:0;border-top:2px solid var(--border);margin:4px 0}
+.riseup-actions{display:flex;flex-wrap:wrap;gap:10px}
+.riseup-balances{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.riseup-balances li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:4px 10px;padding:10px 14px;border-radius:16px;background:var(--surface)}
+.riseup-balances li small{grid-column:2/4;color:var(--muted)}
+.riseup-balances b{font-variant-numeric:tabular-nums}
+.riseup-others{display:flex;flex-direction:column;gap:6px}
+.riseup-others h3{margin:0}
+.riseup-others p{display:flex;align-items:center;gap:10px;margin:0}
+.money-sources{display:flex;flex-direction:column;gap:18px}
+.money-connections li>div{min-width:0}
+.money-balances{display:block;color:var(--text)!important;font-weight:750}
+.money-welcome-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+@media (max-width:700px){
+ .riseup-steps li{padding:12px}
+ .riseup-actions .button{flex:1}
+ .riseup-panel>form>.button,.riseup-status>.button{align-self:stretch}
+}
+.riseup-leave,.riseup-replace{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:18px;background:var(--surface);box-shadow:inset 0 0 0 2px var(--peach)}
+.riseup-leave p{margin:0;font-weight:750}
+.riseup-replace input{width:100%;min-height:48px;font-size:max(16px,calc(16px * var(--text-scale,1)))}
+.riseup-replace .button{align-self:flex-start}
+.riseup-leave .danger{color:#c2410c;border-color:currentColor}
+/* Phone: "Add by hand" stays full width; Import and RiseUp share one row. */
+@media (max-width:700px){
+ .money-controls .money-toolbar>.button.secondary{width:calc(50% - 7px);flex:1 1 calc(50% - 7px);min-width:0;padding-inline:10px;font-size:calc(15px * var(--text-scale,1))}
+}

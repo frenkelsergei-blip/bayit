@@ -8,6 +8,8 @@ import "./review-refinements.css";
 import "./ux-polish.css";
 import "./themes.css";
 import "./family-profiles.css";
+import "./navigation.css";
+import "./motion-fx.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

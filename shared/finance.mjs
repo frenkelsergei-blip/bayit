@@ -98,7 +98,8 @@ export function linkCardPayments(transactions,groups){
  }
  return links;
 }
-export const monthOf=t=>(t.kind==='card'?t.chargeDate||t.date:t.date).slice(0,7);
+// A row's month: the stored cash-flow month (statements and RiseUp), else card charge date or bank date.
+export const monthOf=t=>t.month||(t.kind==='card'?t.chargeDate||t.date:t.date).slice(0,7);
 export const shiftMonth=(month,delta)=>{const [y,m]=month.split('-').map(Number),d=new Date(Date.UTC(y,m-1+delta,1));return d.toISOString().slice(0,7)};
 
 // One month's picture. Card purchases count when charged; covered card payments are skipped to avoid double counting.

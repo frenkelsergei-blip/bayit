@@ -4,7 +4,7 @@
 
 ```bash
 cd app
-npm run test:domain   # tests/*.test.mjs: permissions, recurrence, shopping lists, AI contract, reminders, money
+npm run test:domain   # tests/*.test.mjs: permissions, recurrence, shopping lists, AI contract, reminders, expenses, RiseUp sync
 npm run test:sites    # packaging checks
 npm run build:cloud   # production client build
 ```
@@ -26,7 +26,8 @@ npx wrangler dev --config wrangler.worker.jsonc --port 8791 --persist-to $PERSIS
   --var GOOGLE_CLIENT_ID:local-test --var GOOGLE_CLIENT_SECRET:local-test \
   --var APP_ENCRYPTION_KEY:$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))") \
   --var TELEGRAM_API_ORIGIN:http://127.0.0.1:8899 --var AI_TEST_ORIGIN:http://127.0.0.1:8899 \
-  --var SPEECH_TEST_ORIGIN:http://127.0.0.1:8899 --var REMINDER_CRON_SECRET:local-test-cron-secret
+  --var SPEECH_TEST_ORIGIN:http://127.0.0.1:8899 --var RISEUP_TEST_ORIGIN:http://127.0.0.1:8899 \
+  --var REMINDER_CRON_SECRET:local-test-cron-secret
 ```
 
 In a second terminal:

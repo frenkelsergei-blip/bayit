@@ -30,6 +30,10 @@ Widgets are rendered in `Today()` in `app/src/App.jsx`:
 
 Categories and their keyword rules are in `shared/finance.mjs` (`CATEGORIES`, `RULES`). Households can also teach categories per merchant in the app.
 
+## A live finance connection
+
+`app/cloud/riseup.mjs` is the template: a read-only token per person, encrypted with `encryptKey()`, a `sync` that upserts rows by the provider's transaction id (keeping category edits), and `refreshDueConnections()` called from the scheduler tick. Connections live in the `finance_connections` table, and their rows use `import_id` `<provider>:<member>` and the owner's visibility. Keep all provider-specific fields in one file and record the provider's API version there, so a provider update is a small, tested change. See [riseup.md](riseup.md).
+
 ## A speech-to-text provider
 
 `app/cloud/speech.mjs` lists providers in `SPEECH_PROVIDERS` and implements `transcribe(env, provider, bytes)`. Add a provider id, an availability check in `speechAvailability`, and a branch in `transcribe`. Store any key encrypted with `encryptKey()` from `app/cloud/util.mjs`, as the Telegram token is. Add the option to the provider picker in `app/src/telegram-settings.jsx`.

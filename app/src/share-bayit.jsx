@@ -5,7 +5,7 @@ import {ShareNetwork,WhatsappLogo,TelegramLogo,EnvelopeSimple,Copy,Check,Play} f
 
 export function ShareBayit({app:a}){
  const T=a.T,[demo,setDemo]=useState(true),[copied,setCopied]=useState(false);
- const url=location.origin+(demo?'/?demo=1':'/'),text=T('Bayit is our family app for the day, tasks, shopping, kids and money. Take a look:','Bayit היא האפליקציה המשפחתית שלנו ליום, למשימות, לקניות, לילדים ולכסף. הציצו:');
+ const url=location.origin+(demo?'/?demo=1':'/'),text=T('Bayit is our family app for the day, tasks, shopping, kids and expenses. Take a look:','Bayit היא האפליקציה המשפחתית שלנו ליום, למשימות, לקניות, לילדים ולהוצאות. הציצו:');
  const open=href=>window.open(href,'_blank','noopener,noreferrer');
  const copy=async()=>{try{await navigator.clipboard.writeText(text+' '+url);setCopied(true);setTimeout(()=>setCopied(false),2500)}catch{window.prompt(T('Copy this link','העתיקו את הקישור'),url)}};
  const native=typeof navigator!=='undefined'&&navigator.share;

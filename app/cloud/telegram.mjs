@@ -3,6 +3,7 @@
 // Every message is built from visibleState(state, recipient), the same access rules as the app.
 import {json,fail,random,hash,sameDigest,bodyJSON,encryptKey,decryptKey,localDate,localTime,base64} from './util.mjs';
 import {importStatement,applyImport} from './finance.mjs';
+import {refreshDueConnections} from './riseup.mjs';
 import {CATEGORY} from '../../shared/finance.mjs';
 import {SPEECH_PROVIDERS,MAX_VOICE_SECONDS,MAX_VOICE_BYTES,DAILY_VOICE_SECONDS,speechAvailability,transcribe} from './speech.mjs';
 import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog} from './assistant.mjs';
@@ -212,7 +213,7 @@ async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
 
 const shekels=agorot=>'₪'+(agorot/100).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
 async function handleStatement(env,bot,home,link,role,lang,document){
- if(role==='child')return send(env,bot,link.chat_id,L(lang,'Money is available to adult accounts.','ניהול הכסף זמין למבוגרים בלבד.'));
+ if(role==='child')return send(env,bot,link.chat_id,L(lang,'Expenses are available to adult accounts.','ההוצאות זמינות למבוגרים בלבד.'));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const {bytes}=await downloadFile(env,bot,document.file_id,5_000_000,lang),preview=await importStatement(env,home,link.member_id,bytes,document.file_name);
  const name={max:'Max',leumi:L(lang,'Bank Leumi','בנק לאומי')}[preview.source]||preview.source;
@@ -272,7 +273,7 @@ async function onCallback(env,bot,query){
   }
   if(payload.type==='finance_apply'){
    const result=await applyImport(env,home0,memberId,payload.importId,{visibility:payload.visibility});
-   await clearButtons();return answer(result.already?L(lang,'Already added.','כבר נוסף.'):L(lang,'Added '+result.applied+' transactions to Money.','נוספו '+result.applied+' תנועות לכסף.'),true);
+   await clearButtons();return answer(result.already?L(lang,'Already added.','כבר נוסף.'):L(lang,'Added '+result.applied+' transactions to Expenses.','נוספו '+result.applied+' תנועות להוצאות.'),true);
   }
   if(payload.type==='undo'){
    const {result:receipt}=await asMember(env,bot.household_id,memberId,data=>undoAIPlan(data,payload.operationId,memberId));
@@ -286,7 +287,10 @@ async function onCallback(env,bot,query){
 export async function runReminderTick(request,env){
  const supplied=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');
  if(!env.REMINDER_CRON_SECRET||!supplied||!sameDigest(await hash(supplied),await hash(env.REMINDER_CRON_SECRET)))return json({error:'Unauthorized.'},401);
- return json(await deliverReminders(env,new Date()));
+ const result=await deliverReminders(env,new Date());
+ // The same minute tick refreshes optional finance connections (RiseUp) about once a day.
+ try{result.financeSynced=await refreshDueConnections(env,new Date())}catch{result.financeSynced=0}
+ return json(result);
 }
 
 export async function deliverReminders(env,now){

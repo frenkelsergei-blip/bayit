@@ -55,7 +55,7 @@ let financeCache={id:null,promise:null};
 function useFinance(a){
  const [data,setData]=useState(null),[failed,setFailed]=useState(false);
  useEffect(()=>{const id=a.data.householdId||'';if(financeCache.id!==id||!financeCache.promise){financeCache={id,promise:fetch('/api/finance/data',{headers:cloudHeaders()}).then(r=>r.ok?r.json():Promise.reject(new Error('unavailable')))};setTimeout(()=>{if(financeCache.id===id)financeCache.promise=null},60000)}financeCache.promise.then(setData).catch(()=>setFailed(true))},[a.data.householdId]);
- const view=useMemo(()=>{if(!data?.transactions?.length)return null;const rows=data.transactions.filter(t=>t.visibility!=='private'||t.ownerId===data.me),months=[...new Set(rows.map(monthOf))].sort(),bank=(data.imports||[]).filter(i=>i.kind==='bank'),complete=m=>bank.some(i=>i.periodFrom<=m+'-01'&&i.periodTo>=m+'-28'),month=[...months].reverse().find(complete)||months.at(-1);return {rows,groups:data.groups,month,s:monthSummary(rows,data.groups,month),f:forecast(rows,data.groups,shiftMonth(month,1))}},[data]);
+ const view=useMemo(()=>{if(!data?.transactions?.length)return null;const rows=data.transactions.filter(t=>t.visibility!=='private'||t.ownerId===data.me),months=[...new Set(rows.map(monthOf))].sort(),bank=(data.imports||[]).filter(i=>i.kind==='bank'),thisMonth=new Date().toISOString().slice(0,7),live=new Set(rows.filter(t=>t.source==='riseup'&&t.month<thisMonth).map(t=>t.month)),complete=m=>live.has(m)||bank.some(i=>i.periodFrom<=m+'-01'&&i.periodTo>=m+'-28'),month=[...months].reverse().find(complete)||months.at(-1);return {rows,groups:data.groups,month,s:monthSummary(rows,data.groups,month),f:forecast(rows,data.groups,shiftMonth(month,1))}},[data]);
  return {data,failed,view};
 }
 const shekel=(v,he)=>(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleString(he?'he-IL':'en-US');
@@ -63,12 +63,12 @@ const shekel=(v,he)=>(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleSt
 // Today: this month's money at a glance (adults on a signed-in household).
 export function MoneyWidget({app:a,ui:{Button}}){
  const {data,failed,view}=useFinance(a),T=a.T,he=a.lang==='he',money=v=>shekel(v,he);
- if(failed)return <><h2>{T('Money this month','הכסף החודש')}</h2><p className="muted">{T('Money is available after signing in.','ניהול הכסף זמין לאחר התחברות.')}</p></>;
- if(!data)return <><h2>{T('Money this month','הכסף החודש')}</h2><p className="muted">{T('Loading…','טוען…')}</p></>;
- if(!view)return <><h2>{T('Money this month','הכסף החודש')}</h2><div className="widget-empty"><img src="/assets/generated/money-hero-320.png" alt="" width="84" height="84"/><p>{T('Import a bank or card statement to see your month.','ייבאו דף חשבון או כרטיס כדי לראות את החודש.')}</p><Button secondary onClick={()=>a.go('household/expenses')}>{T('Import statement','ייבוא דף חשבון')}</Button></div></>;
+ if(failed)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><p className="muted">{T('Expenses are available after signing in.','ההוצאות זמינות לאחר התחברות.')}</p></>;
+ if(!data)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><p className="muted">{T('Loading…','טוען…')}</p></>;
+ if(!view)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><div className="widget-empty"><img src="/assets/generated/money-hero-320.png" alt="" width="84" height="84"/><p>{T('Import a bank or card statement to see your month.','ייבאו דף חשבון או כרטיס כדי לראות את החודש.')}</p><Button secondary onClick={()=>a.go('household/expenses')}>{T('Import statement','ייבוא דף חשבון')}</Button></div></>;
  const {s,f,month}=view,income=Math.max(s.income,1);
  return <div className="money-widget">
-  <div className="money-widget-head"><div><h2>{T('Money this month','הכסף החודש')}</h2><small>{new Date(month+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'long'})}</small></div></div>
+  <div className="money-widget-head"><div><h2>{T('Expenses this month','ההוצאות החודש')}</h2><small>{new Date(month+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'long'})}</small></div></div>
   <div className="money-widget-body">
    <div className="money-widget-copy"><span>{s.net>=0?T('Left after everything','נשאר אחרי הכול'):T('Spent more than came in','יצא יותר ממה שנכנס')}</span><strong className={s.net>=0?'':'over'}>{(s.net>0?'+':'')+money(s.net)}</strong>
     <div className="money-widget-mini"><span><small>{T('Income','הכנסות')}</small><b>{money(s.income)}</b></span><span><small>{T('Spent','הוצאות')}</small><b>{money(s.expenses)}</b></span><i className="money-widget-bar"><em style={{width:Math.min(100,s.expenses/income*100)+'%'}}/></i></div>
