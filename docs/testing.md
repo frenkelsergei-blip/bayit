@@ -25,7 +25,7 @@ npx wrangler dev --config wrangler.worker.jsonc --port 8791 --persist-to $PERSIS
   --var AUTH_SECRET:local-test-auth-secret-0123456789abcdef \
   --var GOOGLE_CLIENT_ID:local-test --var GOOGLE_CLIENT_SECRET:local-test \
   --var APP_ENCRYPTION_KEY:$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))") \
-  --var TELEGRAM_API_ORIGIN:http://127.0.0.1:8899 --var ANTHROPIC_TEST_ORIGIN:http://127.0.0.1:8899 \
+  --var TELEGRAM_API_ORIGIN:http://127.0.0.1:8899 --var AI_TEST_ORIGIN:http://127.0.0.1:8899 \
   --var SPEECH_TEST_ORIGIN:http://127.0.0.1:8899 --var REMINDER_CRON_SECRET:local-test-cron-secret
 ```
 

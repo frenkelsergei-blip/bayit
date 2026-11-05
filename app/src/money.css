@@ -464,3 +464,12 @@
 .bills-widget .section-title{margin-bottom:12px}
 @media(max-width:900px){.money-widget-copy>strong{font-size:calc(32px * var(--text-scale,1))}}
 .money-widget-next b.neg{color:#c2410c}
+
+/* Settings → AI provider picker */
+.ai-providers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:6px 0 4px}
+.ai-provider{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 14px;border-radius:18px;border:2px solid var(--border);background:var(--surface);color:var(--text);text-align:start;cursor:pointer}
+.ai-provider strong{font-size:calc(17px * var(--text-scale,1))}.ai-provider small{color:var(--muted);font-weight:700}
+.ai-provider.on{border-color:var(--primary);background:var(--lilac)}
+.ai-provider:disabled{opacity:.6;cursor:default}
+.ai-provider-dot{position:absolute;top:10px;inset-inline-end:10px;width:10px;height:10px;border-radius:50%;background:#2FA86B;box-shadow:0 0 0 3px var(--surface)}
+.ai-key-link{align-self:flex-start;font-weight:800}

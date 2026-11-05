@@ -34,9 +34,23 @@ Categories and their keyword rules are in `shared/finance.mjs` (`CATEGORIES`, `R
 
 `app/cloud/speech.mjs` lists providers in `SPEECH_PROVIDERS` and implements `transcribe(env, provider, bytes)`. Add a provider id, an availability check in `speechAvailability`, and a branch in `transcribe`. Store any key encrypted with `encryptKey()` from `app/cloud/util.mjs`, as the Telegram token is. Add the option to the provider picker in `app/src/telegram-settings.jsx`.
 
-## Another AI provider
+## AI providers
 
-`app/cloud/assistant.mjs` calls Anthropic (`claude()`) with the tool definitions in `shared/ai-contract.mjs`. The rest of the app only sees the normalized result (`normalizeAITools`): a short answer, source IDs, and a *plan* the user must Apply. To add a provider, map those tools to its function-calling format and return the same normalized shape. Keep the contract: **never save changes without Apply, never widen visibility, and treat record text as untrusted data.**
+Households choose their provider in **Settings → AI**. The list lives in `shared/ai-providers.mjs` and the adapters in `app/cloud/ai-providers.mjs`. Every provider uses one of three wire formats:
+
+| Format | Providers | Notes |
+| --- | --- | --- |
+| `anthropic` | Claude | Messages API |
+| `responses` | OpenAI | Responses API, which Codex models require |
+| `chat` | Gemini, Grok, Custom | OpenAI-compatible Chat Completions (OpenRouter, Groq, Together, Ollama, LM Studio…) |
+
+`generate()` takes one request shape (system prompt, history, prompt, images, tools, optional forced tool) and returns one response shape: text and `tool_use` blocks. `normalizeAITools()`, Apply/Undo and all visibility rules therefore work unchanged.
+
+**Add a provider that speaks an existing format:** add one entry to `AI_PROVIDERS` (id, name, format, base URL, key hint, where to get a key). If its model list needs filtering, add a rule in `listModels()`.
+
+**Add a new wire format:** add a branch in `generate()` and `listModels()` that maps the tools to the provider's function-calling format and converts the reply back. Add a test in `tests/ai-providers.test.mjs` with a stubbed `fetch`.
+
+Keep the contract: **never save changes without Apply, never widen visibility, and treat record text as untrusted data.** Custom endpoints must use https.
 
 ## Messaging channels
 

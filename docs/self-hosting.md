@@ -76,7 +76,7 @@ Pages cannot run on a schedule, so a small Worker wakes once a minute and asks y
 
 | Feature | Where | You need |
 | --- | --- | --- |
-| Claude (Ask AI, Telegram chat, photos, money tips) | Settings → AI | An Anthropic API key. Each household enters its own key. |
+| AI (Ask AI, Telegram chat, photos, money tips) | Settings → AI | An API key from **Claude (Anthropic), OpenAI, Google Gemini, xAI Grok**, or any OpenAI-compatible service (OpenRouter, Groq, Together, or a self-hosted Ollama/LM Studio behind https). Each household picks its own provider and key. |
 | Telegram bot | Settings → Notifications → Telegram | A bot token from **@BotFather**. Each person taps **Connect** and then **Start**. |
 | Voice messages | Settings → Notifications → Telegram → Photos & voice | Cloudflare Workers AI. It's already bound as `AI` in `wrangler.jsonc` and runs on your account's daily allowance. |
 | Money | Household → Money → Import statement | Bank Leumi or Max statement PDFs. No bank passwords are needed. |

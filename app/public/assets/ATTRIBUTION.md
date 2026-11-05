@@ -18,3 +18,5 @@ The clean title underline PNG was generated for Bayit in November 2026. Its prom
 Six additional pixel explorers (maya, ari, lia, tom, dana, yoni) with cap and moon-cape outfits were generated in November 2026 with Codex built-in ImageGen, using the existing Itai and Noa portraits as style references. Prompts are retained in work/qa/kid-characters; backgrounds were removed and busts cropped by work/process-kid-characters.py.
 
 The Money page hero (house with coins and piggy bank) was generated in November 2026 with Codex built-in ImageGen, using the existing pixel blue house as the style reference. Prompt, source and processing are retained in work/qa/money-hero.
+
+Eight grown-up pixel characters (adult-beard, adult-bun, adult-glasses, adult-curls, adult-braids, adult-hoodie, adult-grandma, adult-grandpa) were generated in November 2026 with Codex built-in ImageGen, using the kid characters as style references. Prompts are in work/qa/adult-characters.

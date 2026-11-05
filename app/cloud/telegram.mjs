@@ -1,5 +1,5 @@
 // Telegram delivery for a household's own bot: setup, per-person linking, webhook commands,
-// Claude chat with Apply/Undo, reminder buttons and the scheduled reminder tick.
+// AI chat with Apply/Undo, reminder buttons and the scheduled reminder tick.
 // Every message is built from visibleState(state, recipient), the same access rules as the app.
 import {json,fail,random,hash,sameDigest,bodyJSON,encryptKey,decryptKey,localDate,localTime,base64} from './util.mjs';
 import {importStatement,applyImport} from './finance.mjs';
@@ -57,8 +57,8 @@ function itemLine(item,lang){const r=item.record,when=item.time||r.time?esc(item
 function reminderText(item,lang,now){const left=minutes(item.time)-minutes(now),lead=left>0?L(lang,'in '+left+' min','בעוד '+left+' דקות'):L(lang,'now','עכשיו'),kind=item.kind==='event'?L(lang,'Event','אירוע'):item.category==='routines'?L(lang,'Routine','שגרה'):L(lang,'Task','משימה');return '<b>'+L(lang,'Reminder','תזכורת')+'</b> · '+lead+'\n<b>'+esc(title(item.record,lang))+'</b>\n'+kind+' · '+esc(item.time)}
 function planText(plan,lang,lists){return plan.actions.map(a=>{if(a.kind==='shopping.list.create')return '• '+L(lang,'New list: ','רשימה חדשה: ')+esc(a.title);if(a.kind==='shopping.add'){const list=lists.find(l=>l.id===a.listId);return '• '+esc(a.title)+' — '+esc(a.quantity+' '+a.unit)+(list?' ('+esc(title(list,lang))+')':'')}return '• '+esc(a.title)+' — '+esc(a.date)+(a.time?' '+esc(a.time):'')}).join('\n')}
 const helpText=lang=>L(lang,
- '<b>Bayit on Telegram</b>\nWrite in your own words, send a photo (a schedule, a list, an invitation), a voice message, or a Max/Leumi statement PDF, for example “add milk and eggs to the shopping list”. Claude prepares the change and you press Apply.\n\n/today – your day\n/shopping – your active shopping list\n/mine &lt;request&gt; – use your private space\n/stop – unlink this chat\n\nYou only see what you can see in the app.',
- '<b>Bayit בטלגרם</b>\nכתבו במילים שלכם, שלחו תמונה (מערכת שעות, רשימה, הזמנה), הודעה קולית או דף חשבון PDF של מקס/לאומי, למשל „להוסיף חלב וביצים לרשימת הקניות”. Claude מכין את השינוי ואתם לוחצים על החלה.\n\n/today – היום שלכם\n/shopping – רשימת הקניות הפעילה\n/mine &lt;בקשה&gt; – המרחב הפרטי שלכם\n/stop – ניתוק הצ׳אט\n\nמוצג רק מה שמותר לכם לראות באפליקציה.');
+ '<b>Bayit on Telegram</b>\nWrite in your own words, send a photo (a schedule, a list, an invitation), a voice message, or a Max/Leumi statement PDF, for example “add milk and eggs to the shopping list”. The AI prepares the change and you press Apply.\n\n/today – your day\n/shopping – your active shopping list\n/mine &lt;request&gt; – use your private space\n/stop – unlink this chat\n\nYou only see what you can see in the app.',
+ '<b>Bayit בטלגרם</b>\nכתבו במילים שלכם, שלחו תמונה (מערכת שעות, רשימה, הזמנה), הודעה קולית או דף חשבון PDF של מקס/לאומי, למשל „להוסיף חלב וביצים לרשימת הקניות”. ה־AI מכין את השינוי ואתם לוחצים על החלה.\n\n/today – היום שלכם\n/shopping – רשימת הקניות הפעילה\n/mine &lt;בקשה&gt; – המרחב הפרטי שלכם\n/stop – ניתוק הצ׳אט\n\nמוצג רק מה שמותר לכם לראות באפליקציה.');
 
 // ---- Web API used by Settings → Notifications ----
 export async function handleTelegramAPI(request,env,user,home,path,url){
@@ -155,7 +155,7 @@ async function onMessage(env,bot,message){
  }
  if(!text)return send(env,bot,chat.id,L(lang,'I can read text, photos and voice messages.','אפשר לשלוח טקסט, תמונות והודעות קוליות.'));
  if(cmd&&cmd!=='mine')return send(env,bot,chat.id,helpText(lang));
- return askClaude(env,bot,home,link,role,lang,cmd==='mine'?rest.join(' '):text,cmd==='mine'?'private':'family');
+ return askAI(env,bot,home,link,role,lang,cmd==='mine'?rest.join(' '):text,cmd==='mine'?'private':'family');
 }
 
 async function linkChat(env,bot,message,token,lang){
@@ -183,14 +183,14 @@ async function sendShopping(env,bot,home,memberId,chatId,lang){
  return send(env,bot,chatId,'<b>'+esc(title(list,lang))+'</b>\n'+(items.length?items.slice(0,60).map(i=>'• '+esc(title(i,lang))+(i.quantity?' — '+esc(i.quantity):'')).join('\n'):L(lang,'Everything on this list has been collected.','כל הפריטים ברשימה נאספו.')));
 }
 
-async function askClaude(env,bot,home,link,role,lang,question,scope,{images=[],label}={}){
+async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label}={}){
  const stored=await aiStatusRecord(env,home.id);
- if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'Claude is not connected for this household yet. A parent can connect it in Settings → AI.','Claude עדיין לא מחובר לבית הזה. הורה יכול לחבר אותו בהגדרות ← AI.'));
+ if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → AI.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← AI.'));
  if(!question.trim())return send(env,bot,link.chat_id,helpText(lang));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const turns=link.turns&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
  let result;try{result=await runAssistant(env,{home,actorId:link.member_id,role,question,turns,scope,language:lang,images})}
- catch(error){return send(env,bot,link.chat_id,esc(error.status?error.message:L(lang,'Claude could not complete this request. Nothing was changed.','Claude לא הצליח להשלים את הבקשה. דבר לא שונה.')))}
+ catch(error){return send(env,bot,link.chat_id,esc(error.status?error.message:L(lang,'The AI could not complete this request. Nothing was changed.','ה־AI לא הצליח להשלים את הבקשה. דבר לא שונה.')))}
  const nextTurns=[...turns,{role:'user',content:(label||question).slice(0,1500)},{role:'assistant',content:String(result.answer).slice(0,1500)}].slice(-6);
  await env.DB.prepare('UPDATE telegram_links SET turns=?,turns_at=? WHERE household_id=? AND member_id=?').bind(JSON.stringify(nextTurns),Date.now(),home.id,link.member_id).run();
  if(!result.plan)return send(env,bot,link.chat_id,esc(result.answer));
@@ -202,12 +202,12 @@ async function askClaude(env,bot,home,link,role,lang,question,scope,{images=[],l
 async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
  const settings=await mediaSettings(env,home.id);
  if(!settings.photos)return send(env,bot,link.chat_id,L(lang,'Photos are turned off for this household. A parent can turn them on in Settings → Notifications → Telegram.','תמונות כבויות בבית הזה. הורה יכול להפעיל אותן בהגדרות ← התראות ← טלגרם.'));
- const stored=await aiStatusRecord(env,home.id);if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'Claude is not connected for this household yet. A parent can connect it in Settings → AI.','Claude עדיין לא מחובר לבית הזה. הורה יכול לחבר אותו בהגדרות ← AI.'));
+ const stored=await aiStatusRecord(env,home.id);if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → AI.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← AI.'));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const {bytes,path}=await downloadFile(env,bot,photo.file_id,MAX_PHOTO_BYTES,lang),mediaType=photo.mime_type||IMAGE_TYPES[path.split('.').pop()?.toLowerCase()];
  if(!Object.values(IMAGE_TYPES).includes(mediaType))return send(env,bot,link.chat_id,L(lang,'Send a JPG, PNG, WebP or GIF image.','שלחו תמונה מסוג JPG,‏ PNG,‏ WebP או GIF.'));
  const question=caption||L(lang,'Look at this photo. If it clearly shows dates, events, tasks or shopping items, prepare them for review. Otherwise describe briefly what you see and ask what I would like to do.','הסתכל על התמונה. אם רואים בה בבירור תאריכים, אירועים, משימות או פריטי קניות, הכן אותם לבדיקה. אחרת תאר בקצרה מה רואים ושאל מה לעשות.');
- return askClaude(env,bot,home,link,role,lang,question,scope,{images:[{mediaType,data:base64(bytes)}],label:'[photo] '+caption});
+ return askAI(env,bot,home,link,role,lang,question,scope,{images:[{mediaType,data:base64(bytes)}],label:'[photo] '+caption});
 }
 
 const shekels=agorot=>'₪'+(agorot/100).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
@@ -239,7 +239,7 @@ async function handleVoice(env,bot,home,link,role,lang,voice,scope){
  const heard=await transcribe(env,settings.speechProvider,bytes);
  if(!heard)return send(env,bot,link.chat_id,L(lang,'I could not hear any words in that message.','לא הצלחתי לשמוע מילים בהודעה.'));
  await send(env,bot,link.chat_id,'🎙 <b>'+L(lang,'I heard:','שמעתי:')+'</b> <i>'+esc(heard)+'</i>');
- return askClaude(env,bot,home,link,role,lang,heard,scope,{label:'[voice] '+heard});
+ return askAI(env,bot,home,link,role,lang,heard,scope,{label:'[voice] '+heard});
 }
 
 // Runs a change as the member with one retry if another device saved at the same moment.

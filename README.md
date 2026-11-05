@@ -27,8 +27,8 @@ Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop �
 | **Kids** | Pixel characters, XP and achievements, a wardrobe (cap and moon cape), and turn history. |
 | **Household** | Meals and pantry, **Money**, maintenance, and documents (files in private storage). |
 | **Money** | Import **Bank Leumi** and **Max** statements (PDF). Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
-| **Ask AI** | Claude answers questions from records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
-| **Telegram** | Your own family bot: reminders with Done and Snooze buttons, a morning summary, parent approvals, and chat with Claude. It understands text, **photos** and **voice messages**, and accepts statement PDFs. |
+| **Ask AI** | Your choice of AI (**Claude, OpenAI/Codex, Gemini, Grok**, or any OpenAI-compatible service) answers questions from records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
+| **Telegram** | Your own family bot: reminders with Done and Snooze buttons, a morning summary, parent approvals, and chat with your AI. It understands text, **photos** and **voice messages**, and accepts statement PDFs. |
 | **Privacy** | Every note, task and event has an owner and visibility (private, family, or selected people). The server enforces it, and AI, reminders, statistics and widgets follow the same rules. |
 
 <p align="center">
@@ -48,13 +48,13 @@ Browser (React + Vite) ──► Cloudflare Pages ──► Pages Function (app/
                                                  ├── D1      households, records, money, Telegram links
                                                  ├── R2      private documents
                                                  ├── Workers AI (optional) voice transcription
-                                                 ├── Anthropic API (each household's own key)
+                                                 ├── AI provider: Claude, OpenAI, Gemini, Grok or custom (each household's own key)
                                                  └── Telegram Bot API (each household's own bot)
 Cloudflare Worker "bayit-reminders" (cron, every minute) ──► /api/internal/reminders
 ```
 
 - **One installation, many households.** Each person signs in with Google. A parent creates a household and invites others with single-use links.
-- **Each installation brings its own credentials.** Cloudflare account, Google OAuth client, Claude key and Telegram bot belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
+- **Each installation brings its own credentials.** Cloudflare account, Google OAuth client, AI key and Telegram bot belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
 - **Fictional demo mode:** open `/?demo=1` to explore with a sample family. Nothing is saved.
 
 ## Quick start (local demo)
@@ -70,7 +70,7 @@ Open <http://127.0.0.1:4173/?demo=1>. For the full cloud setup (sign-in, sharing
 ## Make it yours
 
 - **Country settings:** `shared/home-config.mjs` sets the home timezone and currency (Israel and ₪ by default).
-- **Providers:** speech-to-text providers plug into `app/cloud/speech.mjs`, and the AI provider lives in `app/cloud/assistant.mjs`.
+- **AI providers:** households pick Claude, OpenAI (Responses API, so Codex models work), Gemini, Grok or a custom OpenAI-compatible URL in Settings → AI. Adapters are in `app/cloud/ai-providers.mjs`, and speech providers are in `app/cloud/speech.mjs`.
 - **Banks and cards:** add a statement format in `shared/finance-parse.mjs`. Each parser must reconcile against the totals printed on the statement.
 - **Widgets, categories and languages:** see **[docs/extending.md](docs/extending.md)**.
 
@@ -99,7 +99,8 @@ End-to-end runs against a local `wrangler dev` with fake Telegram/Claude/speech 
 
 Bayit is a working family app that's used day to day, and it's still young:
 - **Locale:** it's Israel-first (Hebrew/English, ₪). Bank import supports Bank Leumi and Max only so far.
-- **Providers:** Claude is the only built-in AI provider. Telegram is the only messaging channel; WhatsApp and phone push are not built yet.
+- **Hosting:** Cloudflare (Pages, D1, R2) is the only hosting target so far. A run-anywhere Docker version is planned.
+- **Channels:** Telegram is the only messaging channel; WhatsApp and phone push are not built yet.
 - **Code layout:** much of the UI is still in one large `app/src/App.jsx`. It's being split up gradually, and contributions are welcome.
 - **Data ownership:** whoever operates an installation can technically read its database. Bayit keeps family members' data apart *inside the app*; it is not end-to-end encrypted.
 

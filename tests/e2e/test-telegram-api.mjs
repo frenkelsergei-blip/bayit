@@ -7,10 +7,11 @@ const base=process.env.BAYIT_TEST_ORIGIN||'http://127.0.0.1:8791',persist=proces
 const CHAT=100000+Math.floor(Math.random()*800000),OTHER=CHAT+1;// Fresh chat IDs per run keep earlier runs' households apart.
 const FAKE_TOKEN='123456789:TEST_fake_token_for_local_only_abcd',BLOCKED_CHAT=3003;
 // ---- Fake Telegram Bot API ----
-const calls=[],claudeCalls=[],speechCalls=[],FILES={'photos/file_1.jpg':[0xff,0xd8,0xff,0xe0,1,2,3,4,5,6],'voice/file_2.oga':[0x4f,0x67,0x67,0x53,9,9,9]};let webhook=null,messageId=100;
+const calls=[],claudeCalls=[],speechCalls=[],responsesCalls=[],FILES={'photos/file_1.jpg':[0xff,0xd8,0xff,0xe0,1,2,3,4,5,6],'voice/file_2.oga':[0x4f,0x67,0x67,0x53,9,9,9]};let webhook=null,messageId=100;
 const fake=http.createServer(async(req,res)=>{let raw='';for await(const c of req)raw+=c;const [,token,method]=req.url.match(/^\/bot([^/]+)\/(\w+)$/)||[],body=raw?JSON.parse(raw):{};calls.push({method,body});
  const reply=(status,payload)=>{res.writeHead(status,{'Content-Type':'application/json'});res.end(JSON.stringify(payload))};
- if(req.url.startsWith('/v1/models'))return reply(200,{data:[{id:'claude-test',display_name:'Claude Test'}]});
+ if(req.url.startsWith('/v1/models'))return reply(200,{data:[{id:'claude-test',display_name:'Claude Test'},{id:'gpt-5-codex'},{id:'text-embedding-3-small'}]});
+ if(req.url==='/v1/responses'){responsesCalls.push(body);return reply(200,{status:'completed',output:[{type:'message',content:[{type:'output_text',text:'Prepared with OpenAI.'}]},{type:'function_call',name:'prepare_shopping_items',arguments:JSON.stringify({items:[{name:'Bananas',quantity:6}]})}],usage:{input_tokens:9,output_tokens:9}})}
  if(req.url==='/v1/messages'){claudeCalls.push(body);return reply(200,{stop_reason:'tool_use',usage:{input_tokens:10,output_tokens:10},content:[{type:'text',text:'Prepared from your message.'},{type:'tool_use',id:'t1',name:'prepare_shopping_items',input:{items:[{name:'Oat milk',quantity:1}]}}]})}
  if(req.url==='/transcribe'){speechCalls.push(body);return reply(200,{text:'add oat milk to the list'})}
  const file=req.url.match(/^\/file\/bot([^/]+)\/(.+)$/);if(file){if(file[1]!==FAKE_TOKEN)return reply(401,{});res.writeHead(200,{'Content-Type':'application/octet-stream'});return res.end(Buffer.from(FILES[file[2]]))}
@@ -73,7 +74,7 @@ mark=calls.length;await deliver(press(CHAT,doneButton.callback_data));assert.mat
 mark=calls.length;await deliver(press(CHAT,snoozeButton.callback_data));assert.match(answers(mark)[0].body.text,/remind you again/);checks.push('Buttons are single-use; Snooze schedules a follow-up');
 // Commands
 mark=calls.length;await deliver(message(CHAT,'/today'));assert.match(sent(CHAT,mark)[0].body.text,/Water the plants ✓/);assert.doesNotMatch(sent(CHAT,mark)[0].body.text,/Secret/);
-mark=calls.length;await deliver(message(CHAT,'add milk please'));assert.match(sent(CHAT,mark)[0].body.text,/Claude is not connected/);checks.push('/today respects visibility; chat explains when Claude is not connected');
+mark=calls.length;await deliver(message(CHAT,'add milk please'));assert.match(sent(CHAT,mark)[0].body.text,/AI is not connected/);checks.push('/today respects visibility; chat explains when Claude is not connected');
 // Apply / Undo of a prepared plan (the plan is inserted directly; Claude itself is not called in this local test).
 const APPLY_ID=('apply'+Math.random().toString(36).slice(2)+'00000000000').slice(0,16),plan={id:'tg-plan-'+APPLY_ID,actorId:'fixture-user-one',scope:'family',actions:[{kind:'shopping.add',title:'Oat milk',quantity:2,quantityMode:'ensure',unit:'bottles',group:'Dairy',icon:'bayit-activities-lunchbox',listId:'week'}]};
 await d1(`INSERT INTO telegram_actions(id,household_id,member_id,payload,expires_at) VALUES('${APPLY_ID}','${home}','fixture-user-one','${JSON.stringify({type:'apply',plan}).replaceAll("'","''")}',${Date.now()+3600000});`);
@@ -85,13 +86,20 @@ const media=(extra,chat=CHAT)=>({message:{message_id:2,date:1,chat:{id:chat,type
 status=await api('one','/api/telegram/status');assert.equal(status.media.photos,true);assert.equal(status.media.speechProvider,'off');
 mark=calls.length;await deliver(media({voice:{file_id:'voice-1',duration:3,mime_type:'audio/ogg'}}));assert.match(sent(CHAT,mark)[0].body.text,/Voice messages are turned off/);assert.equal(speechCalls.length,0);checks.push('Voice stays off until a parent chooses a provider; nothing is transcribed');
 assert.equal((await api('two','/api/telegram/media',{speechProvider:'cloudflare'})).status,403);status=await api('one','/api/telegram/media',{speechProvider:'cloudflare'});assert.equal(status.media.speechProvider,'cloudflare');checks.push('Only a parent changes photo and voice settings');
-mark=calls.length;await deliver(media({photo:[{file_id:'photo-small',width:90,height:90},{file_id:'photo-1',width:1280,height:960}],caption:'add these'}));assert.match(sent(CHAT,mark)[0].body.text,/Claude is not connected/);assert.equal(claudeCalls.length,0);
+mark=calls.length;await deliver(media({photo:[{file_id:'photo-small',width:90,height:90},{file_id:'photo-1',width:1280,height:960}],caption:'add these'}));assert.match(sent(CHAT,mark)[0].body.text,/AI is not connected/);assert.equal(claudeCalls.length,0);
 assert.equal((await api('one','/api/ai/credentials',{apiKey:'fake-local-anthropic-key-0001'})).connected,true);await api('one','/api/ai/model',{model:'claude-test'});
 mark=calls.length;await deliver(media({photo:[{file_id:'photo-small',width:90,height:90},{file_id:'photo-1',width:1280,height:960}],caption:'add these'}));
 const imageCall=claudeCalls.at(-1),imageContent=imageCall.messages.at(-1).content;assert.equal(imageContent[0].type,'image');assert.equal(imageContent[0].source.media_type,'image/jpeg');assert.equal(imageContent[0].source.data,Buffer.from(FILES['photos/file_1.jpg']).toString('base64'));assert.equal(imageContent[1].text,'add these');assert.match(imageCall.system,/untrusted data/);
 const prepared=sent(CHAT,mark).at(-1);assert.match(prepared.body.text,/Prepared for review/);assert.match(prepared.body.text,/Oat milk/);assert.equal(prepared.body.reply_markup.inline_keyboard[0].length,2);checks.push('A photo (largest size) and its caption reach Claude as an image; the result waits for Apply');
 mark=calls.length;await deliver(media({voice:{file_id:'voice-1',duration:3,mime_type:'audio/ogg'}}));const voiceReplies=sent(CHAT,mark).map(c=>c.body.text);assert.equal(speechCalls.at(-1).audio,Buffer.from(FILES['voice/file_2.oga']).toString('base64'));assert.match(voiceReplies[0],/I heard:.*add oat milk to the list/);assert.match(voiceReplies.at(-1),/Prepared for review/);assert.equal(claudeCalls.at(-1).messages.at(-1).content,'add oat milk to the list');checks.push('A voice note is transcribed, shown back as “I heard”, then prepared by Claude');
 mark=calls.length;const before=speechCalls.length;await deliver(media({voice:{file_id:'voice-1',duration:500,mime_type:'audio/ogg'}}));assert.match(sent(CHAT,mark)[0].body.text,/under 2 minutes/);assert.equal(speechCalls.length,before);checks.push('Long voice notes are refused before any transcription');
+// Switch the household to OpenAI (Responses API) and use it from Telegram.
+assert.equal((await api('two','/api/ai/credentials',{apiKey:'fake-openai-key-0001',provider:'openai'})).status,403);
+let ai=await api('one','/api/ai/credentials',{apiKey:'fake-openai-key-0001',provider:'openai'});assert.equal(ai.provider,'openai');assert.deepEqual(ai.models.map(m=>m.id),['gpt-5-codex']);assert.ok(!JSON.stringify(ai).includes('fake-openai-key'));
+ai=await api('one','/api/ai/model',{model:'gpt-5-codex'});assert.equal(ai.model,'gpt-5-codex');
+mark=calls.length;await deliver(message(CHAT,'add bananas'));const viaOpenAI=sent(CHAT,mark).at(-1).body.text;assert.match(viaOpenAI,/Prepared with OpenAI/);assert.match(viaOpenAI,/Bananas/);
+const rc=responsesCalls.at(-1);assert.equal(rc.model,'gpt-5-codex');assert.equal(rc.tools[0].type,'function');assert.match(rc.instructions,/household assistant/);
+assert.equal((await api('one','/api/ai/credentials',{apiKey:'fake-key-0001',provider:'custom',baseUrl:'http://10.0.0.1/v1'})).status,400);checks.push('A parent can switch the household AI to OpenAI (Responses API); Telegram chat uses it; custom endpoints must be https');
 // Test message, unlink, disconnect
 assert.equal((await api('one','/api/telegram/test',{})).sent,true);assert.equal((await api('two','/api/telegram/test',{})).status,409);checks.push('Send test reports success only after Telegram accepts the message');
 status=await api('one','/api/telegram/link/fixture-user-one',undefined,'DELETE');assert.equal(status.members.find(m=>m.id==='fixture-user-one').linked,false);

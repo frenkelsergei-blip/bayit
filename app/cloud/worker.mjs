@@ -2,22 +2,34 @@ import {authReady,authConfig,authHandler,sessionFor} from './auth.mjs';
 import {canSee} from '../src/data.js';
 import {blankState,visibleState,applyChanges} from './state.mjs';
 import {json,fail,random,hash,bodyJSON,encryptKey,decryptKey} from './util.mjs';
-import {accounts,loadHousehold,modelList,runAssistant} from './assistant.mjs';
+import {loadHousehold,runAssistant} from './assistant.mjs';
+import {listModels,providerBase} from './ai-providers.mjs';
+import {AI_PROVIDERS,AI_PROVIDER,providerName} from '../../shared/ai-providers.mjs';
 import {handleTelegramAPI,handleTelegramWebhook,runReminderTick} from './telegram.mjs';
 import {handleFinanceAPI} from './finance.mjs';
 async function household(env,user,id){const membership=await env.DB.prepare('SELECT * FROM memberships WHERE household_id=? AND user_id=?').bind(id,user.id).first();if(!membership)throw fail('This household is unavailable.',403);return {...await loadHousehold(env,id),membership}}
 async function chosenHousehold(request,env,user,id){let selected=id||request.headers.get('X-Bayit-Household');if(!selected)selected=(await env.DB.prepare('SELECT household_id FROM memberships WHERE user_id=? ORDER BY created_at LIMIT 1').bind(user.id).first())?.household_id;if(!selected)throw fail('Create or join a household first.',409);return household(env,user,selected)}
-async function handleAI(request,env,user,home,path){const actorId=home.membership.member_id,parent=home.membership.role==='parent',stored=await env.DB.prepare('SELECT * FROM household_secrets WHERE household_id=?').bind(home.id).first(),status=record=>({available:!!env.APP_ENCRYPTION_KEY,provider:'anthropic',connected:!!record?.ciphertext&&!!record?.verified,hasKey:!!record?.ciphertext,model:record?.model||'',models:JSON.parse(record?.models||'[]'),keyStorage:'encrypted-server-storage',mode:'cloud',canManage:parent}),action=path.split('/').at(-1);
+// Settings → AI: each household chooses its provider and stores its own key (encrypted, never returned).
+async function handleAI(request,env,user,home,path){
+ const actorId=home.membership.member_id,parent=home.membership.role==='parent',action=path.split('/').at(-1);
+ const stored=await env.DB.prepare('SELECT * FROM household_secrets WHERE household_id=?').bind(home.id).first();
+ const status=r=>({available:!!env.APP_ENCRYPTION_KEY,provider:r?.provider||'anthropic',providerName:providerName(r?.provider||'anthropic'),baseUrl:(r?.provider==='custom'&&r?.base_url)||'',connected:!!r?.ciphertext&&!!r?.verified,hasKey:!!r?.ciphertext,model:r?.model||'',models:JSON.parse(r?.models||'[]'),keyStorage:'encrypted-server-storage',mode:'cloud',canManage:parent,providers:AI_PROVIDERS.map(({id,name,company,keyHint,keysUrl})=>({id,name,company,keyHint,keysUrl}))});
  if(action==='status'&&request.method==='GET')return json(status(stored));
  if(action==='credentials'&&request.method==='DELETE'){if(!parent)throw fail('A parent manages the household AI connection.',403);await env.DB.prepare('DELETE FROM household_secrets WHERE household_id=?').bind(home.id).run();return json(status(null))}
  const body=await bodyJSON(request,190000);
  if(['credentials','test','model'].includes(action)&&!parent)throw fail('A parent manages the household AI connection.',403);
- if(action==='credentials'){const candidate=typeof body.apiKey==='string'?body.apiKey.trim():'';if(candidate.length<10||candidate.length>1000)throw fail('Enter a valid Anthropic key.');const models=await modelList(candidate,env),ciphertext=await encryptKey(candidate,env,home.id);await env.DB.prepare('INSERT INTO household_secrets(household_id,ciphertext,model,models,verified) VALUES(?,?,?,?,1) ON CONFLICT(household_id) DO UPDATE SET ciphertext=excluded.ciphertext,model=excluded.model,models=excluded.models,verified=1').bind(home.id,ciphertext,'',JSON.stringify(models)).run();return json(status({ciphertext,models:JSON.stringify(models),verified:1}))}
- if(!stored?.ciphertext)throw fail('Connect your household’s Claude key first.',409);
+ if(action==='credentials'){
+  const provider=AI_PROVIDER[body.provider]?body.provider:'anthropic',candidate=typeof body.apiKey==='string'?body.apiKey.trim():'',baseUrl=provider==='custom'?String(body.baseUrl||'').trim().slice(0,300):'';
+  if(candidate.length<8||candidate.length>2000)throw fail('Enter a valid API key for '+providerName(provider)+'.');
+  providerBase(env,provider,baseUrl);
+  const models=await listModels(env,{provider,key:candidate,baseUrl}),ciphertext=await encryptKey(candidate,env,home.id);
+  await env.DB.prepare('INSERT INTO household_secrets(household_id,ciphertext,model,models,verified,provider,base_url) VALUES(?,?,?,?,1,?,?) ON CONFLICT(household_id) DO UPDATE SET ciphertext=excluded.ciphertext,model=excluded.model,models=excluded.models,verified=1,provider=excluded.provider,base_url=excluded.base_url').bind(home.id,ciphertext,'',JSON.stringify(models),provider,baseUrl||null).run();
+  return json(status({ciphertext,models:JSON.stringify(models),verified:1,provider,base_url:baseUrl}));
+ }
+ if(!stored?.ciphertext)throw fail('Connect your household’s AI provider first.',409);
  if(action==='model'){if(!JSON.parse(stored.models||'[]').some(m=>m.id===body.model))throw fail('Choose an available model.');await env.DB.prepare('UPDATE household_secrets SET model=? WHERE household_id=?').bind(body.model,home.id).run();return json(status({...stored,model:body.model}))}
- const key=await decryptKey(stored.ciphertext,env,home.id);
- if(action==='test'){const models=await modelList(key,env);await env.DB.prepare('UPDATE household_secrets SET models=?,verified=1 WHERE household_id=?').bind(JSON.stringify(models),home.id).run();return json(status({...stored,models:JSON.stringify(models),verified:1}))}
- if(action!=='chat')throw fail('Unknown AI endpoint.',404);if(!stored.model||!stored.verified)throw fail('Choose and test a model first.',409);
+ if(action==='test'){const key=await decryptKey(stored.ciphertext,env,home.id),models=await listModels(env,{provider:stored.provider||'anthropic',key,baseUrl:stored.base_url||''});await env.DB.prepare('UPDATE household_secrets SET models=?,verified=1 WHERE household_id=?').bind(JSON.stringify(models),home.id).run();return json(status({...stored,models:JSON.stringify(models),verified:1}))}
+ if(action!=='chat')throw fail('Unknown AI endpoint.',404);
  return json(await runAssistant(env,{home,actorId,role:home.membership.role,question:body.question,turns:body.turns,scope:body.context?.scope,language:body.context?.language}))
 }
 async function handle(request,env){const url=new URL(request.url),path=url.pathname;

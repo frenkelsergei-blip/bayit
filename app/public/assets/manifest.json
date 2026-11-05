@@ -541,6 +541,134 @@
       "height": 384,
       "source": "Codex built-in ImageGen (Nov 2026), Itai/Noa style references; background removal and crop by work/process-kid-characters.py",
       "sha256": "6b53dd1af72ec538481183115f11e075c7bead7a37ed3385ee15f1505d32ef8e"
+    },
+    {
+      "id": "avatar-adult-beard",
+      "file": "assets/generated/avatar-adult-beard.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "142fe6fa7e8de31fa0dd39d21b56bfd71de80f2252e384d5956ab1dbff04d91c"
+    },
+    {
+      "id": "avatar-adult-beard-bust",
+      "file": "assets/generated/avatar-adult-beard-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "e2add1c16ee0a9490b2da92b599818d65f24a218b153e5d931dfc744509b97e8"
+    },
+    {
+      "id": "avatar-adult-bun",
+      "file": "assets/generated/avatar-adult-bun.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "763d97a9b72a81a67780a4e22cba65231b4bf26788643543b4019c04e5e70ddf"
+    },
+    {
+      "id": "avatar-adult-bun-bust",
+      "file": "assets/generated/avatar-adult-bun-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "118701396c605e3661e284b04fc32c9ae1214874ea2737b25341777343c7564a"
+    },
+    {
+      "id": "avatar-adult-glasses",
+      "file": "assets/generated/avatar-adult-glasses.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "686a2f817d54a607671a8a50ac66a8ae737573b72e132e33c7e8f1292cd001fd"
+    },
+    {
+      "id": "avatar-adult-glasses-bust",
+      "file": "assets/generated/avatar-adult-glasses-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b8cc2e8a53f30751bcf9687312f00d202b09a7f5fc5536e4dd5b393360058fe8"
+    },
+    {
+      "id": "avatar-adult-curls",
+      "file": "assets/generated/avatar-adult-curls.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "88b636743c667719dc8b5cd7714851cf53d606591a0b4ab7a028b041f732bfa3"
+    },
+    {
+      "id": "avatar-adult-curls-bust",
+      "file": "assets/generated/avatar-adult-curls-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "3d666d0b49e0e8cf573bd589500093a46550f3ca1b99ce7b90f80a3ecf4edc08"
+    },
+    {
+      "id": "avatar-adult-braids",
+      "file": "assets/generated/avatar-adult-braids.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "25b9999aa930d9185513d49ee1d147e3b9340832b5fa7e64db58e3bec9d0913e"
+    },
+    {
+      "id": "avatar-adult-braids-bust",
+      "file": "assets/generated/avatar-adult-braids-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "005b18b2403807f29eb7336d4c90ef9496df0d46e7911843f9d4ee8615934d3c"
+    },
+    {
+      "id": "avatar-adult-hoodie",
+      "file": "assets/generated/avatar-adult-hoodie.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "4c8756d24803a5d11c0e66af14147bf44b0d1f94c717adc3a1abcaef0974bac9"
+    },
+    {
+      "id": "avatar-adult-hoodie-bust",
+      "file": "assets/generated/avatar-adult-hoodie-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "416992b743245433191a25d9668d4eb23f29a1aeca1f3d8384810e66db9de868"
+    },
+    {
+      "id": "avatar-adult-grandma",
+      "file": "assets/generated/avatar-adult-grandma.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "fe34ada4f2179acf58d7781f91452e0caa9ed778998754767f0ceae33c4b715b"
+    },
+    {
+      "id": "avatar-adult-grandma-bust",
+      "file": "assets/generated/avatar-adult-grandma-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "f9f032e887a6b8c9ec2e2cceaf5f14dd62ca6912b215d63ddeda405d596c0fdf"
+    },
+    {
+      "id": "avatar-adult-grandpa",
+      "file": "assets/generated/avatar-adult-grandpa.png",
+      "width": 1254,
+      "height": 1254,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "b7823738bea002f8fc08f71dc4cab83a7557a4c2950e6d5573780bd96b7a530c"
+    },
+    {
+      "id": "avatar-adult-grandpa-bust",
+      "file": "assets/generated/avatar-adult-grandpa-bust.png",
+      "width": 384,
+      "height": 384,
+      "source": "Codex built-in ImageGen (Nov 2026), kid characters as style references; background removal and crop by work/process-kid-characters.py",
+      "sha256": "03501f187793a2ab023881b7750869a6e1887ad32a1a34cdb4e4a3c6c1beff02"
     }
   ],
   "attribution": "assets/ATTRIBUTION.md",
