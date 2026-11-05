@@ -1,0 +1,12 @@
+/* Person chips (Calendar, Kids, Tasks, sharing pickers): no browser tap box and no outline cutting through the
+   avatar. Selected = cobalt-tinted pill + bolder cobalt name + a cobalt ring around the avatar itself. */
+button,[role=button],a,label,summary{-webkit-tap-highlight-color:transparent}
+.calendar-person,.calendar-all-members{outline:none!important;border-color:transparent!important;transition:background-color .15s,color .15s,transform .12s}
+.calendar-person:active,.calendar-all-members:active{transform:scale(.97)}
+.calendar-person.chosen,.calendar-person[aria-pressed=true]{background:color-mix(in srgb,var(--primary) 16%,var(--surface,#fff))!important;color:color-mix(in srgb,var(--primary) 80%,var(--text));font-weight:850}
+.calendar-person.chosen>.avatar,.calendar-person[aria-pressed=true]>.avatar{box-shadow:0 0 0 2px var(--surface,#fff),0 0 0 4.5px var(--primary),0 4px 10px #10152a33!important}
+.calendar-all-members.chosen{background:color-mix(in srgb,var(--primary) 16%,var(--surface,#fff))!important;color:var(--primary)}
+.calendar-all-members:not(.chosen){background:var(--surface,#fff);box-shadow:inset 0 0 0 1.5px var(--border)}
+.calendar-person:focus-visible>.avatar{box-shadow:0 0 0 2px var(--surface,#fff),0 0 0 4.5px color-mix(in srgb,var(--primary) 55%,transparent)!important}
+.calendar-all-members:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 45%,transparent)}
+:root[data-theme=dark] .calendar-person.chosen,:root[data-theme=dark] .calendar-person[aria-pressed=true],:root[data-theme=dark] .calendar-all-members.chosen{background:color-mix(in srgb,var(--primary) 34%,var(--surface,#1b1f33))!important;color:#fff}

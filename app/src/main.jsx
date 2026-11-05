@@ -21,6 +21,10 @@ import "./journal-detail.css";
 import "./family-hero.css";
 import "./sidebar-toggle.css";
 import "./tasks-v2.css";
+import "./scroll-hints.css";
+import "./scroll-hints.js";
+import "./person-chips.css";
+import "./avatar-stack.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

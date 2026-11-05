@@ -1,0 +1,13 @@
+/* No visible scrollbars on sideways strips anywhere, and none at all on touch screens (phones and tablets).
+   Scrolling still works with a finger, trackpad or wheel; scroll-hints.js fades the edge that has more. */
+.tabs,.tasks-lists,.tasks-people,.tasks-range,.shopping-list-tabs,.calendar-person-legend,.phone-quick-icons{scrollbar-width:none;-ms-overflow-style:none}
+:is(.tabs,.tasks-lists,.tasks-people,.tasks-range,.shopping-list-tabs,.calendar-person-legend,.phone-quick-icons)::-webkit-scrollbar{display:none;width:0;height:0}
+@media(pointer:coarse){
+ *{scrollbar-width:none}
+ *::-webkit-scrollbar{display:none;width:0;height:0}
+}
+[data-hscroll="end"]{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent)}
+[data-hscroll="start"]{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent)}
+[data-hscroll="start end"]{-webkit-mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(to right,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
+[dir=rtl] [data-hscroll="end"]{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 40px),transparent)}
+[dir=rtl] [data-hscroll="start"]{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 40px),transparent)}

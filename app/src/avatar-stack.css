@@ -1,0 +1,16 @@
+/* AvatarStack: overlapping faces with a ring in the surface colour, "+N" bubble for the rest. */
+.avatar-stack{display:inline-flex;align-items:center;flex:none;vertical-align:middle;padding-inline-start:calc(var(--stack-size) * .3)}
+.avatar-stack-item{display:inline-flex;margin-inline-start:calc(var(--stack-size) * -.3);border-radius:50%;box-shadow:0 0 0 2px var(--surface,#fff);background:var(--surface,#fff);transition:transform .15s}
+.avatar-stack-item .avatar{width:var(--stack-size)!important;height:var(--stack-size)!important;border-radius:50%;object-fit:cover;box-shadow:none!important;border:0!important;margin:0!important}
+.avatar-stack:hover .avatar-stack-item{transform:translateY(-1px)}
+.avatar-stack-more{display:inline-grid;place-items:center;min-width:var(--stack-size);height:var(--stack-size);margin-inline-start:calc(var(--stack-size) * -.3);padding:0 4px;border-radius:999px;background:var(--lilac);color:var(--text);font-weight:850;font-size:calc(var(--stack-size) * .38);box-shadow:0 0 0 2px var(--surface,#fff)}
+.agenda-row .avatar-stack,.journal-record .avatar-stack{margin-top:6px}
+.shared-by .avatar-stack{margin-inline-start:6px}
+.calendar-reference-event .avatar-stack{margin-inline-start:auto}
+/* Calendar event cards lay their children out in columns; keep the stack a single compact row there. */
+.calendar-reference-event>.avatar-stack{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:0!important;flex:0 0 auto!important;width:auto!important;height:auto!important;min-width:0!important;margin:0!important;margin-inline-start:auto!important;padding:0!important;padding-inline-start:calc(var(--stack-size) * .3)!important;background:none!important}
+.calendar-reference-event>.avatar-stack>.avatar-stack-item,.calendar-reference-event>.avatar-stack>.avatar-stack-more{display:inline-flex!important;flex:none!important;width:auto!important;margin:0!important;margin-inline-start:calc(var(--stack-size) * -.3)!important}
+.calendar-reference-event>.avatar-stack .avatar{width:var(--stack-size)!important;height:var(--stack-size)!important;min-width:0!important;max-width:none!important;position:static!important}
+.calendar-reference-event>.avatar-stack>.avatar-stack-more{display:inline-grid!important;place-items:center;height:var(--stack-size)!important;min-width:var(--stack-size)!important}
+.calendar-reference-event:has(>.avatar-stack){grid-template-columns:auto minmax(0,1fr) auto!important}
+@media(max-width:700px){.calendar-reference-event>.avatar-stack{--stack-size:24px!important}}
