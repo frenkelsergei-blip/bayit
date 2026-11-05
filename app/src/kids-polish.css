@@ -1,0 +1,30 @@
+/* Kids: child chips share the Calendar person-chip style; XP level bar v2 (bigger, readable, game-like). */
+.kids-person-legend{margin:0}
+.kids-person-legend .calendar-person{cursor:pointer}
+
+.xp-meter.xp-meter-v2{position:static;height:auto;margin:14px 0 20px;display:grid;gap:10px;isolation:auto}
+.xp-meter-v2 strong{position:static;inset:auto;display:inline;color:var(--text);text-shadow:none}
+.xp-meter-label{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.xp-meter-count{display:inline-flex;align-items:baseline;gap:6px}
+.xp-meter-count img{width:26px;height:26px;align-self:center;image-rendering:pixelated;margin-inline-end:2px}
+.xp-meter-count strong{font-size:calc(30px * var(--font-adjust,1));font-weight:950;line-height:1;letter-spacing:-.02em}
+.xp-meter-count small{font-size:calc(17px * var(--font-adjust,1));font-weight:800;color:var(--muted)}
+.xp-meter-next{font-size:calc(15px * var(--font-adjust,1));font-weight:750;color:var(--muted)}
+.xp-meter-track{position:relative;height:28px;border-radius:999px;background:color-mix(in srgb,var(--text) 9%,var(--surface,#fff));box-shadow:inset 0 2px 4px #10152a24;overflow:hidden}
+.xp-meter-fill{position:absolute;inset-block:0;inset-inline-start:0;border-radius:inherit;background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 70%,#fff) 0%,var(--primary) 52%,color-mix(in srgb,var(--primary) 82%,#000) 100%);box-shadow:inset 0 -3px 0 #0000001f;transition:width .7s cubic-bezier(.2,.9,.3,1)}
+.xp-meter-fill::after{content:"";position:absolute;top:5px;inset-inline:12px;height:5px;border-radius:5px;background:#ffffff5c}
+.xp-meter-ticks{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 2px),color-mix(in srgb,var(--surface,#fff) 65%,transparent) calc(10% - 2px) 10%)}
+:root[data-theme=dark] .xp-meter-track{background:color-mix(in srgb,var(--text) 14%,transparent);box-shadow:inset 0 2px 4px #0006}
+:root[data-theme=dark] .xp-meter-ticks{background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 2px),#10152a8c calc(10% - 2px) 10%)}
+@media(max-width:700px){.xp-meter-count strong{font-size:26px}.xp-meter-track{height:24px}}
+:root[data-motion=reduced] .xp-meter-fill{transition:none}
+
+/* XP bar style B (owner's choice 2026-11-05): ten chunky pixel blocks with a dark outline. */
+.xp-meter-track{height:28px;border-radius:6px;border:3px solid #10152a;background:#fffdf6;box-shadow:inset 0 -4px 0 #10152a14;overflow:hidden}
+.xp-meter-fill{border-radius:0;background:var(--primary);box-shadow:inset 0 -5px 0 #00000038,inset 0 4px 0 #ffffff47}
+.xp-meter-fill::after{display:none}
+.xp-meter-ticks{background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 3px),#10152a calc(10% - 3px) 10%)}
+.xp-meter-count img{width:30px;height:30px}
+:root[data-theme=dark] .xp-meter-track{border-color:#05070f;background:#272c45;box-shadow:inset 0 -4px 0 #0000004d}
+:root[data-theme=dark] .xp-meter-ticks{background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 3px),#05070f calc(10% - 3px) 10%)}
+@media(max-width:700px){.xp-meter-track{height:24px;border-width:2px}}

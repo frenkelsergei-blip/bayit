@@ -1,0 +1,20 @@
+/* Journal detail read view (matches Calendar event details), paging, Kids routine toggle. */
+.journal-detail{display:grid;gap:4px}
+.journal-detail-kind{margin:2px 0 8px}
+.journal-detail-text{margin:6px 0 0;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.journal-detail-tags>div{display:flex;flex-wrap:wrap;gap:8px}
+.journal-tag{padding:4px 12px;border-radius:999px;background:var(--lilac);font-weight:800;font-size:calc(15px * var(--text-scale,1))}
+.journal-detail-lock{display:inline-grid;place-items:center}
+.journal-detail-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.journal-detail-actions .button{width:auto;flex:1 1 160px}
+.journal-detail-ai{margin-top:14px;justify-self:start;display:inline-flex;align-items:center;gap:8px}
+.journal-more{display:flex;flex-direction:column;align-items:center;gap:8px;margin:22px 0 8px}
+.journal-more .button{width:auto;min-width:200px}
+.journal-more small{color:var(--muted);font-weight:700}
+/* Kids "Start a little routine": a caret that turns when the section opens */
+.routine-quick-start>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;cursor:pointer}
+.routine-quick-start>summary::-webkit-details-marker{display:none}
+.routine-toggle{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent);transition:transform .25s ease,background .2s}
+.routine-quick-start[open]>summary .routine-toggle{transform:rotate(180deg);background:color-mix(in srgb,var(--primary) 14%,transparent);color:var(--primary)}
+.routine-quick-start>summary:hover .routine-toggle{background:color-mix(in srgb,var(--primary) 18%,transparent)}
+@media(max-width:700px){.journal-detail-actions .button{flex-basis:100%}}

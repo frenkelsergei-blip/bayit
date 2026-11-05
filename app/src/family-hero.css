@@ -1,0 +1,27 @@
+/* Sidebar family card (owner request 2026-11-05): large round family photo with the three yellow rays,
+   the family name with the menu arrow under it, and the member count below. Opens the same family menu.
+   Uses a container query so the narrow tablet rail keeps a compact photo. */
+@media(min-width:701px){
+ :root .app-shell .sidebar{container:sidebar/inline-size}
+ :root .app-shell .sidebar .family-switch.family-hero{display:flex!important;flex-flow:row wrap;justify-content:center;align-items:center;gap:4px 6px;width:100%;padding:6px 8px 10px;margin-block:clamp(4px,1.2vh,12px) clamp(8px,2vh,20px);background:transparent;border:0;box-shadow:none;border-radius:24px;text-align:center;cursor:pointer}
+ :root .app-shell .sidebar .family-switch.family-hero:hover{background:color-mix(in srgb,var(--surface,#fff) 70%,transparent);box-shadow:none}
+ :root .app-shell .sidebar .family-switch.family-hero:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 40%,transparent);outline-offset:2px}
+ .family-hero .family-hero-photo{order:0;flex:0 0 100%;display:flex;justify-content:center;margin-bottom:clamp(4px,1vh,10px)}
+ .family-hero .family-hero-photo>span{position:relative}
+ .family-hero-photo{position:relative}
+ .family-hero-photo>.avatar,.family-hero-photo>span.avatar{position:relative;width:clamp(64px,11.5vh,108px)!important;height:clamp(64px,11.5vh,108px)!important;border-radius:50%;object-fit:cover;background:var(--surface,#fff);border:0!important;box-shadow:0 12px 26px #10152a2e,0 3px 8px #10152a1f!important}
+ .family-hero-rays{position:absolute;top:-4%;left:calc(50% + clamp(64px,11.5vh,108px) * .36);width:calc(clamp(64px,11.5vh,108px) * .34);height:auto;pointer-events:none}
+ [dir=rtl] .family-hero-rays{left:auto;right:calc(50% + clamp(64px,11.5vh,108px) * .36);transform:scaleX(-1)}
+ .family-hero .family-switch-text{display:contents}
+ .family-hero .family-switch-text>strong{order:1;display:block;max-width:calc(100% - 30px);font-size:calc(21px * var(--text-scale,1) * var(--menu-scale,1));font-weight:900;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .family-hero>svg{order:2;flex:none;display:block!important;width:18px;height:18px;transition:transform .2s}
+ .family-hero[aria-expanded=true]>svg{transform:rotate(180deg)}
+ .family-hero .family-switch-text>small{order:3;flex:0 0 100%;display:block;padding-inline-end:24px;box-sizing:border-box;color:var(--muted);font-size:calc(14px * var(--text-scale,1) * var(--menu-scale,1));font-weight:700}
+ /* narrow rail (icons only): compact photo, no text */
+ @container sidebar (max-width:160px){
+  .family-hero .family-switch-text>strong,.family-hero .family-switch-text>small,.family-hero>svg,.family-hero-rays{display:none!important}
+  .family-hero-photo>.avatar,.family-hero-photo>span.avatar{width:52px!important;height:52px!important}
+  .family-hero .family-hero-photo{margin-bottom:0}
+ }
+}
+:root[data-sidebar=deep] .family-hero .family-switch-text>small,:root[data-sidebar=ink] .family-hero .family-switch-text>small{color:color-mix(in srgb,currentColor 70%,transparent)}

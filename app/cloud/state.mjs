@@ -2,8 +2,9 @@ import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 import {canEditContent,validateEditAccess} from '../../shared/permissions.mjs';
 import {canSee} from '../src/data.js';
 import {upgradeShoppingLists,canAccessList} from '../../shared/shopping-lists.mjs';
+import {taskFitsList,validateTaskList} from '../../shared/task-lists.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
-export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills'];
+export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists'];
 const personalMaps=['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser'];
 const sharedPreferences=['householdName','familyPhoto','weekStarts','palette','familyChallenge','goals','inventory','maintenanceDate','maintenanceRepeat','shoppingCategories','turnOverrides','turnInterval','monthlyBudget'];
 const personalFlat=['aiSources','reminder','notifications','quietStart','quietEnd','smartSuggestions','maxSuggestions','parentUpdates','milkWeekly','privacyDefaults'];
@@ -16,8 +17,8 @@ export function hydrateMembers(state,accounts){
  for(const a of accounts)state.profiles[a.member_id]??={name:a.name||'Family member',he:a.name||'בן משפחה',photo:a.image||'',displayMode:a.image?'photo':'icon',badgeIcon:'1F3E0',xp:0};return upgradeShoppingLists(state,state.members)
 }
 export function visibleState(state,actorId){
- const result=structuredClone(state),lists=(state.shoppingLists||[]).filter(l=>canAccessList(l,actorId));
- for(const key of collections)result[key]=['expenses','bills'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(state[key]||[]).filter(r=>canSee(r,actorId)&&(!r.listId||lists.some(l=>l.id===r.listId)));
+ const result=structuredClone(state),lists=(state.shoppingLists||[]).filter(l=>canAccessList(l,actorId)),taskLists=(state.taskLists||[]).filter(l=>canAccessList(l,actorId));
+ for(const key of collections)result[key]=['expenses','bills'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(state[key]||[]).filter(r=>canSee(r,actorId)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)));
  result.profiles=Object.fromEntries(state.members.map(m=>[m.id,m.id===actorId?structuredClone(state.profiles[m.id]||{}):Object.fromEntries(profilePublic.filter(k=>state.profiles[m.id]?.[k]!==undefined).map(k=>[k,state.profiles[m.id][k]]))]));
  result.preferences=Object.fromEntries(sharedPreferences.filter(k=>state.preferences?.[k]!==undefined).map(k=>[k,state.preferences[k]]));
  Object.assign(result.preferences,state.preferences?.personalByUser?.[actorId]||{});
@@ -33,7 +34,7 @@ export function diffState(before,after){
 }
 export function applyChanges(state,ops,actorId,role){
  if(!Array.isArray(ops)||ops.length>250)throw Error('Too many changes in one request.');const next=structuredClone(state),parent=role==='parent',memberIds=new Set(state.members.map(m=>m.id)),derivedHistory=[],xpDeltas=new Map();
- const priority={members:0,shoppingLists:1,tasks:2,profiles:4};
+ const priority={members:0,shoppingLists:1,taskLists:1,tasks:2,profiles:4};
  for(const op of [...ops].sort((a,b)=>(priority[a.collection]??3)-(priority[b.collection]??3))){
   if(['__proto__','constructor','prototype'].includes(op.id))throw Error('Invalid identifier.');
   if(op.collection==='preferences'){
@@ -53,13 +54,14 @@ export function applyChanges(state,ops,actorId,role){
   if(!collections.includes(op.collection)||!text(op.id,140))throw Error('Unsupported record change.');const list=next[op.collection]||[],index=list.findIndex(r=>r.id===op.id),old=index>=0?list[index]:null,value=structuredClone(op.value||{});
   if(old&&!canSee(old,actorId))throw Error('This record is private.');
   if(op.collection==='history'||op.collection==='purchases')continue; // Derived from the corresponding task/item change below.
-  if(op.delete){if(!old||old.ownerId!==actorId&&!(op.collection==='shopping'&&old.visibility==='family'))throw Error('Only the owner can remove this record.');list.splice(index,1);continue}
+  if(op.delete){if(!old||old.ownerId!==actorId&&!(op.collection==='shopping'&&old.visibility==='family'))throw Error('Only the owner can remove this record.');if(op.collection==='taskLists')for(const t of next.tasks||[])if(t.listId===op.id)delete t.listId;list.splice(index,1);continue}
   if(value.id!==op.id||value.ownerId!==(old?.ownerId||actorId))throw Error('Record ownership cannot be changed.');
   if(!['private','family','selected'].includes(value.visibility)||value.visibility==='selected'&&(!Array.isArray(value.allowedIds)||!value.allowedIds.length||value.allowedIds.some(id=>!memberIds.has(id))))throw Error('Choose valid visibility and people.');
   if(old&&old.ownerId!==actorId&&(!equal(old.visibility,value.visibility)||!equal(old.allowedIds||[],value.allowedIds||[])||!equal(old.editPolicy,value.editPolicy)||!equal(old.editorIds||[],value.editorIds||[])))throw Error('Only the owner changes sharing.');
   if(value.memberId&&!memberIds.has(value.memberId)||value.memberIds?.some(id=>!memberIds.has(id)))throw Error('A family member is invalid.');
   if(role==='child'&&op.collection==='tasks'&&value.memberId!==actorId)throw Error('Children assign tasks only to themselves.');
-  if(['documents','contacts','meals','shoppingLists','expenses','bills'].includes(op.collection)&&old&&old.ownerId!==actorId)throw Error('Only the owner edits this record.');
+  if(['documents','contacts','meals','shoppingLists','expenses','bills','taskLists'].includes(op.collection)&&old&&old.ownerId!==actorId)throw Error('Only the owner edits this record.');
+  if(op.collection==='taskLists')validateTaskList(value,memberIds);
   if(['events','notes'].includes(op.collection)){validateEditAccess(value,memberIds);if(old&&!canEditContent(old,actorId,state.members,op.collection==='notes'?'note':'event'))throw Error('Only the owner or a permitted editor can edit this record.');}
   if(['expenses','bills'].includes(op.collection)){if(role==='child')throw Error('Expenses are available to adult accounts.');if(!Number.isFinite(value.amount)||value.amount<=0||value.amount>100000000)throw Error('Choose a valid expense amount.');}
   if(op.collection==='pantry'){if(!text(value.title,160)||!Number.isFinite(value.quantityValue)||value.quantityValue<0||!Number.isFinite(value.minimum)||value.minimum<0)throw Error('Choose valid inventory quantities.');value.updatedBy=actorId;value.updatedAt=new Date().toISOString();}
@@ -68,8 +70,10 @@ export function applyChanges(state,ops,actorId,role){
    if(value.done!==!!old?.done){value.boughtAt=value.done?new Date().toISOString():null;value.boughtBy=value.done?actorId:null;next.purchases.push({...value,purchaseId:crypto.randomUUID(),date:new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})})}
   }
   if(op.collection==='tasks'){
+   if(value.listId&&!taskFitsList(value,(next.taskLists||[]).find(l=>l.id===value.listId)))throw Error('This task list is unavailable.');
+   if(value.shoppingListId&&!taskFitsList(value,(next.shoppingLists||[]).find(l=>l.id===value.shoppingListId)))throw Error('This shopping list is unavailable.');
    if(!parent){value.xp=old?.xp||0;value.parentConfirm=old?.parentConfirm||false;value.routine=old?.routine||false;if(old&&(old.routine||old.ownerId!==actorId)){const permitted=new Set(['done','completedAt','completions']);for(const key of Object.keys(value))if(!permitted.has(key)&&!equal(value[key],old[key]))throw Error('A parent manages routine details.')}}
-   value.xp=Math.min(100,Math.max(0,Number(value.xp)||0));if(old){const changedDates=Object.keys(value.completions||{}).filter(date=>!equal(old.completions?.[date],value.completions[date]));if(changedDates.length>1)throw Error('Update one completion at a time.');if(!changedDates.length){if(value.done!==old.done&&!(value.done===false&&old.done===undefined))throw Error('Use the activity completion control to update this task.');value.done=old.done;value.completedAt=old.completedAt;value.completions=old.completions;}for(const date of changedDates){if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!occursOn(old,date)||date>new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})||!parent&&(old.memberId!==actorId||date!==new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})))throw Error('This task belongs to another person.');const authoritative=structuredClone(old),time=new Date().toLocaleTimeString('en-GB',{timeZone:HOME_TIMEZONE,hour:'2-digit',minute:'2-digit'}),result=completeTask(authoritative,{date,actorId,actorRole:parent?'parent':'child',time,instant:new Date().toISOString()});if(!result.changed||result.state!==value.completions[date].state)throw Error('The completion state changed. Refresh and retry.');value.completions=authoritative.completions;value.done=authoritative.done;value.completedAt=authoritative.completedAt;if(old.visibility==='family'&&value.visibility==='family')xpDeltas.set(old.memberId,(xpDeltas.get(old.memberId)||0)+result.xpDelta);derivedHistory.push({id:crypto.randomUUID(),taskId:old.id,title:old.title,he:old.he,memberId:old.memberId,date,time,done:result.state==='done',state:result.state,ownerId:old.ownerId,visibility:old.visibility,allowedIds:old.allowedIds||[],xp:old.xp||0,icon:old.icon,actorId})}}
+   value.xp=Math.min(100,Math.max(0,Number(value.xp)||0));if(old){const changedDates=Object.keys(value.completions||{}).filter(date=>!equal(old.completions?.[date],value.completions[date]));if(changedDates.length>1)throw Error('Update one completion at a time.');if(!changedDates.length){if(value.done!==old.done&&!(value.done===false&&old.done===undefined))throw Error('Use the activity completion control to update this task.');value.done=old.done;value.completedAt=old.completedAt;value.completions=old.completions;}for(const date of changedDates){if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!(occursOn(old,date)||!old.date&&date===new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE}))||date>new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})||!parent&&(old.memberId!==actorId||date!==new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})))throw Error('This task belongs to another person.');const authoritative=structuredClone(old),time=new Date().toLocaleTimeString('en-GB',{timeZone:HOME_TIMEZONE,hour:'2-digit',minute:'2-digit'}),result=completeTask(authoritative,{date,actorId,actorRole:parent?'parent':'child',time,instant:new Date().toISOString()});if(!result.changed||result.state!==value.completions[date].state)throw Error('The completion state changed. Refresh and retry.');value.completions=authoritative.completions;value.done=authoritative.done;value.completedAt=authoritative.completedAt;if(old.visibility==='family'&&value.visibility==='family')xpDeltas.set(old.memberId,(xpDeltas.get(old.memberId)||0)+result.xpDelta);derivedHistory.push({id:crypto.randomUUID(),taskId:old.id,title:old.title,he:old.he,memberId:old.memberId,date,time,done:result.state==='done',state:result.state,ownerId:old.ownerId,visibility:old.visibility,allowedIds:old.allowedIds||[],xp:old.xp||0,icon:old.icon,actorId})}}
   }
   if(index<0)list.push(value);else list[index]=value;next[op.collection]=list;
  }

@@ -1,0 +1,20 @@
+/* Slim menu toggle (wide screens only; tablets ≤1100px already use the icon rail). */
+.sidebar-toggle{display:none!important}
+@media(min-width:1101px){.sidebar-bottom .sidebar-toggle{display:flex!important}}
+@media(min-width:1101px){
+ .sidebar-toggle{display:flex}
+ .sidebar-bottom .sidebar-toggle{color:var(--muted)}
+ .sidebar-bottom .sidebar-toggle:hover{color:var(--text)}
+ [dir=rtl] .sidebar-toggle svg{transform:scaleX(-1)}
+ :root[data-menu=slim] .sidebar-toggle svg{transform:scaleX(-1)}
+ [dir=rtl]:root[data-menu=slim] .sidebar-toggle svg{transform:none}
+ :root[data-menu=slim] .app-shell .sidebar{width:88px;padding-inline:8px;align-items:center}
+ :root[data-menu=slim] .main-content{margin-inline-start:88px}
+ :root[data-menu=slim] .sidebar nav button span,:root[data-menu=slim] .sidebar-bottom span{display:none}
+ :root[data-menu=slim] .app-shell .sidebar nav,:root[data-menu=slim] .app-shell .sidebar .sidebar-bottom{width:100%}
+ :root[data-menu=slim] .app-shell .sidebar nav button,:root[data-menu=slim] .app-shell .sidebar .sidebar-bottom button{justify-content:center;padding-inline:12px}
+ :root[data-menu=slim] .sidebar .brand-lockup{width:52px;height:45px;position:relative;overflow:hidden}
+ :root[data-menu=slim] .sidebar .brand-lockup .brand-logo{position:absolute;left:0;right:auto;top:-5px;width:165px;min-width:165px;max-width:none;height:55px;object-fit:contain;object-position:left}
+ :root[data-menu=slim] .sidebar .brand-night-wordmark{display:none!important}
+ :root:not([data-motion=reduced]) .app-shell .sidebar,:root:not([data-motion=reduced]) .main-content{transition:width .25s ease,margin .25s ease}
+}

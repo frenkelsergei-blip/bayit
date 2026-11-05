@@ -61,6 +61,7 @@
       (function(){var s=document.getElementById('splash'),get=function(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},theme=get('bayit-theme','light'),lang=get('bayit-lang','en');
         if(theme==='dark'){s.classList.add('sp-dark');var m=document.querySelector('meta[name=theme-color]');if(m)m.content='#10152A'}
         if(lang==='he'){s.dir='rtl';s.lang='he';s.querySelector('.sp-pre').textContent='הבית שלכם,';s.querySelector('.sp-word').textContent='ביחד.';s.querySelector('.sp-sub').textContent='פותחים את הבית שלכם…'}
+        try{if(localStorage.getItem('bayit-menu')==='slim')document.documentElement.dataset.menu='slim'}catch(e){}
         var shown=performance.now(),timer=0;
         window.__bayitSplash={hide:function(){clearTimeout(timer);timer=setTimeout(function(){s.classList.add('sp-out');timer=setTimeout(function(){if(s.classList.contains('sp-out'))s.style.display='none'},500)},Math.max(0,1100-(performance.now()-shown)))},
           show:function(){clearTimeout(timer);s.style.display='';s.classList.remove('sp-out');shown=performance.now()}};
