@@ -1,5 +1,6 @@
 // Phone person filter: one compact button (stack of faces, or the chosen person) that opens a bottom sheet
 // with the full name chips. Desktop/tablet keep the chip row; CSS shows one or the other.
+import {PersonChip} from './person-chip';
 import React,{useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {CaretDown,Users,X,Check} from '@phosphor-icons/react';
@@ -13,7 +14,7 @@ export function PeoplePicker({value,onChange,people,allowAll=true,allLabel,title
  const color=id=>member?.(id)?.color||'lilac';
  return <div className="people-picker">
   <button ref={button} type="button" className={'people-picker-button'+(chosen?' chosen':'')} aria-haspopup="dialog" aria-expanded={open} aria-label={(title||T('People','אנשים'))+': '+(chosen?name(chosen):allLabel)} onClick={()=>setOpen(true)}>
-   {chosen?<><span className="people-picker-face"><Avatar who={chosen} size={32}/></span><span className="people-picker-name">{name(chosen)}</span></>:<><AvatarStack ids={people} Avatar={Avatar} name={name} size={28} max={4}/><span className="people-picker-name">{allLabel}</span></>}
+   {chosen?<><PersonChip who={chosen} name={name(chosen)} Avatar={Avatar} tone={color(chosen)} selected/></>:<><AvatarStack ids={people} Avatar={Avatar} name={name} size={28} max={4}/><span className="people-picker-name">{allLabel}</span></>}
    <CaretDown size={16} className="people-picker-caret"/>
   </button>
   {open&&createPortal(<div className="people-picker-backdrop" onPointerDown={e=>{if(e.target===e.currentTarget)setOpen(false)}}><div ref={sheet} className="people-picker-sheet" role="dialog" aria-modal="true" aria-label={title||T('People','אנשים')}>
@@ -21,7 +22,7 @@ export function PeoplePicker({value,onChange,people,allowAll=true,allLabel,title
    <header><h2>{title||T('People','אנשים')}</h2><button type="button" className="icon-button" aria-label={T('Close','סגירה')} onClick={()=>setOpen(false)}><X size={20}/></button></header>
    <div className="people-picker-options">
     {allowAll&&<button type="button" aria-pressed={!chosen} className={'people-picker-option everyone'+(!chosen?' on':'')} onClick={()=>pick('all')}><span className="people-picker-option-face"><Users size={24}/></span><span>{allLabel}</span>{!chosen&&<Check size={18} weight="bold"/>}</button>}
-    {people.map(id=><button type="button" key={id} aria-pressed={chosen===id} className={'people-picker-option '+color(id)+(chosen===id?' on':'')} onClick={()=>pick(allowAll&&chosen===id?'all':id)}><span className="people-picker-option-face"><Avatar who={id} size={44}/></span><span>{name(id)}</span>{chosen===id&&<Check size={18} weight="bold"/>}</button>)}
+    {people.map(id=><PersonChip key={id} who={id} name={name(id)} Avatar={Avatar} tone={color(id)} selected={chosen===id} onClick={()=>pick(allowAll&&chosen===id?'all':id)}/>)}
    </div>
   </div></div>,document.body)}
  </div>;

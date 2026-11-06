@@ -2,7 +2,7 @@
 // a number = minutes before; 'none' = no reminder. The server applies the same rule (reminders.mjs dueReminders).
 import React from 'react';
 
-export const defaultLead=(a,category='events')=>{const p=a.data.profiles?.[a.user]?.notificationPrefs||{};return Number(p.categories?.[category]?.reminder??p.reminder)||10};
+export const defaultLead=(a,category='events')=>{const p=a.data.profiles?.[a.user]?.notificationPrefs||{};const value=Number(p.categories?.[category]?.reminder??p.reminder??10);return Number.isFinite(value)&&value>=0?value:10};
 const LEADS=[0,5,10,15,30,60,120];
 const minutesLabel=(a,n)=>n===0?a.T('At the start time','בזמן ההתחלה'):n>=60?a.T(n/60===1?'1 hour before':n/60+' hours before',n/60===1?'שעה לפני':'שעתיים לפני'):a.T(n+' minutes before',n+' דקות לפני');
 

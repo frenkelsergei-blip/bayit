@@ -4,36 +4,39 @@
 import http from 'node:http';
 import {Readable} from 'node:stream';
 import {createReadStream} from 'node:fs';
-import {mkdir,readFile,writeFile,stat,chmod} from 'node:fs/promises';
+import {mkdir,readFile,writeFile,rename,stat,chmod} from 'node:fs/promises';
 import {join,resolve,extname,dirname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {randomBytes} from 'node:crypto';
 import worker from '../cloud/worker.mjs';
 import {openD1,migrate} from './d1-sqlite.mjs';
 import {openFileStore} from './file-store.mjs';
+import {installationSecrets} from './installation-secrets.mjs';
+import {createOutboundFetch} from './outbound-fetch.mjs';
+import {installPlatformPDFReader} from '../cloud/statement-pdf.mjs';
+import {isolatedPDFRows} from './pdf-isolate.mjs';
+import {checkPDFBudget} from '../cloud/pdf-budget.mjs';
+
 
 const here=dirname(fileURLToPath(import.meta.url));
-const PORT=Number(process.env.PORT||8080),HOST=process.env.HOST||'0.0.0.0';
+process.umask(0o077);
+const PORT=Number(process.env.PORT||8080),HOST=process.env.HOST||'127.0.0.1';
 const DATA=resolve(process.env.DATA_DIR||join(here,'data')),STATIC=resolve(process.env.STATIC_DIR||join(here,'public')),MIGRATIONS=resolve(process.env.MIGRATIONS_DIR||join(here,'migrations'));
-const ORIGIN=process.env.BAYIT_ORIGIN?new URL(process.env.BAYIT_ORIGIN).origin:'';
+const originURL=process.env.BAYIT_ORIGIN?new URL(process.env.BAYIT_ORIGIN):null;
+if(originURL&&(originURL.username||originURL.password||originURL.pathname!=='/'||originURL.search||originURL.hash||originURL.protocol!=='https:'&&!(originURL.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(originURL.hostname))))throw Error('BAYIT_ORIGIN must be an HTTPS origin, or loopback HTTP for local use.');
+const ORIGIN=originURL?.origin||'';
+if(!ORIGIN&&!['localhost','127.0.0.1','::1'].includes(HOST))throw Error('Set BAYIT_ORIGIN before exposing this server.');
 
-// Installation secrets: taken from the environment, otherwise generated once and kept in the data folder.
-async function installationSecrets(){
- const file=join(DATA,'secrets.json');let saved={};
- try{saved=JSON.parse(await readFile(file,'utf8'))}catch{}
- const want={AUTH_SECRET:()=>randomBytes(32).toString('base64url'),APP_ENCRYPTION_KEY:()=>randomBytes(32).toString('base64'),REMINDER_CRON_SECRET:()=>randomBytes(24).toString('base64url')};
- let changed=false;for(const [name,make]of Object.entries(want))if(!process.env[name]&&!saved[name]){saved[name]=make();changed=true}
- if(changed){await writeFile(file,JSON.stringify(saved,null,1));await chmod(file,0o600)}
- return Object.fromEntries(Object.keys(want).map(name=>[name,process.env[name]||saved[name]]));
-}
-
-await mkdir(join(DATA,'files'),{recursive:true});
-const db=openD1(join(DATA,'bayit.sqlite')),applied=migrate(db,MIGRATIONS);
-const secrets=await installationSecrets();
-const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE'];
+// Existing installations never silently regenerate lost or damaged encryption keys.
+await mkdir(join(DATA,'files'),{recursive:true,mode:0o700});await chmod(DATA,0o700);await chmod(join(DATA,'files'),0o700);
+const secrets=await installationSecrets(DATA);
+const db=openD1(join(DATA,'bayit.sqlite')),applied=migrate(db,MIGRATIONS);await chmod(join(DATA,'bayit.sqlite'),0o600);
+const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE','BAYIT_BOOTSTRAP_EMAIL','BAYIT_ALLOWED_EMAILS','BAYIT_REGISTRATION_MODE','BAYIT_MAX_HOUSEHOLDS','AI_ALLOWED_ORIGINS','AI_PRIVATE_ORIGINS','PUSH_ALLOWED_ORIGINS','APP_ENCRYPTION_KEY_ID','APP_ENCRYPTION_KEYS_JSON','PDF_DAILY_LIMIT'];
 const env={...Object.fromEntries(pass.filter(k=>process.env[k]).map(k=>[k,process.env[k]])),...secrets,DB:db,FILES:openFileStore(join(DATA,'files')),ASSETS:{fetch:serveStatic}};
 // Test-only overrides; the server code accepts them for loopback addresses only.
-for(const k of ['TELEGRAM_API_ORIGIN','AI_TEST_ORIGIN','SPEECH_TEST_ORIGIN','RISEUP_TEST_ORIGIN'])if(process.env[k])env[k]=process.env[k];
+for(const k of ['TELEGRAM_API_ORIGIN','AI_TEST_ORIGIN','SPEECH_TEST_ORIGIN','RISEUP_TEST_ORIGIN','PUSH_TEST_ORIGIN'])if(process.env[k])env[k]=process.env[k];
+env.OUTBOUND_FETCH=createOutboundFetch(env);
+installPlatformPDFReader(async bytes=>{await checkPDFBudget(env);return isolatedPDFRows(bytes)});
 const ctx={waitUntil:p=>Promise.resolve(p).catch(e=>console.error('Bayit background task failed:',e?.message||e)),passThroughOnException(){}};
 
 const TYPES={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.gif':'image/gif','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2','.ttf':'font/ttf','.otf':'font/otf','.webmanifest':'application/manifest+json','.txt':'text/plain; charset=utf-8','.mp4':'video/mp4','.webm':'video/webm'};
@@ -49,8 +52,11 @@ async function serveStatic(request){
 }
 
 function toRequest(req){
- const base=ORIGIN||((req.headers['x-forwarded-proto']||'http').split(',')[0]+'://'+(req.headers['x-forwarded-host']||req.headers.host||'localhost'));
- const headers=new Headers();for(const [k,v]of Object.entries(req.headers)){if(k.startsWith(':'))continue;if(Array.isArray(v))v.forEach(x=>headers.append(k,x));else if(v!=null)headers.set(k,v)}
+ const allowedHosts=new Set([...(ORIGIN?[new URL(ORIGIN).host]:['localhost:'+PORT,'127.0.0.1:'+PORT,'[::1]:'+PORT]),...String(process.env.BAYIT_INTERNAL_HOSTS||'').split(',').filter(Boolean)]);
+ if(!req.url?.startsWith('/')||req.url.startsWith('//')||!allowedHosts.has(String(req.headers.host||'').toLowerCase()))throw Object.assign(Error('Unrecognized request origin.'),{status:421});
+ const base=ORIGIN||'http://127.0.0.1:'+PORT;
+ const headers=new Headers();for(const [k,v]of Object.entries(req.headers)){if(k.startsWith(':')||['x-forwarded-host','x-forwarded-proto','forwarded','cf-connecting-ip','x-real-ip','x-forwarded-for'].includes(k))continue;if(Array.isArray(v))v.forEach(x=>headers.append(k,x));else if(v!=null)headers.set(k,v)}
+ headers.set('Host',new URL(base).host);
  const body=!['GET','HEAD'].includes(req.method);
  return new Request(new URL(req.url,base),{method:req.method,headers,body:body?Readable.toWeb(req):undefined,duplex:body?'half':undefined});
 }
@@ -63,8 +69,9 @@ async function send(res,response,head){
 
 const server=http.createServer(async(req,res)=>{
  try{const request=toRequest(req);await send(res,await worker.fetch(request,env,ctx),req.method==='HEAD')}
- catch(error){console.error('Bayit request failed:',error?.message||error);if(!res.headersSent)res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'The server could not complete this request.'}))}
+ catch(error){console.error('Bayit request failed:',error?.message||error);if(!res.headersSent)res.writeHead(error.status||500,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'The server could not complete this request.'}))}
 });
+server.requestTimeout=60000;server.headersTimeout=10000;server.maxRequestsPerSocket=100;
 server.listen(PORT,HOST,()=>console.log('Bayit is running on http://'+(HOST==='0.0.0.0'?'localhost':HOST)+':'+PORT+(ORIGIN?' (public address '+ORIGIN+')':'')+'. Data: '+DATA+(applied.length?'. Applied migrations: '+applied.join(', '):'')+(env.GOOGLE_CLIENT_ID?'':'. Google sign-in is off until GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are set.')));
 
 // Built-in scheduler: the same once-a-minute tick the Cloudflare cron Worker sends (reminders, digests, daily RiseUp sync).

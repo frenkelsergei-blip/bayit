@@ -8,3 +8,12 @@ app/dist
 app/.wrangler
 app/design-qa.md
 **/.DS_Store
+# Never send installation credentials/data into a Docker build context.
+app/.env*
+app/.dev.vars*
+app/**/.env*
+app/**/.dev.vars*
+app/**/secrets.json
+app/**/*.sqlite*
+app/host/data
+app/backups

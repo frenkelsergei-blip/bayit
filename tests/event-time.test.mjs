@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {eventTimeRange,validateEventTime} from '../shared/event-time.mjs';
+test('structured duration displays a range and handles midnight honestly',()=>{assert.equal(eventTimeRange({time:'18:00',durationMinutes:60}),'18:00–19:00');assert.equal(eventTimeRange({time:'23:30',durationMinutes:90}),'23:30–01:00 · next day');assert.equal(eventTimeRange({time:'18:00'}),'18:00');assert.throws(()=>validateEventTime({durationMinutes:-1}),/duration/)});

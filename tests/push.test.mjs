@@ -1,5 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {bindTestSession} from './fixtures/security-session.mjs';
 import {blankState,visibleState} from '../app/cloud/state.mjs';
 import {dueReminders} from '../app/cloud/reminders.mjs';
 import {generateVapidKeys,vapidAuthorization,encryptPayload,pushMessages} from '../app/cloud/push.mjs';
@@ -71,17 +72,22 @@ test('the minute tick delivers once per device, and forgets a device the push se
  const db=openD1(join(mkdtempSync(join(tmpdir(),'bayit-push-')),'db.sqlite'));migrate(db,new URL('../app/cloud/migrations',import.meta.url).pathname);
  const env={DB:db,APP_ENCRYPTION_KEY:Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString('base64')};
  const devices=[];for(const name of ['phone','old-tablet']){const pair=await crypto.subtle.generateKey({name:'ECDH',namedCurve:'P-256'},true,['deriveBits']),auth=crypto.getRandomValues(new Uint8Array(16));devices.push({name,pair,auth});
-  await db.prepare('INSERT INTO push_subscriptions(endpoint_hash,household_id,member_id,endpoint,p256dh,auth,created_at) VALUES(?,?,?,?,?,?,?)').bind(name,'home','mom','https://push.example/'+name,b64u(new Uint8Array(await crypto.subtle.exportKey('raw',pair.publicKey))),b64u(auth),0).run()}
- const state=home(),sent=[];
+  await db.prepare('INSERT INTO push_subscriptions(endpoint_hash,household_id,member_id,endpoint,p256dh,auth,created_at) VALUES(?,?,?,?,?,?,?)').bind(name,'home','mom','https://fcm.googleapis.com/qa/'+name,b64u(new Uint8Array(await crypto.subtle.exportKey('raw',pair.publicKey))),b64u(auth),0).run()}
+ await bindTestSession(db,'home','mom');const state=home(),sent=[];
  const fetcher=async(url,init)=>{sent.push({url,init});return new Response('',{status:url.endsWith('old-tablet')?410:201})};
  const now=new Date('2026-11-06T06:55:00Z');// 08:55 in Israel
  const first=await deliverPush(env,now,{fetcher,loadHome:async()=>({state}),subject:'https://home.example'});
  assert.equal(first.removed,1);assert.ok(first.sent>=1);
  const phone=sent.filter(s=>s.url.endsWith('phone'));
  const msg=JSON.parse(await decrypt(new Uint8Array(phone[0].init.body),devices[0].pair,devices[0].auth));
- assert.equal(msg.title,'shared');assert.match(msg.url,/^#tasks\?date=2026-11-06&task=shared$/);
+ assert.equal(msg.title,'Bayit');assert.equal(msg.url,'#today');assert.doesNotMatch(msg.body,/shared|private/);
  assert.match(phone[0].init.headers.Authorization,/^vapid t=.+, k=.+/);assert.equal(phone[0].init.headers['Content-Encoding'],'aes128gcm');
  assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM push_subscriptions').first()).n,1,'the gone device is deleted');
  sent.length=0;const again=await deliverPush(env,now,{fetcher,loadHome:async()=>({state}),subject:'https://home.example'});
  assert.equal(sent.length,0,'nothing is sent twice');assert.equal(again.sent,0);
+});
+
+test('the server-only Push test origin rewrites transport while preserving the real endpoint audience',async()=>{
+ const {sendPush}=await import('../app/cloud/push.mjs'),keys=await generateVapidKeys(),pair=await crypto.subtle.generateKey({name:'ECDH',namedCurve:'P-256'},true,['deriveBits']);let captured;
+ const endpoint='https://fcm.googleapis.com/fcm/send/fictional';await sendPush({PUSH_TEST_ORIGIN:'http://127.0.0.1:8897'},{endpoint,p256dh:b64u(new Uint8Array(await crypto.subtle.exportKey('raw',pair.publicKey))),auth:b64u(crypto.getRandomValues(new Uint8Array(16)))},{title:'Fictional test'},{keys,fetcher:async(url,init)=>{captured={url,init};return new Response(null,{status:201})}});assert.equal(captured.url,'http://127.0.0.1:8897/fcm/send/fictional');const jwt=captured.init.headers.Authorization.match(/^vapid t=([^,]+),/)[1];assert.equal(JSON.parse(new TextDecoder().decode(unb64u(jwt.split('.')[1]))).aud,'https://fcm.googleapis.com');
 });

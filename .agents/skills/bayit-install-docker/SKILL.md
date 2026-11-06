@@ -22,8 +22,10 @@ All commands run in the repository root on the target machine.
 2. **Settings:** run `cp .env.example .env`, then fill in `.env` together:
    - `BAYIT_ORIGIN`: the exact address people will open (`https://…` for real use).
    - `BAYIT_DOMAIN`: only with the Caddy profile.
+   - `BAYIT_BOOTSTRAP_EMAIL`: the owner's verified Google email; keep registration private. Existing household memberships remain admitted.
    - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: the person pastes these into `.env` themselves. Never echo them.
    - Leave `AUTH_SECRET`, `APP_ENCRYPTION_KEY` and `REMINDER_CRON_SECRET` empty to have them generated once in the data volume, or set them from a password manager.
+The app port is loopback-only. Preserve the original keys and follow `docs/security-hardening.md` for encrypted offline backup/restore and rotation. Damaged installation keys must never be silently regenerated.
 3. **Google sign-in client** (real use only): Google Auth Platform → Clients → **Web application**, with redirect URI `<BAYIT_ORIGIN>/api/auth/callback/google`. While the app is in Testing, add each family member as a test user.
 4. **Start:**
    - Trying it: `docker compose up -d --build`

@@ -1,0 +1,4 @@
+import {parseArgs} from 'node:util';
+import {installationSecrets} from './installation-secrets.mjs';
+import {rotateCredentials} from './rotate-credentials.mjs';
+try{const {values}=parseArgs({options:{data:{type:'string'},stopped:{type:'boolean',default:false}}});if(!values.data)throw Error('Use --data DIR --stopped, with a new APP_ENCRYPTION_KEY_ID, the new key and the prior secret key ring. Back up first.');const env={...process.env,...await installationSecrets(values.data)};const result=await rotateCredentials(values.data,env,{stopped:values.stopped});console.log('Rotated '+result.rotated+' encrypted credentials. Preserve the previous keys until restore and all connections are verified.')}catch(e){console.error(e.status?e.message:'Credential rotation failed. Keep every original key; inspect the offline backup before retrying.');process.exitCode=1}

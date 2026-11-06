@@ -1,0 +1,217 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-06",
+  "background": "Flat saturated magenta; actual matte sampled per atlas",
+  "keying": "FFmpeg RGB colorkey similarity .23 / blend .025; nearest-neighbor grid crop to three 768×256 RGBA strips",
+  "documentation": "https://www.ffmpeg.org/ffmpeg-filters.html#colorkey",
+  "report": [
+    {
+      "who": "itai",
+      "key": "#fb02fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 68644,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 79890,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 77374,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "noa",
+      "key": "#fb04fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 74529,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 83916,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 78915,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "maya",
+      "key": "#fb03fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 69766,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 81438,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 77039,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "ari",
+      "key": "#fb04fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 64771,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 80996,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 78409,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "lia",
+      "key": "#fb03fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 65138,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 81934,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 78583,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "tom",
+      "key": "#fb03fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 71946,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 83356,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 76974,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "dana",
+      "key": "#fb03fa",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 64892,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 82516,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 78362,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    },
+    {
+      "who": "yoni",
+      "key": "#fb03fb",
+      "frameCount": 9,
+      "framesPerAction": 3,
+      "strips": [
+        {
+          "action": "feed",
+          "bytes": 66015,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "wash",
+          "bytes": 81411,
+          "alphaMin": 0,
+          "alphaMax": 255
+        },
+        {
+          "action": "sleep",
+          "bytes": 79307,
+          "alphaMin": 0,
+          "alphaMax": 255
+        }
+      ]
+    }
+  ]
+}

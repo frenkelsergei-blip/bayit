@@ -1,0 +1,52 @@
+name: Security and release checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '25 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: app
+      - run: npm run test:domain
+        working-directory: app
+      - run: npm audit --audit-level=moderate && npm sbom --sbom-format=cyclonedx > ../dependency-sbom.json
+        working-directory: app
+      - run: npm run build:pages && npm run test:sites && node host/build-host.mjs
+        working-directory: app
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dependency-sbom
+          path: dependency-sbom.json
+          retention-days: 14
+  runtime-image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: docker build -f app/host/Dockerfile -t bayit-security-ci .
+      - run: docker save bayit-security-ci --output /tmp/bayit-security-ci.tar
+      - name: Scan the image archive without access to the Docker socket
+        run: >-
+          docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges:true
+          --tmpfs /tmp:rw,size=512m --mount type=volume,source=trivy-cache,target=/root/.cache
+          --mount type=bind,source=/tmp/bayit-security-ci.tar,target=/input/image.tar,readonly
+          aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb
+          image --input /input/image.tar --scanners vuln --exit-code 1 --severity MEDIUM,HIGH,CRITICAL

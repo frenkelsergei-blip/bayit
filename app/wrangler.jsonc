@@ -20,6 +20,12 @@
       "bucket_name": "bayit-home-files"
     }
   ],
+  "services": [
+    {
+      "binding": "PDF_READER",
+      "service": "bayit-pdf-reader"
+    }
+  ],
   "ai": {
     "binding": "AI"
   }

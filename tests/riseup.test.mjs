@@ -115,7 +115,7 @@ test('daily refresh syncs due connections, backs off after an outage and skips f
  }finally{globalThis.fetch=realFetch}
 });
 
-test('"Both parents" reaches every adult, including one who joins after connecting, and never a child', {skip:!sqlite&&'node:sqlite unavailable'}, async()=>{
+test('The explicitly labeled all-adults choice includes adults who join later and excludes child API access', {skip:!sqlite&&'node:sqlite unavailable'}, async()=>{
  const e=env(),realFetch=globalThis.fetch;
  try{
   fakeRiseup({'2026-11':[tx('n1',{cashflowDate:'2026-11'})]});

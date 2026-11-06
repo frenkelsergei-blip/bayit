@@ -37,12 +37,12 @@
 /* groups and rows */
 .tasks-v2-layout{margin-top:16px}
 .tasks-group{margin-bottom:18px}
-.tasks-group>h3{display:flex;align-items:center;gap:8px;margin:6px 0 8px;font-size:calc(17px * var(--text-scale,1))}
-.tasks-group>h3>span{padding:5px 14px;border-radius:999px;background:var(--lilac);font-weight:850}
-.tasks-group>h3>small{color:var(--muted);font-weight:800}
-.tasks-group.tone-today>h3>span{background:var(--selected)}
-.tasks-group.tone-overdue>h3>span{background:#ffe3da;color:#8a2a14}
-[data-theme=dark] .tasks-group.tone-overdue>h3>span{background:#4a2219;color:#ffd9cf}
+.tasks-group>:is(h2,h3){display:flex;align-items:center;gap:8px;margin:6px 0 8px;font-size:calc(17px * var(--text-scale,1))}
+.tasks-group>:is(h2,h3)>span{padding:5px 14px;border-radius:999px;background:var(--lilac);font-weight:850}
+.tasks-group>:is(h2,h3)>small{color:var(--muted);font-weight:800}
+.tasks-group.tone-today>:is(h2,h3)>span{background:var(--selected)}
+.tasks-group.tone-overdue>:is(h2,h3)>span{background:#ffe3da;color:#8a2a14}
+[data-theme=dark] .tasks-group.tone-overdue>:is(h2,h3)>span{background:#4a2219;color:#ffd9cf}
 .tasks-row{gap:14px}
 .tasks-row-main{display:flex;flex-direction:column;align-items:flex-start;gap:4px;flex:1;min-width:0;text-align:start}
 .tasks-row-main>strong{font-size:calc(18px * var(--text-scale,1));font-weight:850}

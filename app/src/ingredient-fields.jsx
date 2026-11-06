@@ -1,0 +1,8 @@
+import React from 'react';
+import {Plus,Trash} from '@phosphor-icons/react';
+export const ingredientUnits=[['items','יחידות'],['g','גרם'],['kg','ק״ג'],['ml','מ״ל'],['liters','ליטר'],['packs','אריזות'],['bottles','בקבוקים']];
+export function IngredientFields({a,items,onChange}){
+ const change=(index,patch)=>onChange(items.map((item,i)=>i===index?{...item,...patch}:item));
+ return <fieldset className="ingredient-fields"><legend>{a.T('Ingredients & quantities','מצרכים וכמויות')}</legend>{items.map((item,index)=><div className="ingredient-field-row" key={index}><label>{a.T('Ingredient','מצרך')}<input required value={item.name} onChange={e=>change(index,{name:e.target.value,he:e.target.value})}/></label><label>{a.T('Quantity','כמות')}<input type="number" required min="0.001" step="any" value={item.quantityValue??item.quantity??1} onChange={e=>change(index,{quantityValue:e.target.value})}/></label><label>{a.T('Unit','יחידה')}<select value={item.unit||'items'} onChange={e=>change(index,{unit:e.target.value})}>{ingredientUnits.map(([en,he])=><option key={en} value={en}>{a.T(en,he)}</option>)}</select></label><button type="button" className="icon-button" aria-label={a.T('Remove ingredient ','הסרת מצרך ')+(index+1)} onClick={()=>onChange(items.filter((_,i)=>i!==index))}><Trash size={21}/></button></div>)}<button type="button" className="control-button" onClick={()=>onChange([...items,{name:'',he:'',quantityValue:1,unit:'items',checked:false}])}><Plus size={19}/>{a.T('Add ingredient','הוספת מצרך')}</button></fieldset>;
+}
+export function ingredientQuantity(item,a){const unit=ingredientUnits.find(u=>u[0]===(item.unit||'items'));return (item.quantityValue??item.quantity??1)+' '+(unit?a.T(...unit):item.unit)}

@@ -7,7 +7,7 @@ import {CATEGORY} from '../../shared/finance.mjs';
 const IN='#2FA86B',OUT='var(--primary)',SAVE='#FFB547',NET='#FFD451';
 
 export function MoneyHero({a,T,money,monthName,summary,month,live}){
- const income=Math.max(summary.income,1),spentPct=Math.min(100,summary.expenses/income*100),savedPct=Math.min(100-spentPct,summary.savings/income*100),leftPct=Math.max(0,100-spentPct-savedPct),over=summary.net<0;
+ const hasIncome=summary.income>0,income=hasIncome?summary.income:1,spentPct=Math.min(100,summary.expenses/income*100),savedPct=Math.min(100-spentPct,summary.savings/income*100),leftPct=Math.max(0,100-spentPct-savedPct),over=summary.net<0;
  return <section className="money-hero">
   <div className="money-hero-copy">
    <h2 className="money-hero-title">{T(new Date(month+'-15T12:00Z').toLocaleDateString('en-US',{month:'long'})+' at home',new Date(month+'-15T12:00Z').toLocaleDateString('he-IL',{month:'long'})+' בבית')}</h2>
@@ -15,15 +15,15 @@ export function MoneyHero({a,T,money,monthName,summary,month,live}){
    <strong className={'money-hero-value '+(over?'over':'')}>{money(summary.net,{sign:true})}</strong>
   </div>
   <div className="money-hero-details">
-   <div className="money-split" role="img" aria-label={T('Income split','חלוקת ההכנסה')}>
+   <div className="money-split" role="img" aria-label={hasIncome?T('Income split','חלוקת ההכנסה'):T('Income has not been recorded','טרם נרשמה הכנסה')}>
     <i className="spent" style={{width:spentPct+'%'}}/><i className="saved" style={{width:savedPct+'%'}}/><i className="left" style={{width:leftPct+'%'}}/>
    </div>
-   <ul className="money-split-key">
-    <li><span className="spent"/>{T('Spent','הוצאות')} <b>{Math.round(summary.expenses/income*100)}%</b></li>
-    <li><span className="saved"/>{T('Saved','חיסכון')} <b>{Math.round(summary.savings/income*100)}%</b></li>
-    <li><span className="left"/>{T('Left','נשאר')} <b>{Math.max(0,Math.round(summary.net/income*100))}%</b></li>
+   {!hasIncome&&<p className="money-no-income">{T('Add income to see percentages. Spending is shown in full.','הוסיפו הכנסה כדי לראות אחוזים. סכומי ההוצאות מוצגים במלואם.')}</p>}<ul className="money-split-key">
+    <li><span className="spent"/>{T('Spent','הוצאות')} <b>{hasIncome?Math.round(summary.expenses/income*100)+'%':'—'}</b></li>
+    <li><span className="saved"/>{T('Saved','חיסכון')} <b>{hasIncome?Math.round(summary.savings/income*100)+'%':'—'}</b></li>
+    <li><span className="left"/>{T('Left','נשאר')} <b>{hasIncome?Math.max(0,Math.round(summary.net/income*100))+'%':'—'}</b></li>
    </ul>
-   {live?<span className="money-hero-balance"><Bank size={18} weight="fill"/>{T('Bank balance now','יתרה בבנק עכשיו')} <b>{money(live.amount)}</b> · RiseUp</span>:summary.bankBalance&&<span className="money-hero-balance"><Bank size={18} weight="fill"/>{T('Bank balance','יתרה בבנק')} <b>{money(summary.bankBalance.amount)}</b> · {new Date(summary.bankBalance.date+'T12:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{day:'numeric',month:'short'})}</span>}
+   {live?<span className="money-hero-balance"><Bank size={18} weight="fill"/>{T('Bank balance at last sync','יתרה בבנק בסנכרון האחרון')} <b>{money(live.amount)}</b> · RiseUp</span>:summary.bankBalance&&<span className="money-hero-balance"><Bank size={18} weight="fill"/>{T('Bank balance','יתרה בבנק')} <b>{money(summary.bankBalance.amount)}</b> · {new Date(summary.bankBalance.date+'T12:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{day:'numeric',month:'short'})}</span>}
   </div>
   <img className="money-hero-art" src="/assets/generated/money-hero.png" srcSet="/assets/generated/money-hero-320.png 320w, /assets/generated/money-hero.png 640w" sizes="(max-width: 760px) 130px, 300px" alt="" width="300" height="300"/>
  </section>;

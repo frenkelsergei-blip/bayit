@@ -1,7 +1,7 @@
 /* Short landscape screens (phones turned sideways, e.g. iPhone Pro Max 956×440): the desktop sidebar cannot fit,
    so use the phone navigation laid out for landscape — slim top bar, compact bottom bar, More opens the menu sheet —
    and give the content the full width, clear of the notch on either side. */
-@media(min-width:701px) and (max-height:520px) and (orientation:landscape){
+@media(max-height:520px) and (orientation:landscape){
  .app-shell .sidebar,.sidebar-toggle{display:none!important}
  .mobile-top{display:flex!important;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:35;padding:6px max(18px,env(safe-area-inset-right)) 6px max(18px,env(safe-area-inset-left));background:var(--bg);border-bottom:1px solid var(--border)}
  .mobile-top .brand-lockup{width:auto!important;height:34px!important;overflow:visible!important;position:static!important}
@@ -22,7 +22,7 @@
 }
 /* Landscape menu sheet: one uniform 3-column grid. Every tile (sections and My space / My profile / Settings)
    has the same size, icon beside the label, no badge behind the icon. */
-@media(min-width:701px) and (max-height:520px) and (orientation:landscape){
+@media(max-height:520px) and (orientation:landscape){
  .mobile-menu{gap:8px!important;padding:6px max(18px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))!important;max-height:calc(100dvh - 8px)!important}
  .mobile-menu-header .family-card{padding-block:4px!important;min-height:52px}
  .mobile-menu-close{width:44px!important;height:44px!important}

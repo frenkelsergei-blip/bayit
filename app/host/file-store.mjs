@@ -14,7 +14,7 @@ export function openFileStore(root){
  return {
   async put(key,value,options={}){
    const p=pathFor(key),bytes=await bytesOf(value),info={size:bytes.byteLength,uploaded:new Date().toISOString(),httpMetadata:options.httpMetadata||{},customMetadata:options.customMetadata||{}};
-   await mkdir(dirname(p),{recursive:true});await writeFile(p+'.part',bytes);await rename(p+'.part',p);await writeFile(p+'.meta.json',JSON.stringify(info));
+   await mkdir(dirname(p),{recursive:true,mode:0o700});await writeFile(p+'.part',bytes,{mode:0o600});await rename(p+'.part',p);await writeFile(p+'.meta.json',JSON.stringify(info),{mode:0o600});
    return object(key,info);
   },
   async get(key){const p=pathFor(key),info=await meta(p);if(!info)return null;try{return object(key,info,await readFile(p))}catch{return null}},

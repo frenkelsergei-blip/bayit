@@ -1,3 +1,4 @@
+import {DEFAULT_QUICK_NAV} from './quick-navigation';
 import React from 'react';
 import {DensitySetting} from './density';
 import {Check,Sun,Moon,Palette} from '@phosphor-icons/react';
@@ -47,7 +48,7 @@ export function AppearanceSettings({app:a,ui:{Tabs}}){
 }
 // Which places get their own icon in the narrow menu (tablet) and the phone bottom bar; the rest are under More.
 function QuickNavPicker({a,appearance,change}){
- const places=a.places||[],chosen=Array.isArray(appearance.quickNav)&&appearance.quickNav.length?appearance.quickNav:['today','calendar','tasks','shopping','kids'];
+ const places=a.places||[],chosen=Array.isArray(appearance.quickNav)&&appearance.quickNav.length?appearance.quickNav:DEFAULT_QUICK_NAV;
  const toggle=key=>{const next=chosen.includes(key)?chosen.filter(k=>k!==key):chosen.length>=5?chosen:[...chosen,key];if(next.length)change({quickNav:places.map(p=>p[0]).filter(k=>next.includes(k))})};
  return <div className="appearance-block quick-nav"><span className="field-label">{a.T('Quick menu','תפריט מהיר')}</span><p className="settings-hint">{a.T('Choose up to 5 places shown directly in the side menu on tablets and laptops. On phones the first 4 appear in the bottom bar. Everything else is under “More”. Large screens show every place.','בחרו עד 5 מקומות שיופיעו ישירות בתפריט הצד בטאבלט ובמחשב נייד. בטלפון 4 הראשונים יופיעו בסרגל התחתון. כל השאר נמצא תחת „עוד”. במסכים גדולים מוצגים כל המקומות.')}</p><div className="quick-nav-grid" role="group" aria-label={a.T('Quick menu','תפריט מהיר')}>{places.map(([key,Icon,label])=>{const on=chosen.includes(key),full=!on&&chosen.length>=5;return <button type="button" key={key} aria-pressed={on} disabled={full} className={'quick-nav-tile'+(on?' on':'')} onClick={()=>toggle(key)}><Icon size={24}/><span>{label}</span>{on&&<b className="quick-nav-order">{chosen.indexOf(key)+1}</b>}</button>})}</div><small className="quick-nav-count">{a.T(chosen.length+' of 5 chosen',chosen.length+' מתוך 5 נבחרו')}</small></div>
 }

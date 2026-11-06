@@ -1,9 +1,12 @@
 // Web Push for Bayit: VAPID (RFC 8292) + message encryption (RFC 8291, aes128gcm), WebCrypto only,
 // so it runs in Cloudflare Workers and in the Node.js host alike. Each installation generates its own key pair.
 // Payloads are built from visibleState(state, recipient), the same access rules as the app and Telegram.
-import {json,fail,bodyJSON,hash,encryptKey,decryptKey,localDate,localTime,encoder} from './util.mjs';
+import {json,fail,bodyJSON,hash,encryptKey,decryptKey,localDate,localTime,encoder,loopbackOr} from './util.mjs';
 import {visibleState} from './state.mjs';
 import {dueReminders,digestDue,approvalRequests,childUpdates,ownerDoneUpdates,overdueAlerts,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
+import {financeDeliveryMessages} from './finance-goals.mjs';
+import {currentSession} from './security.mjs';
+import {pushEndpoint,externalFetch} from './outbound.mjs';
 
 const b64u=bytes=>{let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s).replaceAll('+','-').replaceAll('/','_').replaceAll('=','')};
 const unb64u=value=>{const s=String(value).replaceAll('-','+').replaceAll('_','/');return Uint8Array.from(atob(s+'='.repeat((4-s.length%4)%4)),c=>c.charCodeAt(0))};
@@ -48,32 +51,34 @@ export async function encryptPayload(plaintext,{p256dh,auth},{salt=crypto.getRan
 
 // Sends one notification. Returns {ok, status, gone}: gone means the device unsubscribed or expired.
 export async function sendPush(env,subscription,message,{keys,subject,fetcher=fetch}={}){
+ const endpoint=pushEndpoint(env,subscription.endpoint);
  keys=keys||await vapidKeys(env);if(!keys)throw fail('Server credential encryption is not configured.',503);
  const body=await encryptPayload(JSON.stringify(message),subscription);
- const response=await fetcher(subscription.endpoint,{method:'POST',headers:{Authorization:await vapidAuthorization(subscription.endpoint,keys,subject||'mailto:bayit@users.noreply.github.com'),'Content-Encoding':'aes128gcm','Content-Type':'application/octet-stream',TTL:String(message.ttl??3600),Urgency:message.urgency||'normal'},body});
+ const testOrigin=loopbackOr(env.PUSH_TEST_ORIGIN,''),target=testOrigin?testOrigin+new URL(endpoint).pathname+new URL(endpoint).search:endpoint;
+ const response=await externalFetch(env,target,{method:'POST',headers:{Authorization:await vapidAuthorization(endpoint,keys,subject||'mailto:bayit@users.noreply.github.com'),'Content-Encoding':'aes128gcm','Content-Type':'application/octet-stream',TTL:String(message.ttl??3600),Urgency:message.urgency||'normal'},body,signal:AbortSignal.timeout(15000)},fetcher===fetch?undefined:fetcher);
+ await response.body?.cancel();
  return {ok:response.ok,status:response.status,gone:response.status===404||response.status===410};
 }
 
-const allowedEndpoint=value=>{try{const u=new URL(value);return u.protocol==='https:'||/^http:\/\/127\.0\.0\.1:\d+$/.test(u.origin)}catch{return false}};
 const subjectFor=request=>{const origin=new URL(request.url).origin;return origin.startsWith('https:')?origin:'mailto:bayit@users.noreply.github.com'};
 
 // /api/push/*: the app asks for the public key, registers or removes this device, and can send itself a real test.
 export async function handlePushAPI(request,env,user,home,path){
- const memberId=home.membership.member_id,action=path.split('/').at(-1);
- if(action==='status'&&request.method==='GET'){const keys=await vapidKeys(env);const count=(await env.DB.prepare('SELECT COUNT(*) AS n FROM push_subscriptions WHERE household_id=? AND member_id=?').bind(home.id,memberId).first())?.n||0;return json({available:!!keys,publicKey:keys?.publicKey||'',devices:count})}
+ const memberId=home.membership.member_id,action=path.split('/').at(-1),session=await currentSession(request,env,user);if(!session)throw fail('Sign in before enabling notifications.',401);
+ if(action==='status'&&request.method==='GET'){const keys=await vapidKeys(env);const count=(await env.DB.prepare('SELECT COUNT(*) AS n FROM push_subscriptions WHERE household_id=? AND member_id=? AND session_id=?').bind(home.id,memberId,session.id).first())?.n||0;return json({available:!!keys,publicKey:keys?.publicKey||'',devices:count,registered:!!(new URL(request.url).searchParams.get('endpoint')&&await env.DB.prepare('SELECT 1 FROM push_subscriptions WHERE endpoint_hash=? AND household_id=? AND member_id=? AND session_id=?').bind(await hash(new URL(request.url).searchParams.get('endpoint')),home.id,memberId,session.id).first())})}
  if(request.method!=='POST')throw fail('Unknown push endpoint.',404);
  const body=await bodyJSON(request,20000),sub=body.subscription||{},endpoint=String(sub.endpoint||body.endpoint||'');
- if(!allowedEndpoint(endpoint)||endpoint.length>2000)throw fail('This device did not provide a valid push address.');
+ if(endpoint.length>2000)throw fail('This device did not provide a valid push address.');pushEndpoint(env,endpoint);
  const id=await hash(endpoint);
  if(action==='unsubscribe'){await env.DB.prepare('DELETE FROM push_subscriptions WHERE endpoint_hash=? AND household_id=? AND member_id=?').bind(id,home.id,memberId).run();return json({ok:true})}
  const p256dh=String(sub.keys?.p256dh||''),auth=String(sub.keys?.auth||'');
  if(action==='subscribe'){
   if(!/^[A-Za-z0-9_-]{80,100}$/.test(p256dh)||!/^[A-Za-z0-9_-]{16,32}$/.test(auth))throw fail('This device did not provide valid push keys.');
-  await env.DB.prepare('INSERT INTO push_subscriptions(endpoint_hash,household_id,member_id,endpoint,p256dh,auth,device,created_at,failures) VALUES(?,?,?,?,?,?,?,?,0) ON CONFLICT(endpoint_hash) DO UPDATE SET household_id=excluded.household_id,member_id=excluded.member_id,p256dh=excluded.p256dh,auth=excluded.auth,device=excluded.device,failures=0').bind(id,home.id,memberId,endpoint,p256dh,auth,String(body.device||'').slice(0,80),Date.now()).run();
+  await env.DB.prepare('INSERT INTO push_subscriptions(endpoint_hash,household_id,member_id,endpoint,p256dh,auth,device,created_at,failures,session_id) VALUES(?,?,?,?,?,?,?,?,0,?) ON CONFLICT(endpoint_hash) DO UPDATE SET household_id=excluded.household_id,member_id=excluded.member_id,p256dh=excluded.p256dh,auth=excluded.auth,device=excluded.device,failures=0,session_id=excluded.session_id').bind(id,home.id,memberId,endpoint,p256dh,auth,String(body.device||'').slice(0,80),Date.now(),session.id).run();
   return json({ok:true});
  }
  if(action==='test'){
-  const row=await env.DB.prepare('SELECT * FROM push_subscriptions WHERE endpoint_hash=? AND household_id=? AND member_id=?').bind(id,home.id,memberId).first();if(!row)throw fail('Turn on notifications on this device first.',409);
+  const row=await env.DB.prepare('SELECT * FROM push_subscriptions WHERE endpoint_hash=? AND household_id=? AND member_id=? AND session_id=?').bind(id,home.id,memberId,session.id).first();if(!row)throw fail('Turn on notifications on this device first.',409);
   const he=(home.state.profiles?.[memberId]?.locale||body.lang)==='he';
   const result=await sendPush(env,row,{title:he?'Bayit עובד':'Bayit works',body:he?'ההתראות במכשיר הזה פעילות.':'Notifications on this device are on.',url:'#settings/notifications',tag:'bayit-test',ttl:300},{subject:subjectFor(request)});
   if(result.gone){await env.DB.prepare('DELETE FROM push_subscriptions WHERE endpoint_hash=?').bind(id).run();throw fail('This device is no longer registered. Turn notifications on again.',410)}
@@ -106,28 +111,31 @@ export function pushMessages(state,memberId,{date,time},role){
 }
 
 // Called by the minute reminder tick. Each message is claimed once per member+key in notification_deliveries (channel 'push').
-export async function deliverPush(env,now,{fetcher=fetch,subject,loadHome}={}){
+export async function deliverPush(env,now,{fetcher=fetch,subject,loadHome,deadline=Date.now()+45000}={}){
  const summary={households:0,sent:0,failed:0,removed:0};
- const subs=(await env.DB.prepare('SELECT * FROM push_subscriptions ORDER BY household_id,member_id').all()).results||[];if(!subs.length)return summary;
+ const subs=(await env.DB.prepare('SELECT p.* FROM push_subscriptions p JOIN sessions s ON s.id=p.session_id JOIN memberships m ON m.user_id=s.userId AND m.household_id=p.household_id AND m.member_id=p.member_id WHERE s.expires>? ORDER BY p.household_id,p.member_id LIMIT 1000').bind(new Date().toISOString()).all()).results||[];if(!subs.length)return summary;
  const keys=await vapidKeys(env);if(!keys)return {...summary,failed:subs.length};
  const date=localDate(now),time=localTime(now),byHome=new Map();
  for(const s of subs){if(!byHome.has(s.household_id))byHome.set(s.household_id,new Map());const m=byHome.get(s.household_id);if(!m.has(s.member_id))m.set(s.member_id,[]);m.get(s.member_id).push(s)}
  subject=subject||(env.BAYIT_ORIGIN?.startsWith('https:')?env.BAYIT_ORIGIN:'mailto:bayit@users.noreply.github.com');
- for(const [householdId,members] of byHome){
+ for(const [householdId,members] of byHome){if(Date.now()>=deadline)break;
   let home;try{home=loadHome?await loadHome(householdId):await (await import('./assistant.mjs')).loadHousehold(env,householdId)}catch{summary.failed++;continue}summary.households++;
-  for(const [memberId,devices] of members){
+  for(const [memberId,devices] of members){if(Date.now()>=deadline)break;
    const role=home.state.members.find(m=>m.id===memberId)?.role;if(!role)continue;
-   for(const message of pushMessages(home.state,memberId,{date,time},role).slice(0,MAX_PER_MEMBER_TICK)){
+   let finance=[];try{finance=await financeDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++}
+   for(const message of [...pushMessages(home.state,memberId,{date,time},role),...finance].slice(0,MAX_PER_MEMBER_TICK)){
     const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'push',?,'sending',?)").bind(householdId,memberId,message.key,now.getTime()).run();
     if(!(claim.meta?.changes>0))continue;
     let delivered=0;
-    for(const device of devices){if(device.gone)continue;
-     try{const r=await sendPush(env,device,{title:message.title,body:message.body,url:message.url,tag:message.tag,urgency:message.urgency},{keys,subject,fetcher});
+    for(const device of devices){if(Date.now()>=deadline)break;if(device.gone)continue;
+     const previews=home.state.profiles?.[memberId]?.notificationPrefs?.previews===true,he=home.state.profiles?.[memberId]?.locale==='he';
+     try{const r=await sendPush(env,device,{title:previews?message.title:'Bayit',body:previews?message.body:he?'עדכון חדש מחכה לכם בבית.':'A new update is waiting in Bayit.',url:previews?message.url:'#today',tag:previews?message.tag:'bayit-update',urgency:message.urgency},{keys,subject,fetcher});
       if(r.gone){device.gone=true;await env.DB.prepare('DELETE FROM push_subscriptions WHERE endpoint_hash=?').bind(device.endpoint_hash).run();summary.removed++}
       else if(r.ok){delivered++;await env.DB.prepare('UPDATE push_subscriptions SET last_ok_at=?,failures=0 WHERE endpoint_hash=?').bind(now.getTime(),device.endpoint_hash).run()}
       else await env.DB.prepare('UPDATE push_subscriptions SET failures=failures+1 WHERE endpoint_hash=?').bind(device.endpoint_hash).run();
      }catch{await env.DB.prepare('UPDATE push_subscriptions SET failures=failures+1 WHERE endpoint_hash=?').bind(device.endpoint_hash).run()}}
     await env.DB.prepare("UPDATE notification_deliveries SET status=? WHERE household_id=? AND member_id=? AND channel='push' AND delivery_key=?").bind(delivered?'sent':'failed',householdId,memberId,message.key).run();
+    if(!delivered&&message.key.startsWith('finance:')&&devices.some(d=>!d.gone))await env.DB.prepare("DELETE FROM notification_deliveries WHERE household_id=? AND member_id=? AND channel='push' AND delivery_key=?").bind(householdId,memberId,message.key).run();
     delivered?summary.sent++:summary.failed++;
    }
   }

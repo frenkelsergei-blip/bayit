@@ -1,0 +1,7 @@
+.purge-stored-record{display:inline-flex;max-width:100%;flex:0 1 auto}.purge-stored-record>.form-stack{padding:.65rem;border:1px solid var(--line);border-radius:1rem;max-width:26rem;white-space:normal}.purge-stored-record .actions{flex-wrap:wrap}
+.document-list-row:has(>.purge-stored-record){display:grid;grid-template-columns:32px minmax(0,1fr) auto auto;align-items:center;max-width:100%}
+.document-list-row:has(>.purge-stored-record)>strong{min-width:0;overflow-wrap:anywhere}
+.document-list-row:has(.purge-stored-record [role=alert])>.purge-stored-record{grid-column:2/-1;justify-self:stretch}
+.purge-stored-record>.form-stack{box-sizing:border-box;width:100%;border-color:var(--line,#dcd6ca)}
+.purge-stored-record .button{min-width:0;max-width:100%;white-space:normal}
+@media(max-width:700px){.document-list-row:has(>.purge-stored-record){grid-template-columns:32px minmax(0,1fr) auto;align-items:start}.document-list-row>.purge-stored-record{grid-column:2/-1;justify-self:start}.purge-stored-record>.form-stack{max-width:100%}}

@@ -1,6 +1,8 @@
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 const cloudDate=(typeof window==='undefined'||import.meta.env?.VITE_BAYIT_CLOUD==='1')&&!(typeof window!=='undefined'&&new URLSearchParams(location.search).get('demo')==='1');
-export const anchor=cloudDate?new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE}):'2026-11-04';
+export const householdDate=(now=new Date())=>now.toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE});
+export let anchor=cloudDate?householdDate():'2026-11-04';
+export function refreshAnchor(now){if(cloudDate)anchor=householdDate(now);return anchor}
 export const members=[
 {id:'daniel',name:'Daniel',he:'דניאל',role:'parent',color:'blue',avatar:'avatar-daniel.png'},
 {id:'hila',name:'Hila',he:'הילה',role:'parent',color:'peach',avatar:'avatar-hila.png'},

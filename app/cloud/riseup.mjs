@@ -47,9 +47,9 @@ export function rowFromRiseup(t,rules={}){
 const monthsBack=(n,now=new Date())=>{const [y,m]=localDate(now).slice(0,7).split('-').map(Number);return Array.from({length:n},(_,i)=>new Date(Date.UTC(y,m-1-i,1)).toISOString().slice(0,7))};
 
 // Pull the chosen months, upsert by RiseUp's transaction id, drop rows RiseUp no longer has (or excludes), keep Bayit category edits.
-export async function syncRiseup(env,{householdId,memberId,token,visibility,allowedIds,months=3,adults=[]},now=new Date()){
+export async function syncRiseup(env,{householdId,memberId,token,visibility,allowedIds,months=3,adults=[],connectionCiphertext=null,prepareOnly=false},now=new Date()){
  const rules=Object.fromEntries((await env.DB.prepare('SELECT name_key,category FROM finance_rules WHERE household_id=?').bind(householdId).all()).results.map(r=>[r.name_key,r.category]));
- const importId='riseup:'+memberId,allowed=JSON.stringify(allowedIds||[]),stamp=now.getTime();let count=0;
+ const importId='riseup:'+memberId,allowed=JSON.stringify(allowedIds||[]),stamp=now.getTime(),allStatements=[];let count=0;
  const owners=new Set(adults);
  for(const month of monthsBack(Math.max(1,Math.min(12,months)),now)){
   const data=await riseupGet(env,token,'/api/external/transactions?cashflowMonth='+month);
@@ -57,38 +57,45 @@ export async function syncRiseup(env,{householdId,memberId,token,visibility,allo
   const statements=[];
   for(const r of rows){
    if(r.excluded)continue;const fingerprint=await hash(householdId+'|riseup|'+memberId+'|'+r.externalId);keep.push(fingerprint);count++;
-   statements.push(env.DB.prepare(`INSERT INTO finance_transactions(id,household_id,import_id,owner_id,visibility,allowed_ids,source,account,member_id,date,charge_date,month,description,name_key,amount,currency,category,kind,card_issuer,installment_n,installment_of,standing_order,foreign_tx,fingerprint,created_at) VALUES(?,?,?,?,?,?,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?)
-     ON CONFLICT(household_id,fingerprint) DO UPDATE SET category=CASE WHEN finance_transactions.category='taxes' AND excluded.category!='taxes' THEN excluded.category ELSE finance_transactions.category END,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order`).bind(crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,r.accountLabel||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp));
+   const params=[crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,r.accountLabel||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp];
+   const selection=connectionCiphertext?"SELECT ?,?,?,?,c.visibility,c.allowed_ids,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,? FROM finance_connections c WHERE c.household_id=? AND c.member_id=? AND c.provider='riseup' AND c.ciphertext=?":"VALUES(?,?,?,?,?,?,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?)";
+   statements.push(env.DB.prepare(`INSERT INTO finance_transactions(id,household_id,import_id,owner_id,visibility,allowed_ids,source,account,member_id,date,charge_date,month,description,name_key,amount,currency,category,kind,card_issuer,installment_n,installment_of,standing_order,foreign_tx,fingerprint,created_at) ${selection}
+     ON CONFLICT(household_id,fingerprint) DO UPDATE SET category=CASE WHEN finance_transactions.category='taxes' AND excluded.category!='taxes' THEN excluded.category ELSE finance_transactions.category END,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order`).bind(...(connectionCiphertext?[...params.slice(0,4),...params.slice(6),householdId,memberId,connectionCiphertext]:params)));
   }
   // An empty month is left alone (a RiseUp hiccup must not wipe a month); otherwise rows RiseUp no longer returns are removed.
-  if(keep.length)statements.push(env.DB.prepare("DELETE FROM finance_transactions WHERE household_id=? AND import_id=? AND month=? AND fingerprint NOT IN ("+keep.map(()=>'?').join(',')+")").bind(householdId,importId,month,...keep));
-  for(let i=0;i<statements.length;i+=80)await env.DB.batch(statements.slice(i,i+80));
+  if(keep.length)statements.push(env.DB.prepare("DELETE FROM finance_transactions WHERE household_id=? AND import_id=? AND month=? AND fingerprint NOT IN (SELECT value FROM json_each(?))"+(connectionCiphertext?" AND EXISTS(SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?)":"")).bind(householdId,importId,month,JSON.stringify(keep),...(connectionCiphertext?[householdId,memberId,connectionCiphertext]:[])));
+  allStatements.push(...statements);
  }
  let balances=null;try{balances=(await riseupGet(env,token,'/api/external/balances/current')).balances||null}catch(e){if(!e.scope)throw e}
- return {count,balances:balances?balances.map(b=>({source:b.source,label:b.accountNickname||b.source,account:b.accountNumberHash,balance:Math.round(Number(b.balance)*100),lastUpdated:b.lastUpdated})):null};
+ if(!prepareOnly&&allStatements.length)await env.DB.batch(allStatements);
+ if(!prepareOnly&&connectionCiphertext&&!await env.DB.prepare("SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?").bind(householdId,memberId,connectionCiphertext).first())throw fail('The connection changed during sync. Refresh before trying again.',409);
+ return {count,balances:balances?balances.map(b=>({source:b.source,label:b.accountNickname||b.source,account:b.accountNumberHash,balance:Math.round(Number(b.balance)*100),lastUpdated:b.lastUpdated})):null,...(prepareOnly?{statements:allStatements}:{})};
 }
 
-// "Both parents" means every adult in the home, now and later (see sharing() in finance.mjs).
+// Shared means every household adult, including adults who join later; the UI says so explicitly.
 const sharingFor=(adults,memberId,visibility)=>visibility==='private'?{visibility:'private',allowed:[]}:{visibility:'family',allowed:[]};
 
 export async function connectRiseup(env,{home,memberId,adults,token,visibility,months,preferOverStatements=true}){
  token=String(token||'').trim();if(!token.startsWith(PREFIX)||token.length<20||token.length>400)throw fail('Paste the RiseUp token (it starts with riseup_pat_).');
  const share=sharingFor(adults,memberId,visibility),monthsN=Math.max(1,Math.min(12,Number(months)||3));
- const result=await syncRiseup(env,{householdId:home.id,memberId,token,visibility:share.visibility,allowedIds:share.allowed,months:monthsN,adults});
- const ciphertext=await encryptKey(token,env,aad(home.id,memberId)),now=Date.now();
- await env.DB.prepare(`INSERT INTO finance_connections(household_id,member_id,provider,ciphertext,scopes,visibility,allowed_ids,months_back,prefer_over_statements,status,last_error,last_sync_at,last_count,balances,created_at) VALUES(?,?,'riseup',?,?,?,?,?,?,'ok',NULL,?,?,?,?)
-  ON CONFLICT(household_id,member_id,provider) DO UPDATE SET ciphertext=excluded.ciphertext,scopes=excluded.scopes,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,months_back=excluded.months_back,prefer_over_statements=excluded.prefer_over_statements,status='ok',last_error=NULL,last_sync_at=excluded.last_sync_at,last_count=excluded.last_count,balances=excluded.balances`).bind(home.id,memberId,ciphertext,JSON.stringify(result.balances?['budget:read','balances:read']:['budget:read']),share.visibility,JSON.stringify(share.allowed),monthsN,preferOverStatements?1:0,now,result.count,result.balances?JSON.stringify(result.balances):null,now).run();
+ const before=await env.DB.prepare("SELECT * FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup'").bind(home.id,memberId).first(),ciphertext=await encryptKey(token,env,aad(home.id,memberId));
+ const {statements,...result}=await syncRiseup(env,{householdId:home.id,memberId,token,visibility:share.visibility,allowedIds:share.allowed,months:monthsN,adults,connectionCiphertext:ciphertext,prepareOnly:true});
+ const now=Date.now(),guard=before?"EXISTS(SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=? AND visibility=? AND allowed_ids=? AND months_back=? AND prefer_over_statements=?)":"NOT EXISTS(SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup')",guardArgs=before?[home.id,memberId,before.ciphertext,before.visibility,before.allowed_ids,before.months_back,before.prefer_over_statements]:[home.id,memberId];
+ const connection=env.DB.prepare(`INSERT INTO finance_connections(household_id,member_id,provider,ciphertext,scopes,visibility,allowed_ids,months_back,prefer_over_statements,status,last_error,last_sync_at,last_count,balances,created_at) SELECT ?,?,'riseup',?,?,?,?,?,?,'ok',NULL,?,?,?,? WHERE ${guard}
+  ON CONFLICT(household_id,member_id,provider) DO UPDATE SET ciphertext=excluded.ciphertext,scopes=excluded.scopes,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,months_back=excluded.months_back,prefer_over_statements=excluded.prefer_over_statements,status='ok',last_error=NULL,last_sync_at=excluded.last_sync_at,last_count=excluded.last_count,balances=excluded.balances`).bind(home.id,memberId,ciphertext,JSON.stringify(result.balances?['budget:read','balances:read']:['budget:read']),share.visibility,JSON.stringify(share.allowed),monthsN,preferOverStatements?1:0,now,result.count,result.balances?JSON.stringify(result.balances):null,now,...guardArgs);
+ await env.DB.batch([connection,...statements]);
+ if(!await env.DB.prepare("SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?").bind(home.id,memberId,ciphertext).first())throw fail('The connection settings changed. Refresh before connecting again.',409);
  return result;
 }
 
 export async function syncConnection(env,row,adults){
  const token=await decryptKey(row.ciphertext,env,aad(row.household_id,row.member_id));
  try{
-  const result=await syncRiseup(env,{householdId:row.household_id,memberId:row.member_id,token,visibility:row.visibility,allowedIds:JSON.parse(row.allowed_ids||'[]'),months:row.months_back,adults});
-  await env.DB.prepare("UPDATE finance_connections SET status='ok',last_error=NULL,last_sync_at=?,last_count=?,balances=COALESCE(?,balances) WHERE household_id=? AND member_id=? AND provider='riseup'").bind(Date.now(),result.count,result.balances?JSON.stringify(result.balances):null,row.household_id,row.member_id).run();
+  const result=await syncRiseup(env,{householdId:row.household_id,memberId:row.member_id,token,visibility:row.visibility,allowedIds:JSON.parse(row.allowed_ids||'[]'),months:row.months_back,adults,connectionCiphertext:row.ciphertext});
+  await env.DB.prepare("UPDATE finance_connections SET status='ok',last_error=NULL,last_sync_at=?,last_count=?,balances=COALESCE(?,balances) WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?").bind(Date.now(),result.count,result.balances?JSON.stringify(result.balances):null,row.household_id,row.member_id,row.ciphertext).run();
   return result;
  }catch(error){
-  await env.DB.prepare("UPDATE finance_connections SET status=?,last_error=? WHERE household_id=? AND member_id=? AND provider='riseup'").bind(error.transient?'retrying':'error',String(error.message).slice(0,240),row.household_id,row.member_id).run();
+  await env.DB.prepare("UPDATE finance_connections SET status=?,last_error=? WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?").bind(error.transient?'retrying':'error',String(error.message).slice(0,240),row.household_id,row.member_id,row.ciphertext).run();
   throw error;
  }
 }

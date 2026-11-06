@@ -11,9 +11,14 @@ import {HOME_CURRENCY_SYMBOL} from '../../shared/home-config.mjs';
 import {SPEECH_PROVIDERS,MAX_VOICE_SECONDS,MAX_VOICE_BYTES,DAILY_VOICE_SECONDS,speechAvailability,transcribe} from './speech.mjs';
 import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog} from './assistant.mjs';
 import {visibleState} from './state.mjs';
+import {lease,maintenance} from './security.mjs';
+import {withPDFSlot} from './pdf-budget.mjs';
+import {telegramLinkIdentity,authorizeTelegramClaim,claimTelegramLink,ownAccountInvitation} from './child-identity.mjs';
+import {externalFetch,boundedBytes,boundedJSON} from './outbound.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
 import {deliverPush} from './push.mjs';
+import {financeDeliveryMessages} from './finance-goals.mjs';
 import {dueReminders,digestDue,approvalRequests,childUpdates,ownerDoneUpdates,overdueAlerts,agenda,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
 
 // The "/" menu. Registered when a bot connects, on Test connection, and re-registered automatically by the
@@ -35,9 +40,9 @@ const cut=(value,max)=>value.length>max?value.slice(0,max-1)+'…':value;
 const apiOrigin=env=>/^http:\/\/127\.0\.0\.1:\d{2,5}$/.test(env.TELEGRAM_API_ORIGIN||'')?env.TELEGRAM_API_ORIGIN:'https://api.telegram.org';
 async function tg(env,token,method,body={}){
  let response;
- try{response=await fetch(apiOrigin(env)+'/bot'+token+'/'+method,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)})}
+ try{response=await externalFetch(env,apiOrigin(env)+'/bot'+token+'/'+method,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)})}
  catch{throw Object.assign(fail('Telegram could not be reached. Nothing was confirmed.',502),{transient:true})}
- let result={};try{result=await response.json()}catch{}
+ let result={};try{result=await boundedJSON(response,200000)}catch{}
  if(!response.ok||!result.ok){const code=result.error_code||response.status,error=fail('Telegram: '+cut(String(result.description||'request failed ('+code+')'),200),code===401||code===404?400:502);error.telegramStatus=code;error.transient=code===429||code>=500;throw error}
  return result.result;
 }
@@ -59,9 +64,9 @@ const MAX_PHOTO_BYTES=3_700_000,IMAGE_TYPES={jpg:'image/jpeg',jpeg:'image/jpeg',
 async function downloadFile(env,bot,fileId,maxBytes,lang){
  const tooLarge=()=>fail(L(lang,'This file is too large for Bayit.','הקובץ גדול מדי עבור Bayit.'),413);
  const file=await tg(env,bot.token,'getFile',{file_id:fileId});if(!file?.file_path)throw fail(L(lang,'Telegram did not provide this file.','טלגרם לא סיפק את הקובץ.'),502);if(file.file_size>maxBytes)throw tooLarge();
- let response;try{response=await fetch(apiOrigin(env)+'/file/bot'+bot.token+'/'+file.file_path,{signal:AbortSignal.timeout(20000)})}catch{throw fail(L(lang,'The file could not be downloaded from Telegram.','לא ניתן היה להוריד את הקובץ מטלגרם.'),502)}
+ let response;try{response=await externalFetch(env,apiOrigin(env)+'/file/bot'+bot.token+'/'+file.file_path,{signal:AbortSignal.timeout(20000)})}catch{throw fail(L(lang,'The file could not be downloaded from Telegram.','לא ניתן היה להוריד את הקובץ מטלגרם.'),502)}
  if(!response.ok)throw fail(L(lang,'The file could not be downloaded from Telegram.','לא ניתן היה להוריד את הקובץ מטלגרם.'),502);
- const bytes=new Uint8Array(await response.arrayBuffer());if(bytes.length>maxBytes)throw tooLarge();return {bytes,path:file.file_path};
+ const bytes=await boundedBytes(response,maxBytes);if(bytes.length>maxBytes)throw tooLarge();return {bytes,path:file.file_path};
 }
 
 // ---- Message text ----
@@ -116,7 +121,7 @@ export async function handleTelegramAPI(request,env,user,home,path,url){
  if(target!==null){
   const member=home.state.members.find(m=>m.id===target),accountsSet=await accountMembers(env,home.id);
   if(!member||!(target===actor||parent&&member.role==='child'&&!accountsSet.has(target)))throw fail('Each person links their own Telegram. A parent can link a child profile without its own account.',403);
-  if(request.method==='POST'){if(!bot)throw fail('A parent needs to connect the household Telegram bot first.',409);const token=random(24),expiresAt=Date.now()+LINK_MINUTES*60000;await env.DB.prepare('INSERT INTO telegram_link_tokens(token_hash,household_id,member_id,created_by,expires_at) VALUES(?,?,?,?,?)').bind(await hash(token),home.id,target,actor,expiresAt).run();return json({url:'https://t.me/'+bot.bot_username+'?start='+token,expiresAt:new Date(expiresAt).toISOString()},201)}
+  if(request.method==='POST'){if(!bot)throw fail('A parent needs to connect the household Telegram bot first.',409);const expectedTelegramId=await telegramLinkIdentity(env,home,target,user.id),token=random(24),expiresAt=Date.now()+LINK_MINUTES*60000;await env.DB.prepare('INSERT INTO telegram_link_tokens(token_hash,household_id,member_id,created_by,expires_at,expected_telegram_user_id) VALUES(?,?,?,?,?,?)').bind(await hash(token),home.id,target,user.id,expiresAt,expectedTelegramId).run();return json({url:'https://t.me/'+bot.bot_username+'?start='+token,expiresAt:new Date(expiresAt).toISOString()},201)}
   if(request.method==='DELETE'){const link=await env.DB.prepare('SELECT * FROM telegram_links WHERE household_id=? AND member_id=?').bind(home.id,target).first();if(link&&bot)try{await send(env,bot,link.chat_id,L(languageOf(home.state,target),'This chat was unlinked from Bayit.','הצ׳אט נותק מ־Bayit.'))}catch{}await env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND member_id=?').bind(home.id,target).run();return status()}
  }
  if(action==='test'&&request.method==='POST'){
@@ -136,12 +141,12 @@ export async function handleTelegramWebhook(request,env,hookId){
  const fresh=await env.DB.prepare('INSERT OR IGNORE INTO telegram_updates(household_id,update_id,received_at) VALUES(?,?,?)').bind(row.household_id,update.update_id,Date.now()).run();if(!fresh.meta.changes)return json({ok:true});
  let bot;try{bot=await withToken(env,row)}catch{return json({ok:true})}
  // Errors are answered in the chat when possible and acknowledged to Telegram, so a bad update is not retried forever.
- try{if(update.message)await onMessage(env,bot,update.message);else if(update.callback_query)await onCallback(env,bot,update.callback_query)}
+ try{if(update.message)await onMessage(env,bot,update.message,new URL(request.url).origin);else if(update.callback_query)await onCallback(env,bot,update.callback_query)}
  catch(error){console.error('Bayit Telegram update failed:',error.status||'',error.telegramStatus||'');}
  return json({ok:true});
 }
 
-async function onMessage(env,bot,message){
+async function onMessage(env,bot,message,origin){
  const chat=message.chat,from=message.from;if(!chat||!from)return;
  const langHint=from.language_code?.startsWith('he')?'he':'en';
  if(chat.type!=='private'){try{await send(env,bot,chat.id,L(langHint,'Bayit works only in private chats, so private items stay private.','Bayit עובד רק בצ׳אט פרטי, כדי שפריטים פרטיים יישארו פרטיים.'));await tg(env,bot.token,'leaveChat',{chat_id:chat.id})}catch{}return}
@@ -154,6 +159,7 @@ async function onMessage(env,bot,message){
  if(!role){await env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND member_id=?').bind(bot.household_id,memberId).run();return send(env,bot,chat.id,L(langHint,'This family profile is no longer available.','פרופיל המשפחה הזה כבר אינו זמין.'))}
  const lang=languageOf(home.state,memberId,langHint);
  if(cmd==='start'||cmd==='help')return send(env,bot,chat.id,helpText(lang));
+ if(cmd==='account'){try{const accountOrigin=origin||env.BAYIT_ORIGIN;if(!accountOrigin)throw fail('The installation owner must configure BAYIT_ORIGIN.',503);const url=await ownAccountInvitation(env,home,memberId,String(from.id),accountOrigin);return send(env,bot,chat.id,L(lang,'Your own Google account link (15 minutes): ','קישור לחשבון Google האישי שלכם (15 דקות): ')+esc(url))}catch(e){return send(env,bot,chat.id,esc(e.status?e.message:'Your account link could not be created.'))}}
  if(cmd==='stop'){await env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND member_id=?').bind(bot.household_id,memberId).run();return send(env,bot,chat.id,L(lang,'This chat was unlinked. You can connect again from Bayit settings.','הצ׳אט נותק. אפשר להתחבר שוב מהגדרות Bayit.'))}
  if(cmd==='today')return sendToday(env,bot,home,memberId,link.chat_id,lang);
  if(cmd==='shopping')return sendShopping(env,bot,home,memberId,link.chat_id,lang);
@@ -180,10 +186,10 @@ async function onMessage(env,bot,message){
 async function linkChat(env,bot,message,token,lang){
  const now=Date.now(),tokenHash=await hash(token),row=await env.DB.prepare('SELECT * FROM telegram_link_tokens WHERE token_hash=? AND household_id=?').bind(tokenHash,bot.household_id).first();
  if(!row||row.used_at||row.expires_at<now)return send(env,bot,message.chat.id,L(lang,'This link has expired or was already used. Create a new one in Bayit settings.','הקישור פג תוקף או שכבר נעשה בו שימוש. צרו קישור חדש בהגדרות Bayit.'));
- const claimed=await env.DB.prepare('UPDATE telegram_link_tokens SET used_at=? WHERE token_hash=? AND used_at IS NULL').bind(now,tokenHash).run();if(!claimed.meta.changes)return;
  const home=await loadHousehold(env,bot.household_id);if(!roleOf(home.state,row.member_id))return send(env,bot,message.chat.id,L(lang,'This family profile is no longer available.','פרופיל המשפחה הזה כבר אינו זמין.'));
+ try{await authorizeTelegramClaim(env,home,row,String(message.from.id))}catch(e){return send(env,bot,message.chat.id,esc(e.message))}
  const name=[message.from.first_name,message.from.last_name].filter(Boolean).join(' ').slice(0,80)||message.from.username||'';
- await env.DB.batch([env.DB.prepare('DELETE FROM telegram_links WHERE household_id=? AND (member_id=? OR chat_id=?)').bind(bot.household_id,row.member_id,String(message.chat.id)),env.DB.prepare('INSERT INTO telegram_links(household_id,member_id,chat_id,telegram_user_id,telegram_name,linked_at) VALUES(?,?,?,?,?,?)').bind(bot.household_id,row.member_id,String(message.chat.id),String(message.from.id),name,new Date().toISOString())]);
+ if(!await claimTelegramLink(env,home,row,tokenHash,String(message.from.id),String(message.chat.id),name))return send(env,bot,message.chat.id,L(lang,'This link or identity changed. Create a new link.','הקישור או הזהות השתנו. צרו קישור חדש.'));
  const member=home.state.members.find(m=>m.id===row.member_id),language=languageOf(home.state,row.member_id,lang);
  return send(env,bot,message.chat.id,'<b>'+L(language,'Connected, '+esc(member.name)+'!','מחובר, '+esc(member.he||member.name)+'!')+'</b>\n'+L(language,'You will get your reminders here.','מעכשיו התזכורות שלכם יגיעו לכאן.')+'\n\n'+helpText(language));
 }
@@ -239,12 +245,12 @@ async function sendExpenses(env,bot,home,memberId,role,chatId,lang){
  if(role==='child')return send(env,bot,chatId,L(lang,'Expenses are available to adult accounts.','ההוצאות זמינות למבוגרים בלבד.'));
  let fin;try{fin=await visibleFinance(env,home,memberId)}catch{fin={transactions:[],groups:[]}}
  const rows=fin.transactions.filter(t=>t.visibility!=='private'),thisMonth=localDate().slice(0,7),month=[...new Set(rows.map(monthOf))].sort().at(-1)||thisMonth,sum=monthSummary(rows,fin.groups||[],month);
- const visible=visibleState(home.state,memberId),manual=(visible.expenses||[]).filter(e=>e.date?.slice(0,7)===thisMonth&&e.visibility!=='private'),manualTotal=manual.reduce((n,e)=>n+(Number(e.amount)||0),0);
+ const visible=visibleState(home.state,memberId),manual=(visible.expenses||[]).filter(e=>e.date?.slice(0,7)===thisMonth&&e.visibility!=='private'),manualTotal=manual.filter(e=>e.flow!=='income'&&e.flow!=='savings').reduce((n,e)=>n+(Number(e.amount)||0),0),manualIncome=manual.filter(e=>e.flow==='income').reduce((n,e)=>n+(Number(e.amount)||0),0),manualSavings=manual.filter(e=>e.flow==='savings').reduce((n,e)=>n+(Number(e.amount)||0),0);
  const label=new Date(month+'-15T12:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-GB',{month:'long',year:'numeric'});
  if(!sum.count&&!manual.length)return send(env,bot,chatId,L(lang,'No expenses yet. Import a Leumi/Max statement PDF here, connect RiseUp in the app, or write “add 120 for groceries”.','אין הוצאות עדיין. שלחו כאן PDF של לאומי/מקס, חברו RiseUp באפליקציה, או כתבו „להוסיף 120 על קניות”.'));
  let text='<b>'+L(lang,'Expenses · ','הוצאות · ')+esc(label)+'</b>';
  if(sum.count)text+='\n'+L(lang,'In ','נכנס ')+money(sum.income/100)+' · '+L(lang,'Spent ','יצא ')+money(sum.expenses/100)+(sum.savings?' · '+L(lang,'Saved ','נחסך ')+money(sum.savings/100):'')+'\n<b>'+L(lang,'Left ','נשאר ')+money(sum.net/100)+'</b>\n\n'+sum.byCategory.filter(c=>c.amount>0).slice(0,6).map(c=>'• '+esc(lang==='he'?CATEGORY[c.category]?.he||c.category:CATEGORY[c.category]?.en||c.category)+' — '+money(c.amount/100)).join('\n');
- if(manual.length)text+='\n\n'+L(lang,'Recorded by hand this month: ','נרשם ידנית החודש: ')+money(manualTotal)+' ('+manual.length+')';
+ if(manual.length)text+='\n\n'+L(lang,'Recorded by hand this month: ','נרשם ידנית החודש: ')+L(lang,'Spent ','הוצאות ')+money(manualTotal)+' · '+L(lang,'In ','הכנסות ')+money(manualIncome)+' · '+L(lang,'Savings ','חיסכון ')+money(manualSavings)+' ('+manual.length+')';
  return send(env,bot,chatId,text+'\n\n<i>'+L(lang,'Ask anything, e.g. “what are our fixed bills?”. Only shared expenses are shown here; use /mine for your private ones.','אפשר לשאול כל דבר, למשל „מה החיובים הקבועים שלנו?”. מוצגות כאן רק הוצאות משותפות; /mine למרחב הפרטי.')+'</i>');
 }
 
@@ -261,11 +267,11 @@ async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label
  if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,L(lang,'AI is not connected for this household yet. A parent can connect a provider in Settings → Accounts & connections.','ה־AI עדיין לא מחובר לבית הזה. הורה יכול לחבר ספק בהגדרות ← חשבונות וחיבורים.'));
  if(!question.trim())return send(env,bot,link.chat_id,helpText(lang));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
- const turns=link.turns&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
+ const turns=link.turns&&link.turns_scope===scope&&link.turns_revision===home.revision&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
  let result;try{result=await runAssistant(env,{home,actorId:link.member_id,role,question,turns,scope,language:lang,images,channel:'telegram'})}
  catch(error){return send(env,bot,link.chat_id,esc(error.status?error.message:L(lang,'The AI could not complete this request. Nothing was changed.','ה־AI לא הצליח להשלים את הבקשה. דבר לא שונה.')))}
  const nextTurns=[...turns,{role:'user',content:(label||question).slice(0,1500)},{role:'assistant',content:String(result.answer).slice(0,1500)}].slice(-6);
- await env.DB.prepare('UPDATE telegram_links SET turns=?,turns_at=? WHERE household_id=? AND member_id=?').bind(JSON.stringify(nextTurns),Date.now(),home.id,link.member_id).run();
+ await env.DB.prepare('UPDATE telegram_links SET turns=?,turns_at=?,turns_scope=?,turns_revision=? WHERE household_id=? AND member_id=?').bind(JSON.stringify(nextTurns),Date.now(),scope,home.revision,home.id,link.member_id).run();
  if(!result.plan)return send(env,bot,link.chat_id,chatFormat(result.answer,lang));
  const lists=visibleState(home.state,link.member_id).shoppingLists||[];
  const rows=[[await button(env,home.id,link.member_id,L(lang,'Apply','החלה'),{type:'apply',plan:result.plan}),await button(env,home.id,link.member_id,L(lang,'Discard','ביטול'),{type:'discard'})]];
@@ -286,6 +292,7 @@ async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
 const shekels=agorot=>'\u2066'+(agorot<0?'−':'')+'₪'+Math.abs(agorot/100).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2})+'\u2069';
 async function handleStatement(env,bot,home,link,role,lang,document){
  if(role==='child')return send(env,bot,link.chat_id,L(lang,'Expenses are available to adult accounts.','ההוצאות זמינות למבוגרים בלבד.'));
+ return withPDFSlot(env,async()=>{
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const {bytes}=await downloadFile(env,bot,document.file_id,5_000_000,lang),preview=await importStatement(env,home,link.member_id,bytes,document.file_name);
  const name={max:'Max',leumi:L(lang,'Bank Leumi','בנק לאומי')}[preview.source]||preview.source;
@@ -295,8 +302,9 @@ async function handleStatement(env,bot,home,link,role,lang,document){
  if(preview.moneyOut)lines.push(L(lang,'Money out: ','הוצאות: ')+shekels(preview.moneyOut));
  if(preview.byCategory.length)lines.push(preview.byCategory.slice(0,5).map(c=>'• '+esc(lang==='he'?CATEGORY[c.category]?.he:CATEGORY[c.category]?.en)+' — '+shekels(c.amount)).join('\n'));
  if(!preview.newCount)return send(env,bot,link.chat_id,lines.join('\n')+'\n'+L(lang,'Nothing new to add.','אין מה להוסיף.'));
- const rows=[[await button(env,home.id,link.member_id,L(lang,'Add for both parents','הוספה לשני ההורים'),{type:'finance_apply',importId:preview.id,visibility:'shared'})],[await button(env,home.id,link.member_id,L(lang,'Add privately','הוספה פרטית'),{type:'finance_apply',importId:preview.id,visibility:'private'}),await button(env,home.id,link.member_id,L(lang,'Discard','ביטול'),{type:'discard'})]];
+ const rows=[[await button(env,home.id,link.member_id,L(lang,'Add for all household adults','הוספה לכל המבוגרים בבית'),{type:'finance_apply',importId:preview.id,visibility:'shared'})],[await button(env,home.id,link.member_id,L(lang,'Add privately','הוספה פרטית'),{type:'finance_apply',importId:preview.id,visibility:'private'}),await button(env,home.id,link.member_id,L(lang,'Discard','ביטול'),{type:'discard'})]];
  return send(env,bot,link.chat_id,lines.join('\n')+'\n<i>'+L(lang,'Nothing is saved until you choose.','שום דבר לא נשמר עד שתבחרו.')+'</i>',rows);
+ });
 }
 
 async function handleVoice(env,bot,home,link,role,lang,voice,scope){
@@ -369,24 +377,25 @@ async function onCallback(env,bot,query){
 export async function runReminderTick(request,env){
  const supplied=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');
  if(!env.REMINDER_CRON_SECRET||!supplied||!sameDigest(await hash(supplied),await hash(env.REMINDER_CRON_SECRET)))return json({error:'Unauthorized.'},401);
- const result=await deliverReminders(env,new Date());
- try{result.push=await deliverPush(env,new Date())}catch{result.push={failed:1}}
+ const release=await lease(env,'reminder-tick');if(!release)return json({ok:true,skipped:'another tick is running'});
+ try{await maintenance(env);const deadline=Date.now()+45000,result=await deliverReminders(env,new Date(),{deadline});
+ try{result.push=await deliverPush(env,new Date(),{deadline})}catch{result.push={failed:1}}
  // The same minute tick refreshes optional finance connections (RiseUp) about once a day.
- try{result.financeSynced=await refreshDueConnections(env,new Date())}catch{result.financeSynced=0}
- return json(result);
+ try{result.financeSynced=Date.now()<deadline?await refreshDueConnections(env,new Date(),1):0}catch{result.financeSynced=0}
+ return json(result);}finally{await release()}
 }
 
-export async function deliverReminders(env,now){
+export async function deliverReminders(env,now,{deadline=Date.now()+45000}={}){
  const date=localDate(now),time=localTime(now),summary={households:0,sent:0,failed:0,suppressed:0};
- const bots=(await env.DB.prepare('SELECT * FROM telegram_bots').all()).results;
- for(const row of bots){
+ const bots=(await env.DB.prepare('SELECT * FROM telegram_bots ORDER BY household_id LIMIT 100').all()).results;
+ for(const row of bots){if(Date.now()>=deadline)break;
   const links=(await linksFor(env,row.household_id)).filter(l=>!l.blocked);if(!links.length)continue;summary.households++;
   let bot,home;try{bot=await withToken(env,row);home=await loadHousehold(env,row.household_id)}catch{summary.failed++;continue}
   try{await ensureCommands(env,bot)}catch{}
   // Only the yes/no "Update parents" choice of each child is shared with parents' delivery.
   const childPrefs=Object.fromEntries(home.state.members.filter(m=>m.role==='child').map(m=>[m.id,notificationPrefs(home.state.profiles[m.id]).parentUpdates!==false]));
   const snoozes=(await env.DB.prepare('SELECT * FROM telegram_snoozes WHERE household_id=? AND sent_at IS NULL AND due_at<=?').bind(row.household_id,now.getTime()).all()).results;
-  for(const link of links){
+  for(const link of links){if(Date.now()>=deadline)break;
    const memberId=link.member_id,role=roleOf(home.state,memberId);if(!role)continue;
    const visible=visibleState(home.state,memberId),lang=languageOf(home.state,memberId),prefs=notificationPrefs(home.state.profiles[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),outbox=[];
    for(const item of dueReminders(visible,memberId,{date,time}))outbox.push({key:item.key,build:async()=>[reminderText(item,lang,time),[[...(item.kind==='task'?[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:item.record.id,date})]:[]),await button(env,row.household_id,memberId,L(lang,'Snooze '+SNOOZE_MINUTES+' min','נודניק '+SNOOZE_MINUTES+' דק׳'),{type:'snooze',item:{kind:item.kind,id:item.record.id,date,category:item.category}})]]]});
@@ -398,13 +407,14 @@ export async function deliverReminders(env,now){
     for(const alert of overdueAlerts(visible,memberId,{date,time}))outbox.push({key:alert.key,build:async()=>['<b>'+L(lang,'Not done yet','עדיין לא בוצע')+'</b>\n'+esc(title(alert.task,lang))+(alert.assignee?'':' · '+esc(nameOf(alert.task.memberId)))+' · '+esc(alert.date+(alert.task.time?' '+alert.task.time:'')),alert.assignee&&alert.date===date?[[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:alert.task.id,date})]]:[]]});
     for(const update of childUpdates(visible,memberId,{date,time},role,childPrefs)){const who=home.state.members.find(m=>m.id===update.entry.memberId);outbox.push({key:update.key,build:async()=>[esc(lang==='he'?who?.he||who?.name:who?.name)+' '+L(lang,'completed','השלים/ה')+': <b>'+esc(title(update.entry,lang))+'</b> ✓']})}
    }
+   try{for(const message of await financeDeliveryMessages(env,home,memberId,{date,time,channel:'telegram'}))outbox.push({key:message.key,build:async()=>['<b>'+esc(message.title)+'</b>\n'+esc(message.detail)]})}catch{summary.failed++}
    for(const snooze of snoozes.filter(s=>s.member_id===memberId)){
     const item=JSON.parse(snooze.payload),record=(item.kind==='event'?visible.events:visible.tasks).find(r=>r.id===item.id);
     await env.DB.prepare('UPDATE telegram_snoozes SET sent_at=? WHERE id=?').bind(now.getTime(),snooze.id).run();
     if(!record||item.date!==date||item.kind==='task'&&completionState(record,date)!=='open'){summary.suppressed++;continue}
     const reminder={...item,record,time:record.time||time};outbox.push({key:'snooze:'+snooze.id,build:async()=>[reminderText(reminder,lang,time),item.kind==='task'?[[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:record.id,date})]]:[]]});
    }
-   for(const message of outbox.slice(0,MAX_PER_MEMBER_TICK)){
+   for(const message of outbox.slice(0,MAX_PER_MEMBER_TICK)){if(Date.now()>=deadline)break;
     const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'telegram',?,'sending',?)").bind(row.household_id,memberId,message.key,now.getTime()).run();if(!claim.meta.changes)continue;
     const mark=(status,detail='')=>env.DB.prepare("UPDATE notification_deliveries SET status=?,detail=? WHERE household_id=? AND member_id=? AND channel='telegram' AND delivery_key=?").bind(status,detail,row.household_id,memberId,message.key).run();
     try{const [text,rows]=await message.build();await send(env,bot,link.chat_id,text,rows);await mark('sent');summary.sent++}
@@ -417,7 +427,7 @@ export async function deliverReminders(env,now){
  const at=now.getTime();
  await env.DB.batch([
   env.DB.prepare("INSERT INTO service_heartbeats(name,at,detail) VALUES('reminders',?,?) ON CONFLICT(name) DO UPDATE SET at=excluded.at,detail=excluded.detail").bind(at,JSON.stringify(summary)),
-  env.DB.prepare('DELETE FROM notification_deliveries WHERE created_at<?').bind(at-14*86400000),
+  env.DB.prepare('DELETE FROM notification_deliveries WHERE created_at<?').bind(at-40*86400000),
   env.DB.prepare('DELETE FROM telegram_actions WHERE expires_at<?').bind(at-86400000),
   env.DB.prepare('DELETE FROM telegram_link_tokens WHERE expires_at<?').bind(at-86400000),
   env.DB.prepare('DELETE FROM telegram_updates WHERE received_at<?').bind(at-2*86400000),

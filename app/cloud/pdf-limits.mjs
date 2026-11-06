@@ -1,0 +1,1 @@
+export const MAX_STATEMENT_BYTES=5_000_000;

@@ -4,6 +4,7 @@
 // so normalizeAITools(), Apply/Undo and every safety rule work the same for every provider.
 import {fail,loopbackOr} from './util.mjs';
 import {AI_PROVIDER,providerName} from '../../shared/ai-providers.mjs';
+import {customProviderURL,externalFetch,boundedJSON} from './outbound.mjs';
 
 const TIMEOUT=45000;
 
@@ -13,6 +14,7 @@ export function providerBase(env,provider,baseUrl){
  let base=provider==='custom'?String(baseUrl||'').trim().replace(/\/+$/,''):p.base;
  // The https rule applies everywhere, including local tests.
  if(provider==='custom'&&!/^https:\/\/[^\s/?#]+(\/[^\s?#]*)?$/.test(base))throw fail('Enter the provider’s https base URL, for example https://openrouter.ai/api/v1.');
+ if(provider==='custom')base=customProviderURL(env,base);
  const test=loopbackOr(env.AI_TEST_ORIGIN||env.ANTHROPIC_TEST_ORIGIN,'');
  return test?test+new URL(base).pathname.replace(/\/+$/,''):base;
 }
@@ -21,14 +23,14 @@ async function call(env,provider,url,key,body){
  const p=AI_PROVIDER[provider],name=providerName(provider),headers={'Content-Type':'application/json'};
  if(p.format==='anthropic'){headers.Authorization='Bearer '+key;headers['anthropic-version']='2026-10-21'}else headers.Authorization='Bearer '+key;
  let response;
- try{response=await fetch(url,{method:body?'POST':'GET',headers,body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(TIMEOUT)})}
+ try{response=await externalFetch(env,url,{method:body?'POST':'GET',headers,body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(TIMEOUT)})}
  catch{throw fail(name+' could not be reached. No app changes were applied.',502)}
  if(!response.ok){
-  let detail='';try{const e=await response.json();detail=String(e.error?.message||e.message||e.error||'').slice(0,160)}catch{}
+  await response.body?.cancel();
   const auth=response.status===401||response.status===403;
-  throw fail(auth?name+' rejected the API key.':response.status===429?name+' rate limit or quota reached. Please try again shortly.':name+' could not complete the request ('+response.status+(detail?': '+detail:'')+'). No app changes were applied.',auth?400:502);
+  throw fail(auth?name+' rejected the API key.':response.status===429?name+' rate limit or quota reached. Please try again shortly.':name+' could not complete the request ('+response.status+'). No app changes were applied.',auth?400:502);
  }
- return response.json();
+ return boundedJSON(response);
 }
 
 // Models this key can use, filtered to chat-capable ones.

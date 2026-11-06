@@ -3,16 +3,21 @@
 import React,{useEffect,useState,useCallback} from 'react';
 import {PlugsConnected,GoogleLogo,Database,Sparkle,TelegramLogo,Bank,WhatsappLogo,CheckCircle,WarningCircle,Circle,CaretDown,Microphone,LockSimple} from '@phosphor-icons/react';
 import {cloudHeaders} from './cloud-transport';
+import {MapPin} from '@phosphor-icons/react';
+import {useMaps} from './maps-client';
+import {MapsSettings} from './maps-settings';
 import {AIConnectionSettings} from './ai';
 import {TelegramSettings} from './telegram-settings';
 import {RiseupConnect} from './riseup-connect';
 import './connections.css';
+import {SecuritySettings} from './security-settings';
 
 const get=async path=>{const r=await fetch(path,{headers:cloudHeaders(),signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(String(r.status));return r.json()};
 const when=(ts,lang)=>ts?new Date(ts).toLocaleString(lang==='he'?'he-IL':'en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
 
 export {PlugsConnected as ConnectionsIcon};
 export function ConnectionsHub({app:a,ui,storage,initialOpen=''}){
+ const {status:maps}=useMaps();
  const {Button,Badge,Avatar}=ui,T=a.T,cloud=!!a.cloud,adult=a.member(a.user).role!=='child';
  const initial=new URLSearchParams(a.route.split('?')[1]||'').get('open')||initialOpen;
  const [open,setOpen]=useState(initial),[ai,setAI]=useState(null),[tg,setTG]=useState(null),[fin,setFin]=useState(null),[config,setConfig]=useState(null),[riseup,setRiseup]=useState(initial==='riseup');
@@ -40,19 +45,20 @@ export function ConnectionsHub({app:a,ui,storage,initialOpen=''}){
    status:!cloud?T('Not connected','לא מחובר'):!tg?T('Checking…','בודקים…'):tg.connected?(me?.linked?(me.blocked?T('Paused','מושהה'):T('Connected','מחובר')):T('Bot ready · link your chat','הבוט מוכן · חברו את הצ׳אט')):T('Not connected','לא מחובר'),
    detail:tg?.connected?'@'+tg.botUsername+' · '+T((tg.members||[]).filter(m=>m.linked).length+' linked',(tg.members||[]).filter(m=>m.linked).length+' מחוברים')+(tg.media?.voice&&tg.media.voice!=='off'?' · '+T('voice on','קול פעיל'):''):offline||T('A parent creates the bot once; then everyone links their own chat','הורה יוצר את הבוט פעם אחת; אחר כך כל אחד מחבר את הצ׳אט שלו'),
    panel:cloud&&<TelegramSettings app={a} ui={{Button,Badge,Avatar}} recipient={a.user}/>},
+  {id:'maps',icon:MapPin,tone:'google',name:'Google Maps',optional:true,what:T('Optional address search and a small location map on events and tasks. Manual place names always work.','חיפוש כתובת ומפה קטנה באירועים ובמשימות, באופן אופציונלי. שמות מקומות ידניים תמיד זמינים.'),state:maps?.configured?'on':maps?.failed?'warn':cloud&&!maps?'wait':'off',status:maps?.configured?T('Search connected','החיפוש מחובר'):maps?.failed?T('Status unavailable','המצב אינו זמין'):cloud&&!maps?T('Checking…','בודקים…'):T('Not connected','לא מחובר'),detail:maps?.configured?T('Search tested; map key configured','החיפוש נבדק; מפתח המפה הוגדר'):T('One optional connection for this installation','חיבור אופציונלי אחד להתקנה הזו'),panel:<MapsSettings a={a}/>},
   ...(adult?[{id:'riseup',icon:Bank,tone:'riseup',name:'RiseUp',optional:true,what:T('Optional. If you use RiseUp, Bayit reads your bank and card transactions from it every day, read-only, into Expenses.','אופציונלי. אם אתם משתמשים ב־RiseUp, ‏Bayit קורא ממנו כל יום את תנועות הבנק והאשראי, לקריאה בלבד, אל ההוצאות.'),
    state:!cloud?'off':!fin?'wait':fin.failed?'warn':mineRise?(mineRise.status==='ok'?'on':'warn'):'off',
    status:!cloud?T('Not connected','לא מחובר'):!fin?T('Checking…','בודקים…'):mineRise?(mineRise.status==='ok'?T('Connected','מחובר'):mineRise.status==='retrying'?T('Retrying','מנסה שוב'):T('Needs attention','דורש טיפול')):T('Not connected','לא מחובר'),
-   detail:mineRise?T('Last sync ','סנכרון אחרון ')+when(mineRise.lastSyncAt,a.lang)+' · '+(mineRise.visibility==='private'?T('only you','רק אתם'):T('shared with parents','משותף להורים')):offline||(otherRise.length?T(otherRise.length+' other adult connected',otherRise.length+' מבוגרים נוספים מחוברים'):T('Each adult connects their own RiseUp account','כל מבוגר מחבר את חשבון ה־RiseUp שלו')),
+   detail:mineRise?T('Last sync ','סנכרון אחרון ')+when(mineRise.lastSyncAt,a.lang)+' · '+(mineRise.visibility==='private'?T('only you','רק אתם'):T('shared with all household adults','משותף לכל המבוגרים בבית')):offline||(otherRise.length?T(otherRise.length+' other adult connected',otherRise.length+' מבוגרים נוספים מחוברים'):T('Each adult connects their own RiseUp account','כל מבוגר מחבר את חשבון ה־RiseUp שלו')),
    action:cloud&&fin&&!fin.failed?()=>setRiseup(true):null}]:[]),
   {id:'whatsapp',icon:WhatsappLogo,tone:'whatsapp',name:'WhatsApp',optional:true,what:T('Reminders on WhatsApp need a WhatsApp Business account. Planned for later.','תזכורות בוואטסאפ דורשות חשבון WhatsApp Business. מתוכנן בהמשך.'),state:'soon',status:T('Later','בהמשך'),detail:T('Use Telegram for now','בינתיים משתמשים בטלגרם')}
  ];
  const Pill=({c})=>{const Glyph=c.state==='on'?CheckCircle:c.state==='warn'?WarningCircle:Circle;return <span className={'conn-pill '+c.state}><Glyph size={16} weight={c.state==='off'||c.state==='soon'?'regular':'fill'}/>{c.status}</span>};
  const connected=cards.filter(c=>c.state==='on').length;
- return <div className="connections-hub">
-  <p className="conn-intro">{T('Every outside account Bayit uses is here. Keys and tokens are encrypted on your household server and are never shown again.','כל החשבונות החיצוניים ש־Bayit משתמש בהם נמצאים כאן. מפתחות ואסימונים מוצפנים בשרת הבית ולא מוצגים שוב.')} <b>{T(connected+' of '+cards.filter(c=>c.state!=='soon').length+' connected.',connected+' מתוך '+cards.filter(c=>c.state!=='soon').length+' מחוברים.')}</b></p>
+ return <div className="connections-hub"><SecuritySettings a={a} Button={Button}/>
+  <p className="conn-intro">{T('Every outside account Bayit uses is here. Credentials are encrypted on your household server. Server keys are never returned; map website keys are restricted to your site.','כל החשבונות החיצוניים ש־Bayit משתמש בהם נמצאים כאן. המפתחות מוצפנים בשרת הבית. מפתחות שרת אינם נשלחים לדפדפן; מפתחות אתר למפה מוגבלים לאתר שלכם.')} <b>{T(connected+' of '+cards.filter(c=>c.state!=='soon').length+' connected.',connected+' מתוך '+cards.filter(c=>c.state!=='soon').length+' מחוברים.')}</b></p>
   <div className="conn-grid">{cards.map(c=>{const Glyph=c.icon,expanded=open===c.id&&!!c.panel;return <section key={c.id} id={'connection-'+c.id} className={'conn-card tone-'+c.tone+(expanded?' expanded':'')+(c.state==='soon'?' soon':'')}>
-   <div className="conn-head"><span className="conn-logo"><Glyph size={30} weight={c.id==='ai'?'fill':'regular'}/></span><div className="conn-title"><h3>{c.name}{c.optional&&<small>{T('Optional','אופציונלי')}</small>}</h3><Pill c={c}/></div></div>
+   <div className="conn-head"><span className="conn-logo"><Glyph size={30} weight={c.id==='ai'?'fill':'regular'}/></span><div className="conn-title"><h2>{c.name}{c.optional&&<small>{T('Optional','אופציונלי')}</small>}</h2><Pill c={c}/></div></div>
    <p className="conn-what">{c.what}</p>
    {c.detail&&<p className="conn-detail">{c.id==='riseup'&&mineRise?.visibility==='private'&&<LockSimple size={15}/>}{c.id==='telegram'&&tg?.media?.voice&&tg.media.voice!=='off'&&<Microphone size={15}/>}<span dir="auto">{c.detail}</span></p>}
    {c.state!=='soon'&&(c.panel||c.action)&&<div className="conn-actions">

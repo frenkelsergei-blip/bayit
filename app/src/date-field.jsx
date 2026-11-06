@@ -9,7 +9,7 @@ import {CalendarDots,CaretDown,CaretLeft,CaretRight,X} from '@phosphor-icons/rea
 
 const pad=n=>String(n).padStart(2,'0');
 const iso=d=>d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate());
-const parse=v=>/^\d{4}-\d{2}-\d{2}$/.test(v||'')?new Date(v+'T12:00:00Z'):null;
+const parse=v=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(v||''))return null;const d=new Date(v+'T12:00:00Z');return Number.isFinite(+d)&&d.toISOString().slice(0,10)===v?d:null};
 const addDays=(v,n)=>{const d=parse(v);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
 const addMonths=(v,n)=>{const d=parse(v),day=d.getUTCDate();d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+n);const last=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0,12)).getUTCDate();d.setUTCDate(Math.min(day,last));return iso(d)};
 const todayIso=()=>{const n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate())};
@@ -22,7 +22,7 @@ export function DateField({value='',onChange,required,disabled,min,max,variant='
  const text=parse(value)?parse(value).toLocaleDateString(locale,{timeZone:'UTC',weekday:'short',day:'numeric',month:'short',year:variant==='toolbar'?undefined:'numeric'}):(placeholder||T('Choose a date','בחירת תאריך'));
  const pick=v=>{onChange?.({target:{value:v}});setOpen(false);requestAnimationFrame(()=>button.current?.focus())};
  return <span className={'date-field date-field-'+variant+(open?' is-open':'')+(value?'':' is-empty')+(className?' '+className:'')}>
-  <button ref={button} id={id} type="button" className="date-field-button" disabled={disabled} aria-haspopup="dialog" aria-expanded={open} aria-label={(label?label+': ':'')+(value?text:T('no date chosen','לא נבחר תאריך'))} onClick={()=>setOpen(!open)}>
+  <button ref={button} id={id} type="button" className="date-field-button" disabled={disabled} aria-description={!value?T('no date chosen','לא נבחר תאריך'):undefined} aria-haspopup="dialog" aria-expanded={open} aria-label={(label?label+': ':'')+text} onClick={()=>setOpen(!open)}>
    <CalendarDots size={20} className="date-field-icon"/><span className="date-field-text">{text}</span><CaretDown size={16} className="date-field-caret"/>
   </button>
   {required&&<input className="date-field-native" tabIndex={-1} aria-hidden="true" type="date" required value={value} min={min} max={max} onChange={()=>{}} onFocus={()=>button.current?.focus()}/>}
@@ -40,12 +40,12 @@ function DatePopover({anchor,value,min,max,marks,required,onPick,onClose,title})
  useLayoutEffect(()=>{if(phone)return;const place=()=>{const r=anchor.current?.getBoundingClientRect(),w=320,h=panel.current?.offsetHeight||360;if(!r)return;const below=window.innerHeight-r.bottom>=h+12||r.top<h+12,left=Math.min(Math.max(8,he?r.right-w:r.left),window.innerWidth-w-8);setPos({left,top:below?r.bottom+8:r.top-h-8})};place();window.addEventListener('resize',place);window.addEventListener('scroll',place,true);return()=>{window.removeEventListener('resize',place);window.removeEventListener('scroll',place,true)}},[]);
  useEffect(()=>{if(!phone&&!pos)return;panel.current?.querySelector('[data-focus=true]')?.focus({preventScroll:true})},[focus,pos]);
  useEffect(()=>{const down=e=>{if(panel.current&&!panel.current.contains(e.target)&&!anchor.current?.contains(e.target))onClose()};document.addEventListener('pointerdown',down,true);return()=>document.removeEventListener('pointerdown',down,true)},[]);
- const key=e=>{const step={ArrowLeft:he?1:-1,ArrowRight:he?-1:1,ArrowUp:-7,ArrowDown:7}[e.key];if(step){e.preventDefault();setFocus(addDays(focus,step))}else if(e.key==='PageUp'){e.preventDefault();setFocus(addMonths(focus,-1))}else if(e.key==='PageDown'){e.preventDefault();setFocus(addMonths(focus,1))}else if(e.key==='Escape'){e.preventDefault();onClose()}else if(e.key==='Tab'&&!panel.current.contains(document.activeElement))onClose()};
+ const key=e=>{if(e.target.tagName==='SELECT')return;const step={ArrowLeft:he?1:-1,ArrowRight:he?-1:1,ArrowUp:-7,ArrowDown:7}[e.key];if(step){e.preventDefault();setFocus(addDays(focus,step))}else if(e.key==='PageUp'){e.preventDefault();setFocus(addMonths(focus,-1))}else if(e.key==='PageDown'){e.preventDefault();setFocus(addMonths(focus,1))}else if(e.key==='Escape'){e.preventDefault();onClose()}else if(e.key==='Tab'&&!panel.current.contains(document.activeElement))onClose()};
  const body=<div ref={panel} className={'date-pop'+(phone?' date-pop-sheet':'')} role="dialog" aria-modal={phone||undefined} aria-label={title||T('Choose a date','בחירת תאריך')} onKeyDown={key} style={!phone&&pos?{left:pos.left,top:pos.top}:!phone?{visibility:'hidden'}:undefined}>
   {phone&&<div className="date-pop-grab" aria-hidden="true"/>}
   <div className="date-pop-head">
    <button type="button" className="date-pop-nav" aria-label={T('Previous month','החודש הקודם')} onClick={()=>setFocus(addMonths(focus,-1))}>{he?<CaretRight size={20}/>:<CaretLeft size={20}/>}</button>
-   <strong aria-live="polite">{first.toLocaleDateString(locale,{timeZone:'UTC',month:'long',year:'numeric'})}</strong>
+   <span className="date-pop-jump"><select aria-label={T('Month','חודש')} value={first.getUTCMonth()} onChange={e=>setFocus(month.slice(0,4)+'-'+pad(+e.target.value+1)+'-01')}>{Array.from({length:12},(_,i)=><option key={i} value={i}>{new Date(Date.UTC(2026,i,1)).toLocaleDateString(locale,{month:'long',timeZone:'UTC'})}</option>)}</select><select aria-label={T('Year','שנה')} value={first.getUTCFullYear()} onChange={e=>setFocus(e.target.value+'-'+month.slice(5)+'-01')}>{Array.from({length:(max?+max.slice(0,4):new Date().getFullYear()+20)-(min?+min.slice(0,4):1900)+1},(_,i)=>(min?+min.slice(0,4):1900)+i).map(y=><option key={y} value={y}>{y}</option>)}</select></span>
    <button type="button" className="date-pop-nav" aria-label={T('Next month','החודש הבא')} onClick={()=>setFocus(addMonths(focus,1))}>{he?<CaretLeft size={20}/>:<CaretRight size={20}/>}</button>
    {phone&&<button type="button" className="date-pop-close" aria-label={T('Close','סגירה')} onClick={onClose}><X size={20}/></button>}
   </div>

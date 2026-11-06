@@ -1,0 +1,3 @@
+import {random} from './util.mjs';
+export async function lease(env,name,ttl=240000){const token=random(20),now=Date.now();const r=await env.DB.prepare('INSERT INTO security_leases(name,token,expires_at) VALUES(?,?,?) ON CONFLICT(name) DO UPDATE SET token=excluded.token,expires_at=excluded.expires_at WHERE security_leases.expires_at<? RETURNING token').bind(name,token,now+ttl,now).first();if(r?.token!==token)return null;return ()=>env.DB.prepare('DELETE FROM security_leases WHERE name=? AND token=?').bind(name,token).run()}
+export async function uploadSlot(env){for(let i=0;i<2;i++){const release=await lease(env,'attachment-upload:'+i,90000);if(release)return release}return null}

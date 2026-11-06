@@ -160,8 +160,8 @@ html[data-density=compact] .document-list-row>.button{min-height:var(--dense-hit
 html[data-density=compact] .document-categories{margin-block:8px 6px}
 
 /* ---------- Home journal ---------- */
-html[data-density=compact] .journal-day h3{margin:10px 0 2px}
-html[data-density=compact] .journal-day h3 .badge{padding:3px 10px;font-size:calc(13px * var(--text-scale,1))}
+html[data-density=compact] .journal-day :is(h2,h3){margin:10px 0 2px}
+html[data-density=compact] .journal-day :is(h2,h3) .badge{padding:3px 10px;font-size:calc(13px * var(--text-scale,1))}
 html[data-density=compact] .journal-timeline-row{grid-template-columns:48px 10px minmax(0,1fr);gap:8px;min-height:var(--dense-row);padding:0}
 html[data-density=compact] .journal-timeline-row:before{inset-inline-start:61px}
 html[data-density=compact] .journal-timeline-row time{font-size:calc(13px * var(--text-scale,1));font-variant-numeric:tabular-nums}
@@ -197,7 +197,7 @@ html[data-density=compact] .routine-management-card>img{width:var(--dense-icon)!
 html[data-density=compact] .routine-card-main{flex:1;min-width:0;display:grid;grid-template-columns:auto auto auto minmax(0,1fr);align-items:center;gap:0 8px}
 html[data-density=compact] .routine-card-main>*{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html[data-density=compact] .routine-card-main small::before{content:"· "}
-html[data-density=compact] .routine-card-main h3{margin:0;font-size:calc(15px * var(--text-scale,1));line-height:1.3;font-weight:800}
+html[data-density=compact] .routine-card-main :is(h2,h3){margin:0;font-size:calc(15px * var(--text-scale,1));line-height:1.3;font-weight:800}
 html[data-density=compact] .routine-card-main p,html[data-density=compact] .routine-card-main small{margin:0;font-size:calc(13px * var(--text-scale,1));line-height:1.35;color:var(--muted)}
 html[data-density=compact] .routine-card-main .routine-people{margin:0;display:inline-flex;align-items:center;gap:5px;font-size:calc(13px * var(--text-scale,1));color:var(--muted)}
 html[data-density=compact] .routine-card-main .routine-people .avatar-stack{--stack-size:20px!important}
@@ -208,7 +208,7 @@ html[data-density=compact] .routine-management-card .icon-button{width:var(--den
 html[data-density=compact] .routine-management-card .icon-button svg{width:18px;height:18px}
 @media(max-width:1100px){
  html[data-density=compact] .routine-card-main{grid-template-columns:auto minmax(0,1fr)}
- html[data-density=compact] .routine-card-main h3{grid-area:1/1}
+ html[data-density=compact] .routine-card-main :is(h2,h3){grid-area:1/1}
  html[data-density=compact] .routine-card-main .routine-people{grid-area:1/2}
  html[data-density=compact] .routine-card-main p{grid-area:2/1}
  html[data-density=compact] .routine-card-main small{grid-area:2/2}
@@ -328,7 +328,7 @@ html[data-density=compact] .routine-card-main{grid-template-columns:minmax(0,1fr
 html[data-density=compact] .routine-management-card .actions{flex:0 0 172px;justify-content:flex-end}
 @media(max-width:1100px){
  html[data-density=compact] .routine-card-main{grid-template-columns:minmax(0,1fr) 200px 150px}
- html[data-density=compact] .routine-card-main h3{grid-area:1/1}
+ html[data-density=compact] .routine-card-main :is(h2,h3){grid-area:1/1}
  html[data-density=compact] .routine-card-main p{grid-area:1/2}
  html[data-density=compact] .routine-card-main .routine-people{grid-area:1/3}
  html[data-density=compact] .routine-card-main small{grid-area:2/1/3/-1}
@@ -336,7 +336,7 @@ html[data-density=compact] .routine-management-card .actions{flex:0 0 172px;just
 }
 @media(max-width:700px){
  html[data-density=compact] .routine-card-main{grid-template-columns:minmax(0,1fr) 52px}
- html[data-density=compact] .routine-card-main h3{grid-area:1/1}
+ html[data-density=compact] .routine-card-main :is(h2,h3){grid-area:1/1}
  html[data-density=compact] .routine-card-main .routine-people{grid-area:1/2}
  html[data-density=compact] .routine-card-main p{grid-area:2/1/3/-1;font-size:calc(12px * var(--text-scale,1))}
  html[data-density=compact] .routine-card-main small{grid-area:3/1/4/-1;font-size:calc(12px * var(--text-scale,1))}

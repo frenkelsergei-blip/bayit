@@ -6,14 +6,14 @@
 cd app
 npm run test:domain   # tests/*.test.mjs: permissions, recurrence, shopping lists, AI contract, reminders, expenses, RiseUp sync
 npm run test:sites    # packaging checks
-npm run build:cloud   # production client build
+npm run build:pages   # production Pages artifact
 ```
 
 Finance tests use **synthetic** statement rows only. Do not add real bank or card statements to the repository.
 
 ## End-to-end (local Cloudflare runtime, fake external APIs)
 
-These run against `wrangler dev` with a local D1 database and fixture Google sessions. Telegram, Anthropic and speech are replaced by a fake server on `127.0.0.1:8899`, started by the test itself. Nothing reaches the real services.
+These run against `wrangler dev` with a local D1 database and fixture Google sessions. Telegram, AI and speech are replaced by a fake server on `127.0.0.1:8899`, started by the test itself. Nothing reaches the real services.
 
 ```bash
 cd app
@@ -22,12 +22,14 @@ npx wrangler d1 migrations apply bayit-home --local --config wrangler.worker.jso
 npx wrangler d1 execute bayit-home --local --config wrangler.worker.jsonc --persist-to $PERSIST --file ../tests/e2e/cloud-fixtures.sql
 npm run build:cloud
 npx wrangler dev --config wrangler.worker.jsonc --port 8791 --persist-to $PERSIST \
+  --var BAYIT_ALLOWED_EMAILS:one@example.test --var BAYIT_MAX_HOUSEHOLDS:20 \
   --var AUTH_SECRET:local-test-auth-secret-0123456789abcdef \
   --var GOOGLE_CLIENT_ID:local-test --var GOOGLE_CLIENT_SECRET:local-test \
   --var APP_ENCRYPTION_KEY:$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))") \
   --var TELEGRAM_API_ORIGIN:http://127.0.0.1:8899 --var AI_TEST_ORIGIN:http://127.0.0.1:8899 \
   --var SPEECH_TEST_ORIGIN:http://127.0.0.1:8899 --var RISEUP_TEST_ORIGIN:http://127.0.0.1:8899 \
-  --var REMINDER_CRON_SECRET:local-test-cron-secret
+  --var PUSH_TEST_ORIGIN:http://127.0.0.1:8897 \
+  --var REMINDER_CRON_SECRET:local-test-cron-secret-for-release-qa
 ```
 
 In a second terminal:
@@ -47,9 +49,15 @@ The same suites run against `app/host` (SQLite and a local file folder instead o
 ```bash
 cd app && npm run build:host
 DATA=$(mktemp -d)
-DATA_DIR=$DATA PORT=8095 GOOGLE_CLIENT_ID=local-test GOOGLE_CLIENT_SECRET=local-test REMINDER_CRON_SECRET=local-test-cron-secret \
-  TELEGRAM_API_ORIGIN=http://127.0.0.1:8899 AI_TEST_ORIGIN=http://127.0.0.1:8899 SPEECH_TEST_ORIGIN=http://127.0.0.1:8899 npm run start:host &
+DATA_DIR=$DATA PORT=8095 BAYIT_ALLOWED_EMAILS=one@example.test BAYIT_MAX_HOUSEHOLDS=20 GOOGLE_CLIENT_ID=local-test GOOGLE_CLIENT_SECRET=local-test REMINDER_CRON_SECRET=local-test-cron-secret-for-release-qa \
+  TELEGRAM_API_ORIGIN=http://127.0.0.1:8899 AI_TEST_ORIGIN=http://127.0.0.1:8899 SPEECH_TEST_ORIGIN=http://127.0.0.1:8899 RISEUP_TEST_ORIGIN=http://127.0.0.1:8899 PUSH_TEST_ORIGIN=http://127.0.0.1:8897 npm run start:host &
+# Wait for the startup message before seeding the disposable database.
 node -e "new (require('node:sqlite').DatabaseSync)('$DATA/bayit.sqlite').exec(require('fs').readFileSync('../tests/e2e/cloud-fixtures.sql','utf8'))"
 BAYIT_TEST_ORIGIN=http://127.0.0.1:8095 BAYIT_SQLITE=$DATA/bayit.sqlite node ../tests/e2e/test-telegram-api.mjs
 BAYIT_TEST_ORIGIN=http://127.0.0.1:8095 node ../tests/e2e/test-cloud-api.mjs
+BAYIT_TEST_ORIGIN=http://127.0.0.1:8095 node ../tests/e2e/test-push-api.mjs
 ```
+
+The test cron secret above is a public fictional fixture. Production uses its own secret of at least 24 characters. The Node host generates its own local encryption and authentication keys in the disposable data directory. Never seed fixture accounts or set fake-service origins in production.
+
+Security, finance, upload, isolated PDF parsing, credential recovery and game authority regressions are part of `test:domain`. Tests use disposable SQLite databases, intercepted network calls and fictional documents. Live Google sign-in, actual bank/card freshness, real delivery and physical-device safe areas require separate verification; passing fixtures does not establish those external results.

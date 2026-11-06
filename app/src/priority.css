@@ -32,11 +32,11 @@
 .task-row.done .tasks-row-main>strong>.prio-mark{opacity:.55}
 
 /* Group headers in "By priority" order reuse the page's pill headers. */
-.tasks-group>h3>span{display:inline-flex;align-items:center;gap:7px}
-.tasks-group.tone-prio-high>h3>span{background:var(--prio-high-soft)}
-.tasks-group.tone-prio-medium>h3>span{background:var(--yellow)}
-.tasks-group.tone-prio-low>h3>span{background:var(--prio-low-soft)}
-.tasks-group.tone-prio-none>h3>span{background:var(--lilac)}
+.tasks-group>:is(h2,h3)>span{display:inline-flex;align-items:center;gap:7px}
+.tasks-group.tone-prio-high>:is(h2,h3)>span{background:var(--prio-high-soft)}
+.tasks-group.tone-prio-medium>:is(h2,h3)>span{background:var(--yellow)}
+.tasks-group.tone-prio-low>:is(h2,h3)>span{background:var(--prio-low-soft)}
+.tasks-group.tone-prio-none>:is(h2,h3)>span{background:var(--lilac)}
 
 /* Filters: two compact selects with the same 44px pill as search. */
 .tasks-prio-filters{display:inline-flex;align-items:center;gap:10px;min-width:0}

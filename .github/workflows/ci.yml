@@ -12,10 +12,10 @@ jobs:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: app/package-lock.json
       - run: npm ci
@@ -25,12 +25,12 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Build the Docker image
         run: docker build -f app/host/Dockerfile -t bayit:ci .
       - name: Start it and check health, the app and the API
         run: |
-          docker run -d --name bayit -p 8080:8080 bayit:ci
+          docker run -d --name bayit --read-only --tmpfs /tmp:rw,noexec,nosuid,size=128m --cap-drop ALL --security-opt no-new-privileges:true -e BAYIT_ORIGIN=http://127.0.0.1:8080 -p 127.0.0.1:8080:8080 bayit:ci
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:8080/api/health && break; sleep 1; done
           curl -sf http://127.0.0.1:8080/api/health
           curl -sf -o /dev/null http://127.0.0.1:8080/

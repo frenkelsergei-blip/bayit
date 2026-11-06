@@ -1,0 +1,3 @@
+/* Long privacy explanations wrap inside their existing badge on narrow screens. */
+.private-calendar-preview>.badge{max-width:100%;white-space:normal;box-sizing:border-box;line-height:1.5}
+.private-calendar-preview>.badge>svg{flex:none;align-self:center}

@@ -1,0 +1,21 @@
+/* Reuse the existing Calendar pill anatomy, colors and sizing. No alternate inner card. */
+.person-chip.calendar-person{position:relative;max-width:100%;overflow:visible;isolation:isolate}
+.person-chip.calendar-person .person-chip-name{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.person-chip.calendar-person>.avatar{flex-shrink:0}
+.person-chip.calendar-person::after,.person-chip.calendar-person.chosen::after,.person-chip.calendar-person[aria-pressed=true]::after{content:none!important}
+.person-chip.calendar-person>.person-chip-check{position:absolute!important;inset-inline-start:calc(var(--chip-avatar,44px) - 12px);top:-4px;display:grid!important;place-items:center;width:18px!important;height:18px!important;min-width:18px;border-radius:50%;background:#248553;color:#fff;box-shadow:0 0 0 2px var(--surface);z-index:2;padding:0!important;line-height:1}
+.person-chip.calendar-person>.person-chip-check>svg{display:block;width:12px;height:12px;position:static!important;margin:0}
+.member-chips:has(.person-chip){display:flex;align-items:center;flex-wrap:wrap;gap:14px 16px;padding-block:8px;overflow:visible}
+.member-chips>.person-chip.calendar-person{min-height:34px;padding-inline:0 14px;font-size:calc(16px * var(--font-adjust,1));border:0}
+.member-chips>.person-chip.calendar-person>.avatar{width:44px!important;height:44px!important;margin-block:-5px!important}
+.people-picker-options>.person-chip.calendar-person{justify-self:start;min-height:34px;margin-block:6px;font-size:17px;padding-inline:0 16px;border:0}
+.people-picker-options>.person-chip.calendar-person>.avatar{width:44px!important;height:44px!important;margin-block:-5px!important}
+.people-picker .people-picker-button:has(.person-chip){background:transparent!important;border:0;padding:0 6px!important;gap:10px;box-shadow:none!important}
+.people-picker-button>.person-chip.calendar-person{pointer-events:none;min-height:32px;padding-inline:0 12px;font-size:16px}
+.people-picker-button>.person-chip.calendar-person>.avatar{width:40px!important;height:40px!important;margin-block:-4px!important}
+.profile-member-tabs:has(.person-chip){overflow:visible;flex-wrap:wrap!important;max-width:100%;min-width:0;padding-block:8px}
+@media(min-width:701px){.calendar-reference-controls{align-items:center!important}.calendar-reference-controls>.calendar-person-legend,.calendar-reference-controls>.tabs{align-self:center!important}}
+@media(pointer:coarse){.member-chips:has(.person-chip){row-gap:20px;padding-block:10px}}
+
+/* Navigation adds asymmetric block margins; the existing Calendar control row has none. */
+.calendar-reference-controls>.tabs.nav-view{margin-block:0!important}

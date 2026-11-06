@@ -17,7 +17,7 @@ export function trackSave(saving,fx){
 }
 
 export const FX_STYLES=['calm','playful','party'];
-export function fxStyleFor(appearance={},role){return FX_STYLES.includes(appearance.fx)?appearance.fx:role==='child'?'party':'playful'}
+export function fxStyleFor(appearance={},role){return FX_STYLES.includes(appearance.fx)?appearance.fx:role==='child'?'playful':'calm'}
 const reducedMotion=()=>document.documentElement.dataset.motion==='reduced'||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 // --- what just happened? Compare the state before and after one update. ---
@@ -61,9 +61,9 @@ function Confetti({count=28,origin='top'}){
  return <div className={'fx-confetti fx-from-'+origin} aria-hidden="true">{pieces.map((p,i)=><img key={i} src={p.src} alt="" style={{'--x':p.x+'%','--dx':p.dx+'px','--r':p.r+'deg','--d':p.d+'ms','--t':p.t+'ms','--s':p.s+'px'}}/>)}</div>;
 }
 
-function Celebration({fx,style,T,go,undo,characterSrc,avatar,close}){
+function Celebration({fx,style,T,go,undo,characterSrc,characterNode,avatar,close}){
  const kind=KINDS[fx.kind]||KINDS.task,record=fx.record||{},lang=T('en','he'),corner=fx.kind==='complete'||fx.kind==='pending'||fx.kind==='shopping-done';
- const people=[fx.memberId,...(fx.memberIds||[])].filter(Boolean),hero=people.map(id=>characterSrc?.(id)).find(Boolean)||(fx.preview?GEN+'avatar-noa-cape.png':null);
+ const people=[fx.memberId,...(fx.memberIds||[])].filter(Boolean),hero=people.map(id=>characterSrc?.(id)).find(Boolean)||(fx.preview?GEN+'avatar-noa-cape.png':null),heroNode=people.map(id=>characterNode?.(id)).find(Boolean);
  const name=lang==='he'?record.he||record.title:record.title||record.he;
  const when=[record.date&&new Date(record.date+'T12:00Z').toLocaleDateString(lang==='he'?'he-IL':'en-US',{weekday:'short',month:'short',day:'numeric'}),record.time].filter(Boolean).join(' · ');
  const detail=fx.kind==='shopping'&&fx.count>1?T(fx.count+' items added to shopping',fx.count+' פריטים נוספו לקניות'):fx.kind==='complete'?[name,fx.xp?null:T('Marked done','סומן כבוצע')].filter(Boolean).join(' · '):fx.kind==='pending'?T(name+' · a parent will confirm it',name+' · הורה יאשר'):fx.kind==='shopping-done'?T('Everything is in the bag.','הכול בסל.'):[name,/item/i.test(record.quantity||'')?null:record.quantity,when].filter(Boolean).join(' · ');
@@ -74,7 +74,7 @@ function Celebration({fx,style,T,go,undo,characterSrc,avatar,close}){
   <button type="button" className="fx-close" aria-label={T('Close','סגירה')} onClick={close}><X size={18} weight="bold"/></button>
   <div className="fx-stage" aria-hidden="true">
    <span className="fx-floor"/>
-   {hero?<><img className="fx-hero" src={hero} alt=""/><img className="fx-prop" src={sprite(fx.levelUp?'crown':kind.sprite)} alt=""/></>:<img className="fx-hero fx-hero-sprite" src={sprite(kind.sprite)} alt=""/>}
+   {hero||heroNode?<>{heroNode?<span className="fx-hero">{heroNode}</span>:<img className="fx-hero" src={hero} alt=""/>}<img className="fx-prop" src={sprite(fx.levelUp?'crown':kind.sprite)} alt=""/></>:<img className="fx-hero fx-hero-sprite" src={sprite(kind.sprite)} alt=""/>}
    {SPARKS.map((s,i)=><img key={i} className="fx-spark" src={sprite(s)} alt="" style={{'--a':(i*45+20)+'deg','--i':i}}/>)}
    {fx.kind==='complete'&&fx.xp>0&&[0,1,2,3].map(i=><img key={'c'+i} className="fx-coin" src={sprite('coin')} alt="" style={{'--i':i}}/>)}
   </div>
@@ -92,10 +92,10 @@ function Celebration({fx,style,T,go,undo,characterSrc,avatar,close}){
 }
 
 // Renders toasts and celebrations. Replaces the plain bottom toast in App.
-export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avatar}){
- const [removed,setRemoved]=useState(null);
+export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,characterNode,avatar}){
+ const [removed,setRemoved]=useState(null),[undoBusy,setUndoBusy]=useState(false);
  useEffect(()=>fxBus.on((type,payload)=>{if(type==='deleted')setRemoved({...payload,key:Date.now()})}),[]);
- useEffect(()=>{if(!removed)return;const t=setTimeout(()=>setRemoved(null),6000);return()=>clearTimeout(t)},[removed]);
+ useEffect(()=>{if(!removed||undoBusy)return;const t=setTimeout(()=>setRemoved(null),6000);return()=>clearTimeout(t)},[removed,undoBusy]);
  const style=fxStyleFor(appearance,role),[card,setCard]=useState(null),[party,setParty]=useState(0),[failed,setFailed]=useState(false),[previewToast,setPreviewToast]=useState(''),shownAt=useRef(0),styleRef=useRef(style);
  styleRef.current=style;
  const routeRef=useRef(route);routeRef.current=route;
@@ -119,9 +119,9 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,avat
  if(decided.current.message!==message)decided.current={message,absorbed:!!(message&&!failed&&Date.now()-shownAt.current<1500)};
  const shown=previewToast||(!decided.current.absorbed&&message);
  return <>
-  {removed&&<div role="status" key={removed.key} className="toast fx-toast undo-toast"><img className="fx-toast-sprite" src={sprite('undo')} alt=""/><span>{removed.label?T('Deleted “'+removed.label+'”','נמחק „'+removed.label+'”'):T('Deleted','נמחק')}</span><button type="button" onClick={()=>{removed.restore();setRemoved(null)}}>{T('Undo','ביטול')}</button></div>}
+  {removed&&<div role="status" key={removed.key} className="toast fx-toast undo-toast"><img className="fx-toast-sprite" src={sprite('undo')} alt=""/><span>{removed.label?T('Deleted “'+removed.label+'”','נמחק „'+removed.label+'”'):T('Deleted','נמחק')}</span><button type="button" disabled={undoBusy} onClick={async()=>{if(undoBusy)return;setUndoBusy(true);try{await removed.restore();setRemoved(null)}catch{setRemoved(v=>v?{...v,key:Date.now()}:v)}finally{setUndoBusy(false)}}}>{T('Undo','ביטול')}</button></div>}
   {!removed&&shown&&<div role="status" className={'toast'+(style!=='calm'?' fx-toast':'')+(failed?' fx-toast-failed':'')}>{style!=='calm'?<img className="fx-toast-sprite" src={sprite(failed?'undo':'check-badge')} alt=""/>:failed?<WarningCircle size={23}/>:<CheckCircle size={23}/>}{shown}</div>}
-  {card&&<Celebration key={'card-'+card.key} fx={card} style={style} T={T} go={go} undo={undo} characterSrc={characterSrc} avatar={avatar} close={()=>setCard(null)}/>}
+  {card&&<Celebration key={'card-'+card.key} fx={card} style={style} T={T} go={go} undo={undo} characterSrc={characterSrc} characterNode={characterNode} avatar={avatar} close={()=>setCard(null)}/>}
   {party>0&&<Confetti key={'confetti-'+party}/>}
   {style!=='calm'&&<CheckBursts/>}
  </>;

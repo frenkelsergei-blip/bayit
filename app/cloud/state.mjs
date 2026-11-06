@@ -1,10 +1,19 @@
+import {syncBirthday,birthdayEventId} from '../src/birthdays.js';
+import {recordMaintenanceService} from '../../shared/maintenance-service.mjs';
+import {validateEventTime} from '../../shared/event-time.mjs';
+import {normalizeIngredients} from '../../shared/meal-ingredients.mjs';
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
+import {normalizeLocation} from '../../shared/locations.mjs';
+import {validateFinancePlans,validateFinancePreferences} from '../../shared/finance-goals.mjs';
 import {canEditContent,validateEditAccess} from '../../shared/permissions.mjs';
 import {canSee} from '../src/data.js';
 import {upgradeShoppingLists,canAccessList} from '../../shared/shopping-lists.mjs';
 import {taskFitsList,validateTaskList} from '../../shared/task-lists.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
-export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists'];
+import {applyHeroCommand,publicHero} from '../../shared/hero-home.mjs';
+import {receiptFilter} from '../../shared/private-snapshots.mjs';
+import {boundedValue,validateRecord,validateProfile,safePhoto,displayable,imageData,validatePreference} from '../../shared/state-validation.mjs';
+export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists','places'];
 const personalMaps=['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser'];
 const sharedPreferences=['householdName','familyPhoto','weekStarts','palette','familyChallenge','goals','inventory','maintenanceDate','maintenanceRepeat','shoppingCategories','turnOverrides','turnInterval','monthlyBudget'];
 const personalFlat=['aiSources','reminder','notifications','quietStart','quietEnd','smartSuggestions','maxSuggestions','parentUpdates','milkWeekly','privacyDefaults'];
@@ -18,58 +27,81 @@ export function hydrateMembers(state,accounts){
 }
 export function visibleState(state,actorId){
  const result=structuredClone(state),lists=(state.shoppingLists||[]).filter(l=>canAccessList(l,actorId)),taskLists=(state.taskLists||[]).filter(l=>canAccessList(l,actorId));
- for(const key of collections)result[key]=['expenses','bills'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(state[key]||[]).filter(r=>canSee(r,actorId)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)));
- result.profiles=Object.fromEntries(state.members.map(m=>[m.id,m.id===actorId?structuredClone(state.profiles[m.id]||{}):Object.fromEntries(profilePublic.filter(k=>state.profiles[m.id]?.[k]!==undefined).map(k=>[k,state.profiles[m.id][k]]))]));
+ for(const key of collections)result[key]=['expenses','bills'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(result[key]||[]).filter(r=>displayable(r,key)&&canSee(r,actorId)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)));
+ for(const [derived,source,reference]of [['history','tasks','taskId'],['purchases','shopping','id']])result[derived]=result[derived].filter(r=>{const original=(state[source]||[]).find(s=>s.id===r[reference]);return original?(result[source]||[]).some(s=>s.id===original.id):r.ownerId===actorId});
+ for(const key of ['notes','events','expenses'])for(const record of result[key])record.date??='';
+ for(const document of result.documents)delete document.sampleUrl;
+ result.profiles=Object.fromEntries(state.members.map(m=>{const profile=state.profiles[m.id]||{},own=m.id===actorId,managesChild=m.role==='child'&&state.members.find(p=>p.id===actorId)?.role==='parent',view=own?structuredClone(profile):Object.fromEntries(profilePublic.filter(k=>profile[k]!==undefined).map(k=>[k,profile[k]]));if(profile.hero)view.hero=own||managesChild?structuredClone(profile.hero):publicHero(profile);return [m.id,view]}));
  result.preferences=Object.fromEntries(sharedPreferences.filter(k=>state.preferences?.[k]!==undefined).map(k=>[k,state.preferences[k]]));
+ if(state.members.find(m=>m.id===actorId)?.role==='child')delete result.preferences.monthlyBudget;
+ for(const m of result.members){for(const key of ['name','he'])if(typeof m[key]!=='string')m[key]='Family member';try{m.avatar=safePhoto(m.avatar,{accountImage:m.accountLinked?m.avatar:''})}catch{delete m.avatar}const profile=result.profiles[m.id];for(const key of ['name','he','displayMode','character','equipped','color','locale','birthday'])if(profile[key]!==undefined&&typeof profile[key]!=='string')delete profile[key];try{result.profiles[m.id].photo=safePhoto(result.profiles[m.id].photo,{accountImage:m.avatar})}catch{delete result.profiles[m.id].photo}}
+ try{if(result.preferences.familyPhoto)result.preferences.familyPhoto=safePhoto(result.preferences.familyPhoto)}catch{delete result.preferences.familyPhoto}
  Object.assign(result.preferences,state.preferences?.personalByUser?.[actorId]||{});
  for(const key of personalMaps)if(state.preferences?.[key]?.[actorId]!==undefined)result.preferences[key]={[actorId]:state.preferences[key][actorId]};
  if(result.preferences.turnOverrides){const names=new Set(result.tasks.filter(t=>t.routine).map(t=>t.title));result.preferences.turnOverrides=Object.fromEntries(Object.entries(result.preferences.turnOverrides).filter(([key])=>names.has(key.split('|').slice(1).join('|'))))}
- result.customIcons=(state.customIcons||[]).filter(r=>canSee(r,actorId));result.aiOperations=Object.fromEntries(Object.entries(state.aiOperations||{}).filter(([,r])=>r.ownerId===actorId));
+ result.customIcons=(state.customIcons||[]).filter(r=>canSee(r,actorId));const maySeeReceipt=receiptFilter(state,result,collections,actorId);result.aiOperations=Object.fromEntries(Object.entries(state.aiOperations||{}).filter(([,r])=>maySeeReceipt(r)));
  result.favoriteIcons=state.profiles[actorId]?.favoriteIcons||[];return result;
 }
 export function diffState(before,after){
- const ops=[];for(const collection of collections){const old=new Map((before[collection]||[]).map(r=>[r.id,r])),next=new Map((after[collection]||[]).map(r=>[r.id,r]));for(const [id,value]of next)if(!equal(old.get(id),value))ops.push({collection,id,value});for(const [id]of old)if(!next.has(id))ops.push({collection,id,delete:true})}
- for(const key of ['profiles','preferences','aiOperations'])for(const id of new Set([...Object.keys(before[key]||{}),...Object.keys(after[key]||{})]))if(!equal(before[key]?.[id],after[key]?.[id]))ops.push({collection:key,id,value:after[key]?.[id]});
- if(!equal(before.members,after.members))ops.push({collection:'members',value:after.members});if(!equal(before.customIcons,after.customIcons))ops.push({collection:'customIcons',value:after.customIcons});if(!equal(before.favoriteIcons,after.favoriteIcons))ops.push({collection:'favorites',value:after.favoriteIcons});return ops;
+ const ops=[];for(const collection of collections){const old=new Map((before[collection]||[]).map(r=>[r.id,r])),next=new Map((after[collection]||[]).map(r=>[r.id,r]));for(const [id,value]of next)if(!equal(old.get(id),value))ops.push({collection,id,value,before:old.get(id)??null});for(const [id]of old)if(!next.has(id))ops.push({collection,id,delete:true,before:old.get(id)})}
+ for(const key of ['profiles','preferences','aiOperations'])for(const id of new Set([...Object.keys(before[key]||{}),...Object.keys(after[key]||{})]))if(!equal(before[key]?.[id],after[key]?.[id]))ops.push({collection:key,id,value:after[key]?.[id],before:before[key]?.[id]??null});
+ if(!equal(before.members,after.members))ops.push({collection:'members',value:after.members,before:before.members});if(!equal(before.customIcons,after.customIcons))ops.push({collection:'customIcons',value:after.customIcons,before:before.customIcons});if(!equal(before.favoriteIcons,after.favoriteIcons))ops.push({collection:'favorites',value:after.favoriteIcons,before:before.favoriteIcons});return ops;
 }
 export function applyChanges(state,ops,actorId,role){
  if(!Array.isArray(ops)||ops.length>250)throw Error('Too many changes in one request.');const next=structuredClone(state),parent=role==='parent',memberIds=new Set(state.members.map(m=>m.id)),derivedHistory=[],xpDeltas=new Map();
+ const birthdayProfiles=new Set(ops.filter(op=>op.collection==='profiles'&&op.value?.birthday!==undefined).map(op=>op.id));
  const priority={members:0,shoppingLists:1,taskLists:1,tasks:2,profiles:4};
  for(const op of [...ops].sort((a,b)=>(priority[a.collection]??3)-(priority[b.collection]??3))){
+  boundedValue(op);
   if(['__proto__','constructor','prototype'].includes(op.id))throw Error('Invalid identifier.');
   if(op.collection==='preferences'){
+   validatePreference(op.id,op.value);
+   if(op.id==='familyPhoto')safePhoto(op.value);
    if(personalFlat.includes(op.id)){next.preferences.personalByUser={...next.preferences.personalByUser,[actorId]:{...next.preferences.personalByUser?.[actorId],[op.id]:op.value}};continue}
    if(personalMaps.includes(op.id)){const value=op.value?.[actorId];next.preferences[op.id]={...next.preferences[op.id],[actorId]:value};continue}
    if(!sharedPreferences.includes(op.id))continue;if(!parent&&['householdName','familyPhoto','goals','familyChallenge','turnOverrides','turnInterval','monthlyBudget'].includes(op.id))throw Error('A parent manages this household setting.');if(op.id==='turnOverrides'){const names=new Set(state.tasks.filter(t=>canSee(t,actorId)&&t.routine).map(t=>t.title));const valid=Object.entries(op.value||{}).filter(([key])=>names.has(key.split('|').slice(1).join('|')));next.preferences.turnOverrides={...next.preferences.turnOverrides,...Object.fromEntries(valid)}}else next.preferences[op.id]=op.value;continue;
   }
   if(op.collection==='profiles'){
-   const member=next.members.find(m=>m.id===op.id);if(!member||op.id!==actorId&&!(parent&&member.role==='child'))throw Error('This profile is private.');const value=structuredClone(op.value||{});if(value.equipped==='cape'&&(next.profiles[op.id]?.xp||0)<400)throw Error('Reach level 5 to equip the moon cape.');delete value.xp;next.profiles[op.id]={...next.profiles[op.id],...value};continue;
+   const member=next.members.find(m=>m.id===op.id);if(!member||op.id!==actorId&&!(parent&&member.role==='child'))throw Error('This profile is private.');const value=structuredClone(op.value||{}),command=value.heroRequest;if(op.id!==actorId&&['notificationPrefs','financePlans','financeNotifications'].some(k=>value[k]!==undefined))throw Error('Personal preferences belong to this profile’s own account.');validateProfile(value,member);if(value.notificationPrefs?.categories?.finance!==undefined)validateFinancePreferences(value.notificationPrefs.categories.finance);if(value.financePlans!==undefined){if(member.role==='child'||op.id!==actorId)throw Error('Adults manage only their own money goals.');validateFinancePlans(value.financePlans)}delete value.heroRequest;delete value.hero;delete value.xp;if(command){if(member.role!=='child')throw Error('Choose a child hero.');next.profiles[op.id]=applyHeroCommand(next.profiles[op.id]||{},command);delete value.equipped}else{if(value.equipped==='cape'&&(next.profiles[op.id]?.xp||0)<400)throw Error('Reach level 5 to equip the moon cape.');if(next.profiles[op.id]?.hero)delete value.equipped}next.profiles[op.id]={...next.profiles[op.id],...value};if(birthdayProfiles.has(op.id)){const birthday=next.events.find(e=>e.id===birthdayEventId(op.id));if(!birthday||canEditContent(birthday,actorId,next.members,'event'))syncBirthday(next,op.id,{name:next.profiles[op.id].name||member.name,birthday:value.birthday,inCalendar:value.birthdayInCalendar!==false,color:value.color||member.color,ownerId:actorId})}continue;
   }
   if(op.collection==='members'){
-   if(!parent)throw Error('A parent manages child profiles.');const children=(op.value||[]).filter(m=>!state.members.some(old=>old.id===m.id));if(children.length>20||children.some(m=>m.role!=='child'))throw Error('Adults join with an invitation and their own account.');for(const child of children){if(!/^[0-9a-f-]{36}$/i.test(child.id)||!text(child.name,80))throw Error('Invalid child profile.');next.members.push({...child,role:'child'});next.profiles[child.id]={name:child.name,he:child.he||child.name,xp:0,displayMode:'pixel',character:'itai'};memberIds.add(child.id)}continue;
+   if(!parent)throw Error('A parent manages child profiles.');const children=(op.value||[]).filter(m=>!state.members.some(old=>old.id===m.id));if(next.members.length+children.length>40||children.length>20||children.some(m=>m.role!=='child'))throw Error('Adults join with an invitation and their own account.');for(const child of children){if(memberIds.has(child.id)||!/^[0-9a-f-]{36}$/i.test(child.id)||!text(child.name,80))throw Error('Invalid child profile.');if(typeof child.he!=='string'&&child.he!==undefined||typeof child.color!=='string'&&child.color!==undefined)throw Error('Choose valid child details.');next.members.push({id:child.id,name:child.name,he:child.he||child.name,color:child.color||'blue',role:'child'});next.profiles[child.id]={name:child.name,he:child.he||child.name,xp:0,displayMode:'pixel',character:'itai'};memberIds.add(child.id)}continue;
   }
-  if(op.collection==='favorites'){next.profiles[actorId].favoriteIcons=(op.value||[]).slice(0,300);continue}
-  if(op.collection==='customIcons'){const mine=(op.value||[]).filter(i=>i.ownerId===actorId);next.customIcons=[...(next.customIcons||[]).filter(i=>i.ownerId!==actorId),...mine.map(i=>({...i,ownerId:actorId,visibility:'private',allowedIds:[]}))];continue}
+  if(op.collection==='favorites'){if(!Array.isArray(op.value)||op.value.length>300||op.value.some(v=>typeof v!=='string'||v.length>180))throw Error('Choose valid favorite icons.');next.profiles[actorId].favoriteIcons=(op.value||[]).slice(0,300);continue}
+  if(op.collection==='customIcons'){for(const icon of op.value||[])if(icon.ownerId===actorId&&!imageData(icon.src,{png:true}))throw Error('Upload a small PNG or JPEG icon.');const mine=(op.value||[]).filter(i=>i.ownerId===actorId);next.customIcons=[...(next.customIcons||[]).filter(i=>i.ownerId!==actorId),...mine.map(i=>({...i,ownerId:actorId,visibility:'private',allowedIds:[]}))];continue}
   if(op.collection==='aiOperations'){if(op.value?.ownerId!==actorId)throw Error('This AI receipt belongs to someone else.');next.aiOperations={...next.aiOperations,[op.id]:op.value};continue}
+  if(op.collection==='events'&&[...birthdayProfiles].some(id=>op.id===birthdayEventId(id)))continue; // The profile branch synchronizes birthdays without widening hidden audiences.
   if(!collections.includes(op.collection)||!text(op.id,140))throw Error('Unsupported record change.');const list=next[op.collection]||[],index=list.findIndex(r=>r.id===op.id),old=index>=0?list[index]:null,value=structuredClone(op.value||{});
   if(old&&!canSee(old,actorId))throw Error('This record is private.');
   if(op.collection==='history'||op.collection==='purchases')continue; // Derived from the corresponding task/item change below.
   if(op.delete){if(!old||old.ownerId!==actorId&&!(op.collection==='shopping'&&old.visibility==='family'))throw Error('Only the owner can remove this record.');if(op.collection==='taskLists')for(const t of next.tasks||[])if(t.listId===op.id)delete t.listId;list.splice(index,1);continue}
-  if(value.id!==op.id||value.ownerId!==(old?.ownerId||actorId))throw Error('Record ownership cannot be changed.');
+  if(value.id!==op.id||value.ownerId!==(old?.ownerId||actorId))throw Error('Record ownership cannot be changed.');validateRecord(op.collection,value);
   if(!['private','family','selected'].includes(value.visibility)||value.visibility==='selected'&&(!Array.isArray(value.allowedIds)||!value.allowedIds.length||value.allowedIds.some(id=>!memberIds.has(id))))throw Error('Choose valid visibility and people.');
   if(old&&old.ownerId!==actorId&&(!equal(old.visibility,value.visibility)||!equal(old.allowedIds||[],value.allowedIds||[])||!equal(old.editPolicy,value.editPolicy)||!equal(old.editorIds||[],value.editorIds||[])))throw Error('Only the owner changes sharing.');
   if(value.memberId&&!memberIds.has(value.memberId)||value.memberIds?.some(id=>!memberIds.has(id)))throw Error('A family member is invalid.');
   if(role==='child'&&op.collection==='tasks'&&value.memberId!==actorId)throw Error('Children assign tasks only to themselves.');
-  if(['documents','contacts','meals','shoppingLists','expenses','bills','taskLists'].includes(op.collection)&&old&&old.ownerId!==actorId)throw Error('Only the owner edits this record.');
+  if(['documents','contacts','meals','shoppingLists','expenses','bills','taskLists','places'].includes(op.collection)&&old&&old.ownerId!==actorId)throw Error('Only the owner edits this record.');
+  if(['events','tasks','places'].includes(op.collection)){const location=normalizeLocation(value.location);if(location){if(typeof value.location!=='string')value.location=location}else delete value.location;if(op.collection==='places'&&!location)throw Error('Choose a location to save.');}
   if(op.collection==='taskLists')validateTaskList(value,memberIds);
+  if(op.collection==='events')validateEventTime(value);
+  if(op.collection==='meals'){if((value.ingredients||[]).length>100)throw Error('Use up to 100 ingredients.');value.ingredients=normalizeIngredients(value.ingredients||[])}
   if(['events','notes'].includes(op.collection)){validateEditAccess(value,memberIds);if(old&&!canEditContent(old,actorId,state.members,op.collection==='notes'?'note':'event'))throw Error('Only the owner or a permitted editor can edit this record.');}
-  if(['expenses','bills'].includes(op.collection)){if(role==='child')throw Error('Expenses are available to adult accounts.');if(!Number.isFinite(value.amount)||value.amount<=0||value.amount>100000000)throw Error('Choose a valid expense amount.');}
+  if(['expenses','bills'].includes(op.collection)){if(role==='child')throw Error('Expenses are available to adult accounts.');if(!Number.isFinite(value.amount)||value.amount<=0||value.amount>100000000)throw Error('Choose a valid expense amount.');if(op.collection==='expenses'&&value.flow!==undefined&&!['expense','income','savings'].includes(value.flow))throw Error('Choose income or expense.');}
   if(op.collection==='pantry'){if(!text(value.title,160)||!Number.isFinite(value.quantityValue)||value.quantityValue<0||!Number.isFinite(value.minimum)||value.minimum<0)throw Error('Choose valid inventory quantities.');value.updatedBy=actorId;value.updatedAt=new Date().toISOString();}
   if(op.collection==='shopping'){
    const target=(next.shoppingLists||[]).find(l=>l.id===(value.listId||'week'));if(!target||!canAccessList(target,actorId))throw Error('This shopping list is unavailable.');if(target.visibility==='private'&&value.visibility!=='private'||target.visibility==='selected'&&(value.visibility==='family'||value.allowedIds.some(id=>!target.allowedIds.includes(id)&&id!==target.ownerId)))throw Error('An item cannot be shared more widely than its list.');if(!text(value.title,160)||!Number.isFinite(value.quantityValue||parseFloat(value.quantity))||Number(value.quantityValue||parseFloat(value.quantity))<=0)throw Error('Invalid shopping item.');
    if(value.done!==!!old?.done){value.boughtAt=value.done?new Date().toISOString():null;value.boughtBy=value.done?actorId:null;next.purchases.push({...value,purchaseId:crypto.randomUUID(),date:new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})})}
   }
   if(op.collection==='tasks'){
+   if(value.serviceRequest){
+    if(!old||old.category!=='maintenance'||!(parent||old.ownerId===actorId||old.memberId===actorId))throw Error('This maintenance task belongs to another person.');
+    const command=value.serviceRequest;
+    if(old.serviceHistory?.some(r=>r.id===command.id))continue;
+    const plain={...value};delete plain.serviceRequest;if(!equal(plain,old))throw Error('Record service separately from editing the task.');
+    const result=recordMaintenanceService(old,command,actorId,{today:new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})});
+    list[index]=result;next[op.collection]=list;derivedHistory.push({id:crypto.randomUUID(),taskId:old.id,title:old.title,he:old.he,memberId:old.memberId,date:command.date,time:new Date().toLocaleTimeString('en-GB',{timeZone:HOME_TIMEZONE,hour:'2-digit',minute:'2-digit'}),done:true,state:'done',ownerId:old.ownerId,visibility:old.visibility,allowedIds:old.allowedIds||[],xp:0,icon:old.icon,actorId});continue;
+   }
+   if(!equal(value.serviceHistory,old?.serviceHistory)||!equal(value.nextServiceDate,old?.nextServiceDate))throw Error('Use the maintenance service control to record service.');
    if(value.listId&&!taskFitsList(value,(next.taskLists||[]).find(l=>l.id===value.listId)))throw Error('This task list is unavailable.');
    if(value.shoppingListId&&!taskFitsList(value,(next.shoppingLists||[]).find(l=>l.id===value.shoppingListId)))throw Error('This shopping list is unavailable.');
    if(!parent){value.xp=old?.xp||0;value.parentConfirm=old?.parentConfirm||false;value.routine=old?.routine||false;if(old&&(old.routine||old.ownerId!==actorId)){const permitted=new Set(['done','completedAt','completions']);for(const key of Object.keys(value))if(!permitted.has(key)&&!equal(value[key],old[key]))throw Error('A parent manages routine details.')}}

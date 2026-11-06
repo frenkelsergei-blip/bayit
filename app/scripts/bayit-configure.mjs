@@ -22,8 +22,10 @@ for(const name of ['wrangler.jsonc','wrangler.worker.jsonc']){
  if(project&&name==='wrangler.jsonc')config.name=project;
  for(const d of config.d1_databases||[]){if(databaseId)d.database_id=databaseId;d.database_name=database}
  for(const b of config.r2_buckets||[])b.bucket_name=bucket;
+ if(project)config.services=[...(config.services||[]).filter(s=>s.binding!=='PDF_READER'),{binding:'PDF_READER',service:project+'-pdf'}];
  writeFileSync(file,JSON.stringify(config,null,2)+'\n');changed.push(name);
 }
+const pdfFile=join(app,'wrangler.pdf.jsonc');if(project&&existsSync(pdfFile)){const config=JSON.parse(readJSONC(pdfFile));config.name=project+'-pdf';writeFileSync(pdfFile,JSON.stringify(config,null,2)+'\n');changed.push('wrangler.pdf.jsonc')}
 // The scheduler config has comments, so only its BAYIT_ORIGIN value is replaced.
 const cron=join(app,'wrangler.cron.jsonc');
 if(origin&&existsSync(cron)){const s=readFileSync(cron,'utf8'),next=s.replace(/("BAYIT_ORIGIN"\s*:\s*")[^"]*(")/,'$1'+origin+'$2');if(next!==s){writeFileSync(cron,next);changed.push('wrangler.cron.jsonc')}}

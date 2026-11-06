@@ -35,3 +35,10 @@ test('age is counted from the birthday',()=>{
  assert.equal(ageOn('2019-03-14','2026-03-14'),7);
  assert.equal(ageOn('',  '2026-03-14'),null);
 });
+
+for(const visibility of ['private','selected'])test('profile edits preserve '+visibility+' birthday permissions',()=>{
+ const existing={id:birthdayEventId('kid'),visibility,ownerId:'mom',allowedIds:visibility==='selected'?['kid']:[],editPolicy:'selected',editorIds:['kid'],date:'2019-03-14'};
+ const d={events:[existing]};
+ syncBirthday(d,'kid',{name:'New name',birthday:'2019-03-15',inCalendar:true,ownerId:'dad'});
+ for(const key of ['visibility','ownerId','allowedIds','editPolicy','editorIds'])assert.deepEqual(d.events[0][key],existing[key],key+' is preserved');
+});

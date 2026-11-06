@@ -30,7 +30,7 @@ export function DevicePush({a,Button}){
   if(!a.cloud){setState('preview');return}
   if(!supported()){setState(isIOS()&&!standalone()?'ios-install':'unsupported');return}
   if(Notification.permission==='denied'){setState('denied');return}
-  try{const reg=await navigator.serviceWorker.getRegistration('/');const sub=await reg?.pushManager.getSubscription();setState(sub?'on':'off')}catch{setState('off')}
+  try{const reg=await navigator.serviceWorker.getRegistration('/');const sub=await reg?.pushManager.getSubscription();const status=sub?await api('status?endpoint='+encodeURIComponent(sub.endpoint)):null;setState(sub&&status?.registered?'on':'off')}catch{setState('off')}
  };
  useEffect(()=>{refresh()},[a.cloud]);
  const enable=async()=>{
@@ -71,6 +71,7 @@ export function DevicePush({a,Button}){
    {state==='on'&&<Button secondary icon={BellSlash} disabled={busy} onClick={disable}>{T('Turn off','כיבוי')}</Button>}
   </div>
   {status[1]&&<p className="device-push-hint">{status[1]}</p>}
+  {a.cloud&&<label className="setting-toggle"><input type="checkbox" checked={a.data.profiles?.[a.user]?.notificationPrefs?.previews===true} onChange={e=>{const checked=e.target.checked;a.update(d=>{const p=d.profiles[a.user];p.notificationPrefs={...p.notificationPrefs,previews:checked}})}}/>{T('Show notification text on the lock screen','הצגת תוכן ההתראות במסך הנעילה')}</label>}
   {state==='ios-install'&&<ol className="device-push-steps"><li><Export size={20}/>{T('In Safari, tap Share','ב־Safari לוחצים על שיתוף')}</li><li><PlusSquare size={20}/>{T('Choose “Add to Home Screen”','בוחרים „הוספה למסך הבית”')}</li><li><Bell size={20}/>{T('Open Bayit from its icon and turn notifications on here','פותחים את Bayit מהאייקון ומפעילים כאן התראות')}</li></ol>}
   {state==='on'&&<Button secondary icon={PaperPlaneTilt} disabled={busy} onClick={test}>{T('Send a test','שליחת בדיקה')}</Button>}
   {isIOS()&&['off','on'].includes(state)&&<p className="device-push-hint"><Info size={16}/>{T('On iPhone, notifications work only in the Home Screen app.','באייפון ההתראות עובדות רק מאפליקציית מסך הבית.')}</p>}

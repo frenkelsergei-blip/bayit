@@ -1,0 +1,15 @@
+/* Family identity and person pills retain the selected portrait/name anatomy.
+   The family badge uses design-system/tokens.json light.yellow as part of the mark. */
+:root{--family-portrait-background:#FEEDC1}
+html:root .avatar.family-home-avatar{display:inline-flex!important;align-items:center;justify-content:center;background:var(--family-portrait-background)!important;border-radius:50%!important;overflow:hidden;box-sizing:border-box}
+html:root .avatar.family-home-avatar>.color-icon{width:76%!important;height:76%!important;object-fit:contain;border-radius:0;box-shadow:none;flex:none}
+html:root .family-hero-photo>.avatar{width:var(--family-menu-portrait-size,clamp(64px,11.5vh,108px))!important;height:var(--family-menu-portrait-size,clamp(64px,11.5vh,108px))!important;border-radius:50%!important;object-fit:cover;object-position:center;box-sizing:border-box}
+html:root .family-photo-edit>.avatar{border-radius:50%!important;object-fit:cover;object-position:center}
+/* The circle protrudes by about 11% on both block edges. Legacy module rules
+   must not shrink the circle inside a taller name capsule. */
+html:root .person-chip.calendar-person{display:inline-flex!important;align-items:center!important;justify-content:flex-start;min-height:calc(var(--chip-avatar,44px) * .78)!important;height:auto;padding-block:0!important;padding-inline:0 14px!important;gap:8px;border-radius:999px;box-sizing:border-box;overflow:visible}
+html:root .person-chip.calendar-person>.avatar{width:var(--chip-avatar,44px)!important;height:var(--chip-avatar,44px)!important;min-width:var(--chip-avatar,44px)!important;min-height:var(--chip-avatar,44px)!important;max-width:var(--chip-avatar,44px)!important;max-height:var(--chip-avatar,44px)!important;flex:0 0 var(--chip-avatar,44px);margin-block:calc(var(--chip-avatar,44px) * -.11)!important;margin-inline:0!important;border-radius:50%!important;box-sizing:border-box}
+html:root .person-chip.calendar-person>.person-chip-name{line-height:1.35;align-self:center;min-width:0}
+
+@media(min-width:701px) and (max-width:1023px){.sidebar .family-hero-photo{--family-menu-portrait-size:52px}}
+:root[data-menu=slim] .sidebar .family-hero-photo{--family-menu-portrait-size:52px}

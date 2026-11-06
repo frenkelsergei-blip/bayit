@@ -16,19 +16,19 @@
 html[data-density=compact] .tasks-v2 .tasks-v2-layout{margin-top:10px}
 html[data-density=compact] .tasks-v2 .tasks-group{margin-bottom:10px}
 /* Slim sticky group band (Today, Tomorrow, Overdue, priority groups keep their colours) */
-html[data-density=compact] .tasks-v2 .tasks-group>h3{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:6px;margin:0;padding:3px 10px;min-height:28px;box-sizing:border-box;border-radius:9px;background:var(--dens-band);font-size:calc(14.5px * var(--text-scale,1));line-height:1.2;--dens-band:color-mix(in srgb,var(--yellow,#ffe8a3) 55%,var(--bg))}
-html[data-density=compact] .tasks-v2 .tasks-group>h3>span{padding:0;background:none!important;color:inherit;gap:6px}
-html[data-density=compact] .tasks-v2 .tasks-group>h3>small{color:var(--text);opacity:.65;font-weight:850}
-html[data-density=compact] .tasks-v2 .tasks-group>h3>small::before{content:"("}
-html[data-density=compact] .tasks-v2 .tasks-group>h3>small::after{content:")"}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-today>h3{--dens-band:var(--yellow,#ffe8a3)}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-overdue>h3{--dens-band:#ffe3da;color:#8a2a14}
-html[data-theme=dark][data-density=compact] .tasks-v2 .tasks-group.tone-overdue>h3{--dens-band:#4a2219;color:#ffd9cf}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-high>h3{--dens-band:var(--prio-high-soft)}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-medium>h3{--dens-band:var(--yellow)}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-low>h3{--dens-band:var(--prio-low-soft)}
-html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-none>h3{--dens-band:var(--lilac)}
-html[data-density=compact] .tasks-v2 .tasks-group>h3 .prio-mark{--prio-size:15px!important;width:15px;height:15px}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3){position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:6px;margin:0;padding:3px 10px;min-height:28px;box-sizing:border-box;border-radius:9px;background:var(--dens-band);font-size:calc(14.5px * var(--text-scale,1));line-height:1.2;--dens-band:color-mix(in srgb,var(--yellow,#ffe8a3) 55%,var(--bg))}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3)>span{padding:0;background:none!important;color:inherit;gap:6px}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3)>small{color:var(--text);opacity:.65;font-weight:850}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3)>small::before{content:"("}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3)>small::after{content:")"}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-today>:is(h2,h3){--dens-band:var(--yellow,#ffe8a3)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-overdue>:is(h2,h3){--dens-band:#ffe3da;color:#8a2a14}
+html[data-theme=dark][data-density=compact] .tasks-v2 .tasks-group.tone-overdue>:is(h2,h3){--dens-band:#4a2219;color:#ffd9cf}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-high>:is(h2,h3){--dens-band:var(--prio-high-soft)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-medium>:is(h2,h3){--dens-band:var(--yellow)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-low>:is(h2,h3){--dens-band:var(--prio-low-soft)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-none>:is(h2,h3){--dens-band:var(--lilac)}
+html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3) .prio-mark{--prio-size:15px!important;width:15px;height:15px}
 
 /* One-line row: check · icon · title + inline meta · lock · mini avatar */
 html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{grid-template-columns:20px 24px minmax(0,1fr) 14px 22px!important;column-gap:10px!important;min-height:34px!important;padding-block:2px!important;padding-inline:8px!important;font-size:calc(15px * var(--text-scale,1));border-radius:0;align-items:center}
@@ -40,7 +40,7 @@ html[data-density=compact] .tasks-v2 .tasks-meta>.tasks-meta-time{display:inline
 html[data-density=compact] .tasks-v2 .tasks-meta>span{flex:none;gap:3px;white-space:nowrap}
 html[data-density=compact] .tasks-v2 .tasks-meta svg{width:12px;height:12px}
 html[data-density=compact] .tasks-v2 .tasks-meta-list,html[data-density=compact] .tasks-v2 .tasks-meta-trip{padding:0;background:none;color:var(--muted)}
-html[data-density=compact] .tasks-v2 .tasks-meta>span:last-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html[data-density=compact] .tasks-v2 .tasks-meta>span:last-child:not(.tasks-meta-time){flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 html[data-density=compact] .tasks-v2 .tasks-note{grid-column:2;grid-row:1;min-width:0;margin:0;font-size:calc(13px * var(--text-scale,1));line-height:1.3}
 html[data-density=compact] .tasks-v2 .tasks-col-lock svg{width:14px;height:14px}
 html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row>.tasks-assignee{padding:0!important;background:none!important;gap:0;justify-self:end!important}
@@ -171,7 +171,7 @@ html[data-density=compact] .tasks-v2 .tasks-row.done>.tasks-assignee{opacity:.65
 @media(max-width:700px){
  html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{min-height:38px!important;padding-inline:4px!important;column-gap:9px!important}
  html[data-density=compact] .tasks-v2 .task-row.tasks-row.has-prio:not(.done){padding-inline-start:3px!important}
- html[data-density=compact] .tasks-v2 .tasks-group>h3{top:var(--dens-sticky-top,67px)}
+ html[data-density=compact] .tasks-v2 .tasks-group>:is(h2,h3){top:var(--dens-sticky-top,67px)}
  html[data-density=compact] .shop2 .shop2-row{min-height:38px;padding-inline:2px}
  .calendar-agenda.density-compact .agenda-event{grid-template-columns:44px 3px 24px minmax(0,1fr) 54px 14px;gap:8px;padding-inline:4px;min-height:38px}
  .calendar-agenda.density-compact .agenda-day-head{top:var(--dens-sticky-top,67px)}

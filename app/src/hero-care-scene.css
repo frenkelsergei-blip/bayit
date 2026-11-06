@@ -1,0 +1,32 @@
+/* Complete generated action scenes, with flat chroma removed to RGBA PNG strips. */
+.hero-room-camera{position:absolute;inset:0;transition:transform .7s ease;transform-origin:50% 75%;isolation:isolate}
+.hero-room[data-scenario=feed] .hero-room-camera{transform:scale(1.2);transform-origin:48% 78%}
+.hero-room[data-scenario=wash] .hero-room-camera{transform:scale(1.5);transform-origin:100% 78%}
+.hero-room[data-scenario=sleep] .hero-room-camera{transform:scale(1.7);transform-origin:0% 83%}
+.hero-room[data-scenario] .hero-hotspot{display:none}
+.hero-care-scene-position{position:absolute;z-index:4;pointer-events:none;isolation:isolate;aspect-ratio:1}
+.hero-care-scene-sprite{position:absolute;inset:0;display:block;overflow:hidden;line-height:0;image-rendering:pixelated}
+.hero-care-scene-frames{position:absolute;display:block;left:0;top:0;width:300%;height:100%;max-width:none;object-fit:fill;image-rendering:pixelated;animation:hero-care-frames 1.65s steps(3,end) infinite}
+.hero-care-scene-feed{left:24%;bottom:2%;width:48%}
+.hero-care-scene-wash{left:75%;bottom:12%;width:27%}
+.hero-care-scene-sleep{left:1%;bottom:9%;width:29%}
+.hero-room[data-scenario] .hero-actor-position{opacity:0;transform:none;transition:opacity .25s}
+.hero-room.is-sleeping .hero-actor{transform:none}
+.hero-room[data-animation=feed] .hero-care-scene-position,.hero-room[data-animation=wash] .hero-care-scene-position,.hero-room[data-animation=sleep] .hero-care-scene-position{animation:hero-care-arrive .5s step-end both}
+.hero-room[data-animation=sleep] .hero-actor-position{display:block;left:29%;bottom:0;width:37%;height:76%;animation:hero-walk-bed .65s ease-in both}
+.hero-room[data-animation=wash] .hero-actor-position{left:29%;bottom:0;width:37%;height:76%;animation:hero-walk-shower .65s ease-in both}
+.hero-room[data-animation=feed] .hero-actor-position{left:29%;bottom:0;width:37%;height:76%;animation:hero-sit-down .5s ease-in both}
+.hero-scene-meal{position:absolute;left:40%;top:53%;width:20%;height:16%;object-fit:contain;image-rendering:pixelated;z-index:3;pointer-events:none}
+.hero-care-keepsakes{position:absolute;right:0;bottom:4%;display:flex;align-items:flex-end;justify-content:flex-end;gap:2px;width:35%;height:15%;z-index:5;pointer-events:none}
+.hero-care-keepsakes>img{width:29%;height:100%;object-fit:contain;image-rendering:pixelated}
+.hero-care-scene-wash .hero-care-keepsakes{right:10%;bottom:7%;width:35%}
+.hero-care-scene-sleep .hero-care-keepsakes{right:-8%;bottom:4%;width:42%;height:14%}
+@keyframes hero-care-frames{to{transform:translateX(-100%)}}
+@keyframes hero-care-arrive{from{opacity:0}to{opacity:1}}
+@keyframes hero-walk-bed{0%{left:29%;bottom:0;opacity:1}65%{left:-4%;bottom:6%;opacity:1}100%{left:-4%;bottom:6%;opacity:0}}
+@keyframes hero-walk-shower{0%{left:29%;bottom:0;opacity:1}65%{left:76%;bottom:9%;opacity:1}100%{left:76%;bottom:9%;opacity:0}}
+@keyframes hero-sit-down{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(5%)}}
+@media(max-width:700px){.hero-room[data-scenario=sleep] .hero-room-camera{transform:scale(1.95);transform-origin:0% 85%}.hero-room[data-scenario=wash] .hero-room-camera{transform:scale(1.7);transform-origin:100% 80%}}
+@media(prefers-reduced-motion:reduce){.hero-care-scene-position{opacity:1!important}.hero-room-camera,.hero-care-scene-frames,.hero-care-scene-position{animation:none!important;transition:none!important}.hero-room[data-scenario] .hero-actor-position{animation:none!important;opacity:0!important}}
+html[data-motion=reduced] .hero-care-scene-position{opacity:1!important}
+html[data-motion=reduced] .hero-room[data-scenario] .hero-actor-position{opacity:0!important}

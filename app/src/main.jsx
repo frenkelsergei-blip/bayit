@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import {CloudRoot} from "./cloud-client.jsx";
 import { App } from "./App.jsx";
+import {RenderBoundary} from './render-boundary';
 import {registerServiceWorker} from "./device-push.jsx";
 import "./device-push.css";
 import "./detail-title.css";
@@ -32,6 +33,7 @@ import "./tasks-v2.css";
 import "./scroll-hints.css";
 import "./scroll-hints.js";
 import "./person-chips.css";
+import "./view-preservation.css";
 import "./avatar-stack.css";
 import "./people-picker.css";
 import "./swipe-row.css";
@@ -42,10 +44,14 @@ import "./calendar-card.css";
 import "./shopping-v2.css";
 import "./audit-fixes-b.css";
 import "./priority.css";
+import "./hero-home.css";
+import "./hero-care-scene.css";
+import "./remediation.css";
+import "./identity-consistency.css";
 
 if(import.meta.env.VITE_BAYIT_CLOUD)registerServiceWorker();
 createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <React.StrictMode><RenderBoundary>
     {import.meta.env.VITE_BAYIT_CLOUD?<CloudRoot App={App}/>:<App/>}
-  </React.StrictMode>,
+  </RenderBoundary></React.StrictMode>,
 );

@@ -13,7 +13,6 @@ button,[role=button],a,label,summary{-webkit-tap-highlight-color:transparent}
 /* Stronger selected state (owner feedback): filled colour, white name, white ring and a check on the photo. */
 .calendar-person.chosen,.calendar-person[aria-pressed=true]{background:var(--primary)!important;color:var(--onPrimary,#fff)!important;font-weight:900;position:relative}
 .calendar-person.chosen>.avatar,.calendar-person[aria-pressed=true]>.avatar{box-shadow:0 0 0 3px var(--primary),0 0 0 5px var(--onPrimary,#fff),0 4px 12px #10152a40!important}
-.calendar-person.chosen::after,.calendar-person[aria-pressed=true]::after{content:"";position:absolute;inset-inline-start:calc(var(--chip-avatar,44px) - 12px);top:-4px;width:20px;height:20px;border-radius:50%;background:#2fa86b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='none' stroke='white' stroke-width='28' stroke-linecap='round' stroke-linejoin='round' d='M56 132l48 48 96-96'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 0 0 2px var(--surface,#fff);z-index:2}
 .calendar-all-members.chosen{background:var(--primary)!important;color:var(--onPrimary,#fff)!important;box-shadow:none!important}
 :root[data-theme=dark] .calendar-person.chosen,:root[data-theme=dark] .calendar-person[aria-pressed=true],:root[data-theme=dark] .calendar-all-members.chosen{background:var(--primary)!important;color:var(--onPrimary,#fff)!important}
 .people-picker-option.on{background:var(--primary)!important;color:var(--onPrimary,#fff)!important}

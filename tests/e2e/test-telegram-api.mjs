@@ -1,7 +1,8 @@
+import {mkdirSync as makeQADirectory} from 'node:fs';makeQADirectory('work/qa',{recursive:true});
 // Local regression for the Telegram integration against `wrangler dev` with a FAKE Telegram Bot API.
 // It proves server behaviour only; it does not show that a real Telegram bot delivered anything.
-// Start the backend with TELEGRAM_API_ORIGIN=http://127.0.0.1:8899 and REMINDER_CRON_SECRET=local-test-cron-secret,
-// then run: BAYIT_TEST_ORIGIN=http://127.0.0.1:8791 WRANGLER_PERSIST=<dir> node tests/e2e/test-telegram-api.mjs (see docs/testing.md)
+// Start the backend with TELEGRAM_API_ORIGIN=http://127.0.0.1:8899 and REMINDER_CRON_SECRET=local-test-cron-secret-for-release-qa,
+// then run: BAYIT_TEST_ORIGIN=http://127.0.0.1:8791 WRANGLER_PERSIST=<dir> node work/test-telegram-api.mjs
 import assert from 'node:assert/strict';import http from 'node:http';import fs from 'node:fs/promises';import {execFileSync} from 'node:child_process';import os from 'node:os';
 const base=process.env.BAYIT_TEST_ORIGIN||'http://127.0.0.1:8791',persist=process.env.WRANGLER_PERSIST,checks=[];
 const CHAT=100000+Math.floor(Math.random()*800000),OTHER=CHAT+1;// Fresh chat IDs per run keep earlier runs' households apart.
@@ -66,10 +67,10 @@ let saved=await api('one','/api/households/'+home+'/changes',{baseRevision:state
 state=await api('two','/api/households/'+home+'/state');saved=await api('two','/api/households/'+home+'/changes',{baseRevision:state.revision,changes:[{collection:'tasks',id:'tg-private-task',value:{id:'tg-private-task',title:'Secret birthday gift',he:'מתנה סודית',memberId:'fixture-user-one',ownerId:'fixture-user-two',visibility:'private',allowedIds:[],date,time:soon.time,xp:0,done:false}}]});assert.equal(saved.status,200);
 // Reminder tick
 assert.equal((await tick('wrong')).status,401);checks.push('The reminder endpoint requires the scheduler secret');
-mark=calls.length;let result=await tick('local-test-cron-secret');assert.equal(result.ok,true);const delivered=sent(CHAT,mark),texts=delivered.map(c=>c.body.text).join('\n');
+mark=calls.length;let result=await tick('local-test-cron-secret-for-release-qa');assert.equal(result.ok,true);const delivered=sent(CHAT,mark),texts=delivered.map(c=>c.body.text).join('\n');
 assert.match(texts,/Water the plants/);assert.match(texts,/Good morning/);assert.doesNotMatch(texts,/Secret birthday gift/);checks.push('Reminder and morning summary are delivered; another person’s private task assigned to the recipient is excluded');
 const reminder=delivered.find(c=>/Reminder/.test(c.body.text));const [doneButton,snoozeButton]=reminder.body.reply_markup.inline_keyboard[0];assert.ok(doneButton.callback_data.length<=64);
-mark=calls.length;result=await tick('local-test-cron-secret');assert.equal(sent(CHAT,mark).length,0);checks.push('A second tick does not send the same reminder again');
+mark=calls.length;result=await tick('local-test-cron-secret-for-release-qa');assert.equal(sent(CHAT,mark).length,0);checks.push('A second tick does not send the same reminder again');
 // Buttons
 mark=calls.length;await deliver(press(CHAT,doneButton.callback_data,9999));assert.equal(answers(mark)[0].body.show_alert,true);state=await api('one','/api/households/'+home+'/state');assert.notEqual(state.data.tasks.find(t=>t.id==='tg-family-task').completions?.[date]?.state,'done');checks.push('A button pressed by a different Telegram user is refused');
 mark=calls.length;await deliver(press(CHAT,doneButton.callback_data));assert.match(answers(mark)[0].body.text,/Marked as done/);state=await api('one','/api/households/'+home+'/state');assert.equal(state.data.tasks.find(t=>t.id==='tg-family-task').completions[date].state,'done');assert.ok(state.data.history.some(h=>h.taskId==='tg-family-task'&&h.done));checks.push('Done completes the task through the server authorization path and records history');
@@ -134,10 +135,24 @@ state=await api('one','/api/households/'+home+'/state');assert.equal(state.data.
 mark=calls.length;await deliver(pressFrom(appliedChanges,/Undo/));assert.match(answers(mark)[0].body.text,/Undone: 2/);state=await api('one','/api/households/'+home+'/state');assert.notEqual(state.data.tasks.find(t=>t.id==='tg-trash').completions[date].state,'done');assert.equal(state.data.events.find(e=>e.id==='tg-event').time,'17:00');
 checks.push('The AI can complete and edit existing items (here a task and an event): nothing changes before Apply, and Undo restores both');
 mark=calls.length;await deliver(message(CHAT,'TEST-DELETE-OTHERS delete the private task'));assert.match(sent(CHAT,mark).at(-1).body.text,/not available to you/);checks.push('The AI cannot touch records the person cannot see (another person’s private task)');
+// Finance thresholds use the same linked recipient, server records and once-per-stage delivery claims.
+state=await api('one','/api/households/'+home+'/state');
+const financeProfile={...state.data.profiles['fixture-user-one'],locale:'en',financePlans:{family:{expenseLimit:10000,warningPercent:80,priceAlerts:false}},notificationPrefs:{...state.data.profiles['fixture-user-one']?.notificationPrefs,categories:{...state.data.profiles['fixture-user-one']?.notificationPrefs?.categories,finance:{enabled:true,telegram:true,push:false,quietStart:'00:00',quietEnd:'00:00'}}}};
+const financeExpense=(id,amount,visibility='family')=>({id,title:id,he:id,amount,date,category:'Groceries',flow:'expense',ownerId:'fixture-user-one',memberId:'fixture-user-one',visibility,allowedIds:[]});
+saved=await api('one','/api/households/'+home+'/changes',{baseRevision:state.revision,changes:[{collection:'profiles',id:'fixture-user-one',value:financeProfile},{collection:'expenses',id:'finance-shared',value:financeExpense('finance-shared',90)},{collection:'expenses',id:'finance-private',value:financeExpense('finance-private',99999,'private')}]});assert.ok(saved.revision);
+mark=calls.length;await tick('local-test-cron-secret-for-release-qa');let financeSent=sent(CHAT,mark).filter(c=>/Monthly spending limit/.test(c.body.text));assert.equal(financeSent.length,1);assert.match(financeSent[0].body.text,/90/);assert.doesNotMatch(financeSent[0].body.text,/99,999/);
+mark=calls.length;await tick('local-test-cron-secret-for-release-qa');assert.equal(sent(CHAT,mark).filter(c=>/Monthly spending limit/.test(c.body.text)).length,0);
+state=await api('one','/api/households/'+home+'/state');await api('one','/api/households/'+home+'/changes',{baseRevision:state.revision,changes:[{collection:'expenses',id:'finance-more',value:financeExpense('finance-more',20)}]});
+mark=calls.length;await tick('local-test-cron-secret-for-release-qa');assert.equal(sent(CHAT,mark).filter(c=>/Monthly spending limit/.test(c.body.text)).length,1);
+mark=calls.length;await tick('local-test-cron-secret-for-release-qa');assert.equal(sent(CHAT,mark).filter(c=>/Monthly spending limit/.test(c.body.text)).length,0);checks.push('Money warnings and exceeded limits reach the opted-in linked chat once per stage, excluding private records from the shared budget');
+// The optional weekly digest is scheduled for this local day/time and claimed independently.
+state=await api('one','/api/households/'+home+'/state');const weeklyProfile={...state.data.profiles['fixture-user-one'],notificationPrefs:structuredClone(state.data.profiles['fixture-user-one'].notificationPrefs)};Object.assign(weeklyProfile.notificationPrefs.categories.finance,{weeklySummary:true,weeklyDay:new Date(date+'T12:00Z').getUTCDay(),weeklyTime:time});await api('one','/api/households/'+home+'/changes',{baseRevision:state.revision,changes:[{collection:'profiles',id:'fixture-user-one',value:weeklyProfile}]});
+mark=calls.length;await tick('local-test-cron-secret-for-release-qa');const weeklySent=sent(CHAT,mark).filter(c=>/Your weekly money summary/.test(c.body.text));assert.equal(weeklySent.length,1);assert.doesNotMatch(weeklySent[0].body.text,/99,999/);mark=calls.length;await tick('local-test-cron-secret-for-release-qa');assert.equal(sent(CHAT,mark).filter(c=>/Your weekly money summary/.test(c.body.text)).length,0);checks.push('The weekly money summary uses the chosen local day/time, excludes own-private data from shared scope and is sent once');
 // Test message, unlink, disconnect
 assert.equal((await api('one','/api/telegram/test',{})).sent,true);assert.equal((await api('two','/api/telegram/test',{})).status,409);checks.push('Send test reports success only after Telegram accepts the message');
 status=await api('one','/api/telegram/link/fixture-user-one',undefined,'DELETE');assert.equal(status.members.find(m=>m.id==='fixture-user-one').linked,false);
 mark=calls.length;await deliver(message(CHAT,'/today'));assert.match(sent(CHAT,mark)[0].body.text,/not linked/);checks.push('Unlink stops access from that chat immediately');
 status=await api('one','/api/telegram/bot',undefined,'DELETE');assert.equal(status.connected,false);assert.ok(calls.some(c=>c.method==='deleteWebhook'));assert.equal(await deliver(message(CHAT,'/today')),404);checks.push('Disconnect removes the webhook and the stored bot');
+await fs.writeFile(new URL('qa/telegram-api-results.json',import.meta.url),JSON.stringify({ranAt:new Date().toISOString(),telegram:'fake local Bot API (no real Telegram delivery)',checks},null,2));
 console.log(checks.map(c=>'✔ '+c).join('\n'));console.log(checks.length+' checks passed');
 }finally{fake.close()}

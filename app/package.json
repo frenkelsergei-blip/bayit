@@ -1,6 +1,6 @@
 {
   "name": "bayit",
-  "version": "1.16.0",
+  "version": "1.18.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "dev:ai": "node ../server/local-ai.mjs",
     "test:ai": "node --test ../tests/ai.test.mjs",
     "build:cloud": "node cloud/build.mjs",
-    "deploy:cloud": "npm run build:pages && wrangler pages deploy dist/pages --project-name bayit --branch main --force",
+    "deploy:cloud": "npm run build:pages && wrangler deploy --config wrangler.pdf.jsonc && wrangler pages deploy dist/pages --project-name bayit --branch main --force",
     "test:domain": "node --test ../tests/*.test.mjs",
     "build:pages": "npm run build:cloud && node cloud/prepare-pages.mjs",
     "deploy:reminders": "wrangler deploy --config wrangler.cron.jsonc",
@@ -29,7 +29,8 @@
     "react-dom": "19.2.0",
     "recharts": "^3.10.1",
     "unpdf": "1.8.1",
-    "vite": "6.4.2"
+    "vite": "6.4.5",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

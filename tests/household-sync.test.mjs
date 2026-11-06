@@ -59,3 +59,13 @@ test('a connection failure keeps the change queued and sends it with the next sa
  assert.deepEqual(srv.state.data.tasks.map(t=>t.title),['Water plants']);
  assert.deepEqual(srv.state.data.events.map(e=>e.title),['Dinner']);
 });
+
+test('a repeated no-op save waits for the pending authoritative write',async()=>{
+ const before={profiles:{mom:{name:'Mom'}},preferences:{}},after=structuredClone(before);after.profiles.mom.name='New name';let release,requests=0;
+ const client=new HouseholdClient('h',{revision:1,data:before},async()=>{requests++;return new Promise(resolve=>{release=resolve})});
+ const first=client.save(before,after);let settled=false;const repeated=client.save(after,after).then(()=>{settled=true});await Promise.resolve();await Promise.resolve();assert.equal(settled,false);assert.equal(requests,1);release({revision:2,data:after});await Promise.all([first,repeated]);assert.equal(settled,true);
+});
+
+test('loss of household membership during polling refreshes account access',async()=>{
+ const previous=globalThis.document;globalThis.document={visibilityState:'visible'};try{let refreshed=false;const client=new HouseholdClient('h',{revision:1,data:{}},async()=>{throw Object.assign(Error('Household unavailable'),{status:403})});client.listeners.unauthorized=()=>{refreshed=true};await client.poll();assert.equal(refreshed,true)}finally{globalThis.document=previous}
+});
