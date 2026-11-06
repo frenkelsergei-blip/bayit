@@ -34,10 +34,11 @@ export function agenda(visible,memberId,date){
  return items.sort((a,b)=>(a.time||'99:99').localeCompare(b.time||'99:99'));
 }
 
-// The morning summary is sent once, in the hour after the chosen time, outside quiet hours.
+// The daily summary is sent once, in the hour after the time the person chose. That choice is explicit,
+// so it is sent even inside quiet hours (the default quiet hours end at 07:00, after the earliest summary time).
 export function digestDue(visible,memberId,{date,time}){
  const prefs=notificationPrefs(visible.profiles?.[memberId]),at=minutes(prefs.digest),now=minutes(time);
- if(at===null||now===null||now<at||now>at+60||inQuietHours(time,prefs.quietStart,prefs.quietEnd))return null;
+ if(at===null||now===null||now<at||now>at+60)return null;
  return {key:'digest:'+date,items:agenda(visible,memberId,date)};
 }
 

@@ -69,8 +69,8 @@ export function TelegramSettings({app:a,ui:{Button,Badge,Avatar},recipient}){
   </section>
 
   <section className="telegram-section">
-   <Step n="3">{a.T('Morning summary','סיכום בוקר')}</Step>
-   <div className="telegram-digest"><img src="/assets/icons/bayit/pixel/smiling-sun-64.png" alt="" width="48" height="48"/><div><span>{a.T('Today’s plan, sent to Telegram at','התוכנית להיום, נשלחת לטלגרם בשעה')}</span><Select aria-label={a.T('Morning summary time','שעת סיכום הבוקר')} value={digest} onChange={e=>setDigest(e.target.value)}><option value="">{a.T('Off','כבוי')}</option>{['06:30','07:00','07:30','08:00','08:30'].map(t=><option key={t} value={t}>{t}</option>)}</Select></div></div>
+   <Step n="3">{a.T('Daily summary','סיכום יומי')}</Step>
+   <div className="telegram-digest"><img src="/assets/icons/bayit/pixel/smiling-sun-64.png" alt="" width="48" height="48"/><div><span>{a.T('Your day, sent to Telegram every morning at','היום שלכם, נשלח לטלגרם כל בוקר בשעה')}</span><Select aria-label={a.T('Daily summary time','שעת הסיכום היומי')} value={digest} onChange={e=>setDigest(e.target.value)}><option value="">{a.T('Off','כבוי')}</option>{['05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00'].map(t=><option key={t} value={t}>{t}</option>)}</Select><small className="telegram-digest-note">{a.T('Calendar, today’s tasks (important first), anything overdue, anytime tasks, what’s left to buy and, for parents, approvals. Personal: only what you can see. Sent even during quiet hours.','יומן, משימות להיום (חשובות קודם), מה שבאיחור, משימות בכל זמן, מה נשאר לקנות, ולהורים גם אישורים. אישי: רק מה שמותר לכם לראות. נשלח גם בשעות השקט.')}</small></div></div>
   </section>
 
   <section className="telegram-section">

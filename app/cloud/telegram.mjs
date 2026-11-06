@@ -6,6 +6,7 @@ import {importStatement,applyImport,visibleFinance} from './finance.mjs';
 import {refreshDueConnections} from './riseup.mjs';
 import {CATEGORY,monthSummary,monthOf} from '../../shared/finance.mjs';
 import {describeAction,taskStateNow,taskStateDate} from '../../shared/ai-actions.mjs';
+import {dayReport,chatFormat} from './telegram-format.mjs';
 import {HOME_CURRENCY_SYMBOL} from '../../shared/home-config.mjs';
 import {SPEECH_PROVIDERS,MAX_VOICE_SECONDS,MAX_VOICE_BYTES,DAILY_VOICE_SECONDS,speechAvailability,transcribe} from './speech.mjs';
 import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog} from './assistant.mjs';
@@ -186,11 +187,9 @@ async function linkChat(env,bot,message,token,lang){
 }
 
 async function sendToday(env,bot,home,memberId,chatId,lang){
- const date=localDate(),visible=visibleState(home.state,memberId),items=agenda(visible,memberId,date);
- const anytime=(visible.tasks||[]).filter(t=>!t.date&&t.memberId===memberId&&taskStateNow(t,date)==='open').length,more=anytime?'\n\n'+L(lang,anytime+' anytime task'+(anytime===1?'':'s')+' · /tasks',anytime+' משימות בכל זמן · /tasks'):'';
- if(!items.length)return send(env,bot,chatId,L(lang,'Nothing scheduled for you today.','אין לכם פעילויות מתוכננות להיום.')+more);
- const rows=[];for(const item of items.filter(i=>i.kind!=='event'&&i.state==='open').slice(0,5))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(item.record,lang),40),{type:'done',taskId:item.record.id,date,keep:true})]);
- return send(env,bot,chatId,'<b>'+L(lang,'Your day','היום שלכם')+'</b>\n'+items.map(i=>itemLine(i,lang)).join('\n')+more,rows);
+ const date=localDate(),visible=visibleState(home.state,memberId),report=dayReport(visible,{memberId,role:roleOf(home.state,memberId),date,lang,members:home.state.members});
+ const todayRows=[];for(const t of report.openTasks.slice(0,6))todayRows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(t,lang),40),{type:'done',taskId:t.id,date,keep:true})]);
+ return send(env,bot,chatId,report.text,todayRows);
 }
 
 async function sendShopping(env,bot,home,memberId,chatId,lang,listId){
@@ -206,7 +205,7 @@ async function sendShopping(env,bot,home,memberId,chatId,lang,listId){
 // /tasks: today's tasks plus "anytime" tasks for this person; parents also see approvals waiting.
 async function sendTasks(env,bot,home,memberId,role,chatId,lang){
  const today=localDate(),visible=visibleState(home.state,memberId),mine=(visible.tasks||[]).filter(t=>t.memberId===memberId&&(!t.date||occursOn(t,today)));
- const line=t=>{const state=taskStateNow(t,today),sub=t.subtasks?.length?' ('+t.subtasks.filter(x=>x.done).length+'/'+t.subtasks.length+')':'';return (state==='done'?'✓ <s>':state==='pending'?'⏳ ':'• ')+(t.time?esc(t.time)+' · ':'')+esc(title(t,lang))+sub+(state==='done'?'</s>':'')};
+ const line=t=>{const state=taskStateNow(t,today),sub=t.subtasks?.length?' ('+t.subtasks.filter(x=>x.done).length+'/'+t.subtasks.length+')':'';return (state==='done'?'✓ <s>':state==='pending'?'⏳ ':'• ')+(t.priority==='high'&&state!=='done'?'⭐ ':'')+(t.time?esc(t.time)+' · ':'')+esc(title(t,lang))+sub+(state==='done'?'</s>':'')};
  const dated=mine.filter(t=>t.date).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99')),anytime=mine.filter(t=>!t.date&&taskStateNow(t,today)!=='done'),rows=[];
  for(const t of [...dated,...anytime].filter(t=>taskStateNow(t,today)==='open').slice(0,12))rows.push([await button(env,bot.household_id,memberId,'✓ '+cut(title(t,lang),44),{type:'done',taskId:t.id,date:taskStateDate(t,today),keep:true})]);
  let text='<b>'+L(lang,'Your tasks','המשימות שלכם')+'</b>\n'+(dated.length?dated.map(line).join('\n'):L(lang,'Nothing scheduled for today.','אין משימות מתוכננות להיום.'));
@@ -261,14 +260,14 @@ async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label
  if(!question.trim())return send(env,bot,link.chat_id,helpText(lang));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const turns=link.turns&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
- let result;try{result=await runAssistant(env,{home,actorId:link.member_id,role,question,turns,scope,language:lang,images})}
+ let result;try{result=await runAssistant(env,{home,actorId:link.member_id,role,question,turns,scope,language:lang,images,channel:'telegram'})}
  catch(error){return send(env,bot,link.chat_id,esc(error.status?error.message:L(lang,'The AI could not complete this request. Nothing was changed.','ה־AI לא הצליח להשלים את הבקשה. דבר לא שונה.')))}
  const nextTurns=[...turns,{role:'user',content:(label||question).slice(0,1500)},{role:'assistant',content:String(result.answer).slice(0,1500)}].slice(-6);
  await env.DB.prepare('UPDATE telegram_links SET turns=?,turns_at=? WHERE household_id=? AND member_id=?').bind(JSON.stringify(nextTurns),Date.now(),home.id,link.member_id).run();
- if(!result.plan)return send(env,bot,link.chat_id,esc(result.answer));
+ if(!result.plan)return send(env,bot,link.chat_id,chatFormat(result.answer,lang));
  const lists=visibleState(home.state,link.member_id).shoppingLists||[];
  const rows=[[await button(env,home.id,link.member_id,L(lang,'Apply','החלה'),{type:'apply',plan:result.plan}),await button(env,home.id,link.member_id,L(lang,'Discard','ביטול'),{type:'discard'})]];
- return send(env,bot,link.chat_id,esc(result.answer)+'\n\n<b>'+L(lang,'Prepared for review'+(scope==='private'?' · private':''),'מוכן לבדיקה'+(scope==='private'?' · פרטי':''))+'</b>\n'+planText(result.plan,lang,lists)+'\n<i>'+L(lang,'Nothing is saved until you press Apply.','שום דבר לא נשמר עד ללחיצה על החלה.')+'</i>',rows);
+ return send(env,bot,link.chat_id,chatFormat(result.answer,lang)+'\n\n<b>'+L(lang,'Prepared for review'+(scope==='private'?' · private':''),'מוכן לבדיקה'+(scope==='private'?' · פרטי':''))+'</b>\n'+planText(result.plan,lang,lists)+'\n<i>'+L(lang,'Nothing is saved until you press Apply.','שום דבר לא נשמר עד ללחיצה על החלה.')+'</i>',rows);
 }
 
 async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
@@ -388,7 +387,7 @@ export async function deliverReminders(env,now){
    const memberId=link.member_id,role=roleOf(home.state,memberId);if(!role)continue;
    const visible=visibleState(home.state,memberId),lang=languageOf(home.state,memberId),prefs=notificationPrefs(home.state.profiles[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),outbox=[];
    for(const item of dueReminders(visible,memberId,{date,time}))outbox.push({key:item.key,build:async()=>[reminderText(item,lang,time),[[...(item.kind==='task'?[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:item.record.id,date})]:[]),await button(env,row.household_id,memberId,L(lang,'Snooze '+SNOOZE_MINUTES+' min','נודניק '+SNOOZE_MINUTES+' דק׳'),{type:'snooze',item:{kind:item.kind,id:item.record.id,date,category:item.category}})]]]});
-   const digest=digestDue(visible,memberId,{date,time});if(digest)outbox.push({key:digest.key,build:async()=>['<b>'+L(lang,'Good morning! Your day','בוקר טוב! היום שלכם')+'</b>\n'+(digest.items.length?digest.items.map(i=>itemLine(i,lang)).join('\n'):L(lang,'Nothing scheduled for you today.','אין לכם פעילויות מתוכננות להיום.'))]});
+   const digest=digestDue(visible,memberId,{date,time});if(digest)outbox.push({key:digest.key,build:async()=>{const report=dayReport(visible,{memberId,role,date,lang,members:home.state.members,greeting:true}),rows=[];for(const t of report.openTasks.slice(0,4))rows.push([await button(env,row.household_id,memberId,'✓ '+cut(title(t,lang),40),{type:'done',taskId:t.id,date,keep:true})]);return [report.text,rows]}});
    if(!quiet){
     for(const request of approvalRequests(visible,memberId,{date},role)){const who=home.state.members.find(m=>m.id===request.task.memberId);outbox.push({key:request.key,build:async()=>['<b>'+L(lang,'Approval needed','נדרש אישור')+'</b>\n'+esc(lang==='he'?who?.he||who?.name:who?.name)+' · '+esc(title(request.task,lang)),[[await button(env,row.household_id,memberId,L(lang,'Approve','אישור'),{type:'approve',taskId:request.task.id,date})]]]})}
     const nameOf=id=>{const m=home.state.members.find(x=>x.id===id);return lang==='he'?m?.he||m?.name:m?.name},reported=new Set(childUpdates(visible,memberId,{date,time},role,childPrefs).map(u=>u.entry.taskId+':'+u.entry.date));
