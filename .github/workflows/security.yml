@@ -43,6 +43,7 @@ jobs:
           persist-credentials: false
       - run: docker build -f app/host/Dockerfile -t bayit-security-ci .
       - run: docker save bayit-security-ci --output /tmp/bayit-security-ci.tar
+      - run: chmod 0644 /tmp/bayit-security-ci.tar
       - name: Scan the image archive without access to the Docker socket
         run: >-
           docker run --rm --read-only --cap-drop ALL --security-opt no-new-privileges:true
