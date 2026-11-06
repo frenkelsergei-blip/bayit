@@ -2,6 +2,9 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import {CloudRoot} from "./cloud-client.jsx";
 import { App } from "./App.jsx";
+import {registerServiceWorker} from "./device-push.jsx";
+import "./device-push.css";
+import "./detail-title.css";
 import "./styles.css";
 import "./refinements.css";
 import "./review-refinements.css";
@@ -33,7 +36,9 @@ import "./audit-fixes-a.css";
 import "./calendar-card.css";
 import "./shopping-v2.css";
 import "./audit-fixes-b.css";
+import "./priority.css";
 
+if(import.meta.env.VITE_BAYIT_CLOUD)registerServiceWorker();
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {import.meta.env.VITE_BAYIT_CLOUD?<CloudRoot App={App}/>:<App/>}

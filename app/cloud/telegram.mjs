@@ -13,6 +13,7 @@ import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog}
 import {visibleState} from './state.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
+import {deliverPush} from './push.mjs';
 import {dueReminders,digestDue,approvalRequests,childUpdates,ownerDoneUpdates,overdueAlerts,agenda,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
 
 // The "/" menu. Registered when a bot connects, on Test connection, and re-registered automatically by the
@@ -368,6 +369,7 @@ export async function runReminderTick(request,env){
  const supplied=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');
  if(!env.REMINDER_CRON_SECRET||!supplied||!sameDigest(await hash(supplied),await hash(env.REMINDER_CRON_SECRET)))return json({error:'Unauthorized.'},401);
  const result=await deliverReminders(env,new Date());
+ try{result.push=await deliverPush(env,new Date())}catch{result.push={failed:1}}
  // The same minute tick refreshes optional finance connections (RiseUp) about once a day.
  try{result.financeSynced=await refreshDueConnections(env,new Date())}catch{result.financeSynced=0}
  return json(result);

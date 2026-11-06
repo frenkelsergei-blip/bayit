@@ -1,0 +1,98 @@
+/* Task priority: flag marker, editor choice, Tasks filters/grouping and the Today "Top priorities" widget.
+   Colors are semantic tokens; night only swaps the values. Each flag passes 3:1 on its surfaces. */
+:root{--prio-high:#D23F27;--prio-medium:#FFD451;--prio-medium-edge:#8A6100;--prio-low:#6A7898;--prio-none:var(--muted);--prio-high-soft:color-mix(in srgb,var(--prio-high) 13%,var(--surface,#fff));--prio-low-soft:color-mix(in srgb,var(--prio-low) 16%,var(--surface,#fff))}
+:root[data-theme="dark"]{--prio-high:#FF8A70;--prio-medium:#FFD451;--prio-medium-edge:#B98A1A;--prio-low:#9AA7C7;--prio-high-soft:color-mix(in srgb,var(--prio-high) 20%,var(--surface,#1C2541));--prio-low-soft:color-mix(in srgb,var(--prio-low) 20%,var(--surface,#1C2541))}
+
+.prio-mark{display:inline-grid;place-items:center;flex:none;width:var(--prio-size,18px);height:var(--prio-size,18px);line-height:0;color:var(--prio-none)}
+.prio-mark svg{display:block;width:100%;height:100%;overflow:visible}
+.prio-mark.prio-high{color:var(--prio-high)}
+.prio-mark.prio-low{color:var(--prio-low)}
+.prio-mark.prio-medium{color:var(--prio-medium)}
+.prio-mark.prio-medium svg path{stroke:var(--prio-medium-edge);stroke-width:16;stroke-linejoin:round;paint-order:stroke}
+
+/* Editor: None · Low · Medium · High */
+.prio-choice-field{display:grid;gap:8px}
+.prio-choice{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface,#fff)}
+.prio-option{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:6px 10px;border:0;border-radius:999px;background:none;color:var(--text);font:inherit;font-weight:750;font-size:calc(18px * var(--text-scale,1));cursor:pointer;min-width:0;white-space:nowrap}
+.prio-option>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.prio-option.on{background:var(--selected);font-weight:850}
+.prio-option.prio-option-high.on{background:var(--prio-high-soft);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--prio-high) 55%,transparent)}
+.prio-option.prio-option-medium.on{background:var(--yellow);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--prio-medium-edge) 45%,transparent)}
+.prio-option.prio-option-low.on{background:var(--prio-low-soft);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--prio-low) 50%,transparent)}
+.prio-option:focus-visible{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 22%,transparent)}
+@media(max-width:700px){
+ .prio-choice{border-radius:20px}
+ .prio-option{flex-direction:column;gap:2px;min-height:54px;padding:6px 4px;border-radius:16px;font-size:calc(16px * var(--text-scale,1))}
+}
+
+/* Tasks rows: flag sits inline before the title, so the fixed table columns are unchanged. */
+.tasks-row-main>strong>.prio-mark{margin-inline-end:7px;vertical-align:-2px}
+.task-row.tasks-row.has-prio{position:relative}
+
+.task-row.done .tasks-row-main>strong>.prio-mark{opacity:.55}
+
+/* Group headers in "By priority" order reuse the page's pill headers. */
+.tasks-group>h3>span{display:inline-flex;align-items:center;gap:7px}
+.tasks-group.tone-prio-high>h3>span{background:var(--prio-high-soft)}
+.tasks-group.tone-prio-medium>h3>span{background:var(--yellow)}
+.tasks-group.tone-prio-low>h3>span{background:var(--prio-low-soft)}
+.tasks-group.tone-prio-none>h3>span{background:var(--lilac)}
+
+/* Filters: two compact selects with the same 44px pill as search. */
+.tasks-prio-filters{display:inline-flex;align-items:center;gap:10px;min-width:0}
+.tasks-prio-filters>.select-control{flex:0 0 auto;min-width:0}
+.tasks-prio-filters .select-button{height:44px;min-height:44px;padding-block:0;padding-inline:14px 12px;gap:10px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface,#fff);font-weight:750;font-size:calc(15px * var(--text-scale,1));white-space:nowrap}
+.tasks-prio-filters .select-button>span{display:flex;align-items:center;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.prio-opt{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.prio-opt>svg{flex:none;color:var(--muted)}
+.tasks-prio-filters .select-control.filtered .select-button{border-color:var(--primary);background:var(--selected)}
+@media(max-width:700px){
+ .tasks-prio-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+ .tasks-prio-filters .select-button{width:100%;padding-inline:12px 10px}
+}
+
+/* Task details */
+.tasks-detail-prio strong{font-weight:850}
+
+/* Today's existing task list: keep the flag on the title line. */
+.prio-title{display:inline-flex;align-items:center;gap:7px;min-width:0}
+
+/* Today: Top priorities strip (full width, first by default; collapses when nothing high is open) */
+.today-widget.today-priorities:empty{display:none}
+.today-priorities .section-title{display:flex;align-items:center;justify-content:flex-start;gap:12px;margin-bottom:16px}
+.today-priorities .section-title h2{margin:0}
+.prio-widget-count{display:inline-grid;place-items:center;min-width:32px;height:32px;padding:0 10px;border-radius:999px;background:var(--prio-high-soft);color:var(--text);font-weight:900;font-size:calc(16px * var(--text-scale,1))}
+.prio-widget-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.prio-widget-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:14px;width:100%;min-height:76px;padding-block:12px;padding-inline:22px 14px;border:1px solid var(--border);border-radius:22px;background:var(--surface,#fff);color:var(--text);font:inherit;text-align:start;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 6px 18px color-mix(in srgb,var(--text) 5%,transparent)}
+
+.prio-widget-row:hover{border-color:color-mix(in srgb,var(--prio-high) 45%,var(--border))}
+.prio-widget-row:focus-visible{outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 22%,transparent)}
+.prio-widget-row>.avatar{border-radius:50%}
+.prio-widget-text{display:grid;gap:4px;min-width:0}
+.prio-widget-text strong{font-weight:850;font-size:calc(21px * var(--text-scale,1));line-height:1.2;overflow-wrap:anywhere}
+.prio-widget-text small{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap;color:var(--muted);font-weight:750;font-size:calc(15px * var(--text-scale,1))}
+.prio-widget-row.overdue .prio-widget-text small{color:var(--danger)}
+.today-priorities .widget-more{margin-top:14px}
+@media(max-width:700px){.prio-widget-row{min-height:68px;padding-inline:18px 12px;border-radius:18px}.prio-widget-text strong{font-size:calc(19px * var(--text-scale,1))}}
+
+/* Owner direction: priority shows as a soft rounded frame in the priority colour (no side bar).
+   High = coral, Medium = amber, Low = blue-grey; done rows drop the frame. The blue selected state keeps its fill. */
+.task-row.tasks-row.has-prio:not(.done){border-radius:18px;margin-block:6px;border:1.5px solid var(--prio-frame)!important;background:var(--prio-fill);box-shadow:0 2px 8px color-mix(in srgb,var(--prio-frame) 18%,transparent)}
+.task-row.tasks-row.prio-row-high{--prio-frame:color-mix(in srgb,var(--prio-high) 60%,transparent);--prio-fill:color-mix(in srgb,var(--prio-high) 5%,var(--surface,#fff))}
+.task-row.tasks-row.prio-row-medium{--prio-frame:color-mix(in srgb,var(--prio-medium-edge) 45%,transparent);--prio-fill:color-mix(in srgb,var(--prio-medium) 9%,var(--surface,#fff))}
+.task-row.tasks-row.prio-row-low{--prio-frame:color-mix(in srgb,var(--prio-low) 40%,transparent);--prio-fill:color-mix(in srgb,var(--prio-low) 5%,var(--surface,#fff))}
+.task-row.tasks-row.has-prio.focused:not(.done){background:var(--selected)}
+.task-row.tasks-row.has-prio:not(.done)+.task-row,.swipe-row:has(.task-row.has-prio:not(.done))+.swipe-row .task-row{border-top-color:transparent}
+.prio-widget-row{border:1.5px solid color-mix(in srgb,var(--prio-high) 55%,transparent)!important;background:color-mix(in srgb,var(--prio-high) 5%,var(--surface,#fff))!important;padding-inline:16px 14px!important;box-shadow:0 2px 10px color-mix(in srgb,var(--prio-high) 14%,transparent)}
+/* Task details: change priority right there */
+.tasks-detail-prio-edit{display:grid;gap:10px;margin-block:4px 6px}
+.tasks-detail-prio-edit .prio-choice-field>.field-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tasks-detail-prio-edit .prio-option{min-height:40px;font-size:calc(15px * var(--text-scale,1))}
+/* Framed rows inside SwipeRow: the spacing lives inside the swipe content, so the red delete action never peeks out */
+.task-row.tasks-row.has-prio:not(.done){margin-block:0!important}
+.swipe-row:has(>.swipe-content>.task-row.has-prio:not(.done))>.swipe-content{padding-block:6px}
+.swipe-row:has(>.swipe-content>.task-row.has-prio:not(.done))>.swipe-delete{inset-block:6px;border-radius:18px}
+/* Details: all four labels fit */
+.tasks-detail-prio-edit .prio-choice{gap:2px;padding:3px}
+.tasks-detail-prio-edit .prio-option{gap:5px;padding-inline:6px;font-size:calc(14px * var(--text-scale,1))}
+.tasks-detail-prio-edit .prio-option>span:last-child{overflow:visible;text-overflow:clip;white-space:nowrap}

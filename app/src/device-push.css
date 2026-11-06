@@ -1,0 +1,19 @@
+/* Settings › Notifications › this device (Web Push) */
+.device-push{display:grid;gap:10px}
+.device-push .notification-channel .button{width:auto;min-height:44px}
+.device-push>.button{justify-self:start;width:auto;min-height:44px}
+.device-push-hint{display:flex;align-items:flex-start;gap:6px;margin:0;color:var(--muted);font-weight:650;font-size:calc(14px * var(--text-scale,1))}
+.device-push-hint svg{flex:none;margin-top:2px}
+.device-push-steps{display:grid;gap:8px;margin:0;padding:12px 14px;border-radius:16px;background:var(--surfaceSoft,#f6efe8);list-style:none;counter-reset:step}
+.device-push-steps li{display:flex;align-items:center;gap:10px;font-weight:750;counter-increment:step}
+.device-push-steps li::before{content:counter(step);display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:var(--primary);color:var(--onPrimary,#fff);font-size:13px;font-weight:900}
+.device-push-steps svg{color:var(--primary);flex:none}
+.device-push-note{margin:0;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#2e9d5b 12%,var(--surface,#fff));font-weight:750}
+.device-push-error{margin:0;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#d9534f 12%,var(--surface,#fff));font-weight:750}
+.device-push-on .notification-channel small{color:#2e9d5b;font-weight:800}
+/* Defaults vs per-item */
+.defaults-hint{margin:-4px 0 4px}
+.task-defaults{display:grid;gap:10px;margin:4px 0 0;padding:14px;border:1px solid var(--border);border-radius:18px}
+.task-defaults legend{padding:0 6px;font-weight:850}
+.task-defaults small{color:var(--muted);font-weight:650}
+.item-reminder{display:grid;gap:6px}

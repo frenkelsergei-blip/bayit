@@ -15,9 +15,11 @@ export function dueReminders(visible,memberId,{date,time}){
  const now=minutes(time),profile=visible.profiles?.[memberId]||{},due=[];if(now===null)return due;
  const consider=(record,kind,category)=>{
   const prefs=notificationPrefs(profile,category),start=minutes(record.time);
-  if(prefs.enabled===false||start===null)return;
+  // The recipient's own switch for the category wins; then the item's own reminder; then the recipient's default.
+  if(prefs.enabled===false||start===null||record.reminder==='none')return;
+  const own=Number(record.reminder),chosen=record.reminder!==undefined&&record.reminder!==null&&record.reminder!==''&&Number.isFinite(own)?own:Number(prefs.reminder)||10;
   // An item just after midnight is reminded from 00:00 rather than on the previous day.
-  const lead=Math.max(0,Math.min(120,Number(prefs.reminder)||10)),from=Math.max(0,start-lead);
+  const lead=Math.max(0,Math.min(1440,chosen)),from=Math.max(0,start-lead);
   if(now<from||now>start+LATE_GRACE)return;
   if(inQuietHours(time,prefs.quietStart,prefs.quietEnd))return;
   due.push({key:kind+':'+record.id+':'+date+':'+record.time+':'+lead,kind,category,record,date,time:record.time,lead});

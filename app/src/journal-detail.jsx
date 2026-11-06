@@ -1,5 +1,6 @@
 // Journal detail panel (read view) in the same style as the Calendar event details:
 // avatar + title with the real yellow underline, then icon rows for date, time, people, note, tags and sharing.
+import {DetailTitle} from './detail-title';
 import React from 'react';
 import {CalendarDots,Clock,Users,NotePencil,Tag,LockSimple,PencilSimple,Trash,ArrowSquareOut,Sparkle,CheckCircle} from '@phosphor-icons/react';
 
@@ -12,7 +13,7 @@ export function JournalRecordView({a,item,ui:{Avatar,Button,Badge},editable,onEd
  const sharing=item.visibility==='private'?a.T('Only me','רק אני'):item.visibility==='selected'?a.T('Selected people','אנשים נבחרים'):a.T('Whole family','כל המשפחה');
  const tags=(item.tags||[]).filter(Boolean);
  return <div className="journal-detail calendar-event-details">
-  <div className="calendar-detail-heading"><Avatar who={who} size={90}/><h2><span>{a.text(item).split(' · ')[0]}<img src="/assets/generated/title-underline-clean.png" alt=""/></span></h2></div>
+  <div className="calendar-detail-heading"><Avatar who={who} size={90}/><DetailTitle text={a.text(item).split(' · ')[0]}/></div>
   <div className="journal-detail-kind"><Badge color={item.recordType==='note'?'peach':item.recordType==='event'?'lilac':'green'} icon={item.recordType==='task'?CheckCircle:undefined}>{kind}</Badge></div>
   {date&&<div className="calendar-detail-row"><CalendarDots size={27}/><strong>{date}</strong></div>}
   {item.time&&<div className="calendar-detail-row"><Clock size={27}/><time dir="ltr">{item.time}</time></div>}

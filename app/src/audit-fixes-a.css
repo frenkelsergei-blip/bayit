@@ -52,3 +52,10 @@ body::after{content:"";position:fixed;inset-inline:0;bottom:0;height:1px;backgro
 .quick-nav-tile:disabled{opacity:.45;cursor:not-allowed}
 .quick-nav-order{position:absolute;top:6px;inset-inline-end:8px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--onPrimary,#fff);color:var(--primary);font-size:12px;font-weight:900}
 .quick-nav-count{display:block;margin-top:6px;color:var(--muted);font-weight:700}
+/* Owner direction: the full (labelled) menu also shows the 5 quick places + More on tablets and normal laptop screens.
+   Only large screens (wider than 1600px and taller than 960px) list every place. */
+@media (min-width:1101px) and (max-width:1600px) and (min-height:521px),(min-width:1101px) and (max-height:960px) and (min-height:521px){
+ .app-shell .sidebar nav>button.rail-extra{display:none!important}
+ .app-shell .sidebar .sidebar-bottom>button:not(.sidebar-toggle):not(.rail-keep){display:none!important}
+ .app-shell .sidebar nav>.sidebar-more{display:flex!important}
+}

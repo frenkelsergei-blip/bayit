@@ -1,0 +1,5 @@
+/* Detail headings: underline only under the final word, sized to that word, in LTR and RTL */
+.calendar-detail-heading h2>span.detail-title{position:static!important;display:inline!important;padding:0!important}
+.calendar-detail-heading h2 .detail-title-tail{position:relative;display:inline-block;white-space:nowrap;padding-bottom:.28em}
+.calendar-detail-heading h2 .detail-title-tail>img{position:absolute;inset-inline:-4px auto;bottom:0;width:calc(100% + 8px)!important;height:auto;max-height:.4em;object-fit:fill!important;pointer-events:none}
+.calendar-detail-heading h2{line-height:1.22!important;text-wrap:balance}

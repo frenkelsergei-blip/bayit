@@ -1,7 +1,8 @@
 // Tasks page: shareable task lists, one-row filters (range, date, people, status, search), tasks grouped by
 // day with overdue and anytime groups, subtasks, and a detail panel in the Calendar detail style.
-import React,{useMemo,useState} from 'react';
-import {Bell,ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,CalendarDots,UserCircle,Stack,PencilSimple,Trash,X,Check,ListChecks,NotePencil,CaretDown} from '@phosphor-icons/react';
+import {DetailTitle} from './detail-title';
+import React,{useMemo,useState,useEffect} from 'react';
+import {Bell,ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,CalendarDots,UserCircle,Stack,PencilSimple,Trash,X,Check,ListChecks,NotePencil,CaretDown,SortAscending} from '@phosphor-icons/react';
 import {occursOn,completionState} from './domain';
 import {DateField} from './date-field';
 import {AvatarStack} from './avatar-stack';
@@ -9,6 +10,9 @@ import {CreatedBy,fmtMinutes} from './created-by';
 import {SwipeRow} from './swipe-row';
 import {canAccessList,applyListAudience,createTaskList} from '../../shared/task-lists.mjs';
 import {PeoplePicker} from './people-picker';
+import {Select} from './Select';
+import {PriorityMark,PriorityChoice,priorityLabel,groupByPriority,normalizePriority} from './priority';
+const storedView=()=>{try{return JSON.parse(localStorage.getItem('bayit-tasks-view'))||{}}catch{return {}}};
 
 const addDays=(v,n)=>{const d=new Date(v+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 const uid=()=>crypto.randomUUID();
@@ -16,10 +20,12 @@ const uid=()=>crypto.randomUUID();
 export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Checkbox,DetailPanel,Empty}}){
  const q=new URLSearchParams(a.route.split('?')[1]||''),parent=a.member(a.user).role==='parent',he=a.lang==='he',locale=he?'he-IL':'en-US';
  const [listId,setListId]=useState(q.get('list')||'all'),[range,setRange]=useState(q.get('date')?'day':'today'),[day,setDay]=useState(q.get('date')||anchor),[person,setPerson]=useState('all'),[status,setStatus]=useState('all'),[search,setSearch]=useState(''),[selected,setSelected]=useState(q.get('task')?{id:q.get('task'),date:q.get('date')||anchor}:null),[detailOpen,setDetailOpen]=useState(!!q.get('task')),[sheet,setSheet]=useState(null);
+ const [prio,setPrio]=useState(()=>{const v=q.get('priority')||storedView().priority;return normalizePriority(v)||'all'}),[order,setOrder]=useState(()=>(q.get('order')||storedView().order)==='priority'?'priority':'time');
+ useEffect(()=>{try{localStorage.setItem('bayit-tasks-view',JSON.stringify({priority:prio,order}))}catch{}},[prio,order]);
  const lists=(a.data.taskLists||[]).filter(l=>canAccessList(l,a.user));
  const base=a.visible(a.data.tasks).filter(t=>parent||t.memberId===a.user||t.ownerId===a.user);
  const inList=t=>listId==='all'||t.listId===listId;
- const matches=t=>inList(t)&&(person==='all'||t.memberId===person)&&(!search||[a.text(t),t.note,t.noteHe].join(' ').toLowerCase().includes(search.toLowerCase()));
+ const matches=t=>inList(t)&&(person==='all'||t.memberId===person)&&(prio==='all'||normalizePriority(t.priority)===prio)&&(!search||[a.text(t),t.note,t.noteHe].join(' ').toLowerCase().includes(search.toLowerCase()));
  const label=d=>d===anchor?a.T('Today','היום'):d===addDays(anchor,1)?a.T('Tomorrow','מחר'):d===addDays(anchor,-1)?a.T('Yesterday','אתמול'):new Date(d+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',day:'numeric',month:'short'});
  const anyDate=t=>{const last=Object.entries(t.completions||{}).sort(([x],[y])=>x.localeCompare(y)).pop();return last&&last[1]?.state!=='open'?last[0]:anchor};
  const stateOf=(t,date)=>t.date?completionState(t,date):completionState(t,anyDate(t));
@@ -30,8 +36,9 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
   if(range!=='day'){const overdue=pool.filter(t=>t.date&&t.date<anchor&&(t.repeat||'once')==='once'&&!t.routine&&completionState(t,t.date)!=='done').map(t=>({t,date:t.date}));if(overdue.length&&status!=='done')out.push({key:'overdue',title:a.T('Overdue','באיחור'),tone:'overdue',rows:overdue})}
   for(const d of dates){const rows=pool.filter(t=>occursOn(t,d)).map(t=>({t,date:d})).filter(r=>keep(completionState(r.t,r.date))).sort((x,y)=>(x.t.time||'99').localeCompare(y.t.time||'99'));if(rows.length)out.push({key:d,title:label(d),tone:d===anchor?'today':'',rows})}
   if(range!=='day'){const anytime=pool.filter(t=>!t.date).map(t=>({t,date:anyDate(t)})).filter(r=>keep(completionState(r.t,r.date)));if(anytime.length)out.push({key:'anytime',title:a.T('Anytime','בלי תאריך'),tone:'',rows:anytime})}
+  if(order==='priority'){const titles={high:a.T('High priority','עדיפות גבוהה'),medium:a.T('Medium priority','עדיפות בינונית'),low:a.T('Low priority','עדיפות נמוכה'),none:a.T('No priority','ללא עדיפות')};return groupByPriority(out.flatMap(g=>g.rows)).map(g=>({key:'prio-'+g.key,title:titles[g.key],tone:'prio-'+g.key,mark:g.key==='none'?'':g.key,rows:g.rows}))}
   return out;
- },[base,listId,person,status,search,range,day,anchor,a.lang]);
+ },[base,listId,person,status,search,range,day,anchor,a.lang,prio,order]);
  const total=groups.reduce((n,g)=>n+g.rows.length,0);
  const current=selected&&base.find(t=>t.id===selected.id)?{t:base.find(t=>t.id===selected.id),date:selected.date}:groups[0]?.rows[0];
  const canEdit=t=>parent||t.ownerId===a.user;
@@ -56,20 +63,21 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
    <div className="tasks-range" role="group" aria-label={a.T('When','מתי')}>{rangeButtons.map(([k,t])=><button type="button" key={k} aria-pressed={range===k} className={range===k?'on':''} onClick={()=>setRange(k)}>{t}</button>)}<DateField variant="toolbar" className={'tasks-day'+(range==='day'?' on':'')} required aria-label={a.T('Choose a day','בחירת יום')} value={day} onChange={e=>{if(e.target.value){setDay(e.target.value);setRange('day')}}}/></div>
    <PeoplePicker value={person} onChange={setPerson} people={a.members.filter(m=>parent||m.id===a.user).map(m=>m.id)} allLabel={a.T('Everyone','כולם')} title={a.T('Whose tasks','המשימות של')} T={a.T} Avatar={Avatar} name={a.name} member={a.member}/><div className="tasks-people calendar-person-legend has-people-picker"><button type="button" className={'calendar-all-members '+(person==='all'?'chosen':'')} onClick={()=>setPerson('all')}><Users size={18}/>{a.T('Everyone','כולם')}</button>{a.members.filter(m=>parent||m.id===a.user).map(m=><button type="button" key={m.id} aria-pressed={person===m.id} className={'calendar-person '+m.color+(person===m.id?' chosen':'')} onClick={()=>setPerson(person===m.id?'all':m.id)}><Avatar who={m.id} size={40}/><span>{a.name(m.id)}</span></button>)}</div>
    <div className="tasks-status" role="group" aria-label={a.T('Status','מצב')}>{[['all',a.T('All','הכל')],['open',a.T('To do','לביצוע')],['done',a.T('Done','בוצע')]].map(([k,t])=><button type="button" key={k} aria-pressed={status===k} className={status===k?'on':''} onClick={()=>setStatus(k)}>{t}</button>)}</div>
+   <div className="tasks-prio-filters"><Select className={'tasks-prio-select'+(prio!=='all'?' filtered':'')} aria-label={a.T('Priority','עדיפות')} value={prio} onChange={e=>setPrio(e.target.value)}><option value="all"><span className="prio-opt"><PriorityMark a={a} priority="" size={18} decorative/>{a.T('All priorities','כל העדיפויות')}</span></option>{['high','medium','low'].map(p=><option key={p} value={p}><span className="prio-opt"><PriorityMark a={a} priority={p} size={18} decorative/>{a.lang==='he'?'עדיפות '+priorityLabel(p,a.lang):priorityLabel(p,a.lang)}</span></option>)}</Select><Select className={'tasks-order-select'+(order==='priority'?' filtered':'')} aria-label={a.T('Order','סדר')} value={order} onChange={e=>setOrder(e.target.value)}><option value="time"><span className="prio-opt"><Clock size={18}/>{a.T('By time','לפי זמן')}</span></option><option value="priority"><span className="prio-opt"><SortAscending size={18}/>{a.T('By priority','לפי עדיפות')}</span></option></Select></div>
    <label className="tasks-search"><MagnifyingGlass size={18}/><input type="search" value={search} onChange={e=>setSearch(e.target.value)} placeholder={a.T('Search tasks','חיפוש משימות')} aria-label={a.T('Search tasks','חיפוש משימות')}/></label>
   </div>
 
   <div className="split task-list-layout tasks-v2-layout"><section className="tasks-groups">
-   {groups.map(g=><section key={g.key} className={'tasks-group '+(g.tone?'tone-'+g.tone:'')}><h3><span>{g.title}</span><small>{g.rows.length}</small></h3>
-    {g.rows.map(({t,date})=>{const state=completionState(t,date),l=listOf(t),focused=current&&current.t.id===t.id&&current.date===date;return <SwipeRow key={t.id+date} onDelete={t.ownerId===a.user?()=>a.remove('tasks',t.id,a.text(t)):null} label={a.T('Delete','מחיקה')}><div className={'task-row detailed tasks-row'+(state==='done'?' done':'')+(focused?' focused':'')}>
+   {groups.map(g=><section key={g.key} className={'tasks-group '+(g.tone?'tone-'+g.tone:'')}><h3><span>{g.mark!==undefined&&<PriorityMark a={a} priority={g.mark} size={18} decorative/>}{g.title}</span><small>{g.rows.length}</small></h3>
+    {g.rows.map(({t,date})=>{const state=completionState(t,date),l=listOf(t),focused=current&&current.t.id===t.id&&current.date===date;return <SwipeRow key={t.id+date} onDelete={t.ownerId===a.user?()=>a.remove('tasks',t.id,a.text(t)):null} label={a.T('Delete','מחיקה')}><div className={'task-row detailed tasks-row'+(normalizePriority(t.priority)?' has-prio prio-row-'+t.priority:'')+(state==='done'?' done':'')+(focused?' focused':'')}>
      <Checkbox checked={state==='done'} disabled={state==='pending'&&!parent} onChange={()=>a.toggleTask(t.id,date)} aria-label={a.text(t)}/>
      <Icon code={t.icon}/>
-     <button type="button" className="task-title tasks-row-main" onClick={()=>pick(t,date)}><strong>{a.text(t)}</strong><small className="tasks-meta">{t.time&&<span dir="ltr"><Clock size={14}/>{t.time}</span>}{repeatLabel(t)&&<span><Repeat size={14}/>{repeatLabel(t)}</span>}{l&&<span className="tasks-meta-list">{he?l.he||l.name:l.name}</span>}{subProgress(t)&&<span><ListChecks size={14}/>{subProgress(t)}</span>}{tripProgress(t)&&<span className="tasks-meta-trip"><ShoppingCart size={14}/>{a.T(tripProgress(t)+' in the bag',tripProgress(t)+' בסל')}</span>}{state==='pending'&&<span>{a.T('Waiting for a parent','ממתין להורה')}</span>}</small></button>
+     <button type="button" className="task-title tasks-row-main" onClick={()=>pick(t,date)}><strong>{normalizePriority(t.priority)&&<PriorityMark a={a} priority={t.priority} size={18}/>}{a.text(t)}</strong><small className="tasks-meta">{order==='priority'&&range!=='day'&&(range!=='today'||!t.date||date!==anchor)&&<span><CalendarDots size={14}/>{t.date?label(date):a.T('Anytime','בלי תאריך')}</span>}{t.time&&<span dir="ltr"><Clock size={14}/>{t.time}</span>}{repeatLabel(t)&&<span><Repeat size={14}/>{repeatLabel(t)}</span>}{l&&<span className="tasks-meta-list">{he?l.he||l.name:l.name}</span>}{subProgress(t)&&<span><ListChecks size={14}/>{subProgress(t)}</span>}{tripProgress(t)&&<span className="tasks-meta-trip"><ShoppingCart size={14}/>{a.T(tripProgress(t)+' in the bag',tripProgress(t)+' בסל')}</span>}{state==='pending'&&<span>{a.T('Waiting for a parent','ממתין להורה')}</span>}</small></button>
      <span className={'tasks-assignee '+a.member(t.memberId).color}><Avatar who={t.memberId} size={30}/><span>{a.name(t.memberId)}</span></span>
      <span className="tasks-col-xp">{!!t.xp&&<Badge color="green">+{t.xp} XP</Badge>}</span><span className="tasks-col-lock" aria-label={t.visibility==='private'?a.T('Private','פרטי'):undefined}>{t.visibility==='private'&&<LockSimple size={18}/>}</span>
     </div></SwipeRow>})}
    </section>)}
-   {!total&&<Empty text={search||person!=='all'||listId!=='all'?a.T('No tasks match these filters.','אין משימות שמתאימות לסינון.'):a.T('Nothing here yet. Add the next little thing.','עוד אין כאן משימות. הוסיפו את הדבר הקטן הבא.')}/>}
+   {!total&&<Empty text={search||person!=='all'||listId!=='all'||prio!=='all'?a.T('No tasks match these filters.','אין משימות שמתאימות לסינון.'):a.T('Nothing here yet. Add the next little thing.','עוד אין כאן משימות. הוסיפו את הדבר הקטן הבא.')}/>}
   </section>
   <DetailPanel open={detailOpen} onClose={()=>setDetailOpen(false)} title={a.T('Task details','פרטי המשימה')} className="calendar-event-details" sheetBreakpoint={1280}>{current?<TaskDetail a={a} t={current.t} date={current.date} lists={lists} canEdit={canEdit(current.t)} ui={{Button,Badge,Avatar,Icon,Checkbox}} repeatLabel={repeatLabel} onClose={()=>setDetailOpen(false)}/>:<Empty text={a.T('Choose a task to see its details.','בחרו משימה כדי לראות פרטים.')}/>}</DetailPanel>
   </div>
@@ -83,9 +91,10 @@ function TaskDetail({a,t,date,lists,canEdit,ui:{Button,Badge,Avatar,Icon,Checkbo
  const edit=fn=>a.update(d=>{const x=d.tasks.find(r=>r.id===t.id);if(x)fn(x,d)});
  const addSub=e=>{e.preventDefault();const title=newSub.trim();if(!title)return;edit(x=>{x.subtasks=[...(x.subtasks||[]),{id:uid(),title,done:false}]});setNewSub('')};
  return <div className="task-detail-v2">
-  <div className="calendar-detail-heading tasks-detail-heading"><span className="tasks-detail-icon"><Icon code={t.icon} size={72}/></span><h2><span>{a.text(t)}<img src="/assets/generated/title-underline-clean.png" alt=""/></span></h2></div>
+  <div className="calendar-detail-heading tasks-detail-heading"><span className="tasks-detail-icon"><Icon code={t.icon} size={72}/></span><DetailTitle text={a.text(t)}/></div>
   {t.routine&&<div className="journal-detail-kind"><Badge color="yellow">{a.T('Kids routine','שגרת ילדים')}{t.xp?' · +'+t.xp+' XP':''}</Badge></div>}
   <div className="calendar-detail-row"><UserCircle size={27}/><span className="tasks-detail-person"><Avatar who={t.memberId} size={34}/>{a.name(t.memberId)}</span></div>
+  {!t.routine&&(canEdit?<div className="tasks-detail-prio-edit"><span className="calendar-detail-row"><PriorityMark a={a} priority={t.priority} size={27} decorative/><span>{a.T('Priority','עדיפות')}</span></span><PriorityChoice a={a} value={normalizePriority(t.priority)||''} onChange={v=>edit(x=>{if(v)x.priority=v;else delete x.priority})}/></div>:normalizePriority(t.priority)&&<div className="calendar-detail-row tasks-detail-prio"><PriorityMark a={a} priority={t.priority} size={27} decorative/><span>{a.T('Priority: ','עדיפות: ')}<strong>{priorityLabel(t.priority,a.lang)}</strong></span></div>)}
   <div className="calendar-detail-row"><CalendarDots size={27}/><strong>{when}</strong>{t.time&&<time dir="ltr" className="tasks-detail-time">· {t.time}</time>}</div>
   {repeatLabel(t)&&<div className="calendar-detail-row"><Repeat size={27}/><span>{repeatLabel(t)}{t.until&&<> · {a.T('until ','עד ')}{new Date(t.until+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',day:'numeric',month:'short',year:'numeric'})}</>}</span></div>}
   {!t.shoppingListId&&<div className="calendar-detail-row"><Stack size={27}/>{owner&&!t.routine?<select className="tasks-detail-list" aria-label={a.T('List','רשימה')} value={t.listId||''} onChange={e=>edit((x,d)=>{const target=(d.taskLists||[]).find(r=>r.id===e.target.value);if(target)applyListAudience(x,target);else delete x.listId})}><option value="">{a.T('No list','ללא רשימה')}</option>{lists.filter(x=>canAccessList(x,a.user)).map(x=><option key={x.id} value={x.id}>{a.lang==='he'?x.he||x.name:x.name}</option>)}</select>:<span>{l?(a.lang==='he'?l.he||l.name:l.name):a.T('No list','ללא רשימה')}</span>}</div>}
