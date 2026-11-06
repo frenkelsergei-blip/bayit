@@ -24,7 +24,7 @@ export function CloudRoot({App}){
  useEffect(()=>{if(!demo)load();else configureCloudTransport('');const change=()=>setRoute(location.hash);window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change)},[]);
  useEffect(()=>{if(!demo&&loaded&&linkedHousehold(route)&&linkedHousehold(route)!==loaded.id)load()},[route]);
  const client=useMemo(()=>loaded?new HouseholdClient(loaded.id,loaded):null,[loaded?.id]);
- if(demo)return <><div className="cloud-demo-banner">Sample data · saved on this device only <a href={location.origin+'/#signin'}>Sign in</a></div><App/></>;
+ if(demo)return <><SplashOff/><div className="cloud-demo-banner">Sample data · saved on this device only <a href={location.origin+'/#signin'}>Sign in</a></div><App/></>;
  if(loading)return <SplashHold/>;
  if(error){const he=document.documentElement.lang==='he';return <div className="cloud-loading"><SplashOff/><h2>{he?'לא הצלחנו לפתוח את הבית שלכם.':'We couldn’t open your home.'}</h2><p>{error==='LINK_UNAVAILABLE'?(he?'הבית שבקישור אינו זמין לחשבון הזה. אפשר לפתוח את הבית שלכם.':'The linked household is unavailable to this account. You can open your own home.'):(he?'אפשר לנסות שוב. אם הבעיה נמשכת, בדקו את החיבור ואת הגדרות ההתקנה.':'Try again. If the problem continues, check your connection and installation settings.')}</p><button className="button" onClick={()=>{if(error==='LINK_UNAVAILABLE')location.hash='today';load()}}>{he?'ניסיון חוזר':'Try again'}</button></div>}
  if(!session?.user||!loaded||route.startsWith('#join'))return <CloudEntry config={config} session={session} onHousehold={chooseHousehold}/>;
