@@ -81,7 +81,7 @@ function Celebration({fx,style,T,go,undo,characterSrc,avatar,close}){
   <div className="fx-copy">
    <TitleAccent text={title}/>
    {detail&&<p>{detail}</p>}
-   {(fx.kind==='complete'&&fx.xp>0||people.length>0&&avatar)&&<div className="fx-meta">{fx.kind==='complete'&&fx.xp>0&&<span className="fx-xp">+{fx.xp} XP</span>}{avatar&&people.slice(0,3).map(id=><span className="fx-face" key={id}>{avatar(id)}</span>)}</div>}
+   {(fx.kind==='complete'&&fx.xp>0||people.length>0&&avatar)&&<div className="fx-meta">{fx.kind==='complete'&&fx.xp>0&&<span className="fx-xp">{'\u2066+'+(fx.xp)+' XP\u2069'}</span>}{avatar&&people.slice(0,3).map(id=><span className="fx-face" key={id}>{avatar(id)}</span>)}</div>}
   </div>
   <span className="fx-life" aria-hidden="true"><span/></span>
   {!fx.preview&&(kind.route||fx.ids||fx.kind==='complete')&&<div className="fx-actions">

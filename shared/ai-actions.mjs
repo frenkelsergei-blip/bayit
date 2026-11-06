@@ -158,7 +158,7 @@ export function undoExtra(change,data,actorId){
 }
 
 // Short, human-readable description of an action for previews (Telegram and Ask AI).
-export function describeAction(a,lang='en',money=v=>'₪'+v){
+export function describeAction(a,lang='en',money=v=>'\u2066₪'+v+'\u2069'){
  const he=lang==='he',T=(en,h)=>he?h:en;
  const what={task:T('task','משימה'),event:T('event','אירוע'),note:T('note','הערה'),shopping:T('item','פריט')}[a.type]||'';
  if(a.kind==='record.complete')return (a.type==='shopping'?T('Check off ','סימון כנקנה: '):T('Mark done: ','סימון כבוצע: '))+a.title;

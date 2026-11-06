@@ -6,6 +6,6 @@ export function AvatarStack({ids=[],Avatar,name=id=>id,size=30,max=4,label,class
  const shown=list.slice(0,max),extra=list.length-shown.length,names=list.map(name).join(', ');
  return <span className={'avatar-stack '+className} style={{'--stack-size':size+'px'}} title={names} role="img" aria-label={(label?label+': ':'')+names}>
   {shown.map((id,i)=><span className="avatar-stack-item" key={id} style={{zIndex:shown.length-i}} aria-hidden="true"><Avatar who={id} size={size}/></span>)}
-  {extra>0&&<span className="avatar-stack-more" aria-hidden="true">+{extra}</span>}
+  {extra>0&&<span className="avatar-stack-more" aria-hidden="true">{'\u2066+'+(extra)+'\u2069'}</span>}
  </span>;
 }

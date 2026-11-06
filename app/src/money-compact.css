@@ -1,0 +1,75 @@
+/* Expenses (signed-in MoneyView) in List mode: <html data-density="compact"> on household/expenses.
+   One ~36px line per transaction: small category icon · name · muted category · payer mini-avatar · short date ·
+   amount at the end (bold, tabular). Summary tiles collapse into one slim line. Same data as Cards mode. */
+.money-add{display:flex;align-items:center;gap:10px}
+.money-add .density-toggle{height:48px;box-sizing:border-box}
+.money-add .density-toggle button{height:40px}
+
+html[data-density="compact"] .money-page .money-rows{gap:0}
+/* Fixed columns, so payer, date and amount line up like a table on every row (LTR and RTL). */
+html[data-density="compact"] .money-page .money-rows li{grid-template-columns:24px minmax(0,1fr) 24px 56px 84px!important;grid-template-areas:none!important;gap:10px;min-height:38px;padding:3px 6px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+html[data-density="compact"] .money-page .money-rows li>*{grid-area:auto!important}
+html[data-density="compact"] .money-page .money-rows li>.money-cat-icon{width:22px;height:22px;border-radius:0;background:none!important;box-shadow:none;border:0}
+html[data-density="compact"] .money-page .money-rows li>.money-cat-icon img,html[data-density="compact"] .money-page .money-rows li>.money-cat-icon svg{width:22px!important;height:22px!important}
+html[data-density="compact"] .money-page .money-row-main{flex-direction:row;align-items:baseline;gap:6px;min-width:0;overflow:hidden;white-space:nowrap}
+html[data-density="compact"] .money-page .money-row-main strong{flex:0 1 auto;min-width:0;font-size:calc(15px * var(--text-scale,1))}
+html[data-density="compact"] .money-page .money-row-main small{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
+html[data-density="compact"] .money-page .money-row-main small::before{content:'· ';color:var(--muted)}
+html[data-density="compact"] .money-page .money-row-main .money-cat-button{padding:0;border:0;background:none;color:var(--muted);font-weight:600;font-size:calc(13px * var(--text-scale,1))}
+html[data-density="compact"] .money-page .money-row-extra{display:none}
+html[data-density="compact"] .money-page .money-recat{white-space:normal}
+/* Payer before date, like the concept. */
+html[data-density="compact"] .money-page .money-rows li>.avatar,html[data-density="compact"] .money-page .money-rows li>span:empty{display:inline-flex!important;order:3;justify-self:center;width:22px!important;height:22px!important;background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+html[data-density="compact"] .money-page .money-rows li>.avatar *{background-color:transparent!important;box-shadow:none!important}
+html[data-density="compact"] .money-page .money-rows li>.avatar img{width:22px!important;height:22px!important}
+html[data-density="compact"] .money-page .money-rows li>.money-row-date{order:4;display:block!important;text-align:start;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:calc(13px * var(--text-scale,1));white-space:nowrap}
+html[data-density="compact"] .money-page .money-rows li>.money-amount{order:5;justify-self:end;text-align:end;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:calc(15px * var(--text-scale,1))}
+
+/* Summary tiles → one slim line: "Money in ₪16,500 · Spent ₪8,221 · Saved ₪0". */
+html[data-density="compact"] .money-page .money-tiles{display:flex!important;flex-wrap:wrap;gap:0;border-radius:999px;overflow:hidden;background:var(--surface);border:1px solid var(--border)}
+html[data-density="compact"] .money-page .money-tile{flex:1 1 0;min-height:0;padding:8px 14px!important;border-radius:0;display:flex;align-items:center;justify-content:center;box-shadow:none}
+html[data-density="compact"] .money-page .money-tile+.money-tile{border-inline-start:1px solid var(--border)}
+html[data-density="compact"] .money-page .money-tile-icon,html[data-density="compact"] .money-page .money-spark,html[data-density="compact"] .money-page .money-tile .money-pill{display:none!important}
+html[data-density="compact"] .money-page .money-tile-copy{display:flex!important;flex-direction:row!important;align-items:baseline;justify-content:center;gap:8px;text-align:center;white-space:nowrap}
+html[data-density="compact"] .money-page .money-tile-copy>*{margin:0!important}
+html[data-density="compact"] .money-page .money-tile-copy h3{margin:0;font-size:calc(13px * var(--text-scale,1))}
+html[data-density="compact"] .money-page .money-tile-copy strong{font-size:calc(16px * var(--text-scale,1))!important;font-variant-numeric:tabular-nums}
+
+/* Hero: same numbers, less height. */
+html[data-density="compact"] .money-page .money-hero{min-height:0;padding-block:18px}
+html[data-density="compact"] .money-page .money-hero-art{display:none}
+html[data-density="compact"] .money-page .money-hero-value{font-size:clamp(28px,3.4vw,40px)!important}
+
+/* Other lists on the page: upcoming bills, statements, connections. */
+html[data-density="compact"] .money-page .money-bills li,html[data-density="compact"] .money-page .money-statements li{min-height:38px;padding-block:4px}
+html[data-density="compact"] .money-page .money-bills .money-cat-icon,html[data-density="compact"] .money-page .money-statements .money-cat-icon{width:26px;height:26px}
+
+@media (max-width:700px){
+ .money-add{width:100%}.money-add .button{flex:1}
+ html[data-density="compact"] .money-page .money-rows li{grid-template-columns:24px minmax(0,1fr) 24px 50px 76px!important;gap:6px;padding-inline:2px}
+ html[data-density="compact"] .money-page .money-tile{padding:8px 6px!important}
+ html[data-density="compact"] .money-page .money-tile-copy{flex-direction:column!important;gap:0}
+}
+
+/* Icons sit fully inside their box (never larger than it). */
+html[data-density="compact"] .money-page .money-rows li>.money-cat-icon img,html[data-density="compact"] .money-page .money-rows li>.avatar.member-icon img{object-fit:contain;max-width:100%;max-height:100%}
+/* Night: one soft rounded tile, the same 24px on every row, with the icon contained at ~72% (category icons and
+   personal-icon payers alike). Photo and character avatars stay as they are. Light mode keeps bare icons. */
+html[data-theme="dark"][data-density="compact"] .money-page .money-rows li>.money-cat-icon,
+html[data-theme="dark"][data-density="compact"] .money-page .money-rows li>.avatar.member-icon{width:24px!important;height:24px!important;border-radius:7px!important;background:color-mix(in srgb,var(--text) 9%,transparent)!important;display:grid!important;place-items:center;overflow:hidden}
+html[data-theme="dark"][data-density="compact"] .money-page .money-rows li>.money-cat-icon img,html[data-theme="dark"][data-density="compact"] .money-page .money-rows li>.money-cat-icon svg,
+html[data-theme="dark"][data-density="compact"] .money-page .money-rows li>.avatar.member-icon img{width:17px!important;height:17px!important;object-fit:contain}
+
+/* Final: ONE shared grid for the whole list (subgrid). Every trailing column is exactly as wide as its widest value
+   across the list, so payer, date and amount still line up but hug each other, and the name gets the rest. */
+html[data-density="compact"] .money-page .money-rows{display:grid!important;grid-template-columns:24px minmax(0,1fr) auto auto minmax(84px,auto);column-gap:14px;row-gap:0}
+html[data-density="compact"] .money-page .money-rows li{display:grid!important;grid-column:1/-1;grid-template-columns:subgrid!important;gap:0 14px;min-height:40px}
+html[data-density="compact"] .money-page .money-rows li>*{grid-row:1!important}
+html[data-density="compact"] .money-page .money-rows li>.money-cat-icon{grid-column:1!important}
+html[data-density="compact"] .money-page .money-rows li>.money-row-main{grid-column:2!important}
+html[data-density="compact"] .money-page .money-rows li>.avatar,html[data-density="compact"] .money-page .money-rows li>span:empty{grid-column:3!important}
+html[data-density="compact"] .money-page .money-rows li>span:empty{width:0!important}
+html[data-density="compact"] .money-page .money-rows li>.money-row-date{grid-column:4!important}
+html[data-density="compact"] .money-page .money-rows li>.money-amount{grid-column:5!important}
+/* Phone: room for amounts up to ₪16,500 without shifting, and a 12px breath between columns. */
+@media (max-width:700px){html[data-density="compact"] .money-page .money-rows{grid-template-columns:24px minmax(0,1fr) auto auto minmax(68px,auto);column-gap:12px}html[data-density="compact"] .money-page .money-rows li{gap:0 12px}}

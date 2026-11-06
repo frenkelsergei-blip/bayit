@@ -1,4 +1,5 @@
 import React from 'react';
+import {DensitySetting} from './density';
 import {Check,Sun,Moon,Palette} from '@phosphor-icons/react';
 
 // Full themes: each one sets the page background, cards, menu and accent for day and night.
@@ -40,6 +41,7 @@ export function AppearanceSettings({app:a,ui:{Tabs}}){
     <label className={'accent-swatch accent-custom'+(accent&&!ACCENTS.some(c=>c.toLowerCase()===accent.toLowerCase())?' selected':'')} title={a.T('Choose any color','בחירת צבע חופשי')} style={accent?{'--swatch':accent}:undefined}><input type="color" aria-label={a.T('Custom button color','צבע כפתורים אישי')} value={accent||'#0240de'} onChange={e=>change({accent:e.target.value})}/><span>+</span></label>
    </div></div>
   <p className="settings-hint">{a.T('Your colors are personal and saved automatically. Day and night keep the same theme.','הצבעים אישיים ונשמרים אוטומטית. יום ולילה שומרים על אותה ערכה.')}</p>
+  <DensitySetting a={a} Tabs={Tabs}/>
   <QuickNavPicker a={a} appearance={appearance} change={change}/>
  </div>
 }

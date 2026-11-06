@@ -1,0 +1,15 @@
+/* Hebrew/English mixed content: text people type takes its direction from its own first letters (unicode-bidi: plaintext),
+   so a Hebrew title in the English interface (or an English one in Hebrew) keeps its word order on every wrapped line,
+   and the title underline lands under the real last word. Alignment still follows the interface side. */
+.calendar-detail-heading h2,.detail-title,
+.tasks-row-main>strong,.tasks-detail-heading h2,.task-row strong,.task-title,
+.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.month-event,.month-day-agenda li strong,
+.calendar-detail-section p,.journal-detail p,.journal-entry strong,.journal-entry p,.journal-card strong,.journal-card p,
+.shop2-row-main strong,.shop2-head h2,.shop2-list-card strong,.tasks-list-card strong,.tasks-list-name,
+.prio-widget-text strong,.today-widget li strong,.timeline-item strong,.timeline-item p,
+.note-card strong,.note-card p,.notes-list strong,.notes-list p,.notification-item strong,.notification-item p,
+.pantry-item strong,.maintenance-item strong,.document-card strong,.expense-row strong,.subtask-list span,.task-subtasks span{unicode-bidi:plaintext}
+html[dir=ltr] :is(.calendar-detail-heading h2,.tasks-row-main>strong,.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.shop2-row-main strong,.prio-widget-text strong,.calendar-detail-section p,.task-row strong,.shop2-head h2,.subtask-list span,.task-subtasks span){text-align:left}
+html[dir=rtl] :is(.calendar-detail-heading h2,.tasks-row-main>strong,.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.shop2-row-main strong,.prio-widget-text strong,.calendar-detail-section p,.task-row strong,.shop2-head h2,.subtask-list span,.task-subtasks span){text-align:right}
+/* Typing: fields follow what is typed */
+input:not([type]),input[type=text],input[type=search],textarea{unicode-bidi:plaintext}

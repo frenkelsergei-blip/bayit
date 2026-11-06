@@ -1,0 +1,208 @@
+/* Compact list mode ("List" in Cards | List) for Tasks, Shopping, Calendar Agenda and the notifications inbox.
+   Same data as the card mode, on one thin line: small real icon, title, muted inline meta, mini avatar, hairline rows.
+   Tasks/Shopping follow <html data-density>; Agenda and the inbox carry their own .density-compact class.
+   Toggle placement for all four lives at the end of this file. */
+
+/* ---------- Shared: a 20px checkbox with a 36px hit area ---------- */
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control{flex:0 0 20px!important;width:20px!important;min-width:20px!important;max-width:20px!important;height:20px!important;align-self:center}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control>input[type=checkbox]{position:absolute;inset:-8px;width:36px!important;height:36px!important;opacity:0;z-index:1;cursor:pointer}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control::before{content:"";position:absolute;inset:0;box-sizing:border-box;border:2px solid #9B9B99;border-radius:6px;background:var(--surface,#fff);transition:background .15s,border-color .15s}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control:has(input:checked)::before{background:var(--primary);border-color:var(--primary)}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control:has(input:disabled){opacity:.5}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control:has(input:focus-visible)::before{box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 35%,transparent)}
+:is(html[data-density=compact] .tasks-v2 .tasks-row,html[data-density=compact] .shop2 .shop2-row)>span.checkbox-control>svg{inset:3px;width:14px;height:14px;z-index:0}
+
+/* ---------- Tasks ---------- */
+html[data-density=compact] .tasks-v2 .tasks-v2-layout{margin-top:10px}
+html[data-density=compact] .tasks-v2 .tasks-group{margin-bottom:10px}
+/* Slim sticky group band (Today, Tomorrow, Overdue, priority groups keep their colours) */
+html[data-density=compact] .tasks-v2 .tasks-group>h3{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:6px;margin:0;padding:3px 10px;min-height:28px;box-sizing:border-box;border-radius:9px;background:var(--dens-band);font-size:calc(14.5px * var(--text-scale,1));line-height:1.2;--dens-band:color-mix(in srgb,var(--yellow,#ffe8a3) 55%,var(--bg))}
+html[data-density=compact] .tasks-v2 .tasks-group>h3>span{padding:0;background:none!important;color:inherit;gap:6px}
+html[data-density=compact] .tasks-v2 .tasks-group>h3>small{color:var(--text);opacity:.65;font-weight:850}
+html[data-density=compact] .tasks-v2 .tasks-group>h3>small::before{content:"("}
+html[data-density=compact] .tasks-v2 .tasks-group>h3>small::after{content:")"}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-today>h3{--dens-band:var(--yellow,#ffe8a3)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-overdue>h3{--dens-band:#ffe3da;color:#8a2a14}
+html[data-theme=dark][data-density=compact] .tasks-v2 .tasks-group.tone-overdue>h3{--dens-band:#4a2219;color:#ffd9cf}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-high>h3{--dens-band:var(--prio-high-soft)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-medium>h3{--dens-band:var(--yellow)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-low>h3{--dens-band:var(--prio-low-soft)}
+html[data-density=compact] .tasks-v2 .tasks-group.tone-prio-none>h3{--dens-band:var(--lilac)}
+html[data-density=compact] .tasks-v2 .tasks-group>h3 .prio-mark{--prio-size:15px!important;width:15px;height:15px}
+
+/* One-line row: check · icon · title + inline meta · lock · mini avatar */
+html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{grid-template-columns:20px 24px minmax(0,1fr) 14px 22px!important;column-gap:10px!important;min-height:34px!important;padding-block:2px!important;padding-inline:8px!important;font-size:calc(15px * var(--text-scale,1));border-radius:0;align-items:center}
+html[data-density=compact] .tasks-v2 .tasks-row-main{display:grid!important;grid-template-columns:minmax(0,max-content) minmax(0,1fr) var(--dens-meta,290px);align-items:center;column-gap:10px;min-width:0;overflow:hidden;white-space:nowrap;min-height:30px;padding:0}
+html[data-density=compact] .tasks-v2 .tasks-row-main>strong{grid-column:1;grid-row:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(15.5px * var(--text-scale,1));line-height:1.3}
+html[data-density=compact] .tasks-v2 .tasks-row-main>strong>.prio-mark{--prio-size:15px;width:15px;height:15px;margin-inline-end:5px;vertical-align:-2px}
+html[data-density=compact] .tasks-v2 .tasks-meta{grid-column:3;grid-row:1;display:flex;flex-direction:row!important;align-items:center;flex-wrap:nowrap;min-width:0;overflow:hidden;gap:0 10px;font-size:calc(13px * var(--text-scale,1));line-height:1.3}
+html[data-density=compact] .tasks-v2 .tasks-meta>.tasks-meta-time{display:inline-flex!important;order:-1;flex:0 0 48px}
+html[data-density=compact] .tasks-v2 .tasks-meta>span{flex:none;gap:3px;white-space:nowrap}
+html[data-density=compact] .tasks-v2 .tasks-meta svg{width:12px;height:12px}
+html[data-density=compact] .tasks-v2 .tasks-meta-list,html[data-density=compact] .tasks-v2 .tasks-meta-trip{padding:0;background:none;color:var(--muted)}
+html[data-density=compact] .tasks-v2 .tasks-meta>span:last-child{flex-shrink:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html[data-density=compact] .tasks-v2 .tasks-note{grid-column:2;grid-row:1;min-width:0;margin:0;font-size:calc(13px * var(--text-scale,1));line-height:1.3}
+html[data-density=compact] .tasks-v2 .tasks-col-lock svg{width:14px;height:14px}
+html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row>.tasks-assignee{padding:0!important;background:none!important;gap:0;justify-self:end!important}
+html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row>.tasks-assignee>span{display:none!important}
+html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row>.tasks-assignee>.avatar{width:22px!important;height:22px!important;box-shadow:none}
+/* Selected row: same geometry, just the blue fill */
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.focused{border-radius:8px}
+/* Priority: the rounded frame becomes a thin coloured start edge plus a light tint (flag stays before the title) */
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.has-prio:not(.done){border:1px solid transparent!important;border-bottom-color:var(--border)!important;border-inline-start:3px solid var(--prio-edge)!important;border-radius:0;box-shadow:none;padding-inline-start:6px!important}
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.prio-row-high{--prio-edge:var(--prio-high)}
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.prio-row-medium{--prio-edge:color-mix(in srgb,var(--prio-medium) 55%,var(--prio-medium-edge))}
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.prio-row-low{--prio-edge:var(--prio-low)}
+html[data-density=compact] .tasks-v2 .task-row.tasks-row.has-prio.focused:not(.done){border-radius:0 8px 8px 0}
+html[dir=rtl][data-density=compact] .tasks-v2 .task-row.tasks-row.has-prio.focused:not(.done){border-radius:8px 0 0 8px}
+html[data-density=compact] .tasks-v2 .swipe-row:has(>.swipe-content>.task-row.has-prio:not(.done))>.swipe-content{padding-block:0}
+html[data-density=compact] .tasks-v2 .swipe-row:has(>.swipe-content>.task-row.has-prio:not(.done))>.swipe-delete{inset-block:0;border-radius:0}
+html[data-density=compact] .tasks-v2 .swipe-delete{width:80px;flex-direction:row;gap:6px;font-size:12px}
+html[data-density=compact] .tasks-v2 .swipe-delete svg{width:18px;height:18px}
+
+/* ---------- Shopping ---------- */
+html[data-density=compact] .shop2 .shop2-group{margin-top:6px}
+html[data-density=compact] .shop2 .shop2-group>h3{display:flex;max-width:none;margin:0 0 1px;padding:2px 10px 2px 6px;min-height:26px;box-sizing:border-box;border-radius:8px;gap:6px;font-size:calc(14px * var(--text-scale,1));background:color-mix(in srgb,var(--yellow) 70%,var(--surface,#fff))}
+html[data-density=compact] .shop2 .shop2-row{display:grid;grid-template-columns:20px minmax(0,1fr) 22px 32px;align-items:center;column-gap:10px;min-height:34px;padding:1px 6px}
+html[data-density=compact] .shop2 .shop2-row-main{display:grid;grid-template-columns:24px minmax(0,1fr);align-items:center;column-gap:10px;min-height:30px;min-width:0}
+html[data-density=compact] .shop2 .shop2-row-main>span{display:grid;grid-template-columns:minmax(0,1fr) var(--dens-qty,96px);align-items:baseline;column-gap:10px;min-width:0;overflow:hidden;white-space:nowrap}
+html[data-density=compact] .shop2 .shop2-row-main strong{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:calc(15.5px * var(--text-scale,1));line-height:1.3}
+html[data-density=compact] .shop2 .shop2-row-main small{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:calc(13px * var(--text-scale,1));line-height:1.3}
+html[data-density=compact] .shop2 .shop2-row-main .shop2-who{display:none}
+html[data-density=compact] .shop2 .shop2-row-avatar{justify-self:center}
+html[data-density=compact] .shop2 .shop2-row-avatar .avatar{width:22px!important;height:22px!important;box-shadow:none}
+html[data-density=compact] .shop2 .shop2-row-edit{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important}
+html[data-density=compact] .shop2 .shop2-row-edit svg{width:17px;height:17px}
+html[data-density=compact] .shop2 .swipe-delete{width:80px;flex-direction:row;gap:6px;font-size:12px}
+html[data-density=compact] .shop2 .swipe-delete svg{width:18px;height:18px}
+html[data-density=compact] .shop2 .shop2-row.done .shop2-row-main>img{opacity:.55}
+
+/* ---------- Calendar Agenda ---------- */
+.calendar-agenda.density-compact{gap:8px}
+/* Days become one continuous list under slim sticky day bands (no day cards) */
+.calendar-agenda.density-compact .agenda-day{padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+.calendar-agenda.density-compact .agenda-day-head{position:sticky;top:0;z-index:4;gap:8px;min-height:32px;box-sizing:border-box;padding:1px 3px 1px 4px;border-radius:9px;background:var(--surfaceSoft,#f6efe8)}
+.calendar-agenda.density-compact .agenda-day.is-today .agenda-day-head{background:color-mix(in srgb,var(--primary) 13%,var(--surface,#fff))}
+.calendar-agenda.density-compact .agenda-date{display:flex;align-items:baseline;gap:4px;min-width:0;padding:2px 8px;border-radius:7px;line-height:1.2;background:none}
+.calendar-agenda.density-compact .agenda-day.is-today .agenda-date{background:var(--primary)}
+.calendar-agenda.density-compact .agenda-event:first-child{border-top-color:transparent}
+.calendar-agenda.density-compact .agenda-date strong{font-size:calc(15px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-date small{font-size:calc(11.5px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-weekday{display:flex;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
+.calendar-agenda.density-compact .agenda-weekday strong{font-size:calc(15px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-weekday em{font-size:calc(13px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-add{min-height:30px;height:30px;padding:0 10px;font-size:calc(13.5px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-add svg{width:15px;height:15px}
+.calendar-agenda.density-compact .agenda-events{gap:0;margin-top:2px}
+.calendar-agenda.density-compact .agenda-event{grid-template-columns:48px 3px 24px minmax(0,1fr) 62px 14px;gap:9px;min-height:34px;padding:2px 8px;border-radius:0;background:none;border-top:1px solid var(--border)}
+.calendar-agenda.density-compact .agenda-event.selected{border-radius:8px;border-top-color:transparent;background:var(--selected);box-shadow:none}
+.calendar-agenda.density-compact .agenda-event.selected+.agenda-event{border-top-color:transparent}
+.calendar-agenda.density-compact .agenda-event>time{font-size:calc(14px * var(--text-scale,1));font-weight:850}
+.calendar-agenda.density-compact .agenda-bar{align-self:center;height:18px;border-radius:2px}
+.calendar-agenda.density-compact .agenda-text{display:flex;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
+.calendar-agenda.density-compact .agenda-text strong{flex:0 1 auto;min-width:0;font-size:calc(15px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-text small{flex:1 1 0;min-width:0;font-size:calc(13px * var(--text-scale,1))}
+.calendar-agenda.density-compact .agenda-event>.avatar{width:22px!important;height:22px!important;grid-column:5;justify-self:end}
+.calendar-agenda.density-compact .agenda-event>.avatar-stack{--stack-size:22px!important;grid-column:5;justify-self:end;padding:0;margin:0}
+.calendar-agenda.density-compact .agenda-event>.avatar-stack>.avatar-stack-item{margin-inline-start:-4px;box-shadow:none;background:none}
+.calendar-agenda.density-compact .agenda-event>.avatar-stack>.avatar-stack-item:first-child{margin-inline-start:0}
+.calendar-agenda.density-compact .agenda-event>.avatar-stack>.avatar-stack-more{margin-inline-start:2px;box-shadow:none}
+.calendar-agenda.density-compact .agenda-event>.agenda-lock{display:block!important;width:14px;height:14px;grid-column:6}
+.calendar-agenda.density-compact .agenda-empty{margin:2px 4px 4px;font-size:calc(14px * var(--text-scale,1))}
+
+/* ---------- Notifications inbox ---------- */
+.notification-items.density-compact{padding:0 14px}
+.notification-items.density-compact .notification-item{grid-template-columns:24px minmax(0,1fr) 30px;align-items:center;gap:10px;min-height:36px;padding:2px 6px 2px 8px;border-radius:0}
+.notification-items.density-compact .notification-item>.avatar{width:24px!important;height:24px!important}
+.notification-items.density-compact .notification-item>div{display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr) var(--dens-inbox-meta,150px) 30px;align-items:center;column-gap:8px;min-width:0;overflow:hidden;white-space:nowrap}
+.notification-items.density-compact .notification-item>div>strong{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:calc(15px * var(--font-adjust,1));line-height:1.3}
+.notification-items.density-compact .notification-item.unread>div>strong{font-weight:900}
+.notification-items.density-compact .notification-item>div>p{min-width:0;margin:0;overflow:hidden;text-overflow:ellipsis;font-size:calc(13.5px * var(--font-adjust,1));line-height:1.3}
+.notification-items.density-compact .notification-item>div>small{display:flex;align-items:center;gap:8px;min-width:0;overflow:hidden;color:var(--muted);font-weight:700}
+.notification-items.density-compact .notification-item>div>small>time{order:-1;flex:0 0 40px;font-weight:850}
+.notification-items.density-compact .notification-item>div>small>.notification-sep{display:none}
+.notification-items.density-compact .notification-item>div>small>.notification-kind{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.notification-items.density-compact .notification-item>div>.text-link{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:0;width:30px;height:30px;padding:0!important;font-size:0;border-radius:50%}
+.notification-items.density-compact .notification-item>div>.text-link svg{width:17px;height:17px}
+.notification-items.density-compact .notification-item>.icon-button{align-self:center;display:grid;place-items:center;width:30px;height:30px;padding:0}
+@media(max-width:700px){.notification-items.density-compact .notification-kind{display:none}.notification-items.density-compact{--dens-inbox-meta:40px}}
+
+/* ---------- Icons and avatars in compact rows ----------
+   Light: just the real icon/avatar image, nothing behind it. Night: one soft rounded tile of the same size on
+   every row, the icon contained at ~75% and centred. Avatars never get a circle/chip behind them. */
+html[data-density=compact] .tasks-v2 .task-row.tasks-row>.color-icon,html[data-density=compact] .shop2 .shop2-row-main>img{width:22px!important;height:22px!important;justify-self:center;object-fit:contain;background:none!important;border-radius:0!important;padding:0;box-sizing:border-box}
+html[data-density=compact] .shop2 .shop2-group>h3>img{width:18px!important;height:18px!important;object-fit:contain;background:none!important;border-radius:0!important}
+.calendar-agenda.density-compact .agenda-icon{width:24px;height:24px;display:grid;place-items:center}
+.calendar-agenda.density-compact .agenda-icon>*{width:20px!important;height:20px!important;object-fit:contain;background:none!important;border-radius:0!important}
+html[data-theme=dark][data-density=compact] .tasks-v2 .task-row.tasks-row>.color-icon,html[data-theme=dark][data-density=compact] .shop2 .shop2-row-main>img{width:24px!important;height:24px!important;padding:3px;border-radius:7px!important;background:color-mix(in srgb,var(--text) 11%,var(--surface,#1C2541))!important}
+html[data-theme=dark][data-density=compact] .shop2 .shop2-group>h3>img{width:20px!important;height:20px!important;padding:2px;box-sizing:border-box;border-radius:6px!important;background:color-mix(in srgb,var(--text) 11%,var(--surface,#1C2541))!important}
+html[data-theme=dark] .calendar-agenda.density-compact .agenda-icon{border-radius:7px;background:color-mix(in srgb,var(--text) 11%,var(--surface,#1C2541))}
+html[data-theme=dark] .calendar-agenda.density-compact .agenda-icon>*{width:18px!important;height:18px!important}
+html[data-density=compact] .tasks-v2 .tasks-assignee>.avatar,html[data-density=compact] .shop2 .shop2-row-avatar .avatar,.calendar-agenda.density-compact .agenda-event .avatar,.notification-items.density-compact .notification-item>.avatar{background:none!important;box-shadow:none!important;border:0!important}
+html[data-density=compact] .tasks-v2 .tasks-row.done>.tasks-assignee{opacity:.65}
+
+/* Column widths: the trailing meta columns keep one x-position on every row */
+@media(max-width:1280px){html[data-density=compact] .tasks-v2{--dens-meta:300px}}
+@media(max-width:1100px){html[data-density=compact] .tasks-v2{--dens-meta:250px}}
+@media(max-width:700px){
+ html[data-density=compact] .tasks-v2{--dens-meta:96px}
+ html[data-density=compact] .tasks-v2 .tasks-meta{gap:0 7px}
+ html[data-density=compact] .tasks-v2 .tasks-meta>.tasks-meta-time{flex-basis:40px}
+ html[data-density=compact] .tasks-v2 .tasks-meta-repeat{font-size:0;gap:0}
+ html[data-density=compact] .tasks-v2 .tasks-meta-list{display:none}
+ html[data-density=compact] .shop2{--dens-qty:70px}
+}
+/* The empty time slot only exists for the compact table */
+.tasks-meta-time-none{display:none}
+/* A drag that starts on a photo or icon must swipe the row, not start a native image drag */
+.swipe-row img{-webkit-user-drag:none;user-select:none}
+
+/* ---------- Touch: rows keep a ≥36px hit area (phones and tablets) ---------- */
+@media(pointer:coarse){
+ html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{min-height:38px!important}
+ html[data-density=compact] .shop2 .shop2-row{min-height:38px;grid-template-columns:20px minmax(0,1fr) 22px 36px}
+ html[data-density=compact] .shop2 .shop2-row-edit{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}
+ .calendar-agenda.density-compact .agenda-event{min-height:38px}
+ .calendar-agenda.density-compact .agenda-add{min-height:30px;height:30px;position:relative}
+ .calendar-agenda.density-compact .agenda-add::after{content:"";position:absolute;inset:-4px}
+ .notification-items.density-compact .notification-item{min-height:40px}
+ .notification-items.density-compact .notification-item>div>.text-link,.notification-items.density-compact .notification-item>.icon-button{width:36px;height:36px}
+}
+@media(max-width:700px){
+ html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{min-height:38px!important;padding-inline:4px!important;column-gap:9px!important}
+ html[data-density=compact] .tasks-v2 .task-row.tasks-row.has-prio:not(.done){padding-inline-start:3px!important}
+ html[data-density=compact] .tasks-v2 .tasks-group>h3{top:var(--dens-sticky-top,67px)}
+ html[data-density=compact] .shop2 .shop2-row{min-height:38px;padding-inline:2px}
+ .calendar-agenda.density-compact .agenda-event{grid-template-columns:44px 3px 24px minmax(0,1fr) 54px 14px;gap:8px;padding-inline:4px;min-height:38px}
+ .calendar-agenda.density-compact .agenda-day-head{top:var(--dens-sticky-top,67px)}
+ .calendar-agenda.density-compact .agenda-add{width:32px;padding:0;justify-content:center}
+}
+
+/* ---------- Cards | List toggle placement ---------- */
+/* Tasks: desktop/tablet at the end of the status/priority/search row; phones beside the status pill. */
+.tasks-filters>.tasks-density{order:10;height:44px;box-sizing:border-box}
+.tasks-filters>.tasks-density button{height:35px}
+@media(max-width:700px){.tasks-filters>.tasks-density{order:0;margin-inline-start:auto}}
+/* Shopping: in the filter row; phones move it up beside the open list's actions. */
+.shop2 .density-toggle{height:var(--shop2-control,44px);box-sizing:border-box}
+.shop2 .density-toggle button{height:calc(var(--shop2-control,44px) - 9px)}
+.shop2 .shop2-head-actions>.shop2-density-head{display:none}
+@media(max-width:700px){
+ .shop2 .shop2-toolbar>.shop2-density{display:none}
+ /* One round button like its neighbours, showing the other mode (the pill would push the list details onto a new line) */
+ .shop2 .shop2-head-actions>.shop2-density-head{display:inline-flex;order:-1;padding:0;border:0;background:none;gap:0}
+ .shop2 .shop2-head-actions>.shop2-density-head>button.on{display:none}
+ .shop2 .shop2-head-actions>.shop2-density-head>button{width:var(--shop2-control,44px);height:var(--shop2-control,44px);border-radius:50%;border:1.5px solid var(--border);background:var(--surface,#fff);color:var(--text);box-sizing:border-box}
+}
+/* Calendar (Agenda only): beside "New event"; in My Space (no heading) at the end of the controls row. */
+.calendar-reference>.page-actions>.agenda-density{order:-1}
+.calendar-reference-controls>.agenda-density{align-self:center}
+@media(max-width:700px){.calendar-reference>.page-actions>.agenda-density{order:0;margin-inline-start:auto}}
+/* Inbox header: just before the close button. */
+/* The inbox panel is at most 510px wide, so its switch is always the icon-only pill */
+.notification-inbox>header>.notification-density{flex:none;margin-inline:auto 12px}
+.notification-inbox>header>.notification-density button{width:40px;padding:0;justify-content:center}
+.notification-inbox>header>.notification-density button span{display:none}
+.notification-inbox>header>div{min-width:0}
+.notification-inbox>header h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:700px){.notification-inbox>header>div{min-width:0;gap:8px}.notification-inbox>header>div>svg{display:none}.notification-inbox>header h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.notification-inbox>header>.notification-density{flex:none;margin-inline:auto 6px}}

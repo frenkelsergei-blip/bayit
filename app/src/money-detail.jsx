@@ -59,7 +59,7 @@ function useFinance(a){
  const view=useMemo(()=>{if(!data?.transactions?.length)return null;const rows=data.transactions.filter(t=>t.visibility!=='private'||t.ownerId===data.me),months=[...new Set(rows.map(monthOf))].sort(),bank=(data.imports||[]).filter(i=>i.kind==='bank'),thisMonth=new Date().toISOString().slice(0,7),live=new Set(rows.filter(t=>t.source==='riseup'&&t.month<thisMonth).map(t=>t.month)),complete=m=>live.has(m)||bank.some(i=>i.periodFrom<=m+'-01'&&i.periodTo>=m+'-28'),month=[...months].reverse().find(complete)||months.at(-1);return {rows,groups:data.groups,month,s:monthSummary(rows,data.groups,month),f:forecast(rows,data.groups,shiftMonth(month,1))}},[data]);
  return {data,failed,view};
 }
-const shekel=(v,he)=>(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleString(he?'he-IL':'en-US');
+const shekel=(v,he)=>'\u2066'+(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleString(he?'he-IL':'en-US')+'\u2069'; // left-to-right even in Hebrew
 
 // Today: this month's money at a glance (adults on a signed-in household).
 export function MoneyWidget({app:a,ui:{Button}}){

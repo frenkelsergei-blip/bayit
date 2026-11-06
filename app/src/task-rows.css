@@ -1,0 +1,14 @@
+/* Owner direction: task rows give the text the room. No XP in the row (it stays in task details),
+   the person photo sits at the far edge, a lock (private) just before it, and a one-line note under the title. */
+.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 20px 150px!important}
+.task-list-layout .task-row.tasks-row>*{grid-row:1}
+.task-list-layout .task-row.tasks-row>.tasks-col-lock{grid-column:4}
+.task-list-layout .task-row.tasks-row>.tasks-assignee{grid-column:5;justify-self:end!important}
+@media(max-width:1280px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 18px 34px!important}.task-list-layout .task-row.tasks-row>.tasks-assignee>span{display:none}}
+@media(max-width:700px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 16px 32px!important;column-gap:10px!important}}
+.tasks-row-main{min-width:0}
+.tasks-note{display:block;min-width:0;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--muted);font-weight:600;font-size:calc(14px * var(--text-scale,1));unicode-bidi:plaintext}
+html[dir=ltr] .tasks-note{text-align:left}html[dir=rtl] .tasks-note{text-align:right}
+.task-row.done .tasks-note{opacity:.7}
+/* The photo is the outermost element; on wide screens the name sits just inside it */
+.task-list-layout .task-row.tasks-row>.tasks-assignee{flex-direction:row-reverse;padding-inline:12px 0!important}

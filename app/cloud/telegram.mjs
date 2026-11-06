@@ -67,7 +67,8 @@ async function downloadFile(env,bot,fileId,maxBytes,lang){
 // ---- Message text ----
 function itemLine(item,lang){const r=item.record,when=item.time||r.time?esc(item.time||r.time)+' · ':'',done=item.state==='done'?' ✓':item.state==='pending'?L(lang,' (waiting for approval)',' (ממתין לאישור)'):'';return '• '+when+esc(title(r,lang))+done}
 function reminderText(item,lang,now){const left=minutes(item.time)-minutes(now),lead=left>0?L(lang,'in '+left+' min','בעוד '+left+' דקות'):L(lang,'now','עכשיו'),kind=item.kind==='event'?L(lang,'Event','אירוע'):item.category==='routines'?L(lang,'Routine','שגרה'):L(lang,'Task','משימה');return '<b>'+L(lang,'Reminder','תזכורת')+'</b> · '+lead+'\n<b>'+esc(title(item.record,lang))+'</b>\n'+kind+' · '+esc(item.time)}
-const money=v=>(v<0?'−':'')+HOME_CURRENCY_SYMBOL+Math.abs(Math.round(v)).toLocaleString('en-US');
+// Amounts are wrapped as a left-to-right unit, so Hebrew messages show −₪55, not 55-₪.
+const money=v=>'\u2066'+(v<0?'−':'')+HOME_CURRENCY_SYMBOL+Math.abs(Math.round(v)).toLocaleString('en-US')+'\u2069';
 function planText(plan,lang,lists){return plan.actions.map(a=>{const described=describeAction(a,lang,money);if(described)return '• '+esc(described);if(a.kind==='shopping.list.create')return '• '+L(lang,'New list: ','רשימה חדשה: ')+esc(a.title);if(a.kind==='shopping.add'){const list=lists.find(l=>l.id===a.listId);return '• '+esc(a.title)+' — '+esc(a.quantity+' '+a.unit)+(list?' ('+esc(title(list,lang))+')':'')}return '• '+esc(a.title)+' — '+esc(a.date)+(a.time?' '+esc(a.time):'')}).join('\n')}
 const helpText=lang=>L(lang,
  '<b>Bayit on Telegram</b> · your home assistant\nJust write in your own words, send a photo or a voice message. For example:\n• “add milk and eggs to the shopping list”\n• “move the dentist to Thursday at 10”\n• “mark take out the trash as done”\n• “delete the swimming practice on Friday”\n• “remember that Noa’s teacher is Dana”\n• “how much did we spend on food this month?”\nThe AI prepares the change and you press <b>Apply</b> (and Undo if needed).\n\n/today – your day\n/tasks – your tasks, tap ✓ to complete\n/week – the next 7 days\n/shopping – tap items to check them off\n/lists – all your lists\n/note &lt;text&gt; – save a note\n/expenses – spending this month\n/mine &lt;request&gt; – use your private space\n/stop – unlink this chat\n\nYou only see what you can see in the app.',
@@ -282,7 +283,7 @@ async function handlePhoto(env,bot,home,link,role,lang,photo,caption,scope){
  return askAI(env,bot,home,link,role,lang,question,scope,{images:[{mediaType,data:base64(bytes)}],label:'[photo] '+caption});
 }
 
-const shekels=agorot=>'₪'+(agorot/100).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
+const shekels=agorot=>'\u2066'+(agorot<0?'−':'')+'₪'+Math.abs(agorot/100).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2})+'\u2069';
 async function handleStatement(env,bot,home,link,role,lang,document){
  if(role==='child')return send(env,bot,link.chat_id,L(lang,'Expenses are available to adult accounts.','ההוצאות זמינות למבוגרים בלבד.'));
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
