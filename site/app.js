@@ -1,64 +1,236 @@
-// Bayit website: bilingual copy, reveal-on-scroll, hero slideshow, counters and a scripted "video" of the app.
-(()=>{
-const T={
- en:{skip:'Skip to content',navFeatures:'Features',navStory:'See it work',navMoney:'Money',navSelfhost:'Self-host',kicker:'Open source · Hebrew & English · Self-hosted',h1a:'A little more',h1b:'together.',lead:'Bayit is the warm family home app for your day, tasks, shopping, kids, money and memories. Everyone sees what they should, and nothing more.',ctaDemo:'Try the live demo',ctaGithub:'Get it on GitHub',factLicense:'licensed',factLang:'native Hebrew & English',factCloud:'your own Cloudflare',toast1a:'Reminder · in 10 min',toast1b:'Water the plants',toast2a:'Noa finished her routine',toast3a:'Totals match',toast3b:'Max statement · 15 checks',m1:'Today',m2:'Calendar',m3:'Routines',m4:'Shopping',m5:'Kids',m6:'Meals',m7:'Money',m8:'Journal',featTitleA:'Everything a home',featTitleB:'juggles.',f1t:'Our day',f1d:'Agenda, tasks and widgets you arrange yourself. Week, month and agenda calendars, with each person\'s color.',f2t:'Routines for kids',f2d:'Weekdays, times, rewards, parent approval and whose turn it is, with history the kids can see.',f3t:'Smart shopping',f3d:'Several lists, categories and quantities, and suggestions from what you usually buy. Lists move from trip to trip.',f4t:'Pixel characters',f4d:'Kids earn XP and achievements, and unlock a cap and a moon cape that show up everywhere.',f5t:'Ask your home',f5d:'Your choice of AI (Claude, OpenAI, Gemini, Grok…) answers from records you\'re allowed to see and prepares tasks, events or lists. Nothing is saved until you tap Apply.',f6t:'Money, finally clear',f6d:'Import bank and card statements, see where it went, catch recurring bills and price increases, and plan next month.',f7t:'The whole household',f7d:'Meals and pantry, maintenance on a schedule, and private documents with their own sharing.',f8t:'Private by design',f8d:'Every note, task and event has an owner and visibility. The server enforces it, and AI follows the same rules.',storyTitleA:'Talk to your home.',storyTitleB:'It listens.',storyLead:'Your own Telegram bot sends reminders and understands text, photos and voice. Press play.',botLabel:'your family bot',scene1:'Shopping by text',scene2:'Reminders & kids',scene3:'Statements → money',moneyTitleA:'See where the money',moneyTitleB:'goes.',moneyLead:'Import Bank Leumi and Max statements. Bayit checks every total against the statement, never counts a card payment twice, and turns it into a calm monthly picture.',cIn:'came in',cOut:'went out',cLeft:'left after everything',t1:'Tap a category to see every purchase in it',t2:'Recurring bills, price increases and installments left',t3:'Next-month forecast and optional AI tips',t4:'No bank passwords; the PDF itself is not stored',fictional:'Amounts shown are from a fictional family.',kidsTitleA:'Made for the',kidsTitleB:'little ones too.',kidsLead:'Hover to dress them up: the cap and moon cape they earn show on every screen.',shTitleA:'Yours, on your own',shTitleB:'cloud.',shLead:'Bayit runs on your Cloudflare account (the free plan is enough for a family). Your Google sign-in, your AI key (Claude, OpenAI, Gemini or Grok), your Telegram bot. Nobody else\'s servers.',s1t:'Clone and install',s2t:'Create D1, R2 and the Pages project',s3t:'Add your secrets and deploy',shGuide:'Read the full self-hosting guide',footer:'Bayit is open source under the MIT license. Built with love for busy families.',credits:'Credits & licenses',openmoji:'Some emoji by OpenMoji (CC BY-SA 4.0)',
-  s:{list:'Weekend shopping',bread:'Bread',tomatoes:'Tomatoes',milk:'Milk',eggs:'Eggs',ask:'Add milk and eggs to the weekend list',prepared:'Prepared for review:',apply:'Apply',discard:'Discard',applied:'Applied · 2 changes',routine:'Noa · evening routine',brush:'Brush teeth',bag:'Pack school bag',remind:'Reminder · in 10 min',done:'✓ Done',snooze:'Snooze 10 min',finished:'Noa finished her routine ✓',pdf:'max-october.pdf',read:'Max · October 2026<br>91 new transactions<br><b class="ok">✓ Matches the statement (15 checks)</b>',add:'Add for both parents',added:'Added 91 transactions to Money',month:'October at home',left:'Left after everything',groceries:'Groceries',kids:'Kids & education',car:'Car & fuel',voice:'0:04',heard:'🎙 <b>I heard:</b> <i>remind me to call the doctor tomorrow at 8</i>'}},
- he:{skip:'דילוג לתוכן',navFeatures:'יכולות',navStory:'רואים את זה עובד',navMoney:'כסף',navSelfhost:'התקנה עצמית',kicker:'קוד פתוח · עברית ואנגלית · אחסון עצמי',h1a:'קצת יותר',h1b:'ביחד.',lead:'Bayit היא האפליקציה המשפחתית החמה ליום, למשימות, לקניות, לילדים, לכסף ולזיכרונות. כל אחד רואה את מה שצריך, ולא יותר.',ctaDemo:'לנסות את הדמו',ctaGithub:'להוריד מ־GitHub',factLicense:'רישיון',factLang:'עברית ואנגלית מלאות',factCloud:'ה־Cloudflare שלכם',toast1a:'תזכורת · בעוד 10 דקות',toast1b:'להשקות את העציצים',toast2a:'נועה סיימה את השגרה',toast3a:'הסכומים תואמים',toast3b:'דף מקס · 15 בדיקות',m1:'היום',m2:'לוח שנה',m3:'שגרות',m4:'קניות',m5:'ילדים',m6:'ארוחות',m7:'כסף',m8:'יומן',featTitleA:'כל מה שבית',featTitleB:'מלהטט.',f1t:'היום שלנו',f1d:'סדר יום, משימות ורכיבים שאתם מסדרים. לוח שבועי, חודשי ורשימה, עם צבע לכל אחד.',f2t:'שגרות לילדים',f2d:'ימים, שעות, פרסים, אישור הורה ותורות, עם היסטוריה שהילדים רואים.',f3t:'קניות חכמות',f3d:'כמה רשימות, קטגוריות וכמויות, והצעות לפי מה שאתם קונים בדרך כלל. הרשימות עוברות מקנייה לקנייה.',f4t:'דמויות פיקסל',f4d:'ילדים צוברים נקודות והישגים ופותחים כובע וגלימת ירח שמופיעים בכל מקום.',f5t:'לשאול את הבית',f5d:'ה־AI שתבחרו (Claude,‏ OpenAI,‏ Gemini,‏ Grok…) עונה מתוך מה שמותר לכם לראות ומכין משימות, אירועים או רשימות. שום דבר לא נשמר עד שלוחצים על החלה.',f6t:'הכסף, סוף סוף ברור',f6d:'ייבוא דפי בנק ואשראי, לאן הלך הכסף, חיובים קבועים ועליות מחיר, ותכנון לחודש הבא.',f7t:'כל הבית',f7d:'ארוחות ומזווה, תחזוקה בזמן, ומסמכים פרטיים עם שיתוף משלהם.',f8t:'פרטיות מהיסוד',f8d:'לכל הערה, משימה ואירוע יש בעלים והרשאות. השרת אוכף אותן, וגם ה־AI פועל לפי אותם כללים.',storyTitleA:'מדברים עם הבית.',storyTitleB:'הוא מקשיב.',storyLead:'בוט הטלגרם שלכם שולח תזכורות ומבין טקסט, תמונות והודעות קוליות. לחצו על הפעלה.',botLabel:'הבוט המשפחתי',scene1:'קניות בהודעה',scene2:'תזכורות וילדים',scene3:'דפי חשבון ← כסף',moneyTitleA:'לראות לאן הכסף',moneyTitleB:'הולך.',moneyLead:'ייבוא דפי חשבון של בנק לאומי ומקס. Bayit בודק כל סכום מול הדף, לא סופר חיוב כרטיס פעמיים, והופך הכול לתמונה חודשית רגועה.',cIn:'נכנס',cOut:'יצא',cLeft:'נשאר אחרי הכול',t1:'הקישו על קטגוריה וראו כל קנייה',t2:'חיובים קבועים, עליות מחיר ותשלומים שנותרו',t3:'תחזית לחודש הבא וטיפים אופציונליים מה־AI',t4:'בלי סיסמאות בנק; ה־PDF עצמו אינו נשמר',fictional:'הסכומים שמוצגים הם של משפחה בדיונית.',kidsTitleA:'עשוי גם',kidsTitleB:'בשביל הקטנים.',kidsLead:'רחפו כדי להלביש אותם: הכובע וגלימת הירח שהם מרוויחים מופיעים בכל מסך.',shTitleA:'שלכם, בענן',shTitleB:'שלכם.',shLead:'Bayit רץ בחשבון ה־Cloudflare שלכם (התוכנית החינמית מספיקה למשפחה). ההתחברות שלכם, מפתח ה־Claude שלכם, בוט הטלגרם שלכם. בלי שרתים של אחרים.',s1t:'משכפלים ומתקינים',s2t:'יוצרים D1,‏ R2 ופרויקט Pages',s3t:'מוסיפים סודות ומפרסמים',shGuide:'למדריך ההתקנה המלא',footer:'Bayit הוא קוד פתוח ברישיון MIT. נבנה באהבה למשפחות עמוסות.',credits:'קרדיטים ורישיונות',openmoji:'חלק מהאימוג׳ים מ־OpenMoji ‏(CC BY-SA 4.0)',
-  s:{list:'קניות לסופ״ש',bread:'לחם',tomatoes:'עגבניות',milk:'חלב',eggs:'ביצים',ask:'תוסיף חלב וביצים לרשימה של הסופ״ש',prepared:'מוכן לבדיקה:',apply:'החלה',discard:'ביטול',applied:'הוחל · 2 שינויים',routine:'נועה · שגרת ערב',brush:'צחצוח שיניים',bag:'לארוז תיק',remind:'תזכורת · בעוד 10 דקות',done:'✓ בוצע',snooze:'נודניק 10 דק׳',finished:'נועה סיימה את השגרה ✓',pdf:'max-october.pdf',read:'מקס · אוקטובר 2026<br>91 תנועות חדשות<br><b class="ok">✓ תואם לדף (15 בדיקות)</b>',add:'הוספה לשני ההורים',added:'נוספו 91 תנועות לכסף',month:'אוקטובר בבית',left:'נשאר אחרי הכול',groceries:'סופר ומכולת',kids:'ילדים וחינוך',car:'רכב ודלק',voice:'0:04',heard:'🎙 <b>שמעתי:</b> <i>תזכיר לי מחר בשמונה להתקשר לרופא</i>'}}
+// Bayit site: language (Hebrew RTL / English LTR), theme, the film, chapters, screens and small stop-motion touches.
+// A classic script (not a module) so the page also works when opened straight from disk; only the decorative
+// sketch renderer is loaded as a module, and the page works without it.
+(function () {
+
+const root = document.documentElement;
+const reducedQuery = matchMedia('(prefers-reduced-motion: reduce)');
+const darkQuery = matchMedia('(prefers-color-scheme: dark)');
+const reduced = () => reducedQuery.matches;
+const store = {get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } }};
+
+const HE = {
+  skip: 'דילוג לתוכן', navFeatures: 'מה יש', navScreens: 'מסכים', navTelegram: 'טלגרם', navOwn: 'המפתחות שלכם', navInstall: 'התקנה',
+  kicker: 'קוד פתוח · עברית ואנגלית · התקנה משלכם', h1a: 'קצת יותר', h1b: 'ביחד.',
+  lead: 'Bayit היא אפליקציית בית חמה לכל המשפחה: התוכנית של היום, לוח השנה, משימות ושגרות, קניות, הגיבורים של הילדים, כסף ובוט טלגרם. כל אחד רואה את מה שצריך, ולא יותר.',
+  ctaDemo: 'לנסות את ההדגמה', ctaInstall: 'להתקין אצלכם', factLicense: 'חינמי וקוד פתוח', factLang: 'מימין לשמאל ומשמאל לימין', factKeysB: 'המפתחות שלכם', factKeys: 'Cloudflare או Docker',
+  filmLabel: 'Bayit בדקה אחת', captions: 'כתוביות', soundOn: 'הפעלת קול', soundOff: 'השתקה', play: 'הפעלת הסרטון', pause: 'השהיית הסרטון', chaptersLabel: 'מעבר לחלק בסרטון',
+  chToday: 'היום', chCalendar: 'לוח שנה', chTasks: 'משימות', chShopping: 'קניות', chKids: 'ילדים', chTelegram: 'טלגרם', chKeys: 'המפתחות שלכם',
+  filmTextSummary: 'מה בסרטון', filmText: 'סיור מקריין עם מוזיקה מקורית. הלוגו של Bayit מצויר בעיפרון ומתקפל מנייר. אחר כך סיור: מסך היום עם תזכורת שמגיעה לטלפון, לוח השבוע, משימות ושגרות, רשימת קניות משותפת, גיבורי הפיקסלים של הילדים, תזכורת בטלגרם שעונים עליה ב„בוצע”, הודעה לבוט שמוסיפה חלב וביצים אחרי „החלה”, וההתקנה והמפתחות של המשפחה. כל המסכים מציגים משפחה בדיונית.',
+  featTitleA: 'כל מה שבית', featTitleB: 'מלהטט.', featLead: 'מקום משותף אחד לכל המשפחה, בעברית או באנגלית, בטלפון, בטאבלט ובמחשב, ביום ובלילה.',
+  f1t: 'היום', f1d: 'סדר היום של המשפחה, הדברים הקטנים לעשות והשגרות של הילדים, בעמוד רגוע אחד שאתם מסדרים.',
+  f2t: 'לוח שנה', f2d: 'שבוע, סדר יום וחודש, עם הצבע והתמונה של כל אחד, ואירועים חוזרים.',
+  f3t: 'משימות ושגרות', f3d: 'לכל משימה יש אחראי, עדיפות ועד חמש תזכורות, ולילדים שגרות עם תורות, אישורים ונקודות.',
+  f4t: 'קניות', f4d: 'כמה רשימות משותפות עם קטגוריות וכמויות, והצעות ממה שאתם קונים בדרך כלל.',
+  f5t: 'ילדים · הגיבור שלי', f5d: 'גיבורים בפיקסלים לטפל בהם, גינה לגדל, משחקים ומתלבשים, שמרוויחים עם השגרות.',
+  f6t: 'תזכורות בכל מקום', f6d: 'התראות בטלפון או במחשב, ובטלגרם, עם שעות שקטות ובלי כפילויות.',
+  f7t: 'כסף ובית', f7d: 'ייבוא דפי חשבון של בנק לאומי ו־Max, עם בדיקה של כל סכום. ארוחות, מזווה, תחזוקה ומסמכים פרטיים.',
+  f8t: 'לשאול את ה־AI', f8d: 'לבחירתכם Claude, OpenAI, Gemini, Grok או שירות תואם. הוא מכין שינויים, ושום דבר לא נשמר עד שלוחצים „החלה”.',
+  f9t: 'פרטי מהיסוד', f9d: 'כל פתק, משימה ואירוע הם פרטיים, למשפחה או לאנשים שבחרתם. השרת אוכף את זה, וה־AI פועל לפי אותם כללים.',
+  scrTitleA: 'רואים את זה', scrTitleB: 'בשפה שלכם.', scrLead: 'מסכים אמיתיים עם משפחה בדיונית. הם עוקבים אחרי השפה של הדף ומצב יום או לילה.', screensLabel: 'מסכים',
+  tabToday: 'היום', tabCalendar: 'לוח שנה', tabTasks: 'משימות', tabShopping: 'קניות', tabKids: 'הגיבור שלי', tabMoney: 'הוצאות', tabAi: 'לשאול AI',
+  tgTitleA: 'בוט משפחתי', tgTitleB: 'משלכם.', tgLead: 'מחברים בוט טלגרם משלכם, וכל אחד מקשר את הצ׳אט שלו. הבוט מדבר בשפה שבחרתם ב־Bayit.',
+  tg1t: 'תזכורות שמוצאות אתכם', tg1d: 'משימות ואירועים מגיעים עם כפתורי „בוצע” ו„נודניק”, וסיכום בוקר של היום.',
+  tg2t: 'פשוט תגידו לו', tg2d: 'בטקסט, בתמונה או בהודעה קולית הוא מוסיף, מזיז או מסיים משימות, אירועים, פריטי קניות ופתקים. כל שינוי ממתין ל„החלה” ואפשר לבטל אותו.',
+  tg3t: 'שינויים, בזמן', tg3d: 'כשמישהו מזיז, משנה שם או מוחק משהו שמשויך אליכם, Bayit מספר לכם בטלגרם.', watch: 'לצפות בחלק הזה',
+  kidsTitleA: 'גם בשביל', kidsTitleB: 'הקטנים.', kidsLead: 'לחצו על גיבור כדי למדוד את הכובע ואת גלימת הירח. הבגדים מופיעים בכל המסכים.',
+  kNoa: 'נועה', kItai: 'איתי', kMaya: 'מאיה', kAri: 'ארי', kLia: 'ליה', kTom: 'תום',
+  ownTitleA: 'הבית שלכם.', ownTitleB: 'המפתחות שלכם.', ownLead: 'אין שרת של חברת Bayit. כל משפחה מריצה עותק משלה עם החשבונות שלה. המפתחות מוצפנים בשרת שלכם ולא נשלחים בחזרה לדפדפן.',
+  k1t: 'ההתקנה שלכם', k1d: 'בתוכנית החינמית של Cloudflare, או ב־Docker על מחשב בבית, NAS, ‏Raspberry Pi או שרת.',
+  k2t: 'כניסה עם Google שלכם', k2d: 'כל אחד נכנס עם Google. הורה מזמין את השאר בקישורים חד־פעמיים.',
+  k3t: 'מפתח AI משלכם', k3d: 'לא חובה. Claude, ‏OpenAI, ‏Gemini, ‏Grok או כל שירות תואם OpenAI, על חשבונכם.',
+  k4t: 'בוט טלגרם משלכם', k4d: 'לא חובה. בוט משלכם, כך שההודעות של המשפחה עוברות רק דרכו.',
+  insTitleA: 'מתקינים', insTitleB: 'בצהריים אחד.', insLead: 'בחרו איפה ה־Bayit של המשפחה יגור. בשני המקרים זו אותה אפליקציה, עם אותם כללי פרטיות והצפנה.', installLabel: 'דרכי התקנה', tabAgent: 'עם סוכן AI',
+  cfLead: 'ברירת המחדל: אין שרת לתחזק, והתוכנית החינמית מספיקה למשפחה. צריך חשבון Cloudflare ולקוח כניסה של Google.',
+  cf1: 'מורידים את הקוד', cf2: 'יוצרים מסד נתונים, אחסון קבצים ואתר', cf3: 'מוסיפים סודות ומפרסמים', cfGuide: 'המדריך המלא ל־Cloudflare',
+  dkLead: 'רץ על כל דבר עם Docker ‏(amd64 או arm64): מחשב בבית, NAS, ‏Raspberry Pi 4 או 5, או שרת קטן. הודעות קוליות דורשות כרגע Cloudflare; כל השאר עובד.',
+  dk1: 'מפעילים', dk2: 'מסתכלים מסביב עם מידע לדוגמה', dk3: 'נותנים לו כתובת https בשביל כניסה עם Google וטלגרם', dk3d: 'דומיין משלכם עם HTTPS אוטומטי, או מנהרה. המדריך מסביר את שתי הדרכים.', dkGuide: 'המדריך המלא ל־Docker',
+  agLead: 'במאגר יש כישורים (skills) לסוכני קוד. פתחו אותו ב־Claude Code, ב־Codex או בסוכן אחר שקורא כישורים, ובקשו:',
+  ag1: '„תתקין את Bayit על ה־Cloudflare שלי”', ag2: '„תריץ את Bayit עם Docker על ה־Raspberry Pi שלי”', ag3: '„תעזור לי לחבר את טלגרם”', ag4: '„תעדכן את ה־Bayit שלי”', agLink: 'לכישורים',
+  footer: 'Bayit חינמית וקוד פתוח ברישיון MIT. נבנתה למשפחות עמוסות.', credits: 'קרדיטים ורישיונות', fictional: 'המסכים והסרטון מציגים משפחה בדיונית.',
+  themeToDark: 'מעבר למצב לילה', themeToLight: 'מעבר למצב יום',
 };
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let lang='en';try{lang=new URLSearchParams(location.search).get('lang')||localStorage.getItem('bayit-site-lang')||(navigator.language||'').startsWith('he')&&'he'||'en'}catch{}
-const t=k=>T[lang][k]??T.en[k],s=k=>T[lang].s[k];
+const EN_ARIA = {captions: 'Captions', filmLabel: 'Bayit in one minute', soundOn: 'Sound on', soundOff: 'Mute', play: 'Play the video', pause: 'Pause the video', chaptersLabel: 'Jump to a part of the video', screensLabel: 'Screens', installLabel: 'Ways to install', themeToDark: 'Switch to night mode', themeToLight: 'Switch to day mode'};
+const SHOT_ALT = {
+  en: {today: 'Today', calendar: 'Calendar week', tasks: 'Tasks', shopping: 'Shopping list', kids: 'My Hero', money: 'Expenses', ai: 'Ask AI', desktop: 'on a computer', phone: 'on a phone'},
+  he: {today: 'היום', calendar: 'לוח שבועי', tasks: 'משימות', shopping: 'רשימת קניות', kids: 'הגיבור שלי', money: 'הוצאות', ai: 'לשאול AI', desktop: 'במחשב', phone: 'בטלפון'},
+};
 
-function applyLang(){
- document.documentElement.lang=lang;document.documentElement.dir=lang==='he'?'rtl':'ltr';
- document.querySelectorAll('[data-i18n]').forEach(el=>{const v=t(el.dataset.i18n);if(v!=null)el.textContent=v});
- document.getElementById('lang').textContent=lang==='he'?'English':'עברית';
- try{localStorage.setItem('bayit-site-lang',lang)}catch{}
- player&&player.restart();
+// Keep the English text that is in the HTML so switching back needs no second dictionary.
+const english = new Map();
+document.querySelectorAll('[data-i18n]').forEach(el => english.set(el, el.innerHTML));
+
+const lang = () => root.lang === 'he' ? 'he' : 'en';
+const theme = () => root.dataset.theme || (darkQuery.matches ? 'dark' : 'light');
+const word = key => lang() === 'he' ? HE[key] : EN_ARIA[key];
+
+function applyLanguage(next) {
+  root.lang = next; root.dir = next === 'he' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.dataset.i18n; el.innerHTML = next === 'he' && HE[k] ? HE[k] : english.get(el); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { const v = word(el.dataset.i18nAria); if (v) el.setAttribute('aria-label', v); });
+  const toggle = document.getElementById('lang');
+  toggle.textContent = next === 'he' ? 'English' : 'עברית'; toggle.lang = next === 'he' ? 'en' : 'he';
+  document.title = next === 'he' ? 'Bayit · קצת יותר ביחד' : 'Bayit · A little more together';
+  syncThemeButton(); syncFilm(); syncShots(); syncSound();
 }
-document.getElementById('lang').addEventListener('click',()=>{lang=lang==='he'?'en':'he';applyLang()});
 
-// Sticky nav border and reveal-on-scroll
-const nav=document.querySelector('.nav');addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passive:true});
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=Math.min(i%4*80,240)+'ms';io.observe(el)});
+function syncThemeButton() { document.getElementById('theme').setAttribute('aria-label', word(theme() === 'dark' ? 'themeToLight' : 'themeToDark')); }
 
-// Hero slideshow
-const slides=[...document.querySelectorAll('.slide')];let si=0;
-if(!reduce)setInterval(()=>{slides[si].classList.remove('on');si=(si+1)%slides.length;slides[si].classList.add('on')},3800);
+document.getElementById('lang').addEventListener('click', () => { const next = lang() === 'he' ? 'en' : 'he'; store.set('bayit-site-lang', next); applyLanguage(next); });
+document.getElementById('theme').addEventListener('click', () => {
+  const next = theme() === 'dark' ? 'light' : 'dark'; root.dataset.theme = next; store.set('bayit-site-theme', next);
+  syncThemeButton(); syncFilm(); syncShots(); sketch.refresh();
+});
+darkQuery.addEventListener('change', () => { if (!root.dataset.theme) { syncThemeButton(); syncFilm(); syncShots(); sketch.refresh(); } });
 
-// Counters
-const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);const el=e.target,to=+el.dataset.to,pre=el.dataset.prefix||'';if(reduce){el.textContent=pre+to.toLocaleString('en-US');return}const t0=performance.now();const tick=n=>{const p=Math.min(1,(n-t0)/1400),v=Math.round(to*(1-Math.pow(1-p,3)));el.textContent=pre+v.toLocaleString('en-US');if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.5});
-document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+// ---------- the film ----------
+const film = document.getElementById('film'), playButton = document.getElementById('film-play');
+let filmVariant = '', userPaused = false;
+function syncFilm() {
+  const variant = `${lang()}-${theme()}`;
+  if (variant === filmVariant) return;
+  const time = film.currentTime || 0, wasPlaying = !film.paused;
+  filmVariant = variant;
+  film.poster = `media/bayit-${variant}-poster.jpg`;
+  film.innerHTML = `<source src="media/bayit-${variant}.mp4" type="video/mp4">` +
+    `<track kind="captions" src="media/bayit-${lang()}.vtt" srclang="${lang()}" label="${lang() === 'he' ? 'עברית' : 'English'}">`;
+  film.load();
+  if (time) film.addEventListener('loadedmetadata', () => { film.currentTime = time; }, {once: true});
+  if (wasPlaying) film.play().catch(() => {});
+}
+function showPlay(visible) { playButton.hidden = !visible; }
+// Our own controls replace the native ones (kept in the HTML for when this script does not run).
+film.removeAttribute('controls');
+// Some browsers claim a format and then fail to decode it: drop the failing source and try the next one.
+film.addEventListener('error', () => {
+  const sources = [...film.querySelectorAll('source')]; if (sources.length < 2) return;
+  const failed = sources.find(x => film.currentSrc && x.src === film.currentSrc) || sources[0];
+  const time = film.currentTime, playing = !userPaused; failed.remove(); film.load();
+  film.addEventListener('loadedmetadata', () => { if (time) film.currentTime = time; }, {once: true});
+  if (playing && !reduced()) film.play().catch(() => showPlay(true));
+}, true);
+// Browsers only autoplay muted video. "Sound on" unmutes and starts the narration from the top.
+const soundButton = document.getElementById('film-sound');
+function syncSound() {
+  soundButton.setAttribute('aria-pressed', String(!film.muted));
+  soundButton.querySelector('span').textContent = word(film.muted ? 'soundOn' : 'soundOff');
+}
+soundButton.addEventListener('click', () => {
+  film.muted = !film.muted;
+  if (!film.muted) { if (film.currentTime > 2) film.currentTime = 0; userPaused = false; film.play().catch(() => {}); }
+  syncSound();
+});
+film.addEventListener('volumechange', syncSound);
+const ccButton = document.getElementById('film-cc');
+let captionsOn = false;
+function syncCaptions() { const tr = film.textTracks[0]; if (tr) tr.mode = captionsOn ? 'showing' : 'hidden'; ccButton.setAttribute('aria-pressed', String(captionsOn)); }
+ccButton.addEventListener('click', () => { captionsOn = !captionsOn; syncCaptions(); });
+film.addEventListener('loadedmetadata', syncCaptions);
+playButton.addEventListener('click', () => { userPaused = false; film.play().catch(() => {}); });
+film.addEventListener('play', () => showPlay(false));
+film.addEventListener('pause', () => showPlay(true));
+film.addEventListener('click', () => { if (film.paused) { userPaused = false; film.play().catch(() => {}); } else { userPaused = true; film.pause(); } });
+const saveData = navigator.connection?.saveData;
+showPlay(true);
+new IntersectionObserver(([entry]) => {
+  if (entry.isIntersecting) { if (!reduced() && !saveData && !userPaused) film.play().catch(() => showPlay(true)); }
+  else if (!film.paused) film.pause();
+}, {threshold: .35}).observe(film);
 
-// Kids dress-up on hover/tap
-document.querySelectorAll('.crew img').forEach(img=>{const a=img.src,b=img.dataset.alt;new Image().src=b;const on=()=>img.src=b,off=()=>img.src=a;img.addEventListener('mouseenter',on);img.addEventListener('mouseleave',off);img.addEventListener('click',()=>img.src=img.src===a?b:a)});
+const chapterButtons = [...document.querySelectorAll('.chapters button')];
+function seek(t) { film.currentTime = t; userPaused = false; film.play().catch(() => {}); film.scrollIntoView({behavior: reduced() ? 'auto' : 'smooth', block: 'center'}); }
+document.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => seek(+b.dataset.t)));
+film.addEventListener('timeupdate', () => {
+  const t = film.currentTime; let current = null;
+  chapterButtons.forEach(b => { if (t >= +b.dataset.t) current = b; });
+  chapterButtons.forEach(b => b.setAttribute('aria-current', String(b === current)));
+});
 
-// ---- Scripted "video" ----
-const chat=document.getElementById('chat'),card=document.getElementById('appcard'),bar=document.getElementById('progress'),playBtn=document.getElementById('play'),sceneBtns=[...document.querySelectorAll('#scenes button')];
-const msg=(html,who='bot',extra='')=>{const d=document.createElement('div');d.className='msg '+who+' '+extra;d.innerHTML=html;chat.appendChild(d);while(chat.children.length>5)chat.firstChild.remove();return d};
-const typing=()=>{const d=document.createElement('div');d.className='typing';d.innerHTML='<i></i><i></i><i></i>';chat.appendChild(d);return d};
-const row=(icon,text,amount='',cls='')=>{const d=document.createElement('div');d.className='row '+cls;d.innerHTML=(icon?'<img src="assets/art/'+icon+'" alt="">':'<span class="box">'+(cls.includes('done')?'✓':'')+'</span>')+'<span>'+text+'</span>'+(amount?'<b>'+amount+'</b>':'');card.appendChild(d);return d};
-const press=el=>{const b=el.querySelector('.btns span');b&&b.classList.add('press')};
-const scenes=[
- [[0,()=>{card.innerHTML='<h4>'+s('list')+'</h4>';row('bread.png',s('bread'));row('tomatoes.png',s('tomatoes'))}],[700,()=>msg(s('ask'),'me')],[1300,()=>typing()],[2400,()=>{chat.querySelector('.typing')?.remove();msg(s('prepared')+'<br>• '+s('milk')+'<br>• '+s('eggs')+'<div class="btns"><span>'+s('apply')+'</span><span>'+s('discard')+'</span></div>')}],[3900,()=>press(chat.lastChild)],[4500,()=>msg('<b>'+s('applied')+'</b>')],[4900,()=>row('milk.png',s('milk'),'1')],[5300,()=>row('eggs.png',s('eggs'),'12')],[6400,()=>msg('<span class="wave">'+'<i></i>'.repeat(9)+'</span> '+s('voice'),'me','voice')],[7600,()=>msg(s('heard'))]],
- [[0,()=>{card.innerHTML='<div class="kid"><img id="kidimg" src="assets/art/avatar-noa-bust.png" alt=""><h4>'+s('routine')+'</h4></div>';row('',s('brush'));row('',s('bag'),'','done')}],[800,()=>msg('<b>'+s('remind')+'</b><br>'+s('brush')+'<div class="btns"><span>'+s('done')+'</span><span>'+s('snooze')+'</span></div>')],[2600,()=>press(chat.lastChild)],[3100,()=>{const r=card.querySelector('.row');r.classList.add('done');r.querySelector('.box').textContent='✓'}],[3600,()=>{const x=document.createElement('span');x.className='xp';x.textContent='+10 XP';card.appendChild(x)}],[4400,()=>{const k=document.getElementById('kidimg');k.style.animation='none';k.offsetHeight;k.style.animation='';k.src='assets/art/avatar-noa-cape-bust.png'}],[5200,()=>msg(s('finished'))]],
- [[0,()=>{card.innerHTML='<div class="hero-mini"><div><small>'+s('month')+'</small><div class="big" id="bigval">+₪0</div><small>'+s('left')+'</small></div><img src="assets/art/money-hero.png" alt=""></div>'}],[700,()=>msg('📄 '+s('pdf'),'me')],[1300,()=>typing()],[2500,()=>{chat.querySelector('.typing')?.remove();msg(s('read')+'<div class="btns"><span>'+s('add')+'</span></div>')}],[4000,()=>press(chat.lastChild)],[4500,()=>{msg(s('added'));const el=document.getElementById('bigval'),t0=performance.now();const tick=n=>{const p=Math.min(1,(n-t0)/1300);el.textContent='+₪'+Math.round(4434*(1-Math.pow(1-p,3))).toLocaleString('en-US');if(p<1&&el.isConnected)requestAnimationFrame(tick)};requestAnimationFrame(tick)}],[5200,()=>row('act-backpack.png',s('kids'),'₪4,970')],[5600,()=>row('car.png',s('car'),'₪1,591')],[6000,()=>row('milk.png',s('groceries'),'₪1,312')]]
-];
-const SCENE_MS=9000;
-const player={timers:[],scene:0,playing:!reduce,start:0,raf:0,
- run(i){this.clear();this.scene=i;chat.innerHTML='';card.innerHTML='';sceneBtns.forEach((b,j)=>b.classList.toggle('on',j===i));
-  if(!this.playing){scenes[i].forEach(([,f])=>f());chat.querySelectorAll('.typing').forEach(x=>x.remove());bar.style.width='100%';return}
-  this.start=performance.now();scenes[i].forEach(([ms,f])=>this.timers.push(setTimeout(f,ms)));this.timers.push(setTimeout(()=>this.run((i+1)%scenes.length),SCENE_MS));
-  const step=n=>{bar.style.width=Math.min(100,(n-this.start)/SCENE_MS*100)+'%';this.raf=requestAnimationFrame(step)};this.raf=requestAnimationFrame(step)},
- clear(){this.timers.forEach(clearTimeout);this.timers=[];cancelAnimationFrame(this.raf)},
- toggle(){this.playing=!this.playing;playBtn.querySelector('.ico').textContent=this.playing?'❚❚':'▶';playBtn.setAttribute('aria-label',this.playing?'Pause':'Play');this.run(this.scene)},
- restart(){this.run(this.scene)}};
-sceneBtns.forEach((b,i)=>b.addEventListener('click',()=>player.run(i)));
-playBtn.addEventListener('click',()=>player.toggle());
-if(reduce){playBtn.querySelector('.ico').textContent='▶'}
-// Start the story when it scrolls into view; pause when off-screen.
-let started=false;new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!started){started=true;player.run(0)}else if(!e.isIntersecting&&started&&player.playing){player.clear()}else if(e.isIntersecting&&started&&player.playing&&!player.timers.length){player.run(player.scene)}}),{threshold:.3}).observe(document.getElementById('player'));
-applyLang();
+// ---------- screens ----------
+let shot = 'today';
+const stage = document.querySelector('.stage');
+function syncShots(animate = false) {
+  const l = lang(), th = theme(), alt = SHOT_ALT[l];
+  const d = document.getElementById('shot-desktop'), p = document.getElementById('shot-phone');
+  const swap = () => {
+    d.src = `assets/shots/${shot}-desktop-${l}-${th}.webp`; d.alt = `Bayit · ${alt[shot]} ${alt.desktop}`;
+    p.src = `assets/shots/${shot}-phone-${l}-${th}.webp`; p.alt = `Bayit · ${alt[shot]} ${alt.phone}`;
+  };
+  if (!animate || reduced()) return swap();
+  stage.classList.remove('flip'); void stage.offsetWidth; stage.classList.add('flip');
+  setTimeout(swap, 190);
+}
+function tabs(list, onSelect) {
+  const buttons = [...list.querySelectorAll('[role=tab]')];
+  buttons.forEach((b, i) => {
+    b.addEventListener('click', () => { buttons.forEach(x => x.setAttribute('aria-selected', String(x === b))); onSelect(b); });
+    b.addEventListener('keydown', e => {
+      const step = {ArrowRight: 1, ArrowLeft: -1}[e.key]; if (!step) return;
+      const next = buttons[(i + step * (root.dir === 'rtl' ? -1 : 1) + buttons.length) % buttons.length]; next.focus(); next.click();
+    });
+  });
+}
+tabs(document.querySelector('.screens .tabs'), b => { shot = b.dataset.shot; syncShots(true); });
+tabs(document.querySelector('.install .tabs'), b => { document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'pane-' + b.dataset.pane; }); });
+
+// ---------- kids: outfits swap frame by frame ----------
+const outfits = ['', '-cap', '-cape'];
+document.querySelectorAll('.crew button').forEach((b, i) => {
+  let o = 0; const img = b.querySelector('img');
+  const set = n => { o = n % 3; img.src = `assets/kids/${b.dataset.kid}${outfits[o]}.webp`; };
+  b.addEventListener('click', () => set(o + 1));
+  b.setAttribute('aria-label', b.textContent.trim());
+  b._set = set; b._next = () => set(o + 1);
+});
+let crewTimer = 0;
+function crewCycle() {
+  clearInterval(crewTimer); if (reduced()) return;
+  const kids = [...document.querySelectorAll('.crew button')]; let k = 0;
+  crewTimer = setInterval(() => { if (document.hidden) return; kids[k % kids.length]._next(); k += 5; }, 700);
+}
+
+// ---------- stop-motion reveals ----------
+const revealer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealer.unobserve(e.target); } }), {rootMargin: '0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el => revealer.observe(el));
+
+// ---------- the app's own paper sketch, drawn live behind the hero ----------
+let createMaterials = null, renderSketchFrame = null;
+const sketch = (() => {
+  const canvas = document.querySelector('.hero .sketch'), ctx = canvas.getContext('2d');
+  let images = null, materials = null, w = 0, h = 0, clock = performance.now(), frame = -1, raf = 0, visible = true;
+  let scene = {id: 'horizon', seed: 37, mirror: false};
+  function size() {
+    const box = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    if (!box.width) return;
+    if (box.width === w && box.height === h) return;
+    w = box.width; h = box.height; canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); frame = -1;
+  }
+  function refresh() { if (images) materials = {...createMaterials(ctx, images, theme() === 'dark'), night: theme() === 'dark'}; frame = -1; if (reduced()) draw(performance.now()); }
+  function draw(now) {
+    if (!materials) return;
+    size();
+    let seconds = (now - clock) / 1000;
+    if (seconds >= 9) { const n = (scene.n || 0) + 1; scene = {id: 'horizon', n, seed: 37 + n * 71, mirror: n % 2 === 1}; clock = now; seconds = 0; } // the app's horizon scene, re-seeded each cycle
+    const f = Math.floor(seconds * 24);
+    if (f !== frame || reduced()) {
+      renderSketchFrame(ctx, {width: w, height: h, seconds: reduced() ? 4 : seconds, scene: {...scene, mirror: scene.mirror !== (root.dir === 'rtl')}, materials, reduced: reduced()});
+      frame = f;
+    }
+  }
+  function loop(now) { draw(now); if (!reduced() && visible && !document.hidden) raf = requestAnimationFrame(loop); }
+  function start() { cancelAnimationFrame(raf); if (reduced()) draw(performance.now()); else raf = requestAnimationFrame(loop); }
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }, {threshold: 0}).observe(canvas);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && visible) start(); });
+  addEventListener('resize', () => { size(); if (reduced()) draw(performance.now()); });
+  Promise.all([import('./assets/js/sketch-renderer.js'), ...['cobalt', 'yellow'].map(n => new Promise((res, rej) => { const i = new Image(); i.onload = () => res([n, i]); i.onerror = rej; i.src = `assets/paper/paper-${n}-small.webp`; }))])
+    .then(([lib, ...list]) => { createMaterials = lib.createMaterials; renderSketchFrame = lib.renderSketchFrame; images = Object.fromEntries(list); refresh(); clock = performance.now(); start(); })
+    .catch(() => { /* decorative only */ });
+  return {refresh, start};
+})();
+
+reducedQuery.addEventListener('change', () => { sketch.start(); crewCycle(); if (reduced() && !film.paused) film.pause(); });
+
+applyLanguage(lang());
+crewCycle();
+requestAnimationFrame(() => root.classList.add('ready'));
 })();

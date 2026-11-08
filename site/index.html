@@ -4,159 +4,238 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bayit · A little more together</title>
-<meta name="description" content="Bayit is a warm, bilingual (Hebrew/English) family home app: your day, tasks, shopping, kids, money and memories in one place. Open source, self-hosted on your own Cloudflare account.">
+<meta name="description" content="Bayit is an open-source family home app in Hebrew and English: your day, calendar, tasks, shopping, kids, money and a Telegram bot. Each family runs its own copy on Cloudflare or Docker, with its own keys.">
 <meta property="og:title" content="Bayit · A little more together">
-<meta property="og:description" content="The family home app for your day, tasks, shopping, kids and money. Open source and self-hosted.">
-<meta property="og:image" content="assets/img/today.jpg">
-<meta name="theme-color" content="#0240DE">
-<link rel="icon" href="assets/art/bayit-mark.png">
+<meta property="og:description" content="The open-source family home app. Your day, calendar, tasks, shopping, kids and a Telegram bot. Your own installation, your own keys.">
+<meta property="og:image" content="media/bayit-en-light-poster.jpg">
+<meta name="theme-color" content="#FEFAF5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#10152A" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/app-icon-180.png">
+<link rel="preload" href="assets/fonts/nunitosans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
+<script>
+  // Language and theme before first paint (no flash). Storage may be unavailable; that is fine.
+  (function(){var d=document.documentElement;d.classList.add('js');var q=new URLSearchParams(location.search),l=q.get('lang'),t=null;
+   try{l=l||localStorage.getItem('bayit-site-lang');t=localStorage.getItem('bayit-site-theme')}catch(e){}
+   if(!l)l=/^he\b/i.test(navigator.language||'')?'he':'en';
+   if(l==='he'){d.lang='he';d.dir='rtl'}
+   if(t==='light'||t==='dark')d.dataset.theme=t;})();
+</script>
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="paper-cobalt" patternUnits="userSpaceOnUse" width="384" height="384"><image href="assets/paper/paper-cobalt-small.webp" width="384" height="384"/></pattern>
+    <pattern id="paper-yellow" patternUnits="userSpaceOnUse" width="384" height="384"><image href="assets/paper/paper-yellow-small.webp" width="384" height="384"/></pattern>
+  </defs>
+</svg>
 
 <header class="nav" id="top">
-  <a class="brand" href="#top" aria-label="Bayit home"><img src="assets/art/bayit-wordmark.png" alt="bayit" width="120" height="40"></a>
-  <nav aria-label="Sections">
+  <a class="brand" href="#top" aria-label="Bayit">
+    <img class="logo-day" src="assets/brand/logo-light-alpha.png" alt="Bayit" width="114" height="38">
+    <img class="logo-night" src="assets/brand/logo-dark-alpha.png" alt="Bayit" width="114" height="38">
+  </a>
+  <nav aria-label="Sections" class="nav-links">
     <a href="#features" data-i18n="navFeatures">Features</a>
-    <a href="#story" data-i18n="navStory">See it work</a>
-    <a href="#money" data-i18n="navMoney">Money</a>
-    <a href="#selfhost" data-i18n="navSelfhost">Self-host</a>
+    <a href="#screens" data-i18n="navScreens">Screens</a>
+    <a href="#telegram" data-i18n="navTelegram">Telegram</a>
+    <a href="#own" data-i18n="navOwn">Your keys</a>
+    <a href="#install" data-i18n="navInstall">Install</a>
   </nav>
   <div class="nav-actions">
-    <button class="lang" type="button" id="lang" aria-label="עברית / English">עברית</button>
+    <button class="icon-btn" type="button" id="theme" aria-label="Switch to night mode" data-i18n-aria="themeToDark">
+      <svg class="i-moon" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M233.5 137.9a8 8 0 0 0-8-2a88 88 0 0 1-109.8-109.8a8 8 0 0 0-10-10A104.8 104.8 0 0 0 52.9 52.9a104 104 0 0 0 145 149.2a104.8 104.8 0 0 0 37.6-54.2a8 8 0 0 0-2-10Zm-44.5 51.4A88 88 0 0 1 66.6 66.6a88.6 88.6 0 0 1 25.6-17.4a104.1 104.1 0 0 0 114.6 114.6a88.6 88.6 0 0 1-17.8 25.5Z"/></svg>
+      <svg class="i-sun" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.1 64.1 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48 48 0 0 0 48-48ZM58.3 69.7a8 8 0 0 0 11.4-11.4l-16-16a8 8 0 0 0-11.4 11.4Zm0 116.6l-16 16a8 8 0 0 0 11.4 11.4l16-16a8 8 0 0 0-11.4-11.4ZM192 72a8 8 0 0 0 5.7-2.3l16-16a8 8 0 0 0-11.4-11.4l-16 16A8 8 0 0 0 192 72Zm5.7 114.3a8 8 0 0 0-11.4 11.4l16 16a8 8 0 0 0 11.4-11.4ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"/></svg>
+    </button>
+    <button class="lang" type="button" id="lang" lang="he">עברית</button>
     <a class="btn small" href="https://github.com/frenkelsergei-blip/bayit"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg><span>GitHub</span></a>
   </div>
 </header>
 
 <main id="main">
 <section class="hero">
-  <div class="hero-copy reveal">
-    <span class="pill" data-i18n="kicker">Open source · Hebrew &amp; English · Self-hosted</span>
-    <h1><span data-i18n="h1a">A little more</span> <span class="accent-word"><span data-i18n="h1b">together.</span><img class="rays" src="assets/art/title-rays.png" alt=""><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h1>
-    <p class="lead" data-i18n="lead">Bayit is the warm family home app for your day, tasks, shopping, kids, money and memories. Everyone sees what they should, and nothing more.</p>
-    <div class="cta">
+  <canvas class="sketch" aria-hidden="true"></canvas>
+  <div class="hero-copy">
+    <span class="kicker pop"><img src="assets/art/house.png" alt="" width="26" height="26"><span data-i18n="kicker">Open source · Hebrew &amp; English · Your own installation</span></span>
+    <h1 class="pop"><span data-i18n="h1a">A little more</span> <span class="accent-word"><span data-i18n="h1b">together.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""><img class="rays" src="assets/art/title-rays-96.png" alt=""></span></h1>
+    <p class="lead pop" data-i18n="lead">Bayit is a warm home app for the whole family: today’s plan, the calendar, tasks and routines, shopping, the kids’ heroes, money and a Telegram bot. Everyone sees what they should, and nothing more.</p>
+    <div class="cta pop">
       <a class="btn" href="https://bayit-8n0.pages.dev/?demo=1" data-i18n="ctaDemo">Try the live demo</a>
-      <a class="btn ghost" href="https://github.com/frenkelsergei-blip/bayit" data-i18n="ctaGithub">Get it on GitHub</a>
+      <a class="btn ghost" href="#install" data-i18n="ctaInstall">Install your own</a>
     </div>
-    <ul class="hero-facts">
-      <li><b>MIT</b><span data-i18n="factLicense">licensed</span></li>
-      <li><b>RTL + LTR</b><span data-i18n="factLang">native Hebrew &amp; English</span></li>
-      <li><b>☁︎</b><span data-i18n="factCloud">your own Cloudflare</span></li>
+    <ul class="facts pop">
+      <li><b>MIT</b><span data-i18n="factLicense">free and open source</span></li>
+      <li><b>עב · EN</b><span data-i18n="factLang">right-to-left and left-to-right</span></li>
+      <li><b data-i18n="factKeysB">Your keys</b><span data-i18n="factKeys">Cloudflare or Docker</span></li>
     </ul>
   </div>
-  <div class="hero-stage reveal" aria-hidden="true">
-    <img class="float f1" src="assets/art/smiling-sun-128.png" alt="">
-    <img class="float f3" src="assets/art/cat-128.png" alt="">
-    <div class="laptop"><div class="screen"><img src="assets/img/today.jpg" alt="" class="slide on"><img src="assets/img/money.jpg" alt="" class="slide"><img src="assets/img/kids.jpg" alt="" class="slide"><img src="assets/img/calendar.jpg" alt="" class="slide"></div></div>
-    <div class="phone"><span class="island"></span><img src="assets/img/mobile-parent.jpg" alt=""></div>
-    <div class="toast t1"><img src="assets/art/alarm-clock-128.png" alt=""><span><b data-i18n="toast1a">Reminder · in 10 min</b><small data-i18n="toast1b">Water the plants</small></span></div>
-    <div class="toast t2"><img src="assets/art/gold-medal-128.png" alt=""><span><b data-i18n="toast2a">Noa finished her routine</b><small>+10 XP</small></span></div>
-    <div class="toast t3"><span class="tick">✓</span><span><b data-i18n="toast3a">Totals match</b><small data-i18n="toast3b">Max statement · 15 checks</small></span></div>
-  </div>
+  <figure class="film pop">
+    <div class="film-frame paper">
+      <video id="film" controls muted playsinline loop preload="metadata" poster="media/bayit-en-light-poster.jpg" aria-describedby="film-text" data-i18n-aria="filmLabel" aria-label="Bayit in one minute">
+        <source src="media/bayit-en-light.mp4" type="video/mp4">
+        <track kind="captions" src="media/bayit-en.vtt" srclang="en" label="English">
+      </video>
+      <div class="film-controls">
+      <button class="film-cc" type="button" id="film-cc" aria-pressed="false" aria-label="Captions" data-i18n-aria="captions">CC</button>
+      <button class="film-sound" type="button" id="film-sound" aria-pressed="false">
+        <svg class="i-off" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M155.5 24.8a8 8 0 0 0-8.4.9L77.3 80H32a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h45.3l69.8 54.3A8 8 0 0 0 160 224V32a8 8 0 0 0-4.5-7.2ZM144 207.6l-61.1-47.9A8 8 0 0 0 78 158H32V96h46a8 8 0 0 0 4.9-1.7L144 46.4ZM245.7 154.3a8 8 0 0 1-11.4 11.4L216 147.3l-18.3 18.4a8 8 0 0 1-11.4-11.4l18.4-18.3l-18.4-18.3a8 8 0 0 1 11.4-11.4l18.3 18.4l18.3-18.4a8 8 0 0 1 11.4 11.4L227.3 136Z"/></svg>
+        <svg class="i-on" viewBox="0 0 256 256" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M155.5 24.8a8 8 0 0 0-8.4.9L77.3 80H32a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h45.3l69.8 54.3A8 8 0 0 0 160 224V32a8 8 0 0 0-4.5-7.2ZM144 207.6l-61.1-47.9A8 8 0 0 0 78 158H32V96h46a8 8 0 0 0 4.9-1.7L144 46.4ZM208 128a39.9 39.9 0 0 1-10 26.4a8 8 0 0 1-12-10.6a24 24 0 0 0 0-31.6a8 8 0 1 1 12-10.6A39.9 39.9 0 0 1 208 128Zm40 0a79.9 79.9 0 0 1-20.4 53.3a8 8 0 0 1-11.9-10.7a64 64 0 0 0 0-85.2a8 8 0 1 1 11.9-10.7A79.9 79.9 0 0 1 248 128Z"/></svg>
+        <span data-i18n="soundOn">Sound on</span>
+      </button>
+      </div>
+      <button class="film-play" type="button" id="film-play" aria-label="Play the video" data-i18n-aria="play">
+        <svg viewBox="0 0 256 256" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M240 128a15.7 15.7 0 0 1-7.6 13.5L88.3 229.7a16 16 0 0 1-16.2.3A15.9 15.9 0 0 1 64 216.1V39.9a15.9 15.9 0 0 1 8.1-13.9a16 16 0 0 1 16.2.3l144.1 88.2A15.7 15.7 0 0 1 240 128Z"/></svg>
+      </button>
+    </div>
+    <figcaption>
+      <div class="chapters" role="group" aria-label="Jump to a part of the video" data-i18n-aria="chaptersLabel">
+        <button type="button" data-t="7.6" data-i18n="chToday">Today</button>
+        <button type="button" data-t="15.17" data-i18n="chCalendar">Calendar</button>
+        <button type="button" data-t="20.25" data-i18n="chTasks">Tasks</button>
+        <button type="button" data-t="25.22" data-i18n="chShopping">Shopping</button>
+        <button type="button" data-t="30.11" data-i18n="chKids">Kids</button>
+        <button type="button" data-t="35.47" data-i18n="chTelegram">Telegram</button>
+        <button type="button" data-t="48.86" data-i18n="chKeys">Your keys</button>
+      </div>
+      <details class="film-text" id="film-text">
+        <summary data-i18n="filmTextSummary">What’s in the video</summary>
+        <p data-i18n="filmText">A narrated tour with original music. The Bayit logo is drawn in pencil and folds together from paper. Then a tour: Today with a reminder arriving on the phone, the week calendar, tasks and routines, a shared shopping list, the kids’ pixel heroes, a Telegram reminder answered with Done, a message to the bot that adds milk and eggs after Apply, and the family’s own installation and keys. All screens show a fictional sample family.</p>
+      </details>
+    </figcaption>
+  </figure>
 </section>
-
-<section class="marquee" aria-hidden="true"><div class="track">
-  <span data-i18n="m1">Today</span><img src="assets/art/calendar-128.png" alt=""><span data-i18n="m2">Calendar</span><img src="assets/art/act-toothbrush.png" alt=""><span data-i18n="m3">Routines</span><img src="assets/art/milk.png" alt=""><span data-i18n="m4">Shopping</span><img src="assets/art/gold-medal-128.png" alt=""><span data-i18n="m5">Kids</span><img src="assets/art/act-cooking-pot.png" alt=""><span data-i18n="m6">Meals</span><img src="assets/art/money-hero.png" alt=""><span data-i18n="m7">Money</span><img src="assets/art/reading-book-128.png" alt=""><span data-i18n="m8">Journal</span><img src="assets/art/heart-badge-128.png" alt="">
-  <span data-i18n="m1">Today</span><img src="assets/art/calendar-128.png" alt=""><span data-i18n="m2">Calendar</span><img src="assets/art/act-toothbrush.png" alt=""><span data-i18n="m3">Routines</span><img src="assets/art/milk.png" alt=""><span data-i18n="m4">Shopping</span><img src="assets/art/gold-medal-128.png" alt=""><span data-i18n="m5">Kids</span><img src="assets/art/act-cooking-pot.png" alt=""><span data-i18n="m6">Meals</span><img src="assets/art/money-hero.png" alt=""><span data-i18n="m7">Money</span><img src="assets/art/reading-book-128.png" alt=""><span data-i18n="m8">Journal</span><img src="assets/art/heart-badge-128.png" alt="">
-</div></section>
 
 <section class="features" id="features">
-  <h2 class="reveal"><span data-i18n="featTitleA">Everything a home</span> <span class="accent-word sm"><span data-i18n="featTitleB">juggles.</span><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h2>
+  <h2 class="reveal"><span data-i18n="featTitleA">Everything a home</span> <span class="accent-word sm"><span data-i18n="featTitleB">juggles.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="featLead">One shared place for the whole family, in Hebrew or English, on phone, tablet and desktop, in light or night.</p>
   <div class="grid">
-    <article class="card reveal" style="--tint:var(--yellow)"><img src="assets/art/calendar-128.png" alt=""><h3 data-i18n="f1t">Our day</h3><p data-i18n="f1d">Agenda, tasks and widgets you arrange yourself. Week, month and agenda calendars, with each person's color.</p></article>
-    <article class="card reveal" style="--tint:var(--lilac)"><img src="assets/art/act-toothbrush.png" alt=""><h3 data-i18n="f2t">Routines for kids</h3><p data-i18n="f2d">Weekdays, times, rewards, parent approval and whose turn it is, with history the kids can see.</p></article>
-    <article class="card reveal" style="--tint:var(--green)"><img src="assets/art/milk.png" alt=""><h3 data-i18n="f3t">Smart shopping</h3><p data-i18n="f3d">Several lists, categories and quantities, and suggestions from what you usually buy. Lists move from trip to trip.</p></article>
-    <article class="card reveal" style="--tint:var(--peach)"><img src="assets/art/moon-cape-128.png" alt=""><h3 data-i18n="f4t">Pixel characters</h3><p data-i18n="f4d">Kids earn XP and achievements, and unlock a cap and a moon cape that show up everywhere.</p></article>
-    <article class="card reveal" style="--tint:var(--lilac)"><img src="assets/art/star-wizard-hat-128.png" alt=""><h3 data-i18n="f5t">Ask your home</h3><p data-i18n="f5d">Your choice of AI (Claude, OpenAI, Gemini, Grok…) answers from records you're allowed to see and prepares tasks, events or lists. Nothing is saved until you tap Apply.</p></article>
-    <article class="card reveal" style="--tint:var(--yellow)"><img src="assets/art/money-hero.png" alt=""><h3 data-i18n="f6t">Money, finally clear</h3><p data-i18n="f6d">Import bank and card statements, see where it went, catch recurring bills and price increases, and plan next month.</p></article>
-    <article class="card reveal" style="--tint:var(--green)"><img src="assets/art/act-family-house.png" alt=""><h3 data-i18n="f7t">The whole household</h3><p data-i18n="f7d">Meals and pantry, maintenance on a schedule, and private documents with their own sharing.</p></article>
-    <article class="card reveal" style="--tint:var(--peach)"><img src="assets/art/heart-badge-128.png" alt=""><h3 data-i18n="f8t">Private by design</h3><p data-i18n="f8d">Every note, task and event has an owner and visibility. The server enforces it, and AI follows the same rules.</p></article>
+    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/smiling-sun.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f1t">Today</h3><p data-i18n="f1d">The family’s agenda, little things to do and the kids’ routines on one calm page you arrange yourself.</p></article>
+    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/calendar-check.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f2t">Calendar</h3><p data-i18n="f2d">Week, agenda and month, with each person’s colour and portrait, and events that repeat.</p></article>
+    <article class="card paper reveal" style="--tint:var(--green)"><img src="assets/art/clipboard-check.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f3t">Tasks &amp; routines</h3><p data-i18n="f3d">An owner for every task, priorities, up to five reminders, and kids’ routines with turns, approvals and XP.</p></article>
+    <article class="card paper reveal" style="--tint:var(--peach)"><img src="assets/art/cart.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f4t">Shopping</h3><p data-i18n="f4d">Several shared lists with categories and quantities, and suggestions from what you usually buy.</p></article>
+    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/yellow-star.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f5t">Kids · My Hero</h3><p data-i18n="f5d">Pixel heroes to care for, a garden to grow, games and dress-up, earned with routines.</p></article>
+    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/bell.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f6t">Reminders everywhere</h3><p data-i18n="f6d">Notifications on your phone or computer, and on Telegram, with quiet hours and no duplicates.</p></article>
+    <article class="card paper reveal" style="--tint:var(--green)"><img src="assets/art/coin.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f7t">Money &amp; household</h3><p data-i18n="f7d">Import Bank Leumi and Max statements, with every total checked. Meals, pantry, maintenance and private documents.</p></article>
+    <article class="card paper reveal" style="--tint:var(--peach)"><img src="assets/art/note.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f8t">Ask AI</h3><p data-i18n="f8d">Your choice of Claude, OpenAI, Gemini, Grok or a compatible service. It prepares changes; nothing is saved until you tap Apply.</p></article>
+    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/envelope-lock.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f9t">Private by design</h3><p data-i18n="f9d">Every note, task and event is private, for the family or for chosen people. The server enforces it, and AI follows the same rules.</p></article>
   </div>
 </section>
 
-<section class="story" id="story">
-  <div class="story-head reveal">
-    <h2><span data-i18n="storyTitleA">Talk to your home.</span> <span class="accent-word sm"><span data-i18n="storyTitleB">It listens.</span><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h2>
-    <p data-i18n="storyLead">Your own Telegram bot sends reminders and understands text, photos and voice. Press play.</p>
+<section class="screens" id="screens">
+  <h2 class="reveal"><span data-i18n="scrTitleA">See it in</span> <span class="accent-word sm"><span data-i18n="scrTitleB">your language.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="scrLead">Real screens with a fictional family. They follow this page’s language and light or night mode.</p>
+  <div class="tabs reveal" role="tablist" aria-label="Screens" data-i18n-aria="screensLabel">
+    <button role="tab" type="button" data-shot="today" aria-selected="true" data-i18n="tabToday">Today</button>
+    <button role="tab" type="button" data-shot="calendar" aria-selected="false" data-i18n="tabCalendar">Calendar</button>
+    <button role="tab" type="button" data-shot="tasks" aria-selected="false" data-i18n="tabTasks">Tasks</button>
+    <button role="tab" type="button" data-shot="shopping" aria-selected="false" data-i18n="tabShopping">Shopping</button>
+    <button role="tab" type="button" data-shot="kids" aria-selected="false" data-i18n="tabKids">My Hero</button>
+    <button role="tab" type="button" data-shot="money" aria-selected="false" data-i18n="tabMoney">Expenses</button>
+    <button role="tab" type="button" data-shot="ai" aria-selected="false" data-i18n="tabAi">Ask AI</button>
   </div>
-  <div class="player reveal" id="player">
-    <div class="player-stage">
-      <div class="chat" aria-live="polite">
-        <div class="chat-top"><img src="assets/art/bayit-mark.png" alt=""><span><b>Bayit</b><small data-i18n="botLabel">your family bot</small></span></div>
-        <div class="chat-body" id="chat"></div>
-      </div>
-      <div class="app-card" id="appcard"></div>
-    </div>
-    <div class="player-bar">
-      <button type="button" class="play" id="play" aria-label="Pause"><span class="ico">❚❚</span></button>
-      <div class="scenes" id="scenes"><button data-scene="0" data-i18n="scene1">Shopping by text</button><button data-scene="1" data-i18n="scene2">Reminders &amp; kids</button><button data-scene="2" data-i18n="scene3">Statements → money</button></div>
-      <div class="progress"><i id="progress"></i></div>
-    </div>
+  <div class="stage reveal" role="tabpanel" aria-live="polite">
+    <div class="shot desktop paper"><img id="shot-desktop" src="assets/shots/today-desktop-en-light.webp" alt="Bayit Today screen on a computer" width="1200" height="750" loading="lazy"></div>
+    <div class="shot phone paper"><img id="shot-phone" src="assets/shots/today-phone-en-light.webp" alt="Bayit Today screen on a phone" width="520" height="872" loading="lazy"></div>
   </div>
 </section>
 
-<section class="money" id="money">
-  <div class="money-copy reveal">
-    <h2><span data-i18n="moneyTitleA">See where the money</span> <span class="accent-word sm"><span data-i18n="moneyTitleB">goes.</span><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h2>
-    <p data-i18n="moneyLead">Import Bank Leumi and Max statements. Bayit checks every total against the statement, never counts a card payment twice, and turns it into a calm monthly picture.</p>
-    <div class="counters">
-      <div><b class="count" data-to="36497" data-prefix="₪">₪0</b><span data-i18n="cIn">came in</span></div>
-      <div><b class="count" data-to="30469" data-prefix="₪">₪0</b><span data-i18n="cOut">went out</span></div>
-      <div><b class="count accent" data-to="4434" data-prefix="+₪">+₪0</b><span data-i18n="cLeft">left after everything</span></div>
-    </div>
-    <ul class="ticks">
-      <li data-i18n="t1">Tap a category to see every purchase in it</li>
-      <li data-i18n="t2">Recurring bills, price increases and installments left</li>
-      <li data-i18n="t3">Next-month forecast and optional AI tips</li>
-      <li data-i18n="t4">No bank passwords; the PDF itself is not stored</li>
-    </ul>
-    <small class="note" data-i18n="fictional">Amounts shown are from a fictional family.</small>
+<section class="telegram" id="telegram">
+  <div class="tg-head reveal">
+    <h2><span data-i18n="tgTitleA">A family bot</span> <span class="accent-word sm"><span data-i18n="tgTitleB">of your own.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+    <p class="section-lead" data-i18n="tgLead">Connect your own Telegram bot and each person links their own chat. It speaks your Bayit language.</p>
   </div>
-  <div class="money-shot reveal"><img src="assets/img/money.jpg" alt="Money overview with categories and a forecast"><img class="money-art" src="assets/art/money-hero.png" alt=""></div>
+  <ol class="tg-steps">
+    <li class="paper reveal" style="--tint:var(--yellow)"><img src="assets/art/bell.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg1t">Reminders that find you</h3><p data-i18n="tg1d">Tasks and events arrive with Done and Snooze buttons, and a morning summary of the day.</p><button type="button" class="text-link" data-t="35.47" data-i18n="watch">Watch this part</button></li>
+    <li class="paper reveal" style="--tint:var(--lilac)"><img src="assets/art/note.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg2t">Just tell it</h3><p data-i18n="tg2d">By text, photo or voice it adds, moves or completes tasks, events, shopping items and notes. Every change waits for Apply and can be undone.</p><button type="button" class="text-link" data-t="41.61" data-i18n="watch">Watch this part</button></li>
+    <li class="paper reveal" style="--tint:var(--green)"><img src="assets/art/check-badge.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg3t">Changes, told</h3><p data-i18n="tg3d">When someone moves, renames or deletes something assigned to you, Bayit tells you on Telegram.</p></li>
+  </ol>
 </section>
 
 <section class="kids">
-  <h2 class="reveal"><span data-i18n="kidsTitleA">Made for the</span> <span class="accent-word sm"><span data-i18n="kidsTitleB">little ones too.</span><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h2>
-  <p class="reveal" data-i18n="kidsLead">Hover to dress them up: the cap and moon cape they earn show on every screen.</p>
+  <h2 class="reveal"><span data-i18n="kidsTitleA">Made for the</span> <span class="accent-word sm"><span data-i18n="kidsTitleB">little ones too.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="kidsLead">Tap a hero to try on the cap and the moon cape. Their outfits show up on every screen.</p>
   <div class="crew reveal">
-    <figure><img src="assets/art/avatar-noa-bust.png" data-alt="assets/art/avatar-noa-cape-bust.png" alt="Noa"><figcaption>Noa</figcaption></figure>
-    <figure><img src="assets/art/avatar-itai-bust.png" data-alt="assets/art/avatar-itai-cap-bust.png" alt="Itai"><figcaption>Itai</figcaption></figure>
-    <figure><img src="assets/art/avatar-maya-bust.png" data-alt="assets/art/avatar-maya-cape-bust.png" alt="Maya"><figcaption>Maya</figcaption></figure>
-    <figure><img src="assets/art/avatar-ari-bust.png" data-alt="assets/art/avatar-ari-cap-bust.png" alt="Ari"><figcaption>Ari</figcaption></figure>
-    <figure><img src="assets/art/avatar-lia-bust.png" data-alt="assets/art/avatar-lia-cape-bust.png" alt="Lia"><figcaption>Lia</figcaption></figure>
-    <figure><img src="assets/art/avatar-tom-bust.png" data-alt="assets/art/avatar-tom-cap-bust.png" alt="Tom"><figcaption>Tom</figcaption></figure>
+    <button type="button" data-kid="noa"><img src="assets/kids/noa.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kNoa">Noa</span></button>
+    <button type="button" data-kid="itai"><img src="assets/kids/itai.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kItai">Itai</span></button>
+    <button type="button" data-kid="maya"><img src="assets/kids/maya.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kMaya">Maya</span></button>
+    <button type="button" data-kid="ari"><img src="assets/kids/ari.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kAri">Ari</span></button>
+    <button type="button" data-kid="lia"><img src="assets/kids/lia.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kLia">Lia</span></button>
+    <button type="button" data-kid="tom"><img src="assets/kids/tom.webp" alt="" width="132" height="132" loading="lazy"><span data-i18n="kTom">Tom</span></button>
   </div>
 </section>
 
-<section class="gallery">
-  <div class="shots reveal">
-    <img src="assets/img/shopping.jpg" alt="Shopping lists"><img src="assets/img/today-dark.jpg" alt="Night mode"><img src="assets/img/statistics.jpg" alt="Family statistics"><img src="assets/img/ask-ai.jpg" alt="Ask AI">
+<section class="own" id="own">
+  <svg class="edge top" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40V18L48 24L96 26L157 16L196 26L245 15L282 24L325 14L361 11L414 22L462 15L515 10L575 26L611 11L646 16L708 17L761 10L819 24L863 24L915 16L965 17L1019 19L1068 10L1123 12L1171 18L1218 12L1274 18L1318 17L1368 19L1402 12L1440 13V40Z" fill="url(#paper-cobalt)"/></svg>
+  <div class="own-inner">
+    <div class="own-copy reveal">
+      <h2><span data-i18n="ownTitleA">Your home.</span> <span class="accent-word sm"><span data-i18n="ownTitleB">Your keys.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+      <p data-i18n="ownLead">There is no Bayit company server. Each family runs its own copy and brings its own accounts. Keys are encrypted on your server and never sent back to the browser.</p>
+    </div>
+    <ul class="keys">
+      <li class="paper reveal"><img src="assets/art/cloud-check.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k1t">Your installation</b><span data-i18n="k1d">Cloudflare’s free plan, or Docker on a home computer, NAS, Raspberry Pi or server.</span></li>
+      <li class="paper reveal"><img src="assets/art/house.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k2t">Your Google sign-in</b><span data-i18n="k2d">Each person signs in with Google. A parent invites the others with single-use links.</span></li>
+      <li class="paper reveal"><img src="assets/art/note.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k3t">Your AI key</b><span data-i18n="k3d">Optional. Claude, OpenAI, Gemini, Grok or any OpenAI-compatible service, paid by you.</span></li>
+      <li class="paper reveal"><img src="assets/art/bell.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k4t">Your Telegram bot</b><span data-i18n="k4d">Optional. Your own bot, so your family’s messages go only through it.</span></li>
+    </ul>
   </div>
+  <svg class="edge bottom" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0V22L46 27L107 21L153 28L187 30L227 24L262 15L308 18L355 28L407 24L465 22L509 28L552 20L586 17L644 27L682 23L738 27L772 29L820 15L859 24L907 14L947 26L994 18L1031 18L1078 24L1112 22L1173 21L1235 30L1275 25L1321 27L1356 26L1396 16L1438 30L1440 20V0Z" fill="url(#paper-cobalt)"/></svg>
 </section>
 
-<section class="selfhost" id="selfhost">
-  <div class="reveal">
-    <h2><span data-i18n="shTitleA">Yours, on your own</span> <span class="accent-word sm"><span data-i18n="shTitleB">cloud.</span><img class="underline" src="assets/art/title-underline-clean.png" alt=""></span></h2>
-    <p data-i18n="shLead">Bayit runs on your Cloudflare account (the free plan is enough for a family). Your Google sign-in, your AI key (Claude, OpenAI, Gemini or Grok), your Telegram bot. Nobody else's servers.</p>
+<section class="install" id="install">
+  <h2 class="reveal"><span data-i18n="insTitleA">Install it in an</span> <span class="accent-word sm"><span data-i18n="insTitleB">afternoon.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="insLead">Pick where your family’s Bayit lives. Both run the same app, with the same privacy rules and encryption.</p>
+  <div class="tabs reveal" role="tablist" aria-label="Ways to install" data-i18n-aria="installLabel">
+    <button role="tab" type="button" data-pane="cf" aria-selected="true" aria-controls="pane-cf" id="tab-cf">Cloudflare</button>
+    <button role="tab" type="button" data-pane="docker" aria-selected="false" aria-controls="pane-docker" id="tab-docker">Docker</button>
+    <button role="tab" type="button" data-pane="agent" aria-selected="false" aria-controls="pane-agent" id="tab-agent" data-i18n="tabAgent">With your AI agent</button>
   </div>
-  <ol class="steps">
-    <li class="reveal"><span>1</span><div><b data-i18n="s1t">Clone and install</b><pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
-cd bayit/app &amp;&amp; npm install</code></pre></div></li>
-    <li class="reveal"><span>2</span><div><b data-i18n="s2t">Create D1, R2 and the Pages project</b><pre><code>npx wrangler d1 create bayit-home
-npx wrangler r2 bucket create bayit-home-files</code></pre></div></li>
-    <li class="reveal"><span>3</span><div><b data-i18n="s3t">Add your secrets and deploy</b><pre><code>npx wrangler d1 migrations apply bayit-home --remote
-npm run deploy:cloud</code></pre></div></li>
-  </ol>
-  <p class="reveal"><a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting.md" data-i18n="shGuide">Read the full self-hosting guide</a></p>
+  <div class="panes reveal">
+    <div class="pane paper" role="tabpanel" id="pane-cf" aria-labelledby="tab-cf">
+      <p data-i18n="cfLead">The default: no server to look after, and the free plan is enough for a family. You need a Cloudflare account and a Google sign-in client.</p>
+      <ol class="steps">
+        <li><b data-i18n="cf1">Get the code</b><pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
+cd bayit/app &amp;&amp; npm install &amp;&amp; npx wrangler login</code></pre></li>
+        <li><b data-i18n="cf2">Create the database, file storage and site</b><pre><code>npx wrangler d1 create bayit-home
+npx wrangler r2 bucket create bayit-home-files
+npx wrangler pages project create bayit</code></pre></li>
+        <li><b data-i18n="cf3">Add your secrets and deploy</b><pre><code>npx wrangler d1 migrations apply bayit-home --remote
+npm run deploy:cloud</code></pre></li>
+      </ol>
+      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting.md" data-i18n="cfGuide">Full Cloudflare guide</a>
+    </div>
+    <div class="pane paper" role="tabpanel" id="pane-docker" aria-labelledby="tab-docker" hidden>
+      <p data-i18n="dkLead">Run it on anything with Docker (amd64 or arm64): a computer at home, a NAS, a Raspberry Pi 4 or 5, or a small server. Voice messages need Cloudflare for now; everything else works.</p>
+      <ol class="steps">
+        <li><b data-i18n="dk1">Start it</b><pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
+cd bayit &amp;&amp; cp .env.example .env
+docker compose up -d --build</code></pre></li>
+        <li><b data-i18n="dk2">Look around with sample data</b><pre><code>http://localhost:8080/?demo=1</code></pre></li>
+        <li><b data-i18n="dk3">Give it an https address for Google sign-in and Telegram</b><span class="step-note" data-i18n="dk3d">Your own domain with automatic HTTPS, or a tunnel. The guide walks through both.</span></li>
+      </ol>
+      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting-docker.md" data-i18n="dkGuide">Full Docker guide</a>
+    </div>
+    <div class="pane paper" role="tabpanel" id="pane-agent" aria-labelledby="tab-agent" hidden>
+      <p data-i18n="agLead">The repository includes skills for AI coding agents. Open it in Claude Code, Codex or another agent that reads skills, and ask:</p>
+      <ul class="asks">
+        <li data-i18n="ag1">“Install Bayit on my Cloudflare”</li>
+        <li data-i18n="ag2">“Run Bayit with Docker on my Raspberry Pi”</li>
+        <li data-i18n="ag3">“Help me connect Telegram”</li>
+        <li data-i18n="ag4">“Update my Bayit”</li>
+      </ul>
+      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/tree/main/.agents/skills" data-i18n="agLink">See the skills</a>
+    </div>
+  </div>
 </section>
 </main>
 
 <footer>
-  <img src="assets/art/bayit-wordmark.png" alt="bayit" width="108" height="36">
-  <p data-i18n="footer">Bayit is open source under the MIT license. Built with love for busy families.</p>
-  <p class="small"><a href="https://github.com/frenkelsergei-blip/bayit">GitHub</a> · <a href="https://github.com/frenkelsergei-blip/bayit/blob/main/THIRD_PARTY_NOTICES.md" data-i18n="credits">Credits &amp; licenses</a> · <span data-i18n="openmoji">Some emoji by OpenMoji (CC BY-SA 4.0)</span></p>
+  <img class="logo-day" src="assets/brand/logo-light-alpha.png" alt="Bayit" width="105" height="35" loading="lazy">
+  <img class="logo-night" src="assets/brand/logo-dark-alpha.png" alt="Bayit" width="105" height="35" loading="lazy">
+  <p data-i18n="footer">Bayit is free and open source under the MIT license. Made for busy families.</p>
+  <p class="small"><a href="https://github.com/frenkelsergei-blip/bayit">GitHub</a> · <a href="https://github.com/frenkelsergei-blip/bayit/blob/main/THIRD_PARTY_NOTICES.md" data-i18n="credits">Credits &amp; licenses</a> · <span data-i18n="fictional">Screens and video show a fictional family.</span></p>
 </footer>
-<script src="app.js"></script>
+<script src="app.js" defer></script>
 </body>
 </html>
