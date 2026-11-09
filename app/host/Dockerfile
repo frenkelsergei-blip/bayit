@@ -3,7 +3,7 @@
 #   docker build -f app/host/Dockerfile -t bayit .
 # See docs/self-hosting-docker.md.
 
-FROM node:24-alpine@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4998ecb867c8 AS build
+FROM node:26-alpine@sha256:8996bb5821d62a8fd9bb27c1cb07462f3fdce6e47d640c6a881ead0b064ce216 AS build
 WORKDIR /src
 COPY app/package.json app/package-lock.json app/
 RUN cd app && npm ci --no-audit --no-fund
@@ -12,7 +12,7 @@ COPY design-system design-system
 COPY app app
 RUN cd app && npm run build:cloud && node host/build-host.mjs
 
-FROM node:24-alpine@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4998ecb867c8
+FROM node:26-alpine@sha256:8996bb5821d62a8fd9bb27c1cb07462f3fdce6e47d640c6a881ead0b064ce216
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080 DATA_DIR=/data
 WORKDIR /app
 # The application and operator CLIs are bundled; package managers are not part of the runtime.
