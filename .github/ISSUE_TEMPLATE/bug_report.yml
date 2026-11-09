@@ -1,0 +1,71 @@
+name: Bug report
+description: Something in Bayit doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **never paste keys, tokens, secrets or real family data**. Security problems go privately: see SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: If you can, reproduce it in the demo (`/?demo=1`).
+      placeholder: |
+        1. Open …
+        2. Tap …
+        3. See …
+  - type: input
+    id: version
+    attributes:
+      label: Bayit version
+      description: Settings → About & updates.
+      placeholder: "1.38.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: hosting
+    attributes:
+      label: Where does it run?
+      options:
+        - Cloudflare
+        - Docker
+        - Local development / demo
+        - The public live demo
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Installation / setup
+        - Sign-in / family / invitations
+        - Today / calendar / tasks
+        - Shopping / household
+        - Kids / My Hero
+        - Expenses / statements / RiseUp
+        - AI
+        - Telegram
+        - Notifications
+        - Hebrew / right-to-left
+        - Other
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: "iPhone 15, Safari, Hebrew, night mode"
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output (for setup problems)
+      description: Output of `node app/scripts/bayit-doctor.mjs --cloudflare` or `--docker`. It never prints secret values.
+      render: text

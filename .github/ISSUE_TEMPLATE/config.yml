@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem privately
+    url: https://github.com/frenkelsergei-blip/bayit/security/advisories/new
+    about: Please don't open public issues for vulnerabilities.
+  - name: Setup help
+    url: https://github.com/frenkelsergei-blip/bayit/blob/main/docs/troubleshooting.md
+    about: Run the doctor and check the troubleshooting guide first.

@@ -4,7 +4,7 @@ Thanks for helping families run their homes a little more together. Please be ki
 
 ## Ways to help
 
-- **Report a bug** or **suggest a feature**: open an [issue](https://github.com/frenkelsergei-blip/bayit/issues/new). Include the version (Settings → About & updates), Cloudflare or Docker, and steps to reproduce.
+- **Report a bug** or **suggest a feature**: open an [issue](https://github.com/frenkelsergei-blip/bayit/issues/new/choose). The forms ask for what we need.
 - **Improve the guides**: if a setup step confused you, that's a bug too.
 - **Add support** for your bank, language, AI provider or Today widget. The [agent skills](.agents/skills/README.md) and [extending.md](docs/extending.md) describe each extension point.
 - **Security problems** go privately; see [SECURITY.md](SECURITY.md). Never in a public issue.
@@ -31,7 +31,7 @@ The demo uses a fictional family and saves nothing. To work on the server, Teleg
    ```bash
    cd app && npm ci && npm run test:domain && npm run test:sites && npm run build:cloud
    ```
-5. **Open a pull request.** Describe what you checked: which screens, Hebrew and English, light and night, and phone and desktop.
+5. **Open a pull request** and fill in the template. Describe what you checked: which screens, Hebrew and English, light and night, and phone and desktop.
 6. A maintainer reviews it. Small, focused pull requests are reviewed fastest.
 
 ## Guidelines

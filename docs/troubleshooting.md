@@ -61,4 +61,4 @@ If the app shows an error about the database or a missing table, apply the new m
 
 ## Still stuck?
 
-Open an [issue](https://github.com/frenkelsergei-blip/bayit/issues/new). Include the doctor's output, the version from **Settings → About & updates**, and whether you use Cloudflare or Docker. **Never paste keys, tokens or secrets.** Report security problems privately; see [SECURITY.md](../SECURITY.md).
+Open an [issue](https://github.com/frenkelsergei-blip/bayit/issues/new/choose). Include the doctor's output, the version from **Settings → About & updates**, and whether you use Cloudflare or Docker. **Never paste keys, tokens or secrets.** Report security problems privately; see [SECURITY.md](../SECURITY.md).
