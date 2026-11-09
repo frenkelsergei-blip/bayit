@@ -2,7 +2,7 @@
    Scrolling still works with a finger, trackpad or wheel; scroll-hints.js fades the edge that has more. */
 .tabs,.tasks-lists,.tasks-people,.tasks-range,.shopping-list-tabs,.calendar-person-legend,.phone-quick-icons{scrollbar-width:none;-ms-overflow-style:none}
 :is(.tabs,.tasks-lists,.tasks-people,.tasks-range,.shopping-list-tabs,.calendar-person-legend,.phone-quick-icons)::-webkit-scrollbar{display:none;width:0;height:0}
-@media(pointer:coarse){
+@media(pointer:coarse),(max-width:1024px),(orientation:landscape) and (max-height:520px){
  *{scrollbar-width:none}
  *::-webkit-scrollbar{display:none;width:0;height:0}
 }

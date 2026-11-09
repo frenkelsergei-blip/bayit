@@ -1,0 +1,23 @@
+/* Passive record summaries only. Do not restyle people pickers or their chips. */
+.assigned-people{display:inline-flex;align-items:center;gap:10px;max-inline-size:100%;min-inline-size:0;vertical-align:middle;color:var(--text);flex:none}
+.assigned-people-faces{display:inline-flex;flex:none;overflow:visible}
+.assigned-people-names{min-inline-size:0;overflow-wrap:anywhere;font-size:calc(15px * var(--font-adjust,1));line-height:1.5}
+button.assigned-people-link{min-block-size:44px;min-inline-size:44px;padding:6px 3px;border:0;border-radius:999px;background:transparent;font:inherit;cursor:pointer}
+button.assigned-people-link:hover{background:var(--surfaceSoft)}
+button.assigned-people-link:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+/* Older row rules hide or ellipsize every nested span. Preserve the actual
+   overlapping circles and their surface-colored separation rings. */
+html .assigned-people>.assigned-people-faces{display:inline-flex!important;overflow:visible!important;white-space:normal}
+html .assigned-people-faces>.avatar-stack{display:inline-flex!important;flex-direction:row!important;align-items:center!important;width:max-content!important;max-width:none!important;gap:0!important;margin:0!important;overflow:visible!important}
+html .assigned-people-faces>.avatar-stack>.avatar-stack-item{display:inline-flex!important;overflow:visible!important;flex:none}
+html .assigned-people-faces>.avatar-stack>.avatar-stack-more{display:inline-grid!important;overflow:visible!important;flex:none}
+html .assigned-people-faces>.avatar-stack .avatar{--avatar-size:var(--stack-size)!important}
+html .assigned-people-faces>.avatar-stack .member-icon>.color-icon{width:calc(var(--stack-size) * .78)!important;height:calc(var(--stack-size) * .78)!important}
+html .assigned-people-faces>.avatar-stack .former-member>.color-icon{width:calc(var(--stack-size) * .72)!important;height:calc(var(--stack-size) * .72)!important}
+html .tasks-v2 .task-list-layout .task-row.tasks-row>.assigned-people{grid-column:5;grid-row:1;justify-self:end;max-width:none;padding:0;gap:0}
+@media(max-width:1280px){
+ /* Keep the existing lock-before-people order; reserve the stack's width. */
+ html .tasks-v2 .task-list-layout .task-row.tasks-row:has(>.assigned-people){grid-template-columns:auto auto minmax(0,1fr) 18px 64px!important}
+}
+html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row:has(>.assigned-people){grid-template-columns:20px 24px minmax(0,1fr) 14px 56px!important}
+html[data-density=compact] .tasks-v2 .tasks-row>.assigned-people .avatar-stack{--stack-size:22px!important}

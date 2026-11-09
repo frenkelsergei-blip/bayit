@@ -1,0 +1,6 @@
+/* Selected labels retain palette-colored ink with enough contrast on light tints. */
+html:root .mobile-bottom>button.selected{color:var(--link,var(--text))}
+html .calendar-month .month-cell.outside{opacity:1}
+html .calendar-month .month-cell.outside .month-day{color:var(--muted)}
+html .shop2-list-card.chosen .tasks-list-text strong{color:var(--link,var(--text))}
+html .record-editor .routine-advanced>summary{color:var(--link,var(--text))}

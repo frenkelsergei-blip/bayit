@@ -1,0 +1,19 @@
+/* Let phone quest actions contain their complete label and status icon. */
+@media (max-width:700px), (orientation:landscape) and (max-height:520px){
+ html .kids-columns .quest-row>.button.button,
+ html[data-density=compact] .kids-columns .quest-row>.button.button{
+  display:inline-flex;align-items:center;justify-content:center;flex-wrap:nowrap;
+  width:max-content;inline-size:max-content;min-width:8.75em;min-inline-size:8.75em;
+  max-width:none;max-inline-size:none;min-height:44px;height:auto;
+  gap:6px;padding:9px 12px;line-height:1.25;white-space:nowrap;justify-self:end;
+ }
+ html .kids-columns .quest-row>.button.button>svg{
+  width:18px;height:18px;flex:0 0 18px;
+ }
+}
+@media (max-width:360px){
+ html body .kids-columns .quest-row,
+ html[data-density=compact] body .kids-columns .quest-row{
+  grid-template-columns:28px minmax(0,1fr) max-content;
+ }
+}

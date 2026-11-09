@@ -1,0 +1,163 @@
+/* One Household window on the shared section anatomy (AGENTS.md, form design 2026-11-08; full audit 06, H-4..H-6).
+   Used by HouseholdForm (meals, pantry, maintenance, service, expenses, bills), the contact and document editors,
+   and the insurance dialogs. Header: title + X. Body: FormSection cards, two columns on wide desktop windows.
+   Footer: Cancel then Save at the reading end; a destructive action sits alone at the reading start.
+   Phones: a bottom sheet above the navigation with a solid Save bar. */
+html:root .household-window-backdrop{z-index:170;padding:24px 24px calc(24px + var(--shell-nav-clearance,0px))}
+html:root:not([data-nav-position=bottom]) .household-window-backdrop{padding-bottom:24px}
+html:root .household-window{width:min(660px,100%);max-height:calc(100dvh - 48px - var(--shell-nav-clearance,0px));border-radius:28px}
+html:root:not([data-nav-position=bottom]) .household-window{max-height:calc(100dvh - 48px)}
+html:root .household-window.wide{width:min(1080px,100%)}
+html:root .household-window .document-editor-header{padding:18px 24px 14px;gap:16px;align-items:center}
+html:root .household-window .document-editor-header h2{margin:0;font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2;font-weight:900;min-width:0;overflow-wrap:anywhere}
+html:root .household-window .document-editor-header .icon-button{flex:none;width:44px;height:44px;min-width:44px}
+html:root .household-window .document-editor-body{display:grid;gap:22px;padding:22px 24px;align-content:start}
+html:root .household-window .document-editor-body>.form-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start;min-width:0}
+html:root .household-window .form-column{display:grid;gap:22px;align-content:start;min-width:0}
+/* Field titles inside sections: plain, one size (no icons; icons only on section headings). */
+html:root .household-window .form-section-body label:not(.checkbox-label):not(.switch):not(.button):not([class*=choice]){font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);display:grid;gap:8px;margin:0;min-width:0}
+html:root .household-window .form-section-body .checkbox-label{font-size:calc(16px * var(--font-adjust,1));font-weight:700;margin:0;min-height:44px;display:flex;align-items:center;gap:10px}
+html:root .household-window .form-section-body :is(legend,.field-label){font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);padding:0;margin:0 0 10px}
+html:root .household-window .form-section-body fieldset{border:0;padding:0;margin:0;min-width:0}
+html:root .household-window .form-section-body .two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+html:root .household-window .form-section-body .two-fields>label{min-width:0}
+html:root .household-window .form-section-body :is(input:not([type=checkbox]):not([type=radio]),textarea,.select-button,.date-field-button){width:100%;min-width:0}
+html:root .household-window .form-section-body :is(small,.settings-hint,.muted){font-size:calc(14px * var(--font-adjust,1));font-weight:600;color:var(--muted);line-height:1.5;margin:0}
+html:root .household-window .form-section-body textarea{min-height:96px;resize:vertical}
+/* The section heading replaces the sharing legend (“Privacy & permissions”). */
+html:root .household-window .form-section .record-access{margin:0;padding:0;border:0}
+html:root .household-window .form-section .record-access>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Icon choice next to the name, the same row as the event/task form. */
+html:root .household-window .household-name-row{display:flex;align-items:flex-end;gap:12px;min-width:0}
+html:root .household-window .household-name-row>label{flex:1 1 auto;min-width:0}
+html:root .household-window .household-name-row>.household-icon-choice{flex:none;display:grid;place-items:center;width:56px;height:56px;padding:0;border:1.5px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);cursor:pointer;order:2}
+html:root .household-window .household-name-row>.household-icon-choice:hover{border-color:var(--primary)}
+html:root .household-window .household-name-row>.household-icon-choice img{width:38px;height:38px;object-fit:contain}
+/* Footer: Cancel then Save, together at the reading end; Delete alone at the start. */
+html:root .household-window .document-editor-footer{padding:14px 24px 18px;background:var(--surface);border-top:1px solid var(--border)}
+html:root .household-window .document-editor-footer .save-error{margin:0 0 12px}
+html:root .household-window .document-editor-footer .actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:nowrap;margin:0}
+html:root .household-window .document-editor-footer .actions>:is(.button,button){flex:0 0 auto;width:auto;min-height:48px;min-width:140px;justify-content:center;margin:0;white-space:nowrap}
+html:root .household-window .document-editor-footer .actions>.household-window-danger{margin-inline-end:auto;min-width:0}
+@media(max-width:1100px){
+ html:root .household-window.wide{width:min(720px,100%)}
+ html:root .household-window .document-editor-body>.form-columns{grid-template-columns:minmax(0,1fr);gap:18px}
+ html:root .household-window .form-column{gap:18px}
+}
+/* Phones and short landscape: a bottom sheet that ends above the navigation, with a solid Save bar. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .household-window-backdrop{align-items:end;padding:max(10px,env(safe-area-inset-top)) max(0px,env(safe-area-inset-right)) calc(var(--shell-nav-clearance,0px) + env(safe-area-inset-bottom)) max(0px,env(safe-area-inset-left))}
+ html:root:not([data-nav-position=bottom]) .household-window-backdrop{padding-bottom:env(safe-area-inset-bottom)}
+ html:root .household-window,html:root .household-window.wide{width:100%;max-height:calc(100dvh - max(10px,env(safe-area-inset-top)) - var(--shell-nav-clearance,0px) - env(safe-area-inset-bottom));border-radius:24px 24px 0 0}
+ html:root .household-window .document-editor-header{padding:14px 18px 12px}
+ html:root .household-window .document-editor-body{padding:16px;gap:16px}
+ html:root .household-window .document-editor-footer{padding:12px 16px 14px}
+ html:root .household-window .document-editor-footer .actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:10px}
+ html:root .household-window .document-editor-footer .actions>:is(.button,button){min-width:0;width:100%;font-size:16px;padding-inline:12px}
+ html:root .household-window .document-editor-footer .actions>.household-window-danger{grid-column:1/-1;order:0;margin:0}
+ html:root .household-window .document-editor-footer .actions>:only-child{grid-column:1/-1}
+}
+@media(max-width:700px){
+ html:root .household-window .form-section-body .two-fields:has(.date-field-button,input[type=time],.select-button){grid-template-columns:minmax(0,1fr)}
+}
+@media(max-height:520px) and (orientation:landscape){
+ html:root .household-window .document-editor-header{padding:10px 18px 8px}
+ html:root .household-window .document-editor-footer{padding:8px 16px 10px}
+ html:root .household-window .document-editor-footer .actions>:is(.button,button){min-height:44px}
+ html:root .household-window .document-editor-body>.form-columns{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+/* Ingredients: a plain group inside its section, not a bordered card (forms inventory #27, H-10). */
+html:root .household-window .form-section .ingredient-fields{border:0;border-radius:0;padding:0;margin:0;gap:12px}
+html:root .household-window .form-section .ingredient-fields>legend{padding:0}
+html:root .household-window .form-section .ingredient-field-row{grid-template-columns:minmax(0,1fr) 84px minmax(96px,120px) 44px;gap:10px;align-items:end}
+html:root .household-window .form-section .ingredient-field-row>label{font-size:calc(14px * var(--font-adjust,1));font-weight:800;gap:6px}
+html:root .household-window .form-section .ingredient-field-row .icon-button{width:44px;height:44px;min-height:44px}
+html:root .household-window .form-section .ingredient-fields>.control-button{justify-self:start;min-height:44px}
+html:root .household-window .form-section-body>.button{justify-self:start;min-height:44px;white-space:normal;text-align:start}
+/* One control height inside sections: inputs, Select and DateField line up (52px). */
+html:root .household-window .form-section-body .date-field-field{margin-top:0}
+html:root .household-window .form-section-body .select-button{min-height:52px}
+html:root .household-window .form-section .ingredient-field-row input{height:52px;padding:0 12px}
+/* Privacy & permissions looks the same as in the event/task form: choices stacked as rows, no icons on field titles. */
+html:root .household-window .form-section .access-choices{grid-template-columns:minmax(0,1fr)}
+html:root .household-window .form-section .access-choices>button{flex-direction:row;justify-content:flex-start;align-items:center;text-align:start;min-height:64px}
+html:root .household-window .form-section .access-choices small{display:block}
+html:root .household-window .form-section .access-radio{margin-inline-start:auto}
+html:root .household-window .form-section .access-label{gap:0}
+html:root .household-window .form-section .access-label>svg,html:root .household-window .form-section .field-label>svg{display:none}
+/* Groups that used to be cards of their own become plain content of their section. */
+html:root .household-window .form-section .expense-sharing{border:0;padding:0;margin:0;display:grid;gap:14px}
+html:root .household-window .form-section .document-ai{border:0;border-radius:0;padding:0;background:none;display:grid;gap:12px}
+html:root .household-window .form-section .document-ai>h3{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html:root .household-window .form-section .document-ai p{margin:0;font-size:calc(14px * var(--font-adjust,1));line-height:1.6}
+html:root .household-window .form-section .money-manual-kind{margin:0}
+html:root .household-window .form-section .money-manual-kind>button{min-height:44px}
+html:root .household-window .form-section .document-assignment{border:0;padding:0;margin:0}
+html:root .household-window .form-section .document-assignment>p{margin:0 0 12px;font-size:calc(14px * var(--font-adjust,1));color:var(--muted);line-height:1.5}
+html:root .household-window .form-section .document-owner{margin:0}
+/* Insurance dialogs share the window anatomy: same width, header, sections and footer (Cancel then Save). */
+html:root .insurance-dialog.insurance-dialog-wide:has(.insurance-sectioned){max-width:1080px}
+html:root .insurance-dialog .insurance-dialog-header h2{font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2;font-weight:900;margin:0}
+html:root .insurance-dialog .insurance-dialog-header{padding:18px 24px 14px}
+html:root .insurance-dialog .insurance-dialog-header .icon-button{width:44px;height:44px;min-width:44px;flex:none}
+html:root .insurance-sectioned .insurance-dialog-body{display:grid;gap:18px;padding:22px 24px}
+html:root .insurance-sectioned .form-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start;min-width:0}
+html:root .insurance-sectioned .form-column{display:grid;gap:22px;align-content:start;min-width:0}
+html:root .insurance-sectioned .form-section-body label:not(.checkbox-label):not(.switch):not(.button):not([class*=choice]){font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);display:grid;gap:8px;margin:0;min-width:0}
+html:root .insurance-sectioned .form-section-body :is(legend,.field-label){font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);padding:0;margin:0 0 10px}
+html:root .insurance-sectioned .form-section-body fieldset{border:0;padding:0;margin:0;min-width:0;display:grid;gap:14px}
+html:root .insurance-sectioned .form-section-body .two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0}
+html:root .insurance-sectioned .form-section-body .insurance-editor-premium{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1.2fr);gap:14px;margin:0}
+html:root .insurance-sectioned .form-section-body .date-field-field{margin-top:0}
+html:root .insurance-sectioned .form-section-body .select-button{min-height:52px}
+html:root .insurance-sectioned .form-section-body :is(input:not([type=checkbox]):not([type=radio]),textarea){width:100%;min-width:0;min-height:52px}
+html:root .insurance-sectioned .form-section-body small{font-size:calc(14px * var(--font-adjust,1));color:var(--muted);line-height:1.5}
+html:root .insurance-sectioned .sr-legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html:root .insurance-sectioned .insurance-sharing{border:0;padding:0;margin:0}
+html:root .insurance-sectioned .insurance-sharing-choice>button{min-height:48px}
+html:root .insurance-dialog .insurance-form-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:14px 24px 18px;border-top:1px solid var(--border);background:var(--surface);flex:none}
+html:root .insurance-dialog .insurance-form-actions>.button{min-height:48px;min-width:140px;justify-content:center;margin:0;flex:0 0 auto;width:auto}
+@media(max-width:1100px){
+ html:root .insurance-dialog.insurance-dialog-wide:has(.insurance-sectioned){max-width:720px}
+ html:root .insurance-sectioned .form-columns{grid-template-columns:minmax(0,1fr);gap:18px}
+ html:root .insurance-sectioned .form-column{gap:18px}
+}
+@media(max-width:700px){
+ html:root .insurance-sectioned .insurance-dialog-body{padding:16px;gap:16px}
+ html:root .insurance-sectioned .form-section-body .insurance-editor-premium{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ html:root .insurance-sectioned .form-section-body .insurance-editor-premium>label:first-child{grid-column:1/-1}
+ html:root .insurance-sectioned .form-section-body .two-fields:has(.date-field-button,.select-button){grid-template-columns:minmax(0,1fr)}
+ html:root .insurance-dialog .insurance-form-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:10px;padding:12px 16px 14px}
+ html:root .insurance-dialog .insurance-form-actions>.button{min-width:0;width:100%}
+ html:root .insurance-dialog .insurance-form-actions>.button:only-child{grid-column:1/-1}
+}
+html:root .insurance-sectioned .form-section-body .insurance-editor-premium{grid-template-columns:minmax(0,1fr) minmax(88px,.7fr) minmax(0,1.4fr)}
+html:root .insurance-sectioned .form-section-body .select-button{white-space:nowrap}
+html:root .insurance-sectioned .form-section-body input:not([type=checkbox]):not([type=radio]){height:52px}
+/* Phones: the insurance windows are the same bottom sheet above the navigation as every Household window. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root:not([data-keyboard-open="true"]) .modal-backdrop.insurance-backdrop{align-items:end;padding:max(10px,env(safe-area-inset-top)) 0 calc(var(--shell-nav-clearance,0px) + env(safe-area-inset-bottom))}
+ html:root:not([data-nav-position=bottom]):not([data-keyboard-open="true"]) .modal-backdrop.insurance-backdrop{padding-bottom:env(safe-area-inset-bottom)}
+ html:root .insurance-backdrop .insurance-dialog{max-width:none;width:100%;border-radius:24px 24px 0 0;max-height:100%}
+}
+/* Transaction details (money-transaction.jsx): never taller than the space above the navigation, so its header
+   is not pushed above the screen on phones. */
+@media(max-width:1100px){html:root .transaction-backdrop .transaction-sheet{max-height:min(90dvh,100%)}}
+/* Pantry details stepper (also inside the phone sheet, outside the page): 40px targets. */
+html:root .pantry-detail-line .stepper>button{min-width:40px;min-height:40px;width:40px;height:40px}
+/* Short landscape phones: section headings one notch tighter so fields stay in view. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root :is(.household-window,.insurance-sectioned) .form-section-head{min-height:50px;padding:6px 14px;gap:10px}
+ html:root :is(.household-window,.insurance-sectioned) .form-section-icon{width:36px;height:36px}
+ html:root :is(.household-window,.insurance-sectioned) .form-section-icon>svg{width:20px;height:20px}
+ html:root :is(.household-window,.insurance-sectioned) .form-section-heading h3{font-size:calc(18px * var(--font-adjust,1))}
+ html:root :is(.household-window,.insurance-sectioned) .form-section-body{padding:12px 14px 14px;gap:12px}
+ html:root :is(.household-window,.insurance-sectioned) .document-editor-body,html:root .insurance-sectioned .insurance-dialog-body{gap:12px;padding:12px 16px}
+}
+/* Dates are never cut off: a date field always gets the full row of its section (all sizes). */
+html:root :is(.household-window,.insurance-sectioned) .form-section-body .two-fields:has(.date-field-button){grid-template-columns:minmax(0,1fr)}
+@media(max-width:700px){
+ html:root .insurance-sectioned .form-section-body .insurance-editor-premium{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+/* Insured people use the same person pills as the other Household forms (insurance.css shrinks them on phones). */
+html:root .insurance-sectioned .insurance-people .person-chip{--chip-avatar:44px!important}

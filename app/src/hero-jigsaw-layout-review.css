@@ -1,0 +1,28 @@
+/* All sixteen pieces are available together. Their painted scale matches the board. */
+.hero-organization .hero-jigsaw-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);max-width:none;gap:24px;align-items:start}
+.hero-jigsaw-picture>header,.hero-jigsaw-tray>header{display:flex;align-items:center;justify-content:space-between;gap:12px;height:48px;min-height:48px;margin:0 0 12px}
+.hero-organization .hero-jigsaw-tray{padding:0;border:0;background:none;overflow:visible}
+.hero-organization .hero-jigsaw-tray h4{margin:0;font-size:calc(17px * var(--font-adjust,1))}
+.hero-jigsaw-tray>header>span{font-size:calc(13px * var(--font-adjust,1));color:var(--muted);white-space:nowrap}
+.hero-organization .hero-jigsaw-tray>[role=group]{grid-template-columns:repeat(4,var(--jigsaw-piece-width));justify-content:space-evenly;gap:12px 8px;padding:7px;border:1px solid var(--border);border-radius:18px;background:var(--surfaceSoft);min-width:0}
+.hero-organization .hero-jigsaw-piece.is-used{visibility:hidden;opacity:0}
+.hero-jigsaw-tray-note{margin:10px 0 0}
+.hero-jigsaw-swipe-note{display:none}
+@media(max-width:1000px){
+ .hero-organization .hero-jigsaw-layout{grid-template-columns:minmax(0,1fr);max-width:620px;gap:16px}
+ .hero-organization .hero-jigsaw-tray>[role=group]{display:grid;grid-template-columns:none;grid-template-rows:repeat(2,var(--jigsaw-piece-height));grid-auto-flow:column;grid-auto-columns:var(--jigsaw-piece-width);justify-content:start;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:10px;touch-action:pan-x;scrollbar-width:none}
+ .hero-organization .hero-jigsaw-tray>[role=group]::-webkit-scrollbar{display:none}
+ .hero-organization .hero-jigsaw-piece{scroll-snap-align:start;touch-action:pan-x}
+ .hero-jigsaw-picture>header,.hero-jigsaw-tray>header{height:40px;min-height:40px;margin-bottom:8px}
+ .hero-jigsaw-swipe-note{display:inline}
+ .hero-jigsaw-desktop-note{display:none}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-jigsaw-layout{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);max-width:min(860px,calc((100dvh - 180px)*3.2));gap:18px}
+ .hero-jigsaw-picture>header,.hero-jigsaw-tray>header{height:32px;min-height:32px;margin-bottom:6px}
+ .hero-organization .hero-jigsaw-tray h4{font-size:calc(14px * var(--font-adjust,1))}
+ .hero-organization .hero-jigsaw-tray>[role=group]{grid-template-columns:none;grid-template-rows:repeat(2,var(--jigsaw-piece-height));grid-auto-flow:column;grid-auto-columns:var(--jigsaw-piece-width);justify-content:start;overflow-x:auto;scrollbar-width:none;padding:6px;gap:8px;touch-action:pan-x}
+ .hero-organization .hero-jigsaw-piece{touch-action:pan-x}
+ .hero-jigsaw-tray>header>span{font-size:calc(11px * var(--font-adjust,1))}
+ .hero-jigsaw-tray-note{display:none}
+}

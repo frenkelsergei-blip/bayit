@@ -47,7 +47,7 @@ const date='2026-11-06',members=[{id:'mom',name:'Mom',role:'parent'},{id:'dad',n
 function home(){
  const d=blankState('home','Home',members[0]);d.members=members;d.profiles.dad={name:'Dad',locale:'en'};d.profiles.kid={name:'Kid'};d.profiles.mom={name:'Mom',locale:'en'};
  const r=(id,extra)=>({id,title:id,he:id,ownerId:'mom',visibility:'family',allowedIds:[],date,...extra});
- d.tasks=[r('shared',{memberId:'mom',time:'09:00'}),r('dad-secret',{memberId:'mom',time:'09:00',ownerId:'dad',visibility:'private'}),r('own-lead',{memberId:'mom',time:'10:00',reminder:30}),r('no-reminder',{memberId:'mom',time:'09:05',reminder:'none'})];
+ d.tasks=[r('shared',{memberId:'mom',time:'09:00'}),r('dad-secret',{memberId:'dad',time:'09:00',ownerId:'dad',visibility:'private'}),r('own-lead',{memberId:'mom',time:'10:00',reminder:30}),r('no-reminder',{memberId:'mom',time:'09:05',reminder:'none'})];
  return d;
 }
 

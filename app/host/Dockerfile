@@ -16,7 +16,8 @@ FROM node:24-alpine@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080 DATA_DIR=/data
 WORKDIR /app
 # The application and operator CLIs are bundled; package managers are not part of the runtime.
-RUN rm -rf /usr/local/lib/node_modules /opt/yarn-v* /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/yarn /usr/local/bin/yarnpkg /usr/local/bin/corepack
+# Alpine security fixes released after the pinned base image (e.g. zlib CVE-2026-4738).
+RUN apk upgrade --no-cache && rm -rf /usr/local/lib/node_modules /opt/yarn-v* /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/yarn /usr/local/bin/yarnpkg /usr/local/bin/corepack
 COPY --from=build /src/app/dist/host ./
 RUN mkdir -p /data && chown node:node /data
 USER node

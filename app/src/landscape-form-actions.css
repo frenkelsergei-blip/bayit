@@ -1,0 +1,7 @@
+/* Short landscape phones keep the existing form actions above the phone nav. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .record-editor .page-actions .heading-actions{display:none}
+ html:root .record-editor .routine-preview{display:none}
+ html:root .record-editor .form-sticky-actions{display:flex;position:sticky;bottom:max(calc(66px + env(safe-area-inset-bottom)),calc(var(--keyboard-inset,0px) + 12px));z-index:30;justify-content:flex-end;gap:12px;margin:22px 0 0;padding:8px 0;background:var(--bg);border-top:1px solid var(--border)}
+ html:root .record-editor .form-sticky-actions>.button{min-height:44px;margin:0;padding:9px 20px;font-size:16px;line-height:1.3}
+}

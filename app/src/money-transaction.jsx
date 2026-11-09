@@ -33,12 +33,12 @@ export function TransactionSheet({a,ui:{Icon,Avatar,Select},item,rows,imports=[]
   ...(statement?[[T('Imported statement','דף חשבון שיובא'),<bdi dir="auto">{statement.fileName||source}</bdi>]]:[])
  ];
  useEffect(()=>{
-  const previousFocus=document.activeElement,overflow=document.body.style.overflow;document.body.style.overflow='hidden';close.current?.focus();
+  const previousFocus=document.activeElement;close.current?.focus();
    const key=e=>{if(e.key==='Escape'){e.preventDefault();closeHandler.current()}if(e.key==='Tab'){
    const focusable=[...panel.current.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex="0"]')].filter(el=>el.getClientRects().length);
    const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}
   }};
-  document.addEventListener('keydown',key);return()=>{document.body.style.overflow=overflow;document.removeEventListener('keydown',key);if(previousFocus?.isConnected)previousFocus.focus()};
+  document.addEventListener('keydown',key);return()=>{document.removeEventListener('keydown',key);if(previousFocus?.isConnected)previousFocus.focus()};
  },[]);
  useEffect(()=>{setLimit(8);setEditing(false);setError('');setChosen(item.category);panel.current?.scrollTo({top:0})},[item.id]);
  return createPortal(<div className="modal-backdrop transaction-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><section ref={panel} className="transaction-sheet" role="dialog" aria-modal="true" aria-labelledby={id}>

@@ -1,0 +1,36 @@
+/* Shared control sizes (design system, approved by the user 2026-11-08, decisions 7 and 8; docs/design-system/).
+   Every interactive control is 44px tall (--scale-control); dialog footer buttons stay 48px (their own rules).
+   Deliberately low specificity (html + one class): any page's scoped rule (html:root .view-x …) still wins, so this
+   only replaces the old 54–58px / 51–52px base sizes. My Hero game scenes keep their own approved buttons. */
+html .button:not(:where([class*=hero-] *)){min-height:var(--scale-control,44px);padding-block:8px;padding-inline:18px;font-size:calc(16px * var(--font-adjust,1));line-height:1.25;border-radius:999px}
+html .select-button:not(:where([class*=hero-] *)){min-height:var(--scale-control,44px);padding-block:8px;font-size:calc(16px * var(--font-adjust,1))}
+html :is(input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=hidden]),select):not(:where([class*=hero-] *)){min-height:var(--scale-control,44px);padding-block:8px}
+html .date-field-button{min-height:var(--scale-control,44px)}
+html .tabs:not(.nav-section) button:not(:where([class*=hero-] *)){min-height:var(--scale-control,44px)}
+html .icon-button:not(:where([class*=hero-] *)){min-width:var(--scale-control,44px);min-height:var(--scale-control,44px);border-radius:50%}
+/* Touch: at least 16px text in fields so iOS does not zoom. */
+@media(pointer:coarse){html :is(input:not([type=checkbox],[type=radio],[type=range]),select,textarea){font-size:max(16px,1em)}}
+/* 8. Destructive: the secondary shape with danger text and border, plus the Trash icon (Button adds .danger). */
+html .button.danger{background:transparent;color:var(--danger);border:1.5px solid currentColor}
+html .button.danger:hover{background:color-mix(in srgb,var(--danger) 10%,transparent)}
+/* Shared components that set their own sizes: filter tabs (navigation.css, was 38px) and the date field
+   (date-field.css, was 46–52px, including the date + time pair in forms). Page toolbars that draw the date as plain
+   text (Calendar, Tasks range) keep their own approved size. */
+html:root .tabs.nav-filter.nav-filter>button{min-height:var(--scale-control,44px)}
+html:root .date-field-button{min-height:var(--scale-control,44px)}
+html:root .date-field-toolbar .date-field-button{min-height:var(--scale-control,44px)}
+html:root .two-fields.date-time-fields :is(.date-field-button,input[type=time]){height:var(--scale-control,44px);min-height:var(--scale-control,44px)}
+/* Opening the Documents trash is navigation, not a deletion: that quiet Trash button keeps its normal colour
+   (orchestrator review of decision 8, 2026-11-08). Real Delete buttons stay red. */
+html:root .documents-toolbar .household-actions>.button.quiet.danger{color:var(--primary);border-color:transparent;background:transparent}
+/* Shared view tabs (navigation.css .tabs.nav-view: 42px desktop, 40px phone): each tab is a 44px target, as Calendar
+   and Shopping already set locally. The compact Cards/List and range pills keep 44px outside with ~36px segments. */
+html:root .tabs.nav-view.nav-view>button:not(:where([class*=hero-] *)){min-height:var(--scale-control,44px)}
+/* Pages without their own audit yet: Statistics footer buttons (47px) and quiet text buttons (36px minimum, e.g. My
+   Space) take the shared 44px. Kids quest buttons keep their approved rule (at least 44px, growing with text). */
+html:root .statistics-footer .button{min-height:var(--scale-control,44px);padding-block:8px}
+html:root .main-content .page-actions>.button{padding-block:8px}
+html:root .main-content .button.quiet{min-height:var(--scale-control,44px)}
+html:root .main-content .page-actions{align-items:center}
+/* Time fields: audit-fixes-a.css set a 52px line-height inside the 44px field, so "19:00" sat low (Journal audit hand-over). */
+html input[type=time]{line-height:calc(var(--scale-control,44px) - 4px)!important}

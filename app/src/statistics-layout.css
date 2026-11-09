@@ -1,0 +1,658 @@
+/* Statistics (#statistics, #statistics/shopping, #statistics/household), full audit 09 (2026-11-08).
+   Imported by statistics-view.jsx and scoped to main.view-statistics (+ the goals window, .statistics-goals-window).
+   Shared rules stay in scale.css, page-header.css, controls.css, form-window.css and window-fit.css; the older
+   statistics layers (refinements.css, remediation.css, audit-fixes-b.css, ux-polish.css) are overridden here, not edited.
+   - One aligned filter row: period · person · records · Family/Mine (two rows of two below 1101px, one row in short
+     landscape), every control 44px.
+   - Full-width section tabs (three equal tabs, two for a child).
+   - Summary cards: three across on every size; the value sits on its own line under the label with real line
+     height, so the label and the number never overlap (the old 67px number had line-height 1 and painted 12px
+     into the label). The underline and rays use their 1×/2×/3× PNGs at their natural aspect ratio.
+   - Section headings on the shared --scale-section; rows on the shared avatar/item scale; one --stats-step rhythm. */
+html:root main.view-statistics{--stats-step:var(--scale-gap-section,28px);--stats-radius:28px;--stats-row:56px}
+@media(max-width:1100px){html:root main.view-statistics{--stats-radius:24px;--stats-row:52px}}
+@media(max-width:700px){html:root main.view-statistics{--stats-radius:20px;--stats-row:48px}}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics{--stats-radius:18px;--stats-row:44px}}
+
+html:root main.view-statistics .statistics-reference h2{font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.25;letter-spacing:-.2px;margin:0}
+html:root main.view-statistics .statistics-reference .section-title{display:flex;align-items:flex-start;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin:0 0 12px;min-width:0}
+html:root main.view-statistics .statistics-reference .section-title>div:not(.density-toggle){min-width:0;flex:1 1 150px}
+html:root main.view-statistics .statistics-reference .section-title p{margin:4px 0 0;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));line-height:1.4;font-weight:650}
+html:root main.view-statistics .statistics-reference .section-title p b{color:var(--text);font-weight:850}
+html:root main.view-statistics .statistics-reference .section-title>p{flex:none;margin:6px 0 0}
+html:root main.view-statistics .statistics-reference h2>span{color:var(--muted);font-size:.68em;font-weight:650;letter-spacing:0}
+
+/* ---------- Filters: one aligned row ---------- */
+html:root main.view-statistics .statistics-filter-grid{display:flex!important;flex-wrap:nowrap;align-items:center;gap:12px;margin:0 0 16px!important;grid-template-columns:none}
+html:root main.view-statistics .statistics-filter-grid>.stat-select-icon{flex:1 1 0;min-width:0;margin:0;position:relative}
+html:root main.view-statistics .statistics-filter-grid>.statistics-person{flex:0 1 auto;min-width:0;margin:0}
+html:root main.view-statistics .statistics-filter-grid>.statistics-scope{flex:none;margin:0!important}
+html:root main.view-statistics .statistics-filter-grid .stat-select-icon .select-button{box-sizing:border-box;width:100%;height:var(--scale-control);min-height:var(--scale-control);padding-block:0;padding-inline-start:44px;border-radius:15px;font-size:calc(16px * var(--font-adjust,1));white-space:nowrap}
+html:root main.view-statistics .statistics-filter-grid .select-button>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html:root main.view-statistics .statistics-filter-grid .stat-select-icon>svg{position:absolute;z-index:1;top:50%;translate:0 -50%;transform:none;margin:0;inset-inline-start:14px;width:20px;height:20px;pointer-events:none}
+html:root main.view-statistics .statistics-person{position:relative}
+html:root main.view-statistics .statistics-person .people-picker{display:block;min-width:0}
+/* Phones and short landscape: a Users icon like the selects' icons instead of the face stack (the stack did not fit). */
+html:root main.view-statistics .statistics-person>.statistics-person-icon{display:none;position:absolute;z-index:1;top:50%;translate:0 -50%;pointer-events:none}
+html:root main.view-statistics .statistics-person:has(.people-picker-button.chosen)>.statistics-person-icon{display:none!important}
+html:root main.view-statistics .statistics-person .people-picker-button{box-sizing:border-box;width:100%;max-width:100%;height:var(--scale-control);min-height:var(--scale-control);padding-block:0;padding-inline:12px 14px;gap:8px;border-radius:15px;font-size:calc(16px * var(--font-adjust,1));align-self:auto}
+html:root main.view-statistics .statistics-person .people-picker-button .people-picker-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+html:root main.view-statistics .statistics-person .people-picker-button .people-picker-caret{flex:none;margin-inline-start:auto}
+html:root main.view-statistics .statistics-person .people-picker-button .person-chip{min-height:0;height:32px}
+html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter{display:flex;margin:0;padding:0;gap:8px;overflow:visible;flex-wrap:nowrap}
+html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter>button{box-sizing:border-box;height:var(--scale-control);min-height:var(--scale-control);padding:0 16px;gap:8px;justify-content:center;white-space:nowrap;font-size:calc(15px * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-people{display:none}
+@media(max-width:1100px) and (min-height:521px),(max-width:700px){
+ html:root main.view-statistics .statistics-filter-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ html:root main.view-statistics .statistics-filter-grid>.stat-period{order:1}
+ html:root main.view-statistics .statistics-filter-grid>.stat-records{order:2}
+ html:root main.view-statistics .statistics-filter-grid>.statistics-person{order:3}
+ html:root main.view-statistics .statistics-filter-grid>.statistics-scope{order:4}
+ html:root main.view-statistics .statistics-filter-grid.no-person>.statistics-scope{grid-column:1/-1}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter{width:100%;gap:6px}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter>button{flex:1 1 0;min-width:0;padding:0 10px}
+}
+@media(max-width:700px){
+ /* Two filters per row leave ~157px each: the labels get the whole width (no leading icon) and short wording. */
+ html:root main.view-statistics .statistics-filter-grid .stat-select-icon .select-button{padding-inline:13px;gap:4px;font-size:calc(15px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-filter-grid .stat-select-icon>svg{display:none}
+ html:root main.view-statistics .statistics-filter-grid .select-button>svg{flex:none;width:16px;height:16px;margin:0}
+ html:root main.view-statistics .statistics-person .people-picker-button{font-size:calc(15px * var(--font-adjust,1));padding-inline:6px 13px;gap:4px}
+ html:root main.view-statistics .statistics-person .people-picker-button .avatar-stack{display:none}
+ html:root main.view-statistics .statistics-person .people-picker-button:not(.chosen){padding-inline-start:13px}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter>button{padding:0 8px}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter>button>svg{display:none}
+}
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-filter-grid{gap:8px;margin-bottom:10px!important}
+ html:root main.view-statistics .statistics-filter-grid .stat-select-icon .select-button{padding-inline-start:38px;font-size:calc(14px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-filter-grid .stat-select-icon>svg{inset-inline-start:12px;width:18px;height:18px}
+ html:root main.view-statistics .statistics-person .people-picker-button{font-size:calc(14px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-person .people-picker-button .avatar-stack{display:none}
+ html:root main.view-statistics .statistics-person .people-picker-button:not(.chosen){padding-inline-start:38px}
+ html:root main.view-statistics .statistics-person>.statistics-person-icon{display:block;inset-inline-start:12px;width:18px;height:18px}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter{gap:6px}
+ html:root main.view-statistics .statistics-scope>.tabs.nav-filter.nav-filter>button{padding:0 12px;font-size:calc(14px * var(--font-adjust,1))}
+}
+
+/* ---------- Full-width section tabs ---------- */
+html:root main.view-statistics .statistics-mode-tabs{margin:0 0 var(--stats-step)}
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{display:grid!important;grid-template-columns:repeat(var(--nav-count,3),minmax(0,1fr));width:100%;max-width:100%;min-height:0;height:auto;margin:0;padding:5px;gap:4px;border-radius:20px;box-sizing:border-box;overflow:visible}
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:row;align-items:center;justify-content:center;gap:10px;min-width:0;min-height:46px;height:auto;padding:5px 12px;border-radius:15px;font-size:calc(15.5px * var(--font-adjust,1));white-space:nowrap}
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:34px;height:34px}
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{display:block;-webkit-line-clamp:unset;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{padding:4px;gap:4px;border-radius:18px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:column;min-height:56px;padding:5px 2px;gap:3px;font-size:calc(12px * var(--font-adjust,1));white-space:normal}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:28px;height:28px;border-radius:9px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon>svg{width:18px;height:18px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{max-width:100%;text-align:center}
+}
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{padding:3px;gap:3px;border-radius:16px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:row;min-height:var(--scale-control);height:var(--scale-control);padding:3px 10px;gap:8px;font-size:calc(14px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
+}
+
+/* ---------- Summary cards (Activities, Shopping and Household) ---------- */
+html:root main.view-statistics .statistics-summary-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 var(--stats-step)}
+html:root main.view-statistics .statistics-summary-card{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:16px;min-width:0;min-height:0;padding:20px 22px;border-radius:var(--stats-radius);overflow:visible;box-sizing:border-box}
+html:root main.view-statistics .statistics-summary-card .summary-symbol{flex:none;width:56px;height:56px;border-radius:50%}
+html:root main.view-statistics .statistics-summary-card .summary-symbol svg{width:28px;height:28px}
+html:root main.view-statistics .statistics-summary-card .summary-text{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+html:root main.view-statistics .statistics-summary-card :is(h2,h3){margin:0;font-size:calc(17px * var(--font-adjust,1));line-height:1.3;letter-spacing:0;font-weight:850;overflow-wrap:anywhere}
+html:root main.view-statistics .statistics-summary-card .summary-value{position:relative;display:block;width:fit-content;max-width:100%;padding:0 0 9px;line-height:normal}
+html:root main.view-statistics .statistics-summary-card .summary-value.accent{margin-inline-end:28px}
+html:root main.view-statistics .statistics-summary-card .summary-value strong{display:block;font-size:calc(40px * var(--font-adjust,1));line-height:1.3;font-weight:950;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .statistics-summary-card .summary-value strong.word-value{font-size:calc(24px * var(--font-adjust,1));line-height:1.3;letter-spacing:-.3px;overflow-wrap:anywhere}
+html:root main.view-statistics .statistics-summary-card .summary-underline{position:absolute;inset-inline-start:0;bottom:0;width:100%;height:auto;max-width:none;object-fit:contain}
+html:root main.view-statistics .statistics-summary-card .summary-rays{position:absolute;inset-inline-start:calc(100% + 2px);top:0;width:24px;height:24px;object-fit:contain}
+html:root main.view-statistics .statistics-summary-card .summary-hint{color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:650;line-height:1.35}
+@media(max-width:1100px){
+ html:root main.view-statistics .statistics-summary-cards{gap:12px}
+ html:root main.view-statistics .statistics-summary-card{grid-template-columns:1fr;align-items:start;gap:8px;padding:16px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol{width:44px;height:44px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol svg{width:24px;height:24px}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong{font-size:calc(34px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong.word-value{font-size:calc(20px * var(--font-adjust,1))}
+}
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-summary-cards{gap:8px}
+ html:root main.view-statistics .statistics-summary-card{padding:12px 10px;gap:6px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol{width:32px;height:32px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol svg{width:18px;height:18px}
+ html:root main.view-statistics .statistics-summary-card :is(h2,h3){font-size:calc(13px * var(--font-adjust,1));line-height:1.25}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong{font-size:calc(26px * var(--font-adjust,1));letter-spacing:-.5px}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong.word-value{font-size:calc(15px * var(--font-adjust,1));letter-spacing:0}
+ html:root main.view-statistics .statistics-summary-card .summary-value{padding-bottom:6px}
+ html:root main.view-statistics .statistics-summary-card .summary-value.accent{margin-inline-end:16px}
+ html:root main.view-statistics .statistics-summary-card .summary-rays{width:15px;height:15px}
+ html:root main.view-statistics .statistics-summary-card .summary-hint{font-size:calc(11.5px * var(--font-adjust,1))}
+}
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-summary-cards{gap:8px}
+ html:root main.view-statistics .statistics-summary-card{grid-template-columns:auto minmax(0,1fr);align-items:center;padding:10px 12px;gap:10px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol{width:36px;height:36px}
+ html:root main.view-statistics .statistics-summary-card .summary-symbol svg{width:20px;height:20px}
+ html:root main.view-statistics .statistics-summary-card :is(h2,h3){font-size:calc(13px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-summary-card .summary-text{gap:3px}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong{font-size:calc(24px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-summary-card .summary-value strong.word-value{font-size:calc(15px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-summary-card .summary-value{padding-bottom:6px}
+}
+
+/* ---------- Main chart, Bars | Heat map ---------- */
+html:root main.view-statistics .statistics-main-chart{margin:0 0 var(--stats-step);position:relative}
+html:root main.view-statistics .statistics-main-chart>.section-title{align-items:center}
+html:root main.view-statistics .statistics-main-chart>.section-title>.statistics-chart-toggle{flex:none;width:auto;margin:0;height:var(--scale-control);min-height:var(--scale-control);box-sizing:border-box}
+html:root main.view-statistics .statistics-main-chart>.section-title>.statistics-chart-toggle>button{min-height:0;height:100%}
+html:root main.view-statistics .statistics-chart-hint{margin:0 0 8px;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-main-chart .reference-chart{height:260px;width:100%;min-width:0}
+html:root main.view-statistics .statistics-main-chart .reference-chart .recharts-cartesian-axis-tick-value{font-size:inherit}
+html:root main.view-statistics .statistics-map-toggle{display:none}
+@media(max-width:1100px){html:root main.view-statistics .statistics-main-chart .reference-chart{height:230px}}
+@media(max-width:700px){html:root main.view-statistics .statistics-main-chart .reference-chart{height:210px}}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics .statistics-main-chart .reference-chart{height:190px}}
+/* The heat map takes the chart's place at the same height: no second card, title or border inside the section. */
+html:root main.view-statistics .statistics-main-chart .activity-heatmap{box-sizing:border-box;min-height:260px;margin:0;padding:0;border:0;background:none;border-radius:0;display:flex;flex-direction:column;gap:12px}
+html:root main.view-statistics .statistics-main-chart .activity-heatmap>.section-title h2,html:root main.view-statistics .statistics-main-chart .activity-heatmap>.section-title>span{display:none}
+html:root main.view-statistics .statistics-main-chart .activity-heatmap>.section-title{margin:0}
+html:root main.view-statistics .statistics-main-chart .activity-heatmap>.section-title p{margin:0}
+html:root main.view-statistics .statistics-main-chart .heatmap-cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+html:root main.view-statistics .statistics-main-chart .heatmap-cells .heat-cell{width:auto;height:auto;aspect-ratio:auto;min-height:44px;border-radius:12px}
+html:root main.view-statistics .statistics-main-chart .heatmap-legend{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-main-chart .heatmap-legend .heat-cell{width:18px;height:18px;min-height:0;border-radius:5px}
+@media(max-width:700px){html:root main.view-statistics .statistics-main-chart .activity-heatmap{min-height:210px}html:root main.view-statistics .statistics-main-chart .heatmap-cells{gap:6px}html:root main.view-statistics .statistics-main-chart .heatmap-cells .heat-cell{min-height:36px;border-radius:9px}}
+
+/* ---------- Member progress and the family challenge ---------- */
+html:root main.view-statistics .statistics-progress-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:start;margin:0 0 var(--stats-step)}
+html:root main.view-statistics .statistics-member-progress{min-width:0}
+html:root main.view-statistics .statistics-member-progress .section-title>.button{flex:none;margin:0;padding-inline:14px}
+html:root main.view-statistics .statistics-member-row{display:grid;grid-template-columns:var(--scale-avatar-row) minmax(72px,.8fr) minmax(0,1.6fr) 58px;align-items:center;gap:12px;min-height:var(--stats-row);padding:6px 0;border-bottom:1px solid var(--border);box-sizing:border-box}
+html:root main.view-statistics .statistics-member-row>.avatar{width:var(--scale-avatar-row)!important;height:var(--scale-avatar-row)!important}
+html:root main.view-statistics .statistics-member-row>strong{min-width:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));line-height:1.3;overflow-wrap:anywhere}
+html:root main.view-statistics .statistics-member-bar{display:grid;gap:4px;min-width:0}
+html:root main.view-statistics .statistics-member-bar>span{justify-self:end;font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:850;line-height:1.2;font-variant-numeric:tabular-nums}
+html:root[dir=rtl] main.view-statistics .statistics-member-bar>span{justify-self:start}
+html:root main.view-statistics .statistics-reference progress{display:block;width:100%;height:12px;min-height:12px;flex:none}
+html:root main.view-statistics .statistics-member-row>.badge{justify-self:end;min-width:0;padding-inline:8px;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .statistics-progress-total{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:12px 0 0;margin:0;font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-progress-total>strong{font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .statistics-family-challenge{min-width:0;padding:20px;border-radius:var(--stats-radius);box-sizing:border-box}
+html:root main.view-statistics .statistics-family-challenge>.section-title{align-items:center}
+html:root main.view-statistics .statistics-family-challenge .challenge-state{display:inline-flex;align-items:center;justify-content:center;min-height:var(--scale-control);padding:0;margin:0;border:0;background:none;cursor:pointer;flex:none}
+html:root main.view-statistics .statistics-family-challenge .challenge-state:disabled{cursor:default;opacity:1}
+html:root main.view-statistics .statistics-challenge-lead{display:grid;gap:2px;margin:0 0 6px}
+html:root main.view-statistics .statistics-challenge-lead strong{font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-challenge-lead small{color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-challenge-row{display:grid;grid-template-columns:24px var(--scale-avatar-row) minmax(0,1fr) auto;align-items:center;gap:10px;min-height:var(--stats-row);padding:4px 0;border-bottom:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-sizing:border-box}
+html:root main.view-statistics .statistics-challenge-row>.avatar{width:var(--scale-avatar-row)!important;height:var(--scale-avatar-row)!important}
+html:root main.view-statistics .statistics-challenge-row>strong{min-width:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));overflow-wrap:anywhere}
+html:root main.view-statistics .statistics-challenge-row>.badge{font-variant-numeric:tabular-nums}
+html:root main.view-statistics .challenge-preferences{margin-top:4px}
+html:root main.view-statistics .challenge-preferences>summary{display:list-item;box-sizing:border-box;min-height:var(--scale-control);padding-block:11px;font-size:calc(var(--scale-body) * var(--font-adjust,1));font-weight:750;cursor:pointer}
+/* Shopping: most purchased + by category with a coloured legend. */
+html:root main.view-statistics .statistics-category{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr);gap:16px;align-items:center}
+html:root main.view-statistics .statistics-category-pie{width:100%;aspect-ratio:1;height:auto;min-width:0}
+html:root main.view-statistics .statistics-category-legend{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+html:root main.view-statistics .statistics-category-legend>li{display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:36px;border-bottom:1px solid color-mix(in srgb,var(--text) 10%,transparent);font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .statistics-category-legend>li>i{width:14px;height:14px;border-radius:4px}
+html:root main.view-statistics .statistics-category-legend>li>b{font-variant-numeric:tabular-nums}
+@media(max-width:1100px){html:root main.view-statistics .statistics-progress-grid{grid-template-columns:minmax(0,1fr);gap:var(--stats-step)}}
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-member-row{grid-template-columns:var(--scale-avatar-row) minmax(0,1fr) 52px;grid-template-areas:'face name pct' 'face bar pct';gap:2px 10px;padding:8px 0}
+ html:root main.view-statistics .statistics-member-row>.avatar{grid-area:face}
+ html:root main.view-statistics .statistics-member-row>strong{grid-area:name}
+ html:root main.view-statistics .statistics-member-bar{grid-area:bar;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}
+ html:root main.view-statistics .statistics-member-bar>span{order:2}
+ html:root main.view-statistics .statistics-member-row>.badge{grid-area:pct}
+ html:root main.view-statistics .statistics-family-challenge{padding:16px}
+ html:root main.view-statistics .statistics-category{grid-template-columns:120px minmax(0,1fr)}
+}
+
+/* ---------- Rankings (tasks, most purchased) ---------- */
+html:root main.view-statistics .statistics-task-ranking{margin:0 0 var(--stats-step)}
+html:root main.view-statistics .statistics-rank-row{display:grid;grid-template-columns:40px minmax(90px,.55fr) minmax(0,1.6fr) 40px;align-items:center;gap:12px;min-height:var(--stats-row);padding:4px 0;border-bottom:1px solid var(--border);box-sizing:border-box}
+html:root main.view-statistics .statistics-rank-row>:first-child{width:36px;height:36px;justify-self:center}
+html:root main.view-statistics .statistics-rank-row>strong{min-width:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));line-height:1.3;overflow-wrap:anywhere}
+html:root main.view-statistics .statistics-rank-row>b{justify-self:end;font-size:calc(var(--scale-item) * var(--font-adjust,1));font-variant-numeric:tabular-nums}
+@media(max-width:700px){html:root main.view-statistics .statistics-rank-row{grid-template-columns:32px minmax(0,1.25fr) minmax(0,1fr) 30px;gap:8px}html:root main.view-statistics .statistics-rank-row>:first-child{width:30px;height:30px}}
+
+/* ---------- History: a table on wide screens, two-line rows on phones ---------- */
+html:root main.view-statistics .statistics-history{margin:0 0 var(--stats-step)}
+html:root main.view-statistics .statistics-history>.section-title{align-items:center}
+html:root main.view-statistics .statistics-history .text-link{display:inline-flex;align-items:center;gap:6px;min-height:var(--scale-control);flex:none;white-space:nowrap}
+html:root[dir=rtl] main.view-statistics .statistics-history .text-link>svg{scale:-1 1}
+html:root main.view-statistics .statistics-history .data-table{overflow:visible;margin:0}
+html:root main.view-statistics .statistics-history .data-table table{width:100%;min-width:0;border-collapse:collapse}
+html:root main.view-statistics .statistics-history th{padding:10px 12px;font-size:calc(var(--scale-meta) * var(--font-adjust,1));text-align:start}
+html:root main.view-statistics .statistics-history td{padding:8px 12px;height:var(--stats-row);font-size:calc(var(--scale-body) * var(--font-adjust,1));vertical-align:middle}
+html:root main.view-statistics .statistics-history :is(.history-person,.history-item){white-space:nowrap}
+html:root main.view-statistics .statistics-history :is(.history-person,.history-item)>*{vertical-align:middle}
+html:root main.view-statistics .statistics-history :is(.history-person,.history-item)>span{margin-inline-start:10px}
+html:root main.view-statistics .statistics-history .history-time{font-variant-numeric:tabular-nums}
+html:root main.view-statistics .statistics-history :is(.history-person>.avatar,.history-item>:first-child){display:inline-flex;width:32px!important;height:32px!important;margin:0}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-history .data-table table,html:root main.view-statistics .statistics-history .data-table tbody{display:block;min-width:0}
+ html:root main.view-statistics .statistics-history thead{display:none}
+ html:root main.view-statistics .statistics-history tr{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'item time' 'person date';align-items:center;gap:2px 12px;padding:10px 0;border-bottom:1px solid var(--border)}
+ html:root main.view-statistics .statistics-history td{display:flex;align-items:center;height:auto;padding:0;border:0;min-width:0}
+ html:root main.view-statistics .statistics-history .history-item{grid-area:item;font-weight:800;white-space:normal}
+ html:root main.view-statistics .statistics-history .history-person{grid-area:person;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-history .history-person>.avatar{width:24px!important;height:24px!important}
+ html:root main.view-statistics .statistics-history .history-person>span{margin-inline-start:6px}
+ html:root main.view-statistics .statistics-history .history-date{grid-area:date;justify-content:flex-end;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-history .history-time{grid-area:time;justify-content:flex-end;font-weight:800}
+ html:root main.view-statistics .statistics-shopping .statistics-history tr{grid-template-areas:'item date' 'person date'}
+}
+
+/* ---------- Footer ---------- */
+html:root main.view-statistics .statistics-footer{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;margin:0;padding:16px 20px;border-radius:var(--stats-radius)}
+html:root main.view-statistics .statistics-footer>svg{flex:none}
+html:root main.view-statistics .statistics-footer>p{flex:1 1 280px;margin:0;font-size:calc(var(--scale-meta) * var(--font-adjust,1));line-height:1.5;border:0;padding:0}
+html:root main.view-statistics .statistics-footer-actions{display:flex;flex-wrap:wrap;gap:10px;margin-inline-start:auto}
+html:root main.view-statistics .statistics-footer-actions>.button{margin:0}
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-footer{padding:14px 16px;align-items:flex-start}
+ html:root main.view-statistics .statistics-footer>p{flex-basis:calc(100% - 40px)}
+ html:root main.view-statistics .statistics-footer-actions{width:100%;margin:0}
+ html:root main.view-statistics .statistics-footer-actions>.button{flex:1 1 100%;min-width:0;justify-content:center}
+}
+
+/* ---------- Household money statistics inside the Statistics tab ---------- */
+html:root main.view-statistics .household-money-statistics .household-stat-chart{margin:0 0 var(--stats-step)}
+html:root main.view-statistics .household-money-statistics .household-stat-chart h2{font-size:calc(var(--scale-section) * var(--font-adjust,1))}
+html:root main.view-statistics .household-money-statistics .household-category-bars{margin:8px 0 12px;gap:14px}
+html:root main.view-statistics .household-money-statistics .household-category-track{height:14px}
+html:root main.view-statistics .household-money-statistics .household-stat-empty{min-height:120px;border-radius:var(--stats-radius)}
+html:root main.view-statistics .household-money-statistics .household-stat-message{margin:0 0 var(--stats-step)}
+html:root main.view-statistics .household-money-statistics .household-stat-message .control-button{min-height:var(--scale-control)}
+
+/* ---------- The goals window (shared .tasks-sheet window via NoteWindow) ---------- */
+html:root .statistics-goals-window .statistics-goal-fields{display:grid;gap:10px}
+html:root .statistics-goals-window .statistics-goal-field{display:grid;grid-template-columns:36px minmax(0,1fr) 120px;align-items:center;gap:12px;margin:0;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .statistics-goals-window .statistics-goal-field>input{box-sizing:border-box;width:100%;height:var(--scale-control);min-height:var(--scale-control);text-align:center;font-variant-numeric:tabular-nums}
+html:root .statistics-goals-window .statistics-goal-hint{margin:8px 0 0;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+
+/* =====================================================================================================================
+   Statistics by area (user decision 2026-11-08): Overview cards, chart cards, legends, heat grid, kids cards.
+   ===================================================================================================================== */
+html:root main.view-statistics{
+ --stats-c1:var(--primary);--stats-c2:color-mix(in srgb,var(--primary) 68%,var(--surface));--stats-c3:color-mix(in srgb,var(--primary) 42%,var(--surface));
+ --stats-c4:color-mix(in srgb,var(--primary) 22%,var(--surface));--stats-c5:color-mix(in srgb,var(--primary) 55%,var(--text));--stats-c6:color-mix(in srgb,var(--primary) 30%,var(--text));
+ --stats-spark-fill:color-mix(in srgb,var(--primary) 14%,transparent);--stats-chart:260px;--stats-pad:20px;
+ --stats-tone-green:color-mix(in srgb,var(--green) 48%,var(--bg));--stats-tone-lilac:color-mix(in srgb,var(--lilac) 68%,var(--bg));--stats-tone-yellow:color-mix(in srgb,var(--yellow) 68%,var(--bg));
+ --stats-tone-peach:color-mix(in srgb,var(--peach) 60%,var(--bg));--stats-tone-blue:color-mix(in srgb,var(--selected) 70%,var(--bg));--stats-tone-cream:var(--surface)}
+@media(max-width:1100px){html:root main.view-statistics{--stats-chart:230px;--stats-pad:16px}}
+@media(max-width:700px){html:root main.view-statistics{--stats-chart:210px;--stats-pad:14px}}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics{--stats-chart:190px;--stats-pad:12px}}
+
+/* Filter row variants: without a third filter, person or scope the remaining controls share the row. */
+@media(max-width:1100px) and (min-height:521px),(max-width:700px){
+ html:root main.view-statistics .statistics-filter-grid.no-third>.statistics-person{order:2}
+ html:root main.view-statistics .statistics-filter-grid.no-third>.statistics-scope{order:3;grid-column:1/-1}
+ html:root main.view-statistics .statistics-filter-grid.no-third.no-person>.statistics-scope{grid-column:auto}
+ html:root main.view-statistics .statistics-filter-grid.no-scope.no-third>.statistics-person{grid-column:auto}
+}
+/* Six area tabs: one equal row everywhere; icon above a short label on phones. */
+@media(max-width:1100px) and (min-width:701px){
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{gap:8px;padding:5px 6px;font-size:calc(14px * var(--font-adjust,1))}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
+}
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{gap:2px;padding:4px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{min-height:54px;padding:4px 0;font-size:calc(11px * var(--font-adjust,1));letter-spacing:-.1px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:26px;height:26px}
+}
+
+/* Summary cards: four across when there are four (two by two on phones), a fourth tone. */
+html:root main.view-statistics .statistics-summary-cards:has(>:nth-child(4)){grid-template-columns:repeat(4,minmax(0,1fr))}
+html:root main.view-statistics .statistics-summary-card.summary-3{background:var(--stats-tone-peach)}
+html:root main.view-statistics .statistics-summary-card.summary-3 .summary-symbol{background:var(--peach)}
+@media(max-width:700px){html:root main.view-statistics .statistics-summary-cards:has(>:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}}
+html:root main.view-statistics .stats-trend-line{margin:calc(var(--stats-step) * -.5) 0 var(--stats-step)}
+
+/* Trend pill */
+html:root main.view-statistics .stats-trend{display:inline-flex;align-items:center;gap:4px;width:fit-content;max-width:100%;padding:3px 10px;border-radius:999px;font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:750;line-height:1.35;background:color-mix(in srgb,var(--text) 6%,transparent);color:var(--text)}
+html:root main.view-statistics .stats-trend.good{background:color-mix(in srgb,var(--green) 70%,var(--surface));color:color-mix(in srgb,#1d7a46 80%,var(--text))}
+html:root main.view-statistics .stats-trend.bad{background:color-mix(in srgb,var(--peach) 70%,var(--surface));color:color-mix(in srgb,#b0461d 80%,var(--text))}
+html:root main.view-statistics .stats-trend>svg{flex:none}
+html:root[dir=rtl] main.view-statistics .stats-trend>svg{scale:-1 1}
+
+/* Overview: area cards */
+html:root main.view-statistics .stats-area-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 var(--stats-step)}
+html:root main.view-statistics .stats-area-card{display:flex;flex-direction:column;gap:12px;min-width:0;padding:var(--stats-pad);border-radius:var(--stats-radius);background:var(--stats-tone-cream);box-sizing:border-box}
+html:root main.view-statistics .stats-area-card.tone-green{background:var(--stats-tone-green)}
+html:root main.view-statistics .stats-area-card.tone-lilac{background:var(--stats-tone-lilac)}
+html:root main.view-statistics .stats-area-card.tone-yellow{background:var(--stats-tone-yellow)}
+html:root main.view-statistics .stats-area-card.tone-peach{background:var(--stats-tone-peach)}
+html:root main.view-statistics .stats-area-card.tone-blue{background:var(--stats-tone-blue)}
+html:root main.view-statistics .stats-area-card.tone-cream{border:1px solid var(--border)}
+html:root main.view-statistics .stats-area-card>header{display:flex;align-items:center;gap:10px;min-width:0}
+html:root main.view-statistics .stats-area-card>header>.summary-symbol{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--text)}
+html:root main.view-statistics .stats-area-card>header>h2{flex:1 1 auto;min-width:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));font-weight:850}
+html:root main.view-statistics .stats-area-card .stats-details{flex:none;margin:0;gap:4px;padding-inline:12px}
+html:root main.view-statistics .stats-area-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(90px,.9fr);align-items:end;gap:12px;min-width:0}
+html:root main.view-statistics .stats-area-figure{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+html:root main.view-statistics .stats-area-figure>strong{font-size:calc(36px * var(--font-adjust,1));line-height:1.25;font-weight:950;letter-spacing:-.5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+html:root main.view-statistics .stats-area-figure>span{font-size:calc(var(--scale-body) * var(--font-adjust,1));font-weight:700;line-height:1.35;color:var(--text)}
+html:root main.view-statistics .stats-spark{height:64px;min-width:0}
+html:root main.view-statistics .stats-area-faces{display:flex;flex-wrap:wrap;gap:8px}
+html:root main.view-statistics .stats-area-faces>span{display:inline-flex;align-items:center;gap:6px;padding:2px 10px 2px 2px;border-radius:999px;background:var(--surface);font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:750}
+html:root[dir=rtl] main.view-statistics .stats-area-faces>span{padding:2px 2px 2px 10px}
+html:root main.view-statistics .stats-highlights ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+html:root main.view-statistics .stats-highlights li{display:grid;grid-template-columns:20px minmax(0,1fr) auto auto;align-items:center;gap:8px;min-height:40px;border-bottom:1px solid var(--border);font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-highlights li:not(:has(.avatar)){grid-template-columns:20px minmax(0,1fr) auto}
+html:root main.view-statistics .stats-highlights li:last-child{border-bottom:0}
+html:root main.view-statistics .stats-highlights li>b{font-weight:850;text-align:end}
+@media(max-width:1100px){html:root main.view-statistics .stats-area-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media(max-width:700px){
+ html:root main.view-statistics .stats-area-grid{grid-template-columns:minmax(0,1fr);gap:10px}
+ html:root main.view-statistics .stats-area-figure>strong{font-size:calc(30px * var(--font-adjust,1))}
+}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics .stats-area-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}html:root main.view-statistics .stats-area-figure>strong{font-size:calc(26px * var(--font-adjust,1))}html:root main.view-statistics .stats-spark{height:48px}}
+
+/* Chart cards, legends, two-column grids */
+html:root main.view-statistics .stats-grid.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 var(--stats-step);align-items:start}
+html:root main.view-statistics .stats-grid.two>.stats-chart-card{margin:0;height:100%}
+@media(max-width:1100px){html:root main.view-statistics .stats-grid.two{grid-template-columns:minmax(0,1fr);gap:var(--stats-step)}}
+html:root main.view-statistics .stats-chart-card{min-width:0;margin:0 0 var(--stats-step);padding:var(--stats-pad);border:1px solid var(--border);border-radius:var(--stats-radius);background:var(--surface);box-sizing:border-box}
+html:root main.view-statistics .stats-chart-card>.section-title{align-items:center}
+html:root main.view-statistics .stats-chart{width:100%;min-width:0}
+html:root main.view-statistics .stats-chart .recharts-cartesian-axis-tick-value{font-size:inherit}
+html:root main.view-statistics .stats-legend{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-wrap:wrap;gap:8px 16px}
+html:root main.view-statistics .stats-legend>li{display:inline-flex;align-items:center;gap:6px;font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:750}
+html:root main.view-statistics .stats-legend>li>i{flex:none;width:12px;height:12px;border-radius:4px}
+html:root main.view-statistics .stats-legend>li>b{color:var(--muted);font-weight:750}
+html:root main.view-statistics .stats-chart-card .empty{margin:0}
+
+/* Person bars, rank rows inside cards, lists */
+html:root main.view-statistics .stats-person-bars{display:grid;gap:4px}
+html:root main.view-statistics .stats-person-bar{display:grid;grid-template-columns:36px minmax(64px,.5fr) minmax(0,1fr) 40px;align-items:center;gap:10px;min-height:48px;border-bottom:1px solid var(--border)}
+html:root main.view-statistics .stats-person-bar:last-child,html:root main.view-statistics .stats-chart-card .statistics-rank-row:last-child{border-bottom:0}
+html:root main.view-statistics .stats-person-bar>strong{min-width:0;font-size:calc(var(--scale-body) * var(--font-adjust,1));overflow-wrap:anywhere}
+html:root main.view-statistics .stats-person-bar>b{justify-self:end;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-chart-card .statistics-rank-row{grid-template-columns:36px minmax(80px,.8fr) minmax(0,1fr) 32px;min-height:48px}
+html:root main.view-statistics .stats-list{display:grid;gap:4px}
+html:root main.view-statistics .stats-list-row{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:var(--scale-control);padding:4px 0;border:0;border-bottom:1px solid var(--border);background:none;color:inherit;font:inherit;text-align:start;cursor:pointer}
+html:root main.view-statistics .stats-list-row:last-child{border-bottom:0}
+html:root main.view-statistics .stats-list-row>strong{min-width:0;overflow-wrap:anywhere;font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-list-row>span{color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));white-space:nowrap}
+html:root main.view-statistics .stats-good-news{display:flex;align-items:center;gap:8px;margin:0;padding:12px 0;font-weight:750}
+html:root main.view-statistics .stats-good-news>svg{color:color-mix(in srgb,#1d7a46 80%,var(--text));flex:none}
+
+/* Streaks */
+html:root main.view-statistics .stats-streaks{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+html:root main.view-statistics .stats-streak{display:flex;align-items:center;gap:10px;min-width:0;padding:8px 14px 8px 8px;border-radius:999px;background:var(--stats-tone-blue)}
+html:root[dir=rtl] main.view-statistics .stats-streak{padding:8px 8px 8px 14px}
+html:root main.view-statistics .stats-streak.best{background:var(--stats-tone-yellow)}
+html:root main.view-statistics .stats-streak>span{display:grid;min-width:0}
+html:root main.view-statistics .stats-streak strong{font-size:calc(var(--scale-body) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-streak small{color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:700}
+@media(max-width:700px){html:root main.view-statistics .stats-streaks{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+
+/* Calendar heat grid */
+html:root main.view-statistics .stats-heat{display:grid;gap:6px}
+html:root main.view-statistics .stats-heat-row{display:grid;grid-template-columns:76px repeat(7,minmax(0,1fr));gap:6px;align-items:center}
+html:root main.view-statistics .stats-heat-row>span:first-child{font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:750;color:var(--muted)}
+html:root main.view-statistics .stats-heat-row.head>span{text-align:center;font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:800}
+html:root main.view-statistics .stats-heat-cell{display:flex;align-items:center;justify-content:center;min-height:40px;border-radius:10px;font-weight:850;font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-heat-cell.level-0{background:var(--surfaceSoft);border:1px solid var(--border);box-sizing:border-box}
+html:root main.view-statistics .stats-heat-cell.level-1{background:var(--stats-c4)}
+html:root main.view-statistics .stats-heat-cell.level-2{background:var(--stats-c3)}
+html:root main.view-statistics .stats-heat-cell.level-3{background:var(--stats-c2);color:#fff}
+html:root main.view-statistics .stats-heat-cell.level-4{background:var(--stats-c1);color:#fff}
+html:root main.view-statistics .stats-heat-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:4px;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-heat-legend>i{width:16px;height:16px;min-height:0;border-radius:4px}
+@media(max-width:700px){html:root main.view-statistics .stats-heat-row{grid-template-columns:58px repeat(7,minmax(0,1fr));gap:4px}html:root main.view-statistics .stats-heat-cell{min-height:34px;border-radius:8px}}
+
+/* Kids cards */
+html:root main.view-statistics .stats-kid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin:0 0 var(--stats-step)}
+html:root main.view-statistics .stats-kid-card{display:grid;gap:14px;min-width:0;padding:var(--stats-pad);border-radius:var(--stats-radius);background:var(--stats-tone-yellow)}
+html:root main.view-statistics .stats-kid-card>header{display:flex;align-items:center;gap:12px}
+html:root main.view-statistics .stats-kid-card>header>div{display:grid;gap:4px;justify-items:start}
+html:root main.view-statistics .stats-kid-card h2{font-size:calc(var(--scale-section) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-kid-level{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:4px 12px}
+html:root main.view-statistics .stats-kid-level>span{font-weight:900;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-kid-level>small{grid-column:1/-1;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:700}
+html:root main.view-statistics .stats-kid-card dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0}
+html:root main.view-statistics .stats-kid-card dl>div{display:grid;gap:2px;padding:8px 10px;border-radius:14px;background:var(--surface);min-width:0}
+html:root main.view-statistics .stats-kid-card dt{color:var(--muted);font-size:calc(12px * var(--font-adjust,1));font-weight:750;line-height:1.3}
+html:root main.view-statistics .stats-kid-card dd{margin:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));font-weight:900;font-variant-numeric:tabular-nums}
+@media(max-width:700px){html:root main.view-statistics .stats-kid-cards{grid-template-columns:minmax(0,1fr);gap:10px}html:root main.view-statistics .stats-kid-card dl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Money tab: the two chart cards replace the old section spacing. */
+html:root main.view-statistics .household-money-statistics .stats-chart-card .household-category-bars{margin:4px 0 8px}
+
+/* ---------- Round 2 (visual review of the area tabs) ---------- */
+/* Filter row: the same widths on every tab — period and the tab's own filter at most 300px, Family/Mine at the end. */
+@media(min-width:1101px),(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-filter-grid>.stat-select-icon{flex:0 1 300px}
+ html:root main.view-statistics .statistics-filter-grid>.statistics-person{flex:0 1 240px}
+ html:root main.view-statistics .statistics-filter-grid>.statistics-scope{margin-inline-start:auto!important}
+}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics .statistics-filter-grid>.stat-select-icon{flex:0 1 200px}html:root main.view-statistics .statistics-filter-grid>.statistics-person{flex:0 1 170px}}
+/* Area cards: number and label beside the trend line, the change pill on its own line; one column on phones. */
+html:root main.view-statistics .stats-area-card>.stats-trend{margin-top:-4px}
+@media(max-width:700px){
+ html:root main.view-statistics .stats-area-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+ html:root main.view-statistics .stats-spark{height:52px}
+}
+/* Six tabs on phones: when they do not fit, the strip scrolls sideways with the shared edge fade (tab-fade.css,
+   scroll-hints.js sets data-hscroll); tabs keep an equal width of at least 64px, as in Settings. */
+@media(max-width:700px){
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{grid-template-columns:repeat(var(--nav-count,6),minmax(min-content,1fr));overflow-x:auto;scrollbar-width:none}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section[data-hscroll]{display:flex!important;padding:4px!important}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section[data-hscroll]>button{flex:1 0 64px;min-width:64px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{padding:4px 2px;font-size:calc(11px * var(--font-adjust,1));letter-spacing:-.2px}
+ html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{overflow:visible;text-overflow:clip}
+}
+/* Kids cards fill the row. */
+html:root main.view-statistics .stats-kid-cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+/* Member progress and the history sit in the same card as the charts. */
+html:root main.view-statistics :is(.statistics-member-progress,.statistics-history){padding:var(--stats-pad);border:1px solid var(--border);border-radius:var(--stats-radius);background:var(--surface);box-sizing:border-box}
+html:root main.view-statistics .statistics-history .data-table{margin-inline:calc(var(--stats-pad) * -1);margin-bottom:calc(var(--stats-pad) * -1)}
+html:root main.view-statistics .statistics-history .data-table table{border-radius:0 0 var(--stats-radius) var(--stats-radius);overflow:hidden}
+html:root main.view-statistics .statistics-history :is(th,td):first-child{padding-inline-start:var(--stats-pad)}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){html:root main.view-statistics .statistics-history .data-table{margin:0}}
+/* Summary cards in one row start at the same line, whatever the length of their hints. */
+html:root main.view-statistics .statistics-summary-card{align-items:start}
+
+/* =====================================================================================================================
+   Concept styling of the charts (user review 2026-11-08: "make the graphs like the concept"), after
+   concept/explorations/statistics-20261108/stats-a…d. Later rules here supersede the first area-tab pass above.
+   ===================================================================================================================== */
+html:root main.view-statistics{
+ --stats-c1:var(--primary);--stats-c2:color-mix(in srgb,var(--primary) 66%,var(--surface));--stats-c3:color-mix(in srgb,var(--primary) 36%,var(--surface));
+ --stats-c4:color-mix(in srgb,var(--primary) 48%,var(--text));--stats-c5:color-mix(in srgb,var(--primary) 20%,var(--surface));--stats-c6:color-mix(in srgb,var(--primary) 70%,var(--text));
+ --stats-line-2:#F5B731;--stats-line-4:#3E9B4F;--stats-pie-3:#F5C84C;--stats-pie-4:#F7B48C;--stats-pie-5:#B7A3F3;--stats-pie-6:#8ACB86;
+ --stats-limit:#F5B731;--stats-limit-pill:color-mix(in srgb,#FFD451 70%,var(--surface));--stats-limit-text:#10152A;
+ --stats-grid:color-mix(in srgb,var(--border) 75%,transparent);--stats-axis:var(--border);--stats-cursor:color-mix(in srgb,var(--primary) 7%,transparent);
+ --stats-mini-fill:color-mix(in srgb,var(--primary) 13%,transparent);--stats-track:color-mix(in srgb,var(--primary) 10%,var(--surface));
+ --stats-strip:color-mix(in srgb,var(--selected) 55%,var(--surface))}
+
+/* Card heads: title and note at the reading start, the legend at the reading end. */
+html:root main.view-statistics .stats-chart-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px 20px;margin:0 0 16px}
+html:root main.view-statistics .stats-chart-heading{flex:1 1 240px;min-width:0}
+html:root main.view-statistics .stats-chart-heading>h2{font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.25;margin:0}
+html:root main.view-statistics .stats-chart-heading>p{margin:4px 0 0;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));font-weight:650;line-height:1.4}
+html:root main.view-statistics .stats-chart-heading>p b{color:var(--text);font-weight:900;font-size:1.08em}
+html:root main.view-statistics .stats-chart-head>.stats-legend{flex:0 1 auto;margin:0;justify-content:flex-end}
+html:root main.view-statistics .stats-chart-card{padding:calc(var(--stats-pad) + 4px);box-shadow:0 2px 6px #0000000d}
+/* Legend pills with faces and totals */
+html:root main.view-statistics .stats-legend{gap:8px}
+html:root main.view-statistics .stats-legend>li{gap:6px;min-height:40px;padding:4px 12px 4px 6px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:calc(14px * var(--font-adjust,1));font-weight:800}
+html:root[dir=rtl] main.view-statistics .stats-legend>li{padding:4px 6px 4px 12px}
+html:root main.view-statistics .stats-legend>li>i{width:13px;height:13px;border-radius:4px}
+html:root main.view-statistics .stats-legend>li>b{color:var(--muted);font-weight:800}
+/* Axis titles above the value axis and under the day axis (horizontal, as in the concept). */
+html:root main.view-statistics .stats-figure{margin:0;min-width:0;display:grid}
+html:root main.view-statistics .stats-axis-title{color:var(--muted);font-size:calc(12.5px * var(--font-adjust,1));font-weight:750;line-height:1.3}
+html:root main.view-statistics .stats-axis-title.y{text-align:start;margin:0 0 2px}
+html:root main.view-statistics .stats-axis-title.x{text-align:center;margin:2px 0 0}
+/* Tinted fact strip at the bottom of a card */
+html:root main.view-statistics .stats-card-strip{margin:16px 0 0;padding:10px 16px;border-radius:14px;background:var(--stats-strip);font-size:calc(14px * var(--font-adjust,1));font-weight:800;line-height:1.45;text-align:center}
+
+/* Area cards (Overview) */
+html:root main.view-statistics .stats-area-card{gap:14px;padding:calc(var(--stats-pad) + 2px)}
+html:root main.view-statistics .stats-area-card.tone-green{--tone-strong:var(--green)}
+html:root main.view-statistics .stats-area-card.tone-lilac{--tone-strong:var(--lilac)}
+html:root main.view-statistics .stats-area-card.tone-yellow{--tone-strong:var(--yellow)}
+html:root main.view-statistics .stats-area-card.tone-peach{--tone-strong:var(--peach)}
+html:root main.view-statistics .stats-area-card.tone-blue{--tone-strong:var(--selected)}
+html:root main.view-statistics .stats-area-card.tone-cream{--tone-strong:var(--surfaceSoft)}
+html:root main.view-statistics .stats-area-card>header>.summary-symbol{width:46px;height:46px;background:var(--tone-strong,var(--surface))}
+html:root main.view-statistics .stats-area-card>header>h2{font-size:calc(20px * var(--font-adjust,1));font-weight:900}
+html:root main.view-statistics .stats-area-card .stats-details{display:inline-flex;align-items:center;gap:4px;flex:none;min-height:var(--scale-control);padding:0 4px;margin:0;border:0;background:none;color:var(--link,var(--primary));font:inherit;font-size:calc(15px * var(--font-adjust,1));font-weight:850;cursor:pointer}
+html:root main.view-statistics .stats-area-card .stats-details:hover{text-decoration:underline}
+html:root main.view-statistics .stats-area-body{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:16px}
+html:root main.view-statistics .stats-area-figure{gap:6px}
+html:root main.view-statistics .stats-area-figure>strong{font-size:calc(42px * var(--font-adjust,1));line-height:1.15}
+html:root main.view-statistics .stats-area-figure>span{font-size:calc(15px * var(--font-adjust,1));font-weight:750}
+html:root main.view-statistics .stats-mini{margin:0;min-width:0;display:grid}
+html:root main.view-statistics .stats-mini .stats-axis-title.y{font-size:calc(11.5px * var(--font-adjust,1))}
+html:root main.view-statistics .stats-mini-plot{height:104px;min-width:0}
+html:root main.view-statistics .stats-mini.empty{height:0}
+/* Trend: arrow + green/red words; as a pill under a tab's summary cards */
+html:root main.view-statistics .stats-trend{background:none;padding:0;gap:5px;font-size:calc(14px * var(--font-adjust,1));font-weight:750}
+html:root main.view-statistics .stats-trend.good{color:color-mix(in srgb,#1E8A4C 85%,var(--text))}
+html:root main.view-statistics .stats-trend.bad{color:color-mix(in srgb,#C2461D 85%,var(--text))}
+html:root main.view-statistics .stats-trend>b{font-weight:900}
+html:root main.view-statistics .stats-trend.pill{padding:4px 12px;background:color-mix(in srgb,var(--green) 60%,var(--surface))}
+html:root main.view-statistics .stats-trend.pill.bad{background:color-mix(in srgb,var(--peach) 60%,var(--surface))}
+html:root main.view-statistics .stats-trend.pill.neutral{background:color-mix(in srgb,var(--text) 6%,transparent)}
+
+/* Thick horizontal bars (people, rankings) */
+html:root main.view-statistics .stats-hbar{display:block;height:16px;border-radius:999px;background:var(--stats-track);overflow:hidden;min-width:0}
+html:root main.view-statistics .stats-hbar>i{display:block;height:100%;border-radius:999px;background:var(--stats-c1)}
+html:root main.view-statistics .stats-person-bar{grid-template-columns:40px minmax(64px,.45fr) minmax(0,1fr) 44px;gap:12px;min-height:56px}
+html:root main.view-statistics .stats-person-bar>strong{font-size:calc(var(--scale-item) * var(--font-adjust,1));font-weight:850}
+html:root main.view-statistics .stats-person-bar>b{font-size:calc(18px * var(--font-adjust,1));font-weight:900}
+html:root main.view-statistics .stats-rank{list-style:none;margin:0;padding:0;display:grid}
+html:root main.view-statistics .stats-rank>li{display:grid;grid-template-columns:22px 34px minmax(80px,.7fr) minmax(0,1fr) 36px;align-items:center;gap:10px;min-height:54px;border-bottom:1px solid var(--border)}
+html:root main.view-statistics .stats-rank>li:last-child{border-bottom:0}
+html:root main.view-statistics .stats-rank-n{color:var(--muted);font-weight:900;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-rank>li>strong{min-width:0;font-size:calc(var(--scale-item) * var(--font-adjust,1));font-weight:800;overflow-wrap:anywhere}
+html:root main.view-statistics .stats-rank>li>b{justify-self:end;font-size:calc(18px * var(--font-adjust,1));font-weight:900;font-variant-numeric:tabular-nums}
+@media(max-width:700px){html:root main.view-statistics .stats-rank>li{grid-template-columns:18px 30px minmax(0,1fr) minmax(0,.9fr) 30px;gap:8px}html:root main.view-statistics .stats-person-bar{grid-template-columns:36px minmax(0,.6fr) minmax(0,1fr) 34px;gap:8px}}
+
+/* Donut with the total in the middle */
+html:root main.view-statistics .stats-donut{display:grid;grid-template-columns:minmax(150px,210px) minmax(0,1fr);align-items:center;gap:24px}
+html:root main.view-statistics .stats-donut-plot{position:relative;aspect-ratio:1;min-width:0}
+html:root main.view-statistics .stats-donut-total{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;pointer-events:none;text-align:center}
+html:root main.view-statistics .stats-donut-total>b{font-size:calc(34px * var(--font-adjust,1));font-weight:950;line-height:1.1}
+html:root main.view-statistics .stats-donut-total>small{color:var(--muted);font-size:calc(13px * var(--font-adjust,1));font-weight:800}
+html:root main.view-statistics .stats-donut .statistics-category-legend>li{min-height:42px;font-weight:750}
+html:root main.view-statistics .stats-donut .statistics-category-legend>li>i{width:14px;height:14px;border-radius:4px}
+html:root main.view-statistics .stats-donut .statistics-category-legend>li>b{font-size:calc(17px * var(--font-adjust,1));font-weight:900}
+@media(max-width:700px){html:root main.view-statistics .stats-donut{grid-template-columns:130px minmax(0,1fr);gap:14px}html:root main.view-statistics .stats-donut-total>b{font-size:calc(26px * var(--font-adjust,1))}}
+
+/* Heat grid: legend on top, soft cells without numbers */
+html:root main.view-statistics .stats-heat{display:grid;gap:12px}
+html:root main.view-statistics .stats-heat-legend{display:flex;align-items:flex-start;justify-content:flex-start;gap:6px;margin:0;color:var(--muted);font-size:calc(12.5px * var(--font-adjust,1));font-weight:750}
+html:root main.view-statistics .stats-heat-legend>span:first-child{margin-inline-end:6px;line-height:20px}
+html:root main.view-statistics .stats-heat-key{display:grid;justify-items:center;gap:2px}
+html:root main.view-statistics .stats-heat-key>i{display:block;width:22px;height:18px;min-height:0;border-radius:5px}
+html:root main.view-statistics .stats-heat-key>small{font-size:11px;min-height:14px}
+html:root main.view-statistics .stats-heat-table{display:grid;gap:8px}
+html:root main.view-statistics .stats-heat-row{grid-template-columns:84px repeat(7,minmax(0,1fr));gap:8px}
+html:root main.view-statistics .stats-heat-row.head>span{font-size:calc(13px * var(--font-adjust,1));font-weight:850;color:var(--text)}
+html:root main.view-statistics .stats-heat-row>span[role=rowheader]{font-size:calc(13px * var(--font-adjust,1));font-weight:800;color:var(--muted)}
+html:root main.view-statistics .stats-heat-cell{min-height:42px;border-radius:12px;border:0!important}
+html:root main.view-statistics .stats-heat-cell.level-0{background:color-mix(in srgb,var(--yellow) 45%,var(--surface))}
+html:root main.view-statistics .stats-heat-cell.level-1{background:color-mix(in srgb,var(--primary) 20%,var(--surface))}
+html:root main.view-statistics .stats-heat-cell.level-2{background:color-mix(in srgb,var(--primary) 38%,var(--surface))}
+html:root main.view-statistics .stats-heat-cell.level-3{background:color-mix(in srgb,var(--primary) 62%,var(--surface))}
+html:root main.view-statistics .stats-heat-cell.level-4{background:var(--primary)}
+@media(max-width:700px){html:root main.view-statistics .stats-heat-row{grid-template-columns:60px repeat(7,minmax(0,1fr));gap:5px}html:root main.view-statistics .stats-heat-cell{min-height:36px;border-radius:9px}}
+
+/* The trend on area cards is text only (earlier tone rules gave it a background). */
+html:root main.view-statistics .stats-trend:not(.pill){background:none!important;padding:0}
+html:root main.view-statistics .stats-area-figure>strong{white-space:nowrap}
+html:root main.view-statistics .stats-area-card>.stats-trend{margin-top:-2px}
+
+/* =====================================================================================================================
+   Round 3 (user review 2026-11-08): summary cards get a small picture, the change is an aligned pill, Kids cards are
+   built around the child.
+   ===================================================================================================================== */
+/* Summary cards: icon · text · picture at the reading end; the picture drops under the text below 1101px. */
+html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:auto minmax(0,1fr) minmax(64px,38%)}
+html:root main.view-statistics .summary-viz-box{display:flex;align-items:flex-end;justify-content:flex-end;align-self:end;min-width:0;height:100%;max-height:72px}
+html:root main.view-statistics .summary-viz{display:block;width:100%;max-width:150px;height:52px;overflow:visible}
+html:root main.view-statistics .summary-viz.ring{width:58px;height:58px;max-width:58px}
+html:root main.view-statistics .summary-viz.dots{height:18px;max-width:120px}
+html:root main.view-statistics .summary-viz .viz-bar{fill:color-mix(in srgb,var(--primary) 45%,var(--surface))}
+html:root main.view-statistics .summary-viz .viz-bar-on{fill:var(--primary)}
+html:root main.view-statistics .summary-viz .viz-bar-empty{fill:color-mix(in srgb,var(--text) 12%,transparent)}
+html:root main.view-statistics .summary-viz .viz-track{fill:none;stroke:color-mix(in srgb,var(--surface) 70%,transparent);stroke-width:6}
+html:root main.view-statistics .summary-viz .viz-fill{fill:none;stroke:var(--primary);stroke-width:6;stroke-linecap:round}
+html:root main.view-statistics .summary-viz .viz-fill-dot{fill:var(--primary)}
+html:root main.view-statistics .summary-viz .viz-track-dot{fill:color-mix(in srgb,var(--text) 14%,transparent)}
+html:root main.view-statistics .statistics-summary-card .summary-text>.stats-trend{margin-top:6px}
+@media(max-width:1100px){
+ html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:1fr}
+ html:root main.view-statistics .summary-viz-box{justify-content:flex-start;height:auto}
+ html:root main.view-statistics .summary-viz{height:34px;max-width:120px}
+ html:root main.view-statistics .summary-viz.ring{width:44px;height:44px}
+}
+@media(max-width:700px){html:root main.view-statistics .summary-viz{height:26px;max-width:96px}html:root main.view-statistics .summary-viz.ring{width:36px;height:36px}html:root main.view-statistics .summary-viz.dots{height:12px}html:root main.view-statistics .statistics-summary-card .summary-text>.stats-trend{font-size:calc(11px * var(--font-adjust,1));padding:2px 8px}}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:auto minmax(0,1fr) minmax(48px,30%)}html:root main.view-statistics .summary-viz{height:32px}html:root main.view-statistics .summary-viz.ring{width:38px;height:38px}}
+
+/* The change as a compact pill aligned under the number (area cards and summary cards). */
+html:root main.view-statistics .stats-trend.pill{display:inline-flex;align-items:center;gap:4px;width:fit-content;max-width:100%;padding:4px 11px;border-radius:999px;font-size:calc(13px * var(--font-adjust,1));line-height:1.3;white-space:nowrap}
+html:root main.view-statistics .stats-trend.pill.good{background:color-mix(in srgb,var(--green) 80%,var(--surface))}
+html:root main.view-statistics .stats-area-figure>.stats-trend{margin-top:4px}
+
+/* Kids cards, built around the child */
+html:root main.view-statistics .stats-kid-card{gap:16px;padding:calc(var(--stats-pad) + 2px);border-radius:var(--stats-radius);background:var(--stats-tone-yellow);box-shadow:0 2px 6px #0000000d}
+html:root main.view-statistics .stats-kid-card.tone-lilac{background:var(--stats-tone-lilac)}
+html:root main.view-statistics .stats-kid-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px}
+html:root main.view-statistics .stats-kid-ring{position:relative;display:grid;place-items:center;width:90px;height:90px;border-radius:50%;background:conic-gradient(var(--primary) calc(var(--pct) * 1%),color-mix(in srgb,var(--surface) 75%,transparent) 0)}
+html:root[dir=rtl] main.view-statistics .stats-kid-ring{transform:scaleX(-1)}
+html:root[dir=rtl] main.view-statistics .stats-kid-ring>*{transform:scaleX(-1)}
+html:root main.view-statistics .stats-kid-ring>.avatar{width:76px!important;height:76px!important;border:3px solid var(--surface);border-radius:50%;box-sizing:border-box;background:var(--surface)}
+html:root main.view-statistics .stats-kid-level-badge{position:absolute;bottom:-4px;inset-inline-end:-4px;display:inline-flex;align-items:center;gap:2px;min-width:30px;height:26px;padding:0 7px;border-radius:999px;background:var(--accent,#FFD451);color:#10152A;border:2px solid var(--surface);font-size:13px;font-weight:950;box-sizing:border-box;justify-content:center}
+html:root main.view-statistics .stats-kid-name{display:grid;gap:2px;min-width:0}
+html:root main.view-statistics .stats-kid-name>h2{font-size:calc(24px * var(--font-adjust,1));font-weight:950;margin:0}
+html:root main.view-statistics .stats-kid-name>span{font-weight:850;font-size:calc(15px * var(--font-adjust,1))}
+html:root main.view-statistics .stats-kid-name>small{color:var(--muted);font-weight:700;font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+html:root main.view-statistics .stats-kid-xp{display:grid;justify-items:end;line-height:1}
+html:root main.view-statistics .stats-kid-xp>strong{font-size:calc(38px * var(--font-adjust,1));font-weight:950;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-kid-xp>small{font-weight:900;color:var(--muted);margin-top:4px}
+html:root main.view-statistics .stats-kid-progress .stats-hbar{height:12px;background:color-mix(in srgb,var(--surface) 75%,transparent)}
+html:root main.view-statistics .stats-kid-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+html:root main.view-statistics .stats-kid-week>span{display:grid;justify-items:center;gap:4px}
+html:root main.view-statistics .stats-kid-week>span>i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--primary)}
+html:root main.view-statistics .stats-kid-week>span.on>i{background:var(--surface)}
+html:root main.view-statistics .stats-kid-week small{font-size:12px;font-weight:800;color:var(--muted)}
+html:root main.view-statistics .stats-kid-stats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+html:root main.view-statistics .stats-kid-stats>li{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:'icon value' 'icon label';align-items:center;column-gap:8px;padding:10px;border-radius:16px;background:var(--surface);min-width:0}
+html:root main.view-statistics .stats-kid-stats>li>span{grid-area:icon;display:grid;place-items:center;width:34px;height:34px;border-radius:50%}
+html:root main.view-statistics .stats-kid-stats>li.t-green>span{background:var(--green)}
+html:root main.view-statistics .stats-kid-stats>li.t-lilac>span{background:var(--lilac)}
+html:root main.view-statistics .stats-kid-stats>li.t-blue>span{background:var(--selected)}
+html:root main.view-statistics .stats-kid-stats>li.t-peach>span{background:var(--peach)}
+html:root main.view-statistics .stats-kid-stats>li>b{grid-area:value;font-size:calc(18px * var(--font-adjust,1));font-weight:950;line-height:1.2;font-variant-numeric:tabular-nums}
+html:root main.view-statistics .stats-kid-stats>li>small{grid-area:label;color:var(--muted);font-size:calc(12px * var(--font-adjust,1));font-weight:750;line-height:1.25;overflow-wrap:anywhere}
+html:root main.view-statistics .stats-kid-card>dl{display:none}
+@media(max-width:1280px) and (min-width:701px){html:root main.view-statistics .stats-kid-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ html:root main.view-statistics .stats-kid-hero{grid-template-columns:auto minmax(0,1fr);gap:12px}
+ html:root main.view-statistics .stats-kid-xp{grid-column:1/-1;grid-row:2;justify-items:start;display:flex;align-items:baseline;gap:6px}
+ html:root main.view-statistics .stats-kid-ring{width:76px;height:76px}html:root main.view-statistics .stats-kid-ring>.avatar{width:64px!important;height:64px!important}
+ html:root main.view-statistics .stats-kid-xp>strong{font-size:calc(30px * var(--font-adjust,1))}
+ html:root main.view-statistics .stats-kid-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html:root main.view-statistics .stats-kid-week>span>i{width:26px;height:26px}
+}
+
+/* Round 3 fixes (collision check): the picture keeps a fixed width so the text column wins; the change pill may wrap;
+   phones keep only the arrow and the percentage in summary cards; short landscape shows the Overview in two columns. */
+html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:auto minmax(0,1fr) clamp(56px,26%,120px)}
+html:root main.view-statistics .statistics-summary-card .stats-trend.pill{white-space:normal}
+@media(max-width:1100px){html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:1fr}}
+@media(max-width:700px){html:root main.view-statistics .statistics-summary-card .stats-trend-words{display:none}}
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-statistics .statistics-summary-card.has-viz{grid-template-columns:auto minmax(0,1fr) clamp(44px,24%,80px)}
+ html:root main.view-statistics .stats-area-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ html:root main.view-statistics .statistics-summary-card .stats-trend-words{display:none}
+}

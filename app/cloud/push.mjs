@@ -3,8 +3,11 @@
 // Payloads are built from visibleState(state, recipient), the same access rules as the app and Telegram.
 import {json,fail,bodyJSON,hash,encryptKey,decryptKey,localDate,localTime,encoder,loopbackOr} from './util.mjs';
 import {visibleState} from './state.mjs';
-import {dueReminders,digestDue,approvalRequests,childUpdates,ownerDoneUpdates,overdueAlerts,notificationPrefs,inQuietHours,minutes} from './reminders.mjs';
+import {whenLabel} from '../../shared/item-reminders.mjs';
+import {dueReminders,digestDue,approvalRequests,childUpdates,taskDoneUpdates,overdueAlerts,notificationPrefs,inQuietHours,minutes,reminderMatchesOccurrence,changeUpdates} from './reminders.mjs';
+import {describeChange} from '../../shared/change-notices.mjs';
 import {financeDeliveryMessages} from './finance-goals.mjs';
+import {insuranceAlerts} from '../../shared/insurance-lifecycle.mjs';
 import {currentSession} from './security.mjs';
 import {pushEndpoint,externalFetch} from './outbound.mjs';
 
@@ -94,19 +97,21 @@ const title=(record,lang)=>(lang==='he'?record.he||record.title||record.name:rec
 const nameIn=(state,lang)=>id=>{const m=state.members.find(x=>x.id===id);return (lang==='he'?m?.he||m?.name:m?.name)||''};
 
 // The notifications one member should get now, as plain push messages (same sources and rules as Telegram).
-export function pushMessages(state,memberId,{date,time},role){
+export function pushMessages(state,memberId,{date,time,now=Date.now()},role){
  const visible=visibleState(state,memberId),lang=state.profiles?.[memberId]?.locale||'he',prefs=notificationPrefs(state.profiles?.[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),nameOf=nameIn(state,lang),out=[];
- const open=(kind,id,day)=>kind==='event'?'#calendar?date='+day+'&event='+id:'#tasks?date='+day+'&task='+id;
- for(const item of dueReminders(visible,memberId,{date,time})){const left=minutes(item.time)-minutes(time);out.push({key:item.key,title:title(item.record,lang),body:(item.kind==='event'?L(lang,'Event','אירוע'):L(lang,'Task','משימה'))+' · '+item.time+(left>0?L(lang,' · in '+left+' min',' · בעוד '+left+' דקות'):''),url:open(item.kind,item.record.id,item.date),tag:item.kind+':'+item.record.id,urgency:'high'})}
+ const open=(kind,id,day)=>kind==='maintenance'?'#household/maintenance?task='+id:kind==='event'?'#calendar?date='+day+'&event='+id:'#tasks?date='+day+'&task='+id;
+ for(const item of dueReminders(visible,memberId,{date,time})){if(!reminderMatchesOccurrence(item,{date,time}))continue;const when=whenLabel({date:item.date,time:item.time},{date,time},lang),sameDay=item.date===date&&item.time;out.push({key:item.key,title:title(item.record,lang),body:item.kind==='maintenance'?L(lang,'Home care due: ','טיפול בבית לתאריך: ')+item.dueDate:(item.kind==='event'?L(lang,'Event','אירוע'):L(lang,'Task','משימה'))+' · '+(sameDay?item.time+(when!==L(lang,'now','עכשיו')?' · '+when:''):when),url:open(item.kind,item.record.id,item.date),tag:item.kind+':'+item.record.id,urgency:'high'})}
+ // Changes to things assigned to me by someone else (same rule as Telegram; held, not dropped, during quiet hours).
+ for(const b of changeUpdates(visible,memberId,{time,now}).messages){const d=describeChange(b,lang,nameOf),kind=b.collection==='events'?'event':'task';out.push({key:b.key,title:d.icon+' '+d.title,body:[d.headline,...d.lines].join(' · '),url:b.type==='changed'?open(kind,b.itemId,b.after?.date||date):b.collection==='events'?'#calendar':'#tasks',tag:b.key})}
  const digest=digestDue(visible,memberId,{date,time});if(digest)out.push({key:digest.key,title:L(lang,'Good morning! Your day','בוקר טוב! היום שלכם'),body:digest.items.length?digest.items.slice(0,6).map(i=>(i.time?i.time+' ':'')+title(i.record,lang)).join('\n'):L(lang,'Nothing planned today.','אין תוכניות להיום.'),url:'#today',tag:'digest'});
+ const childPrefs=Object.fromEntries(state.members.filter(m=>m.role==='child').map(m=>[m.id,notificationPrefs(state.profiles?.[m.id]).parentUpdates!==false])),updates=quiet?[]:childUpdates(visible,memberId,{date,time},role,childPrefs),reported=new Set(updates.map(u=>u.entry.taskId+':'+u.entry.date));
  if(!quiet){
-  const childPrefs=Object.fromEntries(state.members.filter(m=>m.role==='child').map(m=>[m.id,notificationPrefs(state.profiles?.[m.id]).parentUpdates!==false]));
   for(const r of approvalRequests(visible,memberId,{date},role))out.push({key:r.key,title:L(lang,'Approval needed','נדרש אישור'),body:nameOf(r.task.memberId)+' · '+title(r.task,lang),url:open('task',r.task.id,r.date),tag:r.key});
-  const updates=childUpdates(visible,memberId,{date,time},role,childPrefs),reported=new Set(updates.map(u=>u.entry.taskId+':'+u.entry.date));
-  for(const u of ownerDoneUpdates(visible,memberId,{date}))if(!reported.has(u.task.id+':'+u.date))out.push({key:u.key,title:L(lang,'Done ✓','בוצע ✓'),body:nameOf(u.actorId)+' '+L(lang,'completed','השלים/ה')+': '+title(u.task,lang),url:open('task',u.task.id,u.date),tag:u.key});
   for(const a of overdueAlerts(visible,memberId,{date,time}))out.push({key:a.key,title:L(lang,'Not done yet','עדיין לא בוצע'),body:title(a.task,lang)+(a.assignee?'':' · '+nameOf(a.task.memberId))+' · '+a.date+(a.task.time?' '+a.task.time:''),url:open('task',a.task.id,a.date),tag:a.key});
   for(const u of updates)out.push({key:u.key,title:L(lang,'Done ✓','בוצע ✓'),body:nameOf(u.entry.memberId)+' '+L(lang,'completed','השלים/ה')+': '+title(u.entry,lang),url:'#kids',tag:u.key});
  }
+ for(const u of taskDoneUpdates(visible,memberId,{date})){const own=notificationPrefs(visible.profiles?.[memberId],u.task.routine?'routines':'tasks');if(!inQuietHours(time,own.quietStart,own.quietEnd)&&!reported.has(u.task.id+':'+u.date))out.push({key:u.key,title:L(lang,'Done ✓','בוצע ✓'),body:nameOf(u.actorId)+' '+L(lang,'completed','השלים/ה')+': '+title(u.task,lang),url:open('task',u.task.id,u.date),tag:u.key})}
+ out.push(...insuranceAlerts(visible,memberId,{date,time,channel:'push',lang}));
  return out;
 }
 
@@ -123,7 +128,7 @@ export async function deliverPush(env,now,{fetcher=fetch,subject,loadHome,deadli
   for(const [memberId,devices] of members){if(Date.now()>=deadline)break;
    const role=home.state.members.find(m=>m.id===memberId)?.role;if(!role)continue;
    let finance=[];try{finance=await financeDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++}
-   for(const message of [...pushMessages(home.state,memberId,{date,time},role),...finance].slice(0,MAX_PER_MEMBER_TICK)){
+   for(const message of [...pushMessages(home.state,memberId,{date,time,now:now.getTime()},role),...finance].slice(0,MAX_PER_MEMBER_TICK)){
     const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'push',?,'sending',?)").bind(householdId,memberId,message.key,now.getTime()).run();
     if(!(claim.meta?.changes>0))continue;
     let delivered=0;
@@ -135,7 +140,7 @@ export async function deliverPush(env,now,{fetcher=fetch,subject,loadHome,deadli
       else await env.DB.prepare('UPDATE push_subscriptions SET failures=failures+1 WHERE endpoint_hash=?').bind(device.endpoint_hash).run();
      }catch{await env.DB.prepare('UPDATE push_subscriptions SET failures=failures+1 WHERE endpoint_hash=?').bind(device.endpoint_hash).run()}}
     await env.DB.prepare("UPDATE notification_deliveries SET status=? WHERE household_id=? AND member_id=? AND channel='push' AND delivery_key=?").bind(delivered?'sent':'failed',householdId,memberId,message.key).run();
-    if(!delivered&&message.key.startsWith('finance:')&&devices.some(d=>!d.gone))await env.DB.prepare("DELETE FROM notification_deliveries WHERE household_id=? AND member_id=? AND channel='push' AND delivery_key=?").bind(householdId,memberId,message.key).run();
+    if(!delivered&&(message.key.startsWith('finance:')||message.key.startsWith('insurance:'))&&devices.some(d=>!d.gone))await env.DB.prepare("DELETE FROM notification_deliveries WHERE household_id=? AND member_id=? AND channel='push' AND delivery_key=?").bind(householdId,memberId,message.key).run();
     delivered?summary.sent++:summary.failed++;
    }
   }

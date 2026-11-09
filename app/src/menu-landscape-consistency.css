@@ -1,0 +1,7 @@
+/* Retain the phone menu's family card and personal links through rotation. */
+@media(max-height:520px) and (orientation:landscape){
+ .mobile-menu .mobile-menu-header{background:inherit}
+ .mobile-menu .mobile-menu-footer{padding-top:8px!important;border-top:1px solid var(--border)!important}
+ :root .mobile-menu .mobile-menu-footer button{justify-content:center!important;background:transparent!important;gap:7px!important;padding-inline:8px!important}
+ :root .mobile-menu .mobile-menu-footer button.selected{background:var(--selected)!important}
+}

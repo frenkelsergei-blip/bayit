@@ -2,7 +2,7 @@
 // All data is synthetic. When RiseUp changes its external API, update app/cloud/riseup.mjs and these fixtures together.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import {rowFromRiseup,riseupCategory,syncRiseup,connectRiseup,refreshDueConnections} from '../app/cloud/riseup.mjs';
 import {monthSummary} from '../shared/finance.mjs';
 
@@ -35,7 +35,7 @@ test('categories follow RiseUp labels, then household rules', ()=>{
 // Minimal D1-compatible wrapper around node:sqlite with the real migrations.
 function fakeD1(){
  const db=new sqlite.DatabaseSync(':memory:');
- for(const f of ['0001.sql','0004_finance.sql','0006_finance_connections.sql'])db.exec(readFileSync(new URL('../app/cloud/migrations/'+f,import.meta.url),'utf8'));
+ for(const f of readdirSync(new URL('../app/cloud/migrations',import.meta.url)).filter(f=>f.endsWith('.sql')).sort())db.exec(readFileSync(new URL('../app/cloud/migrations/'+f,import.meta.url),'utf8'));
  const statement=(sql,args=[])=>({bind:(...a)=>statement(sql,a),all:async()=>({results:db.prepare(sql).all(...args)}),first:async()=>db.prepare(sql).get(...args)??null,run:async()=>db.prepare(sql).run(...args),_run:()=>db.prepare(sql).run(...args)});
  return {db,prepare:sql=>statement(sql),batch:async list=>{db.exec('BEGIN');try{for(const s of list)s._run();db.exec('COMMIT')}catch(e){db.exec('ROLLBACK');throw e}}};
 }
@@ -95,7 +95,7 @@ test('connect encrypts the token, respects "only me" and reports a revoked token
  }finally{globalThis.fetch=realFetch}
 });
 
-test('daily refresh syncs due connections, backs off after an outage and skips former members', {skip:!sqlite&&'node:sqlite unavailable'}, async()=>{
+test('hourly refresh syncs due connections, backs off after an outage and skips former members', {skip:!sqlite&&'node:sqlite unavailable'}, async()=>{
  const e=env(),realFetch=globalThis.fetch;
  try{
   e.DB.db.exec("INSERT INTO memberships VALUES('h1','u-mom','mom','parent','2026-01-01'),('h1','u-kid','kid','child','2026-01-01')");

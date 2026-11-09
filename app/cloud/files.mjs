@@ -1,6 +1,7 @@
 import {json,fail} from './util.mjs';
 import {uploadSlot} from './leases.mjs';
 import {canSee} from '../src/data.js';
+import {displayable} from '../../shared/state-validation.mjs';
 import {uploadType} from '../../shared/safe-media.mjs';
 const LIMIT=100*1024*1024,MAX=10*1024*1024;
 async function readUpload(request){
@@ -19,7 +20,7 @@ export async function handleFiles(request,env,home,id){
  if(!/^[0-9a-f-]{36}$/i.test(id))throw fail('Invalid file identifier.');if(!env.FILES)throw fail('File storage is not configured.',503);
  const actor=home.membership.member_id,existing=await env.DB.prepare('SELECT * FROM files WHERE id=? AND household_id=?').bind(id,home.id).first();
  if(request.method==='GET'){
-  const attached=home.state.documents.some(d=>d.fileId===id&&!d.deletedAt&&canSee(d,actor));
+  const attached=home.state.documents.some(d=>d.fileId===id&&!d.deletedAt&&displayable(d,'documents')&&canSee(d,actor));
   if(!existing||existing.deleting_at||existing.owner_id!==actor&&!attached)throw fail('This file is unavailable.',404);
   const object=await env.FILES.get(existing.object_key);if(!object)throw fail('This file is unavailable.',404);
   const filename=existing.filename.replace(/["\\\r\n]/g,'');return new Response(object.body,{headers:{'Content-Type':existing.mime,'Content-Disposition':"attachment; filename=\""+filename.replace(/[^\x20-\x7e]/g,'_')+"\"; filename*=UTF-8''"+encodeURIComponent(filename),"Content-Security-Policy":"sandbox; default-src 'none'",'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});

@@ -1,0 +1,61 @@
+.hero-fridge-dialog.hero-context-dialog{width:min(620px,calc(100vw - 28px));padding:0}
+.hero-fridge-dialog .hero-context-dialog-body{display:flex;flex-direction:column;padding:20px;max-height:calc(100dvh - 36px);overflow:hidden}
+.hero-fridge-dialog .hero-context-dialog-body>header{margin-bottom:12px;flex:none}
+.hero-fridge-mode{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;flex:none}
+.hero-fridge-mode>button{min-height:44px;border:0;border-radius:18px;display:flex;gap:6px;justify-content:center;align-items:center;background:var(--surfaceSoft);color:var(--text);font:inherit;font-weight:850}
+.hero-fridge-mode>button[aria-pressed=true]{background:var(--primary);color:var(--onPrimary)}
+.hero-fridge-body{min-height:0;overflow:auto;overscroll-behavior:contain}
+.hero-fridge-groups{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.hero-fridge-groups>button{min-height:36px;border:1px solid var(--border);background:var(--surfaceSoft);color:var(--text);border-radius:20px;padding:6px 10px;font:inherit;font-size:calc(12px * var(--font-adjust,1));font-weight:800}
+.hero-fridge-groups>button[aria-pressed=true]{border-color:var(--primary);background:var(--selected)}
+.hero-fridge-paging{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:420px;margin:4px auto;font-size:calc(12px * var(--font-adjust,1));color:var(--muted)}
+.hero-fridge-interior{position:relative;width:min(100%,420px);aspect-ratio:4/5;margin:0 auto;direction:ltr;isolation:isolate}
+.hero-fridge-interior>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.hero-fridge-foods{position:absolute;left:22%;top:13%;width:71%;height:70%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));gap:3px 4px;align-items:stretch}
+.hero-fridge-foods>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;min-height:44px;padding:2px;border:2px solid transparent;border-radius:12px;background:#fffaf384;color:#10152a;cursor:pointer;font-family:inherit;direction:inherit;line-height:1.12}
+.hero-fridge-foods>button[aria-pressed=true]{border-color:#0240de;background:#e6edffdd}
+.hero-fridge-foods>button:disabled{opacity:.6;cursor:default}
+.hero-fridge-foods>button:focus-visible{outline:3px solid #0240de;outline-offset:1px}
+.hero-fridge-foods>button>img{width:44px;height:32px;flex:none;object-fit:contain}
+.hero-fridge-foods strong{font-size:clamp(11px,1.25vw,13px);font-weight:850;max-width:100%;overflow-wrap:anywhere;text-align:center}
+.hero-fridge-foods>button>span{font-size:11px;display:flex;align-items:center;gap:2px;font-weight:800}
+.hero-fridge-foods .hero-fridge-star{width:13px;height:13px;object-fit:contain}
+.hero-fridge-empty{position:absolute;left:25%;top:30%;width:65%;font-size:calc(16px * var(--font-adjust,1));line-height:1.6;text-align:center;color:#10152a}
+.hero-fridge-footer{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;flex:none;border-top:1px solid var(--border);padding-top:10px;margin-top:8px;font-size:calc(14px * var(--font-adjust,1))}
+.hero-fridge-footer>.button{width:100%;justify-content:center;min-height:44px;font-size:calc(14px * var(--font-adjust,1));white-space:normal}
+.hero-fridge-quantity{display:flex;align-items:center;gap:10px}
+.hero-fridge-footer>p{font-size:12px;line-height:1.4;margin:0;flex-basis:100%;color:var(--primary)}
+.hero-fridge-footer>p:empty{display:none}.hero-fridge-footer>small{font-size:12px;line-height:1.4;color:var(--muted)}
+.hero-open-fridge{display:flex;align-items:center;gap:8px;margin-top:10px;justify-content:center;width:100%}
+.hero-open-fridge img{width:25px;height:25px;object-fit:contain}
+.hero-organization button.hero-food-owned-row{width:100%;border:0;background:transparent;color:var(--text);text-align:start;font-family:inherit;cursor:pointer;border-radius:16px}
+.hero-organization button.hero-food-owned-row:disabled{opacity:.6;cursor:default}
+.hero-organization button.hero-food-owned-row>span:first-of-type{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.hero-organization .hero-food-eat-label{background:var(--primary);color:var(--onPrimary);border-radius:22px;padding:10px 17px;font-size:13px;font-weight:850}
+.hero-rest-feedback{padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:25px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.hero-rest-feedback h3{font-size:calc(24px * var(--font-adjust,1));margin:0;font-weight:900}
+.hero-rest-feedback>strong{font-size:calc(42px * var(--font-adjust,1));font-weight:950;line-height:1.1;color:var(--primary);font-variant-numeric:tabular-nums}
+.hero-rest-feedback p{font-size:calc(14px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0}
+.hero-rest-feedback>span{font-weight:850;font-size:calc(15px * var(--font-adjust,1))}
+@media(max-width:700px){.hero-fridge-dialog .hero-context-dialog-body{padding:14px;max-height:calc(100dvh - 24px)}.hero-fridge-dialog .hero-context-dialog-body>header h2{font-size:24px}.hero-fridge-dialog .hero-context-dialog-body>header p{font-size:12px}.hero-fridge-mode>button{font-size:13px}.hero-fridge-foods strong{font-size:11px}.hero-fridge-groups>button{font-size:11px;padding:5px 8px}}
+@media(orientation:landscape) and (max-height:520px){.hero-fridge-dialog.hero-context-dialog{width:min(760px,calc(100vw - 32px))}.hero-fridge-dialog .hero-context-dialog-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.8fr);gap:0 18px}.hero-fridge-dialog .hero-context-dialog-body>header,.hero-fridge-mode,.hero-fridge-footer{grid-column:2}.hero-fridge-body{grid-column:1;grid-row:1/5;max-height:calc(100dvh - 64px)}.hero-fridge-footer{align-self:end}}
+
+html[dir=rtl] .hero-fridge-foods{direction:rtl}
+html[dir=rtl] .hero-fridge-paging button>svg{transform:scaleX(-1)}
+.hero-organization .hero-fridge-dialog.hero-context-dialog{overflow:hidden}
+.hero-fridge-dialog .hero-context-dialog-body{max-height:inherit;box-sizing:border-box}
+@media(max-width:370px){
+ .hero-fridge-interior{aspect-ratio:auto;padding:6px 0}
+ .hero-fridge-interior>img{display:none}
+ .hero-fridge-foods{position:relative;inset:auto;width:100%;height:auto;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;gap:8px}
+ .hero-fridge-foods>button{min-height:92px;padding:6px;background:var(--surfaceSoft);color:var(--text);border-color:var(--border)}
+ .hero-fridge-foods>button>img{width:42px;height:38px}.hero-fridge-foods strong{font-size:12px}
+ .hero-fridge-foods>button[aria-pressed=true]{background:var(--selected);color:var(--text);border-color:var(--primary)}
+ .hero-fridge-empty{position:relative;inset:auto;width:auto;font-size:14px}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-fridge-dialog .hero-context-dialog-body{height:calc(100dvh - var(--shell-bottom-occupied,65px) - 28px);grid-template-rows:auto auto minmax(0,1fr)}
+ .hero-fridge-body{grid-row:1/4;max-height:100%;height:100%}
+ .hero-fridge-dialog header p{font-size:11px;line-height:1.25}
+ .hero-fridge-footer{font-size:12px;gap:5px}.hero-fridge-footer>small{font-size:11px}
+}

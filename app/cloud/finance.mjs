@@ -80,7 +80,7 @@ export async function undoImport(env,home,actorId,importId){
 const toClient=r=>({id:r.id,importId:r.import_id,ownerId:r.owner_id,visibility:r.visibility,source:r.source,account:r.account,memberId:r.member_id,date:r.date,chargeDate:r.charge_date,month:r.month,description:r.description,amount:r.amount,currency:r.currency,originalAmount:r.original_amount,category:r.category,kind:r.kind,cardIssuer:r.card_issuer,balance:r.balance,seq:r.seq,installmentN:r.installment_n,installmentOf:r.installment_of,standingOrder:!!r.standing_order,foreign:!!r.foreign_tx});
 async function financeConnections(env,home,actorId){
  let connectionRows=[];try{connectionRows=(await env.DB.prepare('SELECT * FROM finance_connections WHERE household_id=?').bind(home.id).all()).results}catch{} // before migration 0006
- const connections=connectionRows.map(c=>{const mine=c.member_id===actorId,seeData=mine||access({owner_id:c.member_id,visibility:c.visibility,allowed_ids:c.allowed_ids},actorId);return {provider:c.provider,memberId:c.member_id,mine,status:c.status,lastSyncAt:c.last_sync_at,lastCount:seeData?c.last_count:null,lastError:mine?c.last_error:null,visibility:c.visibility,monthsBack:mine?c.months_back:null,preferOverStatements:!!c.prefer_over_statements,balances:seeData&&c.balances?JSON.parse(c.balances):null,scopes:mine?JSON.parse(c.scopes||'[]'):null,seeData}}).filter(c=>c.seeData).map(({seeData,...c})=>c);
+ const connections=connectionRows.map(c=>{const mine=c.member_id===actorId,seeData=mine||access({owner_id:c.member_id,visibility:c.visibility,allowed_ids:c.allowed_ids},actorId);return {provider:c.provider,memberId:c.member_id,mine,status:c.status,lastSyncAt:c.last_sync_at,nextRetryAt:mine?c.next_attempt_at:null,lastCount:seeData?c.last_count:null,lastError:mine?c.last_error:null,visibility:c.visibility,monthsBack:mine?c.months_back:null,preferOverStatements:!!c.prefer_over_statements,balances:seeData&&c.balances?JSON.parse(c.balances):null,scopes:mine?JSON.parse(c.scopes||'[]'):null,seeData}}).filter(c=>c.seeData).map(({seeData,...c})=>c);
  return {rows:connectionRows,connections};
 }
 export async function visibleFinance(env,home,actorId){
@@ -140,8 +140,10 @@ export async function handleFinanceAPI(request,env,home,path,url){
   if(!parts[2]&&request.method==='POST'){const body=await bodyJSON(request,4000);const r=await connectRiseup(env,{home,memberId:actorId,adults:adultIds,token:body.token,visibility:body.visibility==='private'?'private':'shared',months:body.months,preferOverStatements:body.preferOverStatements!==false});return json({connected:true,count:r.count,balances:!!r.balances},201)}
   if(!row)throw fail('Connect your RiseUp account first.',404);
   if(parts[2]==='sync'&&request.method==='POST'){
+   if(row.next_attempt_at>Date.now())throw Object.assign(fail('RiseUp asked Bayit to wait before syncing again.',429),{code:'RISEUP_RETRY_LATER',retryAt:row.next_attempt_at});
    if(row.last_attempt_at>Date.now()-60000)throw fail('RiseUp was just synced. Try again in a minute.',429);
-   await env.DB.prepare("UPDATE finance_connections SET last_attempt_at=? WHERE household_id=? AND member_id=? AND provider='riseup'").bind(Date.now(),home.id,actorId).run();
+   const attempted=Date.now(),claim=await env.DB.prepare("UPDATE finance_connections SET last_attempt_at=? WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=? AND (last_attempt_at IS NULL OR last_attempt_at<=?) AND (next_attempt_at IS NULL OR next_attempt_at<=?)").bind(attempted,home.id,actorId,row.ciphertext,attempted-60000,attempted).run();
+   if(!(claim.meta?.changes??claim.changes))throw fail('The connection changed or is already syncing. Refresh before trying again.',409);
    const r=await syncConnection(env,row,adultIds);return json({synced:true,count:r.count});
   }
   if(!parts[2]&&request.method==='PATCH'){

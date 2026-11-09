@@ -1,0 +1,162 @@
+/* Home journal (#journal) and My Space (#mine), full audit 07 (2026-11-08). Scoped to these two pages and to their
+   own windows (.note-window, opened from note-window.jsx). Shared rules stay in scale.css, page-header.css,
+   controls.css, form-window.css and window-fit.css; nothing here changes another page.
+   - One spacing step between the page parts (--journal-step: 16px, 12px in short landscape), after the shared
+     header gap (32/32/24/16).
+   - Rows use the shared size scale (--scale-avatar-row, --scale-item, --scale-body, --scale-meta) instead of 70px
+     avatars, 20px titles and 11px badges.
+   - The note editor is the shared window anatomy with FormSection cards; two columns on wide screens. */
+html:root main.view-journal,html:root main.view-mine{--journal-step:16px}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-journal,html:root main.view-mine{--journal-step:12px}}
+
+/* ---------- Journal: scope tabs and the privacy hint ---------- */
+html:root main.view-journal>.journal-scope{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;margin:0 0 var(--journal-step)}
+html:root main.view-journal>.journal-scope>.tabs{margin:0;flex:none}
+/* The hint is quiet text at the reading end of the tab row, not a 65px lilac card. */
+html:root main.view-journal>.journal-scope>p{flex:1 1 300px;display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:0;padding:0;min-height:0;background:none;border:0;border-radius:0;color:var(--muted);font-size:calc(var(--scale-meta) * var(--font-adjust,1));line-height:1.4;font-weight:650;text-align:end}
+html:root main.view-journal>.journal-scope>p>svg{flex:none;width:18px;height:18px}
+@media(max-width:1100px){html:root main.view-journal>.journal-scope>p{justify-content:flex-start;text-align:start}}
+/* Phones: the tab says "(private)" and each row shows its sharing, so the hint gives way to the first records. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){html:root main.view-journal>.journal-scope>p{display:none}}
+
+/* ---------- Journal: search + Filters + Clear (the Household filter row) ---------- */
+html:root main.view-journal>.journal-filters{display:flex!important;flex-wrap:nowrap;align-items:center;gap:12px;margin:0 0 var(--journal-step);padding:0}
+html:root main.view-journal>.journal-filters>.search{flex:1 1 auto!important;order:0!important;min-width:0;width:auto;margin:0;height:var(--scale-control)!important;min-height:var(--scale-control)!important;box-sizing:border-box}
+html:root main.view-journal>.journal-filters>.search input{min-width:0;width:100%;min-height:0;height:100%}
+html:root main.view-journal>.journal-filters>.household-filter-button{flex:none}
+html:root main.view-journal>.journal-filters>.journal-filter-clear{flex:none;min-height:var(--scale-control);padding-inline:4px}
+/* Short landscape: the scope tabs and the filter row share one line so the first record is on the first screen. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-journal{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;align-content:start}
+ html:root main.view-journal>*{grid-column:1/-1;min-width:0}
+ html:root main.view-journal>.journal-scope{grid-column:1}
+ html:root main.view-journal>.journal-scope+.journal-filters,html:root main.view-journal>.journal-scope+.save-error+.journal-filters{grid-column:2}
+}
+
+/* ---------- Journal: the list ---------- */
+html:root main.view-journal .journal-layout{margin-top:0}
+html:root main.view-journal .journal-layout>section>.journal-day:first-child>h2{margin-top:0}
+html:root main.view-journal .journal-day>h2{margin:var(--journal-step) 0 8px;font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2}
+html:root main.view-journal .journal-day>h2 .badge{padding:4px 14px;font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.35;font-weight:850}
+html:root main.view-journal .journal-timeline-row{min-height:0;padding:4px 0;gap:12px;grid-template-columns:56px 14px minmax(0,1fr);align-items:center}
+html:root main.view-journal .journal-timeline-row>time{font-size:calc(var(--scale-body) * var(--font-adjust,1));font-weight:750;font-variant-numeric:tabular-nums}
+html:root main.view-journal .journal-record{align-items:center;gap:12px;padding:10px 14px;min-height:calc(var(--scale-avatar-row) + 20px);box-sizing:border-box}
+html:root main.view-journal .journal-record>.avatar{width:var(--scale-avatar-row)!important;height:var(--scale-avatar-row)!important;flex:none}
+html:root main.view-journal .journal-record>div{flex:1 1 auto;min-width:0}
+html:root main.view-journal .journal-record strong{display:block;font-size:calc(var(--scale-item) * var(--font-adjust,1));line-height:1.3;font-weight:800;overflow-wrap:anywhere}
+html:root main.view-journal .journal-record p{margin:2px 0 0;font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html:root main.view-journal .journal-record>.badge{flex:none;padding:3px 10px;font-size:calc(var(--scale-meta) * var(--font-adjust,1));line-height:1.35}
+html:root main.view-journal .journal-record>.journal-visibility{flex:none;display:inline-grid;place-items:center;width:24px;height:24px;color:var(--muted)}
+/* Phones/tablets show details in a sheet: a row only looks chosen while its sheet is open. */
+@media(max-width:1100px){html:root:not(:has(.detail-sheet-backdrop)) main.view-journal .journal-timeline-row.selected .journal-record{background:transparent;border-color:transparent}}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root main.view-journal .journal-timeline-row{grid-template-columns:44px 10px minmax(0,1fr);gap:8px}
+ html:root main.view-journal .journal-record{padding:8px 10px;gap:10px}
+}
+html:root main.view-journal .journal-more{margin:var(--journal-step) 0 8px}
+html:root main.view-journal .journal-more .button{min-width:200px}
+
+/* ---------- Journal: details panel (desktop side panel and phone sheet) ---------- */
+html:root main.view-journal .journal-layout>aside.detail-panel{align-self:start;position:sticky;top:16px}
+html:root .journal-detail .journal-detail-actions{margin-top:var(--journal-step,16px)}
+
+/* ---------- My Space ---------- */
+html:root main.view-mine .private-space>.private-space-tabs{margin:0 0 var(--journal-step)}
+html:root main.view-mine .private-space>.private-space-tabs>.tabs{margin:0}
+html:root main.view-mine .private-space-toolbar{display:flex;align-items:center;gap:12px;margin:0 0 var(--journal-step)}
+html:root main.view-mine .private-space-toolbar>.search{flex:1 1 auto;min-width:0;margin:0;height:var(--scale-control);min-height:var(--scale-control);box-sizing:border-box}
+html:root main.view-mine .private-space-toolbar>.search input{min-height:0;height:100%}
+html:root main.view-mine .private-space-grid{margin:0;align-items:start}
+html:root main.view-mine .private-note-row{min-height:calc(var(--scale-avatar-row) + 24px);padding:12px 16px;gap:14px;align-items:center}
+html:root main.view-mine .private-note-row strong{font-size:calc(var(--scale-item) * var(--font-adjust,1));line-height:1.3}
+html:root main.view-mine .private-note-row small{font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.4}
+html:root main.view-mine .private-note-row time{font-size:calc(var(--scale-meta) * var(--font-adjust,1));font-weight:750;white-space:nowrap}
+html:root main.view-mine .private-note-icon{width:var(--scale-avatar-row);height:var(--scale-avatar-row);flex:none}
+html:root main.view-mine .private-calendar-preview{margin-top:var(--scale-gap-section)}
+html:root main.view-mine .private-calendar-preview>.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+html:root main.view-mine .private-calendar-preview>.section-title>h2{margin:0;font-size:calc(var(--scale-section) * var(--font-adjust,1))}
+html:root main.view-mine .private-calendar-preview>.section-title>.button{padding-inline:14px}
+html:root main.view-mine .private-calendar-preview .week-strip button,html:root main.view-mine .private-calendar-preview .week button{min-height:var(--scale-week)}
+html:root main.view-mine .private-space>.private-space-toolbar+.task-row,html:root main.view-mine .private-space>.private-space-toolbar+.empty{margin-top:0}
+/* Read view of a private note: one step between the heading, Pin, the text and the actions. */
+html:root .private-note-editor .private-note-heading{margin-bottom:12px}
+html:root .private-note-editor .household-pin-control{display:block;margin:0 0 12px}
+html:root .private-note-editor .private-note-body{margin:0 0 4px;min-height:0}
+html:root .private-note-editor>.actions,html:root .private-note-editor .detail-sheet-body>.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:var(--journal-step,16px)}
+
+/* ---------- The note window (Journal and My Space) ---------- */
+html:root .note-window .note-window-fields{display:grid;gap:16px;min-width:0;margin:0;padding:0;border:0}
+html:root .note-window .note-window-column{display:grid;gap:16px;align-content:start;min-width:0}
+html:root .note-window .form-section-body>label,html:root .note-window .note-field-title{display:grid;gap:8px;margin:0;min-width:0;font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text)}
+html:root .note-window .form-section-body>label>:is(input,textarea,.select-control,.date-field){font-weight:500}
+html:root .note-window textarea{width:100%;box-sizing:border-box;min-height:120px;resize:vertical}
+html:root .note-window .note-window-text{display:grid;gap:8px;min-width:0}
+html:root .note-window .note-format-toolbar{display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0;border:0;background:none}
+html:root .note-window .note-format-toolbar>button{width:var(--scale-control);height:var(--scale-control);min-width:var(--scale-control);display:grid;place-items:center;padding:0;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);cursor:pointer}
+html:root .note-window .note-format-toolbar>button:hover{background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
+html:root .note-window .two-fields.date-time-fields{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr)!important;gap:12px;align-items:end}
+/* Phones: the date needs the full width (“Wed, Nov 4, 2026”), the time goes under it, as in the event form. */
+@media(max-width:700px){html:root .note-window .two-fields.date-time-fields{grid-template-columns:minmax(0,1fr)!important}}
+html:root .note-window .two-fields.date-time-fields>label{display:grid;gap:8px;min-width:0;margin:0;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .note-window .two-fields.date-time-fields input[type=time]{width:100%;box-sizing:border-box}
+html:root .note-window .form-section .record-access{margin:0;padding:0;border:0;min-width:0}
+html:root .note-window .form-section .record-access>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html:root .note-window .note-window-private{display:grid;gap:4px}
+html:root .note-window .note-window-private>strong{font-size:calc(var(--scale-item) * var(--font-adjust,1))}
+html:root .note-window .note-window-private>p{margin:0;color:var(--muted);font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.45}
+html:root .note-window .tasks-sheet-body>.save-error{margin:0}
+/* Desktop and landscape tablets: a wide window with two columns of sections. */
+@media(min-width:1101px){
+ html:root .tasks-sheet.note-window.wide{width:min(960px,calc(100vw - 64px))}
+ html:root .note-window.wide .note-window-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+}
+@media(min-width:701px) and (max-width:1100px){html:root .tasks-sheet.note-window.wide{width:min(640px,calc(100vw - 48px))}}
+
+/* ---------- Phones: the details sheets are full screen too (title + X on top, the content scrolls) ---------- */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .detail-sheet-backdrop:has(>.detail-sheet:is(.journal-detail-panel,.private-note-editor)){z-index:400!important;inset:0!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important}
+ html:root .detail-sheet:is(.journal-detail-panel,.private-note-editor){width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:flex!important;flex-direction:column;overflow:hidden!important}
+ html:root .detail-sheet:is(.journal-detail-panel,.private-note-editor)>.detail-sheet-header{flex:none;padding-top:max(14px,env(safe-area-inset-top))!important;padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right))!important}
+ html:root .detail-sheet:is(.journal-detail-panel,.private-note-editor)>.detail-sheet-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+}
+/* Read view order: everything, then the actions last (nothing under the buttons). */
+html:root .journal-detail .journal-detail-ai{margin-top:12px}
+html:root .private-note-editor .private-note-lock{margin:var(--journal-step,16px) 0 0}
+
+/* ---------- My Space in short landscape: section tabs and the toolbar share one row ---------- */
+@media(max-height:520px) and (orientation:landscape){
+ html:root main.view-mine .private-space{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:12px;align-content:start}
+ html:root main.view-mine .private-space>*{grid-column:1/-1;min-width:0}
+ html:root main.view-mine .private-space>.private-space-tabs{grid-column:1}
+ html:root main.view-mine .private-space>.private-space-tabs+.private-space-toolbar{grid-column:2;align-self:center}
+ html:root main.view-mine .private-space-tabs .tabs.nav-section.nav-section{padding:4px;gap:4px}
+ html:root main.view-mine .private-space-tabs .tabs.nav-section.nav-section>button{min-height:52px;padding:5px 2px;gap:3px;font-size:calc(11.5px * var(--font-adjust,1))}
+ html:root main.view-mine .private-space-tabs .tabs.nav-section .nav-icon{width:26px;height:26px;border-radius:9px}
+ html:root main.view-mine .private-space-tabs .tabs.nav-section .nav-icon>svg{width:18px;height:18px}
+}
+
+/* ---------- Window controls at the shared sizes ---------- */
+html:root .note-window .date-field-button{min-height:var(--scale-control)!important;height:var(--scale-control)}
+/* The Journal filter window (shared Household filter window): 44px selects and person chips, one-line footer. */
+html:root .household-filter-sheet:has(.journal-person-chips) .select-button{min-height:var(--scale-control)!important;height:var(--scale-control)}
+html:root .household-filter-sheet .journal-person-chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+html:root .household-filter-sheet .journal-person-chips .calendar-all-members{min-height:var(--scale-control)!important;height:var(--scale-control)}
+/* Person chips keep the shared anatomy (AGENTS.md people-chip consistency): the portrait is taller than the name pill. */
+html:root .household-filter-sheet:has(.journal-person-chips) .tasks-sheet-actions>.button{white-space:nowrap;padding-inline:14px;min-width:0}
+/* Main action in the header row: the shared 44px (an older phone rule made it 46px with 15px text here only). */
+html:root main:is(.view-journal,.view-mine) .page-actions>.button{min-height:var(--scale-control);height:var(--scale-control);padding-block:0;font-size:calc(16px * var(--font-adjust,1))}
+/* Pin to Today in the private note (the shared control is 39px outside the Calendar-style details). */
+html:root .private-note-editor .household-pin-control>.control-button{min-height:var(--scale-control)}
+/* WebKit time field: an old rule gives the input and its value a 52px line height (from the 52px inputs), so in a
+   44px field “18:30” sits low. Centre it in the note window. The event form has the same issue (shared, reported). */
+html:root .note-window input[type=time]{padding-block:0!important;line-height:calc(var(--scale-control) - 2px)!important}
+html:root .note-window input[type=time]::-webkit-date-and-time-value{line-height:normal!important;min-height:1.25em}
+/* No private notes yet: one empty state, not a second “Choose a note” panel beside it. */
+html:root main.view-mine .private-space-grid:has(>.private-note-list>.private-empty){grid-template-columns:minmax(0,1fr)!important}
+html:root main.view-mine .private-space-grid:has(>.private-note-list>.private-empty)>aside.detail-panel{display:none}
+
+/* Assigned to: the shared PersonChip choices (AGENTS.md people-chip consistency), one person, same data (memberId). */
+html:root .note-window .note-window-people{display:grid;gap:8px;min-width:0}
+/* My Space › My tasks: Overdue / Anytime under the title (orchestrator fix 2026-11-08). */
+html:root main.view-mine .task-row .task-title{display:grid;gap:2px;text-align:start}
+html:root main.view-mine .private-task-meta{font-size:calc(14px * var(--font-adjust,1));font-weight:750;color:var(--muted)}

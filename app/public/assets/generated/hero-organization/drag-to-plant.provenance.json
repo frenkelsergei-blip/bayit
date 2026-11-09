@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-07",
+  "kind": "AI-generated raster curved dashed tutorial arrow",
+  "generator": "built-in image_gen",
+  "source": "drag-to-plant-source.png",
+  "sourceDimensions": [
+    1254,
+    1254
+  ],
+  "sourceBounds": [
+    261,
+    206,
+    956,
+    1068
+  ],
+  "file": "drag-to-plant.png",
+  "dimensions": [
+    300,
+    300
+  ],
+  "publicUrl": "/assets/generated/hero-organization/drag-to-plant.png",
+  "direction": "lower-left tail to upper-right arrowhead",
+  "alpha": "Real generated RGBA transparency preserved through proportional resize and transparent padding",
+  "reference": "concept/explorations/my-hero-organization-20261107/garden-direct-play.png",
+  "processing": "Deterministic transparent-bound crop and proportional contain sizing only. No invented SVG, CSS, drawing or recoloring.",
+  "sha256": "052e791fa4e1a45e4387943c60b5033142487047d8d943a7daa37463b03da946"
+}

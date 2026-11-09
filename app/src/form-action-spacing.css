@@ -1,0 +1,8 @@
+/* Form actions and dialog dismissal keep a clear touch target without changing
+   the approved compact-row or segmented-tab geometry. */
+.record-editor .heading-actions,.record-editor .form-sticky-actions,.item-editor .actions,.insurance-dialog footer,.money-manual-form-actions{gap:12px}
+@media(pointer:coarse),(max-width:700px){
+ .item-editor .section-title>.icon-button,.tasks-sheet>header>.icon-button,.detail-sheet-header>.icon-button,.insurance-dialog-header>.icon-button,.location-picker>header>.icon-button,.family-popover>header>.icon-button,.people-picker-sheet>header>.icon-button{min-width:44px;min-height:44px;flex:none;display:grid;place-items:center}
+ .item-editor .section-title>h2,.insurance-dialog-header>h2{min-width:0;overflow-wrap:anywhere}
+ .item-editor .actions>.button,.record-editor .heading-actions>.button,.money-manual-form-actions>.button{min-height:44px}
+}

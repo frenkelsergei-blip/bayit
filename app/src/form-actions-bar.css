@@ -1,0 +1,9 @@
+/* Phone form Save/Cancel bar (event, task and routine forms), user report 2026-11-08: the bar was 94% opaque
+   and 6px narrower than the screen on each side, so text scrolling behind it showed through and beside it.
+   It stays sticky just above the bottom menu, but now paints a solid surface edge to edge and down behind the
+   menu (z-index 54 > 30), so no content shows through or under it at any scroll position, including iOS
+   toolbar changes. Shopping's in-card actions are a different form and are not affected. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .shell-v2 .record-editor .form-sticky-actions{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-top:0!important;isolation:isolate}
+ html:root .shell-v2 .record-editor .form-sticky-actions::before{content:"";position:absolute;z-index:-1;top:0;bottom:-48px;left:calc(50% - 50vw);right:calc(50% - 50vw);background:var(--bg);border-top:1px solid var(--border);box-shadow:0 -6px 14px rgba(20,22,58,.06);pointer-events:none}
+}

@@ -1,0 +1,105 @@
+/* Calendar layout on the shared size scale (scale.css), full audit 2026-11-08, findings C-2 to C-9.
+   Scoped to .main-content.view-calendar (and the Calendar's own dialogs). Approved anatomy is kept:
+   Week time-of-day cards, the persistent desktop Month day list, the wide Month event dialog and the
+   phone/tablet sheets. Other screens keep their geometry. */
+
+/* ---- Page frame: title and actions share one row, then one toolbar row, then the calendar ---- */
+html:root .view-calendar .calendar-reference{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;align-content:start;max-width:1296px;margin-inline:auto;width:100%}
+html:root .view-calendar .calendar-reference>*{grid-column:1/-1;min-width:0}
+html:root .view-calendar .calendar-reference>.page-heading{grid-column:1;grid-row:1;margin:0;align-self:end}
+html:root .view-calendar .calendar-reference>.page-actions{grid-column:2;grid-row:1;margin:0;align-self:start;display:flex;flex-wrap:nowrap;align-items:center;gap:10px}
+html:root .view-calendar .calendar-reference>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .view-calendar .calendar-reference>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
+html:root .view-calendar .calendar-reference>.page-actions>.button{min-height:var(--scale-control);padding:0 18px;font-size:calc(16px * var(--font-adjust,1));border-radius:999px;white-space:nowrap}
+html:root .view-calendar .calendar-reference>.page-actions .density-toggle{margin:0}
+/* Cards/List only changes Week (C-4). */
+html:root .view-calendar .calendar-reference:not(.calendar-mode-week)>.page-actions .page-density-slot{display:none}
+
+/* One toolbar: people, view tabs, then the period on the reading end. */
+html:root .view-calendar .calendar-reference-controls{margin:20px 0 16px!important;gap:10px 12px!important;align-items:center!important}
+html:root .view-calendar .calendar-reference-controls>.people-picker .people-picker-button{min-height:var(--scale-control);height:auto}
+html:root .view-calendar .calendar-reference-controls>.tabs{min-height:var(--scale-control)}
+html:root .view-calendar .calendar-reference-controls>.calendar-period-control{min-height:var(--scale-control)}
+
+/* Hebrew: previous sits on the right, so its arrow points right; next points left (C-2). */
+html[dir=rtl] .view-calendar .calendar-period-control>.icon-button svg{transform:scaleX(-1)}
+
+/* ---- Week cards: readable titles ---- */
+html:root .view-calendar .calendar-reference-event strong{font-size:calc(14px * var(--font-adjust,1));line-height:1.25}
+html:root .view-calendar .calendar-reference-event .calendar-event-meta time{font-size:calc(13px * var(--font-adjust,1))}
+
+/* ---- Agenda: titles wrap to two lines instead of cutting short words (C-5) ---- */
+html:root .view-calendar .calendar-agenda:not(.density-compact) .agenda-text strong{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25;overflow-wrap:anywhere}
+
+/* ---- Month: a wider day list beside the month and readable previews (C-8) ---- */
+@media(min-width:1101px){
+ html:root .view-calendar .calendar-month-layout{grid-template-columns:minmax(0,1fr) minmax(320px,360px)}
+}
+html:root .view-calendar .calendar-in-month .month-paper .month-event{min-height:26px;font-size:calc(12.5px * var(--font-adjust,1))}
+
+/* ---- Event details: one title size, reminder text on one line (C-9). The sheet and dialog render outside
+   main, and Tasks/Journal reuse these class names, so they are scoped to an open Calendar page. ---- */
+html:root:has(.main-content.view-calendar) .calendar-event-details .calendar-detail-heading :is(h2,.detail-title){font-size:calc(var(--scale-section) * var(--font-adjust,1))!important;line-height:1.2}
+html:root:has(.main-content.view-calendar) .calendar-event-details .calendar-detail-heading>.avatar{width:64px!important;height:64px!important}
+html:root:has(.main-content.view-calendar) .calendar-event-details .calendar-detail-section .select-trigger,html:root:has(.main-content.view-calendar) .calendar-event-details .calendar-detail-section .select{min-width:min(100%,280px)}
+
+/* ---- Tablet (701–1100): same frame, tighter week day column ---- */
+@media(min-width:701px) and (max-width:1100px){
+ /* As on Today: actions on their own row below the title, so the title never wraps beside them. */
+ html:root .view-calendar .calendar-reference{grid-template-columns:minmax(0,1fr)}
+ html:root .view-calendar .calendar-reference>.page-heading,html:root .view-calendar .calendar-reference>.page-actions{grid-column:1}
+ html:root .view-calendar .calendar-reference>.page-actions{grid-row:auto;margin-top:14px;justify-self:start}
+ html:root .view-calendar .calendar-reference-controls{flex-wrap:nowrap!important}
+ html:root .view-calendar .calendar-reference-controls>.tabs>button{padding-inline:12px!important}
+ html:root .view-calendar .calendar-reference-controls>.calendar-period-control{width:auto!important;margin-inline-start:auto!important;flex:0 1 auto;min-width:0}
+ html:root .view-calendar .calendar-reference-event{gap:6px;padding-inline:8px}
+ html:root .view-calendar .calendar-reference-event>.avatar-stack{--stack-size:26px}
+ html:root .view-calendar .calendar-reference-event>.avatar{width:26px!important;height:26px!important}
+}
+
+/* ---- Phone portrait: title, one action row, two compact toolbar rows ---- */
+@media(max-width:700px){
+ html:root .view-calendar .calendar-reference{grid-template-columns:minmax(0,1fr)}
+ html:root .view-calendar .calendar-reference>.page-heading,html:root .view-calendar .calendar-reference>.page-actions{grid-column:1}
+ html:root .view-calendar .calendar-reference>.page-actions{grid-row:auto;margin-top:16px;align-self:stretch}
+ html:root .view-calendar .calendar-reference>.page-actions>.button{flex:1}
+ html:root .view-calendar .calendar-reference>.page-heading p{margin-top:6px}
+ html:root .view-calendar .calendar-reference-controls{margin:14px 0 12px!important;gap:8px!important}
+ html:root .view-calendar .calendar-reference-controls>.people-picker .people-picker-button,html:root .view-calendar .calendar-reference-controls>.tabs{height:var(--scale-control)!important;min-height:var(--scale-control)!important}
+ html:root .view-calendar .calendar-reference-controls>.tabs>button{min-height:var(--scale-control,44px)!important}
+ html:root .view-calendar .calendar-period-control{min-height:var(--scale-control)}
+ html:root .view-calendar .calendar-period-control>.icon-button{width:var(--scale-control,44px);height:var(--scale-control,44px);min-height:var(--scale-control,44px)}
+ html:root .view-calendar .agenda-event>.avatar-stack{--stack-size:28px}
+ html:root .view-calendar .agenda-event>.avatar{width:28px!important;height:28px!important}
+ html:root:has(.main-content.view-calendar) .calendar-event-details .calendar-detail-heading>.avatar{width:56px!important;height:56px!important}
+}
+
+/* ---- Short landscape phones: title and actions in one row, the toolbar in one row ---- */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-calendar .calendar-reference{grid-template-columns:minmax(0,1fr) auto}
+ html:root .view-calendar .calendar-reference>.page-heading{grid-column:1}
+ html:root .view-calendar .calendar-reference>.page-actions{grid-column:2;grid-row:1;margin-top:0;align-self:start}
+ html:root .view-calendar .calendar-reference>.page-heading p{margin-top:4px}
+ html:root .view-calendar .calendar-reference-controls{display:flex!important;flex-wrap:nowrap!important;margin:10px 0 8px!important}
+ html:root .view-calendar .calendar-reference-controls>.tabs{flex:0 1 auto;width:auto!important}
+ html:root .view-calendar .calendar-reference-controls>.calendar-period-control{width:auto!important;margin-inline-start:auto!important;flex:0 1 auto}
+}
+
+/* ---- New/Edit event: the same title scale, so the first field comes up (C-10) ---- */
+html:root .view-calendar>.record-editor>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .view-calendar>.record-editor>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));line-height:1.35}
+
+/* ---- People faces on event cards (user review 2026-11-08): the same white ring and soft shadow as the people
+   filter and Today, instead of a cream ring that disappears on yellow and blue cards. Sizes come from
+   --stack-size so overlap and the "+N" bubble stay even. ---- */
+html:root .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-item,
+html:root .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-more,
+html:root .view-calendar :is(.calendar-reference-event:not(.selected-event),.agenda-event,.month-day-event-row)>.avatar{box-shadow:0 0 0 2px #fff,0 2px 6px rgba(16,21,42,.18)!important;border:0!important}
+html:root .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-item{background:#fff}
+html:root[data-theme=dark] .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-item,
+html:root[data-theme=dark] .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-more,
+html:root[data-theme=dark] .view-calendar :is(.calendar-reference-event:not(.selected-event),.agenda-event,.month-day-event-row)>.avatar{box-shadow:0 0 0 2px var(--surface),0 2px 6px rgba(0,0,0,.35)!important}
+html:root[data-theme=dark] .view-calendar :is(.calendar-reference-event,.agenda-event,.month-day-event-row) .avatar-stack-item{background:var(--surface)}
+
+/* Design system 7 (44px controls): Calendar view tabs were 42px on desktop. */
+html:root .view-calendar .calendar-reference-controls>.tabs>button{min-height:var(--scale-control,44px)!important}

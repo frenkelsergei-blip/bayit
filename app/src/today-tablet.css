@@ -1,0 +1,8 @@
+/* A tablet gives each Today section its own readable width. Use the current
+   widget grid, rather than the retired today-columns layout. */
+@media(min-width:701px) and (max-width:1200px) and (min-height:521px){
+ html .view-today .today-widget-grid{grid-template-columns:minmax(0,1fr);align-items:start}
+ html .view-today .today-widget-grid>.today-widget{min-width:0}
+ html .view-today .today-widget-grid>.today-tasks{border-inline-start:0;padding-inline-start:0}
+ html .view-today .today-widget-grid>.today-tasks:not(:first-child){border-block-start:1px solid var(--border);padding-block-start:24px}
+}

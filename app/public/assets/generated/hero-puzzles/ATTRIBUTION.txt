@@ -1,0 +1,4 @@
+Nine original puzzle scene illustrations generated for Bayit with OpenAI image_gen,2026-11-07.
+Scenes: forest, beach, space, bakery, aquarium, farm, library, train, snow.
+Prompt record: work/hero-play-review-20261107/image-prompts.json.
+The existing room, garden and moon assets retain their existing attribution.

@@ -1,3 +1,4 @@
+import {taskAssignedTo} from './task-assignment.mjs';
 const validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value||'')&&new Date(value+'T12:00Z').toISOString().slice(0,10)===value;
 export function serviceDue(record){
  if(record.serviceHistory?.length)return record.nextServiceDate||null;
@@ -13,3 +14,4 @@ export function recordMaintenanceService(record,command,actor,{today,now=new Dat
  const next=record.repeat==='monthly'?serviceMonth(command.basis==='performed'?command.date:due,Number(record.intervalMonths)||1):null;
  return {...record,serviceHistory:[...(record.serviceHistory||[]),{id:command.id,scheduledDate:due,performedDate:command.date,basis:command.basis,actorId:actor,at:now}],nextServiceDate:next};
 }
+export function maintenanceNotices(records,actor,today){return records.filter(r=>r.category==='maintenance'&&!r.deletedAt&&taskAssignedTo(r,actor)&&Number.isInteger(r.reminderDays)).flatMap(record=>{const due=serviceDue(record);if(!due)return [];const start=new Date(Date.parse(due+'T12:00Z')-Math.max(0,record.reminderDays)*864e5).toISOString().slice(0,10);return today>=start?[{record,due,start,key:'maintenance:'+record.id+':'+due+':'+record.reminderDays}]:[]})}

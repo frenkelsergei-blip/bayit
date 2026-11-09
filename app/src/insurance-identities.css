@@ -1,0 +1,21 @@
+.ins-import-identities{padding:18px;border:1px solid var(--border);border-radius:20px;background:var(--surfaceSoft);margin:18px 0 24px}
+.ins-import-identities h3{display:flex;align-items:center;gap:10px;font-size:1.1rem;margin-bottom:10px}
+.ins-import-identities p,.ins-identity-settings p{font-size:14px;line-height:1.8}
+.ins-import-identities small{font-size:12px;line-height:1.7;margin-top:10px}
+.ins-id-assignment{min-width:0;padding:16px;margin:18px 0;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+.ins-id-assignment legend{font-size:15px;font-weight:800;padding-inline:8px}
+.ins-id-assignment details{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px}
+.ins-id-assignment summary{cursor:pointer}.ins-id-assignment .control-button{white-space:normal;text-align:start;margin-top:8px}
+.ins-id-confirmed{display:flex;gap:6px;align-items:center;color:var(--link,var(--text))}
+.ins-import-identities .person-chip,.ins-identity-settings .person-chip{transition:none}
+.insurance-subject[hidden]{display:none!important}
+.ins-id-assignment [role=status]{display:block;font-size:13px;margin-top:8px}
+.ins-identity-settings{overflow:auto;min-height:0;display:block}
+.ins-identity-settings>p,.ins-identity-settings>.ins-id-links,.ins-identity-settings>form,.ins-identity-settings>small{margin-bottom:20px}
+.ins-id-links{display:grid;gap:14px}.ins-id-links>article{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);border-radius:16px;min-width:0}
+.ins-id-links>article>bdi{font-size:14px}.ins-id-links .person-chip{margin-inline-end:auto}
+.ins-identity-settings form{display:flex;flex-direction:column;gap:16px}.ins-identity-settings h3{font-size:20px}
+.ins-identity-settings label{display:grid;gap:8px;font-size:14px}.ins-identity-settings input{font-size:16px}
+.ins-identity-settings fieldset{border:0;padding:0;margin:0;min-width:0}.ins-identity-settings legend{font-size:14px;font-weight:750}
+.ins-identity-settings .actions{margin:0}.ins-identity-settings .button{font-size:16px;min-height:44px;padding:10px 18px}
+@media(max-width:700px){.ins-id-assignment{padding:12px}.ins-import-identities{padding:14px}.ins-id-links>article{gap:10px;padding:12px}.ins-id-links .person-chip{--chip-avatar:28px!important}}

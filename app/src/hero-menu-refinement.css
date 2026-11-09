@@ -1,0 +1,52 @@
+/* Shop, garden and game controls use the same readable action anatomy. */
+:is(.hero-home,.hero-item-dialog) .hero-small-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0;min-height:44px;white-space:normal;line-height:1.35}
+:is(.hero-home,.hero-item-dialog) .hero-small-button>svg{flex:none}
+.hero-home .hero-small-button[aria-pressed]{border:1.5px solid var(--border);background:var(--surface);color:var(--text)}
+.hero-home .hero-small-button[aria-pressed=true]{border-color:var(--primary);background:var(--primary);color:var(--onPrimary);box-shadow:0 2px 7px color-mix(in srgb,var(--primary) 20%,transparent)}
+.hero-home .hero-small-button:focus-visible,.hero-shop-controls :is(button,input,select):focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 60%,transparent);outline-offset:3px}
+.hero-shop-controls{min-width:0}
+.hero-shop-garden-entry{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;border:1px solid var(--border);border-radius:18px;background:var(--surfaceSoft);padding:17px 19px;margin-bottom:26px}
+.hero-shop-garden-entry>div{min-width:0;flex:1 1 210px}
+.hero-shop-garden-entry h3{font-size:calc(16px * var(--font-adjust,1));font-weight:900;line-height:1.35;margin:0 0 4px}
+.hero-shop-garden-entry p{font-size:calc(13px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0}
+.hero-shop-garden-entry .hero-garden-shop-entry{flex:0 1 auto;padding:10px 15px}
+html[dir=rtl] .hero-menu-forward{transform:scaleX(-1)}
+.hero-shop-filters{gap:18px;margin-bottom:19px}
+.hero-shop-category-field{border:0;min-width:0;margin:0;padding:0}
+.hero-shop-category-field>legend,.hero-shop-search>label>span:first-child{font-size:calc(13px * var(--font-adjust,1));font-weight:850;color:var(--muted);line-height:1.4;padding:0;margin-bottom:9px}
+.hero-shop-category-field>.hero-category-chips{gap:9px}
+.hero-shop-controls .hero-category-chips>button{min-height:44px;line-height:1.35;padding:8px 15px;white-space:normal}
+.hero-shop-search{grid-template-columns:minmax(0,1fr) minmax(190px,.55fr);gap:16px}
+.hero-shop-search>label{display:flex;flex-direction:column;min-width:0;gap:0}
+.hero-shop-search input,.hero-shop-search select{font:inherit;font-size:max(16px,calc(15px * var(--font-adjust,1)));min-width:0;width:100%;box-sizing:border-box;min-height:48px;padding:11px 15px;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);line-height:1.4}
+.hero-shop-select{display:block;position:relative;min-width:0}
+.hero-shop-select select{appearance:none;-webkit-appearance:none;padding-inline-end:43px}
+.hero-shop-select>svg{position:absolute;inset-inline-end:15px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted)}
+.hero-shop-results{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;min-height:44px;font-size:calc(13px * var(--font-adjust,1));color:var(--muted)}
+.hero-shop-results .hero-shop-reset{background:var(--surface);color:var(--primary);border:1px solid var(--border);padding:8px 12px}
+@media(max-width:1100px){.hero-home .hero-shelf>.tabs.nav-view{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.hero-shop-garden-entry{padding:16px;margin-bottom:25px}.hero-shop-garden-entry>div{flex-basis:100%}.hero-shop-search{grid-template-columns:minmax(0,1fr);gap:16px}.hero-shop-controls .hero-category-chips>button{font-size:calc(12px * var(--font-adjust,1));padding-inline:13px}.hero-shop-results{margin-top:-4px}}
+@media(max-width:380px){.hero-home .hero-shelf>.tabs.nav-view{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.hero-home .garden-seed-kind>button{min-height:44px}
+.hero-home .garden-seed-choices{grid-template-columns:repeat(auto-fit,minmax(min(100%,82px),1fr))}
+.hero-home .garden-seed-choices>button>span{display:block;overflow-wrap:anywhere;line-height:1.35}
+
+.hero-home .hero-character-picker>button>span{display:block;overflow-wrap:anywhere}
+@media(max-width:380px){.hero-home .hero-character-picker{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* The scrollable preview and quantity never pass beneath the purchase action. */
+html .hero-item-dialog{overflow:hidden}
+.hero-item-dialog .hero-item-dialog-inner{display:flex;flex-direction:column;max-height:calc(100dvh - max(50px,env(safe-area-inset-bottom)));padding:0}
+.hero-item-dialog .hero-item-dialog-inner>header{flex:none;margin:0;padding:18px 22px 16px}
+.hero-item-dialog-body{min-height:0;flex:1 1 auto;overflow:auto;overscroll-behavior:contain;padding:0 22px 5px}
+.hero-item-dialog-footer{flex:none;border-top:1px solid var(--border);padding:14px 22px 20px;background:var(--surface)}
+.hero-item-dialog-footer>.button{position:static;width:100%;min-height:48px;font-size:calc(16px * var(--font-adjust,1));white-space:normal;line-height:1.35}
+.hero-item-dialog-footer>p{margin:10px 0 0}
+.hero-item-dialog-footer>p:first-child{margin-top:0}
+.hero-item-dialog .hero-quantity>button{width:44px;height:44px;min-height:44px;min-width:44px;flex:none}
+@media(max-width:700px){.hero-item-dialog .hero-item-dialog-inner>header{padding:16px 18px 14px}.hero-item-dialog-body{padding-inline:18px}.hero-item-dialog-footer{padding:12px 18px 18px}}
+@media(orientation:landscape) and (max-height:520px){.hero-item-dialog .hero-item-dialog-inner{max-height:calc(100dvh - 28px)}.hero-item-dialog .hero-item-dialog-inner>header{padding-block:10px}.hero-item-dialog-footer{padding-block:10px}}
+
+.hero-home .hero-shop-card.is-equipped .hero-card-calltoaction{color:var(--text)}
+
+.hero-home :is(.garden-eyebrow,.hg-eyebrow,.garden-ready-link){color:var(--text)}

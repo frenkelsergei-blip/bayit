@@ -45,11 +45,46 @@ import "./shopping-v2.css";
 import "./audit-fixes-b.css";
 import "./priority.css";
 import "./hero-home.css";
+import "./kids-quest-actions.css";
 import "./hero-care-scene.css";
 import "./remediation.css";
 import "./identity-consistency.css";
+import "./avatar-layout.css";
+import "./profile-layout.css";
+import "./shopping-editor.css";
+import "./people-picker-consistency.css";
+import "./selection-consistency.css";
+import "./insurance-density.css";
+import "./form-action-spacing.css";
+import "./landscape-form-actions.css";
 
 if(import.meta.env.VITE_BAYIT_CLOUD)registerServiceWorker();
+import './menu-landscape-consistency.css';
+import './menu-text-scaling.css';
+import './shell-navigation.css';
+import './entry-surface.css';
+import './calendar-month-grid.css';
+import './calendar-month-experience.css';
+import './navigation-repairs.css';
+import './scale.css';
+import './today-layout.css';
+import './calendar-layout.css';
+import './form-actions-bar.css';
+import './record-form.css';
+import './form-window.css';
+import './tasks-layout.css';
+import './hebrew-type.css';
+import './item-reminders.css';
+import './field-title.css';
+import './settings-layout.css';
+import './shopping-layout.css';
+import './window-fit.css';
+import './journal-layout.css';
+import './input-modality.js';
+import './page-header.css';
+import './controls.css';
+import './tab-fade.css';
+
 createRoot(document.getElementById("root")).render(
   <React.StrictMode><RenderBoundary>
     {import.meta.env.VITE_BAYIT_CLOUD?<CloudRoot App={App}/>:<App/>}

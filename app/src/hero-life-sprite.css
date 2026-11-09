@@ -1,0 +1,23 @@
+.hero-life-sprite{display:block;position:relative;width:100%;aspect-ratio:1;overflow:hidden;line-height:0;pointer-events:none}
+.hero-life-sprite>img{position:absolute;left:0;top:calc(var(--care-row)*-100%);width:300%;height:400%;max-width:none;image-rendering:pixelated;object-fit:fill}
+.hero-life-sprite.is-active>img{animation:hero-life-action-frames 1.8s step-end infinite}
+@keyframes hero-life-action-frames{0%,28%{transform:translateX(0)}29%,63%{transform:translateX(-33.333333%)}64%,100%{transform:translateX(-66.666667%)}}
+.hero-care-life-standing{position:absolute;left:30%;bottom:4%;width:36%;z-index:5;pointer-events:none}
+.hero-home.hero-organization .hero-room .hero-care-original-sleep>.hero-rig-sleep-head{animation:hero-life-sleep-breathe 3.6s ease-in-out infinite}
+.hero-home.hero-organization .hero-room .hero-care-original-blanket>.hero-rig-blanket-breath{animation:hero-life-blanket-breathe 3.6s ease-in-out infinite}
+@keyframes hero-life-sleep-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes hero-life-blanket-breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.06)}}
+@media(prefers-reduced-motion:reduce){.hero-life-sprite>img,.hero-home .hero-rig-sleep-head,.hero-home .hero-rig-blanket-breath{animation:none!important;transform:none!important}}
+html[data-motion=reduced] .hero-life-sprite>img,html[data-motion=reduced] .hero-home .hero-rig-sleep-head,html[data-motion=reduced] .hero-home .hero-rig-blanket-breath{animation:none!important;transform:none!important}
+
+.hero-life-sprite.hero-life-wake>img{transform:translateX(-66.666667%)}
+
+.hero-room[data-scenario=tidy] .hero-actor-shadow,.hero-room[data-scenario=play] .hero-actor-shadow,.hero-room[data-scenario=wake] .hero-actor-shadow{display:block}
+
+.hero-home.hero-organization .hero-room.is-sleeping .hero-room-shade{background:#10152a38}
+html[data-theme=dark] .hero-home.hero-organization .hero-room.is-sleeping .hero-room-shade{background:#070b2130}
+
+.hero-sleep-cloud{position:absolute;left:14%;top:34%;width:10%;aspect-ratio:1;overflow:hidden;z-index:4;pointer-events:none}
+.hero-sleep-cloud>img{position:absolute;inset:0 auto auto 0;width:300%;height:100%;max-width:none;object-fit:fill;animation:hero-life-action-frames 5s step-end infinite}
+@media(prefers-reduced-motion:reduce){.hero-sleep-cloud>img{animation:none!important}}
+html[data-motion=reduced] .hero-sleep-cloud>img{animation:none!important}

@@ -7,7 +7,7 @@ self.addEventListener('push',event=>{
  let data={};
  try{data=event.data?event.data.json():{}}catch{data={title:'Bayit',body:event.data?.text()||''}}
  const title=data.title||'Bayit';
- event.waitUntil(self.registration.showNotification(title,{body:data.body||'',tag:data.tag||undefined,renotify:!!data.tag,icon:'/app-icon-192.png',badge:'/app-icon-192.png',lang:/[֐-׿]/.test(title+(data.body||''))?'he':'en',dir:'auto',data:{url:typeof data.url==='string'&&data.url.startsWith('#')?data.url:'#today'}}));
+ event.waitUntil(self.registration.showNotification(title,{body:data.body||'',tag:data.tag||undefined,renotify:!!data.tag,icon:'/assets/brand-selected-20261107/app-icon-192.png',badge:'/assets/brand-selected-20261107/notification-badge-96.png',lang:/[֐-׿]/.test(title+(data.body||''))?'he':'en',dir:'auto',data:{url:typeof data.url==='string'&&data.url.startsWith('#')?data.url:'#today'}}));
 });
 
 self.addEventListener('notificationclick',event=>{

@@ -1,0 +1,146 @@
+/* Approved My Hero concept. Every selector is limited to this experience. */
+.hero-organization{--hero-soft:var(--surfaceSoft);--hero-ink:var(--text);min-width:0}
+.hero-organization .hero-home-toolbar{margin:22px 0 18px;gap:16px}
+.hero-organization .hero-wallet>span:not(.hero-stars){display:none}
+.hero-organization .hero-place-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 25px}
+.hero-organization .hero-place-nav>button{display:flex;align-items:center;justify-content:center;gap:11px;border:1px solid transparent;border-radius:22px;background:var(--surfaceSoft);color:var(--text);font-family:inherit;font-weight:850;font-size:calc(18px * var(--font-adjust,1));line-height:1.3;min-height:58px;padding:12px 16px;cursor:pointer}
+.hero-organization .hero-place-nav>button[aria-pressed=true]{background:var(--primary);color:var(--onPrimary,#fff);border-color:var(--primary)}
+.hero-organization .hero-place-nav>button svg{flex:none}
+.hero-organization .hero-place-nav>button:disabled{cursor:wait;opacity:.7}
+.hero-organization .hero-activity-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 18px;min-width:0}
+.hero-organization .hero-activity-heading h2{font-size:calc(33px * var(--font-adjust,1));font-weight:950;line-height:1.2;margin:0 0 5px;letter-spacing:-.035em}
+.hero-organization .hero-activity-heading p{font-size:calc(16px * var(--font-adjust,1));color:var(--muted);font-weight:650;line-height:1.5;margin:0}
+.hero-organization .hero-progress-link{display:flex;align-items:center;justify-content:center;gap:7px;background:none;border:0;color:var(--text);padding:8px 0;min-height:44px;cursor:pointer;font-size:calc(13px * var(--font-adjust,1));font-weight:800;flex:none}
+.hero-organization .hero-care-meters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 22px}
+.hero-organization .hero-care-meter{display:flex;align-items:center;justify-content:center;gap:11px;background:color-mix(in srgb,var(--green) 65%,var(--surface));padding:14px 16px;border-radius:20px;color:var(--text);min-width:0}
+.hero-organization .hero-care-meter>svg{flex:none}
+.hero-organization .hero-care-meter>div{min-width:0;flex:1;max-width:130px}
+.hero-organization .hero-care-meter strong{display:block;font-size:calc(14px * var(--font-adjust,1));font-weight:900;line-height:1.25;margin-bottom:6px}
+.hero-organization .hero-care-meter [role=progressbar]{height:8px;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--text) 15%,var(--surface))}
+.hero-organization .hero-care-meter [role=progressbar]>span{display:block;height:100%;border-radius:inherit;background:#6fa847;transition:width .3s}
+.hero-organization .hero-care-meter.need-energy [role=progressbar]>span{background:#e9b900}
+.hero-organization .hero-care-layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(225px,1fr);gap:18px;align-items:start}
+.hero-organization .hero-care-room-column{min-width:0}
+.hero-organization .hero-care-room-column>.hero-room{border-radius:25px;aspect-ratio:3/2;background:var(--yellow)}
+.hero-organization .hero-care-room-column .hero-thought{display:none}
+.hero-organization .hero-care-button-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:16px}
+.hero-organization .hero-care-button-row>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:84px;padding:10px 5px;border:1px solid transparent;border-radius:20px;background:var(--surfaceSoft);color:var(--text);font-family:inherit;font-size:calc(14px * var(--font-adjust,1));font-weight:850;line-height:1.25;cursor:pointer}
+.hero-organization .hero-care-button-row>button[aria-pressed=true]{background:var(--primary);color:var(--onPrimary,#fff)}
+.hero-organization .hero-care-button-row>button[aria-disabled=true]{opacity:.7}
+.hero-organization .hero-care-button-row>button:disabled{opacity:.62;cursor:default;background:var(--surfaceSoft);color:var(--muted)}
+.hero-organization .hero-care-button-row>button small{font-size:.75em;line-height:1.3;font-weight:700;max-width:100%;overflow-wrap:anywhere}
+.hero-organization .hero-food-panel{border:1px solid var(--border);border-radius:25px;padding:19px 17px;background:var(--surface);min-width:0}
+.hero-organization .hero-food-panel h3{font-size:calc(24px * var(--font-adjust,1));font-weight:950;line-height:1.2;margin:0 0 8px;letter-spacing:-.03em}
+.hero-organization .hero-food-panel p{font-size:calc(13px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0 0 15px}
+.hero-organization .hero-food-owned{display:grid;gap:11px;margin-bottom:16px}
+.hero-organization .hero-food-owned-row{display:flex;align-items:center;gap:9px;min-width:0}
+.hero-organization .hero-food-owned-row>img{width:56px;height:60px;object-fit:contain;flex:none}
+.hero-organization .hero-food-owned-row>div{flex:1;min-width:0;display:grid;gap:2px}
+.hero-organization .hero-food-owned-row strong{font-size:calc(16px * var(--font-adjust,1));font-weight:900;line-height:1.25;overflow-wrap:anywhere}
+.hero-organization .hero-food-owned-row span{font-size:calc(13px * var(--font-adjust,1));font-weight:750}
+.hero-organization .hero-food-owned-row>button{padding:8px 17px;min-height:44px;min-width:72px;flex:none;border:0;border-radius:22px;background:var(--primary);color:var(--onPrimary,#fff);font-size:calc(14px * var(--font-adjust,1));font-weight:850;cursor:pointer}
+.hero-organization .hero-food-owned-row>button:disabled{background:var(--selected);color:var(--muted);cursor:default}
+.hero-organization .hero-context-shop{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px;border:0;border-radius:22px;background:var(--green);color:var(--text);font-size:calc(14px * var(--font-adjust,1));font-weight:850;min-height:44px;cursor:pointer}
+.hero-organization .hero-care-notice{margin-top:12px;min-height:24px;background:none!important;border:0;padding:3px 0;text-align:start;justify-content:flex-start;font-size:calc(13px * var(--font-adjust,1))}
+.hero-organization .hero-care-notice[data-kind=idle]{display:flex;color:var(--muted)}
+.hero-organization .hero-care-notice.is-error{color:var(--danger)}
+.hero-organization .hero-shelf{margin-top:0;scroll-margin-top:100px}
+.hero-organization .hero-shelf:empty{display:none}
+.hero-organization .hero-shelf:has(.hero-garden-world){padding:0}
+.hero-organization .hero-section-heading h2{font-size:calc(30px * var(--font-adjust,1));line-height:1.25}
+.hero-organization .hero-dress-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}
+.hero-organization .hero-dress-heading .hero-character{width:100px;height:140px;flex:none}
+.hero-organization .hero-shop-controls .hero-shop-garden-entry{display:none}
+.hero-organization .hero-section-back{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.hero-organization .hero-food-store-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.hero-organization .hero-food-store-grid>button{border:1px solid var(--border);border-radius:24px;background:var(--surface);color:var(--text);padding:20px;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;cursor:pointer}
+.hero-organization .hero-food-store-grid>button>img{width:90px;height:90px;object-fit:contain}
+.hero-organization .hero-food-store-grid h3{margin:0;font-size:calc(17px * var(--font-adjust,1));font-weight:900;text-align:center}
+.hero-organization .hero-food-store-grid span{display:flex;align-items:center;justify-content:center;gap:5px;font-size:calc(14px * var(--font-adjust,1));font-weight:750}
+.hero-organization .hero-food-store-grid span>img{width:23px;height:23px;object-fit:contain}
+.hero-organization .hero-food-store-grid small{font-size:calc(12px * var(--font-adjust,1));color:var(--muted);line-height:1.4;text-align:center}
+.hero-organization .hero-context-dialog{width:min(760px,calc(100vw - 36px));max-height:calc(100dvh - 44px);padding:0;border:1px solid var(--border);border-radius:27px;background:var(--surface);color:var(--text);box-shadow:0 20px 70px #0005;overflow:auto}
+.hero-organization .hero-context-dialog::backdrop{background:#10152a99;backdrop-filter:blur(3px)}
+.hero-organization .hero-context-dialog-body{padding:23px}
+.hero-organization .hero-context-dialog-body>header{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}
+.hero-organization .hero-context-dialog h2{font-size:calc(27px * var(--font-adjust,1));line-height:1.2;font-weight:950;margin:0 0 7px}
+.hero-organization .hero-context-dialog header p{font-size:calc(14px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0}
+.hero-organization .hero-context-dialog header .icon-button{flex:none;min-width:44px;min-height:44px}
+.hero-organization .hero-food-sheet{width:min(450px,calc(100vw - 32px))}
+.hero-organization .hero-food-sheet .hero-context-dialog-body{display:flex;flex-direction:column;max-height:inherit;box-sizing:border-box;overflow:hidden}
+.hero-organization .hero-food-sheet .hero-context-dialog-body>header,.hero-organization .hero-food-sheet footer{flex-shrink:0}
+.hero-organization .hero-food-sheet .hero-food-choices{min-height:0;overflow-y:auto;flex-shrink:1}
+.hero-organization .hero-food-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.hero-organization .hero-food-choices>button{display:flex;flex-direction:column;align-items:center;gap:5px;background:var(--surfaceSoft);border:2px solid transparent;border-radius:18px;padding:12px 6px;color:var(--text);font-size:calc(14px * var(--font-adjust,1));cursor:pointer}
+.hero-organization .hero-food-choices>button[aria-pressed=true]{border-color:var(--primary);background:var(--selected)}
+.hero-organization .hero-food-choices img{width:60px;height:62px;object-fit:contain}
+.hero-organization .hero-food-choices strong{font-size:calc(13px * var(--font-adjust,1));line-height:1.3;text-align:center}
+.hero-organization .hero-food-sheet footer{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.hero-organization .hero-food-sheet footer .button{min-height:48px;justify-content:center}
+.hero-organization .hero-game-recovery{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-radius:22px;padding:16px 18px;background:var(--yellow);margin:15px 0}
+.hero-organization .hero-game-recovery>p{flex:1;min-width:150px;font-size:calc(15px * var(--font-adjust,1));margin:0;line-height:1.5}
+.hero-organization .hero-recovery-art{width:46px;height:46px;object-fit:contain}
+.hero-organization button:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.hero-organization .hero-small-button{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.hero-home.hero-organization .hero-small-button[aria-pressed=true]{background:var(--selected);border-color:var(--primary);color:var(--text)}
+html:root[data-theme=dark] .hero-organization .hero-small-button{color:var(--text)}
+@media(max-width:1000px){
+ .hero-organization .hero-care-layout{grid-template-columns:minmax(0,1.8fr) minmax(200px,1fr);gap:14px}
+ .hero-organization .hero-care-meter{padding:12px 10px;gap:8px}
+ .hero-organization .hero-food-panel{padding:16px 12px}
+ .hero-organization .hero-food-owned-row>img{width:48px;height:54px}
+ .hero-organization .hero-food-owned-row>button{padding:8px 12px}
+}
+@media(max-width:700px){
+ .hero-organization .hero-home-toolbar{margin:16px 0;gap:12px}
+ .hero-organization .hero-place-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:19px}
+ .hero-organization .hero-place-nav>button{min-height:44px;font-size:calc(15px * var(--font-adjust,1));gap:9px;padding:9px 10px;border-radius:17px}
+ .hero-organization .hero-place-nav>button svg{width:22px;height:22px}
+ .hero-organization .hero-activity-heading{gap:10px;margin-bottom:14px;align-items:center}
+ .hero-organization .hero-activity-heading h2{font-size:calc(27px * var(--font-adjust,1))}
+ .hero-organization .hero-activity-heading p{font-size:calc(14px * var(--font-adjust,1))}
+ .hero-organization .hero-progress-link{font-size:calc(11px * var(--font-adjust,1));gap:4px;flex-direction:column}
+ .hero-organization .hero-progress-link>svg:last-child{display:none}
+ .hero-organization .hero-care-meters{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:16px}
+ .hero-organization .hero-care-meter{padding:10px 12px;border-radius:16px;justify-content:flex-start;min-height:54px}
+ .hero-organization .hero-care-meter strong{font-size:calc(13px * var(--font-adjust,1));margin-bottom:5px}
+ .hero-organization .hero-care-meter>svg{width:25px;height:25px}
+ .hero-organization .hero-care-layout{display:block}
+ .hero-organization .hero-food-panel{display:none}
+ .hero-organization .hero-care-room-column>.hero-room{border-radius:20px}
+ .hero-organization .hero-care-button-row{gap:5px;margin-top:12px}
+ .hero-organization .hero-care-button-row>button{min-height:76px;padding:9px 3px;font-size:calc(12px * var(--font-adjust,1));border-radius:16px}
+ .hero-organization .hero-care-button-row>button svg{width:26px;height:26px}
+ .hero-organization .hero-context-dialog{width:calc(100vw - 20px);max-width:calc(100vw - 20px);max-height:calc(100dvh - var(--shell-bottom-occupied,70px) - 20px);margin:auto 10px calc(var(--shell-bottom-occupied,70px) + 10px);border-radius:24px}
+ .hero-organization .hero-context-dialog-body{padding:18px}
+ .hero-organization .hero-context-dialog h2{font-size:calc(24px * var(--font-adjust,1))}
+ .hero-organization .hero-food-sheet{max-height:calc(100dvh - 120px)}
+ .hero-organization .hero-food-store-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .hero-organization .hero-food-store-grid>button{padding:16px 12px}
+ .hero-organization .hero-food-store-grid>button>img{width:75px;height:75px}
+ .hero-organization .hero-food-store .hero-activity-heading{flex-wrap:wrap}
+ .hero-organization .hero-loadout{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hero-organization .hero-dress-heading{flex-wrap:wrap}
+ .hero-organization .hero-dress-heading>div{flex:1;min-width:0}
+ .hero-organization .hero-dress-heading>.hero-character{width:80px;height:112px}
+ .hero-organization .hero-dress-heading>.button{order:3;width:100%;justify-content:center}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-place-nav{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .hero-organization .hero-context-dialog{max-height:calc(100dvh - var(--shell-bottom-occupied,65px) - 14px);margin:7px auto calc(var(--shell-bottom-occupied,65px) + 7px)}
+ .hero-organization .hero-food-sheet{width:min(620px,calc(100vw - 44px))}
+ .hero-organization .hero-context-dialog-body{padding:16px 20px}
+ .hero-organization .hero-food-sheet .hero-food-choices img{width:45px;height:45px}
+ .hero-organization .hero-food-sheet .hero-context-dialog-body>header{margin-bottom:12px}
+ .hero-organization .hero-food-sheet footer{flex-direction:row;align-items:stretch;margin-top:12px}
+ .hero-organization .hero-food-sheet footer>button{flex:1;min-width:0;min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){.hero-organization .hero-care-meter [role=progressbar]>span{transition:none}}
+
+/* Play has one spatial layout, so the generic Cards/List switch is not applicable. */
+.hero-organization>.page-actions{display:none}
+.hero-organization{max-width:1120px;margin-inline:auto}
+.hero-organization>.page-heading{margin-bottom:22px}
+.hero-organization>.page-heading h1{font-size:calc(48px * var(--font-adjust,1))}
+.hero-organization .hero-care-meter>.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:700px){.hero-organization>.page-heading h1{font-size:calc(33px * var(--font-adjust,1))}.hero-organization>.page-heading{margin-bottom:18px}}

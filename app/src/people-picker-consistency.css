@@ -1,0 +1,16 @@
+/* A short name still gets a readable name capsule; the caret belongs to the
+   shared picker and must not inherit white ink from its selected inner chip. */
+html:root .person-chip.calendar-person>.person-chip-name{min-inline-size:3.5em}
+html .people-picker{max-width:100%;min-width:0}
+html .people-picker .people-picker-button{min-width:0;max-width:100%;min-height:52px;font-size:calc(18px * var(--font-adjust,1));box-sizing:border-box}
+html .people-picker:has(>.people-picker-button.chosen){width:190px}
+html .people-picker .people-picker-button.chosen{width:100%}
+html .people-picker .people-picker-button:has(.person-chip){gap:10px;color:var(--text)!important}
+html .people-picker-button>.person-chip.calendar-person{flex:1;min-width:0}
+html .people-picker-button>.person-chip.calendar-person>.person-chip-name{flex:1;text-align:start}
+html .people-picker .people-picker-button>.people-picker-caret{color:var(--muted)}
+html .hero-home-toolbar{flex-wrap:wrap}
+
+/* Leave room for the painted portrait and selection ring between sheet rows. */
+html .people-picker-options{row-gap:16px}
+@media(orientation:landscape) and (max-height:520px){.people-picker{display:block}.has-people-picker{display:none!important}}

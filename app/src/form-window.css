@@ -1,0 +1,24 @@
+/* Small form windows (sheets and dialogs) on the shared section anatomy, user decision 2026-11-08.
+   Same order everywhere: sections in the body, then a footer with Cancel and Save together at the reading end;
+   a destructive Delete sits alone at the reading start. */
+html:root .tasks-sheet .tasks-sheet-body{display:grid;gap:16px;min-width:0}
+html:root .tasks-sheet .form-section-body .name-row{margin:0}
+html:root .tasks-sheet .form-section-body .name-row>label{font-size:calc(16px * var(--font-adjust,1));font-weight:800;display:grid;gap:8px;margin:0}
+html:root .tasks-sheet .form-section .tasks-sheet-choices{border:0;padding:0;margin:0;min-width:0;display:grid;gap:10px}
+html:root .tasks-sheet .form-section .tasks-sheet-choices>legend{padding:0;margin:0 0 10px;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .tasks-sheet .form-section .tasks-sheet-hint{margin:0}
+html:root .tasks-sheet .tasks-sheet-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap}
+html:root .tasks-sheet .tasks-sheet-actions>.button{flex:0 0 auto;width:auto;min-height:48px;min-width:120px;justify-content:center;margin:0}
+html:root .tasks-sheet .tasks-sheet-actions>.button:nth-child(n+3){order:-1;margin-inline-end:auto}
+@media(max-width:700px){
+ html:root .tasks-sheet .tasks-sheet-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr)}
+ html:root .tasks-sheet .tasks-sheet-actions>.button:nth-child(n+3){grid-column:1/-1;order:0;margin:0}
+}
+/* Header and footer stay put; only the sections scroll. The window always fits above the bottom navigation. */
+html:root .tasks-sheet{width:min(580px,calc(100vw - 32px));max-height:calc(100dvh - var(--shell-nav-clearance,0px) - 32px)}
+html:root .tasks-sheet .form-section-body{text-align:start}
+html:root .tasks-sheet>header{position:sticky;top:-24px;z-index:2;margin:-24px -24px 0;padding:20px 24px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+html:root .tasks-sheet .tasks-sheet-actions{position:sticky;bottom:-24px;z-index:2;margin:0 -24px -24px;padding:14px 24px 18px;background:var(--surface);border-top:1px solid var(--border)}
+/* Same name row as the event form: the name field first (its title on the section's start edge), the icon after it. */
+html:root .tasks-sheet .name-row>.icon-choice-button{order:2}
+html:root .tasks-sheet .name-row>label{flex:1 1 auto;min-width:0}

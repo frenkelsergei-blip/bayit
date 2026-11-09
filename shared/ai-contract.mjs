@@ -1,3 +1,4 @@
+import {assignTaskPeople} from './task-assignment.mjs';
 import {HOME_TIMEZONE} from './home-config.mjs';
 import {upgradeShoppingLists,canAccessList} from './shopping-lists.mjs';
 import {extraAITools,taskExtraProperties,normalizeExtra,applyExtra,undoExtra} from './ai-actions.mjs';
@@ -72,9 +73,10 @@ export function applyAIPlan(data,plan,actorId,members,catalog){
    if(action.kind==='task.create'&&actor.role==='child'&&action.memberIds.some(id=>id!==actorId))throw new Error('Children can assign tasks only to themselves.');
    const base={...common,title:action.title,he:action.title,date:action.date,time:action.time,note:action.note,noteHe:action.note,icon:action.icon};
    if(action.kind==='event.create')prepared.push({collection:'events',before:null,after:{...base,id:plan.id+'-'+sequence++,memberIds:action.memberIds,durationMinutes:action.durationMinutes,color:'lilac',repeat:'once',editPolicy:'owner',editorIds:[]}});
-   else for(const memberId of action.memberIds){
+   else for(const memberId of (action.routine?action.memberIds:action.memberIds.slice(0,1))){
     if(action.routine&&actor.role!=='parent')throw new Error('A parent creates routines.');
     const task={...base,id:plan.id+'-'+sequence++,memberId,repeat:action.routine?'daily':action.repeat,done:false,xp:action.routine?action.xp||10:0};
+    if(!action.routine)assignTaskPeople(task,action.memberIds);
     if(action.routine){task.routine=true;if(action.weekdays?.length)task.weekdays=action.weekdays;task.parentConfirm=!!action.parentConfirm;if(!task.date)task.date=new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})}
     if(action.subtasks?.length)task.subtasks=action.subtasks.map((title,i)=>({id:plan.id+'-sub-'+sequence+'-'+i,title,done:false}));
     if(action.listId){const list=working.taskLists.find(l=>l.id===action.listId);if(!list||!canAccessList(list,actorId))throw new Error('This task list is unavailable.');applyListAudience(task,list)}

@@ -1,0 +1,7 @@
+.task-list-choice{display:grid;gap:8px;min-width:0;margin:4px 0 8px}
+.task-list-choice>label{display:grid;gap:8px;min-width:0;font-weight:800}
+.task-list-choice .select-control{width:100%;min-width:0}
+.task-list-choice>small{font-size:14px;line-height:1.5;color:var(--muted)}
+.task-list-sharing{padding:18px;border:1px solid var(--border);border-radius:22px;background:var(--surfaceSoft)}
+.task-list-sharing h3{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:20px}
+.task-list-sharing p{margin:6px 0;line-height:1.5;overflow-wrap:anywhere}

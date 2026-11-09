@@ -1,0 +1,28 @@
+.hero-garden .garden-actor{z-index:7;transition:left .55s ease-in-out,bottom .55s ease-in-out;filter:drop-shadow(0 3px 1px #1b233c25)}
+.hero-garden .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 9%);bottom:calc(100% - var(--garden-actor-y))}
+.garden-actor[data-pose=walking]>.hero-character{animation:garden-walk-step .22s ease-in-out infinite alternate}
+.garden-worker-pose{display:block;position:relative;width:100%;aspect-ratio:1;overflow:hidden;line-height:0;pointer-events:none}
+.garden-worker-pose>.garden-worker-frames{position:absolute;left:0;top:0;width:300%;height:100%;max-width:none;image-rendering:pixelated;animation:garden-work-poses 1.15s step-end both}
+.garden-filled-basket{position:absolute;inset:0;animation:garden-basket-fill 1.15s step-end both}
+.garden-basket-fruit{position:absolute;width:14%;height:14%;object-fit:contain;image-rendering:pixelated}
+.garden-basket-front{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.garden-action-effects{position:absolute;inset:0;z-index:6;pointer-events:none}
+.garden-action-effects .garden-splash{left:12%;bottom:0;width:65%;opacity:.9}
+.garden-plant-spark{position:absolute;left:35%;top:25%;width:25%;aspect-ratio:1;animation:garden-seed-spark 1.15s ease-out both}
+.garden-plant-spark img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.garden-picked-produce{position:absolute;left:45%;bottom:30%;width:31%;height:38%;object-fit:contain;image-rendering:pixelated;animation:garden-produce-to-basket 1.15s ease-in-out both}
+.garden-pick-reward{position:absolute;left:15%;bottom:75%;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:70%;padding:5px 8px;box-sizing:border-box;border-radius:13px;background:#ffedaa;color:#14213d;font-size:clamp(12px,1.6vw,18px);font-weight:950;line-height:1.2;animation:garden-reward-rise 1.2s ease-out both;box-shadow:0 2px 8px #14213d1a}
+.garden-pick-reward small{font-size:clamp(9px,1.1vw,12px);white-space:nowrap}
+.garden-field:has(.garden-actor[data-pose=working]) .garden-plot.is-plant .garden-plant{animation:garden-new-plant .8s ease-out both}
+.garden-plot.is-awaiting-plant .garden-plant{opacity:0;animation:none}
+@keyframes garden-work-poses{0%,30%{transform:translateX(0)}31%,65%{transform:translateX(-33.333333%)}66%,100%{transform:translateX(-66.666667%)}}
+@keyframes garden-basket-fill{0%,65%{opacity:0}66%,100%{opacity:1}}
+@keyframes garden-walk-step{to{transform:translateY(-2px)}}
+@keyframes garden-seed-spark{0%{opacity:0;transform:scale(.5) translateY(10px)}25%{opacity:1}100%{opacity:0;transform:scale(1.2) translateY(-14px)}}
+@keyframes garden-produce-to-basket{0%,20%{opacity:1;transform:translate(0,0) scale(1)}45%{opacity:1;transform:translate(-40%,-90%) scale(.9)}66%,100%{opacity:0;transform:translate(-130%,15%) scale(.6)}}
+@keyframes garden-reward-rise{0%,30%{opacity:0;transform:translateY(8px)}45%,90%{opacity:1;transform:translateY(-6px)}100%{opacity:0;transform:translateY(-12px)}}
+@media(min-width:701px) and (max-width:1100px){.hero-garden .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 10%)}}
+@media(min-width:701px) and (max-width:1000px) and (min-height:521px){.hero-garden .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 9.5%)}}
+@media(max-width:700px){.hero-garden .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 11%)}}
+@media(orientation:landscape) and (max-height:520px){.hero-garden .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 10%)}}
+@media(prefers-reduced-motion:reduce){.hero-garden .garden-actor{transition:none}.garden-actor[data-pose=walking]>.hero-character,.garden-worker-pose>.garden-worker-frames,.garden-filled-basket,.garden-plant-spark,.garden-picked-produce,.garden-pick-reward{animation:none}.garden-worker-pose>.garden-worker-frames{transform:translateX(-66.666667%)}.garden-filled-basket{opacity:1}.garden-picked-produce{display:none}.garden-pick-reward{bottom:65%}.garden-plant-spark{opacity:.85}}

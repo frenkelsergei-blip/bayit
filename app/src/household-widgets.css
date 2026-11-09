@@ -1,0 +1,7 @@
+.household-home-widget{min-width:0}.household-home-widget h2{display:flex;align-items:center;gap:12px;font-size:24px;line-height:1.35}
+.household-home-widget ul{list-style:none;padding:0;margin:16px 0}.household-home-widget li{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)}
+.household-home-widget li>button{display:flex;align-items:center;gap:12px;min-width:0;flex:1;background:none;color:var(--text);border:0;text-align:start;font:inherit;padding:4px}
+.household-home-widget li>button>span{flex:1;min-width:0}.household-home-widget strong{display:block;font-size:16px;overflow-wrap:anywhere}.household-home-widget small{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+.household-widget-empty{color:var(--muted);line-height:1.8;margin:18px 0}.household-pin-control{display:inline-flex;align-items:center;flex-wrap:wrap;gap:7px}.household-pin-control [aria-pressed=true]{background:var(--selected);color:var(--link,var(--text))}
+.household-home-widget .household-pin-control{flex:none}
+.today-widget-options>.section-title>h2{font-size:22px;margin:0}

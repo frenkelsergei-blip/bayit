@@ -1,0 +1,8 @@
+import React from 'react';
+import {Check,LockSimple,Sparkle} from '@phosphor-icons/react';
+import {heroOwned} from '../../shared/hero-home.mjs';
+export function HeroCatalogGrid({a,items,profile,look,level,onChoose}){
+ const available=items.filter(i=>heroOwned(profile,i)||i.level<=level),levels=[...new Set(items.filter(i=>!heroOwned(profile,i)&&i.level>level).map(i=>i.level))].sort((a,b)=>a-b);
+ const groups=[{id:0,items:available},...levels.map(id=>({id,items:items.filter(i=>!heroOwned(profile,i)&&i.level===id)}))];
+ return <>{groups.filter(g=>g.items.length).map(g=><section className="hero-catalog-group" key={g.id}><h3>{g.id?a.T('Opens at level '+g.id,'נפתח ברמה '+g.id):a.T('Available now','אפשר לבחור עכשיו')}{g.id>0&&<small> · {a.T(Math.max(0,(g.id-1)*100-(profile.xp||0))+' XP to go','עוד '+Math.max(0,(g.id-1)*100-(profile.xp||0))+' XP')}</small>}</h3><div className="hero-shop-grid">{g.items.map(i=>{const owned=heroOwned(profile,i),equipped=look[i.slot]===i.id,locked=!owned&&level<i.level;return <button type="button" key={i.id} className={'hero-shop-card'+(equipped?' is-equipped':'')} onClick={()=>onChoose(i)}><span className="hero-card-art"><img src={i.image} alt=""/>{i.slot==='motion'&&<Sparkle className="hero-motion-mark" size={20}/>}</span><h3>{a.T(i.en,i.he)}</h3><span className={'hero-item-status'+(owned?' is-owned':'')}>{locked?<><LockSimple size={14}/>{a.T('Level ','רמה ')+i.level}</>:owned?<><Check size={15}/>{equipped?a.T('Equipped','בשימוש'):a.T('Mine','שלי')}</>:<><img src="/assets/icons/bayit/pixel/yellow-star-256.png" alt=""/>{i.price||a.T('Free','במתנה')}</>}</span><span className="hero-card-calltoaction">{owned?a.T('Choose & use','בחירה ושימוש'):a.T('Preview & get','תצוגה וקנייה')}</span></button>})}</div></section>)}</>;
+}

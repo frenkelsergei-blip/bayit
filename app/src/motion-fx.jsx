@@ -1,5 +1,6 @@
 // Bayit motion layer: pixel-art celebrations, honest save status, bell nudges and page entrances.
 // Celebrations fire only after a change is confirmed (household server in cloud mode, device storage locally).
+import {sectionRoot} from '../../shared/section-navigation.mjs';
 import React,{useEffect,useRef,useState} from 'react';
 import {Bell,X,CloudCheck,CloudArrowUp,ArrowCounterClockwise,CheckCircle,WarningCircle,Play} from '@phosphor-icons/react';
 
@@ -112,8 +113,9 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,char
  }),[appearance?.fxCreate,appearance?.fxComplete,T]);
  useEffect(()=>{if(!party)return;const t=setTimeout(()=>setParty(0),3400);return()=>clearTimeout(t)},[party]);
  useEffect(()=>{if(!previewToast)return;const t=setTimeout(()=>setPreviewToast(''),3000);return()=>clearTimeout(t)},[previewToast]);
- // Page entrance: restart the cascade on every route change.
- useEffect(()=>{const main=document.querySelector('.main-content');if(!main||style==='calm')return;main.classList.remove('fx-enter');void main.offsetWidth;main.classList.add('fx-enter');const t=setTimeout(()=>main.classList.remove('fx-enter'),1400);return()=>clearTimeout(t)},[route,style]);
+ // Animate only entry into a main section; inner tabs keep their menu visible.
+ const entranceSection=useRef(null);
+ useEffect(()=>{const main=document.querySelector('.main-content'),section=sectionRoot(route),changed=entranceSection.current!==section;entranceSection.current=section;if(!main)return;main.classList.remove('fx-enter');if(!changed||style==='calm')return;void main.offsetWidth;main.classList.add('fx-enter');const t=setTimeout(()=>main.classList.remove('fx-enter'),1400);return()=>clearTimeout(t)},[route,style]);
  const message=typeof toast==='string'?toast:'',decided=useRef({message:'',absorbed:false});
  // The celebration already tells the user it saved; hide the duplicate plain toast (decided once per message).
  if(decided.current.message!==message)decided.current={message,absorbed:!!(message&&!failed&&Date.now()-shownAt.current<1500)};
@@ -132,7 +134,7 @@ export function BellFx({unread=0,size=27,showCount=true}){
  const prev=useRef(null),[ring,setRing]=useState(0);
  useEffect(()=>{if(prev.current===null?unread>0:unread>prev.current)setRing(Date.now());prev.current=unread},[unread]);
  useEffect(()=>{if(!ring)return;const t=setTimeout(()=>setRing(0),1600);return()=>clearTimeout(t)},[ring]);
- return <><i className={'bell-glyph'+(ring?' ring':'')} key={ring||'idle'}><Bell size={size}/>{ring>0&&<img className="bell-spark" src={sprite('spark-yellow')} alt=""/>}</i>{showCount&&unread>0&&<span key={'n'+unread} className="bell-count">{unread>9?'9+':unread}</span>}</>;
+ return <><i className={'bell-glyph'+(ring?' ring':'')} key={ring||'idle'}><Bell size={size}/>{ring>0&&<img className="bell-spark" src={sprite('spark-yellow')} alt=""/>}</i>{showCount&&unread>0&&<span key={'n'+unread} className="bell-count"><span className="bell-count-number">{unread>9?'9+':unread}</span></span>}</>;
 }
 
 // Small truthful save indicator for the header utility corner.

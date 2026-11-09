@@ -1,0 +1,17 @@
+/* One Kids content rail, matching the existing application content width. */
+.kids-section-layout{min-width:0;width:100%}
+.kids-section-content{min-width:0;width:100%}
+.kids-section-content>.hero-home.hero-organization{width:100%;max-width:none;margin-inline:0}
+.kids-section-content>.kids-parent-panel{width:100%;max-width:none;margin-inline:0;box-sizing:border-box}
+.kids-section-heading[data-kids-view=hero]>.page-actions{display:none}
+.kids-section-heading[data-kids-view=hero]>.page-heading h1{font-size:calc(48px * var(--font-adjust,1))}
+.kids-section-content .hero-organization .garden-unified-scene,
+.kids-section-content .hero-organization .garden-world-controls{width:100%;max-width:none;margin-inline:0}
+.view-kids .people-picker-button>.person-chip.calendar-person>.person-chip-name{flex:1;text-align:center}
+/* Hat artwork stops above the magnifying glass instead of painting over its lens. */
+.hero-character[data-held-item=magnifier] .hero-wearable-head-composite{clip-path:inset(0 0 64% 0)}
+.hero-character-bust[data-held-item=magnifier] .hero-wearable-head-composite{clip-path:inset(0 0 50% 0)}
+@media(max-width:700px){.kids-section-heading[data-kids-view=hero]>.page-heading h1{font-size:calc(33px * var(--font-adjust,1))}}
+
+/* A short inner page keeps the same desktop content rail when its scrollbar disappears. */
+@media(min-width:701px){html:has(main.view-kids),html:has(main.view-statistics){scrollbar-gutter:stable}}

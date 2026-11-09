@@ -9,15 +9,15 @@ import {AvatarStack} from './avatar-stack';
 
 const addDays=(v,n)=>{const d=new Date(v+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 
-export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avatar,EventIcon,Icon}){
+export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avatar,EventIcon,Icon,limitDays,showEmpty=false}){
  const [weeks,setWeeks]=useState(4),locale=a.lang==='he'?'he-IL':'en-US';
- const days=Array.from({length:weeks*7},(_,i)=>addDays(start,i)).map(day=>({day,events:items.filter(e=>occursOn(e,day)).sort((x,y)=>(x.time||'').localeCompare(y.time||''))}));
- const shown=days.filter(d=>d.events.length||d.day===today);
+ const days=Array.from({length:limitDays||weeks*7},(_,i)=>addDays(start,i)).map(day=>({day,events:items.filter(e=>occursOn(e,day)).sort((x,y)=>(x.time||'').localeCompare(y.time||''))}));
+ const shown=days.filter(d=>showEmpty||d.events.length||d.day===today);
  // Cards | List joins the calendar page's existing "New event" row (or its control row when there is no heading),
  // only while Agenda is shown. Those rows are rendered by the calendar page, so the switch is portalled into them.
  const [slot,setSlot]=useState(null);useLayoutEffect(()=>{const el=document.querySelector('.calendar-reference>.page-actions')||document.querySelector('.calendar-reference-controls');if(el!==slot)setSlot(el)});
  const label=d=>d===today?a.T('Today','היום'):d===addDays(today,1)?a.T('Tomorrow','מחר'):'';
- return <section className={'calendar-agenda'+(densityOf(a.data,a.user,'calendar')==='compact'?' density-compact':'')} aria-label={a.T('Agenda','סדר יום')}>
+ return <section className={'calendar-agenda'+(densityOf(a.data,a.user,'calendar')==='compact'?' density-compact':'')} aria-label={limitDays?a.T('Week list','רשימת השבוע'):a.T('Agenda','סדר יום')}>
   {shown.map(({day,events})=>{const date=new Date(day+'T12:00:00Z');return <article key={day} className={'agenda-day'+(day===today?' is-today':'')}>
    <header className="agenda-day-head"><span className="agenda-date"><strong>{date.getUTCDate()}</strong><small>{date.toLocaleDateString(locale,{timeZone:'UTC',month:'short'})}</small></span><span className="agenda-weekday"><strong>{date.toLocaleDateString(locale,{timeZone:'UTC',weekday:'long'})}</strong>{label(day)&&<em>{label(day)}</em>}</span><button type="button" className="agenda-add" onClick={()=>onAdd(day)} aria-label={a.T('Add an event on ','הוספת אירוע ב־')+date.toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',day:'numeric',month:'long'})}><Plus size={18} weight="bold"/><span>{a.T('Add','הוספה')}</span></button></header>
    {events.length?<div className="agenda-events">{events.map(e=><button type="button" key={e.id} className={'agenda-event '+(e.color||'lilac')+(selected===e.id?' selected':'')} onClick={()=>onChoose(e.id,day)}>
@@ -29,6 +29,6 @@ export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avat
    </button>)}</div>:<p className="agenda-empty">{a.T('Nothing planned yet.','עוד לא תוכנן כלום.')}</p>}
   </article>})}
   {slot&&createPortal(<DensityToggle a={a} page="calendar" className="agenda-density"/>,slot)}
-  <button type="button" className="button secondary agenda-more" onClick={()=>setWeeks(weeks+4)}><CaretDown size={20}/>{a.T('Show the next 4 weeks','הצגת 4 השבועות הבאים')}</button>
+  {!limitDays&&<button type="button" className="button secondary agenda-more" onClick={()=>setWeeks(weeks+4)}><CaretDown size={20}/>{a.T('Show the next 4 weeks','הצגת 4 השבועות הבאים')}</button>}
  </section>;
 }

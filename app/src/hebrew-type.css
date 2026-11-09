@@ -1,0 +1,11 @@
+/* Hebrew typography (user review 2026-11-08: Hebrew "too sharp and not clear" in places). Every Hebrew glyph
+   was already painted in Heebo; the cause was the Latin tuning applied to Hebrew:
+   - negative letter-spacing (down to -1.5px on titles and -0.8px on 14px labels) made letters nearly touch;
+   - 850–950 weights on 12–15px labels, where Heebo Black clumps.
+   Hebrew now uses normal tracking, a text face capped at weight 800 (a request for 850–950 resolves to 800),
+   a display face up to 900 for titles and headings, and grayscale smoothing on macOS. English is unchanged. */
+@font-face{font-family:'Heebo Text';src:url('/assets/fonts/heebo/font.woff2') format('woff2');font-weight:100 800;font-display:swap}
+@font-face{font-family:'Heebo Display';src:url('/assets/fonts/heebo/font.woff2') format('woff2');font-weight:100 900;font-display:swap}
+html[lang=he]{font-family:'Heebo Text',Heebo,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html[lang=he] :is(h1,h2,.title-end,.detail-title,.detail-title-tail,.form-section-heading h3,.page-heading h1){font-family:'Heebo Display','Heebo Text',Heebo,sans-serif}
+html[lang=he] *{letter-spacing:normal!important}

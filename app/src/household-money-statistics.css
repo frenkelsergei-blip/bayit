@@ -1,0 +1,23 @@
+.household-money-statistics{min-width:0}
+.household-stat-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 28px}
+.household-stat-metrics>section{min-width:0;padding:20px;border-radius:24px}
+.household-stat-metrics>section>span{display:block;min-height:2.8em;font-size:calc(15px * var(--font-adjust,1));font-weight:750;line-height:1.4}
+.household-stat-metrics strong{display:block;margin-top:10px;font-size:clamp(25px,2.8vw,37px);line-height:1.25;overflow-wrap:anywhere}
+.household-stat-metrics bdi{white-space:normal}
+.household-stat-chart{margin:26px 0;min-width:0}
+.household-stat-chart .section-title{justify-content:space-between;gap:16px}
+.household-stat-chart h2{margin:0;font-size:calc(29px * var(--font-adjust,1));line-height:1.3}
+.household-category-bars{list-style:none;padding:0;margin:24px 0;display:grid;gap:20px}
+.household-category-bars>li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;min-width:0;align-items:baseline}
+.household-category-bars strong{font-size:calc(17px * var(--font-adjust,1));overflow-wrap:anywhere}
+.household-category-bars bdi{font-weight:850;font-size:calc(17px * var(--font-adjust,1));white-space:nowrap}
+.household-category-track{grid-column:1/-1;display:block;height:19px;border-radius:999px;background:var(--surfaceSoft);overflow:hidden}
+.household-category-track>i{display:block;height:100%;min-width:2px;border-radius:999px;background:var(--primary)}
+.household-category-track.refund>i{background:color-mix(in srgb,var(--primary) 55%,var(--text))}
+.household-stat-empty{display:flex;align-items:center;gap:18px;min-height:150px;padding:24px;border-radius:24px;background:var(--surfaceSoft)}
+.household-stat-empty>svg{flex:none;color:var(--link,var(--text))}
+.household-stat-empty p{margin:0;line-height:1.6}
+.household-stat-note{color:var(--muted);font-size:14px;line-height:1.6}
+.household-stat-message{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surfaceSoft);border-inline-start:4px solid var(--primary);padding:16px;border-radius:18px}
+.household-stat-message>svg{flex:none}.household-stat-message p{flex:1 1 200px;margin:0}
+@media(max-width:700px){.household-stat-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.household-stat-metrics>section{padding:17px 14px}.household-stat-metrics>section:last-child{grid-column:1/-1}.household-stat-metrics strong{font-size:27px}.household-stat-metrics>section:last-child>span{min-height:0}.household-stat-chart h2{font-size:calc(25px * var(--font-adjust,1))}.household-stat-empty{padding:20px;align-items:flex-start}.household-stat-empty p{font-size:16px}}

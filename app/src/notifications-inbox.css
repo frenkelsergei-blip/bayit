@@ -1,0 +1,40 @@
+/* Inbox-only refinements. Source records, shared rows and other dialogs retain their layout. */
+.notification-inbox.notification-inbox-v2>header,.notification-inbox.notification-inbox-v2>.notification-toolbar,.notification-inbox.notification-inbox-v2>footer{flex-shrink:0}
+.notification-inbox.notification-inbox-v2 .notification-toolbar{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.notification-inbox.notification-inbox-v2 .notification-toolbar>.tabs{justify-self:start;max-width:100%}
+.notification-inbox.notification-inbox-v2 .notification-bulk-actions{display:flex;flex-wrap:wrap;gap:8px}
+.notification-inbox.notification-inbox-v2 .notification-bulk-actions .button{min-height:44px;padding:8px 12px;font-size:calc(13px * var(--font-adjust,1));gap:7px}
+.notification-inbox.notification-inbox-v2 .notification-swipe-hint{font-size:calc(13px * var(--font-adjust,1));color:var(--muted)}
+.notification-inbox.notification-inbox-v2 .notification-save-error{margin:0;color:var(--text);background:var(--peach);border-radius:12px;padding:10px 12px;font-size:calc(14px * var(--font-adjust,1))}
+.notification-inbox.notification-inbox-v2 .notification-items{min-height:0;min-width:0}
+.notification-inbox.notification-inbox-v2 .notification-swipe{border-radius:19px;margin-bottom:4px;background:#d94a3a}
+.notification-inbox.notification-inbox-v2 .notification-swipe>.swipe-delete{inset:0 0 0 auto;width:96px}
+.notification-inbox.notification-inbox-v2 .notification-item{grid-template-columns:48px minmax(0,1fr) 40px;gap:10px}
+.notification-inbox.notification-inbox-v2 .notification-item>.icon-button{width:40px;height:44px;display:grid;place-items:center}
+.notification-inbox.notification-inbox-v2 .notification-item>div{min-width:0}
+.notification-inbox.notification-inbox-v2 .notification-item strong,.notification-inbox.notification-inbox-v2 .notification-item p{overflow-wrap:anywhere}
+.notification-inbox.notification-inbox-v2 .notifications-empty{padding:30px 12px;gap:14px}
+.notification-inbox.notification-inbox-v2 .notifications-empty h3,.notification-inbox.notification-inbox-v2 .notifications-empty p{margin:0}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-swipe{border-radius:0;margin-bottom:0}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-item{grid-template-columns:24px minmax(0,1fr) 36px}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-item>div{grid-template-columns:minmax(0,1fr) 40px 30px;row-gap:3px}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-item>div>p{grid-column:1;grid-row:2}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-item>div>small{grid-column:2;grid-row:1 / span 2}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-item>div>.text-link{grid-column:3;grid-row:1 / span 2}
+.notification-inbox.notification-inbox-v2 .density-compact .notification-kind{display:none}
+@media(max-width:700px){
+ .notification-inbox.notification-inbox-v2{padding-bottom:env(safe-area-inset-bottom,0px)}
+ .notification-inbox.notification-inbox-v2 .notification-toolbar{padding:12px 16px}
+ .notification-inbox.notification-inbox-v2 .notification-items{padding-inline:12px}
+ .notification-inbox.notification-inbox-v2>footer{padding:12px 16px}
+ .notification-inbox.notification-inbox-v2>footer>div{gap:8px;margin-top:6px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .notification-inbox.notification-inbox-v2{height:100dvh;overflow-y:auto;border-radius:0;padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
+ .notification-inbox.notification-inbox-v2>header{padding:10px 16px}
+ .notification-inbox.notification-inbox-v2 .notification-toolbar{padding:8px 16px;gap:8px}
+ .notification-inbox.notification-inbox-v2 .notification-items{flex:1 0 auto;min-height:150px;overflow:visible}
+ .notification-inbox.notification-inbox-v2>footer{padding:8px 16px}
+ .notification-inbox.notification-inbox-v2>footer>small,.notification-inbox.notification-inbox-v2 .notification-swipe-hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){.notification-inbox.notification-inbox-v2 .swipe-content{transition:none}}

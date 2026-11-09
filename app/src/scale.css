@@ -1,0 +1,26 @@
+/* Bayit size scale (2026-11-08 full audit).
+   One shared set of sizes for page titles, section headings, rows, controls and avatars.
+   Screens opt in one at a time (Today first) by using these variables in their own scoped
+   stylesheet; nothing here restyles an element by itself. Font sizes follow the user's text
+   size through --font-adjust (100% = 1). */
+:root{
+ --scale-title:40px;          /* page title (with the rays/underline accent) */
+ --scale-subtitle:17px;       /* date / page subtitle */
+ --scale-section:24px;        /* section headings inside a page */
+ --scale-item:17px;           /* row titles: events, tasks, products */
+ --scale-body:15px;           /* descriptions and notes */
+ --scale-meta:13px;           /* small metadata */
+ --scale-control:44px;        /* buttons, inputs, week days: minimum touch height */
+ --scale-avatar-row:48px;     /* avatar inside a list row */
+ --scale-gap-section:28px;    /* space between page parts */
+ --scale-week:56px;           /* week strip day button */
+}
+@media(min-width:701px) and (max-width:1100px){
+ :root{--scale-title:34px;--scale-avatar-row:44px}
+}
+@media(max-width:700px){
+ :root{--scale-title:28px;--scale-subtitle:16px;--scale-section:20px;--scale-item:16px;--scale-avatar-row:40px;--scale-gap-section:20px;--scale-week:52px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ :root{--scale-title:24px;--scale-subtitle:15px;--scale-section:19px;--scale-item:16px;--scale-avatar-row:40px;--scale-gap-section:14px;--scale-week:44px}
+}

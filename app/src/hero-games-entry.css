@@ -1,0 +1,5 @@
+/* All six destinations is present before the lazy-loaded game bundle opens. */
+.hero-home .hero-shelf>.tabs.nav-view{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:700px){.hero-home .hero-shelf>.tabs.nav-view>button{font-size:calc(11px * var(--font-adjust,1));padding:8px 2px;min-height:52px;white-space:normal;gap:5px}.hero-home .hero-shelf>.tabs.nav-view .nav-label{white-space:normal;line-height:1.3}}
+
+.hero-home .hero-shelf>.tabs.nav-view>button.active{background:var(--primary);color:var(--onPrimary);border-color:var(--primary)}

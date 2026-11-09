@@ -1,0 +1,110 @@
+/* Selected month direction. All layout changes are confined to Month and its own overlays. */
+html .calendar-in-month>.calendar-reference-layout{display:block;min-width:0}
+.calendar-month-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,320px);align-items:start;gap:26px;min-width:0}
+html .calendar-in-month .month-paper{border:0;border-radius:22px;background:transparent;overflow:hidden}
+html .calendar-in-month .month-paper>.month-weekdays{min-height:43px;background:var(--surfaceSoft);border:0;gap:0}
+html .calendar-in-month .month-paper .month-weekdays>strong{color:var(--text);border:0;padding:11px 3px;font-size:calc(16px * var(--font-adjust,1));font-weight:850}
+html .calendar-in-month .month-paper>.month-grid{gap:0;grid-auto-rows:minmax(138px,1fr);border:1px solid var(--border);border-top:0;border-radius:0 0 22px 22px;overflow:hidden}
+html .calendar-in-month .month-paper .month-grid>.month-cell{min-height:0;padding:0 7px 6px;background:transparent;border:0;border-inline-end:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0;outline:0!important}
+html .calendar-in-month .month-paper .month-grid>.month-cell:nth-child(7n){border-inline-end:0}
+html .calendar-in-month .month-paper .month-grid>.month-cell:nth-last-child(-n+7){border-bottom:0}
+html .calendar-in-month .month-paper .month-grid>.month-cell.selected{background:color-mix(in srgb,var(--primary) 6%,var(--bg))!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--primary) 70%,transparent);border-color:var(--border)!important;border-radius:15px}
+html .calendar-in-month .month-paper .month-grid>.month-cell.outside{background:color-mix(in srgb,var(--surfaceSoft) 25%,transparent)}
+html .calendar-in-month .month-paper .month-cell>.month-day{padding:5px 7px 0;justify-content:flex-start!important;background:transparent;border-radius:0!important;box-shadow:none!important}
+html .calendar-in-month .month-paper .month-day>.month-day-label{box-sizing:border-box;flex:none;width:32px;min-width:32px;height:32px;padding:0 2px;border-radius:10px;font-size:calc(18px * var(--font-adjust,1));font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:0;direction:ltr}
+html .calendar-in-month .month-paper .month-day:focus-visible{outline:3px solid var(--primary)!important;outline-offset:-3px}
+html .calendar-in-month .month-paper .month-events{display:grid;gap:1px;margin-top:37px;z-index:2}
+html .calendar-in-month .month-paper .month-event{display:flex;align-items:center;justify-content:flex-start;gap:5px;min-height:23px;padding:2px 5px;width:100%;border:0;border-inline-start:3px solid #ad8de5;border-radius:3px;background:transparent;font-size:calc(15px * var(--font-adjust,1));line-height:1.3;box-shadow:none;color:var(--text)}
+html .calendar-in-month .month-paper .month-event>time{flex:none;font-weight:750;font-size:inherit;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:visible;text-overflow:clip}
+html .calendar-in-month .month-paper .month-event>span{min-width:0;font-weight:850;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+html .calendar-in-month .month-paper .month-event.yellow{background:transparent;border-inline-start-color:#dab030}
+html .calendar-in-month .month-paper .month-event.green{background:transparent;border-inline-start-color:#80ad5c}
+html .calendar-in-month .month-paper .month-event.peach{background:transparent;border-inline-start-color:#e8a582}
+html .calendar-in-month .month-paper .month-event:hover{background:color-mix(in srgb,var(--primary) 7%,transparent)}
+html .calendar-in-month .month-paper .month-more{min-height:24px;margin:0;padding:2px 6px;background:transparent;font-size:calc(15px * var(--font-adjust,1));font-weight:850;line-height:1.3}
+html .calendar-in-month .month-paper .month-event:only-child{align-items:flex-start;flex-direction:column;gap:2px;padding-block:4px;font-size:calc(17px * var(--font-adjust,1))}
+html .calendar-in-month .month-paper .month-event:only-child>time{order:2;font-size:calc(16px * var(--font-adjust,1));font-weight:650}
+html .calendar-in-month .month-paper .month-event:only-child>span{width:100%;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3}
+html .calendar-in-month .month-paper .month-more:hover{text-decoration:underline}
+.month-day-panel{position:sticky;top:calc(var(--shell-header-height,0px) + 22px);display:flex;flex-direction:column;min-width:0;max-height:calc(100dvh - var(--month-panel-top,430px) - var(--shell-nav-clearance,var(--shell-nav-height,0px)) - 16px);border-inline-start:1px solid var(--border);padding-inline-start:24px;color:var(--text)}
+:root[data-nav-position=top] .month-day-panel{top:calc(var(--shell-header-height,0px) + var(--shell-nav-clearance,var(--shell-nav-height,0px)) + 22px)}
+.month-day-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex:none;min-width:0;padding:0 0 18px}
+.month-day-heading>div{min-width:0}
+.month-day-heading p{margin:0 0 6px;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));font-weight:750}
+.month-day-heading h2{margin:0 0 7px;font-size:calc(24px * var(--font-adjust,1));font-weight:900;line-height:1.3;overflow-wrap:anywhere;outline:none}
+.month-day-heading>div>span{color:var(--muted);font-size:calc(14px * var(--font-adjust,1));font-weight:650}
+.month-day-heading>.icon-button{flex:none;min-width:44px;min-height:44px;color:var(--text)}
+.month-day-events{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0 2px 3px}
+.month-day-event-row{position:relative;display:grid;grid-template-columns:max-content minmax(0,1fr) auto 16px;align-items:center;gap:9px;min-width:0;width:100%;min-height:74px;padding:13px 2px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;color:var(--text);text-align:start;cursor:pointer;font:inherit}
+.month-day-event-row>time{min-width:48px;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:calc(17px * var(--font-adjust,1));font-weight:800;overflow:visible;text-overflow:clip}
+.month-day-event-copy{display:grid;gap:4px;min-width:0;padding-inline-start:8px;border-inline-start:3px solid #ad8de5}
+.month-day-event-row.yellow .month-day-event-copy{border-inline-start-color:#dab030}.month-day-event-row.green .month-day-event-copy{border-inline-start-color:#80ad5c}.month-day-event-row.peach .month-day-event-copy{border-inline-start-color:#e8a582}
+.month-day-event-copy strong{font-size:calc(18px * var(--font-adjust,1));line-height:1.35;font-weight:850;overflow-wrap:anywhere}
+.month-day-event-copy small{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:calc(12px * var(--font-adjust,1));line-height:1.4;overflow-wrap:anywhere}
+.month-day-event-row:hover,.month-day-event-row:focus-visible{background:color-mix(in srgb,var(--primary) 7%,var(--bg));border-radius:12px}
+.month-day-event-row:focus-visible{outline:2px solid var(--primary);outline-offset:-2px}
+.month-day-event-row>.avatar-stack{flex:none;--stack-size:28px!important}
+.month-day-empty{display:flex;align-items:center;flex-direction:column;text-align:center;gap:12px;padding:32px 12px;color:var(--muted)}
+.month-day-empty>svg{color:var(--primary)}
+.month-day-empty p{margin:0;max-width:240px;font-size:calc(16px * var(--font-adjust,1));line-height:1.6}
+.month-day-footer{flex:none;padding-top:18px}
+.month-day-footer>.button{display:flex;justify-content:center;gap:8px;width:100%;min-height:44px;font-size:calc(15px * var(--font-adjust,1));padding:10px 14px}
+html .calendar-month-modal-backdrop{position:fixed;inset:0;z-index:160;display:grid;place-items:center;padding:24px;background:#10152a59;color:var(--text)}
+.calendar-month-event-dialog,.calendar-month-day-sheet{display:flex;flex-direction:column;min-width:0;min-height:0;width:min(680px,100%);max-height:calc(100dvh - 48px);border:1px solid var(--border);border-radius:28px;background:var(--bg);color:var(--text);box-shadow:0 20px 60px #10152a33;overflow:hidden}
+.month-event-dialog-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex:none;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--surface)}
+.month-event-dialog-header>div{display:grid;gap:9px;min-width:0}
+.month-event-dialog-header strong{font-size:calc(17px * var(--font-adjust,1));font-weight:850;outline:none}
+.month-event-dialog-header>.icon-button{flex:none;min-width:44px;min-height:44px;color:var(--text)}
+.month-return-day{display:flex;align-items:center;gap:7px;width:fit-content;min-height:32px;padding:2px 0;border:0;background:transparent;color:var(--link,var(--primary));font-size:calc(14px * var(--font-adjust,1));font-weight:750;cursor:pointer}
+:root[dir=ltr] .month-return-day svg{transform:rotate(180deg)}
+.calendar-month-event-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px 28px 30px}
+.calendar-month-event-body .calendar-detail-heading{margin-top:0}
+.calendar-month-event-body .calendar-detail-row{min-width:0}
+.calendar-month-event-body .calendar-detail-row>time{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+@media(max-width:1100px),(max-height:520px) and (orientation:landscape){
+ .calendar-month-layout{display:block}
+ html .calendar-in-month .month-paper>.month-grid{grid-auto-rows:minmax(78px,1fr)}
+ html .calendar-in-month .month-paper .month-grid>.month-cell{padding:0;min-height:0!important}
+ html .calendar-in-month .month-paper .month-cell>.month-day{justify-content:center!important;padding:9px 0 0}
+ html .calendar-in-month .month-paper .month-day>.month-day-label{width:32px;min-width:32px;height:32px;font-size:calc(16px * var(--font-adjust,1))}
+ html .calendar-in-month .month-paper .month-events{display:none}
+ html .calendar-in-month .month-paper .month-dots{position:absolute;inset-inline:2px;top:47px;display:flex;justify-content:center;align-items:center;gap:3px;margin:0;pointer-events:none}
+ html .calendar-in-month .month-paper .month-dots i{display:block;width:5px;height:5px;flex:none;border-radius:50%;background:#ad8de5}
+ html .calendar-in-month .month-paper .month-dots i.yellow{background:#dab030}.calendar-in-month .month-paper .month-dots i.green{background:#80ad5c}.calendar-in-month .month-paper .month-dots i.peach{background:#e8a582}
+ html .calendar-in-month .month-paper .month-dots>span{color:var(--link,var(--primary));font-size:calc(11px * var(--font-adjust,1));line-height:1.1;font-weight:850}
+ .month-touch-hint{text-align:center;font-size:calc(14px * var(--font-adjust,1));color:var(--muted);margin:18px 4px 4px}
+ html .calendar-month-modal-backdrop{place-items:end center;padding:12px max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))}
+ :root[data-nav-position=bottom] .calendar-month-modal-backdrop{inset-block-end:calc(var(--shell-nav-clearance,var(--shell-nav-height,66px)) + env(safe-area-inset-bottom))}
+ .calendar-month-event-dialog,.calendar-month-day-sheet{width:min(740px,100%);max-height:calc(100dvh - var(--shell-nav-clearance,var(--shell-nav-height,66px)) - env(safe-area-inset-bottom) - 24px);border-radius:26px 26px 0 0}
+ .calendar-month-day-sheet>.month-day-heading{padding:20px 20px 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+ .calendar-month-day-sheet .month-day-heading p{display:none}
+ .calendar-month-day-sheet .month-day-heading h2{font-size:calc(22px * var(--font-adjust,1))}
+ .calendar-month-day-sheet>.month-day-events{padding:0 18px}
+ .calendar-month-day-sheet>.month-day-footer{padding:14px 20px 16px;background:var(--surface);border-top:1px solid var(--border)}
+ .calendar-month-day-sheet .month-day-event-row{grid-template-columns:max-content minmax(0,1fr) auto 16px;min-height:68px;padding-block:11px}
+}
+@media(max-width:700px){
+ html .calendar-in-month .month-paper>.month-weekdays{min-height:38px}
+ html .calendar-in-month .month-paper .month-weekdays>strong{font-size:calc(12px * var(--font-adjust,1));padding:9px 1px}
+ html .calendar-in-month .month-paper>.month-grid{grid-auto-rows:minmax(68px,1fr)}
+ html .calendar-in-month .month-paper .month-dots{top:45px;gap:2px}
+ html .calendar-in-month .month-paper .month-dots i{width:4px;height:4px}
+ html .calendar-month-modal-backdrop{padding-inline:0}
+ .calendar-month-event-body{padding:20px 18px 26px}
+ .month-event-dialog-header{padding:14px 18px}
+ .calendar-month-day-sheet>.month-day-events{padding-inline:14px}
+ .month-day-event-copy strong{font-size:calc(18px * var(--font-adjust,1))}
+ .calendar-month-day-sheet .month-day-event-row{gap:7px;grid-template-columns:max-content minmax(0,1fr) auto 14px}
+ .calendar-month-day-sheet .month-day-event-row>time{min-width:45px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ html .calendar-month-modal-backdrop{place-items:center;padding:8px max(12px,env(safe-area-inset-right)) 8px max(12px,env(safe-area-inset-left))}
+ .calendar-month-event-dialog,.calendar-month-day-sheet{max-height:calc(100dvh - var(--shell-nav-clearance,var(--shell-nav-height,66px)) - env(safe-area-inset-bottom) - 16px);border-radius:20px}
+ .calendar-month-day-sheet>.month-day-heading{padding:10px 18px 8px;align-items:center}
+ .calendar-month-day-sheet .month-day-heading h2{font-size:calc(19px * var(--font-adjust,1));margin-bottom:3px}
+ .calendar-month-day-sheet>.month-day-footer{padding:8px 18px}
+ .calendar-month-day-sheet .month-day-event-row{min-height:58px;padding-block:8px}
+ .month-event-dialog-header{padding:8px 18px}
+ .month-event-dialog-header>div{display:flex;align-items:center;gap:18px}
+}

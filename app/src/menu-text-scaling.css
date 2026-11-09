@@ -1,0 +1,5 @@
+/* Preserve the existing text and menu size preferences through phone rotation. */
+@media(max-height:520px) and (orientation:landscape){
+ :root .mobile-menu .mobile-menu-grid button,:root .mobile-menu .mobile-menu-footer button{font-size:calc(15px * var(--font-adjust,1) * var(--menu-scale,1))!important}
+ :root .mobile-menu .mobile-menu-label,:root .mobile-menu .mobile-menu-footer button>span{font-size:inherit!important}
+}

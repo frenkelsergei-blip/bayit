@@ -1,0 +1,89 @@
+/* Tasks page on the shared size scale (scale.css), full audit 2026-11-08, findings T-1, T-5, T-6.
+   Scoped to .main-content.view-tasks. Title and New task share one row, list cards scroll in one row,
+   and one filter row holds the range, status and a Filters button (people, priority, order and search
+   live in the Filters window, on the shared section design). */
+html:root .view-tasks .tasks-v2{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;align-content:start;max-width:1296px;margin-inline:auto;width:100%}
+html:root .view-tasks .tasks-v2>*{grid-column:1/-1;min-width:0}
+html:root .view-tasks .tasks-v2>.page-heading{grid-column:1;grid-row:1;margin:0;align-self:end}
+html:root .view-tasks .tasks-v2>.page-actions{grid-column:2;grid-row:1;margin:0;align-self:start;display:flex;flex-wrap:nowrap;align-items:center;gap:10px}
+html:root .view-tasks .tasks-v2>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .view-tasks .tasks-v2>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
+html:root .view-tasks .tasks-v2>.page-actions>.button{min-height:var(--scale-control);padding:0 18px;font-size:calc(16px * var(--font-adjust,1));border-radius:999px;white-space:nowrap}
+
+/* List cards: one row that scrolls sideways, the New list card at the end. */
+html:root .view-tasks .list-selector-layout{display:flex!important;align-items:stretch;gap:10px;margin:20px 0 0!important;min-width:0}
+html:root .view-tasks .list-selector-layout>.tasks-lists{display:flex!important;flex-wrap:nowrap!important;gap:10px;overflow-x:auto;scrollbar-width:thin;min-width:0;flex:1 1 auto;padding:4px 2px 6px;margin:0}
+html:root .view-tasks .tasks-lists>:is(.tasks-list-card,.tasks-list-shell){flex:0 0 auto;width:auto!important;max-width:none}
+html:root .view-tasks .tasks-lists .tasks-list-text :is(strong,small){white-space:nowrap;overflow:visible;text-overflow:clip}
+html:root .view-tasks .tasks-lists .tasks-list-card{min-height:60px;padding:8px 14px}
+html:root .view-tasks .list-selector-layout>.tasks-list-new{flex:0 0 auto;min-height:60px;align-self:center}
+
+/* One filter row: range (with its date), status, Filters. */
+html:root .view-tasks .tasks-filters{display:flex!important;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:14px 0 16px!important}
+html:root .view-tasks .tasks-filters>.tasks-range,html:root .view-tasks .tasks-filters>.tasks-status{min-height:var(--scale-control);margin:0}
+html:root .view-tasks .tasks-filter-button{display:inline-flex;align-items:center;gap:8px;min-height:var(--scale-control);padding:0 16px;border:1.5px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font:inherit;font-weight:800;font-size:calc(15px * var(--font-adjust,1));cursor:pointer}
+html:root .view-tasks .tasks-filter-button.on{border-color:var(--primary);color:var(--primary);background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
+html:root .view-tasks .tasks-filter-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--primary);color:var(--onPrimary,#fff);font-size:13px;font-weight:850}
+html:root .view-tasks .tasks-filter-summary{flex-basis:100%;display:flex;align-items:center;gap:12px;margin:0;color:var(--muted);font-weight:700;font-size:calc(14.5px * var(--font-adjust,1))}
+html:root .view-tasks .tasks-filter-summary .text-link{min-height:44px}
+
+/* Filters window: same shell as New list (form-window.css); fields fill their section. */
+html:root .tasks-filter-sheet .tasks-search-field{display:flex!important;align-items:center;gap:10px;min-height:48px;padding:0 14px;border:1.5px solid var(--border);border-radius:16px;background:var(--surface);width:100%}
+html:root .tasks-filter-sheet .tasks-search-field input{flex:1;min-width:0;border:0;background:none;font-size:16px;padding:0;box-shadow:none!important}
+html:root .tasks-filter-sheet .tasks-people{display:flex!important;flex-wrap:wrap;gap:12px;margin:0}
+html:root .tasks-filter-sheet .tasks-prio-filters{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0}
+html:root .tasks-filter-sheet .tasks-prio-filters .select-button,html:root .tasks-filter-sheet .tasks-prio-filters>*{width:100%;max-width:none}
+
+/* Task details: the title on the section scale (it was ~48px on phones). */
+html:root:has(.main-content.view-tasks) .calendar-event-details .calendar-detail-heading :is(h2,.detail-title){font-size:calc(var(--scale-section) * var(--font-adjust,1))!important;line-height:1.2}
+html:root:has(.main-content.view-tasks) .calendar-event-details .tasks-detail-icon img,html:root:has(.main-content.view-tasks) .calendar-event-details .tasks-detail-icon>*{width:52px!important;height:52px!important}
+
+/* Tablet: actions below the title, as on Today and Calendar. */
+@media(min-width:701px) and (max-width:1100px){
+ html:root .view-tasks .tasks-v2{grid-template-columns:minmax(0,1fr)}
+ html:root .view-tasks .tasks-v2>.page-heading,html:root .view-tasks .tasks-v2>.page-actions{grid-column:1}
+ html:root .view-tasks .tasks-v2>.page-actions{grid-row:auto;margin-top:14px;justify-self:start}
+}
+/* Phones: title, one action row, list cards, then range and status/Filters. */
+@media(max-width:700px){
+ html:root .view-tasks .tasks-v2{grid-template-columns:minmax(0,1fr)}
+ html:root .view-tasks .tasks-v2>.page-heading,html:root .view-tasks .tasks-v2>.page-actions{grid-column:1}
+ html:root .view-tasks .tasks-v2>.page-actions{grid-row:auto;margin-top:14px;align-self:stretch}
+ html:root .view-tasks .tasks-v2>.page-actions>.button{flex:1}
+ html:root .view-tasks .list-selector-layout{margin-top:14px!important}
+ html:root .view-tasks .tasks-lists .tasks-list-card{min-height:54px}
+ html:root .view-tasks .tasks-filters>.tasks-range{flex:1 1 100%;display:flex;overflow-x:auto}
+ html:root .view-tasks .tasks-filters>.tasks-status{flex:1 1 auto}
+ html:root .tasks-filter-sheet .tasks-prio-filters{grid-template-columns:minmax(0,1fr)}
+}
+/* Short landscape phones: title and actions in one row; one filter row. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-tasks .tasks-v2{grid-template-columns:minmax(0,1fr) auto}
+ html:root .view-tasks .tasks-v2>.page-heading{grid-column:1}
+ html:root .view-tasks .tasks-v2>.page-actions{grid-column:2;grid-row:1;margin-top:0;align-self:start}
+ html:root .view-tasks .list-selector-layout{margin-top:10px!important}
+ html:root .view-tasks .tasks-lists .tasks-list-card{min-height:48px}
+ html:root .view-tasks .tasks-filters{flex-wrap:nowrap;margin:10px 0 10px!important}
+ html:root .view-tasks .tasks-filters>.tasks-range{flex:0 1 auto;overflow-x:auto}
+}
+/* Phones: the day picker is an icon until a specific day is chosen, so Today / This week / Upcoming fit. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .view-tasks .tasks-filters .tasks-day:not(.on) .date-field-text,html:root .view-tasks .tasks-filters .tasks-day:not(.on) .date-field-caret{display:none}
+ html:root .view-tasks .tasks-filters>.tasks-range{overflow:visible}
+}
+/* Short landscape: compact list chips and no repeated date line, so the first tasks show above the menu. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-tasks .tasks-v2>.page-heading p{display:none}
+ html:root .view-tasks .tasks-lists .tasks-list-card{min-height:44px;padding:4px 12px}
+ html:root .view-tasks .tasks-lists .tasks-list-card small{display:none}
+ html:root .view-tasks .tasks-lists .tasks-list-icon{transform:scale(.8)}
+ html:root .view-tasks .list-selector-layout>.tasks-list-new{min-height:44px;padding-block:4px}
+ html:root .view-tasks .tasks-filters{margin:8px 0 6px!important}
+}
+/* No extra gap between the filter row and the first group. */
+html:root .view-tasks .task-list-layout{margin-top:0!important;padding-top:0!important}
+html:root .view-tasks .tasks-groups>.tasks-group:first-child{margin-top:0!important;padding-top:0!important}
+/* Design system 7: the range is one 44px segmented pill like Cards/List: 3px inner padding, 36px segments. */
+html:root .view-tasks .tasks-filters>.tasks-range{min-height:var(--scale-control,44px);padding:3px;box-sizing:border-box}
+html:root .view-tasks .tasks-filters>.tasks-range>button{min-height:36px;height:36px}
+html:root .view-tasks .tasks-filters>.tasks-range>.tasks-day,html:root .view-tasks .tasks-filters>.tasks-range>.tasks-day .date-field-button{min-height:36px!important;height:36px!important}

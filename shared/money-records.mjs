@@ -1,6 +1,6 @@
 import {flowOf,monthOf,shiftMonth} from './finance.mjs';
 
-const MANUAL_CATEGORY={Groceries:'groceries',Utilities:'utilities',Cleaning:'home',School:'kids',Health:'health',Other:'other',Salary:'salary',Benefits:'benefits',Income:'income',Savings:'savings'};
+const MANUAL_CATEGORY={Groceries:'groceries',Utilities:'utilities',Cleaning:'home',School:'kids',Health:'health',Other:'other',Salary:'salary',Benefits:'benefits',Income:'income',Savings:'savings',Insurance:'insurance'};
 
 // Manual records retain their existing positive shekel amount in household state.
 // The finance model uses signed integer agorot for both imports and manual entries.

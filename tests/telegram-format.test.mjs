@@ -54,3 +54,30 @@ test('the daily summary is sent at the chosen time even inside quiet hours', ()=
  assert.ok(digestDue(v,'mom',{date,time:'06:31'}),'quiet hours do not block a summary the person chose');
  assert.equal(digestDue(v,'mom',{date,time:'06:29'}),null);assert.equal(digestDue(v,'mom',{date,time:'07:40'}),null,'only within the hour after the chosen time');
 });
+
+// Telegram message audit 2026-11-08: one anatomy, Hebrew right-to-left on every line, dates as words.
+import {rtl,card,notice,alertCard,localizeDates,dateRange,quantityText,plural} from '../app/cloud/telegram-format.mjs';
+test('Hebrew lines all start right-to-left and a /command keeps its slash in front', ()=>{
+ const out=rtl('he','<b>Bayit בטלגרם</b>\n\n/today – היום\n<i>/tasks לסימון</i>');
+ for(const l of out.split('\n').filter(Boolean))assert.ok(l.startsWith('‏'),'every line starts with a right-to-left mark: '+l);
+ assert.match(out,/‏‎\/today/);assert.match(out,/‏<i>‎\/tasks/);assert.equal(rtl('he',out),out,'applying it twice changes nothing');assert.equal(rtl('en','/today'),'/today');
+});
+test('cards have a bold title, a context line, sections and an italic hint; notices lead with an icon', ()=>{
+ assert.equal(card('en',{icon:'🛒',title:'This week',context:'3 left',blocks:['• Milk'],hint:'Tap to check off.'}),'🛒 <b>This week</b>\n3 left\n\n• Milk\n\n<i>Tap to check off.</i>');
+ assert.equal(notice('en','🔗','Not linked.','Open Settings.'),'🔗 Not linked.\n\n<i>Open Settings.</i>');
+});
+test('dates read as words, ranges collapse, quantities and counts use the person’s language', ()=>{
+ assert.equal(localizeDates('Reported period ends 2026-11-30.','en'),'Reported period ends 30 Nov 2026.');assert.match(localizeDates('2026-11-02–2026-11-08 · x','he'),/^2–8 בנוב׳ · x$/);
+ assert.match(dateRange('2026-12-28','2027-01-03','en'),/2026.*2027/);
+ assert.equal(quantityText('12 items',undefined,'he'),'12 יח׳');assert.equal(quantityText('12 items',undefined,'en'),'×12');assert.equal(quantityText(1,'items','en'),'');assert.equal(quantityText(2,'kg','he'),'2 ק״ג');
+ assert.equal(plural('he',1,'change','changes','שינוי אחד','שינויים'),'שינוי אחד');assert.equal(plural('he',3,'change','changes','שינוי אחד','שינויים'),'3 שינויים');assert.equal(plural('en',1,'change','changes','',''),'1 change');
+});
+test('finance and insurance alerts become a titled card with one line per fact', ()=>{
+ const weekly=alertCard('en',{icon:'📈',title:'Shared · Your weekly money summary',detail:'2026-11-02–2026-11-08 · Income ₪0 · Spending ₪110'});
+ assert.equal(weekly,'📈 <b>Shared · Your weekly money summary</b>\n2 – 8 Nov\n\n• Income ₪0\n• Spending ₪110'.replace('2 – 8 Nov',dateRange('2026-11-02','2026-11-08','en')));
+ assert.match(alertCard('en',{icon:'💰',title:'Limit <x>',detail:'Recorded ₪90 of ₪100. Remaining: ₪10'}),/<b>Limit &lt;x&gt;<\/b>\n\n• Recorded ₪90 of ₪100\n• Remaining: ₪10$/);
+});
+test('AI tables, nested lists, links and rules read well in a chat', ()=>{
+ const out=chatFormat('| Day | Event |\n|---|---|\n| Mon | Dentist |\n---\n- a\n  - b\nSee [site](https://x.test/?a=1&b=2)','en');
+ assert.match(out,/<b>Day · Event<\/b>\n• Mon · Dentist\n• a\n   ◦ b/);assert.match(out,/<a href="https:\/\/x.test\/\?a=1&amp;b=2">site<\/a>/);assert.doesNotMatch(out,/---|\|/);
+});

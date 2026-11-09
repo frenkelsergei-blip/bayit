@@ -1,0 +1,12 @@
+/* A portrait has one square frame. Contexts may choose its size without
+   competing with inline dimensions or the global responsive-image clamp. */
+html .avatar{width:var(--avatar-size);height:var(--avatar-size);max-width:none;aspect-ratio:1;box-sizing:border-box;flex-shrink:0}
+.agenda-row{--agenda-avatar-size:96px}
+html .agenda-row>.avatar{width:var(--agenda-avatar-size);height:var(--agenda-avatar-size);min-width:0;justify-self:center}
+html .statistics-challenge-row>.avatar{height:auto;min-height:0;aspect-ratio:1}
+html .family-home-avatar{line-height:0}
+html:root .family-home-avatar>.color-icon{display:block;margin:0;padding:0;align-self:center;object-position:center;background:transparent!important}
+html .family-card>.avatar{width:48px!important;height:48px!important;min-width:48px;max-width:48px;justify-self:center;align-self:center;margin:0}
+@media(max-width:1100px){.agenda-row{--agenda-avatar-size:70px}}
+@media(max-width:700px){.agenda-row{--agenda-avatar-size:58px}}
+@media(max-width:1280px){html .task-list-layout .task-row.tasks-row>.tasks-assignee{padding-inline:0!important}}

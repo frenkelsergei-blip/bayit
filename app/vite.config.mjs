@@ -24,7 +24,7 @@ export default defineConfig(({ command }) => ({
     outDir: "dist/client",
   },
   optimizeDeps: {
-    include: ["react", "react-dom/client"],
+    include: ["react", "react-dom/client", "xlsx"],
   },
   server: {
     proxy: { "/api/ai": { target: "http://127.0.0.1:8787", changeOrigin: false } },

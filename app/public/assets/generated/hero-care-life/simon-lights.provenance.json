@@ -1,0 +1,286 @@
+{
+  "date": "2026-11-07",
+  "kind": "AI-generated glossy Simon round game buttons",
+  "generator": "built-in image_gen",
+  "file": "simon-lights.png",
+  "dimensions": [
+    512,
+    1024
+  ],
+  "grid": {
+    "columns": 2,
+    "rows": 4,
+    "cellWidth": 256,
+    "cellHeight": 256
+  },
+  "rowOrder": [
+    "red",
+    "yellow",
+    "green",
+    "blue"
+  ],
+  "columnOrder": [
+    "idle",
+    "lit"
+  ],
+  "source": "simon-lights-source.png",
+  "sourceDimensions": [
+    887,
+    1774
+  ],
+  "registration": "Each generated face is proportionally registered to212px diameter at128,128. Existing outer alpha halo is softly feathered117\u2013124px radius to remove adjacent-row glow and guarantee transparent cell edges. Generated RGB artwork and internal lighting unchanged. No replacement artwork drawn.",
+  "alpha": "Real generated RGBA transparency retained; every cell edge zeroalpha.",
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "color": "red",
+      "state": "idle",
+      "sourceCell": [
+        0,
+        0,
+        443,
+        443
+      ],
+      "sourceCoreBounds": [
+        33,
+        47,
+        410,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.5608465608465608,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "color": "red",
+      "state": "lit",
+      "sourceCell": [
+        443,
+        0,
+        887,
+        443
+      ],
+      "sourceCoreBounds": [
+        33,
+        48,
+        411,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.5608465608465608,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "color": "yellow",
+      "state": "idle",
+      "sourceCell": [
+        0,
+        443,
+        443,
+        887
+      ],
+      "sourceCoreBounds": [
+        33,
+        48,
+        410,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.56158940397351,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "color": "yellow",
+      "state": "lit",
+      "sourceCell": [
+        443,
+        443,
+        887,
+        887
+      ],
+      "sourceCoreBounds": [
+        34,
+        48,
+        411,
+        427
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.5608465608465608,
+      "outputCoreBounds": [
+        22,
+        22,
+        233,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "color": "green",
+      "state": "idle",
+      "sourceCell": [
+        0,
+        887,
+        443,
+        1330
+      ],
+      "sourceCoreBounds": [
+        33,
+        48,
+        409,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.5623342175066313,
+      "outputCoreBounds": [
+        22,
+        21,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "color": "green",
+      "state": "lit",
+      "sourceCell": [
+        443,
+        887,
+        887,
+        1330
+      ],
+      "sourceCoreBounds": [
+        32,
+        48,
+        411,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.560105680317041,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "color": "blue",
+      "state": "idle",
+      "sourceCell": [
+        0,
+        1330,
+        443,
+        1774
+      ],
+      "sourceCoreBounds": [
+        33,
+        48,
+        410,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.56158940397351,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "color": "blue",
+      "state": "lit",
+      "sourceCell": [
+        443,
+        1330,
+        887,
+        1774
+      ],
+      "sourceCoreBounds": [
+        32,
+        47,
+        411,
+        426
+      ],
+      "registeredCenter": [
+        128,
+        128
+      ],
+      "registeredFaceDiameter": 212,
+      "scale": 0.5593667546174143,
+      "outputCoreBounds": [
+        22,
+        22,
+        234,
+        234
+      ],
+      "transparentCellEdges": true
+    }
+  ],
+  "sourceSha256": "eb8962f5bceaf44b38286179e58fdf2b1d6b1ddbf45596b88047c93ef58d8135",
+  "sha256": "c1026734a0f9718c087114d23d9575cf7688d7714bea9fa84443c09ad6c69ce6",
+  "attribution": "Generated for Bayit. No existing asset license or attribution changed."
+}

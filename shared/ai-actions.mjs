@@ -1,3 +1,4 @@
+import {assignTaskPeople,taskAssignedTo} from './task-assignment.mjs';
 // More AI abilities, shared by Ask AI (web) and the Telegram bot:
 // change, complete, reopen and delete EXISTING records; home journal notes; manual expenses.
 // Like every AI proposal, these are previews until the person presses Apply, and the household
@@ -62,7 +63,7 @@ export function normalizeExtra(block,context,actions,{people,icon}){
     if(change.date!==undefined){const d=text(change.date,10);if(d?!dateValid(d):change.type!=='task')throw new Error('A new date is invalid.');fields.date=d}
     if(change.time!==undefined){const t=text(change.time,5);if(t&&!timeValid(t)||!t&&change.type==='event')throw new Error('A new time is invalid.');fields.time=t}
     if(change.note!==undefined)fields.note=text(change.note);
-    if(change.memberIds!==undefined){if(!['task','event','note'].includes(change.type))throw new Error('People can be changed on tasks, events and notes.');fields.memberIds=people(change.memberIds);if(change.type==='task'&&fields.memberIds.length!==1)throw new Error('A task belongs to one person. Create a copy for each person instead.');if(context.actor.role==='child'&&change.type==='task'&&fields.memberIds[0]!==context.actorId)throw new Error('Children can assign tasks only to themselves.')}
+    if(change.memberIds!==undefined){if(!['task','event','note'].includes(change.type))throw new Error('People can be changed on tasks, events and notes.');fields.memberIds=people(change.memberIds);if(change.type==='task'&&record.routine&&fields.memberIds.length!==1)throw new Error('A routine belongs to one child.');if(context.actor.role==='child'&&change.type==='task'&&fields.memberIds.some(id=>id!==context.actorId))throw new Error('Children can assign tasks only to themselves.')}
     if(change.durationMinutes!==undefined){if(change.type!=='event')throw new Error('Only events have a duration.');fields.durationMinutes=Math.max(5,Math.min(1440,Math.round(change.durationMinutes)))}
     if(change.quantity!==undefined||change.unit!==undefined){if(change.type!=='shopping')throw new Error('Only shopping items have a quantity.');const q=Number(change.quantity??record.quantityValue??1);if(!(q>0&&q<=100000))throw new Error('A quantity is invalid.');fields.quantity=q;fields.unit=UNITS.includes(change.unit)?change.unit:(record.unit||'items')}
     if(change.listId!==undefined){const id=text(change.listId,120);if(change.type==='task'?!(id===''||context.taskLists.some(l=>l.id===id)):change.type==='shopping'?!context.lists.includes(id):true)throw new Error('Choose a list from your lists.');fields.listId=id}
@@ -115,7 +116,7 @@ export function applyExtra(action,data,{actorId,members,plan,common,prepared,nex
   if(action.collection==='shopping'){if(!!record.done===want)return true;record.done=want;record.boughtAt=want?new Date().toISOString():null;record.boughtBy=want?actorId:null;prepared.push({collection:'shopping',before,after:structuredClone(record)});return true}
   const today=homeToday(),date=taskStateDate(record,today);
   if(record.date&&!occursOn(record,date))throw new Error('“'+action.title+'” is not scheduled for today. Only today’s tasks can be completed.');
-  if(!parent&&record.memberId!==actorId)throw new Error('“'+action.title+'” belongs to someone else.');
+  if(!parent&&!taskAssignedTo(record,actorId))throw new Error('“'+action.title+'” belongs to someone else.');
   const state=completionState(record,date);if(want?state==='done':state!=='done')return true;
   if(!want&&state==='pending')return true;
   if(date!==today)throw new Error('“'+action.title+'” was completed on an earlier day and can no longer be reopened.');
@@ -128,7 +129,7 @@ export function applyExtra(action,data,{actorId,members,plan,common,prepared,nex
  if(f.date!==undefined)record.date=f.date;
  if(f.time!==undefined)record.time=f.time;
  if(f.note!==undefined){if(action.collection==='notes'){record.text=f.note;record.textHe=f.note}else{record.note=f.note;record.noteHe=f.note}}
- if(f.memberIds){if(action.collection==='tasks')record.memberId=f.memberIds[0];else{record.memberIds=f.memberIds;if(action.collection==='notes')record.memberId=f.memberIds[0]||record.memberId}}
+ if(f.memberIds){if(action.collection==='tasks'){if(record.routine){if(f.memberIds.length!==1)throw new Error('A routine belongs to one child.');record.memberId=f.memberIds[0];if(record.memberIds)record.memberIds=f.memberIds}else assignTaskPeople(record,f.memberIds);}else{record.memberIds=f.memberIds;if(action.collection==='notes')record.memberId=f.memberIds[0]||record.memberId}}
  if(f.durationMinutes!==undefined)record.durationMinutes=f.durationMinutes;
  if(f.quantity!==undefined){record.quantityValue=f.quantity;record.unit=f.unit;record.quantity=f.quantity+' '+f.unit}
  if(f.listId!==undefined){

@@ -1,0 +1,52 @@
+.hero-organization .hero-games{padding:0}
+.hero-organization .hero-games .hg-heading{align-items:center;margin-bottom:22px}
+.hero-organization .hero-games .hg-heading h2{font-size:calc(36px * var(--font-adjust,1));font-weight:950;line-height:1.2;margin:0 0 8px;letter-spacing:-.035em}
+.hero-organization .hero-games .hg-heading p{font-size:calc(16px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0;font-weight:650}
+.hero-organization .hero-game-title-accent{position:relative;display:inline-block;padding-inline-end:30px}
+.hero-organization .hero-game-title-accent>img{position:absolute;inset-inline-end:-3px;top:-9px;width:33px;height:33px;object-fit:contain}
+html[dir=rtl] .hero-organization .hero-game-title-accent>img{transform:scaleX(-1)}
+.hero-organization .hero-game-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.hero-organization .hero-game-choice{display:grid;grid-template-columns:minmax(100px,1.1fr) minmax(0,1fr);gap:17px;align-items:stretch;border:1px solid var(--border);border-radius:25px;padding:12px;background:var(--surface);min-width:0}
+.hero-organization .hero-game-thumbnail{position:relative;border-radius:18px;min-height:190px;overflow:hidden;isolation:isolate;direction:ltr;background:var(--surfaceSoft)}
+.hero-organization .hero-game-thumbnail>img:first-child{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.hero-organization .game-shopping .hero-game-thumbnail{background:#fefaf5}
+.hero-organization .game-shopping .hero-game-thumbnail>img{object-fit:contain}
+.hero-organization .hero-game-thumbnail .hero-puzzle-thumb-mark{position:absolute;right:5%;bottom:6%;width:42%;height:42%;object-fit:contain;filter:drop-shadow(0 2px 1px #0002)}
+.hero-organization .hero-game-choice-copy{display:flex;flex-direction:column;align-items:start;justify-content:center;gap:9px;padding:8px 0;min-width:0}
+.hero-organization .hero-game-choice-copy h3{font-size:calc(22px * var(--font-adjust,1));font-weight:950;line-height:1.2;margin:0;letter-spacing:-.03em}
+.hero-organization .hero-game-choice-copy p{font-size:calc(14px * var(--font-adjust,1));font-weight:650;line-height:1.45;color:var(--muted);margin:0 0 4px;overflow-wrap:anywhere}
+.hero-organization .hero-game-choice-copy>.button{min-height:44px;padding:9px 20px;border-radius:25px;font-size:calc(14px * var(--font-adjust,1));margin-top:auto;justify-content:center}
+.hero-organization .hero-game-saved{display:flex;align-items:center;gap:4px;background:var(--green);border-radius:18px;padding:4px 10px;font-size:calc(12px * var(--font-adjust,1));font-weight:850;color:var(--text)}
+.hero-organization .hero-market-thumb-items{position:absolute;inset:15% 5% 10%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));row-gap:15%;align-items:end;pointer-events:none}
+.hero-organization .hero-market-thumb-items>img{width:100%;height:85%;object-fit:contain}
+.hero-organization .hero-market-thumb-glass{position:absolute;left:5%;bottom:5%;color:#0240de;background:#fffaf0bb;border-radius:50%;padding:4px;pointer-events:none}
+.hero-organization .hero-rhythm-thumb-character{position:absolute;left:21%;bottom:17%;width:60%;height:72%;pointer-events:none}
+.hero-organization .hero-rhythm-thumb-note{position:absolute;right:7%;top:9%;color:#ffcb39;filter:drop-shadow(0 1px 1px #1119);pointer-events:none}
+.hero-organization .hero-games-reward-explanation{display:flex;align-items:center;justify-content:center;gap:9px;font-size:calc(15px * var(--font-adjust,1));font-weight:800;margin:25px 0 0;text-align:center;line-height:1.5}
+.hero-organization .hero-games-reward-explanation>img{width:30px;height:30px;object-fit:contain;flex:none}
+.hero-organization .hero-puzzle-picture-choice{margin:22px 0 10px;font-size:calc(14px * var(--font-adjust,1));line-height:1.5}
+.hero-organization .hero-puzzle-picture-choice .hg-art-choices{margin:12px 0}
+.hero-organization .hg-game-footer{margin-top:15px}
+@media(max-width:1100px){.hero-organization .hero-game-choice{grid-template-columns:minmax(85px,1fr) minmax(0,1.15fr);gap:12px}.hero-organization .hero-game-thumbnail{min-height:180px}.hero-organization .hero-game-choice-copy h3{font-size:calc(20px * var(--font-adjust,1))}}
+@media(max-width:700px){
+ .hero-organization .hero-games .hg-heading{align-items:start;gap:10px;margin-bottom:18px}
+ .hero-organization .hero-games .hg-heading h2{font-size:calc(29px * var(--font-adjust,1))}
+ .hero-organization .hero-games .hg-heading p{font-size:calc(14px * var(--font-adjust,1))}
+ .hero-organization .hero-game-choices{grid-template-columns:minmax(0,1fr);gap:0;background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden}
+ .hero-organization .hero-game-choice{display:flex;gap:11px;padding:12px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:none;align-items:center;min-height:120px}
+ .hero-organization .hero-game-choice:last-child{border-bottom:0}
+ .hero-organization .hero-game-thumbnail{width:92px;height:92px;min-height:92px;flex:none;border-radius:15px}
+ .hero-organization .hero-game-choice-copy{flex:1;min-width:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 8px;align-items:center}
+ .hero-organization .hero-game-choice-copy h3{font-size:calc(17px * var(--font-adjust,1));grid-column:1/-1}
+ .hero-organization .hero-game-choice-copy p{font-size:calc(12px * var(--font-adjust,1));line-height:1.4;grid-column:1;grid-row:2;margin:0}
+ .hero-organization .hero-game-choice-copy>.button{font-size:calc(12px * var(--font-adjust,1));padding:8px 12px;min-height:44px;grid-column:2;grid-row:2;margin:0;align-self:center}
+ .hero-organization .hero-game-saved{grid-column:1;grid-row:3;font-size:calc(10px * var(--font-adjust,1));padding:2px 7px;justify-self:start}
+ .hero-organization .hero-games-reward-explanation{font-size:calc(12px * var(--font-adjust,1));gap:8px;margin-top:18px}
+ .hero-organization .hero-games-reward-explanation>img{width:25px;height:25px}
+ .hero-organization .hg-instructions{flex-wrap:wrap;gap:12px}
+ .hero-organization .hg-instructions p{font-size:calc(14px * var(--font-adjust,1))}
+}
+@media(max-width:370px){.hero-organization .hero-game-thumbnail{width:72px;height:85px;min-height:85px}.hero-organization .hero-game-choice-copy{grid-template-columns:minmax(0,1fr)}.hero-organization .hero-game-choice-copy>.button{grid-row:3;grid-column:1;justify-self:start}.hero-organization .hero-game-saved{grid-row:4}}
+@media(orientation:landscape) and (max-height:520px) and (min-width:701px){.hero-organization .hero-game-choice{min-height:185px}.hero-organization .hero-game-thumbnail{min-height:160px}}
+
+.hero-organization .hero-game-thumbnail .hero-jigsaw-thumbnail{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}

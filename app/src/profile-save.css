@@ -1,0 +1,10 @@
+/* Profile is an inline editor: its actions belong to the edited card, never
+   to the phone's floating action bar or another module's form controls. */
+html .profile-editor-actions{position:static;inset:auto;display:flex;flex-direction:column;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border);background:transparent;min-width:0}
+.profile-editor-actions>.save-error{margin:0}
+.profile-editor-buttons{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px;min-width:0}
+.profile-editor-buttons>.button{min-height:46px;min-width:0;justify-content:center;white-space:normal}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ .profile-editor-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .profile-editor-buttons>.button{width:100%;min-height:52px;padding:10px 16px}
+}

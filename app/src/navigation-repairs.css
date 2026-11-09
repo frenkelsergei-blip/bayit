@@ -1,0 +1,85 @@
+/* Navigation-only follow-up. No module cards, forms, tabs or type rules. */
+:root[data-shell=horizontal]{
+ --shell-safe-top:env(safe-area-inset-top,0px);--shell-safe-right:env(safe-area-inset-right,0px);--shell-safe-bottom:env(safe-area-inset-bottom,0px);--shell-safe-left:env(safe-area-inset-left,0px);
+ --shell-dock-edge:clamp(18px,4.5vw,24px);
+ --shell-menu-surface:var(--menu-deep,#103744);--shell-menu-ink:#fff9f0;--shell-menu-sub:color-mix(in srgb,#fff 72%,var(--menu-deep,#103744));
+}
+:root[data-shell=horizontal][data-sidebar=matching]{--shell-menu-surface:var(--bg);--shell-menu-ink:var(--text);--shell-menu-sub:var(--muted)}
+:root[data-shell=horizontal][data-sidebar=soft]{--shell-menu-surface:color-mix(in srgb,var(--primary) 10%,var(--bg));--shell-menu-ink:var(--text);--shell-menu-sub:var(--muted)}
+:root[data-shell=horizontal] .bayit-shell-nav{background:var(--shell-menu-surface);color:var(--shell-menu-ink);border-color:color-mix(in srgb,var(--shell-menu-ink) 12%,transparent)}
+:root[data-shell=horizontal] .bayit-shell-nav[data-position=top]{box-shadow:0 3px 10px -4px rgb(8 20 43 / 10%)}
+:root[data-shell=horizontal] .bayit-shell-nav[data-position=bottom]{box-shadow:0 -3px 10px -4px rgb(8 20 43 / 10%)}
+:root[data-shell=horizontal] .bayit-shell-nav[data-position=bottom] .bayit-shell-nav-inner{padding-inline:max(var(--shell-dock-edge),var(--shell-safe-left)) max(var(--shell-dock-edge),var(--shell-safe-right))}
+:root[data-shell=horizontal] .bayit-shell-menu.mobile-menu{--menu-surface:var(--shell-menu-surface)!important;--menu-ink:var(--shell-menu-ink)!important;--menu-sub:var(--shell-menu-sub)!important}
+
+/* A reserved utility cell keeps the real save state beside the bell. */
+.bayit-shell-utility{gap:5px}
+.bayit-shell-save-slot{display:grid;place-items:center;flex:0 0 28px;width:28px;height:32px}
+.bayit-shell-save-slot [hidden]{display:none!important}
+.shell-v2>.cloud-sync-status{display:none}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-status{position:static!important;inset:auto!important;margin:0;width:28px;height:28px;border:0;border-radius:8px;box-shadow:none;background:transparent;color:var(--muted);animation:none}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-sprite{display:none!important}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-glyph{display:block!important;width:20px;height:20px}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-saving{color:var(--primary)}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-saved,:root[data-shell=horizontal] .bayit-shell-save-slot .save-local{color:var(--primary)}
+:root[data-shell=horizontal] .bayit-shell-save-slot .save-failed{color:#b44c32;background:var(--peach)}
+:root[data-theme=dark] .bayit-shell-save-slot .save-failed{color:#ffd0bf}
+/* Approved night logo uses its supplied colors without a contrast filter. */
+
+/* Two choices need two complete label/check columns, rather than the theme
+   preview tiles' three-column layout and absolutely positioned check. */
+.appearance-settings .menu-position-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.appearance-settings .menu-position-options .menu-style-option{display:grid;grid-template-columns:minmax(0,1fr) 20px;align-items:center;justify-content:stretch;gap:8px;min-height:62px;padding:12px 13px;text-align:center}
+.menu-position-text{min-width:0;line-height:1.35;text-wrap:balance}
+.menu-position-check{display:grid;place-items:center;width:20px;height:20px;color:var(--primary)}
+.menu-position-check>svg{position:static;width:18px;height:18px;display:block}
+
+/* Reset the legacy centred tablet/desktop drawer geometry for this component.
+   A phone sheet sizes to its content; its bottom safe area is counted once. */
+html:root[data-shell=horizontal] .bayit-shell-menu.mobile-menu{
+ position:fixed;inset:auto!important;top:auto!important;bottom:0!important;left:0!important;right:0!important;
+ transform:none!important;width:auto!important;height:auto!important;min-height:0!important;margin:0!important;
+ max-height:calc(var(--shell-visible-height,100dvh) - var(--shell-safe-top) - 10px)!important;
+ padding:8px max(16px,var(--shell-safe-right)) max(8px,var(--shell-safe-bottom)) max(16px,var(--shell-safe-left))!important;
+ border-radius:28px 28px 0 0!important;gap:12px!important;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;animation:shell-sheet-in .16s ease-out;
+}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-handle{display:block!important;flex:none}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-header{flex:none;position:static;margin:0}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid{flex:none;margin:0}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer{flex:none;margin:0;padding-top:8px!important;gap:8px!important}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer button{min-height:44px!important;height:auto!important;min-width:0;gap:6px;padding:6px!important}
+html:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer button>span{min-width:0;white-space:normal;overflow:visible;text-overflow:clip}
+@keyframes shell-sheet-in{from{opacity:0}to{opacity:1}}
+
+@media(min-width:701px) and (min-height:521px){
+ html:root[data-shell=horizontal]:not([data-shell-short=true]) .bayit-shell-menu.mobile-menu{left:50%!important;right:auto!important;top:var(--shell-menu-center,50vh)!important;bottom:auto!important;transform:translate(-50%,-50%)!important;width:min(640px,calc(100vw - 48px))!important;max-height:calc(var(--shell-visible-height,100dvh) - 32px)!important;border-radius:25px!important;padding:16px 20px 18px!important}
+ html:root[data-shell=horizontal]:not([data-shell-short=true]) .bayit-shell-menu .mobile-menu-handle{display:none!important}
+}
+@media(max-width:600px){
+ :root[data-shell=horizontal]{--shell-nav-height:66px}
+ :root[data-shell=horizontal] .bayit-shell-nav-inner{min-height:66px;padding-block:6px}
+ :root[data-shell=horizontal] .bayit-shell-nav-inner>button{min-height:54px}
+ :root[data-shell=horizontal]:not([data-shell-short=true])[data-nav-position=bottom]{--shell-nav-height:62px}
+ :root[data-shell=horizontal]:not([data-shell-short=true]) .bayit-shell-nav[data-position=bottom] .bayit-shell-nav-inner{min-height:62px;padding-block:6px;gap:3px}
+ :root[data-shell=horizontal]:not([data-shell-short=true]) .bayit-shell-nav[data-position=bottom] .bayit-shell-nav-inner>button{min-height:50px;padding-block:4px}
+}
+@media(max-width:420px){
+ :root[data-shell=horizontal] .bayit-shell-nav[data-position=bottom] .bayit-shell-nav-inner>button{flex:1 1 auto}
+}
+/* The visual viewport is also checked in JS because Safari can report a stale
+   layout viewport during rotation while a modal has locked body scrolling. */
+:root[data-shell=horizontal][data-shell-short=true]{--shell-header-height:54px;--shell-nav-height:52px}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-nav-inner{min-height:52px;padding-block:4px}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-menu.mobile-menu{max-height:calc(var(--shell-visible-height,100dvh) - 8px)!important;gap:8px!important;padding-top:6px!important;border-radius:24px 24px 0 0!important}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-menu .mobile-menu-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-menu .mobile-menu-grid button{flex-direction:row!important;min-height:44px!important;height:auto!important;gap:8px!important;padding:8px 12px!important}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-menu .mobile-menu-icon{width:22px!important;height:22px!important;background:transparent!important;border-radius:0!important}
+:root[data-shell=horizontal][data-shell-short=true] .bayit-shell-menu .mobile-menu-footer{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(prefers-reduced-motion:reduce){.bayit-shell-menu.mobile-menu{animation:none!important}}
+
+/* Phone scrollbars are visual chrome only. Keep every existing scroll area,
+   touch gesture, keyboard path and overflow rule working. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html,body,*{scrollbar-width:none!important}
+ ::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+}

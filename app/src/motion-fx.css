@@ -68,6 +68,15 @@
 .bell-glyph.ring{animation:fx-ring 1.2s ease-in-out both}
 .bell-spark{position:absolute;width:16px;height:16px;top:-8px;inset-inline-end:-10px;animation:fx-pop .6s .2s cubic-bezier(.2,1.8,.4,1) both,fx-twinkle 1s .8s ease-in-out both}
 .bell-count{animation:fx-pop .45s cubic-bezier(.2,1.8,.4,1) both}
+/* Keep the small badge attached to the bell; preserve the full touch target. */
+html .notification-bell>.bell-count,html .mobile-top button>.bell-count{position:absolute;top:calc(50% - 17px);inset-inline-end:calc(50% - 19px);display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:16px;min-width:16px;height:16px;padding:0;border:1.5px solid var(--bg);border-radius:50%;background:var(--accent);color:#10152a;font-size:9px;font-weight:850;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.15px;direction:ltr;unicode-bidi:isolate;z-index:2;pointer-events:none}
+html[dir=rtl] :is(.notification-bell,.mobile-top button)>.bell-count{right:auto;left:calc(50% - 19px)}
+/* Use one numeric font and optical baseline in both interface languages. */
+/* Metric-aligned alias of the existing licensed Nunito Sans: cap height705/1000. */
+@font-face{font-family:"Bayit Badge Numerals";src:url("/assets/fonts/nunitosans/font.woff2");font-weight:200 1000;font-style:normal;font-display:swap;ascent-override:70.5%;descent-override:0%;line-gap-override:0%}
+html :is(.notification-bell,.mobile-top button)>.bell-count>.bell-count-number{display:block;position:static;font-family:"Bayit Badge Numerals","Nunito Sans",sans-serif;font-size:9px;font-weight:850;font-variant-numeric:lining-nums tabular-nums;letter-spacing:0;line-height:1;text-box-trim:trim-both;text-box-edge:cap alphabetic;white-space:nowrap}
+
+
 .mobile-top .bell-count{position:absolute;top:2px;inset-inline-end:0;background:var(--accent);color:#10152a;border:2px solid var(--bg);border-radius:15px;min-width:21px;height:21px;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0 4px}
 .mobile-top>button:last-child{position:relative}
 :root[data-fx=calm] .bell-glyph.ring,:root[data-fx-header=off] .bell-glyph.ring{animation:none}

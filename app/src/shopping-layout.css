@@ -1,0 +1,209 @@
+/* Shopping page on the shared size scale (scale.css) and the shared window anatomy (form-window.css),
+   full audit 2026-11-08, screen 05 (docs/audits/2026-11-08-full-audit-05-shopping.html), findings S-1, S-4, S-5,
+   S-6, S-8, S-9. Scoped to .view-shopping and to the Shopping windows (.shop-item-sheet, .shop-list-sheet,
+   .shopping-trip-sheet). Title and Cards|List share one row (as Tasks), the list cards are one slim scrolling row, and
+   the open list's name is a section heading, so the first items show on the first screen of every layout. */
+
+/* ---------- Page header: title + Cards|List in one row ---------- */
+html:root .view-shopping .shop2{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;align-content:start;width:100%}
+html:root .view-shopping .shop2>*{grid-column:1/-1;min-width:0}
+html:root .view-shopping .shop2>.page-heading{grid-column:1;grid-row:1;margin:0;align-self:end}
+html:root .view-shopping .shop2>.page-actions{grid-column:2;grid-row:1;margin:0;align-self:start;display:flex;flex-wrap:nowrap;align-items:center;gap:10px}
+html:root .view-shopping .shop2>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .view-shopping .shop2>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
+
+/* ---------- List cards: one slim row that scrolls sideways, New list at the end ---------- */
+html:root .view-shopping .list-selector-layout{display:flex!important;align-items:stretch;gap:10px;margin-bottom:0;min-width:0}
+html:root .view-shopping .list-selector-layout>.shop2-lists{display:flex!important;flex-wrap:nowrap!important;gap:10px;overflow-x:auto;scrollbar-width:thin;min-width:0;flex:1 1 auto;padding:4px 2px 6px;margin:0}
+html:root .view-shopping .shop2-lists>.shop2-list-card{position:relative;flex:0 0 auto;width:auto!important;max-width:320px;min-height:60px;padding:8px 14px 15px!important;align-items:center}
+html:root .view-shopping .shop2-list-card .tasks-list-text{min-width:0}
+html:root .view-shopping .shop2-list-card .tasks-list-text strong{display:block;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html:root .view-shopping .shop2-list-card .tasks-list-icon{width:40px;height:40px}
+html:root .view-shopping .shop2-list-progress{bottom:6px;height:3px}
+html:root .view-shopping .list-selector-layout>.shop2-list-new{flex:0 0 auto;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;min-height:60px;min-width:0!important;padding:0 18px!important;align-self:center}
+
+/* ---------- Open list ---------- */
+html:root .view-shopping .shop2-layout{margin-top:16px}
+html:root .view-shopping .shop2-head h2{font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2;margin:2px 0 6px}
+html:root .view-shopping .shop2-row-main strong{font-size:calc(var(--scale-item) * var(--font-adjust,1))}
+html:root .view-shopping .shop2-row-main small{font-size:calc(var(--scale-meta) * var(--font-adjust,1))}
+/* Rename on wide screens (S-4): a round button beside the other list actions; narrow screens keep it in ⋯. */
+html:root .view-shopping .shop2-head-actions .shop2-act-rename{display:inline-grid;place-items:center;width:var(--shop2-control);padding:0;gap:0}
+html:root .view-shopping .shop2-head-actions .shop2-act-rename>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@container shoppanel (max-width:640px){html:root .view-shopping .shop2-head-actions .shop2-act-rename{display:none}}
+/* Clear-search keeps a 44px hit area around its 32px circle (S-9). */
+html:root .view-shopping .shop2-clear{width:32px;height:32px;margin-inline-end:-6px;box-shadow:0 0 0 6px transparent}
+/* Compact (List) rows stay a full touch target on touch screens (S-9). */
+@media(pointer:coarse){html:root[data-density=compact] .view-shopping .shop2-row{min-height:44px}html:root[data-density=compact] .view-shopping .shop2-row-main{min-height:40px}}
+
+/* ---------- Tablets ---------- */
+@media(min-width:701px) and (max-width:1100px){
+ html:root .view-shopping .shop2-layout{margin-top:14px}
+}
+
+/* ---------- Phones: Cards|List moves into the open list's header (density-lists.css), one compact strip ---------- */
+@media(max-width:700px){
+ html:root .view-shopping .shop2{grid-template-columns:minmax(0,1fr)}
+ html:root .view-shopping .shop2>.page-heading{grid-column:1}
+ html:root .view-shopping .shop2:has(.shop2-head-actions)>.page-actions{display:none}
+ html:root .view-shopping .shop2>.page-heading p{margin-top:6px}
+ /* gap above the list cards: --scale-gap-header (page-header.css) */
+ html:root .view-shopping .shop2-lists>.shop2-list-card{min-height:52px;padding:6px 12px 12px!important;max-width:240px}
+ html:root .view-shopping .shop2-list-card .tasks-list-text strong{max-width:140px}
+ html:root .view-shopping .shop2-list-card .tasks-list-icon{width:36px;height:36px}
+ html:root .view-shopping .list-selector-layout>.shop2-list-new{min-height:52px;padding:0 14px!important}
+ html:root .view-shopping .shop2-layout{margin-top:12px}
+ html:root .view-shopping .shop2-panel{padding:12px 12px 8px}
+ html:root .view-shopping .shop2-head{margin-bottom:8px}
+ html:root .view-shopping .shop2-head h2{margin:0 0 4px}
+ html:root .view-shopping .shop2-group{margin-top:8px}
+}
+
+/* ---------- Short landscape phones: no date line, chip-sized list cards, add bar and filters side by side ---------- */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-shopping .shop2>.page-heading p{display:none}
+ /* gap above the list cards: --scale-gap-header (page-header.css) */
+ html:root .view-shopping .list-selector-layout>.shop2-lists{padding-block:2px 4px}
+ html:root .view-shopping .shop2-lists>.shop2-list-card{min-height:44px;padding:4px 12px 8px!important}
+ html:root .view-shopping .shop2-list-card .tasks-list-text{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+ html:root .view-shopping .shop2-list-card .avatar-stack{display:none}
+ html:root .view-shopping .shop2-list-card .tasks-list-icon{width:32px;height:32px}
+ html:root .view-shopping .shop2-list-progress{bottom:3px}
+ html:root .view-shopping .list-selector-layout>.shop2-list-new{min-height:44px}
+ html:root .view-shopping .shop2-layout{margin-top:6px}
+ /* One row: add bar · filters · list actions (the chosen list card above already names the list and its count). */
+ html:root .view-shopping .shop2-panel{display:grid;grid-template-columns:minmax(0,1fr) auto auto;column-gap:10px;padding:6px 12px 6px;border-radius:22px}
+ html:root .view-shopping .shop2-panel>*{grid-column:1/-1;min-width:0}
+ html:root .view-shopping .shop2-panel>.shop2-head:not(.shopping-list-empty){grid-column:3;grid-row:1;flex-wrap:nowrap;align-items:center;align-self:center;margin:0 0 6px}
+ html:root .view-shopping .shop2-panel>.shop2-head:not(.shopping-list-empty)>.shop2-head-title{display:none}
+ html:root .view-shopping .shop2-head-actions .shop2-act-wide{display:none}
+ html:root .view-shopping .shop2-head-actions .shop2-more{display:block}
+ html:root .view-shopping .shop2-head-actions .shop2-act-trip{display:inline-grid!important;place-items:center!important;width:var(--shop2-control);height:var(--shop2-control);padding:0!important;gap:0!important;max-width:none}
+ html:root .view-shopping .shop2-head-actions .shop2-act-trip>span{display:none!important}
+ html:root .view-shopping .shop2-panel>.shop2-add{grid-column:1;grid-row:1;margin:0 0 4px;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"icon name add";padding:5px;gap:6px}
+ html:root .view-shopping .shop2-panel>.shop2-add.typing{grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"icon name qty add"}
+ html:root .view-shopping .shop2-add-hint,html:root .view-shopping .shop2-add:not(.typing) .shop2-add-qty{display:none}
+ html:root .view-shopping .shop2-add-icon{width:40px;height:40px}
+ html:root .view-shopping .shop2 .shop2-add-name{height:40px;min-height:40px}
+ html:root .view-shopping .shop2-add-qty{height:40px}
+ html:root .view-shopping .shop2-add-submit{width:44px;height:40px;padding:0}
+ html:root .view-shopping .shop2-add-submit span{display:none}
+ html:root .view-shopping .shop2-panel>.shop2-toolbar{grid-column:2;grid-row:1;margin:0 0 4px;flex-wrap:nowrap;align-self:center}
+ html:root .view-shopping .shop2-toolbar .shop2-search:not(.open){display:none}
+ html:root .view-shopping .shop2-toolbar .shop2-search.open{flex:0 1 200px}
+ html:root .view-shopping .shop2-toolbar .shop2-search-toggle{display:inline-flex}
+ html:root .view-shopping .shop2-toolbar .shop2-cats-toggle{width:var(--shop2-control);padding:0}
+ html:root .view-shopping .shop2-toolbar .shop2-cats-toggle>span{display:none}
+ html:root .view-shopping .shop2-seg button{padding:0 9px}
+ html:root .view-shopping .shop2-group{margin-top:2px}
+ html:root .view-shopping .shop2-row{min-height:50px;padding-block:3px}
+}
+
+/* ---------- Windows on the shared section anatomy (S-6) ---------- */
+/* Item editor: a wide two-column window on desktop (Details · Privacy & permissions). */
+html:root .shop-item-sheet{width:min(960px,calc(100vw - 48px))}
+@media(min-width:901px){html:root .shop-item-sheet .shop-item-columns{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:20px}}
+/* Shopping exception (AGENTS.md, 2026-11-06): the item editor's Save/Cancel stay part of the card in normal flow while
+   scrolling, never a floating or sticky bar. */
+html:root .shop-item-sheet .tasks-sheet-actions{position:static}
+:root[data-keyboard-open="true"] .shop-item-sheet{max-height:calc(var(--visible-view-height) - 28px)}
+/* Field titles: plain text the same size as the other forms; fields fill their section. */
+html:root :is(.shop-item-sheet,.shop-list-sheet,.shopping-trip-sheet) .form-section-body label:not(.checkbox-label):not([class*=choice]),
+html:root .shop-item-sheet .form-section-body .field-label{font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);display:grid;gap:8px;margin:0}
+html:root .shop-item-sheet .form-section-body .field-label{margin:0 0 10px}
+html:root :is(.shop-item-sheet,.shopping-trip-sheet) .form-section-body .two-fields{gap:14px;margin:0}
+html:root .shop-item-sheet .form-section-body .member-chips{display:flex;flex-wrap:wrap;gap:12px 10px}
+/* Privacy & permissions: the section heading replaces the access legend; its small field icons are hidden. */
+html:root :is(.shop-item-sheet,.shop-list-sheet) .form-section .record-access{margin:0;padding:0;border:0;min-width:0}
+html:root :is(.shop-item-sheet,.shop-list-sheet) .form-section .record-access>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html:root :is(.shop-item-sheet,.shop-list-sheet) .form-section .access-label>svg{display:none}
+html:root :is(.shop-item-sheet,.shop-list-sheet) .form-section .access-label{gap:0}
+/* Reuse: the copy choice is a full-width 44px row. */
+html:root .shop-list-sheet .shop-copy-choice{display:flex;align-items:center;gap:12px;min-height:44px;font-weight:800;font-size:calc(16px * var(--font-adjust,1))}
+html:root .shop-list-sheet .shop-copy-choice>input{width:22px;height:22px;flex:none;margin:0}
+/* All lists: rows inside the window body; actions in one row under the name on phones (S-8). */
+html:root .shop-lists-manager .list-manager-rows{margin:0}
+html:root .shop-lists-manager .list-manager-rows article{padding:12px 0}
+html:root .shop-lists-manager .list-row-actions{display:flex;gap:8px;flex:none}
+html:root .shop-lists-manager .list-row-actions .icon-button{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:inline-grid;place-items:center}
+html:root .shop-lists-manager .list-manager-help{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0}
+html:root .shop-lists-manager .list-manager-help .text-link{display:inline-flex;align-items:center;gap:6px;min-height:44px}
+html:root .shop-lists-manager .tabs{margin:0}
+@media(max-width:700px){html:root .shop-lists-manager .list-manager-rows .list-row-actions{flex:1 1 100%;justify-content:flex-start;padding-inline-start:38px}}
+/* Plan a trip: the list hint as a plain line; date and time each get the full width on phones. */
+html:root .shopping-trip-sheet .shop-trip-hint{display:flex;align-items:flex-start;gap:8px;margin:0}
+html:root .shopping-trip-sheet .shop-trip-hint>svg{flex:none;margin-top:2px}
+@media(max-width:700px){html:root .shopping-trip-sheet .form-section .date-time-fields{grid-template-columns:minmax(0,1fr)!important}}
+
+/* ---------- Today: the Shopping badge on a shopping task opens Shopping (S-5) ---------- */
+/* The link takes the badge's place in the row (today-layout.css places the badge itself) and keeps its exact size,
+   so the row height does not change; a transparent ::before gives it a 44px touch area. */
+html:root .today-task-row .today-shopping-link{position:relative;display:inline-flex;align-items:center;justify-self:end;width:auto;min-width:0;margin:0;padding:0;border:0;background:none;cursor:pointer;border-radius:999px;flex:none;font:inherit;color:inherit}
+html:root .today-task-row .today-shopping-link::before{content:"";position:absolute;inset:-14px -6px;border-radius:999px}
+html:root .today-task-row .today-shopping-link:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+html:root .today-task-row .today-shopping-link>.badge{pointer-events:none}
+@container today-task-list (min-width:440px){html:root .view-today .today-task-row>.today-shopping-link{grid-column:4;grid-row:1;justify-self:end}}
+@container today-task-list (max-width:600px){html:root .view-today .today-task-row>.today-shopping-link{grid-column:3;justify-self:start}}
+@container today-task-list (max-width:439px){
+ html:root .view-today .today-task-row>.today-shopping-link{grid-column:3;grid-row:2;justify-self:start;align-self:start}
+ html:root .view-today .today-task-row>.today-shopping-link>.badge{padding-block:0}
+}
+
+/* Swipe-to-delete rows: the red action layer never bleeds below a closed row's edge, and rows in a window sit on
+   the window surface. */
+html:root :is(.view-shopping,.shop-lists-manager) .swipe-row:not(.open) .swipe-delete{inset-block:2px}
+html:root .shop-lists-manager .swipe-content{background:var(--surface)}
+/* Item editor: quantity and unit stay side by side on phones (short values; date/time in the trip stack instead). */
+html:root .shop-item-sheet .form-section-body .two-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+/* Landscape: while typing an item or searching, the filters move under the add bar so the name field keeps its width. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-shopping .shop2-panel:has(.shop2-add.typing,.shop2-search.open)>.shop2-toolbar{grid-column:1/-1;grid-row:2;justify-self:start}
+ html:root .view-shopping .shop2-toolbar .shop2-search.open{flex:1 1 220px}
+}
+/* All lists: rows and tabs never grow wider than the window, however long a list name is. */
+html:root .shop-lists-manager .tasks-sheet-body{grid-template-columns:minmax(0,1fr)}
+html:root .shop-lists-manager .tasks-sheet-body>*,html:root .shop-lists-manager .list-manager-rows>*,html:root .shop-lists-manager .list-open{min-width:0}
+html:root .shop-lists-manager .list-open>span{min-width:0}
+html:root .shop-lists-manager .list-open strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html:root .shop-lists-manager .tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+
+/* ---------- Shared control size (design system decision 7, controls.css): every control 44px ---------- */
+/* Add bar: name, quantity, unit and Add all 44px at every size; the quantity/unit pair draws its border inside so the
+   fields themselves are the full 44px. */
+html:root .view-shopping .shop2 .shop2-add-name{height:var(--scale-control);min-height:var(--scale-control)}
+html:root .view-shopping .shop2-add-icon{width:var(--scale-control);height:var(--scale-control)}
+html:root .view-shopping .shop2-add-submit{height:var(--scale-control);min-width:var(--scale-control)}
+html:root .view-shopping .shop2-add-qty{height:var(--scale-control);border:0;box-shadow:inset 0 0 0 1.5px var(--border)}
+html:root .view-shopping .shop2 .shop2-add-qty input,html:root .view-shopping .shop2 .shop2-add-qty .select-button{height:var(--scale-control);min-height:var(--scale-control)}
+/* Search: the field is the whole 44px pill (border drawn inside). */
+html:root .view-shopping .shop2-search{border:0;box-shadow:inset 0 0 0 1.5px var(--border)}
+html:root .view-shopping .shop2-search:focus-within{box-shadow:inset 0 0 0 1.5px var(--primary),0 0 0 4px color-mix(in srgb,var(--primary) 14%,transparent)}
+html:root .view-shopping .shop2 .shop2-search input{height:var(--scale-control);min-height:var(--scale-control)}
+/* Row edit (pencil): a 44×44 target; in compact rows it overlaps the row padding so the row keeps its height. */
+html:root .view-shopping .shop2 .shop2-row-edit{width:var(--scale-control);height:var(--scale-control);min-width:var(--scale-control);min-height:var(--scale-control)}
+html:root[data-density=compact] .view-shopping .shop2 .shop2-row-edit{width:var(--scale-control)!important;height:var(--scale-control)!important;min-width:var(--scale-control)!important;min-height:var(--scale-control)!important;margin-block:-6px}
+/* All lists: the Active / Completed / Archived view tabs (navigation.css draws them 42px, 40px on phones). */
+html:root .shop-lists-manager .tabs.nav-view.nav-view>button{min-height:var(--scale-control)}
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-shopping .shop2-add-icon{width:var(--scale-control);height:var(--scale-control)}
+ html:root .view-shopping .shop2 .shop2-add-name{height:var(--scale-control);min-height:var(--scale-control)}
+ html:root .view-shopping .shop2-add-qty{height:var(--scale-control)}
+ html:root .view-shopping .shop2-add-submit{width:var(--scale-control);height:var(--scale-control)}
+}
+@media(max-width:700px){
+ html:root .view-shopping .shop2-add-qty{height:var(--scale-control)}
+ html:root .view-shopping .shop2-add-submit{width:var(--scale-control);height:var(--scale-control)}
+}
+/* The shared header gap (32/24/16px) and the subtitle on every layout (page-header.css) moved the list down; the
+   Shopping area itself is tightened so the first item still shows on a 1280×800 laptop and in iPhone landscape. */
+html:root .view-shopping .shop2-layout{margin-top:10px}
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-shopping .list-selector-layout>.shop2-lists{padding-block:0 2px}
+ html:root .view-shopping .shop2-lists>.shop2-list-card{min-height:var(--scale-control);padding:4px 12px 6px!important}
+ html:root .view-shopping .shop2-layout{margin-top:4px}
+ html:root .view-shopping .shop2-panel{padding-top:4px}
+ html:root .view-shopping .shop2-panel>.shop2-add{padding:3px;margin-bottom:2px}
+ html:root .view-shopping .shop2-panel>.shop2-toolbar{margin-bottom:2px}
+ html:root .view-shopping .shop2-group{margin-top:0}
+ html:root .view-shopping .shop2-group>h3{padding-block:2px}
+}

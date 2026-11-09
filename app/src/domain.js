@@ -1,6 +1,8 @@
+import {serviceDue} from '../../shared/maintenance-service.mjs';
 import {anchor} from './data.js';
 export const previewDate=anchor;
 export function occursOn(record,date){
+ if(record.category==='maintenance')return serviceDue(record)===date;
  if(!record.date||date<record.date)return false;
  if(record.until&&date>record.until)return false;
  const repeat=(record.repeat||(record.routine?'daily':'once')).toLowerCase();

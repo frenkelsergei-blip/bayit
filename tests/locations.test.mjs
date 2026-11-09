@@ -35,7 +35,7 @@ test('server persists optional event/task locations and clears them without chan
  assert.throws(()=>applyChanges(d,[{collection:'tasks',id:'t',value:{...t,location:{lat:32}}}],'parent','parent'),/location/);
 });
 test('private locations, reusable places and note content are filtered on the server, including parents',()=>{
- const d=home();d.events=[event('private',{ownerId:'child',visibility:'private'}),event('selected',{visibility:'selected',allowedIds:['adult']})];
+ const d=home();d.events=[event('private',{ownerId:'child',visibility:'private',memberIds:['child']}),event('selected',{visibility:'selected',allowedIds:['adult']})];
  d.places=[{id:'child-place',ownerId:'child',visibility:'private',location:{label:'Private place'}},{id:'selected-place',ownerId:'parent',visibility:'selected',allowedIds:['adult'],location:{label:'Selected place'}}];
  assert.deepEqual(visibleState(d,'parent').events.map(e=>e.id),['selected']);assert.deepEqual(visibleState(d,'adult').events.map(e=>e.id),['selected']);assert.deepEqual(visibleState(d,'child').events.map(e=>e.id),['private']);
  assert.deepEqual(visibleState(d,'parent').places.map(p=>p.id),['selected-place']);assert.deepEqual(visibleState(d,'child').places.map(p=>p.id),['child-place']);

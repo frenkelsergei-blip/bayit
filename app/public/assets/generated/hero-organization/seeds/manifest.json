@@ -1,0 +1,414 @@
+{
+  "date": "2026-11-07",
+  "kind": "AI-generated raster seed packet game assets",
+  "generator": "built-in image_gen",
+  "source": "source-atlas.png",
+  "sourceDimensions": [
+    1536,
+    1024
+  ],
+  "alpha": "Preserved generated RGBA transparency; only deterministic cell extraction plus a transparent padding row was applied. No replacement drawings, recoloring or background substitution.",
+  "references": [
+    "concept/explorations/my-hero-organization-20261107/garden-direct-play.png",
+    "assets/generated/hero-garden/carrot-stage-4.png"
+  ],
+  "attribution": "Generated for Bayit My Hero. Existing reference asset provenance and attribution remain unchanged. No third-party icon artwork or new character is introduced.",
+  "assets": [
+    {
+      "crop": "tomato",
+      "file": "tomato.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/tomato.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        54,
+        57,
+        241,
+        303
+      ],
+      "sha256": "b6502beabdcbebaf30eb8871fc68e67c525859af80d5841052fd906292faa0d9"
+    },
+    {
+      "crop": "strawberry",
+      "file": "strawberry.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/strawberry.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 256,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        56,
+        57,
+        241,
+        303
+      ],
+      "sha256": "94eaaa641fa6f9a7115cd8d852020f93a4d56c3d62593cbc5b064b72c1a532e0"
+    },
+    {
+      "crop": "carrot",
+      "file": "carrot.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/carrot.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 512,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        50,
+        57,
+        229,
+        302
+      ],
+      "sha256": "d16f36c42d66bda37648013fec00bb475261b019f2241392b9164ba1bbd04ab7"
+    },
+    {
+      "crop": "lettuce",
+      "file": "lettuce.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/lettuce.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 768,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        36,
+        57,
+        221,
+        303
+      ],
+      "sha256": "4301c0187e67946b45c5d7c16ea992ce26357be6262290f4bdb6c8fc8d789487"
+    },
+    {
+      "crop": "cucumber",
+      "file": "cucumber.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/cucumber.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1024,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        25,
+        57,
+        208,
+        303
+      ],
+      "sha256": "d0fd3ebe9836add5e09308bf3fb2d175385b15a83b286c2d004eb4bd28c278e5"
+    },
+    {
+      "crop": "pepper",
+      "file": "pepper.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/pepper.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1280,
+        "y": 0,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        14,
+        58,
+        198,
+        303
+      ],
+      "sha256": "5a1c6296d1a33819da5a499ff0bccc1e76534c32b5b04a0dbb9226fed6ef5f57"
+    },
+    {
+      "crop": "peas",
+      "file": "peas.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/peas.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 0,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        55,
+        42,
+        241,
+        286
+      ],
+      "sha256": "ab42ac1f46ed7215c9474800694ea46b3c1f055d1a17bce675d22df407fe3306"
+    },
+    {
+      "crop": "pumpkin",
+      "file": "pumpkin.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/pumpkin.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 256,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        56,
+        42,
+        242,
+        286
+      ],
+      "sha256": "9f2c3db8d12838ef27e5e1573d3979668082eeba346258b4efba6535255e6168"
+    },
+    {
+      "crop": "watermelon",
+      "file": "watermelon.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/watermelon.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 512,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        47,
+        42,
+        233,
+        287
+      ],
+      "sha256": "b7e82238c770e307c88ba45ac5d079493b4858bc6a3a1219aaafac4ec4795449"
+    },
+    {
+      "crop": "basil",
+      "file": "basil.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/basil.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 768,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        36,
+        42,
+        221,
+        286
+      ],
+      "sha256": "f499e7884382c288ac6213803a2a4006d332c7067152f34dbbbd1c47d2307f8e"
+    },
+    {
+      "crop": "mint",
+      "file": "mint.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/mint.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1024,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        23,
+        42,
+        209,
+        287
+      ],
+      "sha256": "8fbb098f418d1a10b11a1a94579f735b1aca79b8ed3ba0221f54c4c281ce7f11"
+    },
+    {
+      "crop": "sunflower",
+      "file": "sunflower.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/sunflower.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1280,
+        "y": 341,
+        "w": 256,
+        "h": 341
+      },
+      "visibleAlphaBounds": [
+        14,
+        42,
+        199,
+        287
+      ],
+      "sha256": "0bd5098866b21e56c7bfae8075fabce3c00c725dec45691e0cbb506a88ce4159"
+    },
+    {
+      "crop": "apple",
+      "file": "apple.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/apple.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 0,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        54,
+        24,
+        242,
+        274
+      ],
+      "sha256": "4aa68f0e4effcb86450e40380d6372295704dda34cfb7069648dacb3b3a27d59"
+    },
+    {
+      "crop": "banana",
+      "file": "banana.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/banana.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 256,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        56,
+        24,
+        243,
+        275
+      ],
+      "sha256": "f996a0ff322d535c63910a9e29c94732120364e442e1409ccd290f8b29eabca5"
+    },
+    {
+      "crop": "pineapple",
+      "file": "pineapple.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/pineapple.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 512,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        49,
+        24,
+        234,
+        275
+      ],
+      "sha256": "105ae65532248b0abf3998d820e7020c2fbfca87aa0b2ec8956f8588390545d7"
+    },
+    {
+      "crop": "orange",
+      "file": "orange.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/orange.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 768,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        35,
+        24,
+        221,
+        275
+      ],
+      "sha256": "c1d7b39c2b63127cc5bc8d82b97472c5ea5c59c9a11938d2fa7c5372d4a9c19d"
+    },
+    {
+      "crop": "lemon",
+      "file": "lemon.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/lemon.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1024,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        22,
+        24,
+        211,
+        275
+      ],
+      "sha256": "30c1994c1b8f9b1d63e17de244a50f36ce042890c2f1fd9f318e7ab8eaadbcb4"
+    },
+    {
+      "crop": "pear",
+      "file": "pear.png",
+      "publicUrl": "/assets/generated/hero-organization/seeds/pear.png",
+      "dimensions": [
+        256,
+        342
+      ],
+      "sourceCell": {
+        "x": 1280,
+        "y": 682,
+        "w": 256,
+        "h": 342
+      },
+      "visibleAlphaBounds": [
+        15,
+        25,
+        202,
+        274
+      ],
+      "sha256": "0611096bf24cf9b4fdf80fa8c983e329fdee1321ccd63c8efcd5fb21f6e1593f"
+    }
+  ]
+}

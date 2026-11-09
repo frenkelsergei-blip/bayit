@@ -1,0 +1,136 @@
+/* Root anchors and action targets belong only to the unified My Hero garden. */
+.hero-organization .garden-world-plot.garden-plot{isolation:isolate}
+.hero-organization .garden-world-plot .garden-world-plot-art{inset:0 0 23px;container-type:inline-size}
+.hero-organization .garden-world-plot .garden-soil{inset:auto 0 0;width:100%;height:auto;aspect-ratio:2;object-fit:contain}
+.hero-organization .garden-world-plot .garden-crop-anchor{position:absolute;left:50%;bottom:29cqw;width:100%;aspect-ratio:1;transform:translateX(-50%);pointer-events:none;z-index:2}
+.hero-organization .world-orchard .garden-world-plot .garden-crop-anchor{bottom:22cqw;width:114%}
+.hero-organization .world-orchard [data-stage="1"] .garden-crop-anchor{width:175%}
+.hero-organization .world-orchard [data-stage="2"] .garden-crop-anchor{width:135%}
+.hero-organization .garden-world-plot .garden-crop-anchor>.garden-plant{inset:auto 0 -3.125%;width:100%;height:100%;object-fit:contain;object-position:center;transform-origin:50% 96.875%}
+.hero-organization .garden-world-plot .garden-world-indicator{inset:auto auto 0 50%;transform:translateX(-50%);min-width:0;max-width:110%;padding:3px 6px;font-size:clamp(10px,1.3cqw,13px);line-height:1.1;background:#fffaf3f5;direction:inherit}
+.hero-organization .world-orchard .garden-world-plot .garden-world-indicator{bottom:0;min-width:0;font-size:inherit}
+.hero-organization .garden-world-plot.is-compatible .garden-world-plot-art,
+.hero-organization .garden-world-plot.is-drop-target .garden-world-plot-art{outline:none;box-shadow:none;filter:none}
+.hero-organization .garden-target-ring{position:absolute;inset:auto 4% 12cqw;height:29cqw;border:2px solid transparent;border-radius:10px;z-index:1;pointer-events:none}
+.hero-organization .world-orchard .garden-target-ring{bottom:7cqw;height:32cqw;border-radius:50%}
+.hero-organization .garden-world-plot.is-actionable .garden-target-ring{border-color:#0240de;border-style:dashed;box-shadow:0 0 0 2px #fff9;background:#0240de0b}
+.hero-organization [data-tool=water] .garden-world-plot.is-actionable .garden-target-ring{border-color:#075a9b;background:#58b7ef25}
+.hero-organization [data-tool=harvest] .garden-world-plot.is-actionable .garden-target-ring{border-color:#996800;border-style:solid;background:#ffd45120}
+.hero-organization .garden-world-plot.is-drop-target .garden-target-ring{border-color:#0240de;border-style:solid;box-shadow:0 0 0 4px #fff9}
+.hero-organization .garden-world-plot:disabled{cursor:default}
+.hero-organization .garden-world-plot:disabled .garden-soil{filter:saturate(.65)}
+.hero-organization .garden-world-plot.is-actionable .garden-world-indicator{background:#e6efff;color:#102e79;border-color:#0240de55}
+.hero-organization [data-tool=harvest] .garden-world-plot.is-actionable .garden-world-indicator{background:#ffedaa;color:#49350a;border-color:#99680055}
+.hero-organization .garden-world-plot .garden-world-indicator>svg{width:13px;height:13px}
+.hero-organization .garden-world-plot.is-compatible:not(:has(.garden-plant)) .garden-world-indicator{inset:auto auto 0 50%;background:#e6efff;color:#102e79;padding:3px 6px;font-size:10px}
+.hero-organization .garden-world-plot .garden-plant-invite{position:absolute;left:50%;bottom:16cqw;transform:translateX(-50%);display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#fefaf5e8;color:#0240de;z-index:3}
+.hero-organization .world-orchard .garden-plant-invite{bottom:11cqw}
+.hero-organization .garden-world-tools>button small{font:inherit;font-size:.8em;opacity:.8}
+.hero-organization .garden-tutorial-note{display:block;margin-top:4px;font-size:.9em;color:var(--muted)}
+@media(max-width:700px){
+ .hero-organization .garden-unified-scene{aspect-ratio:.81;min-height:0}
+ .hero-organization .world-orchard{left:5%;top:28%;width:90%;height:29%;gap:14px 7%}
+ .hero-organization .world-beds{left:25%;top:63%;width:72%;height:33%;gap:10px 5%}
+ .hero-organization .garden-sign-orchard{left:37%;top:18%;width:29%;height:10%}
+ .hero-organization .garden-sign-beds{left:1%;top:59%;width:28%;height:9%}
+ .hero-organization .garden-world-decoration{left:3%;top:22%;width:10%;height:9%}
+ .hero-organization .garden-unified-scene .garden-guide.garden-actor{width:26%;left:0;bottom:9%}
+ .hero-organization .garden-character-ground{left:1%;bottom:9%;width:24%}
+ .hero-organization .garden-unified-scene .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 13%);bottom:calc(100% - var(--garden-actor-y))}
+ .hero-organization .garden-world-plot .garden-world-indicator{font-size:10px;max-width:115%;padding:3px 5px}
+ .hero-organization .world-orchard .garden-world-plot .garden-world-indicator{font-size:10px}
+ .hero-organization .garden-world-plot .garden-world-indicator.with-rays>img{right:-10px;top:-13px;width:20px;height:20px}
+ .hero-organization .garden-world-tools>button{flex-wrap:wrap;gap:4px}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .garden-unified-scene{aspect-ratio:1.65;min-height:0}
+ .hero-organization .garden-world-controls{align-items:center}
+}
+
+.hero-organization .world-orchard .garden-world-plot .garden-soil{height:auto;aspect-ratio:2}
+.hero-organization .world-orchard .garden-world-plot .garden-world-indicator{font-size:clamp(10px,1.3cqw,13px)}
+.hero-organization .garden-world-plot:disabled{opacity:1}
+.hero-organization .garden-world-plot.is-selected .garden-soil{filter:drop-shadow(0 2px 1px #2e361730)}
+.hero-organization .garden-world-tools>button small{display:inline-grid;place-items:center;min-width:18px;padding:1px 4px;border-radius:12px;background:#ffffff38;line-height:1.2;font-size:.75em}
+@media(max-width:700px){.hero-organization .garden-world-tools>button{flex-wrap:nowrap;gap:3px;padding:8px 5px}.hero-organization .garden-world-tools>button svg{width:18px;height:18px;flex:none}.hero-organization .garden-world-tools>button>span{font-size:calc(12px * var(--font-adjust,1))}.hero-organization .garden-world-tools>button small{min-width:14px;padding:1px 3px}}
+
+/* Keep the selected compact garden: one orchard row and two bed rows. */
+.hero-organization .garden-unified-scene{min-height:0}
+.hero-organization .garden-unified-background{object-fit:cover}
+.hero-organization .garden-sign-orchard{left:51%;top:16%;width:16%;height:12%}
+.hero-organization .world-beds .garden-world-plot .garden-crop-anchor{width:80%}
+.hero-organization .world-beds [data-stage="1"] .garden-crop-anchor{width:100%}
+.hero-organization .world-beds [data-stage="2"] .garden-crop-anchor{width:90%}
+.hero-organization .garden-area-pages{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 20px;margin:10px 0}
+.hero-organization .garden-area-pages>div{display:flex;align-items:center;gap:8px;font-size:calc(12px * var(--font-adjust,1));font-weight:800}
+.hero-organization .garden-area-pages button{display:grid;place-items:center;min-width:40px;min-height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
+.hero-organization .garden-area-pages button:disabled{opacity:.35;cursor:default}
+@media(max-width:700px){
+ .hero-organization .garden-sign-orchard{left:36%;top:18%;width:29%;height:10%}
+ .hero-organization .world-orchard .garden-world-plot .garden-crop-anchor{width:110%}
+ .hero-organization .world-orchard [data-stage="1"] .garden-crop-anchor{width:150%}
+ .hero-organization .world-orchard [data-stage="2"] .garden-crop-anchor{width:125%}
+}
+
+/* Quiet scene: captions live in plant details, while soil keeps a single cue. */
+.hero-organization .garden-world-sign{filter:drop-shadow(1px 4px 2px #28451e55)}
+.hero-organization .garden-world-plot .garden-soil,
+.hero-organization .garden-world-plot.is-selected .garden-soil{filter:drop-shadow(1px 5px 3px #26391f50)}
+.hero-organization .garden-ready-marker{position:absolute;right:-4px;top:auto;bottom:52cqw;width:25px;height:25px;object-fit:contain;filter:drop-shadow(0 1px 1px #fff);pointer-events:none;z-index:5;animation:hero-garden-ready 2.8s ease-in-out infinite}
+.hero-organization .world-orchard .garden-ready-marker{bottom:60cqw;right:-7px}
+.hero-organization .garden-water-marker{position:absolute;left:4%;bottom:28px;color:#0968c7;filter:drop-shadow(0 1px 1px #fff) drop-shadow(0 0 2px #fff);z-index:5;pointer-events:none}
+.hero-organization .garden-world-plot .garden-plant-invite{width:26px;height:26px;bottom:25cqw;background:#fff9;box-shadow:none}
+.hero-organization .world-orchard .garden-plant-invite{bottom:18cqw}
+.hero-organization .garden-world-plot:disabled .garden-plant-invite{opacity:.55}
+.hero-organization .garden-world-plot-art{inset-block-end:0!important}
+@media(prefers-reduced-motion:reduce){.hero-organization .garden-ready-marker{animation:none}}
+html[data-motion=reduced] .hero-organization .garden-ready-marker{animation:none}
+
+.hero-organization .garden-world-plot .garden-crop-anchor>.garden-plant{left:var(--garden-root-left,0);right:auto;bottom:var(--garden-root-bottom,-3.125%)}
+
+/* Plain selected tool; count shares its label's contrast. */
+.hero-organization .garden-world-tools>button{box-shadow:none;border:0}
+.hero-organization .garden-world-tools>button:not(:focus-visible){outline:none}
+.hero-organization .garden-world-tools>button small{background:none;color:inherit;opacity:1;min-width:0;padding:0;font-weight:850}
+.hero-organization .garden-world-tools>button[aria-pressed=true] small{color:#fff}
+.hero-organization .garden-world-tools>button:focus-visible{outline-offset:-4px;outline:2px solid currentColor}
+
+@media(min-width:701px){
+ .hero-organization .garden-unified-scene{aspect-ratio:1.5}
+ .hero-organization .world-beds{top:56%;height:40%}
+ .hero-organization .world-beds .garden-world-plot .garden-crop-anchor{width:50%}
+ .hero-organization .world-beds [data-stage="1"] .garden-crop-anchor{width:90%}
+ .hero-organization .world-beds [data-stage="2"] .garden-crop-anchor{width:70%}
+ .hero-organization .garden-sign-beds{top:52%}
+}
+
+/* A plus is sufficient for an empty place; no persistent selection frames. */
+.hero-organization .garden-target-ring{display:none}
+.hero-organization .garden-world-plot.is-actionable .garden-world-plot-art,
+.hero-organization .garden-world-plot.is-compatible .garden-world-plot-art,
+.hero-organization .garden-world-plot.is-drop-target .garden-world-plot-art{outline:none;box-shadow:none;filter:none}
+.hero-organization .garden-world-plot.is-drop-target .garden-plant-invite{background:#fff;color:#0240de;transform:translateX(-50%) scale(1.18)}
+.hero-organization .world-orchard .garden-world-plot .garden-crop-anchor{width:110%}
+.hero-organization .world-beds .garden-world-plot .garden-crop-anchor{width:80%}
+.hero-organization .garden-world-plot .garden-plant-invite{transition:transform .15s ease}
+.hero-organization .garden-world-sign{filter:drop-shadow(2px 2px 0 #28451e35)}
+@media(min-width:701px){
+ .hero-organization .garden-unified-scene{aspect-ratio:1.4}
+ .hero-organization .world-beds .garden-world-plot .garden-crop-anchor{width:50%}
+ .hero-organization .world-orchard{top:28%;height:25%}
+ .hero-organization .garden-sign-beds{top:51%}
+}
+
+/* Generated dithered ground shadows stay behind the stationary soil. */
+.hero-organization .garden-world-plot .garden-soil,
+.hero-organization .garden-world-plot.is-selected .garden-soil,
+.hero-organization .garden-world-plot .garden-plant{filter:none}
+.hero-organization .garden-ground-shadow{position:absolute;left:-5%;bottom:-17cqw;width:110%;height:55cqw;background:url('/assets/generated/hero-care-life/garden-shadows.png') 0 0/200% 100%;image-rendering:pixelated;pointer-events:none}
+.hero-organization .world-orchard .garden-ground-shadow{left:-10%;bottom:-15cqw;width:150%;height:75cqw;background-position:100% 0}
+
+.hero-organization .garden-unified-scene{max-width:960px;margin-inline:auto}
+.hero-organization .garden-world-controls{max-width:960px;margin-inline:auto}
+@media(min-width:1001px) and (min-height:650px){.hero-organization .garden-unified-scene{max-width:min(960px,calc((100dvh - 220px)*1.4))}}
+
+@media(min-width:701px){.hero-organization .garden-sign-beds{top:40%}}
+.hero-organization .garden-world-plot .garden-crop-anchor>.garden-plant{transform-origin:calc(50% - var(--garden-root-left,0%)) calc(100% + var(--garden-root-bottom,-3.125%))}

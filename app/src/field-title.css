@@ -1,0 +1,5 @@
+/* Field titles with their icon (FieldTitle). Same size, gap and alignment in every form, LTR and RTL. */
+.field-title{display:inline-flex;align-items:center;gap:9px;min-width:0;line-height:1.3}
+.field-title>svg{flex:none;width:calc(22px * var(--text-scale,1));height:calc(22px * var(--text-scale,1));color:var(--text)}
+.field-title>span{min-width:0;overflow-wrap:anywhere}
+legend>.field-title,.field-label>.field-title{font:inherit}

@@ -26,7 +26,12 @@ export async function commitAsMember(env,home,memberId,mutate){
  const before=visibleState(home.state,memberId),after=structuredClone(before),result=mutate(after,role);
  const ops=diffState(before,after);if(!ops.length)return {result,changed:false};
  const next=applyChanges(home.state,ops,memberId,role);
- const saved=await env.DB.prepare('UPDATE household_data SET state=?,revision=revision+1 WHERE household_id=? AND revision=?').bind(JSON.stringify(next),home.id,home.revision).run();
+ const attached=[...new Set(ops.filter(op=>op.collection==='documents'&&!op.delete&&op.value?.fileId&&home.state.documents.find(d=>d.id===op.id)?.fileId!==op.value.fileId).map(op=>op.value.fileId))];
+ for(const fileId of attached){const file=await env.DB.prepare('SELECT owner_id FROM files WHERE id=? AND household_id=? AND deleting_at IS NULL').bind(fileId,home.id).first();if(file?.owner_id!==memberId)throw fail('Upload your own file before attaching it.',403);}
+ // A staged original can expire during confirmation. Atomically require live files so
+ // maintenance cannot leave a successfully confirmed import with a missing attachment.
+ const fileGuard=attached.length?' AND NOT EXISTS(SELECT 1 FROM json_each(?) a WHERE NOT EXISTS(SELECT 1 FROM files f WHERE f.id=a.value AND f.household_id=? AND f.owner_id=? AND f.deleting_at IS NULL))':'';
+ const saved=await env.DB.prepare('UPDATE household_data SET state=?,revision=revision+1 WHERE household_id=? AND revision=?'+fileGuard).bind(JSON.stringify(next),home.id,home.revision,...(attached.length?[JSON.stringify(attached),home.id,memberId]:[])).run();
  if(!saved.meta.changes)throw fail('The household changed at the same moment. Please try again.',409);
  home.state=next;home.revision++;return {result,changed:true};
 }

@@ -36,6 +36,8 @@ export async function boundedBytes(response,max=1_000_000){
 export async function boundedJSON(response,max=1_000_000){try{return JSON.parse(new TextDecoder().decode(await boundedBytes(response,max)))}catch(e){if(e.status)throw e;throw fail('The provider returned an unreadable response.',502)}}
 export async function externalFetch(env,url,options={},fetcher){
  const signal=options.signal||AbortSignal.timeout(20000),run=fetcher||env.OUTBOUND_FETCH||fetch;
- const response=await run(url,{...options,signal,redirect:'error'});
+ // Workers rejects redirect:'error' before sending any request. Manual mode also
+ // keeps credentials at the original provider; refuse redirects below on every host.
+ const response=await run(url,{...options,signal,redirect:'manual'});
  if(response.status>=300&&response.status<400){await response.body?.cancel();throw fail('Provider redirects are not allowed.',502)}return response;
 }

@@ -1,0 +1,123 @@
+/* Kids / My Hero audit 08 (2026-11-08). Scoped to My Hero; loaded by hero-home.jsx. */
+
+/* Care: the meter number is visible, so the number, the Rest button and its reason agree. */
+.hero-organization .hero-care-meter strong .hero-care-value{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;margin-inline-start:4px}
+
+/* Garden: plots are never natively disabled; a busy plot only looks quiet while the server confirms. */
+.hero-organization .garden-world-plot[data-busy]{cursor:progress}
+.hero-organization .garden-world-plot[data-actionable=false]:not(.is-compatible) .garden-plant-invite{opacity:.8}
+.hero-organization .garden-plant-target-note{margin:0 0 10px;font-weight:750}
+
+/* Puzzle: a clear selected piece, ready spots, a gentle shake on a wrong spot and a bounce back to the tray. */
+.hero-organization .hero-jigsaw .hero-jigsaw-piece[aria-pressed=true]{background:var(--selected,#dfe7ff);border-radius:12px;box-shadow:0 0 0 3px var(--primary,#0240de),0 6px 14px #0240de33;z-index:3}
+.hero-organization .hero-jigsaw .hero-jigsaw-piece[aria-pressed=true]>img{transform:translateY(-4px) scale(1.04);filter:drop-shadow(0 4px 3px #10152a44)}
+.hero-organization .hero-jigsaw[data-selected] .hero-jigsaw-slot:not(.is-placed):not(:disabled){cursor:pointer}
+.hero-organization .hero-jigsaw[data-selected] .hero-jigsaw-slot.is-ready>img{opacity:.85}
+.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-wrong{animation:hero-jigsaw-nope .45s ease-in-out}
+.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-wrong::after{content:"";position:absolute;inset:6%;border-radius:10px;box-shadow:inset 0 0 0 3px #d9534f;pointer-events:none}
+@keyframes hero-jigsaw-nope{0%,100%{transform:none}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+.hero-organization .hero-jigsaw .hero-jigsaw-drag.is-returning{transition:left .24s ease-out,top .24s ease-out,opacity .24s;opacity:.6}
+@media(prefers-reduced-motion:reduce){.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-wrong{animation:none}.hero-organization .hero-jigsaw .hero-jigsaw-piece[aria-pressed=true]>img{transform:none}}
+html[data-motion=reduced] .hero-organization .hero-jigsaw .hero-jigsaw-slot.is-wrong{animation:none}
+/* Phone landscape: the tray sits beside the board, so it scrolls up/down and a sideways drag reaches the board. */
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-jigsaw .hero-jigsaw-tray>[role=group]{grid-template-rows:none;grid-auto-flow:row;grid-template-columns:repeat(2,var(--jigsaw-piece-width));grid-auto-columns:auto;justify-content:space-evenly;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;max-height:calc(100dvh - 180px);touch-action:pan-y}
+ .hero-organization .hero-jigsaw .hero-jigsaw-piece{touch-action:pan-y}
+}
+
+/* Simon: feedback after every round that works without sound — a light around the four lights, a PNG badge and a short text. */
+.hero-organization .hero-simon .simon-pads{position:relative}
+.hero-organization .hero-simon .simon-result{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;display:grid;justify-items:center;gap:2px;min-width:min(78%,230px);max-width:92%;padding:10px 14px;border-radius:20px;background:var(--surface,#fff);color:var(--text);text-align:center;box-shadow:0 8px 22px #10152a33;border:3px solid #2f9e44;pointer-events:none;animation:simon-result-in .28s ease-out}
+.hero-organization .hero-simon .simon-result img{width:40px;height:40px;object-fit:contain}
+.hero-organization .hero-simon .simon-result strong{font-size:calc(20px * var(--font-adjust,1));font-weight:900;line-height:1.15}
+.hero-organization .hero-simon .simon-result span{font-size:calc(13px * var(--font-adjust,1));color:var(--muted);line-height:1.3}
+.hero-organization .hero-simon .simon-result.is-mistake{border-color:#e8590c}
+.hero-organization .hero-simon .simon-result.is-done{border-color:#f2b705}
+.hero-organization .hero-simon[data-result=correct] .simon-pads,.hero-organization .hero-simon[data-result=done] .simon-pads{border-radius:28px;box-shadow:0 0 0 4px #2f9e44,0 0 26px #2f9e4466}
+.hero-organization .hero-simon[data-result=mistake] .simon-pads{border-radius:28px;box-shadow:0 0 0 4px #e8590c,0 0 26px #e8590c55}
+.hero-organization .hero-simon[data-result=mistake] .simon-pad:not(.is-missed){opacity:.55}
+.hero-organization .hero-simon .simon-pad.is-missed{animation:hero-jigsaw-nope .45s ease-in-out}
+@keyframes simon-result-in{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:700px),(orientation:landscape) and (max-height:520px){.hero-organization .hero-simon .simon-result{padding:7px 10px;border-radius:16px}.hero-organization .hero-simon .simon-result img{width:30px;height:30px}.hero-organization .hero-simon .simon-result strong{font-size:calc(16px * var(--font-adjust,1))}.hero-organization .hero-simon .simon-result span{font-size:calc(11px * var(--font-adjust,1))}}
+@media(prefers-reduced-motion:reduce){.hero-organization .hero-simon .simon-result,.hero-organization .hero-simon .simon-pad.is-missed{animation:none}}
+html[data-motion=reduced] .hero-organization .hero-simon .simon-result,html[data-motion=reduced] .hero-organization .hero-simon .simon-pad.is-missed{animation:none}
+
+/* Supermarket detectives: products stand on the four painted shelves; no row floats on the awning or the floor. */
+.hero-games .hg-market-play.is-search .hg-market-scene .hg-market-shelves{display:block;position:absolute;inset:0;margin:0}
+.hero-games .hg-market-play.is-search .hg-market-scene .hg-market-product{position:absolute;left:var(--seek-left);width:var(--seek-width);bottom:calc(100% - var(--seek-shelf));height:12.5%;min-height:44px;padding:2px 3px 0;place-items:end center}
+.hero-games .hg-market-play.is-search .hg-market-scene .hg-market-product{container-type:size}
+.hero-games .hg-market-play.is-search .hg-market-scene .hg-market-product>img{width:100%;height:100%;object-fit:contain;object-position:50% 100%;translate:0 calc(var(--seek-seat,0) * min(100cqw,100cqh) + 1px)}
+
+/* Garden on landscape tablets and desktops (audit 08): tools and seed packets sit beside the garden, so the beds,
+   the tools and the packets are visible together and a packet can be dragged onto a bed without scrolling. */
+@media(min-width:1001px) and (orientation:landscape),(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-garden-world{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,340px);column-gap:20px;row-gap:10px;align-items:start;grid-auto-flow:row dense;grid-template-rows:auto}
+ .hero-organization .hero-garden-world>*{grid-column:2;min-width:0}
+ .hero-organization .hero-garden-world>header{grid-column:1/-1}
+ .hero-organization .hero-garden-world>.garden-unified-scene{grid-column:1;grid-row:2/span 12;width:100%;max-width:min(960px,calc((100dvh - 210px)*1.4));justify-self:center;margin:0}
+ .hero-organization .hero-garden-world>.garden-area-pages{grid-column:1;grid-row:14}
+ .hero-organization .hero-garden-world>.garden-world-controls{flex-direction:column}
+ .hero-organization .hero-garden-world .garden-world-tools{width:100%;max-width:none;min-width:0}
+ .hero-organization .hero-garden-world>.garden-world-controls{margin-top:0;max-width:none}
+ .hero-organization .hero-garden-world .garden-quick-seeds{grid-template-columns:repeat(2,minmax(0,1fr));width:100%;max-width:none}
+ .hero-organization .hero-garden-world>.garden-tool-count-help,.hero-organization .hero-garden-world>.garden-seed-guidance,.hero-organization .hero-garden-world>.garden-feedback{text-align:start;margin-inline:0}
+}
+/* Pieces handle their own gestures (tray swipe or drag), so the browser never cancels a drag halfway. */
+.hero-organization .hero-jigsaw .hero-jigsaw-piece{touch-action:none}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-garden-world{grid-template-columns:minmax(0,1fr) minmax(250px,300px);column-gap:12px}
+ .hero-organization .hero-garden-world>.garden-unified-scene{max-width:calc((100dvh - 120px)*1.65)}
+ .hero-organization .hero-garden-world .garden-packet{min-height:0}
+}
+
+/* Touch targets of at least 44px across Kids (audit 08). Shared PersonChip keeps its look: a transparent
+   hit area grows only its touch area. */
+.kids-context-choices>.person-chip.calendar-person::before{content:"";position:absolute;inset:-6px -2px;z-index:-1}
+.hero-fridge-dialog .hero-fridge-groups>button{min-height:44px;min-width:44px}
+.hero-fridge-dialog .hero-fridge-paging button{min-width:44px;min-height:44px}
+.hero-organization .hero-simon .simon-sound{min-height:44px}
+.kids-activity-actions>.switch-row{min-height:44px;cursor:pointer}
+
+/* Kids windows (native <dialog>): no focus ring after a tap, like every other window (window-fit.css). */
+html[data-input=pointer] :is(.hero-context-dialog,.hero-item-dialog) :is(button,a,[role=button],[tabindex]):focus{outline:none!important;box-shadow:none!important}
+/* Phones: Kids windows open full screen (AGENTS window rule), content scrolls, clear of the home indicator. */
+@media(max-width:700px),(orientation:landscape) and (max-height:520px){
+ .hero-organization dialog.hero-context-dialog[open],.hero-organization dialog.hero-item-dialog[open]{position:fixed;inset:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0;box-shadow:none}
+ .hero-organization dialog.hero-context-dialog[open]>.hero-context-dialog-body{box-sizing:border-box;height:100%;max-height:none;overflow:auto;padding-top:calc(14px + env(safe-area-inset-top));padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+ .hero-organization dialog.hero-fridge-dialog[open]>.hero-context-dialog-body{overflow:hidden}
+}
+
+/* Supermarket detectives on short landscape screens (phone landscape, either menu position): shelves on the left
+   filling the free height, the target card and the cart on the right, so no product hides under a sticky card. */
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .hero-games .hg-market-play.is-search{display:grid;grid-template-columns:minmax(0,1fr) 190px;grid-template-rows:auto auto 1fr;gap:8px 12px;align-items:start}
+ .hero-organization .hero-games .hg-market-play.is-search>.hg-market-mission{grid-column:2;grid-row:1;position:static;margin:0;flex-wrap:wrap;padding:8px;gap:6px 8px;min-height:0}
+ .hero-organization .hero-games .hg-market-play.is-search>.hg-market-mission>img{width:36px;height:36px}
+ .hero-organization .hero-games .hg-market-play.is-search>.hg-market-mission h3{font-size:calc(17px * var(--font-adjust,1));margin:0}
+ .hero-organization .hero-games .hg-market-play.is-search>.hg-market-stage{display:contents}
+ .hero-organization .hero-games .hg-market-play.is-search .hg-market-scene{grid-column:1;grid-row:1/span 3;justify-self:center;height:calc(100dvh - var(--hero-search-top,70px) - var(--hero-search-bottom,6px));width:auto;max-width:100%;aspect-ratio:1.35;margin:0}
+ .hero-organization .hero-games .hg-market-play.is-search .hg-cart{grid-column:2;grid-row:2;position:static}
+}
+/* Touch screens keep :hover on the last tapped spot; no leftover frame around a product there. */
+@media(hover:none){.hero-organization .hero-games .hg-market-product:hover:not(:disabled):not(.is-hint):not(.is-found){background:transparent;border-color:transparent}}
+
+/* Picking feedback in the games (audit 08, user request): the glow sits on the product artwork itself, not a box.
+   Hint = pulsing gold glow; right = gold glow, pop and a burst of PNG stars; wrong = a gentle shake with a soft red glow. */
+.hero-organization .hero-games .hg-market-product,.hero-organization .hero-games .hg-market-product.is-hint,.hero-organization .hero-games .hg-market-product.is-found,.hero-organization .hero-games .hg-market-scene .hg-market-product:hover{border-color:transparent!important;background:transparent!important;box-shadow:none!important}
+.hero-organization .hero-games .hg-market-product{overflow:visible}
+.hero-organization .hero-games .hg-market-product>img,.hero-organization .hero-games .hg-product-art>img{transition:filter .2s,opacity .2s}
+.hero-organization .hero-games .hg-market-product.is-hint>img,.hero-organization .hero-games .hg-market-product.is-hint .hg-product-art>img{filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 8px #ffb000);animation:hg-gold-pulse 1.2s ease-in-out infinite}
+.hero-organization .hero-games .hg-market-product.is-picked .hg-product-art>img{filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 6px #ffb000)}
+.hero-organization .hero-games .hg-market-product.is-found>img{opacity:.6;filter:drop-shadow(0 0 3px #59c26b) drop-shadow(0 0 6px #2f9e44)}
+.hero-organization .hero-games .hg-market-product.is-right>img,.hero-organization .hero-games .hg-market-product.is-right .hg-product-art>img{opacity:1;filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 12px #ffb000);animation:hg-pick-pop .6s ease-out}
+.hero-organization .hero-games .hg-market-product.is-wrong>img,.hero-organization .hero-games .hg-market-product.is-wrong .hg-product-art>img{filter:drop-shadow(2px 0 0 #ff7a59) drop-shadow(-2px 0 0 #ff7a59) drop-shadow(0 2px 0 #ff7a59) drop-shadow(0 -2px 0 #ff7a59);animation:hero-jigsaw-nope .45s ease-in-out}
+.hero-organization .hero-games .hg-pick-burst{position:absolute;left:50%;top:45%;width:0;height:0;z-index:6;pointer-events:none}
+.hero-organization .hero-games .hg-pick-burst>img{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;opacity:0;animation:hg-star-burst 1s ease-out forwards;--a:calc(var(--i) * 72deg - 90deg)}
+.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-right{z-index:5;animation:hg-pick-pop .55s ease-out}
+.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-right>img:first-child{filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 10px #ffb000)}
+@keyframes hg-gold-pulse{0%,100%{filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 4px #ffb000)}50%{filter:drop-shadow(2px 0 0 #ffc61a) drop-shadow(-2px 0 0 #ffc61a) drop-shadow(0 2px 0 #ffc61a) drop-shadow(0 -2px 0 #ffc61a) drop-shadow(0 0 16px #ffb000)}}
+@keyframes hg-pick-pop{0%{transform:scale(1)}35%{transform:scale(1.2)}65%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes hg-star-burst{0%{opacity:0;transform:rotate(var(--a)) translateX(0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(62px) scale(1.1)}}
+@media(prefers-reduced-motion:reduce){.hero-organization .hero-games .hg-market-product>img,.hero-organization .hero-games .hg-product-art>img,.hero-organization .hero-jigsaw .hero-jigsaw-slot.is-right{animation:none!important}.hero-organization .hero-games .hg-pick-burst{display:none}}
+html[data-motion=reduced] .hero-organization .hero-games .hg-market-product>img,html[data-motion=reduced] .hero-organization .hero-games .hg-product-art>img,html[data-motion=reduced] .hero-organization .hero-jigsaw .hero-jigsaw-slot.is-right{animation:none!important}
+html[data-motion=reduced] .hero-organization .hero-games .hg-pick-burst{display:none}

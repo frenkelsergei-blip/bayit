@@ -1,0 +1,27 @@
+/* Dark section bars that scroll sideways (Household, Settings, My Space, Ask AI…), user report 2026-11-08:
+   the old edge fade masked the whole bar, so the bar itself turned transparent and the light page showed through
+   ("white fade"). Now the bar stays solid and rounded, and only the tabs fade into the bar's own colour at the edge
+   that has more to scroll (scroll-hints.js sets data-hscroll="start"/"end"). Equal padding on all four sides keeps
+   the selected yellow tab off the bar's edge. */
+html:root .tabs.nav-section.nav-section[data-hscroll]{
+ --tab-pad:5px;--tab-fade:44px;--tab-bar:var(--menu-deep,#101B3D);
+ display:flex!important;flex-wrap:nowrap!important;align-items:stretch;
+ -webkit-mask-image:none!important;mask-image:none!important;
+ padding:var(--tab-pad)!important;scroll-padding-inline:calc(var(--tab-pad) + var(--tab-fade));
+ overflow-x:auto;overflow-y:hidden
+}
+html:root .tabs.nav-section.nav-section[data-hscroll]>button{flex:0 0 auto}
+/* Settings tiles keep their equal width while scrolling. */
+html:root .main-content.view-settings>.tabs.nav-section.nav-section[data-hscroll]>button{flex:1 0 80px;min-width:80px}
+html:root .tabs.nav-section.nav-section[data-hscroll]::before,
+html:root .tabs.nav-section.nav-section[data-hscroll]::after{
+ content:"";position:sticky;z-index:2;flex:0 0 var(--tab-fade);align-self:stretch;
+ margin-block:calc(-1 * var(--tab-pad));pointer-events:none;opacity:0;transition:opacity .18s ease
+}
+html:root .tabs.nav-section.nav-section[data-hscroll]::before{order:-1;inset-inline-start:0;margin-inline:calc(-1 * var(--tab-pad)) calc(-1 * var(--tab-fade));background:linear-gradient(to right,var(--tab-bar) 18%,transparent)}
+html:root .tabs.nav-section.nav-section[data-hscroll]::after{order:99;inset-inline-end:0;margin-inline:calc(-1 * var(--tab-fade)) calc(-1 * var(--tab-pad));background:linear-gradient(to left,var(--tab-bar) 18%,transparent)}
+html[dir=rtl] .tabs.nav-section.nav-section[data-hscroll]::before{background:linear-gradient(to left,var(--tab-bar) 18%,transparent)}
+html[dir=rtl] .tabs.nav-section.nav-section[data-hscroll]::after{background:linear-gradient(to right,var(--tab-bar) 18%,transparent)}
+html:root .tabs.nav-section.nav-section[data-hscroll~=start]::before,
+html:root .tabs.nav-section.nav-section[data-hscroll~=end]::after{opacity:1}
+@media(prefers-reduced-motion:reduce){html:root .tabs.nav-section.nav-section[data-hscroll]::before,html:root .tabs.nav-section.nav-section[data-hscroll]::after{transition:none}}

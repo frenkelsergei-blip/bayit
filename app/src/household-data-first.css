@@ -1,0 +1,80 @@
+/* Household, data first (audit 06 round 3, 2026-11-08).
+   One controls row between the section bar and the data. View switches look like Calendar's Week / Agenda / Month:
+   their natural width, no icons, counts as small badges. Scoped to main.view-household. */
+
+/* Compact view switches (Expenses, Insurance, Meals) */
+html:root main.view-household .money-controls-row>.money-nav>.tabs.nav-view.nav-view,
+html:root main.view-household .insurance-v2 .ins-view-switch>.tabs.nav-view.nav-view,
+html:root main.view-household .household-toolbar>.tabs.nav-view.nav-view{display:inline-flex;flex:none;width:auto;max-width:100%;margin:0;overflow-x:auto}
+html:root main.view-household .money-controls-row>.money-nav>.tabs.nav-view.nav-view>button,
+html:root main.view-household .insurance-v2 .ins-view-switch>.tabs.nav-view.nav-view>button,
+html:root main.view-household .household-toolbar>.tabs.nav-view.nav-view>button{flex:0 0 auto;justify-content:center;min-height:var(--scale-control,44px);padding-block:0}
+
+/* Shared small dropdown (household-menu.jsx) */
+.household-menu{position:relative;display:inline-flex}
+.household-menu-button{display:inline-flex;align-items:center;gap:8px;min-height:var(--scale-control,44px);height:var(--scale-control,44px);padding-block:0;white-space:nowrap}
+.household-menu-caret{opacity:.7}
+.household-menu-list{position:absolute;inset-inline-end:0;top:calc(100% + 6px);z-index:40;min-width:248px;display:flex;flex-direction:column;gap:2px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 12px 32px rgba(15,23,42,.16)}
+.household-menu-list>button{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border:0;border-radius:10px;background:none;color:var(--text);font:inherit;font-weight:700;text-align:start;cursor:pointer;white-space:nowrap}
+.household-menu-list>button:hover,.household-menu-list>button:focus-visible{background:var(--selected);outline:none}
+
+/* Expenses (signed in): one quiet row — view switch, month, Together / Just me, then Income / expense at the end.
+   Refresh (with the last-sync time), Import statement and RiseUp are in the Data & sync section at the bottom. */
+html:root main.view-household .money-page .money-controls-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:0 0 var(--household-step,16px)}
+html:root main.view-household .money-page .money-controls-row>.money-nav{flex:none;min-width:0;max-width:100%}
+html:root main.view-household .money-page .money-controls-row>.expense-month{flex:0 1 auto;min-width:0}
+html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field{flex:0 1 190px}
+html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter{display:inline-flex;align-items:center;flex:none;height:var(--scale-control,44px);margin:0;padding:0}
+html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter>button{min-height:var(--scale-control,44px)}
+html:root main.view-household .money-page .money-controls-row>.money-income{margin-inline-start:auto;min-height:var(--scale-control,44px);height:var(--scale-control,44px);padding-block:0;white-space:nowrap}
+html:root main.view-household .money-page .money-income-short{display:none}
+/* Notes about the month are one quiet line, not a full-width banner */
+html:root main.view-household .money-page .money-partial.money-note{display:flex;width:fit-content;max-width:100%;box-sizing:border-box;margin:0 0 12px;padding:6px 12px;border-radius:999px;font-size:calc(13px * var(--text-scale,1));line-height:1.35;gap:6px}
+html:root main.view-household .money-page .money-partial.money-note>svg{flex:none}
+/* Data & sync: the end of the page */
+html:root main.view-household .money-page .money-sync-bottom{margin:32px 0 8px;padding-top:20px;border-top:1px solid var(--border)}
+html:root main.view-household .money-page .money-sync-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
+html:root main.view-household .money-page .money-sync-head h2{margin:0;font-size:calc(var(--scale-subtitle,18px) * var(--font-adjust,1))}
+html:root main.view-household .money-page .money-sync-head p{margin:4px 0 0}
+html:root main.view-household .money-page .money-sync-actions{display:flex;flex-wrap:wrap;gap:8px}
+html:root main.view-household .money-page .money-sync-actions>.control-button{min-height:var(--scale-control,44px);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+html:root main.view-household .money-page .money-sync-bottom>.money-sync-details{margin:12px 0 0}
+
+/* Insurance: one row — view switch, insured people, search (Policies / Review), Filters, Add.
+   Type, status, payments month and record owner live in the Filters window; "Whose insurance is shown here?" is at the bottom. */
+html:root main.view-household .insurance-v2 .ins-controls-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:0 0 var(--household-step,16px)}
+html:root main.view-household .insurance-v2 .ins-controls-row>.ins-view-switch{flex:none;min-width:0;max-width:100%}
+html:root main.view-household .insurance-v2 .ins-controls-row>.insurance-search{flex:1 1 240px;max-width:440px;min-width:0;margin:0;height:var(--scale-control,44px);min-height:var(--scale-control,44px);box-sizing:border-box}
+html:root main.view-household .insurance-v2 .ins-controls-row>.control-button{min-height:var(--scale-control,44px);height:var(--scale-control,44px);flex:none;white-space:nowrap}
+html:root main.view-household .insurance-v2 .ins-controls-row>:not(.ins-view-switch):not(.insurance-search):not(.control-button):not(.ins-add){flex:0 1 auto;min-width:0}
+html:root main.view-household .insurance-v2 .ins-controls-row>.ins-add{margin-inline-start:auto}
+html:root main.view-household .insurance-v2 .ins-coverage-help{margin-top:24px}
+
+@media(max-width:700px){
+ /* Expenses phone: [switch] / [‹ month ›……][Add] / [Together | Just me] */
+ html:root main.view-household .money-page .money-controls-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+ html:root main.view-household .money-page .money-controls-row>.money-nav{grid-column:1/-1}
+ html:root main.view-household .money-page .money-controls-row>.money-nav>.tabs.nav-view.nav-view{display:flex;width:100%}
+ html:root main.view-household .money-page .money-controls-row>.money-nav>.tabs.nav-view.nav-view>button{flex:1 0 auto}
+ html:root main.view-household .money-page .money-controls-row>.expense-month{grid-column:1;grid-row:2;min-width:0}
+ html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field{flex:1 1 auto}
+ html:root main.view-household .money-page .money-controls-row>.money-income{grid-column:2;grid-row:2;margin:0;padding-inline:14px}
+ html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter{grid-column:1/-1;grid-row:3;display:flex;width:100%}
+ html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter>button{flex:1 1 0;min-width:0;justify-content:center}
+ html:root main.view-household .money-page .money-income-long{display:none}
+ html:root main.view-household .money-page .money-income-short{display:inline}
+ html:root main.view-household .money-page .money-partial.money-note{border-radius:12px}
+ html:root main.view-household .money-page .money-sync-actions{width:100%}
+ html:root main.view-household .money-page .money-sync-actions>.control-button{flex:1 1 auto;justify-content:center}
+ /* Insurance phone: [switch] / [people ……][Filters][Add] / [search on Policies and Review] */
+ html:root main.view-household .insurance-v2 .ins-controls-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
+ html:root main.view-household .insurance-v2 .ins-controls-row>.ins-view-switch{grid-column:1/-1}
+ html:root main.view-household .insurance-v2 .ins-controls-row>.ins-view-switch>.tabs.nav-view.nav-view{display:flex;width:100%}
+ html:root main.view-household .insurance-v2 .ins-controls-row>.ins-view-switch>.tabs.nav-view.nav-view>button{flex:1 0 auto}
+ html:root main.view-household .insurance-v2 .ins-controls-row>.insurance-search{grid-column:1/-1;grid-row:3;max-width:none}
+ html:root main.view-household .insurance-v2 .ins-controls-row>.ins-add{margin:0}
+ html:root main.view-household .insurance-v2 .ins-add .household-menu-label{display:none} /* the button keeps its aria-label */
+ html:root main.view-household .insurance-v2 .ins-add .household-menu-button{padding-inline:12px;gap:4px}
+ /* The insured-people picker shows faces only; its name stays for screen readers */
+ html:root main.view-household .insurance-v2 .ins-controls-row .ins-multi-people-trigger>span:last-child{display:none} /* the picker keeps its own label */
+}

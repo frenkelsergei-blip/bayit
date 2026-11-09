@@ -1,0 +1,19 @@
+/* Today retains the shared person-pill anatomy and shared overlapping groups. */
+html .view-today .today-tasks{container:today-task-list / inline-size}
+html .view-today .today-task-people{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:16px 14px;min-inline-size:0;max-inline-size:260px;justify-self:end;padding-block:6px}
+/* Give assignment summaries their own line when the widget is narrow. */
+@container today-task-list (max-width:600px){
+ html .view-today .today-task-row{grid-template-columns:auto auto minmax(0,1fr);row-gap:10px!important}
+ html .view-today .today-task-row>.task-title{grid-column:3}
+ html .view-today .today-task-row>:is(.today-task-people,.badge){grid-column:3;justify-self:start;justify-content:flex-start;max-inline-size:100%}
+}
+/* Compact passive labels on desktop as well as phones. Tablet single-person
+   proportions and the existing full-width tablet section layout are retained. */
+html .view-today .today-task-people{column-gap:8px}
+html:root .view-today .today-task-people>.person-chip.calendar-person{--chip-avatar:32px!important;font-size:calc(13px * var(--font-adjust,1))!important;gap:8px;padding-inline:0 10px!important}
+html:root .view-today .today-task-people>.person-chip.calendar-person>.avatar{--avatar-size:var(--chip-avatar)!important}
+html:root .view-today .today-task-people>.person-chip.calendar-person>.member-icon>.color-icon{width:calc(var(--chip-avatar) * .78)!important;height:calc(var(--chip-avatar) * .78)!important}
+html:root .view-today .today-task-people>.person-chip.calendar-person>.former-member>.color-icon{width:calc(var(--chip-avatar) * .72)!important;height:calc(var(--chip-avatar) * .72)!important}
+@media(min-width:701px) and (max-width:1200px) and (min-height:521px){
+ html:root .view-today .today-task-people>.person-chip.calendar-person{--chip-avatar:44px!important;font-size:calc(18px * var(--font-adjust,1))!important;gap:16px;padding-inline-end:14px!important}
+}

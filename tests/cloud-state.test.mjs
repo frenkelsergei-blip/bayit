@@ -18,10 +18,19 @@ test('maintenance service is authoritative, can be early, and cannot expose a pr
  const command={id:'performed',date:today,basis:'performed'},op={collection:'tasks',id:r.id,value:{...r,serviceRequest:command}},next=applyChanges(d,[op],'parent-one','parent');
  assert.equal(next.tasks[0].serviceHistory[0].performedDate,today);assert.equal(next.history[0].date,today);assert.equal(next.tasks[0].serviceRequest,undefined);
  assert.throws(()=>applyChanges(d,[{...op,value:{...r,serviceHistory:[{}]}}],'parent-one','parent'),/service control/);
- d.tasks[0]={...r,visibility:'private',ownerId:'parent-two'};assert.throws(()=>applyChanges(d,[{...op,value:{...d.tasks[0],serviceRequest:command}}],'parent-one','parent'),/private/);
+ d.tasks[0]={...r,visibility:'private',ownerId:'parent-two',memberId:'parent-two'};assert.throws(()=>applyChanges(d,[{...op,value:{...d.tasks[0],serviceRequest:command}}],'parent-one','parent'),/private/);
 });
 test('a parent profile edit cannot reveal a hidden child birthday',()=>{
  const d=state();d.profiles.child={name:'Child',birthday:'2018-02-03',birthdayInCalendar:true};d.events=[{id:'birthday-child',birthdayOf:'child',ownerId:'child',visibility:'private',allowedIds:[],title:'Private birthday',date:'2018-02-03',time:'08:00',repeat:'yearly',memberIds:['child']}];
  const next=applyChanges(d,[{collection:'profiles',id:'child',value:{...d.profiles.child,name:'New name'}},{collection:'events',id:'birthday-child',value:{...d.events[0],ownerId:'parent-one',visibility:'family'}}],'parent-one','parent');
  assert.deepEqual(next.events,d.events);assert.equal(next.profiles.child.name,'New name');assert.equal(visibleState(next,'parent-one').events.length,0);
+});
+
+test('an assigned child may tick the steps of their task, but not add, rename or remove steps (audit T-3)',()=>{const d=state(),task={id:'desk',ownerId:'parent-one',visibility:'family',allowedIds:[],memberId:'child',memberIds:['child'],title:'Tidy desk',date:today,repeat:'once',subtasks:[{id:'a',title:'Books',done:false},{id:'b',title:'Pens',done:false}]};d.tasks=[task];
+ const next=applyChanges(d,[{collection:'tasks',id:'desk',value:{...task,subtasks:[{id:'a',title:'Books',done:true},{id:'b',title:'Pens',done:false}]}}],'child','child');assert.equal(next.tasks[0].subtasks[0].done,true);
+ assert.throws(()=>applyChanges(d,[{collection:'tasks',id:'desk',value:{...task,subtasks:[...task.subtasks,{id:'c',title:'New',done:false}]}}],'child','child'));
+ assert.throws(()=>applyChanges(d,[{collection:'tasks',id:'desk',value:{...task,subtasks:[{id:'a',title:'Renamed',done:true},task.subtasks[1]]}}],'child','child'));
+ assert.throws(()=>applyChanges(d,[{collection:'tasks',id:'desk',value:{...task,title:'Changed'}}],'child','child'));
+ const other={...task,id:'other',memberId:'parent-two',memberIds:['parent-two']};d.tasks.push(other);
+ assert.throws(()=>applyChanges(d,[{collection:'tasks',id:'other',value:{...other,subtasks:[{id:'a',title:'Books',done:true},other.subtasks[1]]}}],'child','child'),'a child cannot tick steps of a task that is not theirs');
 });

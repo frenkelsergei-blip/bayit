@@ -1,0 +1,14 @@
+.contact-two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.contact-two-fields>label{display:grid;gap:8px;min-width:0}.contact-two-fields input{width:100%}
+.contact-editor textarea{min-height:100px;resize:vertical}
+.contact-editor .document-editor-body{gap:20px}
+.contact-editor .document-editor-footer .actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+.contact-editor .document-editor-footer .button{justify-content:center;min-height:46px;white-space:normal}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ .contact-editor-backdrop{padding: max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) calc(78px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));align-items:end}
+ .contact-editor{max-height:calc(100dvh - 100px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border-radius:26px}
+ .contact-editor .document-editor-footer{padding:12px 18px 16px;background:var(--surface);position:relative;inset:auto;border-radius:0 0 26px 26px}
+ .contact-two-fields{grid-template-columns:1fr}
+}
+@media(max-height:520px) and (orientation:landscape){.contact-editor-backdrop{padding-bottom:calc(52px + env(safe-area-inset-bottom))}.contact-editor{max-height:calc(100dvh - 70px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}.contact-two-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){.contact-editor .document-editor-footer .button{padding-inline:12px;gap:8px;font-size:16px}}

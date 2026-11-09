@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-07",
+  "kind": "AI-generated Supermarket detectives game chooser artwork",
+  "generator": "built-in image_gen",
+  "file": "game-detectives.png",
+  "dimensions": [
+    768,
+    768
+  ],
+  "publicUrl": "/assets/generated/hero-organization/game-detectives.png",
+  "source": "game-detectives-source.png",
+  "sourceDimensions": [
+    1254,
+    1254
+  ],
+  "processing": "Proportional downsample to768px square only. Original art retained. No handmade icon, SVG, CSS art, text overlay or layout compositing.",
+  "references": [
+    "concept/explorations/my-hero-organization-20261107/games-clear-entry.png",
+    "assets/generated/hero-home/market-shelves-v2-source.png"
+  ],
+  "attribution": "Generated for Bayit My Hero from the selected concept and existing Bayit market art. Existing reference and icon licenses/attribution remain unchanged.",
+  "sha256": "8a7f90ceae194da9c1a1989a63008697420b9aaa737bfb7a821516f8cb3a1dc2"
+}

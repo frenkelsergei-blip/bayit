@@ -1,0 +1,339 @@
+{
+  "date": "2026-11-07",
+  "character": "ari",
+  "kind": "AI-generated12-frame character care actions",
+  "generator": "built-in image_gen",
+  "file": "ari-actions.png",
+  "dimensions": [
+    768,
+    1024
+  ],
+  "grid": {
+    "columns": 3,
+    "rows": 4,
+    "cellWidth": 256,
+    "cellHeight": 256
+  },
+  "rows": [
+    [
+      "eat-apple-ready",
+      "eat-apple-bite",
+      "eat-apple-chew"
+    ],
+    [
+      "drink-cup-ready",
+      "drink-cup-sip",
+      "drink-cup-finished"
+    ],
+    [
+      "tidy-pick-ball",
+      "tidy-carry-ball",
+      "tidy-put-away"
+    ],
+    [
+      "play-hands-apart",
+      "play-clap",
+      "play-hands-raised"
+    ]
+  ],
+  "posture": [
+    "seated",
+    "seated",
+    "standing-bending",
+    "standing"
+  ],
+  "source": "ari-actions-source.png",
+  "sourceDimensions": [
+    1086,
+    1448
+  ],
+  "uniformScale": 0.6726726726726727,
+  "baseline": 240,
+  "processing": "Deterministic cell extraction, one uniform nearest-neighbor scale and ground registration only. True generated alpha preserved. No furniture, chroma cutout or handmade drawings.",
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "sourceCell": [
+        0,
+        0,
+        362,
+        362
+      ],
+      "sourceContentBounds": [
+        100,
+        26,
+        277,
+        353
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 20,
+        "w": 119,
+        "h": 220
+      },
+      "baseline": 240
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "sourceCell": [
+        362,
+        0,
+        724,
+        362
+      ],
+      "sourceContentBounds": [
+        100,
+        26,
+        277,
+        353
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 20,
+        "w": 119,
+        "h": 220
+      },
+      "baseline": 240
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "sourceCell": [
+        724,
+        0,
+        1086,
+        362
+      ],
+      "sourceContentBounds": [
+        101,
+        26,
+        278,
+        353
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 20,
+        "w": 119,
+        "h": 220
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "sourceCell": [
+        0,
+        362,
+        362,
+        724
+      ],
+      "sourceContentBounds": [
+        100,
+        27,
+        277,
+        352
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 21,
+        "w": 119,
+        "h": 219
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "sourceCell": [
+        362,
+        362,
+        724,
+        724
+      ],
+      "sourceContentBounds": [
+        100,
+        27,
+        277,
+        352
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 21,
+        "w": 119,
+        "h": 219
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "sourceCell": [
+        724,
+        362,
+        1086,
+        724
+      ],
+      "sourceContentBounds": [
+        101,
+        27,
+        278,
+        352
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 21,
+        "w": 119,
+        "h": 219
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "sourceCell": [
+        0,
+        724,
+        362,
+        1086
+      ],
+      "sourceContentBounds": [
+        88,
+        46,
+        291,
+        346
+      ],
+      "outputContent": {
+        "x": 60,
+        "y": 38,
+        "w": 137,
+        "h": 202
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "sourceCell": [
+        362,
+        724,
+        724,
+        1086
+      ],
+      "sourceContentBounds": [
+        103,
+        13,
+        264,
+        346
+      ],
+      "outputContent": {
+        "x": 74,
+        "y": 16,
+        "w": 108,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "sourceCell": [
+        724,
+        724,
+        1086,
+        1086
+      ],
+      "sourceContentBounds": [
+        92,
+        13,
+        303,
+        346
+      ],
+      "outputContent": {
+        "x": 57,
+        "y": 16,
+        "w": 142,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "sourceCell": [
+        0,
+        1086,
+        362,
+        1448
+      ],
+      "sourceContentBounds": [
+        103,
+        13,
+        263,
+        346
+      ],
+      "outputContent": {
+        "x": 74,
+        "y": 16,
+        "w": 108,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "sourceCell": [
+        362,
+        1086,
+        724,
+        1448
+      ],
+      "sourceContentBounds": [
+        103,
+        13,
+        264,
+        346
+      ],
+      "outputContent": {
+        "x": 74,
+        "y": 16,
+        "w": 108,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "sourceCell": [
+        724,
+        1086,
+        1086,
+        1448
+      ],
+      "sourceContentBounds": [
+        103,
+        13,
+        291,
+        346
+      ],
+      "outputContent": {
+        "x": 65,
+        "y": 16,
+        "w": 126,
+        "h": 224
+      },
+      "baseline": 240
+    }
+  ],
+  "sourceSha256": "ffe4a3989e7635b594936985fca54073b7d00bd5689c6e05621c49b3215bd812",
+  "sha256": "8def857af770f6184892d360476e88f6e8760f4dc29f95a4616742a167648eca",
+  "references": [
+    "app/public/assets/generated/avatar-ari.png",
+    "app/public/assets/generated/hero-home/care-room-v4/ari-feed.png",
+    "assets/generated/hero-care-life/itai-actions.png"
+  ],
+  "attribution": "Generated from existing Bayit Ari reference art. Existing asset licenses and attribution unchanged."
+}

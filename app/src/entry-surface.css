@@ -1,0 +1,62 @@
+/* Entry/loading surfaces only. Never change application card/form anatomy. */
+.bayit-entry{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--text);overflow:clip}
+.bayit-entry::before{content:"";position:absolute;inset:0;z-index:-1;background-image:url('/assets/shell-20261107/paper-cream-small.png');background-size:680px 680px;pointer-events:none}
+:root[data-theme=dark] .bayit-entry::before{mix-blend-mode:soft-light;opacity:.12}
+.bayit-sketch-canvas{position:absolute;inset:0;z-index:0;display:block;width:100%;height:100%;pointer-events:none}
+.bayit-entry-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;max-width:1280px;min-height:90px;margin:0 auto;padding:18px max(28px,env(safe-area-inset-right)) 12px max(28px,env(safe-area-inset-left));direction:ltr}
+.bayit-entry-top .bayit-brandmark{width:154px}
+.bayit-entry-language{display:flex;align-items:center;gap:3px;flex:none;padding:3px;border:1px solid var(--border);border-radius:999px;background:color-mix(in srgb,var(--bg) 85%,transparent)}
+.bayit-entry-language button{min-width:68px;min-height:44px;padding:7px 12px;border:0;border-radius:999px;background:transparent;color:var(--text);font:inherit;font-size:14px;font-weight:800;line-height:1.2}
+.bayit-entry-language button[aria-pressed=true]{background:var(--primary);color:var(--onPrimary,#fff)}
+.bayit-entry-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;flex:1;width:min(620px,calc(100% - 40px));margin:0 auto;padding:48px 0 max(190px,24vh);text-align:center}
+.bayit-entry .sunrise-title{font-size:clamp(32px,4.2vw,58px);line-height:1.16;letter-spacing:-.02em;max-width:100%;margin:0 14px 10px;font-weight:950}
+.bayit-entry .sunrise-sub{max-width:36ch;font-size:clamp(16px,1.5vw,19px);line-height:1.5;margin:0;color:var(--muted)}
+.bayit-entry .sunrise-google{width:min(360px,100%);min-height:56px;margin:12px 0 0;padding:12px 20px;font-size:18px;line-height:1.3;display:flex;align-items:center;justify-content:center;gap:12px}
+.bayit-entry .entry-demo{min-height:44px;display:flex;align-items:center;justify-content:center;padding:8px 12px;font-size:15px;line-height:1.4}
+.bayit-entry .sunrise-foot{margin:4px 0 0;max-width:42ch;font-size:13px;line-height:1.5;color:var(--muted)}
+.bayit-entry .entry-error{width:100%;margin:0;padding:14px 18px;border:1px solid var(--border);border-radius:16px;background:var(--peach);color:var(--text);font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+.bayit-entry .sunrise-note{width:100%;margin:0;text-align:start;font-size:15px;line-height:1.5}
+.bayit-entry .sunrise-note p{margin:8px 0 0;font-size:14px}
+.bayit-entry-onboarding .bayit-entry-content{justify-content:flex-start;width:min(640px,calc(100% - 40px));padding-top:24px;gap:14px}
+.bayit-entry-onboarding .sunrise-title{font-size:clamp(30px,3.2vw,43px)}
+.bayit-entry-card{width:100%;padding:25px 28px;border:1px solid var(--border);border-radius:24px;background:var(--surface);box-shadow:0 7px 24px #00000008;text-align:start}
+.bayit-entry-card .cloud-signed-user{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.bayit-entry-card .cloud-signed-user img{width:40px;height:40px;flex:none;object-fit:cover;border-radius:50%}
+.bayit-entry-card .cloud-signed-user>div{min-width:0;display:flex;flex-direction:column;gap:2px;overflow-wrap:anywhere}
+.bayit-entry-card .cloud-signed-user strong{font-size:17px;line-height:1.3}
+.bayit-entry-card .cloud-signed-user small{font-size:13px;color:var(--muted)}
+.bayit-entry-card .form-stack{gap:12px}
+.bayit-entry-card label{font-size:15px;line-height:1.4}
+.bayit-entry-card input{font-size:16px;min-height:48px}
+.bayit-entry-card .button{width:100%;min-height:48px;font-size:16px;line-height:1.3;margin:2px 0 0}
+.bayit-entry-card .cloud-join-divider{border:0;display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
+.bayit-entry-card .cloud-join-divider::before,.bayit-entry-card .cloud-join-divider::after{content:"";flex:1;border-top:1px solid var(--border)}
+.bayit-entry-card .cloud-privacy-note{display:block;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;line-height:1.55;color:var(--muted)}
+.bayit-entry-card .cloud-existing-homes{margin-top:18px}
+.bayit-entry-card .cloud-existing-homes button{display:flex;align-items:center;gap:10px;width:100%;padding:10px;min-height:44px;text-align:start;color:var(--text);background:var(--surfaceSoft);border:1px solid var(--border);border-radius:12px;margin-top:8px}
+.bayit-entry button:focus-visible,.bayit-entry input:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+@media(max-width:600px){
+ .bayit-entry-top{min-height:76px;padding:12px max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left));gap:12px}
+ .bayit-entry-top .bayit-brandmark{width:126px}
+ .bayit-entry-language button{min-width:54px;min-height:44px;padding-inline:9px;font-size:13px}
+ .bayit-entry-content{gap:18px;justify-content:center;padding-top:36px;padding-bottom:24vh}
+ .bayit-entry .sunrise-title{font-size:32px;margin-inline:10px}
+ .bayit-entry .sunrise-sub{font-size:16px;max-width:31ch}
+ .bayit-entry .sunrise-google{font-size:17px}
+ .bayit-entry-onboarding .bayit-entry-content{padding-top:18px;gap:13px}
+ .bayit-entry-onboarding .sunrise-title{font-size:29px}
+ .bayit-entry-card{padding:21px 20px;border-radius:21px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .bayit-entry-top{min-height:60px;padding-block:8px}
+ .bayit-entry-top .bayit-brandmark{width:114px}
+ .bayit-entry-content{justify-content:flex-start;gap:12px;padding-top:22px;padding-bottom:110px}
+ .bayit-entry .sunrise-title{font-size:30px;margin-bottom:5px}
+ .bayit-entry .sunrise-sub{max-width:44ch;font-size:16px}
+ .bayit-entry .sunrise-google{margin-top:4px;min-height:48px}
+ .bayit-entry .sunrise-foot{display:block}
+}
+
+.bayit-entry-card .cloud-join-divider>span{position:static;top:auto;padding:0;background:transparent;font-size:inherit}
+.bayit-entry-embedded{min-height:0;border-radius:24px}
+.bayit-entry-embedded .bayit-entry-content{padding-top:28px;padding-bottom:150px}

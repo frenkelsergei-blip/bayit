@@ -1,6 +1,6 @@
 {
   "name": "bayit",
-  "version": "1.18.0",
+  "version": "1.38.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -37,5 +37,5 @@
     "wrangler": "^4.157.0"
   },
   "license": "MIT",
-  "description": "Bayit: a bilingual (Hebrew/English) family home app on Cloudflare Pages"
+  "description": "Bayit: a bilingual (Hebrew/English) family home app you host yourself on Cloudflare or Docker"
 }

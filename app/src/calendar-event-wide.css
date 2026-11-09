@@ -1,0 +1,29 @@
+/* Event details only: keep the Month grid, day list and Week/Agenda untouched. */
+.calendar-month-event-dialog.calendar-event-details{padding:0}
+.calendar-month-event-body>.month-event-group{display:contents}
+
+@media(min-width:1101px) and (min-height:521px){
+ .calendar-month-event-dialog.calendar-event-details{width:min(1080px,100%);max-height:min(840px,calc(100dvh - 80px))}
+ .calendar-month-event-dialog>.month-event-dialog-header{padding:12px 28px;align-items:center}
+ .calendar-month-event-dialog .month-event-dialog-header>div{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+ .calendar-month-event-dialog>.calendar-month-event-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:0 30px;padding:24px 30px}
+ .calendar-month-event-body>.month-event-group{display:block;min-width:0}
+ .calendar-month-event-body>.month-event-identity{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:22px;margin-bottom:6px;border-bottom:1px solid var(--border)}
+ .calendar-month-event-body .month-event-identity>.calendar-detail-heading{min-width:0;margin:0;flex:1}
+ .calendar-month-event-body .month-event-identity .calendar-detail-heading h2{min-width:0;overflow-wrap:anywhere}
+ .calendar-month-event-body .month-event-identity>button{flex:none}
+ .calendar-month-event-body>.month-event-primary{grid-column:1;padding-inline-end:30px;border-inline-end:1px solid var(--border)}
+ .calendar-month-event-body>.month-event-secondary{grid-column:2}
+ .calendar-month-event-body .calendar-detail-row{margin-block:14px}
+ .calendar-month-event-body .calendar-detail-section{padding-block:14px}
+ .calendar-month-event-body .calendar-detail-section>.calendar-detail-row{margin:0 0 10px}
+ .calendar-month-event-body .month-event-secondary>.calendar-detail-section:first-child{border-top:0}
+ .calendar-month-event-body .calendar-detail-sharing{padding-block:4px}
+ .calendar-month-event-footer{flex:none;padding:16px 30px;border-top:1px solid var(--border);background:var(--surface)}
+ .calendar-month-event-footer>.month-event-actions{display:flex;align-items:center;justify-content:space-between;gap:24px}
+ .calendar-month-event-footer .record-share{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:center;gap:12px;min-width:0;max-width:590px;margin:0}
+ .calendar-month-event-footer .record-share>small{margin:0}
+ .calendar-month-event-footer .calendar-detail-actions{flex:none;gap:10px;margin:0}
+ .calendar-month-event-footer .calendar-detail-actions>.button{flex:none;min-width:145px}
+ .calendar-month-event-body>:not(.month-event-group){grid-column:1/-1}
+}

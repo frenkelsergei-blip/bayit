@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-07",
+  "kind": "AI-generated warm ivory paper-linen puzzle mat texture",
+  "generator": "built-in image_gen",
+  "file": "puzzle-mat.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "publicUrl": "/assets/generated/hero-care-life/puzzle-mat.png",
+  "source": "puzzle-mat-source.png",
+  "processing": "None; exact generated PNG bytes retained.",
+  "mode": "RGB",
+  "meanRgb": [
+    251.70496940612793,
+    239.0875924428304,
+    214.3664264678955
+  ],
+  "channelStddev": [
+    1.5996499390155665,
+    2.7053292816382424,
+    3.693745395329207
+  ],
+  "visualInspection": "Uniform warm cream, very low contrast fine fibers, no objects, text, puzzle shapes, border, vignette or hard shadows.",
+  "sha256": "d5afb3005b50b2060f8ebd4f8ea2716b8cb775959cc2e8a4a7fe6eb9be83bf46",
+  "attribution": "Generated for Bayit. Existing reference assets and licenses unchanged."
+}

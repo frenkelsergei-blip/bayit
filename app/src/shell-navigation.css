@@ -1,0 +1,131 @@
+/* Scope all shell rules: module cards, headings, tabs, avatars and forms retain
+   their existing styles. Only outer navigation/header clearance changes. */
+:root[data-shell=horizontal]{--shell-header-height:82px;--shell-nav-height:68px;--shell-edge:max(24px,env(safe-area-inset-left));--shell-deep:#103744;--shell-yellow:#ffd451}
+.shell-v2>.sidebar,.shell-v2>.mobile-top,.shell-v2>.mobile-bottom{display:none!important}
+.bayit-shell-header{position:fixed;top:0;left:0;right:0;height:calc(var(--shell-header-height) + env(safe-area-inset-top));padding-top:env(safe-area-inset-top);background:var(--bg);border-bottom:1px solid var(--border);z-index:55}
+.bayit-shell-header-inner{display:flex;align-items:center;gap:26px;height:100%;max-width:1536px;margin:0 auto;padding-inline:max(40px,env(safe-area-inset-left)) max(40px,env(safe-area-inset-right));direction:ltr}
+.bayit-shell-brand{display:flex;align-items:center;justify-content:center;flex:none;padding:0;border:0;background:transparent;color:inherit;min-height:44px}
+.bayit-shell-brand .bayit-brandmark{width:148px}
+.bayit-shell-family{display:flex;align-items:center;gap:13px;min-width:0;min-height:54px;max-width:370px;border:0;border-left:1px solid var(--border);padding:0 0 0 25px;background:transparent;color:var(--text);text-align:start;cursor:pointer}
+.bayit-shell-family-photo{display:flex;align-items:center;justify-content:center;flex:none;width:48px;height:48px}
+.bayit-shell-family-photo>.avatar{width:46px!important;height:46px!important;min-width:46px!important;max-width:46px!important;flex:0 0 46px;object-fit:cover;border-radius:50%;border:1px solid color-mix(in srgb,var(--text) 12%,transparent);box-shadow:0 2px 6px #00000010}
+.bayit-shell-family-text{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;line-height:1.2}
+.bayit-shell-family-text strong{font-weight:900;font-size:calc(19px * var(--font-adjust,1));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:250px}
+.bayit-shell-family-text small{font-size:calc(13px * var(--font-adjust,1));font-weight:650;color:var(--muted)}
+.bayit-shell-family-caret{flex:none;align-self:center}
+.bayit-shell-utility{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:44px;direction:ltr}
+.bayit-shell-utility>button{flex:none;min-width:44px;min-height:44px}
+.bayit-shell-utility>.bayit-shell-bell{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;padding:8px;background:transparent;color:var(--text)}
+.bayit-shell-menu-trigger{display:none;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;color:var(--text)}
+.bayit-shell-nav{position:fixed;left:0;right:0;z-index:54;background:var(--shell-deep);color:#fffaf1;min-height:var(--shell-nav-height);border-top:1px solid #ffffff12}
+.bayit-shell-nav[data-position=bottom]{bottom:0;padding-bottom:env(safe-area-inset-bottom)}
+.bayit-shell-nav[data-position=top]{top:calc(var(--shell-header-height) + env(safe-area-inset-top));bottom:auto}
+.bayit-shell-nav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1536px;margin:auto;padding:9px max(24px,env(safe-area-inset-right)) 9px max(24px,env(safe-area-inset-left));min-height:var(--shell-nav-height)}
+.bayit-shell-nav-inner>button{display:flex;align-items:center;justify-content:center;gap:11px;flex:1 1 0;min-width:0;min-height:48px;padding:9px 17px;border:0;border-radius:17px;background:transparent;color:inherit;font-size:calc(17px * var(--font-adjust,1) * var(--menu-scale,1));font-weight:850;line-height:1.2;white-space:nowrap;cursor:pointer}
+.bayit-shell-nav-inner>button>svg{flex:none;stroke-width:1.5}
+.bayit-shell-nav-inner>button.selected{background:var(--shell-yellow);color:#101b3d}
+.bayit-shell-nav-inner>button:hover:not(.selected){background:#ffffff14}
+.bayit-shell-nav[data-tone=matching]{background:var(--surface);color:var(--text);border-color:var(--border)}
+.bayit-shell-nav[data-tone=soft]{background:var(--surfaceSoft);color:var(--text);border-color:var(--border)}
+.bayit-shell-nav:is([data-tone=matching],[data-tone=soft]) button:hover:not(.selected){background:var(--selected)}
+:root[data-shell=horizontal] .shell-v2>.main-content{margin-inline:auto!important;width:100%;max-width:1536px;padding-inline:max(48px,env(safe-area-inset-left)) max(48px,env(safe-area-inset-right))!important;padding-top:calc(var(--shell-header-height) + env(safe-area-inset-top) + 32px)!important;padding-bottom:calc(var(--shell-nav-clearance,var(--shell-nav-height)) + 34px)!important}
+:root[data-shell=horizontal][data-nav-position=top] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + var(--shell-nav-clearance,var(--shell-nav-height)) + env(safe-area-inset-top) + 32px)!important;padding-bottom:34px!important}
+.shell-v2 .page-utility-corner,.shell-v2 .heading-utilities{display:none!important}
+.shell-v2 .family-default-avatar{object-fit:cover}
+.bayit-shell-header button:focus-visible,.bayit-shell-nav button:focus-visible{outline:3px solid #ffc83d;outline-offset:3px}
+.bayit-shell-header button:focus-visible{outline-color:var(--primary)}
+.bayit-shell-menu.mobile-menu{background:var(--shell-deep,#103744);color:#fffaf1}
+.bayit-shell-menu .mobile-menu-grid button.selected{background:#ffd451!important;color:#101b3d!important;box-shadow:none!important;outline:0!important}
+.bayit-shell-menu .mobile-menu-grid button.selected .mobile-menu-icon{background:#101b3d!important;color:#ffd451!important}
+.bayit-shell-menu .family-card{background:transparent!important;border-color:#ffffff24!important}
+.bayit-shell-menu .mobile-menu-footer button{background:transparent!important}
+.bayit-shell-menu .mobile-menu-footer button.selected{color:#ffd451!important}
+@media(min-width:901px){
+ .bayit-shell-menu.mobile-menu{width:min(650px,calc(100vw - 48px));left:auto;right:24px;bottom:calc(var(--shell-nav-clearance,var(--shell-nav-height)) + 12px);max-height:calc(100dvh - var(--shell-header-height) - var(--shell-nav-height) - 28px);border-radius:25px;padding:22px;overflow:auto}
+ :root[data-nav-position=top] .bayit-shell-menu.mobile-menu{top:calc(var(--shell-header-height) + var(--shell-nav-height) + env(safe-area-inset-top) + 12px);bottom:auto}
+ .bayit-shell-menu .mobile-menu-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+ :root[data-shell=horizontal]{--shell-header-height:66px;--shell-nav-height:66px}
+ .bayit-shell-header-inner{gap:12px;padding-inline:max(16px,env(safe-area-inset-left)) max(16px,env(safe-area-inset-right))}
+ .bayit-shell-menu-trigger{display:flex}
+ .bayit-shell-brand .bayit-brandmark{width:130px}
+ .bayit-shell-family{padding:0;border:0;margin-left:auto;gap:9px;max-width:280px;min-height:46px}
+ .bayit-shell-family-photo{width:40px;height:40px}
+ .bayit-shell-family-photo>.avatar{width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;flex-basis:38px}
+ .bayit-shell-family-text strong{font-size:calc(16px * var(--font-adjust,1));max-width:170px}
+ .bayit-shell-family-text small{font-size:calc(11px * var(--font-adjust,1))}
+ .bayit-shell-utility{margin-left:0}
+ .bayit-shell-nav-inner{gap:5px;padding:6px max(12px,env(safe-area-inset-right)) 6px max(12px,env(safe-area-inset-left))}
+ .bayit-shell-nav-inner>button{gap:9px;min-height:52px;padding:8px 10px;font-size:calc(14px * var(--font-adjust,1) * var(--menu-scale,1));border-radius:16px}
+ :root[data-shell=horizontal] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + env(safe-area-inset-top) + 24px)!important;padding-inline:24px!important}
+ :root[data-shell=horizontal][data-nav-position=top] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + var(--shell-nav-clearance,var(--shell-nav-height)) + env(safe-area-inset-top) + 24px)!important}
+}
+@media(max-width:600px){
+ .bayit-shell-header-inner{gap:8px;padding-inline:max(12px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-right))}
+ .bayit-shell-brand{margin-left:auto}
+ .bayit-shell-brand .bayit-brandmark{width:118px}
+ .bayit-shell-family{margin-left:auto;gap:4px}
+ .bayit-shell-family-text{display:none}
+ .bayit-shell-family-caret{width:12px}
+ .bayit-shell-utility{gap:0}
+ .bayit-shell-utility .save-status{position:absolute;top:calc(var(--shell-header-height) - 8px);inset-inline-end:16px;max-width:calc(100vw - 32px)}
+ .bayit-shell-nav-inner>button{flex-direction:column;gap:2px;padding:5px 2px;min-height:54px;font-size:calc(11px * var(--font-adjust,1) * var(--menu-scale,1));white-space:normal;border-radius:15px;text-align:center}
+ .bayit-shell-nav-inner>button>svg{width:24px;height:24px}
+ :root[data-shell=horizontal] .shell-v2>.main-content{padding-inline:24px!important}
+}
+@media(max-width:360px){.bayit-shell-brand .bayit-brandmark{width:100px}.bayit-shell-header-inner{gap:4px}.bayit-shell-family-caret{width:12px}}
+@media(max-height:520px) and (orientation:landscape){
+ :root[data-shell=horizontal]{--shell-header-height:54px;--shell-nav-height:54px}
+ .bayit-shell-brand .bayit-brandmark{width:112px}
+ .bayit-shell-header-inner{gap:12px}
+ .bayit-shell-nav-inner{padding-block:4px;min-height:54px}
+ .bayit-shell-nav-inner>button{min-height:44px;flex-direction:row;gap:8px;font-size:calc(13px * var(--font-adjust,1) * var(--menu-scale,1));padding-block:5px}
+ .bayit-shell-nav-inner>button>svg{width:22px;height:22px}
+ :root[data-shell=horizontal] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + env(safe-area-inset-top) + 20px)!important}
+ :root[data-shell=horizontal][data-nav-position=top] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + var(--shell-nav-clearance,var(--shell-nav-height)) + env(safe-area-inset-top) + 20px)!important}
+}
+
+/* Bounded More sheet: one palette and selected anatomy in every orientation. */
+:root[data-shell=horizontal] .shell-v2>.drawer-backdrop{display:block!important;position:fixed;inset:0;z-index:69;background:#08142b80}
+:root[data-shell=horizontal] .bayit-shell-menu.mobile-menu{--menu-surface:#103744;--menu-ink:#fffaf1;--menu-sub:#c6d5da;background:var(--menu-surface);color:var(--menu-ink)}
+:root[data-shell=horizontal][data-sidebar=matching] .bayit-shell-menu.mobile-menu{--menu-surface:var(--surface);--menu-ink:var(--text);--menu-sub:var(--muted)}
+:root[data-shell=horizontal][data-sidebar=soft] .bayit-shell-menu.mobile-menu{--menu-surface:var(--surfaceSoft);--menu-ink:var(--text);--menu-sub:var(--muted)}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-header{background:var(--menu-surface)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .family-card{color:var(--menu-ink)!important;border-color:color-mix(in srgb,var(--menu-ink) 18%,transparent)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .family-card :is(small,svg){color:var(--menu-sub)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-close{background:color-mix(in srgb,var(--menu-ink) 9%,transparent);color:var(--menu-ink)}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-handle{background:color-mix(in srgb,var(--menu-ink) 25%,transparent)}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button{background:color-mix(in srgb,var(--menu-ink) 7%,transparent)!important;color:var(--menu-ink)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button .mobile-menu-icon{background:color-mix(in srgb,var(--menu-ink) 9%,transparent)!important;color:var(--menu-sub)!important;box-shadow:none!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button.selected{background:#ffd451!important;color:#101b3d!important;box-shadow:none!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button.selected .mobile-menu-icon{background:#101b3d!important;color:#ffd451!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid svg{color:inherit!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer{border-color:color-mix(in srgb,var(--menu-ink) 18%,transparent)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer button{color:var(--menu-ink)!important;background:transparent!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer svg{color:var(--menu-sub)!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer button.selected{background:#ffd451!important;color:#101b3d!important}
+:root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-footer button.selected svg{color:inherit!important}
+:root[data-shell=horizontal] .bayit-shell-menu button:focus-visible{outline:3px solid var(--menu-sub)!important;outline-offset:2px}
+@media(max-height:520px) and (orientation:landscape){
+ :root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button .mobile-menu-icon{background:transparent!important}
+ :root[data-shell=horizontal] .bayit-shell-menu .mobile-menu-grid button.selected .mobile-menu-icon{background:transparent!important;color:#101b3d!important}
+}
+
+/* Existing phone action bars only follow the navigation edge; their anatomy
+   and document flow remain owned by each form (Shopping stays in normal flow). */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ :root[data-shell=horizontal] .shell-v2 .form-sticky-actions{bottom:max(calc(var(--shell-nav-clearance,var(--shell-nav-height)) + 1px),calc(var(--keyboard-inset,0px) + 12px))}
+ :root[data-shell=horizontal][data-nav-position=top] .shell-v2 .form-sticky-actions{bottom:max(env(safe-area-inset-bottom),calc(var(--keyboard-inset,0px) + 12px))}
+}
+
+@media(max-width:600px){
+ .bayit-shell-nav-inner{align-items:stretch}
+ .bayit-shell-nav-inner>button>span{max-width:100%;overflow-wrap:anywhere}
+}
+@media(max-width:360px){.bayit-shell-nav-inner{gap:0;padding-inline:3px}.bayit-shell-nav-inner>button{flex:1 1 auto}}
+
+/* Keep the sample-data status outside either navigation position, in LTR/RTL.
+   Signed-in household screens do not render this banner. */
+:root[data-shell=horizontal] .cloud-demo-banner{position:fixed;top:auto;inset-inline:auto;left:50%;right:auto;bottom:calc(var(--shell-nav-clearance,var(--shell-nav-height)) + 10px);transform:translateX(-50%);z-index:53;width:max-content;max-width:calc(100vw - 24px);white-space:normal;text-align:center;border-radius:18px;padding:7px 13px;font-size:12px;line-height:1.35}
+:root[data-shell=horizontal][data-nav-position=top] .cloud-demo-banner{bottom:max(12px,env(safe-area-inset-bottom))}

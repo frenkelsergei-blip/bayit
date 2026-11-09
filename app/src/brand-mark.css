@@ -1,0 +1,12 @@
+.bayit-brandmark{display:block;position:relative;flex:none;width:154px;max-width:100%;aspect-ratio:425/142;mix-blend-mode:normal;direction:ltr}
+.bayit-brandmark>span{position:absolute;inset:0;display:block;overflow:hidden}
+.bayit-brandmark>span>img{position:absolute!important;max-width:none!important;height:100%!important;width:100%!important;object-fit:contain;left:0!important;top:0!important;pointer-events:none;user-select:none}
+.bayit-brandmark-dark{display:none!important}
+:root[data-theme=dark] .bayit-brandmark{mix-blend-mode:normal}
+:root[data-theme=dark] .bayit-brandmark-light{display:none}
+:root[data-theme=dark] .bayit-brandmark-dark{display:block!important}
+
+/* Legacy dark sidebar surfaces use the same approved night lockup. */
+:root:is([data-sidebar=deep],[data-sidebar=ink],[data-sidebar=charcoal]) .sidebar .bayit-brandmark{mix-blend-mode:normal}
+:root:is([data-sidebar=deep],[data-sidebar=ink],[data-sidebar=charcoal]) .sidebar .bayit-brandmark-light{display:none!important}
+:root:is([data-sidebar=deep],[data-sidebar=ink],[data-sidebar=charcoal]) .sidebar .bayit-brandmark-dark{display:block!important}

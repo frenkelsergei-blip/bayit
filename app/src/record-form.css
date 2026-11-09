@@ -1,0 +1,77 @@
+/* Event / task / routine form on the shared section anatomy (form-section.css), user decision 2026-11-08.
+   Desktop: two columns of sections and one footer with Cancel and Save. Phones: one column with the solid Save
+   bar (form-actions-bar.css). The old in-form headings (Where?, Privacy & permissions, Notifications) are now
+   plain field titles or visually hidden, so there is never a heading inside a heading. */
+html:root .record-editor .form-stack:has(>.form-columns){display:block;gap:0;padding:0;border:0;background:none;box-shadow:none}
+html:root .record-editor .form-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+html:root .record-editor .form-column{display:grid;gap:22px;align-content:start;min-width:0}
+/* The yellow live preview repeated the form; the form itself is now the summary. */
+html:root .record-editor .editor-split:has(.form-columns){display:block}
+html:root .record-editor .editor-split:has(.form-columns)>.editor-art{display:none}
+html:root .record-editor .routine-builder:has(.form-columns){grid-template-columns:minmax(0,1fr)!important}
+html:root .record-editor .routine-builder:has(.form-columns)>:is(.routine-library,.routine-preview){display:none}
+html:root .record-editor .form-section-body label:not(.checkbox-label):not(.switch):not([class*=choice]){font-size:calc(16px * var(--font-adjust,1));font-weight:800;color:var(--text);display:grid;gap:8px;margin:0}
+html:root .record-editor .form-section-body .field-label{font-size:calc(16px * var(--font-adjust,1));font-weight:800;margin:0 0 8px;display:block}
+html:root .record-editor .form-section-body .two-fields{gap:14px}
+html:root .record-editor .form-section-body .name-row{margin:0}
+/* Place: inside When & where, not a section of its own. */
+html:root .record-editor .form-subgroup>.location-field{padding:0;border:0;gap:14px}
+html:root .record-editor .form-subgroup .location-section-heading>svg{display:none}
+html:root .record-editor .form-subgroup .location-section-heading h2{font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .record-editor .form-subgroup .location-section-heading h2 small{font-size:.9em}
+/* Notifications: the reminder list's own legend repeats the section title; keep it for screen readers only. */
+html:root .record-editor .form-section .reminder-fieldset{border:0;padding:0;margin:0;min-width:0}
+html:root .record-editor .form-section .reminder-fieldset>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Updates for me: a plain group under a hairline, not a bordered card around fields. */
+html:root .record-editor .form-section .owner-updates{border:0;border-top:1px solid var(--border);border-radius:0;padding:0;margin:0;background:none;min-width:0}
+html:root .record-editor .form-section .owner-updates{display:grid;gap:12px}
+html:root .record-editor .form-section .owner-updates>legend{display:contents}
+html:root .record-editor .form-section .owner-updates>legend>.field-title{display:block;padding-top:18px;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .record-editor .form-section .owner-updates>*{margin:0}
+/* Privacy & permissions: the section heading replaces the access legend and the list-sharing heading. */
+html:root .record-editor .form-section .record-access{margin:0}
+html:root .record-editor .form-section .record-access>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html:root .record-editor .form-section .task-list-sharing{margin:0;padding:0;border:0;background:none}
+html:root .record-editor .form-section .task-list-sharing>h3{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Footer: one place for Cancel and Save at every size. Desktop keeps it reachable at the bottom of the window. */
+@media(min-width:701px){
+ html:root .record-editor:has(.form-columns) .heading-actions{display:none!important}
+ html:root .record-editor:has(.form-columns) .form-sticky-actions{display:flex;justify-content:flex-end;gap:12px;position:sticky;bottom:var(--shell-nav-clearance,0px);z-index:20;margin:22px 0 0;padding:14px 0 18px;background:var(--bg);border-top:1px solid var(--border)}
+ html:root .record-editor:has(.form-columns) .form-sticky-actions>.button{min-height:48px;min-width:140px;justify-content:center}
+}
+@media(max-width:1100px){
+ html:root .record-editor .form-columns{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:700px){
+ html:root .record-editor .form-columns,html:root .record-editor .form-column{gap:16px}
+}
+
+/* Icons only on main section headings: hide the small icons in field titles inside sections. */
+html:root .record-editor .form-section .access-label>svg,
+html:root .record-editor .form-section .reminder-default>svg,
+html:root .record-editor .form-section .reminder-default svg:first-child,
+html:root .record-editor .form-section .field-label>svg{display:none}
+html:root .record-editor .form-section .access-label{gap:0}
+html:root:not([data-nav-position=bottom]) .record-editor:has(.form-columns) .form-sticky-actions{bottom:0}
+html:root .record-editor .form-section .access-edit-row>label>span>svg{display:none}
+/* Phones: date and time each get the full width, so the date never truncates. */
+@media(max-width:700px){html:root .record-editor .form-section .date-time-fields{grid-template-columns:minmax(0,1fr)!important}}
+/* The form title uses the shared size scale on every screen (Calendar, Tasks, Kids), not only Calendar. */
+html:root .record-editor>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .record-editor>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));line-height:1.35}
+@media(max-height:520px) and (orientation:landscape){
+ html:root .tasks-sheet>header{padding:12px 24px 10px}
+ html:root .tasks-sheet .tasks-sheet-actions{padding:10px 24px 12px}
+ html:root .tasks-sheet .tasks-sheet-actions>.button{min-height:44px}
+}
+/* Design system 7: phone form footer buttons are 48px (were 52px from ux-polish.css) and the place-name field is a
+   standard 44px field (was 46px). */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){html:root .shell-v2 .record-editor .form-sticky-actions>.button{min-height:48px!important;height:48px}}
+html:root .record-editor .location-name input{min-height:var(--scale-control,44px)!important;height:var(--scale-control,44px)}
+/* Repeat "Ends" (user report 2026-11-08: unclear and looked broken): the shared segmented pill like Cards/List,
+   the chosen option filled, a one-line explanation, and the end date right beside it. */
+html:root .repeat-ends-choice.tabs.nav-filter{display:inline-flex;align-items:center;padding:3px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);gap:2px;min-height:var(--scale-control,44px);box-sizing:border-box;width:auto;max-width:100%}
+html:root .repeat-ends-choice.tabs.nav-filter>button{min-height:36px!important;height:36px;padding:0 18px;border:0!important;border-radius:999px;background:transparent;color:var(--text);font-weight:750;box-shadow:none}
+html:root .repeat-ends-choice.tabs.nav-filter>button.selected{background:var(--primary);color:var(--onPrimary,#fff);font-weight:850}
+html:root .repeat-ends-row>.date-field{flex:1 1 180px;min-width:0}
+html:root .repeat-ends-hint{color:var(--muted);font-weight:600;font-size:calc(14px * var(--font-adjust,1))}

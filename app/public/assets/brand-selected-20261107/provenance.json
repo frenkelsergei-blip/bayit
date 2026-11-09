@@ -1,0 +1,204 @@
+{
+  "selected": "A — Cobalt + yellow, confirmed by the user on 2026-11-07",
+  "reference": "concept/explorations/logo-20261107-selected-refinements/a-cobalt-yellow.png",
+  "generation": "built-in image_gen, prompts.json",
+  "processing": "Palette-only night export of the approved generated light alpha mask. Generated contours, wordmark spacing and silhouette are unchanged. No matte or blend mode is used.",
+  "sourceBoxes": {
+    "light": {
+      "left": 109,
+      "top": 37,
+      "width": 1886,
+      "height": 642
+    },
+    "dark": {
+      "left": 177,
+      "top": 50,
+      "width": 1819,
+      "height": 616
+    },
+    "mark": {
+      "left": 0,
+      "top": 0,
+      "width": 638,
+      "height": 563
+    },
+    "wordmarkGap": [
+      638,
+      696
+    ]
+  },
+  "assets": [
+    {
+      "file": "app-icon-1024.png",
+      "sha256": "070b7151ba66c1ec23be4e08e978f6a094771573d5fe591985eede231356fd30",
+      "bytes": 221564,
+      "width": 1024,
+      "height": 1024,
+      "hasAlpha": true
+    },
+    {
+      "file": "app-icon-180.png",
+      "sha256": "7dda6b5b9e38de9cb3634cc50ff5f9bd1fa1976119ea95700aebcc88eef97982",
+      "bytes": 11260,
+      "width": 180,
+      "height": 180,
+      "hasAlpha": true
+    },
+    {
+      "file": "app-icon-192.png",
+      "sha256": "247850a0ce7a8eec19d5485754ec399c17f58e714f47957daff9da0b0f1ff5e2",
+      "bytes": 12599,
+      "width": 192,
+      "height": 192,
+      "hasAlpha": true
+    },
+    {
+      "file": "app-icon-512.png",
+      "sha256": "737790f2c2c6607b9b6ee29fbec5d3ee1001bd2a0da14a77ce7b669fe96b1b5a",
+      "bytes": 70760,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "app-icon-maskable-512.png",
+      "sha256": "2ab5269930841b77fb634f2a930c95c510f3f75bb7bbb56fd1debee7a89ce086",
+      "bytes": 53649,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "favicon-16.png",
+      "sha256": "c63d9551f4f0db5e633cde24eaa868484a6d3a7f04fdec977b74905c8b009c3b",
+      "bytes": 649,
+      "width": 16,
+      "height": 16,
+      "hasAlpha": true
+    },
+    {
+      "file": "favicon-32.png",
+      "sha256": "3fc323129d0bd41f29cbf2ea0002be1e41c10f200056301d19f96e47a3edd11d",
+      "bytes": 1520,
+      "width": 32,
+      "height": 32,
+      "hasAlpha": true
+    },
+    {
+      "file": "favicon-48.png",
+      "sha256": "3d50ca5608f1a9ac1bcd8dc81eebcff3ee58606a476d84f5d220897f74233079",
+      "bytes": 2496,
+      "width": 48,
+      "height": 48,
+      "hasAlpha": true
+    },
+    {
+      "file": "logo-dark-alpha.png",
+      "sha256": "28c85553b14d68675d01890717aaf612b5addb7f658fb5dbde08a8fda9653956",
+      "bytes": 34592,
+      "width": 850,
+      "height": 284,
+      "hasAlpha": true
+    },
+    {
+      "file": "logo-dark.png",
+      "sha256": "28c85553b14d68675d01890717aaf612b5addb7f658fb5dbde08a8fda9653956",
+      "bytes": 34592,
+      "width": 850,
+      "height": 284,
+      "hasAlpha": true
+    },
+    {
+      "file": "logo-light-alpha.png",
+      "sha256": "6865ec04c75bce1466e434ca2c38fac59013f06b432bea07d78d2349ac8d46bb",
+      "bytes": 104534,
+      "width": 850,
+      "height": 284,
+      "hasAlpha": true
+    },
+    {
+      "file": "logo-light.png",
+      "sha256": "6865ec04c75bce1466e434ca2c38fac59013f06b432bea07d78d2349ac8d46bb",
+      "bytes": 104534,
+      "width": 850,
+      "height": 284,
+      "hasAlpha": true
+    },
+    {
+      "file": "mark-dark.png",
+      "sha256": "0e60a40b500a29692bbbd9656de6e33efed55267f96e5ad07205e010152fbc19",
+      "bytes": 38567,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "mark-light.png",
+      "sha256": "ba552f777eb2d63f80a9bfa813b55263dfb5e04e7750a8b74d711f7468888db5",
+      "bytes": 90122,
+      "width": 512,
+      "height": 512,
+      "hasAlpha": true
+    },
+    {
+      "file": "notification-badge-96.png",
+      "sha256": "cc467929545eb7a7aae98846d47183d0216044f66677365ed5dab77e70c60551",
+      "bytes": 6687,
+      "width": 96,
+      "height": 96,
+      "hasAlpha": true
+    }
+  ],
+  "legacyAliases": [
+    [
+      "logo-light.png",
+      "assets/generated/bayit-logo.png"
+    ],
+    [
+      "logo-light.png",
+      "assets/generated/bayit-logo-512.png"
+    ],
+    [
+      "logo-light.png",
+      "app/public/assets/generated/bayit-logo.png"
+    ],
+    [
+      "logo-light.png",
+      "app/public/assets/generated/bayit-logo-512.png"
+    ],
+    [
+      "logo-light.png",
+      "app/public/assets/shell-20261107/brand-light.png"
+    ],
+    [
+      "logo-dark.png",
+      "app/public/assets/shell-20261107/brand-dark.png"
+    ],
+    [
+      "app-icon-180.png",
+      "app/public/assets/shell-20261107/app-icon-180.png"
+    ],
+    [
+      "app-icon-192.png",
+      "app/public/assets/shell-20261107/app-icon-192.png"
+    ],
+    [
+      "app-icon-512.png",
+      "app/public/assets/shell-20261107/app-icon-512.png"
+    ],
+    [
+      "app-icon-180.png",
+      "app/public/app-icon-180.png"
+    ],
+    [
+      "app-icon-192.png",
+      "app/public/app-icon-192.png"
+    ],
+    [
+      "app-icon-512.png",
+      "app/public/app-icon-512.png"
+    ]
+  ],
+  "alphaFix": "work/qa/brand-selected-20261107/alpha-fix.json",
+  "transparentHouseMarks": "About uses mark-light.png or mark-dark.png with real alpha; platform installation icons retain intentional canvases."
+}

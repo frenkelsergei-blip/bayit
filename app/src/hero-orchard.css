@@ -1,0 +1,32 @@
+/* The orchard shares the garden's scene and controls; only the growing area changes. */
+.garden-zone-picker{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+.garden-zone-picker>button{display:flex;align-items:center;justify-content:center;gap:9px;min-height:48px;flex:1;min-width:0;padding:10px 17px;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);font-weight:850;font-size:calc(14px * var(--font-adjust,1));line-height:1.4}
+.garden-zone-picker>button[aria-pressed=true]{background:var(--primary);border-color:var(--primary);color:var(--onPrimary)}
+.garden-zone-picker svg{flex:none}
+.garden-shop-filter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.garden-shop-filter>button{min-height:44px;padding:9px 17px;border:1px solid var(--border);border-radius:24px;background:var(--surface);color:var(--text);font-weight:850;font-size:calc(13px * var(--font-adjust,1))}
+.garden-shop-filter>button[aria-pressed=true]{background:var(--primary);border-color:var(--primary);color:var(--onPrimary)}
+.garden-crop-zone{display:flex;align-items:center;gap:4px;margin-top:12px;font-size:calc(11px * var(--font-adjust,1));font-weight:800;color:var(--primary);line-height:1.4}
+.garden-seed-card .garden-crop-zone+h4{margin-top:6px}
+.garden-orchard-expansion{background:var(--surfaceSoft)}
+.hero-garden .garden-field[data-zone=beds] .garden-plots[data-plot-count="6"]{inset:36% 6% 13%;row-gap:0;column-gap:3%}
+.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="6"]) .garden-guide:not(.is-at-plot){left:25%;bottom:65%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plots{inset:37% 6% 9%;column-gap:3%;row-gap:0}
+.hero-garden .garden-field[data-zone=orchard] .garden-plots[data-plot-count="3"]{inset:33% 6% 12%;grid-template-rows:minmax(0,1fr);align-items:end}
+.hero-garden .garden-field[data-zone=orchard] .garden-plot{height:100%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plant{object-position:50% 100%;height:120%;bottom:19%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plant-here{bottom:9%}
+.hero-garden .garden-field[data-zone=orchard] .garden-soil{height:30%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plot-art{bottom:22%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plots[data-plot-count="3"] .garden-plot-art{top:20%}
+.hero-garden .garden-field[data-zone=orchard] .garden-guide:not(.is-at-plot){bottom:58%}
+.hero-garden .garden-field[data-zone=orchard] .garden-plots[data-plot-count="6"] .garden-plant{height:87%}
+.hero-garden .garden-field[data-zone=orchard]:has(.garden-plots[data-plot-count="6"]) .garden-guide:not(.is-at-plot){left:25%}
+.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="9"],.garden-plots[data-plot-count="12"]) .garden-guide:not(.is-at-plot){bottom:65%}
+.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="9"]) .garden-guide:not(.is-at-plot){left:25%}
+.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="12"]) .garden-guide:not(.is-at-plot){left:18%}
+.garden-zone-note{margin:0 0 14px;color:var(--muted);font-size:calc(13px * var(--font-adjust,1));line-height:1.5}
+@media(max-width:700px){.garden-zone-picker{gap:8px;margin-bottom:12px}.garden-zone-picker>button{padding:10px 7px;gap:6px;font-size:calc(12px * var(--font-adjust,1))}.garden-zone-picker svg{width:19px}.garden-shop-filter{gap:6px}.garden-shop-filter>button{padding:8px 12px;font-size:calc(12px * var(--font-adjust,1))}.garden-crop-zone{font-size:calc(10px * var(--font-adjust,1))}.garden-zone-note{font-size:calc(12px * var(--font-adjust,1))}}
+@media(max-width:700px){.hero-garden .garden-field[data-zone=orchard]:has(.garden-plots[data-plot-count="6"]) .garden-guide:not(.is-at-plot){left:23%}}
+@media(max-width:700px){.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="9"]) .garden-guide:not(.is-at-plot){left:23%}.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="12"]) .garden-guide:not(.is-at-plot){left:16%}}
+@media(max-width:700px){.hero-garden .garden-field[data-zone=beds]:has(.garden-plots[data-plot-count="6"]) .garden-guide:not(.is-at-plot){left:23%}}

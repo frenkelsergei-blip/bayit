@@ -1,0 +1,26 @@
+/* Garden review styles load with the garden only, independently of Games. */
+@media(min-width:701px) and (max-width:1000px){
+ .hero-organization .garden-world-controls{flex-direction:column;gap:9px}
+ .hero-organization .garden-world-tools{width:100%;max-width:none;min-width:0;flex:none}
+ .hero-organization .garden-quick-seeds{width:100%;flex:none}
+ .hero-organization .garden-tool-guidance{align-self:stretch;margin:4px 0}
+}
+.hero-organization .garden-unified-scene{overflow:hidden}
+.hero-organization .garden-ground-shadow{left:-1%;bottom:-16cqw;width:120%;height:42cqw;z-index:-1;opacity:.65}
+.hero-organization .world-orchard .garden-ground-shadow{left:-1%;bottom:-15cqw;width:118%;height:40cqw;opacity:.65}
+.hero-organization .garden-sign-orchard{left:51%;top:12%;width:17%;height:9%}
+.hero-organization .garden-sign-beds{left:1%;top:43%;width:19%;height:10%}
+.hero-organization .garden-world-decoration{left:6%;top:31%;width:10%;height:9%}
+.hero-organization .garden-world-tools>button{flex-direction:row;gap:7px;min-height:48px;padding:9px}
+.hero-organization .garden-world-tools>button>svg{flex:none}
+.hero-organization .garden-world-tools>button>span{display:inline-flex;align-items:baseline;justify-content:center;gap:5px;line-height:1.25}
+.hero-organization .garden-world-tools>button bdi{font:inherit;line-height:inherit;color:inherit}
+.garden-tool-count-help{margin:9px 0 0;text-align:center;font-size:calc(12px * var(--font-adjust,1));line-height:1.4;color:var(--muted)}
+@media(max-width:360px){.hero-organization .garden-world-tools>button{flex-direction:column;gap:3px;min-height:60px}}
+.hero-organization .garden-world-tools>button[aria-pressed=true]{background:#0240de;color:#fff}
+@media(max-width:700px){
+ .hero-organization .garden-sign-orchard{left:35%;top:18%;width:30%;height:9%}
+ .hero-organization .garden-sign-beds{left:1%;top:57%;width:28%;height:8%}
+ .hero-organization .garden-world-decoration{left:5%;top:30%;width:11%;height:8%}
+ .hero-organization .garden-world-tools>button{gap:4px;padding:8px 5px}.hero-organization .garden-world-tools>button>span{font-size:calc(12px * var(--font-adjust,1));gap:4px}
+}

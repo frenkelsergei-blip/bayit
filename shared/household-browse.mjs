@@ -1,0 +1,7 @@
+import {serviceDue} from './maintenance-service.mjs';
+export function browsePantry(records,{search='',locations=[],status=[],sort='name'}={},today='',title=r=>r.title||''){
+ const soon=new Date(Date.parse(today+'T12:00Z')+7*864e5).toISOString().slice(0,10);return records.filter(r=>!r.deletedAt&&(!locations.length||locations.includes(r.location))&&(!search||[r.title,r.he].join(' ').toLocaleLowerCase().includes(search.toLocaleLowerCase()))&&(!status.length||status.some(s=>s==='low'?r.quantityValue<(r.minimum??2):s==='out'?r.quantityValue===0:s==='expired'?r.expires&&r.expires<today:s==='soon'?r.expires&&r.expires>=today&&r.expires<=soon:r.quantityValue>=(r.minimum??2)))).sort((x,y)=>sort==='expiry'?(x.expires||'9999').localeCompare(y.expires||'9999'):sort==='stock'?x.quantityValue-y.quantityValue:title(x).localeCompare(title(y)));
+}
+export function browseMaintenance(records,{search='',people=[],status=[],sort='due'}={},today='',title=r=>r.title||''){
+ return records.filter(r=>!r.deletedAt&&(!search||[r.title,r.he,r.note].join(' ').toLocaleLowerCase().includes(search.toLocaleLowerCase()))&&(!people.length||people.includes(r.memberId))&&(!status.length||status.some(s=>s==='completed'?!serviceDue(r):s==='overdue'?serviceDue(r)&&serviceDue(r)<today:serviceDue(r)&&serviceDue(r)>=today))).sort((x,y)=>sort==='name'?title(x).localeCompare(title(y)):(serviceDue(x)||'9999').localeCompare(serviceDue(y)||'9999'));
+}

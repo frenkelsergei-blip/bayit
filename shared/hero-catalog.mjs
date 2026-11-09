@@ -6,9 +6,39 @@ export const HERO_ITEMS=[
  item('apple','Crunchy apple','תפוח פריך','food',null,2,1,'apple',{nutrition:25}),
  item('bread','Fresh bread','לחם טרי','food',null,2,1,'bread',{nutrition:30}),
  item('milk','Glass of milk','כוס חלב','food',null,2,1,'milk-carton',{nutrition:20}),
- item('rice','Warm rice','אורז חם','food',null,3,1,'rice-bag',{nutrition:40}),
+ item('rice','Warm rice','אורז חם','food',null,3,1,'rice-bag',{nutrition:40,image:'/assets/generated/hero-care-life/food/rice.png'}),
  item('vegetables','Vegetable basket','סל ירקות','food',null,3,1,'vegetable-basket',{nutrition:35}),
  item('dinner','Homemade dinner','ארוחה ביתית','food',null,4,1,'dinner-plate',{nutrition:50}),
+ item('garden-fruit','Fruit from my garden','פירות מהגינה שלי','food',null,3,1,'strawberry',{nutrition:28,image:'/assets/icons/bayit/groceries/strawberries-256.png'}),
+ item("banana","Banana","בננה","food",null,2,1,"banana",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/banana-256.png"}),
+ item("strawberries","Strawberries","תותים","food",null,2,1,"strawberries",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/strawberries-256.png"}),
+ item("pear","Pear","אגס","food",null,2,1,"pear",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/pear-256.png"}),
+ item("orange","Orange","תפוז","food",null,2,1,"orange",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/orange-256.png"}),
+ item("grapes","Grapes","ענבים","food",null,2,1,"grapes",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/grapes-256.png"}),
+ item("peach","Peach","אפרסק","food",null,2,1,"peach",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/peach-256.png"}),
+ item("watermelon","Watermelon","אבטיח","food",null,2,1,"watermelon",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/watermelon-256.png"}),
+ item("carrot","Carrot sticks","מקלות גזר","food",null,1,1,"carrot",{nutrition:20,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/carrot-256.png"}),
+ item("cucumber","Cucumber","מלפפון","food",null,1,1,"cucumber",{nutrition:20,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/cucumber-256.png"}),
+ item("tomato","Cherry tomatoes","עגבניות שרי","food",null,1,1,"tomatoes",{nutrition:20,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/tomatoes-256.png"}),
+ item("pepper","Sweet pepper","פלפל מתוק","food",null,1,1,"pepper",{nutrition:20,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/pepper-256.png"}),
+ item("broccoli","Broccoli","ברוקולי","food",null,2,1,"broccoli",{nutrition:25,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/broccoli-256.png"}),
+ item("avocado","Avocado","אבוקדו","food",null,2,1,"avocado",{nutrition:30,foodGroup:"fresh",meal:"hand",image:"/assets/icons/bayit/groceries/avocado-256.png"}),
+ item("pita","Pita bread","פיתה","food",null,2,1,"pita",{nutrition:30,foodGroup:"snacks",meal:"hand",image:"/assets/icons/bayit/groceries/pita-256.png"}),
+ item("toast","Cheese toast","טוסט גבינה","food",null,2,1,"toast",{nutrition:35,foodGroup:"snacks",meal:"hand",image:"/assets/generated/hero-care-life/food/toast.png"}),
+ item("yogurt","Yogurt","יוגורט","food",null,2,1,"yogurt",{nutrition:25,foodGroup:"snacks",meal:"hand",image:"/assets/generated/hero-care-life/food/yogurt.png"}),
+ item("oats","Warm oatmeal","דייסת שיבולת שועל","food",null,2,1,"oats",{nutrition:35,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/oats.png"}),
+ item("omelette","Omelette","חביתה","food",null,3,1,"omelette",{nutrition:40,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/omelette.png"}),
+ item("pasta","Pasta","פסטה","food",null,3,1,"pasta",{nutrition:40,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/pasta.png"}),
+ item("soup","Vegetable soup","מרק ירקות","food",null,3,1,"soup",{nutrition:35,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/soup.png"}),
+ item("lentils","Lentils","עדשים","food",null,3,1,"lentils",{nutrition:35,foodGroup:"meals",meal:"bowl",image:"/assets/icons/bayit/groceries/lentils-256.png"}),
+ item("fish","Fish and vegetables","דג וירקות","food",null,4,1,"fish",{nutrition:45,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/fish.png"}),
+ item("chicken","Chicken dinner","ארוחת עוף","food",null,4,1,"chicken",{nutrition:50,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/chicken.png"}),
+ item("potato","Baked potato","תפוח אדמה אפוי","food",null,3,1,"potato",{nutrition:35,foodGroup:"meals",meal:"bowl",image:"/assets/generated/hero-care-life/food/potato.png"}),
+ item("chickpeas","Chickpeas","גרגרי חומוס","food",null,2,1,"chickpeas",{nutrition:30,foodGroup:"meals",meal:"bowl",image:"/assets/icons/bayit/groceries/chickpeas-256.png"}),
+ item("water","Water","מים","food",null,1,1,"water",{nutrition:10,foodGroup:"drinks",meal:"drink",image:"/assets/icons/bayit/groceries/water-256.png"}),
+ item("juice","Orange juice","מיץ תפוזים","food",null,2,1,"orange-juice",{nutrition:20,foodGroup:"drinks",meal:"drink",image:"/assets/icons/bayit/groceries/orange-juice-256.png"}),
+ item("smoothie","Banana smoothie","שייק בננה","food",null,3,1,"smoothie",{nutrition:30,foodGroup:"drinks",meal:"drink",image:"/assets/generated/hero-care-life/food/smoothie.png"}),
+ item("hummus-pita","Pita with hummus","פיתה עם חומוס","food",null,2,1,"hummus-pita",{nutrition:35,foodGroup:"snacks",meal:"hand",image:"/assets/generated/hero-care-life/food/hummus-pita.png"}),
  item('cap','Blue cap','כובע כחול','gear','hat',0,1,'blue-cap'),
  item('cape','Moon cape','גלימת ירח','gear','outfit',0,5,'moon-cape'),
  item('wizard','Star wizard hat','כובע קוסמים','gear','hat',16,2,'star-wizard-hat'),
@@ -47,6 +77,7 @@ export const HERO_ITEMS=[
   ['clock','Sunny alarm clock','שעון בוקר',8,'alarm-clock'],['calendar','My little calendar','לוח שנה קטן',6,'calendar'],['dollhouse','Little dollhouse','בית בובות קטן',16,'blue-house'],
  ].map(([id,en,he,price,icon])=>item(id,en,he,'room','decor',price,1,icon)),
  ...[
+  ['clap','Clap along','מוחאים בקצב',8,1,'musical-note'],
   ['bounce','Happy bounce','קפיצה שמחה',0,1,'yellow-star'],['dance','Happy dance','ריקוד שמח',8,1,'musical-note'],
   ['twirl','Little twirl','סיבוב קטן',12,2,'smiling-sun'],['float','Moon float','ריחוף ירח',24,3,'moon-badge'],
   ['hop','Bunny hop','קפיצת ארנב',10,1,'rabbit'],['hero','Hero pose','תנוחת גיבור',16,2,'wooden-shield'],
@@ -58,4 +89,7 @@ export const HERO_BY_ID=Object.freeze(Object.assign(Object.create(null),Object.f
 export const HERO_SLOTS=['hat','outfit','hand','badge','pet','decor','motion'];
 export const HERO_CATEGORIES=[['all','Everything','הכול'],['food','Food','אוכל'],['gear','Accessories','אביזרים'],['pets','Companions','חברים'],['room','Room','לחדר'],['moves','Moves','תנועות']];
 export const HERO_STARTER_STARS=12;
-export const HERO_XP_PER_STAR=10;
+export const HERO_XP_PER_STAR=5;
+
+export const heroFoodGroup=item=>item.foodGroup||(item.id==='milk'?'drinks':['rice','dinner'].includes(item.id)?'meals':item.id==='bread'?'snacks':'fresh');
+export const heroFoodMeal=item=>item.id==='apple'?'hand':item.meal==='drink'||item.id==='milk'?'drink':'bowl';

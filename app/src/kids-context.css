@@ -1,0 +1,35 @@
+/* A stable module header and the same compact section menu as Household. */
+.kids-section-layout>.kids-section-heading>.page-actions{display:none}
+.kids-context-picker{display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;margin:14px 0 4px;min-width:0}
+.kids-context-picker>span{font-size:calc(14px * var(--font-adjust,1));font-weight:800;color:var(--muted)}
+.kids-context-picker>.kids-context-choices{margin:0;min-width:0;max-width:100%;gap:16px 22px}
+.kids-context-choices>.person-chip.calendar-person{min-width:115px;justify-content:flex-start}
+.kids-context-choices .person-chip-name{flex:1;text-align:center}
+.kids-activity-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 24px;margin:0 0 20px;min-width:0}
+.kids-activity-heading>div:first-child{flex:1;min-width:220px}
+.kids-activity-heading h2{font-size:calc(29px * var(--font-adjust,1));font-weight:950;line-height:1.2;margin:0 0 7px;letter-spacing:-.025em}
+.kids-activity-heading p{font-size:calc(15px * var(--font-adjust,1));line-height:1.5;margin:0;color:var(--muted)}
+.kids-activity-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.kids-activity-actions>.button{min-height:44px}
+.kids-activity-actions>.switch-row{margin:0}
+.kids-section-layout .kids-section-content .hero-home-toolbar{margin:0 0 14px;justify-content:flex-end}
+.kids-section-content .kids-parent-panel{margin-top:0}
+.kids-section-content .turn-queue>.is-current-child>div>h2{color:var(--primary)}
+.kids-turn-context{font-size:calc(14px * var(--font-adjust,1));line-height:1.5;color:var(--muted);margin:0 0 18px}
+@media(max-width:700px){
+ .kids-context-picker{gap:2px 12px;margin:12px 0 2px}
+ .kids-context-picker>span{font-size:calc(13px * var(--font-adjust,1))}
+ .kids-context-picker>.kids-context-choices{gap:14px 16px;width:100%;padding-block:10px}
+ .kids-context-choices>.person-chip.calendar-person{min-width:105px}
+ .kids-activity-heading{gap:12px;margin-bottom:18px}
+ .kids-activity-heading h2{font-size:calc(25px * var(--font-adjust,1))}
+ .kids-activity-heading p{font-size:calc(14px * var(--font-adjust,1))}
+ .kids-activity-actions{max-width:100%}
+}
+
+.kids-section-content .kids-history-heading{flex-wrap:wrap;gap:12px}
+.kids-history-heading>h2{min-width:200px;flex:1}
+
+/* Wrapped shared portraits reserve their painted ring/shadow area. */
+.kids-context-picker>.kids-context-choices{row-gap:26px}
+@media(max-width:360px){.kids-section-layout>.tabs.nav-section.nav-section:not(.nav-many){grid-template-columns:repeat(var(--nav-count,5),minmax(0,1fr));grid-auto-flow:row;grid-auto-columns:auto;overflow:visible}}

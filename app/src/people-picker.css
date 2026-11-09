@@ -1,9 +1,6 @@
-/* PeoplePicker: phones only. The chip rows marked .has-people-picker hide on phones; the button hides elsewhere. */
-.people-picker{display:none}
-@media(max-width:700px){
- .people-picker{display:block;flex:none}
- .has-people-picker{display:none!important}
-}
+/* Single-person filters use one shared picker at every width; marked chip rows are legacy alternatives. */
+.people-picker{display:block;flex:none}
+.has-people-picker{display:none!important}
 .people-picker-button{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:6px 14px 6px 8px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface,#fff);color:var(--text);font:inherit;font-weight:800;font-size:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .people-picker-button:active{transform:scale(.97)}
 .people-picker-button.chosen{border-color:transparent;background:color-mix(in srgb,var(--primary) 16%,var(--surface,#fff));color:color-mix(in srgb,var(--primary) 80%,var(--text))}

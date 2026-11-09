@@ -1,0 +1,3 @@
+/* Keep the central modal lock separate from individual dialogs' inline overflow cleanup.
+   Capturing their temporary "hidden" value could otherwise leave the page locked forever. */
+html[data-bayit-dialog-open="true"],body[data-bayit-dialog-open="true"]{overflow:hidden}

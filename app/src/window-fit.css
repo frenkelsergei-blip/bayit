@@ -1,0 +1,85 @@
+/* Windows on every screen size and menu position (user reports 2026-11-08, real iPhone):
+   - every phone window reserved 86px at the bottom for a bottom menu (remediation.css), so with the menu on top
+     the window stopped short of the screen bottom and the page showed through below Cancel / Save;
+   - the shared window footer was sticky with a -24px offset that matched 24px padding, but phones use 18–34px,
+     so the next section showed below Cancel / Create;
+   - the event / task form Save bar stopped 48px above the bottom with empty space under it;
+   - half-height sheets, floating windows and full pages were mixed. The user chose one phone shape: a FULL-SCREEN
+     window (title + X on top, the content scrolls, Cancel / Save fixed at the bottom), the same as the event and
+     task forms. The Calendar day list keeps its approved sheet (2026-11-07). Wider screens keep a centred window
+     above the bottom menu.
+   The Shopping item editor keeps its Save/Cancel in normal flow, as the user asked. */
+
+/* Shared window anatomy at every size: header and footer stay, only the sections scroll. */
+html:root .tasks-sheet:not(.shop-item-sheet){display:flex!important;flex-direction:column;overflow:hidden!important;padding:0!important;gap:0!important}
+html:root .tasks-sheet:not(.shop-item-sheet)>header{position:static!important;flex:none;margin:0!important;padding:20px 24px 14px!important}
+html:root .tasks-sheet:not(.shop-item-sheet)>.tasks-sheet-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:16px 24px 20px}
+html:root .tasks-sheet:not(.shop-item-sheet)>:not(header):not(.tasks-sheet-body):not(.tasks-sheet-actions){flex:none;margin-inline:24px}
+html:root .tasks-sheet:not(.shop-item-sheet)>.tasks-sheet-actions{position:static!important;flex:none;margin:0!important;padding:14px 24px 18px!important}
+
+/* Wider screens with the menu at the bottom: the window is centred in the space above the menu, never over it. */
+@media(min-width:701px) and (min-height:521px){
+ html:root[data-nav-position=bottom] .tasks-sheet-backdrop{padding-bottom:calc(var(--shell-nav-clearance,0px) + 16px)!important}
+}
+
+/* Phones (portrait and short landscape): every window is full screen, above the menu, in either menu position. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root :is(.tasks-sheet-backdrop,.household-window-backdrop,.modal-backdrop.insurance-backdrop,.modal-backdrop.transaction-backdrop){z-index:400!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;place-items:stretch!important}
+ html:root :is(.tasks-sheet,.household-window,.household-window.wide,.insurance-backdrop .insurance-dialog,.transaction-backdrop [role=dialog]){width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
+ /* Header clear of the status bar / Dynamic Island; footer clear of the home indicator. */
+ html:root .tasks-sheet:not(.shop-item-sheet)>header{padding-top:max(16px,env(safe-area-inset-top))!important;padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right))!important;padding-bottom:12px!important}
+ html:root .household-window .document-editor-header,html:root .insurance-backdrop .insurance-dialog-header{padding-top:max(14px,env(safe-area-inset-top))!important}
+ html:root .tasks-sheet:not(.shop-item-sheet)>.tasks-sheet-body{padding:14px max(18px,env(safe-area-inset-right)) 18px max(18px,env(safe-area-inset-left))}
+ html:root .tasks-sheet:not(.shop-item-sheet)>:not(header):not(.tasks-sheet-body):not(.tasks-sheet-actions){margin-inline:18px}
+ html:root :is(.tasks-sheet-actions,.document-editor-footer,.insurance-form-actions,.transaction-actions){padding-bottom:max(14px,env(safe-area-inset-bottom))!important}
+ html:root .tasks-sheet:not(.shop-item-sheet)>.tasks-sheet-actions{padding-inline:18px!important}
+ /* Household and insurance windows: body takes the free height and scrolls, footer sits on the screen bottom. */
+ html:root :is(.household-window,.insurance-backdrop .insurance-dialog){display:flex!important;flex-direction:column!important;overflow:hidden!important}
+ html:root :is(.household-window,.insurance-backdrop .insurance-dialog)>*{flex:none}
+ html:root :is(.household-window .document-editor-body,.insurance-backdrop .insurance-dialog-body){flex:1 1 auto!important;min-height:0;overflow-y:auto!important;overscroll-behavior:contain}
+ /* Insurance windows wrap body + footer in a form: the form fills the free height the same way. */
+ html:root .insurance-backdrop .insurance-dialog>form{flex:1 1 auto!important;min-height:0;display:flex!important;flex-direction:column!important;overflow:hidden}
+ html:root .insurance-backdrop .insurance-dialog>form>*{flex:none}
+ html:root .insurance-backdrop .insurance-dialog>form>.insurance-dialog-body{flex:1 1 auto!important}
+ /* The Shopping item editor scrolls as one page; its Save/Cancel stay in normal flow at the end (user decision). */
+ html:root .tasks-sheet.shop-item-sheet{overflow-y:auto!important;padding-top:max(16px,env(safe-area-inset-top))!important;padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+}
+
+/* Menu at the top: the phone event / task / routine Save bar sits on the screen bottom, with nothing below it. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root[data-shell=horizontal]:not([data-nav-position=bottom]) .shell-v2>.main-content:has(.record-editor .form-sticky-actions){padding-bottom:0!important}
+ html:root[data-shell=horizontal]:not([data-nav-position=bottom]) .shell-v2 .record-editor .form-sticky-actions{bottom:var(--keyboard-inset,0px)!important;margin-bottom:0!important;padding-bottom:max(14px,env(safe-area-inset-bottom))!important}
+ html:root[data-shell=horizontal]:not([data-nav-position=bottom]) .shell-v2 .record-editor .form-sticky-actions::before{bottom:0!important}
+}
+
+/* Calendar day list (approved sheet): with the menu on top it runs to the screen bottom, footer clear of the home indicator. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root:not([data-nav-position=bottom]) :is(.calendar-month-event-dialog,.calendar-month-day-sheet){max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - 12px)!important}
+ html:root:not([data-nav-position=bottom]) .calendar-month-modal-backdrop :is(.month-day-footer,.calendar-month-event-footer){padding-bottom:max(14px,env(safe-area-inset-bottom))!important}
+}
+
+/* Focus rings show for keyboard users only (input-modality.js). A touch or mouse user does not see a blue frame on
+   the X that receives the window's initial focus; fields keep their own soft focus style. */
+html[data-input=pointer] :is([role=dialog],[aria-modal=true]) :is(button,a,[role=button],[tabindex]):focus{outline:none!important;box-shadow:none!important}
+
+/* Sections inside a scrolling window body keep their full height (they were squeezed and cut, e.g. "Whole family"). */
+html:root :is(.tasks-sheet-body,.household-window .document-editor-body,.insurance-backdrop .insurance-dialog-body)>*{flex-shrink:0!important;min-height:auto}
+/* One window title size everywhere (New list was larger than Inventory item). */
+html:root :is(.tasks-sheet>header,.household-window .document-editor-header,.insurance-backdrop .insurance-dialog-header) :is(h1,h2,h3):first-of-type{font-size:calc(var(--scale-section) * var(--font-adjust,1))!important;line-height:1.2!important;font-weight:900!important;letter-spacing:normal;margin:0}
+/* Grid bodies: rows take their full content height (a section with overflow:hidden may otherwise shrink to fit). */
+html:root :is(.tasks-sheet-body,.household-window .document-editor-body,.insurance-backdrop .insurance-dialog-body){grid-auto-rows:max-content!important;align-content:start!important}
+/* Item picture button: the same height as its name field and aligned with the field, not with the field's title
+   (user report: the inventory picture looked bigger and out of line with other forms). */
+html:root .household-window .household-icon-choice{align-self:end!important;width:64px!important;min-width:64px!important;height:50px!important;min-height:50px!important;padding:0!important;border-radius:16px!important;display:grid!important;place-items:center!important;margin:0!important}
+html:root .household-window .household-icon-choice img{width:34px!important;height:34px!important}
+html[lang=he] .household-window .household-icon-choice{height:52px!important;min-height:52px!important}/* Hebrew fields are 2px taller (Heebo line box) */
+
+/* Journal audit hand-over (2026-11-08): Tasks/Calendar detail sheets on phones started 40px down; full screen like every
+   phone window. Household filter window: 44px fields and footer labels that never wrap. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .detail-sheet-backdrop{padding:0!important;align-items:stretch!important}
+ html:root .detail-sheet-backdrop>.detail-sheet{top:0!important;margin:0!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;padding-top:0!important}
+ html:root .detail-sheet-backdrop>.detail-sheet>.detail-sheet-header{padding-top:max(12px,env(safe-area-inset-top))!important}
+}
+html:root .household-filter-sheet :is(select,.select-button){min-height:var(--scale-control,44px)!important;height:var(--scale-control,44px)}
+html:root .tasks-sheet .tasks-sheet-actions>.button{white-space:nowrap}

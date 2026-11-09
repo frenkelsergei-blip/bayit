@@ -163,16 +163,16 @@
       "file": "assets/generated/bayit-logo-512.png",
       "width": 512,
       "height": 171,
-      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
-      "sha256": "c49376f53d0f419d6d2b48db84f196912f347a11d841ee3467d5544f95dfc7f8"
+      "source": "Built-in ImageGen; selected cobalt/yellow logo; assets/generated/brand-selected-20261107/provenance.json",
+      "sha256": "6bd54e17470954271679f13d09cd19b7e10acb982ba0bf5eba7f0174997f1585"
     },
     {
       "id": "bayit-logo",
       "file": "assets/generated/bayit-logo.png",
-      "width": 2172,
-      "height": 724,
-      "source": "Built-in ImageGen; crop/resize derivatives documented in work scripts",
-      "sha256": "d71436902e5835a7eb17ed281e52941486e8aed7f6b05b1e6ee54b73314254ec"
+      "width": 850,
+      "height": 284,
+      "source": "Built-in ImageGen; selected cobalt/yellow logo; assets/generated/brand-selected-20261107/provenance.json",
+      "sha256": "6865ec04c75bce1466e434ca2c38fac59013f06b432bea07d78d2349ac8d46bb"
     },
     {
       "id": "family-portrait-256",
@@ -253,6 +253,54 @@
       "height": 133,
       "source": "Built-in ImageGen; work/qa/refinement-20261104/title-underline-clean-provenance.json",
       "sha256": "e55010ab6bb3f33d16575d101f4849a2562e67ba0d30f0abe6fe00671b13365c"
+    },
+    {
+      "id": "title-underline-clean-240",
+      "file": "assets/generated/title-underline-clean-240.png",
+      "width": 240,
+      "height": 18,
+      "source": "Resized derivative of title-underline-clean.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "4e15911163d814e9957b4ceca7deb971ce8076519474aa1cda96b8fe2b6ea84b"
+    },
+    {
+      "id": "title-underline-clean-480",
+      "file": "assets/generated/title-underline-clean-480.png",
+      "width": 480,
+      "height": 35,
+      "source": "Resized derivative of title-underline-clean.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "83e9ba9e3a28204feeef91342c7f0cfe241c322c53209c6a41b4893d37635397"
+    },
+    {
+      "id": "title-underline-clean-720",
+      "file": "assets/generated/title-underline-clean-720.png",
+      "width": 720,
+      "height": 53,
+      "source": "Resized derivative of title-underline-clean.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "0ad91c9211df55f5b1a69bf57ad6b102e7cce4dd61a0ded83cb3510a72366aa0"
+    },
+    {
+      "id": "title-rays-48",
+      "file": "assets/generated/title-rays-48.png",
+      "width": 48,
+      "height": 48,
+      "source": "Resized derivative of title-rays.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "1cd9c299fd0504e3e44eda2bc8f0cf6511e6b38c177b0f923e300548d1642abc"
+    },
+    {
+      "id": "title-rays-96",
+      "file": "assets/generated/title-rays-96.png",
+      "width": 96,
+      "height": 96,
+      "source": "Resized derivative of title-rays.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "e95549dd96ddfa5f211fa111ef9f89f8d9edfc72f54a461dba2e30ce80607f65"
+    },
+    {
+      "id": "title-rays-144",
+      "file": "assets/generated/title-rays-144.png",
+      "width": 144,
+      "height": 144,
+      "source": "Resized derivative of title-rays.png (Lanczos, premultiplied alpha); work/design-system-20261108/make-title-variants.py",
+      "sha256": "9177f30ff593cdca278762306a6d6667cff7b566e1d8604e44e6741890c081c6"
     },
     {
       "id": "avatar-maya",

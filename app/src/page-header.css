@@ -1,0 +1,64 @@
+/* Page header (design system P1 + subtitle rule, user report 2026-11-08: Hebrew titles were not aligned with the
+   page, the subtitle disappeared in landscape and the title sat too close to what follows).
+   - P1: one column. The old header reserved a 48px bell column plus a 28px gap at the physical right, although the
+     bell moved to the shell top bar, so every Hebrew title started 76px inside the content edge.
+   - The subtitle shows on every layout, including short landscape phones.
+   - In Hebrew the bottom-menu "עוד" shows its dots after the word (on the left) where the label sits beside the icon. */
+html:root .page-heading{grid-template-columns:minmax(0,1fr)!important}
+html:root .page-heading>.heading-utilities{display:none!important}
+@media(max-height:520px) and (orientation:landscape){
+ html:root main .page-heading>div>p{display:block!important}
+}
+html[dir=rtl] .bayit-shell-nav-inner>button[aria-haspopup=dialog]>svg{order:1}
+@media(max-width:700px) and (min-height:521px){
+ html[dir=rtl] .bayit-shell-nav-inner>button[aria-haspopup=dialog]>svg{order:0}
+}
+
+/* ===== Design system, approved by the user 2026-11-08 ("Approve all 8"); see docs/design-system/. =====
+   Shared by every page. Page stylesheets keep their own layouts; these rules only unify the header. */
+:root{--scale-gap-header:32px}
+@media(max-width:700px){:root{--scale-gap-header:24px}}
+@media(max-height:520px) and (orientation:landscape){:root{--scale-gap-header:16px}}
+
+/* 2. One title size and subtitle on every page (was 40/51/55/58px). */
+html:root .main-content .page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root .main-content .page-heading>div>p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));line-height:1.35;font-weight:650;margin-top:8px}
+
+/* 3. One space from the header block to the content.
+   Pages whose title row is a grid (Today, Calendar, Tasks, Shopping, Household): the first content after the actions. */
+html:root :is(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-actions+*{margin-top:var(--scale-gap-header)!important}
+/* 4. Every other page: the title floats at the reading start, so the actions (main action, then Cards/List) sit at the
+   reading end of the same row on desktop. The first content clears below both. Floats are ignored in grid parents. */
+html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading{float:left;max-width:100%;margin-bottom:var(--scale-gap-header)!important}
+html:root[dir=rtl] :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading{float:right}
+html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions{margin:0 0 var(--scale-gap-header)!important;justify-content:flex-end}
+html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions>.page-density-slot{margin-inline-start:0}
+html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions+*,html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading+:not(.page-actions){clear:both;margin-top:0!important}
+html:root .main-content .kids-section-heading{display:flow-root}
+html:root .main-content .kids-section-heading+*{margin-top:0!important}
+@media(max-width:1100px){
+ html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading{float:none!important}
+ html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions{margin-top:calc(14px - var(--scale-gap-header))!important}
+ html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions{justify-content:flex-start}
+}
+@media(max-width:700px){
+ html:root :not(main.view-today,.calendar-reference,.tasks-v2,.shop2,main.view-household)>.page-heading~.page-actions>.button{flex:1 1 auto}
+}
+
+/* 5. Title art: the same generated PNGs at their natural aspect ratio (1×/2×/3× via srcset in Heading), spanning
+   108% of the final word (at least 3.4em, centred, so a short word keeps a bold line), 0.24em below it. Replaces the object-fit:fill stretch. */
+html:root .page-heading .title-end.generated .title-underline{inset-inline:auto!important;left:50%!important;translate:-50% 0;top:auto!important;bottom:-.24em!important;width:max(108%,3.4em)!important;max-width:none!important;height:auto!important;overflow:visible!important}
+html:root .page-heading .title-end.generated .title-underline img{position:static!important;display:block;width:100%!important;height:auto!important;max-width:none;top:auto!important;left:auto!important;transform:none!important;clip-path:none!important;object-fit:contain!important}
+
+/* 6. One content edge: the Calendar, Tasks and Shopping columns no longer stop at 1296px inside the shell. */
+html:root .main-content :is(.calendar-reference,.tasks-v2,.shop2){max-width:none!important}
+/* Household on phones and short landscape puts Cards/List beside the section tabs (household-layout.css); both start
+   one header gap below the title so they stay on one line. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root main.view-household>.page-actions{margin-top:var(--scale-gap-header)!important}
+}
+/* Ask AI: its section tabs carried an extra 18px above them, on top of the header gap. */
+html:root main.view-ai>.ai-view-tabs>.tabs.nav-section{margin-top:0}
+/* An actions row with nothing in it (no action, empty Cards/List slot) takes no space. Written without :empty inside
+   :has, which WebKit (iPhone Safari) ignores, so the old remediation rule left an empty box that added margin. */
+html:root .main-content .page-actions:not(:has(>:not(.page-density-slot),>.page-density-slot>*)){display:none!important}

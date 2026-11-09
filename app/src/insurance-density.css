@@ -1,0 +1,15 @@
+/* List mode is a compact ledger, using the same records and detail action. */
+html[data-density=compact] .insurance-page .insurance-policy-row{grid-template-columns:24px minmax(0,1fr) auto;gap:9px;min-height:44px;padding:7px 4px;border-radius:0}
+html[data-density=compact] .insurance-page .insurance-policy-row.selected{border-radius:12px}
+html[data-density=compact] .insurance-page .insurance-policy-icon{width:22px;height:22px;border-radius:0;background:transparent;color:var(--link,var(--text))}
+html[data-density=compact] .insurance-page .insurance-policy-icon>svg{width:22px;height:22px}
+html[data-density=compact] .insurance-page .insurance-policy-main{display:flex;flex-direction:row;align-items:baseline;gap:8px;min-width:0}
+html[data-density=compact] .insurance-page .insurance-policy-main>strong{flex:1 1 auto;min-width:0;font-size:calc(15px * var(--font-adjust,1));line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-density=compact] .insurance-page .insurance-policy-company{flex:0 1 40%;min-width:0;font-size:calc(12px * var(--font-adjust,1));line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-density=compact] .insurance-page .insurance-policy-people{display:none}
+html[data-density=compact] .insurance-page .insurance-policy-end{display:flex;flex-direction:row;align-items:center;gap:6px;max-width:none}
+html[data-density=compact] .insurance-page .insurance-policy-end>strong{font-size:calc(14px * var(--font-adjust,1));line-height:1.35;white-space:nowrap}
+html[data-density=compact] .insurance-page .insurance-policy-end>small{font-size:calc(11px * var(--font-adjust,1));white-space:nowrap}
+html[data-density=compact] .insurance-page .insurance-status{position:relative;flex:none;min-width:14px;padding:0;background:transparent}
+html[data-density=compact] .insurance-page .insurance-status>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:700px){html[data-density=compact] .insurance-page .insurance-policy-end>small{display:none}}

@@ -1,0 +1,39 @@
+.document-category-choice{padding:0;border:0;min-width:0;margin:0}
+.document-category-choice legend{font-size:20px;font-weight:800}
+.document-category-choice>p{font-size:14px;line-height:1.6;color:var(--muted);margin:8px 0 12px}
+.document-category-options{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 16px}
+.document-category-options>button{display:flex;align-items:center;gap:8px;min-height:42px;border:2px solid var(--border);background:var(--surface);color:var(--text);border-radius:22px;padding:7px 12px;font:inherit;font-size:14px}
+.document-category-options>button[aria-pressed=true]{border-color:var(--primary);background:var(--primary);color:var(--onPrimary);font-weight:800}
+.document-category-options>button>img{flex-shrink:0}
+.document-category-composer{border:1px solid var(--border);padding:16px;border-radius:18px;display:grid;gap:14px;background:var(--surfaceSoft);margin-block:16px}
+.document-category-name{display:flex;gap:12px;align-items:center;min-width:0}
+.document-category-name>label{display:grid;gap:7px;flex:1;min-width:0;font-size:15px}
+.document-category-composer input{width:100%;min-width:0;font-size:16px}
+.document-icon-choice{position:relative;display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border:1px solid var(--border);border-radius:17px;background:var(--surface);color:var(--primary)}
+.document-icon-choice>svg{position:absolute;inset-inline-end:3px;bottom:3px}
+.document-category-composer .actions{gap:10px;margin:0;display:flex;flex-wrap:wrap}
+.document-category-composer .actions>.button{font-size:14px;min-height:40px;padding:8px 14px}
+.document-editor .modal-backdrop{z-index:10}
+.document-title-field{display:flex;gap:12px;align-items:center}
+.document-title-field>label{flex:1;min-width:0;display:grid;gap:8px}
+.document-title-field input{width:100%}
+.document-category-labels{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;min-width:0}
+.document-category-labels>span{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;line-height:1.6}
+.document-category-labels img{flex-shrink:0}
+.document-categories-filter{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin-block:16px}
+.document-categories-filter>label{display:grid;gap:7px;font-size:14px;font-weight:700;flex:1;min-width:150px}
+.document-categories-filter .select-control{max-width:100%;min-width:0}
+.document-categories-filter .control-button{min-height:44px;font-size:14px}
+.document-category-manager{display:flex;flex-direction:column;min-height:0}
+.document-category-manager .document-editor-body{flex:1}
+.document-category-manager .document-editor-body>p{font-size:14px;line-height:1.7;color:var(--muted)}
+.document-category-manager h3{font-size:19px;margin-block:20px 12px}
+.document-managed-category{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.document-managed-category>strong{flex:1;overflow-wrap:anywhere;font-size:16px;min-width:0}
+.document-managed-category .icon-button{flex-shrink:0}
+.document-source-provenance{display:grid;gap:8px;background:var(--surfaceSoft);border:1px solid var(--border);padding:14px;border-radius:18px;margin-block:18px;font-size:14px;line-height:1.7}
+@media(max-width:700px){.document-categories-filter{align-items:stretch}.document-categories-filter>label{flex-basis:100%}.document-category-composer{padding:12px}}
+
+/* The nested icon chooser is outside the document form, so search Enter cannot upload it. */
+.document-icon-layer{position:fixed;inset:0;z-index:180}
+.document-icon-layer>.modal-backdrop{z-index:1}

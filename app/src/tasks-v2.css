@@ -124,4 +124,4 @@
 
 /* Task rows: flexible title column; at tablet widths the assignee shows as a photo only */
 .task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 150px 84px 22px}
-@media(max-width:1280px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 40px 76px 20px}.task-list-layout .task-row.tasks-row>.tasks-assignee span{display:none}.task-list-layout .task-row.tasks-row>.tasks-assignee{padding-inline-end:0;background:none!important}}
+@media(max-width:1280px){.task-list-layout .task-row.tasks-row{grid-template-columns:auto auto minmax(0,1fr) 40px 76px 20px}.task-list-layout .task-row.tasks-row>.tasks-assignee>span:not(.avatar){display:none}.task-list-layout .task-row.tasks-row>.tasks-assignee{padding-inline-end:0;background:none!important}}

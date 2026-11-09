@@ -1,0 +1,130 @@
+/* Unified illustrated garden; no changes to other module controls. */
+.hero-organization .hero-garden-world{padding:0;min-width:0}
+.hero-organization .hero-garden-world .hero-activity-heading{margin-bottom:18px}
+.hero-organization .garden-harvest-entry{display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 13px;border:0;border-radius:24px;background:var(--selected);color:var(--text);font-size:calc(14px * var(--font-adjust,1));font-weight:850;min-height:44px;cursor:pointer;flex:none}
+.hero-organization .garden-harvest-entry>img{width:32px;height:32px;object-fit:contain}
+.hero-organization .garden-unified-scene{position:relative;isolation:isolate;width:100%;aspect-ratio:1.95;min-height:calc(var(--garden-bed-rows) * 155px);overflow:visible;border-radius:26px;direction:ltr;background:var(--green);container-type:inline-size;touch-action:pan-y}
+.hero-organization .garden-unified-background{position:absolute;inset:0;border-radius:inherit;width:100%;height:100%;object-fit:fill;image-rendering:auto;pointer-events:none;user-select:none}
+html[data-theme=dark] .hero-organization .garden-unified-background{filter:brightness(.78) saturate(.92)}
+.hero-organization .garden-world-sign{position:absolute;object-fit:contain;z-index:3;pointer-events:none;user-select:none}
+.hero-organization .garden-sign-orchard{left:20%;top:28%;width:14%;height:13%}
+.hero-organization .garden-sign-beds{left:2%;top:33%;width:18%;height:11%}
+.hero-organization .garden-world-zone{position:absolute;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;z-index:4;direction:ltr;gap:3% 5%;pointer-events:none}
+.hero-organization .world-orchard{left:34%;top:30%;width:60%;height:25%;grid-template-rows:repeat(var(--garden-orchard-rows),minmax(0,1fr));column-gap:9%}
+.hero-organization .world-beds{left:26%;top:61%;width:69%;height:33%;grid-template-rows:repeat(var(--garden-bed-rows),minmax(0,1fr))}
+.hero-organization .garden-world-plot.garden-plot{position:relative;display:block;align-self:end;width:100%;height:100%;min-width:0;min-height:44px;margin:0;padding:0;border:0;border-radius:13px;background:none;box-shadow:none;aspect-ratio:auto;overflow:visible;cursor:pointer;pointer-events:auto;color:#10152a;transform:none;touch-action:manipulation}
+.hero-organization .garden-world-plot-art{display:block;position:absolute;inset:0;pointer-events:none}
+.hero-organization .garden-world-plot .garden-soil{display:block;position:absolute;inset:auto 0 0;width:100%;height:84%;object-fit:fill;pointer-events:none;filter:drop-shadow(0 2px 1px #2e361730)}
+.hero-organization .world-orchard .garden-world-plot .garden-soil{height:40%;bottom:0}
+.hero-organization .garden-world-plot .garden-plant{position:absolute;left:4%;bottom:26%;width:92%;height:110%;object-fit:contain;object-position:50% 100%;image-rendering:auto;transform-origin:50% 100%;animation:hero-garden-leaves 6s ease-in-out infinite;pointer-events:none;filter:drop-shadow(0 2px 1px #26391f22)}
+.hero-organization .world-orchard .garden-world-plot .garden-plant{bottom:16%;height:165%;width:110%;left:-5%}
+.hero-organization .world-orchard .garden-world-plot:has(img[src*="pineapple-plant"]) .garden-plant{height:115%}
+.hero-organization .garden-world-plot.is-compatible .garden-world-plot-art{outline:2px dashed #0240de;outline-offset:1px;border-radius:14px;box-shadow:0 0 0 3px #fff8}
+.hero-organization .world-orchard .garden-world-plot.is-compatible .garden-world-plot-art{outline:2px dashed #0240de;outline-offset:-2px;top:58%;border-radius:50%}
+.hero-organization .garden-world-plot.is-selected .garden-world-plot-art{filter:drop-shadow(0 0 2px #0240de)}
+.hero-organization .garden-world-plot.is-drop-target .garden-world-plot-art{outline:3px solid #0240de;outline-offset:2px;box-shadow:0 0 0 5px #fff9}
+.hero-organization .garden-world-plot:focus-visible{outline:3px solid #0240de;outline-offset:5px}
+.hero-organization .garden-world-plot .garden-world-indicator{position:absolute;left:50%;bottom:102%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:4px;min-width:60%;max-width:130%;width:max-content;padding:5px 10px;white-space:nowrap;border:1px solid #ffffffbb;border-radius:18px;background:#fffaf3f5;color:#10152a;font-size:clamp(10px,1.6cqw,15px);font-weight:900;line-height:1.2;z-index:5;pointer-events:none}
+.hero-organization .world-orchard .garden-world-indicator{bottom:0;min-width:50%;padding:3px 7px;font-size:clamp(9px,1.35cqw,13px)}
+.hero-organization .garden-world-indicator>svg{flex:none;width:12px;height:12px}
+.hero-organization .garden-world-indicator.with-rays>img{position:absolute;right:-19px;top:-17px;width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 2px #fff);animation:hero-garden-ready 2.8s ease-in-out infinite}
+.hero-organization .garden-world-plot.is-compatible:not(:has(.garden-plant)) .garden-world-indicator{bottom:20%;background:#243f98d9;color:#fff;border:0;font-size:clamp(9px,1.6cqw,15px);padding:4px 7px}
+.hero-organization .garden-world-plot.is-awaiting-plant .garden-plant{opacity:0;animation:none}
+.hero-organization .garden-world-plot.is-plant .garden-plant{animation:garden-new-plant .8s ease-out both}
+.hero-organization .garden-world-plot .garden-action-effects{inset:0;z-index:6}
+.hero-organization .garden-world-decoration{position:absolute;top:35%;left:9%;height:13%;width:12%;object-fit:contain;z-index:3;pointer-events:none}
+.hero-organization .garden-unified-scene .garden-guide.garden-actor{position:absolute;top:auto;left:8%;bottom:17%;width:22%;height:auto;aspect-ratio:1;margin:0;z-index:7;pointer-events:none;transition:left .55s ease-in-out,bottom .55s ease-in-out;filter:drop-shadow(0 3px 2px #1b233c22)}
+.hero-organization .garden-unified-scene .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 11%);bottom:calc(100% - var(--garden-actor-y))}
+.hero-organization .garden-unified-scene .garden-guide .hero-character,.hero-organization .garden-unified-scene .garden-guide .hero-character-canvas{width:100%;height:100%}
+.hero-organization .garden-character-ground{position:absolute;left:9%;bottom:17%;width:20%;height:4%;object-fit:fill;z-index:3;opacity:.8;pointer-events:none}
+.hero-organization .garden-unified-scene:has(.garden-actor.is-at-plot) .garden-character-ground{opacity:0}
+.hero-organization .garden-drag-tutorial{position:absolute;left:20%;top:66%;width:14%;height:20%;z-index:8;pointer-events:none}
+.hero-organization .garden-drag-tutorial>img:first-child{width:100%;height:100%;object-fit:contain}
+.hero-organization .garden-drag-tutorial .garden-tutorial-packet{position:absolute;left:-10%;bottom:-3%;width:37%;height:49%;object-fit:contain;animation:hero-seed-guide 3.8s ease-in-out infinite}
+.hero-organization .garden-drag-ghost{position:fixed;width:65px;height:85px;object-fit:contain;transform:translate(-50%,-75%) rotate(-10deg);z-index:9999;pointer-events:none;filter:drop-shadow(0 5px 5px #0005)}
+.hero-organization .garden-world-controls{display:flex;align-items:start;justify-content:space-between;gap:22px;margin-top:15px;min-width:0}
+.hero-organization .garden-world-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:1;min-width:220px;max-width:400px}
+.hero-organization .garden-world-tools>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:82px;padding:10px 12px;background:var(--surfaceSoft);color:var(--text);border:1px solid transparent;border-radius:20px;font-size:calc(15px * var(--font-adjust,1));font-weight:850;cursor:pointer}
+.hero-organization .garden-world-tools>button[aria-pressed=true]{background:var(--primary);color:var(--onPrimary,#fff)}
+.hero-organization .garden-quick-seeds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1.2;min-width:0}
+.hero-organization .garden-packet,.hero-organization .garden-more-seeds{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:var(--surfaceSoft);color:var(--text);padding:7px 6px;border:2px solid transparent;border-radius:18px;min-height:97px;min-width:0;cursor:pointer;font:inherit;font-weight:850;line-height:1.25;touch-action:none;user-select:none;-webkit-user-select:none}
+.hero-organization .garden-packet[aria-pressed=true]{background:var(--selected);border-color:var(--primary)}
+.hero-organization .garden-packet img{width:46px;height:48px;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.hero-organization .garden-packet strong,.hero-organization .garden-more-seeds strong{font-size:calc(12px * var(--font-adjust,1));line-height:1.25;text-align:center}
+.hero-organization .garden-packet bdi{font-size:calc(12px * var(--font-adjust,1))}
+.hero-organization .garden-packet small{font-size:calc(11px * var(--font-adjust,1));color:var(--muted)}
+.hero-organization .garden-more-seeds{touch-action:manipulation}
+.hero-organization .garden-more-seeds>svg{width:31px;height:36px}
+.hero-organization .garden-seed-guidance{display:flex;align-items:center;justify-content:center;gap:7px 15px;flex-wrap:wrap;border-radius:22px;background:var(--surfaceSoft);padding:8px 13px;margin:12px 0 0;font-size:calc(12px * var(--font-adjust,1));font-weight:750;line-height:1.4;min-height:35px}
+.hero-organization .garden-seed-guidance>svg{flex:none}
+.hero-organization .garden-feedback{margin:9px 0 0;padding:0;background:none;border:0;min-height:20px;font-size:calc(13px * var(--font-adjust,1))}
+.hero-organization .garden-tool-guidance{flex:1.2;font-size:calc(15px * var(--font-adjust,1));color:var(--muted);line-height:1.6;align-self:center;margin:0}
+.hero-organization .garden-owned-seeds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:18px 0}
+.hero-organization .garden-owned-seeds .garden-packet{min-height:145px;touch-action:manipulation}
+.hero-organization .garden-owned-seeds .garden-packet>img{height:75px;width:75px}
+.hero-organization .garden-context-dialog .garden-seed-kind{max-width:350px}
+.hero-organization .garden-context-dialog .garden-shop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hero-organization .garden-context-dialog .garden-card-image>img{object-fit:contain}
+.hero-organization .garden-context-dialog .garden-produce-grid{grid-template-columns:minmax(0,1fr);gap:15px}
+.hero-organization .garden-context-dialog .garden-produce-card{grid-template-columns:65px minmax(0,1fr);padding:15px}
+.hero-organization .garden-context-dialog .garden-produce-card>img{width:65px;height:65px}
+.hero-organization .garden-context-dialog .garden-produce-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hero-organization .garden-context-dialog .garden-produce-actions>button{flex:1;justify-content:center;min-width:130px}
+.hero-organization .garden-context-feedback{background:var(--yellow);padding:10px 14px;border-radius:16px;font-size:calc(14px * var(--font-adjust,1));line-height:1.5}
+.hero-organization .garden-plant-actions{display:flex;gap:10px;flex-wrap:wrap}
+.hero-organization .garden-plant-actions>button{flex:1;justify-content:center;min-width:160px}
+@keyframes hero-garden-leaves{0%,100%{transform:rotate(-.8deg)}50%{transform:rotate(.8deg)}}
+@keyframes hero-garden-ready{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes hero-seed-guide{0%,20%,100%{transform:translate(0,0) rotate(-8deg);opacity:1}65%{transform:translate(150%,-110%) rotate(6deg);opacity:1}75%{transform:translate(150%,-110%) rotate(6deg);opacity:0}80%{transform:translate(0,0);opacity:0}}
+@media(min-width:701px) and (max-width:1000px){
+ .hero-organization .garden-world-controls{gap:12px}
+ .hero-organization .garden-world-tools{min-width:200px}
+ .hero-organization .garden-world-tools>button{padding:9px 7px}
+}
+@media(max-width:700px){
+ .hero-organization .garden-harvest-entry{font-size:calc(11px * var(--font-adjust,1));padding:6px 9px;gap:3px;min-height:44px}
+ .hero-organization .garden-harvest-entry>img{width:26px;height:26px}
+ .hero-organization .hero-garden-world .hero-activity-heading{gap:6px;align-items:start}
+ .hero-organization .hero-garden-world .hero-activity-heading h2{font-size:calc(26px * var(--font-adjust,1))}
+ .hero-organization .hero-garden-world .hero-activity-heading p{font-size:calc(12px * var(--font-adjust,1));line-height:1.4}
+ .hero-organization .garden-unified-scene{aspect-ratio:.98;border-radius:20px}
+ .hero-organization .garden-unified-background{object-fit:cover;object-position:50% 50%}
+ .hero-organization .garden-sign-orchard{left:3%;top:29%;width:25%;height:13%}
+ .hero-organization .garden-sign-beds{left:1%;top:46%;width:28%;height:12%}
+ .hero-organization .world-orchard{left:31%;top:31%;width:65%;height:23%;gap:4%}
+ .hero-organization .world-beds{left:25%;top:62%;width:72%;height:32%;gap:8% 5%}
+ .hero-organization .garden-world-plot.garden-plot{min-height:44px}
+ .hero-organization .garden-world-plot .garden-plant{height:112%;bottom:25%}
+ .hero-organization .world-orchard .garden-world-plot .garden-plant{height:155%}
+ .hero-organization .garden-world-plot .garden-world-indicator{font-size:clamp(9px,2.6cqw,12px);padding:4px 6px;max-width:155%;bottom:105%}
+ .hero-organization .garden-world-indicator.with-rays>img{width:22px;height:22px;right:-13px;top:-13px}
+ .hero-organization .world-orchard .garden-world-indicator{bottom:-2%;font-size:8px;padding:3px 5px}
+ .hero-organization .garden-unified-scene .garden-guide.garden-actor{width:28%;left:1%;bottom:18%}
+ .hero-organization .garden-unified-scene .garden-actor.is-at-plot{left:calc(var(--garden-actor-x) - 14%);bottom:calc(100% - var(--garden-actor-y))}
+ .hero-organization .garden-character-ground{left:3%;width:25%;bottom:18%}
+ .hero-organization .garden-world-controls{display:flex;flex-direction:column;gap:9px;margin-top:11px}
+ .hero-organization .garden-world-tools{max-width:none;min-width:0;width:100%;gap:7px;flex:none}
+ .hero-organization .garden-world-tools>button{flex-direction:row;min-height:44px;border-radius:20px;font-size:calc(13px * var(--font-adjust,1));gap:6px;padding:8px}
+ .hero-organization .garden-world-tools>button svg{width:21px;height:21px}
+ .hero-organization .garden-quick-seeds{width:100%;gap:6px;flex:none}
+ .hero-organization .garden-packet,.hero-organization .garden-more-seeds{min-height:91px;border-radius:15px;padding:6px 4px}
+ .hero-organization .garden-packet>img{width:41px;height:43px}
+ .hero-organization .garden-packet strong,.hero-organization .garden-more-seeds strong{font-size:calc(11px * var(--font-adjust,1))}
+ .hero-organization .garden-packet bdi{font-size:calc(11px * var(--font-adjust,1))}
+ .hero-organization .garden-seed-guidance{font-size:calc(11px * var(--font-adjust,1));gap:4px 8px;padding:8px 10px}
+ .hero-organization .garden-owned-seeds{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .hero-organization .garden-context-dialog .garden-shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .hero-organization .garden-context-dialog .garden-seed-card{padding:13px 9px}
+ .hero-organization .garden-context-dialog .garden-seed-card .garden-growth-preview{display:none}
+ .hero-organization .garden-tool-guidance{font-size:calc(13px * var(--font-adjust,1));margin:5px 0}
+ .hero-organization .garden-drag-tutorial{width:18%;height:20%}
+}
+@media(orientation:landscape) and (max-height:520px){
+ .hero-organization .garden-unified-scene{aspect-ratio:1.65;max-height:none}
+ .hero-organization .garden-world-controls{flex-direction:row}
+ .hero-organization .garden-world-tools>button{min-height:74px;flex-direction:column}
+ .hero-organization .garden-quick-seeds{flex:1.2;width:auto}
+ .hero-organization .garden-world-tools{flex:1;width:auto}
+}
+@media(prefers-reduced-motion:reduce){.hero-organization .garden-plant,.hero-organization .garden-world-indicator.with-rays>img,.hero-organization .garden-tutorial-packet{animation:none!important}.hero-organization .garden-actor{transition:none!important}}
+html[data-motion=reduced] .hero-organization .garden-plant,html[data-motion=reduced] .hero-organization .garden-world-indicator.with-rays>img,html[data-motion=reduced] .hero-organization .garden-tutorial-packet{animation:none!important}

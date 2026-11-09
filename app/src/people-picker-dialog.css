@@ -1,0 +1,6 @@
+html .people-picker-option.everyone.on{background:var(--surfaceSoft)!important;color:var(--text)!important}
+html .people-picker-sheet-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:2;background:var(--surface);padding-block:8px;margin-bottom:12px}
+html .people-picker-sheet-heading h2{margin:0;font-size:24px}
+html .people-picker-sheet-heading .icon-button{width:44px;height:44px;min-height:44px;flex:none}
+html .people-picker-option-face>.avatar{width:44px!important;height:44px!important;min-width:44px}
+@media(min-width:701px){html .people-picker-backdrop{align-items:center;justify-content:center;padding:24px}html .people-picker-sheet{width:min(450px,100%);max-height:calc(100dvh - 48px);border-radius:28px}}

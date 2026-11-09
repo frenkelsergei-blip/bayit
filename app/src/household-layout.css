@@ -1,0 +1,341 @@
+/* Household pages on the shared size scale (scale.css), full audit 06 (2026-11-08), findings H-1, H-2, H-7, H-9.
+   Scoped to .main-content.view-household. Title and Cards/List share one row, the section tabs are one compact row
+   (scrolling sideways on phones), intro text is body size, and the first content reaches the first screen.
+   Module internals keep their approved anatomy (details panels, insurance summary, money details). */
+html:root main.view-household{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;align-content:start}
+html:root main.view-household>*{grid-column:1/-1;min-width:0}
+html:root main.view-household>.page-heading{grid-column:1;grid-row:1;margin:0;align-self:end}
+html:root main.view-household>.page-actions{grid-column:2;grid-row:1;margin:0;align-self:start;display:flex;flex-wrap:nowrap;align-items:center;gap:10px}
+html:root main.view-household>.page-actions .density-toggle{margin:0}
+html:root main.view-household>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
+html:root main.view-household>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
+
+/* Section tabs: one row, 20px below the title. */
+html:root main.view-household>.household-module-tabs{margin-inline:0;margin-bottom:0} /* top gap: page-header.css (--scale-gap-header) */
+html:root .view-household .household-module-tabs .tabs.nav-section{min-height:56px;height:auto;padding:5px;margin:0}
+html:root .view-household .household-module-tabs .tabs.nav-section>button{min-height:46px;height:auto;padding:5px 14px 5px 5px}
+html:root[dir=rtl] .view-household .household-module-tabs .tabs.nav-section>button{padding:5px 5px 5px 14px}
+html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:34px;height:34px}
+
+/* Intro text: body size, one short line under the tabs. */
+html:root .view-household .household-page-intro{font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.5;margin:16px 0 0;max-width:820px}
+html:root main.view-household>.household-page-intro+.household-toolbar,html:root .view-household .household-page-intro+.household-toolbar{margin-top:12px}
+html:root .view-household :is(.pantry-reference,.maintenance-reference,.expenses-reference,.insurance-page){margin-top:0}
+html:root .view-household .household-toolbar{margin-block:16px 0;min-height:var(--scale-control)}
+html:root .view-household .household-toolbar .button,html:root .view-household .household-add{min-height:var(--scale-control);padding:0 18px;font-size:calc(16px * var(--font-adjust,1));border-radius:999px}
+
+/* Pantry (tablet and up): the intro and Add inventory item share one row. */
+@media(min-width:701px){
+ html:root .view-household .pantry-reference{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:20px;align-items:center}
+ html:root .view-household .pantry-reference>*{grid-column:1/-1;min-width:0}
+ html:root .view-household .pantry-reference>.household-page-intro{grid-column:1;grid-row:1;margin-top:16px}
+ html:root .view-household .pantry-reference>.household-toolbar{grid-column:2;grid-row:1;margin-top:16px}
+}
+
+/* Filters: one row — search, a Filters button with a count, Clear (H-3). */
+html:root .view-household .household-filter-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;margin:16px 0;padding:0;border:0;border-radius:0;background:none}
+html:root .view-household .household-filter-row>.search{flex:1 1 260px;min-width:0;margin:0;min-height:var(--scale-control)}
+html:root .view-household .household-filter-row>.search input{min-height:var(--scale-control)}
+html:root .household-filter-button{display:inline-flex;align-items:center;gap:8px;min-height:var(--scale-control);padding:0 16px;border:1.5px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);font:inherit;font-weight:800;font-size:calc(15px * var(--font-adjust,1));cursor:pointer;flex:none;white-space:nowrap}
+html:root .household-filter-button.on{border-color:var(--primary);color:var(--primary);background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
+html:root .household-filter-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--primary);color:var(--onPrimary,#fff);font-size:13px;font-weight:850}
+html:root .household-filter-row>.household-filter-clear{min-height:44px;flex:none}
+html:root .household-filter-row>.household-filter-summary{flex-basis:100%;margin:0;color:var(--muted);font-weight:700;font-size:calc(14.5px * var(--font-adjust,1))}
+/* Filters window: the shared small-window shell (form-window.css); fields fill their section. */
+html:root .household-filter-sheet .household-filter-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+html:root .household-filter-sheet .household-filter-fields>label{display:grid;gap:8px;min-width:0;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+html:root .household-filter-sheet .household-filter-fields>.checkbox-label{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:700}
+html:root .household-filter-sheet .multi-filter,html:root .household-filter-sheet .multi-filter-trigger,html:root .household-filter-sheet .select-control{width:100%}
+html:root .household-filter-sheet .multi-filter-trigger,html:root .household-filter-sheet .select-button{min-height:48px}
+html:root .household-filter-sheet .form-section-body>p{margin:0;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));line-height:1.5}
+html:root .household-filter-sheet .form-section-body>.control-button{justify-self:start;min-height:44px}
+@media(max-width:700px){html:root .household-filter-sheet .household-filter-fields{grid-template-columns:minmax(0,1fr)}}
+
+/* Documents: search and the Filters row share one line. */
+html:root .view-household .documents-layout>section:has(>.household-filter-row){display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-content:start}
+html:root .view-household .documents-layout>section:has(>.household-filter-row)>*{grid-column:1/-1;min-width:0}
+html:root .view-household .documents-layout>section:has(>.household-filter-row)>.search{grid-column:1;grid-row:1;margin:0;align-self:center}
+html:root .view-household .documents-layout>section>.household-filter-row{grid-column:2;grid-row:1;margin:0;flex-wrap:nowrap}
+html:root .view-household .documents-layout>section>.household-filter-row~*:not(.household-filter-summary){margin-top:0}
+html:root .view-household .documents-layout>section>.search+.household-filter-row+*{margin-top:16px}
+html:root .view-household .documents-toolbar{margin-top:16px}
+
+/* Expenses: one size for the record actions (H-7). */
+html:root .view-household .expense-toolbar{display:flex!important;flex-wrap:wrap;align-items:center;gap:10px 12px}
+html:root .view-household .expense-toolbar>.expense-month,html:root .view-household .expense-toolbar>.tabs{margin:0;flex:none;order:0}
+html:root .view-household .expenses-reference>.money-goals-card{margin-top:16px}
+html:root .view-household .expense-toolbar>.tabs>button{min-height:var(--scale-control)}
+html:root .view-household .expense-toolbar>.button:first-of-type{margin-inline-start:auto}
+html:root .view-household .expense-toolbar .button{min-height:var(--scale-control);height:auto;padding:0 18px;font-size:calc(16px * var(--font-adjust,1));border-radius:999px;white-space:nowrap;margin-block:0}
+html:root .view-household .expense-toolbar .button svg{width:20px;height:20px}
+
+/* Tablet: Cards/List stays on the title row; tabs fit or scroll. */
+@media(max-width:1100px){
+ html:root .view-household .household-module-tabs .tabs.nav-section{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}
+ html:root .view-household .household-module-tabs .tabs.nav-section::-webkit-scrollbar{display:none}
+ html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto}
+}
+/* Phones: the tabs are one row that scrolls sideways (not a 2-row grid); intro text follows the content. */
+@media(max-width:700px){
+ html:root main.view-household{column-gap:12px}
+ html:root main.view-household>.page-actions{align-self:start}
+ html:root main.view-household>.household-module-tabs{margin-inline:-4px}
+ html:root .view-household .household-module-tabs .tabs.nav-section{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;border-radius:20px;min-height:0}
+ html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto;flex-direction:row!important;align-items:center;gap:8px;min-height:44px;height:44px;padding:4px 12px 4px 4px;scroll-snap-align:start;font-size:calc(15px * var(--font-adjust,1))}
+ html:root[dir=rtl] .view-household .household-module-tabs .tabs.nav-section>button{padding:4px 4px 4px 12px}
+ html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:32px;height:32px}
+ html:root .view-household .household-module-tabs .tabs.nav-section .nav-label{font-size:calc(15px * var(--font-adjust,1));-webkit-line-clamp:unset;display:block;white-space:nowrap;line-height:1.2}
+ html:root .view-household :is(.pantry-reference,.maintenance-reference){display:flex;flex-direction:column}
+ html:root .view-household .household-page-intro{order:99;margin-top:20px}
+ html:root main.view-household>.household-page-intro{order:99}
+ html:root .view-household .documents-layout>section:has(>.household-filter-row){grid-template-columns:minmax(0,1fr) auto}
+}
+/* Short landscape phones: everything one notch tighter. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-household .household-module-tabs .tabs.nav-section{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-height:0}
+ html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto;flex-direction:row!important;gap:8px;min-height:44px;height:44px;padding:4px 12px 4px 4px}
+ html:root .view-household .household-module-tabs .tabs.nav-section .nav-label{font-size:calc(14px * var(--font-adjust,1));-webkit-line-clamp:unset;display:block;white-space:nowrap}
+ html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
+ html:root .view-household :is(.pantry-reference,.maintenance-reference){display:flex;flex-direction:column}
+ html:root .view-household .household-page-intro{order:99;margin-top:16px}
+ html:root main.view-household>.household-page-intro{order:99}
+}
+
+/* Meals week: the same compact week strip as Today (scale.css --scale-week). */
+html:root main.view-household>.week-strip{margin:16px 0 0;gap:8px}
+html:root main.view-household>.week-strip button{min-height:var(--scale-week);height:auto;padding:6px 4px;border-radius:14px;flex-direction:row;gap:6px;line-height:1.2}
+html:root main.view-household>.week-strip .week-day{font-size:calc(15px * var(--font-adjust,1));font-weight:700}
+html:root main.view-household>.week-strip .week-date{font-size:calc(15px * var(--font-adjust,1));font-weight:800}
+@media(max-width:700px){
+ html:root main.view-household>.week-strip{gap:5px}
+ html:root main.view-household>.week-strip button{flex-direction:column;gap:2px;padding:6px 2px;border-radius:12px}
+}
+
+/* Phones and short landscape: the title gets the full width; Cards/List sits at the end of the section-tab row. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root main.view-household>.page-heading{grid-column:1/-1;grid-row:1}
+ html:root main.view-household>.household-module-tabs{grid-column:1;grid-row:2;margin-inline:0;min-width:0}
+ html:root main.view-household>.page-actions{grid-column:2;grid-row:2;align-self:center;margin-inline:0;margin-bottom:0}
+ html:root main.view-household>.page-actions .density-toggle{flex:none}
+ html:root .view-household .household-filter-row>.search{flex:1 1 150px}
+ html:root .view-household :is(.pantry-reference,.maintenance-reference){align-items:stretch}
+ /* Expenses goals: a compact one-row card. */
+ html:root .view-household .money-goals-card{padding:12px 14px}
+ html:root .view-household .money-goals-intro{display:grid;grid-template-columns:36px minmax(0,1fr) auto;column-gap:12px;row-gap:4px;align-items:center}
+ html:root .view-household .money-goals-intro>.color-icon{width:36px;height:36px}
+ html:root .view-household .money-goals-intro>div{min-width:0}
+ html:root .view-household .money-goals-intro>div>:first-child{font-size:calc(16px * var(--font-adjust,1))}
+ html:root .view-household .money-goals-intro>div>:nth-child(2){font-size:calc(13px * var(--font-adjust,1));line-height:1.4;margin:2px 0 0}
+ html:root .view-household .money-goals-intro>.button{min-height:44px;padding:0 14px;white-space:nowrap}
+}
+@media(max-height:520px) and (orientation:landscape){
+ /* Pantry: search, Filters and Add share one row. */
+ html:root .view-household .pantry-reference{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center}
+ html:root .view-household .pantry-reference>*{grid-column:1/-1}
+ html:root .view-household .pantry-reference>.household-filter-row{grid-column:1;grid-row:1;margin:12px 0}
+ html:root .view-household .pantry-reference>.household-toolbar{grid-column:2;grid-row:1;margin:12px 0}
+ html:root .view-household .pantry-reference>.household-page-intro{grid-row:auto}
+}
+@media(max-width:700px){
+ /* Insurance filters: insured people gets the full row (no “All insur…”, H-9); type and Filters share the next. */
+ html:root .view-household .ins-filter-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px}
+ html:root .view-household .ins-filter-controls>.multi-filter:first-of-type{grid-column:1/-1}
+ html:root .view-household .ins-filter-controls>:is(.multi-filter,.control-button){min-width:0;width:100%}
+ html:root .view-household .ins-filter-controls>.control-button{min-height:var(--scale-control);justify-content:center}
+ /* Expenses goals: description under the title, across the card. */
+ html:root .view-household .money-goals-intro>div{display:contents}
+ html:root .view-household .money-goals-intro>div>:first-child{grid-column:2;grid-row:1;margin:0}
+ html:root .view-household .money-goals-intro>div>:nth-child(2){grid-column:1/-1;grid-row:2;margin:4px 0 0}
+ html:root .view-household .money-goals-intro>.button{grid-column:3;grid-row:1}
+}
+@media(max-width:700px){
+ /* Expenses toolbar: month, then shared/mine, then the three record actions (expense on its own row). */
+ html:root .view-household .expense-toolbar{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+ html:root .view-household .expense-toolbar>.expense-month{grid-column:1/-1;order:1;display:flex;justify-content:space-between}
+ html:root .view-household .expense-toolbar>.expense-month>.month-field{flex:1;margin-inline:8px}
+ html:root .view-household .expense-toolbar>.tabs{grid-column:1/-1;order:2;display:grid;grid-template-columns:1fr 1fr}
+ html:root .view-household .expense-toolbar>.button{order:3;margin:0;width:100%;justify-content:center;white-space:normal;line-height:1.2;padding:6px 12px;font-size:calc(15px * var(--font-adjust,1))}
+ html:root .view-household .expense-toolbar>.button:first-of-type{grid-column:1/-1;margin:0}
+}
+
+/* Pantry targets (H-8): row edit and the details stepper reach the touch size; list steppers stay 36px inside a 44px row. */
+html:root .view-household .pantry-list .icon-button{min-width:44px;min-height:44px;width:44px;height:44px;padding:0;display:inline-grid;place-items:center}
+/* Insurance: the insured-people filter shows its whole label (H-9). */
+@media(min-width:701px){html:root .view-household .ins-filter-controls>.multi-filter:first-of-type{flex:0 0 auto;width:auto;min-width:300px}html:root .view-household .ins-filter-controls>.multi-filter:first-of-type .multi-filter-trigger{width:auto;min-width:100%}html:root .view-household .ins-filter-controls>.multi-filter:first-of-type .multi-filter-trigger>*{flex:none}}
+
+/* ===== Fix round 2 (orchestrator review H-R1..H-R4, 2026-11-08) ===== */
+/* One vertical step between the page parts after the section tabs (tabs → toolbar → filters → list).
+   scale.css has no 16px row step, so it is defined once here: 16px, 12px on short landscape phones. */
+html:root main.view-household{--household-step:16px}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-household{--household-step:8px}}
+html:root main.view-household>.household-module-tabs~*:not(.household-page-intro){margin-top:var(--household-step)!important}
+html:root .view-household :is(.pantry-reference,.maintenance-reference,.expenses-reference,.insurance-page)>:not(.household-page-intro):not(:first-child){margin-top:var(--household-step)!important}
+html:root .view-household :is(.pantry-reference,.maintenance-reference,.expenses-reference,.insurance-page)>:first-child:not(.household-page-intro){margin-top:0!important}
+html:root .view-household :is(.pantry-reference,.maintenance-reference,.expenses-reference,.insurance-page)>*,html:root main.view-household>*{margin-bottom:0!important}
+html:root .view-household .household-filter-row{margin-block:0!important}
+html:root .view-household .documents-layout>section>.search~*:not(.household-filter-row){margin-top:0}
+html:root .view-household .documents-layout>section:has(>.household-filter-row){row-gap:var(--household-step)}
+html:root .view-household .documents-layout>section>.document-list-row+.document-list-row{margin-top:0}
+html:root .view-household :is(.pantry-reference,.maintenance-reference)>.household-page-intro:first-child{margin-top:0!important}
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){html:root .view-household :is(.pantry-reference,.maintenance-reference)>.household-page-intro:first-child+*{margin-top:0!important}html:root .view-household .household-page-intro,html:root .view-household :is(.pantry-reference,.maintenance-reference)>.household-page-intro:first-child{margin-top:var(--scale-gap-section)!important}}
+@media(min-width:701px){html:root .view-household .pantry-reference>:is(.household-page-intro,.household-toolbar){margin-top:0!important}}
+/* The intro (after the list on phones) keeps a section-sized gap. */
+html:root .view-household .household-page-intro{margin-bottom:0}
+
+/* Section tab bar hugs its tabs on every size (it scrolls when it is too wide), as on desktop. */
+html:root .view-household .household-module-tabs .tabs.nav-section{width:fit-content;max-width:100%}
+
+/* Phones: a heading or view switch comes before its actions; page actions fill their row (as on Tasks). */
+@media(max-width:700px){
+ html:root .view-household .household-toolbar{display:flex!important;flex-wrap:wrap;align-items:center;gap:10px 12px}
+ html:root .view-household .household-toolbar>:is(h2,.household-toolbar-title,.tabs){order:0!important;flex:1 1 auto;flex-basis:auto!important;min-width:0;margin:0}
+ html:root .view-household .household-toolbar>.tabs{flex:1 1 100%}
+ html:root .view-household .household-toolbar>:is(.button,.household-add){order:1!important;margin:0}
+ html:root .view-household .household-toolbar:not(:has(>:is(h2,.household-toolbar-title)))>:is(.button,.household-add){flex:1 1 100%;justify-content:center}
+ html:root .view-household .household-toolbar>:is(h2,.household-toolbar-title){font-size:calc(var(--scale-section) * var(--font-adjust,1));line-height:1.2}
+ /* Documents: Documents | Contacts first, then one action row — Trash (icon), Take photo, Add document. */
+ html:root .view-household .documents-toolbar{display:flex!important;flex-direction:column;flex-wrap:nowrap!important;align-items:stretch;gap:var(--household-step)}
+ html:root .view-household .documents-toolbar>.tabs{order:0;width:100%;margin:0;flex:none!important;max-width:none}
+ html:root .view-household .documents-toolbar>.household-actions{flex:none!important}
+ html:root .view-household .documents-toolbar>.household-actions{order:1;display:grid!important;grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);gap:10px;margin:0}
+ html:root .view-household .documents-toolbar>.household-actions>*{min-width:0;margin:0}
+ html:root .view-household .documents-toolbar>.household-actions>.button.quiet{order:-1;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;justify-content:center;font-size:0;gap:0;border-radius:50%}
+ html:root .view-household .documents-toolbar>.household-actions>.button.quiet svg{width:22px;height:22px;margin:0}
+ html:root .view-household .documents-toolbar>.household-actions>:is(.camera-button,.household-add){width:100%;min-height:var(--scale-control);height:auto;justify-content:center;padding-inline:10px;font-size:calc(15px * var(--font-adjust,1))}
+ html:root .view-household .documents-toolbar>.household-actions>.density-toggle{display:none}
+ html:root .view-household .documents-toolbar>.household-actions>.button.quiet{grid-column:1!important;grid-row:1!important}
+ html:root .view-household .documents-toolbar>.household-actions>.camera-button{grid-column:2!important;grid-row:1!important}
+ html:root .view-household .documents-toolbar>.household-actions>.household-add{grid-column:3!important;grid-row:1!important}
+}
+
+/* Short landscape phones: the first content shows above the menu (H-R2). */
+@media(max-height:520px) and (orientation:landscape){
+ /* Maintenance: Upcoming, search/Filters and Add maintenance share one row. */
+ html:root .view-household .maintenance-reference{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;column-gap:12px;align-items:center}
+ html:root .view-household .maintenance-reference>*{grid-column:1/-1}
+ html:root .view-household .maintenance-reference>.maintenance-toolbar{display:contents!important}
+ html:root .view-household .maintenance-reference>.maintenance-toolbar>.household-toolbar-title{grid-column:1;grid-row:1;margin:0;font-size:calc(var(--scale-section) * var(--font-adjust,1))}
+ html:root .view-household .maintenance-reference>.maintenance-toolbar>.household-add{grid-column:3;grid-row:1;margin:0}
+ html:root .view-household .maintenance-reference>.household-filter-row{grid-column:2;grid-row:1;margin:0!important}
+ html:root .view-household .maintenance-reference>.split{grid-row:2}
+ html:root .view-household .maintenance-reference>.household-page-intro{grid-row:3}
+ /* Meals: plan/recipes and Add meal on one row; the week and search/Filters share the next row; the list heading
+    repeats the chosen day (shown in the week), so landscape keeps the list itself. */
+ html:root main.view-household>.household-toolbar{flex-wrap:nowrap!important;gap:12px}
+ html:root main.view-household>.household-toolbar>.tabs{flex:1 1 auto;min-width:0;margin:0}
+ html:root main.view-household>.household-toolbar>.tabs>button{min-height:var(--scale-control);padding-inline:12px}
+ html:root main.view-household>.household-toolbar>.household-add{flex:none}
+ html:root main.view-household>.week-strip{grid-column:1}
+ html:root main.view-household>.week-strip+.household-filter-row{grid-column:2;flex-wrap:nowrap;align-self:center}
+ html:root main.view-household>.week-strip+.household-filter-row{width:300px;max-width:300px}
+ html:root main.view-household>.week-strip+.household-filter-row>.search{flex:1 1 auto;min-width:0}
+ html:root main.view-household>.week-strip+.household-filter-row>.search input{width:100%;min-width:0}
+ html:root main.view-household>.week-strip button{flex-direction:column;gap:0;padding:2px;min-height:44px}
+ html:root main.view-household>.week-strip :is(.week-day,.week-date){font-size:calc(13px * var(--font-adjust,1))}
+ html:root main.view-household>.household-toolbar~.split>section>.section-title{display:none}
+ html:root main.view-household>.week-strip :is(.week-day,.week-date){line-height:1.25}
+ html:root main.view-household>.week-strip button{gap:1px;padding:3px 2px}
+ /* Expenses: the goals prompt follows the ledger; month, shared/mine and actions take two compact rows. */
+ html:root .view-household .expenses-reference{display:flex!important;flex-direction:column}
+ html:root .view-household .expenses-reference>.money-goals-card{order:99}
+ html:root .view-household .expenses-reference>.expense-toolbar{margin-top:0!important}
+ /* Insurance: Summary/Policies/Review share a row with Add and Import; the filters scroll in one row next to
+    who-added-it; the coverage help follows the content. */
+ html:root .view-household .insurance-page{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center;grid-auto-flow:row dense}
+ html:root .view-household .insurance-page>*{grid-column:1/-1}
+ html:root .view-household .insurance-page>.insurance-toolbar{grid-column:2;grid-row:1;margin:0!important}
+ html:root .view-household .insurance-page>.insurance-toolbar>.insurance-section-label{display:none}
+ html:root .view-household .insurance-page>.insurance-toolbar>.actions{display:flex!important;gap:10px}
+ html:root .view-household .insurance-page>.insurance-toolbar>.actions>.button{min-height:44px;height:44px;padding:0 14px;white-space:nowrap;font-size:calc(15px * var(--font-adjust,1))}
+ html:root .view-household .insurance-page>.tabs{grid-column:1;grid-row:1;margin:0!important}
+ html:root .view-household .insurance-page{row-gap:var(--household-step)}
+ html:root main.view-household .insurance-page>:not(#household-none){margin-top:0!important}
+ html:root .view-household .insurance-page>.ins-desktop-scope .insurance-sharing-choice{margin:0}
+ html:root .view-household .insurance-page>.tabs>button{min-height:var(--scale-control)}
+ html:root .view-household .insurance-page>.ins-filter-controls{grid-column:1;display:flex!important;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:10px;align-items:center}
+ html:root .view-household .insurance-page>.ins-filter-controls>*{flex:0 0 auto;width:auto;margin:0}
+ html:root .view-household .insurance-page>.ins-filter-controls>.search{flex:0 0 200px}
+ html:root .view-household .insurance-page>.ins-desktop-scope{grid-column:2;margin:0!important}
+ html:root .view-household .insurance-page>.ins-desktop-scope .insurance-sharing-choice{flex-wrap:nowrap}
+ html:root .view-household .insurance-page>.ins-coverage-help{order:99}
+ /* Documents: one step between the toolbar and the list. */
+ html:root .view-household .documents-toolbar{margin-top:var(--household-step)!important}
+}
+
+/* Phones: Expenses and Insurance reach the first screen too. The goals prompt and the coverage help follow the
+   content (as the page intros do); the insurance filters are one row that scrolls sideways. */
+@media(max-width:700px){
+ html:root .view-household .expenses-reference{display:flex!important;flex-direction:column}
+ html:root .view-household .expenses-reference>.money-goals-card{order:99;margin-top:var(--scale-gap-section)!important}
+ html:root .view-household .expenses-reference>.expense-toolbar{margin-top:0!important}
+ html:root .view-household .insurance-page{display:flex!important;flex-direction:column}
+ html:root .view-household .insurance-page>.ins-coverage-help{order:99;margin-top:var(--scale-gap-section)!important}
+ html:root .view-household .insurance-page>.insurance-footnote{order:100}
+ html:root .view-household .ins-filter-controls{display:flex!important;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:10px;align-items:center;margin-inline:-24px;padding-inline:24px}
+ html:root .view-household .ins-filter-controls::-webkit-scrollbar{display:none}
+ html:root .view-household .ins-filter-controls>*{flex:0 0 auto!important;width:auto!important;min-width:0}
+ html:root .view-household .ins-filter-controls>.multi-filter:first-of-type{grid-column:auto}
+}
+@media(max-width:700px){html:root .view-household .documents-toolbar>.household-actions:not(:has(>.camera-button))>.household-add{grid-column:2/-1!important}}
+/* Orchestrator review: on narrow phones three labelled actions do not fit (Add document had 3px padding at 393px and
+   overflowed at 375px). Take photo becomes a 44px camera button like Trash (its text stays the accessible name),
+   so Add document keeps its full label. */
+@media(max-width:430px){
+ html:root .view-household .documents-toolbar>.household-actions{grid-template-columns:44px 44px minmax(0,1fr)}
+ html:root .view-household .documents-toolbar>.household-actions>.camera-button{width:44px;min-width:44px;height:44px;min-height:44px;padding:0;justify-content:center;font-size:0;gap:0;border-radius:50%;align-self:center}
+ html:root .view-household .documents-toolbar>.household-actions>.camera-button svg{width:22px;height:22px;margin:0}
+}
+/* Labelled quiet buttons (Trash, Edit meal & ingredients) keep 12px+ inner padding (1.32.0 button check). */
+html:root .view-household .button.quiet{padding-inline:14px}
+/* Short landscape: Trash is the same 44px icon button as on phone portrait (its text stays the accessible name),
+   so the Documents toolbar stays one row in Hebrew too. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-household .documents-toolbar{flex-wrap:nowrap!important}
+ html:root .view-household .documents-toolbar>.tabs{flex:1 1 0;min-width:0}
+ html:root .view-household .documents-toolbar>.household-actions{flex:none!important;flex-wrap:nowrap!important;display:flex!important;align-items:center;gap:10px}
+ html:root .view-household .documents-toolbar>.household-actions>.button.quiet{width:44px;min-width:44px;height:44px;min-height:44px;padding:0;justify-content:center;font-size:0;gap:0;border-radius:50%}
+ html:root .view-household .documents-toolbar>.household-actions>.button.quiet svg{width:22px;height:22px;margin:0}
+}
+
+/* Shared control height (design system, controls.css, 2026-11-08): every Household control is --scale-control (44px).
+   Search pills: the 44px field fills its 44px pill (the 1px border overlaps). View switches inside a page are 44px. */
+html:root .view-household .search{min-height:var(--scale-control);padding-block:0;box-sizing:border-box}
+html:root .view-household .search input{min-height:var(--scale-control);height:var(--scale-control);margin-block:-1px;padding-block:0}
+html:root .view-household .tabs:not(.nav-section)>button{min-height:var(--scale-control);padding-block:0}
+html:root .view-household :is(.documents-toolbar,.household-toolbar,.insurance-toolbar,.expense-toolbar,.detail-panel,.pantry-low-strip) :is(.button,label.button){min-height:var(--scale-control);height:auto;padding-block:0}
+html:root .view-household .detail-panel .button.quiet{min-height:var(--scale-control)}
+/* Two-line labels on phones (Record savings transfer, Import from Har HaBituach) stay inside 44px. */
+@media(max-width:700px){
+ html:root .view-household :is(.expense-toolbar,.insurance-toolbar) .button{height:var(--scale-control);min-height:var(--scale-control);padding-block:2px;line-height:1.12;font-size:calc(14px * var(--font-adjust,1))}
+}
+/* Month picker: its transparent native input covers the whole 44px pill, border included. */
+html:root .view-household .month-field>input[type=month]:not(#household-none){inset:-1px;width:calc(100% + 2px);max-width:none;height:calc(100% + 2px);min-height:var(--scale-control);margin:0}
+
+/* Short landscape after the shared header (page-header.css keeps the subtitle on every layout): the Household rows
+   are as compact as their 44px controls allow, so the first content still starts above the menu. */
+@media(max-height:520px) and (orientation:landscape){
+ html:root .view-household .household-module-tabs .tabs.nav-section{min-height:0;padding:1px}
+ html:root .view-household .household-module-tabs .tabs.nav-section>button{height:var(--scale-control);min-height:var(--scale-control)}
+ html:root .view-household .tabs.nav-view{padding:0;min-height:0}
+ html:root .view-household .documents-toolbar{min-height:0}
+ html:root .view-household .expense-toolbar{row-gap:8px!important}
+}
+/* Expenses: when the goals prompt follows the ledger, the toolbar is the first row (no step above it);
+   the Shared budget / My expenses switch is a 44px control without extra frame padding. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ html:root .view-household .expenses-reference>.expense-toolbar:not(#household-none){margin-top:0!important}
+}
+html:root .view-household .expense-toolbar>.tabs.nav-filter{padding:0;min-height:0}
+/* Phones: like short landscape, the Meals list heading (it repeats the chosen day or the Recipe library tab) gives
+   its row to the meals themselves; the chosen day stays highlighted in the week. */
+@media(max-width:700px){html:root main.view-household>.household-toolbar~.split>section>.section-title{display:none}}
+
+/* Section bar inset (user review, 2026-11-08): the active pill sits the same 6px from the bar's top, bottom and start,
+   and the corners are concentric (bar radius = pill radius + inset). Applies on every size. */
+html:root .view-household .household-module-tabs .tabs.nav-section.nav-section{padding:6px!important;gap:4px;border-radius:22px!important;scroll-padding-inline:6px;align-items:center;box-sizing:border-box}
+html:root .view-household .household-module-tabs .tabs.nav-section.nav-section>button{border-radius:16px!important;margin:0!important}
+
+/* Data first (round 3, H-19): the short intro paragraph comes after the content on every size, never above the data. */
+html:root .view-household .household-page-intro.household-page-intro{order:99;grid-column:1/-1!important;grid-row:auto!important;margin-top:var(--scale-gap-section,24px)!important}
+@media(min-width:701px) and (min-height:521px),(min-width:701px) and (orientation:portrait){html:root .view-household .maintenance-reference{display:flex;flex-direction:column;align-items:stretch}}
+@media(max-height:520px) and (orientation:landscape){html:root .view-household .household-module-tabs .tabs.nav-section.nav-section{padding:3px!important;border-radius:17px!important;scroll-padding-inline:3px}html:root .view-household .household-module-tabs .tabs.nav-section.nav-section>button{min-height:42px!important;height:42px!important;border-radius:14px!important}}

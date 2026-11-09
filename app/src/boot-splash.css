@@ -1,0 +1,29 @@
+/* Early boot only: loaded before the application bundle and independent of auth. */
+@font-face{font-family:'Nunito Sans';src:url('/assets/fonts/nunitosans/font.woff2');font-weight:200 1000;font-display:swap}
+@font-face{font-family:Heebo;src:url('/assets/fonts/heebo/font.woff2');font-weight:100 900;font-display:swap}
+#splash{--boot-bg:#fefaf5;--boot-ink:#000024;--boot-muted:#686d82;position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--boot-bg);background-image:url('/assets/shell-20261107/paper-cream-small.png');background-size:680px 680px;color:var(--boot-ink);font-family:'Nunito Sans',system-ui,sans-serif;transition:opacity .18s ease,visibility .18s;text-align:center}
+:root[data-theme=dark] #splash{--boot-bg:#10152a;--boot-ink:#fff9ee;--boot-muted:#d2d9ea;background-image:none}
+:root[data-theme=dark] #splash::before{content:"";position:absolute;inset:0;background-image:url('/assets/shell-20261107/paper-cream-small.png');background-size:680px 680px;mix-blend-mode:soft-light;opacity:.12}
+html[lang=he] #splash{font-family:Heebo,system-ui,sans-serif}
+#splash.sp-out{opacity:0;visibility:hidden;pointer-events:none}
+#splash .boot-sketch{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#splash .boot-content{position:absolute;left:0;right:0;top:30.3%;margin-inline:auto;display:flex;flex-direction:column;align-items:center;gap:clamp(22px,3vh,34px);width:max-content;max-width:calc(100% - 36px)}
+#splash .boot-logo{display:block;width:clamp(210px,27.67vw,425px);height:auto;max-width:100%;mix-blend-mode:normal}
+#splash .boot-logo-night{display:none;mix-blend-mode:normal}
+:root[data-theme=dark] #splash .boot-logo-day{display:none}
+:root[data-theme=dark] #splash .boot-logo-night{display:block}
+#splash .boot-title{font-size:clamp(26px,3.1vw,47px);font-weight:950;line-height:1.2;letter-spacing:-.02em;max-width:100%;margin:0 12px 6px}
+#splash .boot-end{position:relative;display:inline-block;white-space:nowrap}
+#splash .boot-u{position:absolute;left:-3%;bottom:-.26em;width:106%;height:.32em;object-fit:fill}
+#splash .boot-r{position:absolute;right:-.52em;top:-.4em;width:.56em;height:.56em;object-fit:contain}
+html[dir=rtl] #splash .boot-r{right:auto;left:-.52em;transform:scaleX(-1)}
+#splash .boot-status{margin:12px 0 0;font-size:clamp(17px,1.6vw,24px);font-weight:700;line-height:1.4;color:var(--boot-muted)}
+#splash .boot-dots{display:flex;gap:12px;direction:ltr;margin-top:-6px}
+#splash .boot-dots i{display:block;width:9px;height:9px;border-radius:50%;background:#0240de;animation:boot-dot 1.8s steps(9,end) infinite}
+#splash .boot-dots i:nth-child(2){background:#ffd451;animation-delay:.16s}
+#splash .boot-dots i:nth-child(3){background:var(--boot-ink);animation-delay:.32s}
+@keyframes boot-dot{0%,65%,100%{transform:translateY(0)}30%{transform:translateY(-3px)}}
+@media(max-width:600px){#splash .boot-content{gap:24px}#splash .boot-title{font-size:26px}#splash .boot-status{margin-top:8px}}
+@media(max-height:520px){#splash .boot-content{top:16%;gap:15px}#splash .boot-logo{width:180px}#splash .boot-title{font-size:28px}#splash .boot-status{font-size:16px;margin-top:0}#splash .boot-dots{margin-top:0}}
+@media(prefers-reduced-motion:reduce){#splash,#splash *{animation:none!important;transition:none!important}}
+:root[data-motion=reduced] #splash,:root[data-motion=reduced] #splash *{animation:none!important;transition:none!important}

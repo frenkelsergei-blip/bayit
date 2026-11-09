@@ -1,0 +1,340 @@
+{
+  "date": "2026-11-07",
+  "character": "itai",
+  "kind": "AI-generated12-frame character care actions",
+  "generator": "built-in image_gen",
+  "file": "itai-actions.png",
+  "dimensions": [
+    768,
+    1024
+  ],
+  "grid": {
+    "columns": 3,
+    "rows": 4,
+    "cellWidth": 256,
+    "cellHeight": 256
+  },
+  "rows": [
+    [
+      "eat-apple-ready",
+      "eat-apple-bite",
+      "eat-apple-chew"
+    ],
+    [
+      "drink-cup-ready",
+      "drink-cup-sip",
+      "drink-cup-finished"
+    ],
+    [
+      "tidy-pick-ball",
+      "tidy-carry-ball",
+      "tidy-put-away"
+    ],
+    [
+      "play-hands-apart",
+      "play-clap",
+      "play-hands-raised"
+    ]
+  ],
+  "posture": [
+    "seated",
+    "seated",
+    "standing-bending",
+    "standing"
+  ],
+  "source": "itai-actions-source.png",
+  "sourceDimensions": [
+    1086,
+    1448
+  ],
+  "uniformScale": 0.6492753623188405,
+  "baseline": 240,
+  "processing": "Deterministic cell extraction, one uniform nearest-neighbor scale and ground registration only. All art is image-generated. True alpha retained; no chroma cutout required. No furniture drawn.",
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "sourceCell": [
+        0,
+        0,
+        362,
+        362
+      ],
+      "sourceContentBounds": [
+        85,
+        17,
+        271,
+        352
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 22,
+        "w": 121,
+        "h": 218
+      },
+      "baseline": 240
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "sourceCell": [
+        362,
+        0,
+        724,
+        362
+      ],
+      "sourceContentBounds": [
+        75,
+        17,
+        259,
+        352
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 22,
+        "w": 119,
+        "h": 218
+      },
+      "baseline": 240
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "sourceCell": [
+        724,
+        0,
+        1086,
+        362
+      ],
+      "sourceContentBounds": [
+        57,
+        17,
+        248,
+        352
+      ],
+      "outputContent": {
+        "x": 66,
+        "y": 22,
+        "w": 124,
+        "h": 218
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "sourceCell": [
+        0,
+        362,
+        362,
+        724
+      ],
+      "sourceContentBounds": [
+        86,
+        19,
+        271,
+        351
+      ],
+      "outputContent": {
+        "x": 68,
+        "y": 24,
+        "w": 120,
+        "h": 216
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "sourceCell": [
+        362,
+        362,
+        724,
+        724
+      ],
+      "sourceContentBounds": [
+        75,
+        19,
+        266,
+        351
+      ],
+      "outputContent": {
+        "x": 66,
+        "y": 24,
+        "w": 124,
+        "h": 216
+      },
+      "baseline": 240
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "sourceCell": [
+        724,
+        362,
+        1086,
+        724
+      ],
+      "sourceContentBounds": [
+        57,
+        19,
+        245,
+        351
+      ],
+      "outputContent": {
+        "x": 67,
+        "y": 24,
+        "w": 122,
+        "h": 216
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "sourceCell": [
+        0,
+        724,
+        362,
+        1086
+      ],
+      "sourceContentBounds": [
+        81,
+        59,
+        310,
+        351
+      ],
+      "outputContent": {
+        "x": 54,
+        "y": 50,
+        "w": 149,
+        "h": 190
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "sourceCell": [
+        362,
+        724,
+        724,
+        1086
+      ],
+      "sourceContentBounds": [
+        75,
+        8,
+        253,
+        351
+      ],
+      "outputContent": {
+        "x": 70,
+        "y": 17,
+        "w": 116,
+        "h": 223
+      },
+      "baseline": 240
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "sourceCell": [
+        724,
+        724,
+        1086,
+        1086
+      ],
+      "sourceContentBounds": [
+        66,
+        8,
+        293,
+        351
+      ],
+      "outputContent": {
+        "x": 54,
+        "y": 17,
+        "w": 147,
+        "h": 223
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "sourceCell": [
+        0,
+        1086,
+        362,
+        1448
+      ],
+      "sourceContentBounds": [
+        91,
+        9,
+        271,
+        354
+      ],
+      "outputContent": {
+        "x": 70,
+        "y": 16,
+        "w": 117,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "sourceCell": [
+        362,
+        1086,
+        724,
+        1448
+      ],
+      "sourceContentBounds": [
+        79,
+        9,
+        253,
+        354
+      ],
+      "outputContent": {
+        "x": 72,
+        "y": 16,
+        "w": 113,
+        "h": 224
+      },
+      "baseline": 240
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "sourceCell": [
+        724,
+        1086,
+        1086,
+        1448
+      ],
+      "sourceContentBounds": [
+        59,
+        9,
+        263,
+        354
+      ],
+      "outputContent": {
+        "x": 62,
+        "y": 16,
+        "w": 132,
+        "h": 224
+      },
+      "baseline": 240
+    }
+  ],
+  "sourceSha256": "c3f00ca64b5cba0b9aab2d5a28655ea7e81f9fd5aa0aa79c61cc0a0b5e464cd3",
+  "sha256": "7c5c5b16e9d324b2dc5736e84cf9a53300fea566fab348da67f2ccde2d4d2eac",
+  "references": [
+    "app/public/assets/generated/avatar-itai.png",
+    "app/public/assets/generated/hero-home/care-room-v4/itai-feed.png",
+    "concept/explorations/hero-care-life-20261107/food.png",
+    "concept/explorations/hero-care-life-20261107/living.png"
+  ],
+  "attribution": "Generated from existing Bayit Itai reference art. Existing asset licenses and attribution are unchanged."
+}

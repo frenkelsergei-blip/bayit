@@ -1,0 +1,62 @@
+{
+  "created": "2026-11-07",
+  "brandReplacedBy": "/assets/brand-selected-20261107/provenance.json",
+  "origin": "Built-in image_gen; derived from the user-selected Bayit concepts and generated paper/family assets.",
+  "brandLightSource": "exec-983c649f-725c-422b-a4de-64393410cb35.png",
+  "brandDarkSource": "exec-470ee4af-f9e6-4196-bd82-1775786891f0.png",
+  "iconSource": "exec-0b752058-a7b0-4cf7-9110-fa5d37a5cbdf.png",
+  "familySource": "exec-851cff38-2243-4818-a2dd-319b907331ce.png",
+  "processing": "Measured brand crop and browser raster resizing of original PNG assets; compositing uses light/night blending. No drawn replacement logo. Paper textures are clipped by the explicitly requested Canvas sketch animation.",
+  "assets": [
+    {
+      "file": "brand-light.png",
+      "sha256": "6865ec04c75bce1466e434ca2c38fac59013f06b432bea07d78d2349ac8d46bb",
+      "bytes": 104534
+    },
+    {
+      "file": "brand-dark.png",
+      "sha256": "28c85553b14d68675d01890717aaf612b5addb7f658fb5dbde08a8fda9653956",
+      "bytes": 34592
+    },
+    {
+      "file": "default-family-landscape.png",
+      "sha256": "85d18a02dda426297d74a9513e315cfba63d8380c817aff0dcd184690ac0ebc9",
+      "bytes": 929502
+    },
+    {
+      "file": "default-family-landscape-small.png",
+      "sha256": "d152a542407d00711b03c6dfa3f302a92b46bce3dde640de5517a33bdeaeb636",
+      "bytes": 91483
+    },
+    {
+      "file": "paper-cream-small.png",
+      "sha256": "7a7606e1e10c1089ebe8e4f8afa0abc70c76030953b9f593d48f66ff74e4539f",
+      "bytes": 158929
+    },
+    {
+      "file": "paper-cobalt-small.png",
+      "sha256": "dce7604d3a3bac8bd67056b815425b0f9c3827da506704d6c1af7dec74808a26",
+      "bytes": 201617
+    },
+    {
+      "file": "paper-yellow-small.png",
+      "sha256": "0250edc1b875e788e8cff8fcc09c6df2c011df1e12cdc5f3cc125c595594f8c4",
+      "bytes": 189301
+    },
+    {
+      "file": "app-icon-180.png",
+      "sha256": "7dda6b5b9e38de9cb3634cc50ff5f9bd1fa1976119ea95700aebcc88eef97982",
+      "bytes": 11260
+    },
+    {
+      "file": "app-icon-192.png",
+      "sha256": "247850a0ce7a8eec19d5485754ec399c17f58e714f47957daff9da0b0f1ff5e2",
+      "bytes": 12599
+    },
+    {
+      "file": "app-icon-512.png",
+      "sha256": "737790f2c2c6607b9b6ee29fbec5d3ee1001bd2a0da14a77ce7b669fe96b1b5a",
+      "bytes": 70760
+    }
+  ]
+}

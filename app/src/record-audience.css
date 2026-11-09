@@ -1,0 +1,7 @@
+/* Assignment and visibility model (2026-11-08): assigned people always see the record. In "Who can see this?" their
+   chips stay ticked and locked (not faded: they are chosen, just not removable here), and a short note explains why.
+   Same anatomy as .access-explanation, in the Privacy & permissions section. */
+.record-access .person-chip.access-person-assigned:disabled{opacity:1;cursor:default}
+.record-access .access-choices>button:disabled{opacity:.55;cursor:not-allowed}
+.access-audience-note{display:flex;align-items:flex-start;gap:9px;margin:12px 0 0;padding:12px 15px;border-radius:15px;background:var(--surfaceSoft);color:var(--text);font-size:14px;line-height:1.6}
+.access-audience-note svg{flex:none;margin-top:3px;color:var(--primary)}

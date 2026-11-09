@@ -1,0 +1,20 @@
+import React,{useEffect,useRef,useState} from 'react';
+import {createPortal} from 'react-dom';
+import {MagnifyingGlass,SlidersHorizontal,Funnel,SortAscending,X} from '@phosphor-icons/react';
+import {MultiFilter} from './multi-filter';
+import {FormSection} from './form-section';
+import './household-filters.css';
+import './household-layout.css';
+// Household filters (full audit 06, H-3; AGENTS.md: filters behind a clear Filters control): one row with the
+// search, a Filters button that counts the active choices, and Clear. The groups and the order live in a
+// window on the shared section design (the same shell as the Tasks filters).
+export function HouseholdFilterSheet({a,onClose,onClear,clearDisabled,children}){
+ const close=useRef(null);useEffect(()=>{close.current?.focus({preventScroll:true})},[]);
+ return createPortal(<div className="modal-backdrop tasks-sheet-backdrop household-filter-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><section className="tasks-sheet household-filter-sheet" role="dialog" aria-modal="true" aria-label={a.T('Filters','סינון')} dir={a.lang==='he'?'rtl':'ltr'} onKeyDown={e=>{if(e.key==='Escape'&&!e.defaultPrevented){e.preventDefault();onClose()}}}><header><h2>{a.T('Filters','סינון')}</h2><button ref={close} type="button" className="icon-button" aria-label={a.T('Close','סגירה')} onClick={onClose}><X size={20}/></button></header><div className="tasks-sheet-body">{children}</div><div className="tasks-sheet-actions"><button type="button" className="button secondary" disabled={clearDisabled} onClick={onClear}>{a.T('Clear filters','ניקוי הסינון')}</button><button type="button" className="button" onClick={onClose}>{a.T('Show results','הצגת התוצאות')}</button></div></section></div>,document.body);
+}
+export function FilterButton({a,count,open,onOpen}){return <button type="button" className={'household-filter-button'+(count?' on':'')} aria-haspopup="dialog" aria-expanded={open} onClick={onOpen}><SlidersHorizontal size={20}/>{a.T('Filters','סינון')}{count>0&&<b className="household-filter-count" aria-label={a.T(count+' active','פעילים: '+count)}>{count}</b>}</button>}
+export function HouseholdBrowse({a,value,onChange,groups=[],sorts,ui:{Select}}){
+ const [open,setOpen]=useState(false),sorted=!!value.sort&&value.sort!==sorts[0].id,count=groups.filter(g=>value[g.key]?.length).length+(sorted?1:0),filtered=!!value.search||groups.some(g=>value[g.key]?.length);
+ return <div className="household-filter-area household-filter-row"><div className="search"><MagnifyingGlass size={22}/><input value={value.search||''} onChange={e=>onChange({...value,search:e.target.value})} aria-label={a.T('Search this section','חיפוש באזור זה')} placeholder={a.T('Search…','חיפוש…')}/></div><FilterButton a={a} count={count} open={open} onOpen={()=>setOpen(true)}/>{filtered&&<button type="button" className="text-link household-filter-clear" onClick={()=>onChange({sort:value.sort})}>{a.T('Clear','ניקוי')}</button>}
+ {open&&<HouseholdFilterSheet a={a} onClose={()=>setOpen(false)} clearDisabled={!count} onClear={()=>onChange({search:value.search})}>{groups.length>0&&<FormSection T={a.T} icon={Funnel} tone="blue" title={a.T('Show','הצגה')}><div className="household-filter-fields">{groups.map(g=><label key={g.key}>{g.label}<MultiFilter label={g.label} allLabel={a.T('All','הכל')} options={g.options} value={value[g.key]||[]} onChange={v=>onChange({...value,[g.key]:v})} T={a.T}/></label>)}</div><p>{a.T('Choose several in each filter. Different filters work together.','אפשר לבחור כמה אפשרויות בכל מסנן. מסננים שונים פועלים יחד.')}</p></FormSection>}<FormSection T={a.T} icon={SortAscending} tone="peach" title={a.T('Order','סדר')}><div className="household-filter-fields"><label>{a.T('Sort by','מיון לפי')}<Select aria-label={a.T('Sort records','מיון הרשומות')} value={value.sort||sorts[0].id} onChange={e=>onChange({...value,sort:e.target.value})}>{sorts.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</Select></label></div></FormSection></HouseholdFilterSheet>}</div>;
+}

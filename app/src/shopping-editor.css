@@ -1,0 +1,4 @@
+/* This editor's actions belong to the card and scroll with its form. */
+html:root .shopping-item-editor form>.shopping-item-actions{position:static;inset:auto;z-index:auto;display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:16px 0 0;padding:16px 0 0;background:transparent;border-top:1px solid var(--border);box-shadow:none}
+html .shopping-item-actions>.button{flex:1 1 140px;min-width:0;max-width:100%;min-height:44px;justify-content:center}
+.shopping-item-editor{overscroll-behavior:contain;scroll-padding-block:16px}

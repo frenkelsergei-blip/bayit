@@ -1,0 +1,5 @@
+.riseup-auth-message{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.riseup-auth-message p{margin:0;overflow-wrap:anywhere}
+.riseup-auth-message .button{min-height:44px;max-width:100%;white-space:normal;text-align:start}
+.riseup-panel .riseup-actions>.button.quiet{color:var(--text);background:var(--surfaceSoft)}
+.riseup-panel>.section-title{position:sticky;top:0;z-index:2;flex-shrink:0;background:inherit;padding-block:4px}

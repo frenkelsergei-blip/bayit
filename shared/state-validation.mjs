@@ -1,13 +1,17 @@
+import {validateDocumentCategories} from './document-categories.mjs';
+import {validatePins} from './household-pins.mjs';
 import {mediaType} from './safe-media.mjs';
+import {validateInsuranceDocument,validateInsuranceAlertPrefs} from './insurance-lifecycle.mjs';
+import {validateReminderList} from './item-reminders.mjs';
 const forbidden=new Set(['__proto__','prototype','constructor']);
 const words=s=>new Set(s.split(/\s+/));
-const common=words('id title he ownerId visibility allowedIds icon date time createdAt updatedAt createdBy updatedBy note noteHe reminder memberId memberIds responsibleId deletedAt aiOperationId until');
+const common=words('id title he ownerId visibility allowedIds icon date time createdAt updatedAt createdBy updatedBy note noteHe reminder reminders memberId memberIds responsibleId deletedAt aiOperationId until');
 const fields={
- tasks:'priority routineId done completedAt completedBy repeat repeatDays repeatUntil weekdays days xp routine parentConfirm completions kind category listId shoppingListId subtasks notifyOwnerOnDone overdueAlert durationMinutes location turnOrder turnMemberIds turnEvery turnEnabled rotating rotation intervalMonths serviceHistory nextServiceDate serviceRequest repeatEvery approvalRequired reward assigneeIds turns',
+ tasks:'priority routineId done completedAt completedBy repeat repeatDays repeatUntil weekdays days xp routine parentConfirm completions kind category listId shoppingListId subtasks notifyOwnerOnDone overdueAlert durationMinutes location turnOrder turnMemberIds turnEvery turnEnabled rotating rotation intervalMonths serviceHistory nextServiceDate serviceRequest repeatEvery approvalRequired reward assigneeIds turns reminderDays linkedShoppingTitle contactId documentId',
  events:'repeat repeatDays repeatUntil weekdays durationMinutes location color birthdayOf editPolicy editorIds endTime turnOrder parentConfirm category',
  notes:'text textHe type editPolicy editorIds tags',
  shopping:'quantity quantityValue unit group category done boughtAt boughtBy listId order source',
- documents:'fileId filename mime size category purchased expires contactId description',
+ documents:'fileId filename mime size category categories purchased expires validFrom supersededAt contactId description sourceKind importChannel importedAt sourceSha256',
  contacts:'phone email category description address notes',
  shoppingLists:'name status completedAt archivedAt sourceListId tripDate',
  taskLists:'name color description',
@@ -16,10 +20,11 @@ const fields={
  expenses:'amount flow category payment source currency description receiptDocumentId notes documentId billId',
  bills:'amount category repeat paid paidDates dueDate source currency flow',
  places:'name location',
+ insurances:'insurer policyNumber insuredName type status premiumCents premiumPeriod currency startDate endDate source sourceFile sourceSheet sourceRow sourcePremiumText reportDate importedAt documentIds paymentIds importWarnings coverageMain coverageSub productType coveragePeriodText additionalDetails classification coverageVariant sourcePolicyNumber policyNumberFormat sourceDocumentIds',
 };
-const profileFields=words('name he photo displayMode badgeIcon character equipped xp color birthday birthdayInCalendar locale notificationPrefs financePlans financeNotifications favoriteIcons hero heroRequest readNotifications dismissedNotifications');
-const stringFields=words('id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color');
-const numericFields=words('xp quantityValue minimum amount size durationMinutes intervalMonths servings');
+const profileFields=words('name he photo displayMode badgeIcon character equipped xp color birthday birthdayInCalendar locale notificationPrefs financePlans financeNotifications favoriteIcons hero heroRequest readNotifications dismissedNotifications documentCategories pinnedRecords');
+const stringFields=words('id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
+const numericFields=words('xp quantityValue minimum amount size durationMinutes intervalMonths servings reminderDays');
 const booleans=words('done routine parentConfirm notifyOwnerOnDone paid turnEnabled rotating approvalRequired autoSuggest');
 export function boundedValue(value,{depth=0,budget={nodes:0}}={}){
  if(++budget.nodes>16000||depth>12)throw Error('This record is too complex.');
@@ -57,6 +62,8 @@ export function validateProfile(value,member){
  for(const key of ['name','he','locale','displayMode','character','equipped','color','birthday'])if(value[key]!==undefined&&(typeof value[key]!=='string'||value[key].length>(key==='name'||key==='he'?100:80)))throw Error('Choose valid profile details.');
  for(const key of ['readNotifications','dismissedNotifications','favoriteIcons'])if(value[key]!==undefined&&(!Array.isArray(value[key])||value[key].length>1500||value[key].some(v=>typeof v!=='string'||v.length>200)))throw Error('Choose valid profile preferences.');
  if(value.birthdayInCalendar!==undefined&&typeof value.birthdayInCalendar!=='boolean')throw Error('Choose a valid birthday setting.');
+ if(value.pinnedRecords!==undefined)validatePins(value.pinnedRecords);
+ if(value.documentCategories!==undefined)validateDocumentCategories(value.documentCategories,validIcon,40);
  if(value.notificationPrefs!==undefined)validateNotificationPrefs(value.notificationPrefs);
  if(value.birthday&&!date(value.birthday))throw Error('Choose a valid birthday.');
  if(value.photo!==undefined)value.photo=safePhoto(value.photo,{accountImage:member?.avatar});
@@ -74,6 +81,9 @@ export function validateRecord(collection,value){
  if(value.title!==undefined&&(!value.title.trim()||value.title.length>500))throw Error('Choose a record name.');
  if(value.icon!==undefined&&!validIcon(value.icon))throw Error('Choose a valid record icon.');
  for(const key of ['date','purchased','expires','dueDate','until'])if(value[key]!=null&&!date(value[key]))throw Error('Choose a valid date.');
+ if(collection==='documents'){validateInsuranceDocument(value);if(value.categories!==undefined)validateDocumentCategories(value.categories,validIcon);if(value.sourceKind!==undefined&&value.sourceKind!=='insurance-report')throw Error('Choose a valid document source.');if(value.importChannel!==undefined&&!['web','telegram','backfill'].includes(value.importChannel))throw Error('Choose a valid import channel.');if(value.sourceSha256!==undefined&&!/^[a-f0-9]{64}$/.test(value.sourceSha256))throw Error('Choose a valid source fingerprint.');}
+ if(value.reminders!==undefined)validateReminderList(value.reminders);
+ if(collection==='tasks'&&value.reminderDays!==undefined&&(!Number.isInteger(value.reminderDays)||value.reminderDays<0||value.reminderDays>365))throw Error('Choose a reminder between 0 and 365 days.');
  if(collection==='tasks'&&value.priority!=null&&!['','low','medium','high'].includes(value.priority))throw Error('Choose a valid task priority.');
  if(value.time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time))throw Error('Choose a complete time.');
  for(const key of ['allowedIds','memberIds','editorIds','turnMemberIds','assigneeIds'])if(value[key]!==undefined&&(!Array.isArray(value[key])||value[key].length>100||value[key].some(v=>typeof v!=='string'||v.length>140)))throw Error('Choose valid people.');
@@ -101,7 +111,10 @@ function uiLeaves(value){
 }
 export function validateNotificationPrefs(value){
  boundedValue(value);if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Choose valid notification preferences.');uiLeaves(value);
+ if(value.categories?.insurance!==undefined)validateInsuranceAlertPrefs(value.categories.insurance);
  for(const key of ['reminder','overdueAfter'])if(value[key]!=null&&(!Number.isFinite(value[key])||value[key]<-1||value[key]>10080))throw Error('Choose a valid reminder interval.');
+ if(value.reminders!==undefined){validateReminderList(value.reminders,'default');if(value.reminders.some(n=>n<0))throw Error('Choose a valid default reminder.')}
+ for(const c of Object.values(value.categories||{}))if(c&&typeof c==='object'&&!Array.isArray(c)){if(c.reminders!==undefined){validateReminderList(c.reminders,'default');if(c.reminders.some(n=>n<0))throw Error('Choose a valid default reminder.')}}
  for(const key of ['quietStart','quietEnd','digest'])if(value[key]&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(value[key]))throw Error('Choose a complete notification time.');
  if(value.categories!==undefined&&(!value.categories||typeof value.categories!=='object'||Array.isArray(value.categories)))throw Error('Choose valid notification categories.');
 }

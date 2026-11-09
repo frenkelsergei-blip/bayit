@@ -1,0 +1,9 @@
+/* Decorations have their own grass space; lazy activity loading cannot move them onto signs. */
+.hero-home.hero-organization .garden-unified-scene>img.garden-world-decoration{
+ left:5%;top:28%;width:9%;height:8%;object-fit:contain;pointer-events:none;
+}
+@media(max-width:700px){
+ .hero-home.hero-organization .garden-unified-scene>img.garden-world-decoration{
+  left:3%;top:16%;width:10%;height:7%;
+ }
+}

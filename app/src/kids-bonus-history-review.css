@@ -1,0 +1,23 @@
+/* Bonus ledger only: align mixed-language reasons with their metadata and amount. */
+.kids-bonus-history{max-width:820px;margin-inline:auto;min-width:0}
+.kids-bonus-history .kids-bonus-row{display:grid;grid-template-columns:30px minmax(0,1fr) max-content;align-items:center;gap:14px;padding:16px 0;min-height:68px;text-align:start}
+.kids-bonus-history .kids-bonus-row>img{align-self:start;width:28px;height:28px;margin-top:2px}
+.kids-bonus-history .kids-bonus-copy{display:flex;flex-direction:column;gap:6px;min-width:0;text-align:start}
+.kids-bonus-history .kids-bonus-copy>strong{font-size:calc(16px * var(--font-adjust,1));font-weight:850;line-height:1.45;text-align:start;white-space:normal;overflow-wrap:anywhere}
+.kids-bonus-history .kids-bonus-meta{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;gap:3px 12px;font-size:calc(12px * var(--font-adjust,1));line-height:1.5;color:var(--muted);text-align:start}
+.kids-bonus-history .kids-bonus-meta>time,.kids-bonus-history .kids-bonus-meta>span{display:block;max-width:100%}
+.kids-bonus-history .kids-bonus-amount{display:flex;flex:none;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:64px;max-width:none;padding:8px 10px;border-radius:15px;background:var(--selected);color:var(--primary);font-weight:900;text-align:center}
+.kids-bonus-history .kids-bonus-amount>bdi{font-size:calc(22px * var(--font-adjust,1));line-height:1.1;white-space:nowrap}
+.kids-bonus-history .kids-bonus-amount>small{display:block;font-size:calc(11px * var(--font-adjust,1));font-weight:800;line-height:1.2;margin:0;color:inherit}
+.kids-parent-result{overflow-wrap:anywhere;line-height:1.5;text-align:start}
+.kids-parent-result>svg{flex:none}
+@media(max-width:700px){
+ .kids-bonus-history .kids-bonus-row{grid-template-columns:26px minmax(0,1fr) max-content;gap:10px;padding:14px 0}
+ .kids-bonus-history .kids-bonus-row>img{width:24px;height:24px}
+ .kids-bonus-history .kids-bonus-copy>strong{font-size:calc(15px * var(--font-adjust,1))}
+ .kids-bonus-history .kids-bonus-meta{gap:2px 8px;font-size:calc(11px * var(--font-adjust,1))}
+ .kids-bonus-history .kids-bonus-amount{min-width:55px;padding:8px;border-radius:12px}
+ .kids-bonus-history .kids-bonus-amount>bdi{font-size:calc(20px * var(--font-adjust,1))}
+ .kids-parent-panel .kids-parent-form>button[type=submit]{white-space:normal;justify-content:center;text-align:center;line-height:1.35}
+}
+html[data-theme=dark] .kids-bonus-history .kids-bonus-amount{color:var(--text)}

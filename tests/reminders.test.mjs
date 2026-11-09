@@ -12,7 +12,7 @@ function home(){
   record('plants',{memberId:'parent-one',time:'18:00'}),
   record('done-task',{memberId:'parent-one',time:'18:00',completions:{[date]:{state:'done'}}}),
   record('spouse-task',{memberId:'parent-two',time:'18:00'}),
-  record('secret',{memberId:'parent-one',time:'18:00',ownerId:'parent-two',visibility:'private'}),
+  record('secret',{memberId:'parent-two',time:'18:00',ownerId:'parent-two',visibility:'private'}),
   record('shower',{memberId:'child',time:'19:00',routine:true,parentConfirm:true,completions:{[date]:{state:'pending'}}}),
   record('yesterday',{memberId:'parent-one',time:'18:00',date:'2026-11-03'}),
   record('daily',{memberId:'parent-one',time:'18:05',date:'2026-11-01',repeat:'daily'})
@@ -30,9 +30,13 @@ test('reminders include only open, assigned, visible records inside the reminder
  assert.deepEqual(dueReminders(view,'parent-one',{date,time:'18:06'}).map(r=>r.record.id),['daily','dinner']);
 });
 
-test('another person’s private task never reaches a reminder, even when assigned to the recipient',()=>{
+test('another person’s private task never reaches a reminder; assigning the recipient makes it Selected people (assignment and visibility model 2026-11-08)',()=>{
  const view=visibleState(home(),'parent-one');assert.ok(!view.tasks.some(t=>t.id==='secret'));
  assert.ok(!dueReminders(view,'parent-one',{date,time:'18:00'}).some(r=>r.record.id==='secret'));
+ const d=home();d.tasks.find(t=>t.id==='secret').memberId='parent-one'; // an older contradictory record: Only me, assigned to someone else
+ const assigned=visibleState(d,'parent-one'),task=assigned.tasks.find(t=>t.id==='secret');assert.equal(task.visibility,'selected');assert.deepEqual(task.allowedIds,['parent-one']);
+ assert.ok(dueReminders(assigned,'parent-one',{date,time:'18:00'}).some(r=>r.record.id==='secret'),'assignees always see and are reminded');
+ assert.ok(!visibleState(d,'child').tasks.some(t=>t.id==='secret'),'nobody else gains access');
 });
 
 test('category preferences and quiet hours suppress reminders',()=>{
@@ -80,7 +84,7 @@ test('owner hears when someone else completes a "notify me" task, once per day k
  assert.equal(out.length,1);assert.equal(out[0].key,'done:t1:2026-11-05');assert.equal(out[0].actorId,'kid');
  assert.equal(ownerDoneUpdates({tasks:[own({completions:{'2026-11-05':{state:'done',actorId:'kid'}}})]},'mom',{date:'2026-11-05'}).length,0,'only when the owner opted in');
  assert.equal(ownerDoneUpdates({tasks:[own({notifyOwnerOnDone:true,completions:{'2026-11-05':{state:'done',actorId:'mom'}}})]},'mom',{date:'2026-11-05'}).length,0,'not for the owner\'s own completion');
- assert.equal(ownerDoneUpdates({tasks:[done]},'kid',{date:'2026-11-05'}).length,0,'only the owner is told');
+ assert.equal(ownerDoneUpdates({tasks:[done]},'kid',{date:'2026-11-05'}).length,0,'the completing assignee is not told about their own action');
 });
 
 test('overdue alerts go to the owner and the assignee after the chosen delay, for today and the two days before', ()=>{

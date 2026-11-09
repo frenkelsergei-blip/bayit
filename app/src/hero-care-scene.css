@@ -6,6 +6,16 @@
 .hero-room[data-scenario] .hero-hotspot{display:none}
 .hero-care-scene-position{position:absolute;z-index:4;pointer-events:none;isolation:isolate;aspect-ratio:1}
 .hero-care-scene-sprite{position:absolute;inset:0;display:block;overflow:hidden;line-height:0;image-rendering:pixelated}
+.hero-care-static-chair,.hero-care-static-bed,.hero-care-static-table,.hero-care-static-curtain,.hero-care-static-soap{position:absolute;display:block;object-fit:contain;image-rendering:pixelated;pointer-events:none;animation:none!important;transform:none!important}
+.hero-care-static-chair{left:24%;top:16%;width:52%;height:77%;z-index:0}
+.hero-care-scene-feed .hero-care-scene-sprite{inset:0 10% 20%;z-index:1}
+.hero-care-static-table{left:10%;top:60%;width:80%;height:39%;object-fit:fill;z-index:3}
+.hero-care-static-bed{inset:0;width:100%;height:100%;z-index:0}
+.hero-care-scene-sleep .hero-care-scene-sprite{z-index:1}
+.hero-care-bed-front{z-index:3;clip-path:inset(55% 0 0 0)}
+.hero-care-scene-wash .hero-care-scene-sprite{inset:3% 18% 15% 0;z-index:1}
+.hero-care-static-curtain{left:43%;top:4%;width:57%;height:96%;object-fit:fill;z-index:3}
+.hero-care-static-soap{left:4%;bottom:10%;width:29%;height:26%;z-index:3}
 .hero-care-scene-frames{position:absolute;display:block;left:0;top:0;width:300%;height:100%;max-width:none;object-fit:fill;image-rendering:pixelated;animation:hero-care-frames 1.65s steps(3,end) infinite}
 .hero-care-scene-feed{left:24%;bottom:2%;width:48%}
 .hero-care-scene-wash{left:75%;bottom:12%;width:27%}
@@ -16,7 +26,7 @@
 .hero-room[data-animation=sleep] .hero-actor-position{display:block;left:29%;bottom:0;width:37%;height:76%;animation:hero-walk-bed .65s ease-in both}
 .hero-room[data-animation=wash] .hero-actor-position{left:29%;bottom:0;width:37%;height:76%;animation:hero-walk-shower .65s ease-in both}
 .hero-room[data-animation=feed] .hero-actor-position{left:29%;bottom:0;width:37%;height:76%;animation:hero-sit-down .5s ease-in both}
-.hero-scene-meal{position:absolute;left:40%;top:53%;width:20%;height:16%;object-fit:contain;image-rendering:pixelated;z-index:3;pointer-events:none}
+.hero-scene-meal{position:absolute;left:41%;top:51%;width:20%;height:11%;object-fit:contain;image-rendering:pixelated;z-index:4;pointer-events:none}
 .hero-care-keepsakes{position:absolute;right:0;bottom:4%;display:flex;align-items:flex-end;justify-content:flex-end;gap:2px;width:35%;height:15%;z-index:5;pointer-events:none}
 .hero-care-keepsakes>img{width:29%;height:100%;object-fit:contain;image-rendering:pixelated}
 .hero-care-scene-wash .hero-care-keepsakes{right:10%;bottom:7%;width:35%}

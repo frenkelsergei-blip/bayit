@@ -1,0 +1,20 @@
+/* A bounded play mat keeps the photo and every cut piece at its real ratio. */
+.hero-organization .hero-jigsaw-layout{grid-template-columns:minmax(0,1.45fr) minmax(260px,1fr);max-width:960px;margin:22px auto;gap:24px;align-items:stretch}
+.hero-jigsaw-picture{min-width:0}
+.hero-jigsaw-picture>header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:12px;min-height:45px}
+.hero-jigsaw-picture h4{font-size:calc(17px * var(--font-adjust,1));font-weight:900;margin:0;color:var(--text)}
+.hero-jigsaw-picture>header>img{width:72px;height:48px;object-fit:contain;border-radius:8px;border:1px solid var(--border)}
+.hero-organization .hero-jigsaw-board{background:#f7efd9 url('/assets/generated/hero-care-life/puzzle-mat.png') center/cover;border:10px solid var(--surfaceSoft);box-shadow:0 0 0 1px var(--border),0 5px 12px #10152a0a;border-radius:18px}
+.hero-organization .hero-jigsaw-slot:not(.is-placed)>img{opacity:.42}
+.hero-organization .hero-jigsaw-slot>span{font-size:clamp(11px,1.1vw,15px);font-weight:650;color:#6e6657}
+.hero-organization .hero-jigsaw-tray{min-width:0;background:var(--surfaceSoft);border:1px solid var(--border);border-radius:22px;padding:16px}
+.hero-organization .hero-jigsaw-tray h4{font-size:calc(17px * var(--font-adjust,1));margin-bottom:14px}
+.hero-organization .hero-jigsaw-tray>[role=group]{gap:12px;align-content:start}
+.hero-organization .hero-jigsaw-piece{aspect-ratio:3/2;min-height:48px}
+.hero-organization .hero-jigsaw-piece>img{object-fit:contain;filter:drop-shadow(0 2px 2px #50463255)}
+.hero-organization .hero-jigsaw-piece[aria-pressed=true]{outline:2px solid var(--primary);outline-offset:4px;background:var(--selected)}
+.hero-organization .hero-jigsaw-guide{object-fit:contain}
+html[data-theme=dark] .hero-organization .hero-jigsaw-board{background-color:#332f26;background-blend-mode:multiply}
+html[data-theme=dark] .hero-organization .hero-jigsaw-slot>span{color:#ddd0b8}
+@media(max-width:900px){.hero-organization .hero-jigsaw-layout{grid-template-columns:minmax(0,1fr);max-width:620px;gap:18px}.hero-organization .hero-jigsaw-tray>[role=group]{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.hero-organization .hero-jigsaw-piece{min-height:60px}}
+@media(max-width:700px){.hero-organization .hero-jigsaw-board{border-width:7px}.hero-organization .hero-jigsaw-layout{margin-top:14px}.hero-organization .hero-jigsaw-tray{padding:13px}.hero-organization .hero-jigsaw-piece{min-height:44px}.hero-jigsaw-picture>header{margin-bottom:8px}.hero-jigsaw-picture>header>img{width:60px;height:40px}}

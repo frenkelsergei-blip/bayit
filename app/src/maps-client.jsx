@@ -6,13 +6,16 @@ export async function mapsRequest(path,body,signal){
  let result;try{result=await response.json()}catch{throw Error('MAPS_UNAVAILABLE')}
  if(!response.ok)throw Object.assign(Error(result.error||'MAPS_UNAVAILABLE'),{code:result.code,status:response.status});return result;
 }
-export function mapsError(a,error){
+export function mapsError(a,error,connection=false){
+ if(error?.code==='REAUTH_REQUIRED')return a.T('Confirm your identity with Google before saving this connection. No changes were saved.','לפני שמירת החיבור צריך לאשר זהות עם Google. לא נשמרו שינויים.');
+ if(error?.status===401)return a.T('Sign in to Bayit again to manage this connection.','צריך להיכנס שוב ל־Bayit כדי לנהל את החיבור.');
  if(error?.code==='MAPS_SETUP_PENDING')return a.T('Maps is waiting for an installation update. You can still write a place name.','חיבור המפות ממתין לעדכון ההתקנה. עדיין אפשר לכתוב שם מקום.');
  if(error?.code==='MAPS_QUOTA'||error?.code==='MAPS_RATE')return a.T('The search limit was reached. Try again later or keep a manual location.','הגענו למגבלת החיפוש. אפשר לנסות בהמשך או לכתוב מיקום ידני.');
  if(error?.code==='MAPS_NOT_CONFIGURED')return a.T('Maps is not connected. You can still write a place name.','המפות אינן מחוברות. עדיין אפשר לכתוב שם מקום.');
  if(error?.code==='MAPS_KEYS')return a.T('Enter two different keys: a server key for Places and a website-restricted key for Embed.','הזינו שני מפתחות שונים: מפתח שרת ל־Places ומפתח מוגבל לאתר ל־Embed.');
  if(error?.code==='MAPS_ENCRYPTION')return a.T('Set up credential encryption on this household server first.','צריך להגדיר קודם הצפנת מפתחות בשרת הבית.');
  if(error?.code==='MAPS_REJECTED')return a.T('Google rejected the request. Check that the APIs and key restrictions match the setup instructions.','Google דחתה את הבקשה. בדקו שהשירותים והגבלות המפתחות תואמים להוראות החיבור.');
+ if(connection)return a.T('Google Maps could not be reached. Try again; no connection changes were confirmed.','לא הצלחנו להגיע אל Google Maps. אפשר לנסות שוב; לא אושרו שינויים בחיבור.');
  return a.T('Maps could not be reached. Your place name is still here; you can retry.','לא הצלחנו להגיע למפות. שם המקום נשאר כאן ואפשר לנסות שוב.');
 }
 const empty={configured:false,available:false,canManage:false},Context=createContext({status:empty,refresh:()=>{},getPlace:()=>Promise.reject(Error('MAPS_NOT_CONFIGURED'))});
