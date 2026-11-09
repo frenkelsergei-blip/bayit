@@ -1,0 +1,422 @@
+# Changelog
+
+All notable changes to Bayit. Newest first. The same notes, in English and Hebrew, appear in the app under **Settings → About & updates**.
+
+Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
+
+## 1.38.0 · 2026-11-09
+
+- Assigning someone now always lets them see it. If you choose "Only me" and assign another person, it becomes "Selected people: you and them", and the form says so.
+- Today, My Space, reminders, Telegram and Push use the same rule for "mine":  what's assigned to you plus your own private items. The Tasks page shows everything you may see; use the person filter for "assigned to me".
+
+## 1.37.2 · 2026-11-09
+
+- Statistics by area: Overview, Tasks, Calendar, Kids, Shopping and Money tabs with clear charts, summary cards and trends. Only the areas your family uses appear, children never see money, and missing data is shown as missing, not as zero.
+- Household shows your data first: Expenses and Insurance have one short row of controls, compact view switches, and refresh/import/RiseUp in a Data & sync section at the bottom. Sections now run Expenses, Insurance, Documents, Maintenance, Pantry, Meals.
+- Shopping: the icon picker opens on top of the item editor.
+
+## 1.37.1 · 2026-11-08
+
+- My Hero: larger touch areas, full-screen windows on phones, and the supermarket fits side by side on a phone held sideways. Products stand exactly on the shelves.
+- A right pick gets a gold outline, a star burst and a pop; a wrong one a red outline and a shake (supermarket, budget shopping and puzzle).
+
+## 1.37.0 · 2026-11-08
+
+- My Hero: the garden responds again (planting, watering and harvesting by tap or drag); Rest is available whenever energy is below full; the puzzle no longer gets stuck and pieces can be dragged or tapped and then placed with a tap; supermarket products all sit on real shelves; Simon shows clearly after every round whether it was right or a mistake and moves on by itself.
+- Statistics: one aligned filter row, full-width tabs and summary cards whose labels no longer overlap their numbers; children don't see the household money tab; Hebrew charts read right to left.
+- My Space › My tasks shows your private tasks and everything assigned to you, including overdue and undated tasks today.
+- Scrolling section bars keep their solid colour: only the tabs fade at the edge that has more, and the chosen tab always opens in full view.
+
+## 1.36.1 · 2026-11-08
+
+- Journal: "Assigned to" in a note uses the same person chips as every other form.
+- On phones, task and event details fill the screen; the Household filter window uses 44px fields with buttons that never wrap; times like 19:00 sit centred in their field.
+
+## 1.36.0 · 2026-11-08
+
+- Journal and My Space: notes open in the same window as the rest of the app, with Details, When and Privacy sections, Cancel then Save, and Delete only on saved notes. On phones the editors and details fill the screen with the menu at the top or bottom.
+- The journal has one search row with a Filters button, so the first entries show on the first screen. Rows are calmer, completed tasks show who did them, new notes stay in view after saving, and tags with spaces work.
+
+## 1.35.1 · 2026-11-08
+
+- Statistics, My Space and Journal buttons use the shared 44px size too.
+
+## 1.35.0 · 2026-11-08
+
+- All pages now share one header: the title starts at the content edge with the same size and spacing, and Cards/List sits beside the title. The title underline is sharper.
+- Buttons and fields share one 44px height across the app, including Settings, Household and Shopping, and Delete buttons are marked in red.
+- Today's "Little things to do" shows every task assigned to you (today, overdue and without a date) and nothing assigned only to someone else; the kids' tasks stay in their own part below.
+
+## 1.34.0 · 2026-11-08
+
+- When someone else deletes, moves, renames or changes the place of an event, task or routine assigned to you, or removes you from it, Bayit tells you on Telegram, by Push and in the notifications inbox, and corrects reminders it already sent ("Moved to Thu 12 Nov 16:40", Snooze removed). Quick edits become one message, quiet hours delay it, and Settings → Notifications → "Changes to things assigned to me" turns it off.
+- Today's "Little things to do" now also shows unfinished earlier tasks (Overdue) and tasks without a date (Anytime), like the Tasks page. Parents see the kids' tasks below their own, with each child's photo; Customize Today can hide them.
+- Rows on Today show only the round photo of the assigned person at the end of the row, so titles get the full width.
+- Routines on chosen days read "5 days a week" instead of "Once". The repeat "Ends" choice shows clearly which option is chosen and explains it.
+- Your Bayit language is saved to your profile automatically, so Telegram uses the same language as the app. Calendar and form controls share one 44px height.
+
+## 1.33.1 · 2026-11-08
+
+- Telegram and phone reminders are checked again just before sending: a reminder goes out only if the item still happens on that day and within that time, so a moved or rescheduled event no longer sends a reminder for its old date.
+- A snoozed reminder is no longer re-sent after its event moved, finished or already started, and reminders for a later day no longer offer "Snooze 10 min". Times that have passed say "25 min ago".
+- Hebrew chats no longer show English error messages; button replies and Start-link replies follow your Bayit language. Insurance import shows Hebrew names. Money alerts keep merchant names whole and say "Over by" when a limit is exceeded.
+
+## 1.33.0 · 2026-11-08
+
+- On phones every window (New list, filters, pantry, meals, expenses, insurance and more) opens full screen like the event and task forms: the title and close button on top, the content scrolls, and Cancel / Save stay at the bottom. This works with the menu at the top or at the bottom, and nothing from the page shows below the buttons.
+- With the menu at the top, the phone event and task forms keep Save on the screen bottom without an empty strip below it.
+- Hebrew page titles start at the page edge on every screen, like English, and the subtitle shows on landscape phones too.
+- In Hebrew the three dots of More sit after the word, and scrolling tab bars fade only on the side that has more to show.
+- Item pictures in Household forms line up with their name field, and window titles have one size; a tapped close button no longer shows a blue frame.
+
+## 1.32.1 · 2026-11-08
+
+- Household buttons keep comfortable inner spacing on every screen, and in landscape on phones the Documents toolbar stays on one row so the first document is visible.
+
+## 1.32.0 · 2026-11-08
+
+- Shopping fits more on screen: the first items now show on phones, including iPhone landscape, and the item, list and trip windows use the same section design as other forms.
+- Adding an item that is already on the list keeps its unit ("2 bottles" + 1 = "3 bottles"), and the cursor stays ready for the next item.
+- On Today, the Shopping label on a shopping task opens the shopping list, and lists can be renamed directly on wide screens.
+- Household (meals, pantry, expenses, insurance, maintenance and documents) uses the shared page layout: a compact title, one row of section tabs that scrolls on phones, one step of spacing, and the first items visible on every screen, including iPhone landscape.
+- Household forms and filters open in the shared window with sections, and dates are written the same way everywhere.
+
+## 1.31.0 · 2026-11-08
+
+- Settings is reorganised into clear sections on every page, with equal-height cards and compact choices. Notifications groups reminders, quiet hours, delivery, preview, money goals and insurance reminders.
+- The family name is edited in one place (Family), and the change is saved only after the household server confirms it.
+- The Settings menu stays on one row on every screen; on phones the first setting is visible right away and the chosen tile is never hidden under the edge fade.
+
+## 1.30.0 · 2026-11-08
+
+- Event, task and routine forms are grouped into clear sections (Details, When & where, Notifications, Privacy & permissions) that can collapse. On desktop they use two columns with Save and Cancel in one footer.
+- Events and tasks can have up to five reminders, such as 3 days, 1 day and 10 minutes before. Each one arrives once in Bayit, as a push notification and on Telegram. Settings › Notifications offers several default reminders per category, and all-day items can remind you “1 day before at 09:00”.
+- Tasks shows more on the first screen: list cards in one row, and one filter row with a Filters window for people, priority, order and search. A child can tick the steps of their own task, and tasks from a deleted list appear under General.
+- Hebrew text is clearer: normal letter spacing and cleaner weights for small text.
+
+## 1.29.2 · 2026-11-08
+
+- Phone event, task and routine forms keep Save and Cancel on a solid bar right above the menu, and Note shows an example of what to write.
+- Agenda is now a rolling list of what is coming up from today, while Week stays the Sunday–Saturday planner. People on event cards have the same white ring as elsewhere.
+- Today labels only real repeats, with their frequency. On phones every task lines up the same way, sections have a divider, and Customize has a centred sliders icon.
+
+## 1.29.1 · 2026-11-08
+
+- Calendar shows more of your week: a smaller title, New event beside it and one toolbar row. Phones show two to three days on the first screen, and landscape phones now show events.
+- Agenda titles wrap to two lines instead of being cut short. The desktop Month day list is wider, and event details use one title size.
+- Fixed: an event opened from a link no longer reappears when you switch to Month, Hebrew previous/next arrows point the right way, and Cards/List appears only in Week.
+
+## 1.29.0 · 2026-11-08
+
+- Telegram messages share one clear layout: an icon and bold title, the date or time, short sections and a hint. Reminders, the morning summary, alerts, commands, imports and AI replies all follow it.
+- Hebrew Telegram messages read right to left on every line, with commands kept intact. Dates, quantities and counts are written in your language instead of 2026-11-08 or “12 items”.
+- /tasks, /week, /lists and /shopping match the morning summary, and AI answers show tables, nested lists and links clearly.
+
+## 1.28.2 · 2026-11-08
+
+- Today is more compact on desktop, tablet and phones: a smaller title, a one-row week strip, and sections that start higher. Text size settings now scale the Today title.
+- Today task rows keep the checkbox, icon, name and assigned person on one aligned line wherever there is room.
+- Customize Today opens one clear list to show, hide and reorder sections. A task completed by mistake can be unchecked right away.
+
+## 1.28.1 · 2026-11-08
+
+- Today assignee labels are compact on desktop and phones, while the tablet section layout is preserved.
+- Multiple assigned or insured people use consistent overlapping avatars. Complete names remain available in details and accessible labels; individual people choices are preserved.
+
+## 1.28.0 · 2026-11-08
+
+- Today gives tablet agenda and tasks room, uses Calendar people pills, and hides completed occurrences. Tasks opens on Today and To do with readable priority labels. Hebrew mirrors the header.
+- Month event details have two readable desktop columns and reachable actions. Phone and tablet sheets retain their return path.
+- Notifications support left-swipe removal, Remove all, clear empty filters and recovery after refused saves. The bell counter is compact and centered.
+- Each connection opens in a focused dialog with a top Close button. Maps puts its keys first and makes required Google confirmation clear.
+- The parent area fills the content width in both places and preserves the entered PIN when opening fails. Existing household codes are preserved.
+- Other assignees with access receive shared-task completion updates, respecting notification settings, quiet hours and duplicate protection.
+
+## 1.27.0 · 2026-11-08
+
+- Kids has one stable header and compact navigation matching Household. Both children stay visible as direct shared portrait/name choices.
+- The selected child follows My day, Routines, My Hero and Parents. New activities select that child in advance; My Hero has a clear subtitle.
+- Page actions sit below navigation. Turns explains the shared order and shows the selected child's activity history with readable statuses.
+- Parent coin bonuses and their history appear only in Parents. Changing the child clears an unfinished bonus reason; selection waits during saving.
+- Garden decorations stay clear of signs even after opening Games first. Existing purchases, balances, progress and access rules are preserved.
+
+## 1.26.1 · 2026-11-08
+
+- Kids, My Hero, the garden and the parent card align to the full content width on larger screens. Child names are centered.
+- Picture puzzle shows all sixteen matching-size pieces together on desktop, with an aligned board and tray. Phones and tablets have a swipe tray without page buttons.
+- The magnifying glass stays complete when worn with a hat for all eight children, including portraits.
+- Inner tabs keep their menu and focus, without replaying the whole-page entrance or resetting scroll. Editor and main-section navigation retain their normal behavior.
+
+## 1.26.0 · 2026-11-07
+
+- Picture puzzle has 12 illustrated stages, full-color aligned pictures, clear contour hints and matching-size pieces across phone, tablet and desktop.
+- Every completed game automatically earns saved XP and shop coins, including repeat wins. Simon has five rounds and clean colored lights.
+- Supermarket search keeps the requested product visible. Garden counts align, signs and decorations stay separate and pixel shadows stay inside the garden.
+- Parent bonuses select a real child and show a clear recipient, saved confirmation and refreshed, aligned history with reasons and dates.
+
+## 1.25.2 · 2026-11-07
+
+- Phone Kids completion buttons fit their full label and check mark, including larger text and compact lists.
+
+## 1.25.1 · 2026-11-07
+
+- Profile Save/Cancel appears only for unsaved changes and stays with the profile fields while scrolling. Refused saves retain the draft for retry.
+
+## 1.25.0 · 2026-11-07
+
+- The selected blue-and-yellow Bayit logo appears throughout the app, loading and sign-in screens, notifications and installation icons. In-app light and night logos have real transparency.
+- Tasks keep every assignee on one shared task, show the complete assignment in details, and send each recipient reminders according to their own access and preferences.
+- The month calendar has clearer day cells, readable date markers and an accessible day sheet; Week and Agenda keep their existing layouts.
+- My Hero adds a clearer food fridge, collection and room placement, child care poses, garden controls, interlocking puzzles and Simon. Rest restores energy over five minutes and wakes the child automatically.
+- Authenticated parents can grant virtual bonus coins with a reason and history in a protected parent area. Coins and XP remain separate.
+
+## 1.24.2 · 2026-11-07
+
+- Keep equal space above and below navigation buttons in either menu position, with a subtle shadow separating navigation from content.
+- Hide phone scrollbars while keeping normal scrolling available throughout the app.
+
+## 1.24.0 · 2026-11-07
+
+- My Hero keeps the Kids submenu and opens one clear activity at a time: Care, Garden, Games or Dress up.
+- Care adds gentle need meters, simple action buttons and a food-only fridge and food shop; outfits stay in Dress up.
+- One illustrated garden combines vegetable beds and orchard, with real seed packets, drag-or-tap planting, direct Water and Harvest tools, and all eight children working at the selected spot.
+- Games explain free play, offer separate saved rounds and clear wake-up recovery. Picture puzzles use sixteen real interlocking pieces and show saved progress.
+
+## 1.23.2 · 2026-11-07
+
+- Keep the saving indicator aligned inside the header, with one clear server-backed saving state.
+- Navigation and More follow the selected theme and menu color; menu-position labels and checkmarks stay aligned.
+- Tighter phone menu spacing respects rounded screen corners and counts safe areas once. Rotation dismisses navigation overlays and restores scrolling.
+
+## 1.23.1 · 2026-11-07
+
+- Keep the sample-data status clear of the new menu in both positions, including Hebrew tablet and landscape layouts.
+
+## 1.23.0 · 2026-11-07
+
+- A compact shared header and horizontal menu, with a yellow selected state. Choose the menu below the header or at the bottom in Colors & appearance.
+- Consistent Bayit branding, family default image and sign-in screens, with a hand-sketched paper loading animation and reduced-motion support.
+- A cleaner month calendar grid. Tap a day to see its events and add an event for that date; the surrounding Calendar controls and other module layouts are preserved.
+
+## 1.22.2 · 2026-11-07
+
+- Restored Telegram replies, voice-message processing and scheduled morning summaries on Cloudflare. Provider requests keep redirect protection.
+
+## 1.22.1 · 2026-11-07
+
+- Family members permitted to record home maintenance can complete a service even when a linked receipt or contact is private to its owner. The private link stays private and is preserved.
+
+## 1.22.0 · 2026-11-07
+
+- Combine multiple insurance types and people in dropdown filters, with statistics for the combined selection.
+- Documents open inside Bayit, including PDF, photos, text and a read-only Excel view. Dates are optional. Filter by several categories or people, file type, privacy and dates, and sort the results.
+- Summarize a document with your connected AI provider: review the draft, quoted facts and explicit dates, then choose what to add and save. Manual notes and original files are preserved.
+- Contact and Household forms keep themed Save and Cancel actions reachable on phones. Maintenance adds editable starter tasks, filtering, service history and reminders; Pantry adds useful sorting and stock/date filters.
+- Keep reusable recipes separately from dated meal plans, with preparation notes, ingredients and explicit sharing.
+- Pin documents and other records to your personal Today screen. Optional Household widgets include documents, low pantry stock, home care, meals and insurance dates for adults. Pins follow the original access rules.
+
+## 1.21.0 · 2026-11-07
+
+- Choose who a document concerns separately from its uploader and viewers. Set private, family or selected-person access before uploading.
+- Organize documents with multiple categories, personal categories and licensed icons; filter by person or category and manage labels without deleting files.
+- Confirmed Har HaBituach imports through the website and linked Telegram bot retain the exact original report privately under Documents → Insurance, with source history and download/file management. Source reports remain separate from full policy terms.
+- Insurance details preserve your original tab and filters, improve Hebrew/English and phone layouts, and make premiums, status, insured people and review checks clearer.
+- Remember private ID-to-person matches for future report imports, with masked management and explicit insured-person choices. Matching never grants access or changes existing policies.
+
+## 1.20.0 · 2026-11-07
+
+- Insurance adds Summary, Policies and Review: grouped coverage rows, breakdowns by type and insured people, renewal/document checks, and separate report premiums and loaded debits.
+- An optional AI review uses only selected authorized summaries, masks known identifiers and leaves policies unchanged. Original documents and payment details are excluded.
+- People filters share the family portrait and face-stack picker on phone, tablet and desktop. Insurance filters close predictably and group rows become smaller in List.
+- My Hero refines care scenes, simplifies room actions and improves garden scale, labels and character feedback. Add a separate fruit orchard with seeds, seedlings and contextual planting, watering and harvesting.
+- Saved text and menu sizes are respected through phone rotation; Escape closes a nested choice before its form.
+- Calendar day windows close before starting a new event, keeping controls and scrolling available when you return.
+
+## 1.19.5 · 2026-11-06
+
+- Refresh an existing RiseUp connection without a new Google sign-in. Automatic refresh checks eligible connections hourly and respects provider wait times.
+- Sensitive connection changes retain Google verification; successful verification returns to the connection for an explicit retry.
+- Clearer landscape family menu and accessible notification counts.
+
+## 1.19.4 · 2026-11-06
+
+- Keep Save and Cancel reachable at the bottom of task, event and routine forms on short landscape screens. Improve the contrast of routine details.
+
+## 1.19.3 · 2026-11-06
+
+- Better profile portrait/name spacing and action rows on phone, tablet and desktop.
+- Household statistics include accessible imported and manual money records once, with clear missing-data, loading and error states.
+- Choose a task list or General in task forms. Touch forms wait for your tap before opening the keyboard.
+
+## 1.19.2 · 2026-11-06
+
+- Clear selected views, circular family and people portraits, readable month controls and stable phone profile/shopping layouts.
+- Calendar month days open their event list; Week List keeps the week together. Improve child selection and preserve page scrolling after closing dialogs.
+
+## 1.19.1 · 2026-11-06
+
+- Page scrolling resumes after closing an insurance editor, import window or notification inbox. Long insurance lists remain scrollable on desktop, tablet and phone.
+
+## 1.19.0 · 2026-11-06
+
+- A dedicated Insurance register imports Har HaBituach Excel reports, keeps every coverage row and original policy-number digits, and separates insured people from payers.
+- Review payment matches and attach policy documents with their own validity dates; keep previous document versions.
+- Choose renewal and document reminders. Send an insurance Excel report to your linked Telegram bot, choose the insured person and confirm private import.
+- Find a step-by-step Har HaBituach import guide in Insurance notification settings. Reports are snapshots; no automatic government connection is configured.
+- My Hero adds shopping with exact round budgets, supermarket search, rhythm and 16-piece puzzles, using the selected open cart and wooden shelves.
+- Grow 12 crops through four illustrated stages in a six-plot garden: water, harvest, sell, use the virtual fridge and decorate. Absence does not kill crops.
+- All eight child heroes keep fitted equipment and improved care scenes with stationary furniture. Progress, purchases and rewards wait for household confirmation.
+
+## 1.18.0 · 2026-11-06
+
+- Security: safer documents, verified child identity, privacy checks, device sessions and private installation controls.
+- Tap a money row for its complete original name, transaction and charge dates, source/payment details and six months of matching merchant history. Merchant names retain their beginning in Hebrew and English.
+- Record income, expenses and savings transfers separately. Configure monthly and category spending caps, advance warnings and separate goals for projected month-end money remaining and transfers actually recorded.
+- Choose finance alerts in Bayit, on your connected devices or in your linked Telegram chat, plus an optional weekly summary. Private and shared views use their own accessible records.
+- Expenses open on the current month, with compact filters, source sync times and a clear refresh action. Statistics follow the selected dates and loaded history.
+- Forms keep their draft after a refused save and confirm only after the household server accepts. Clearer Undo, deletion and list controls, full numeric times and consistent people/view controls.
+- Add an optional place name to events and tasks. Connect your installation’s Google Maps for address search and a compact preview; links open the original authorized activity.
+- Document and access checks have been strengthened. Device notifications now stop when you sign out; enable Push again on devices connected before this update.
+
+## 1.17.0 · 2026-11-06
+
+- My Hero is now a small virtual home: feed, shower, tidy up, play and rest. All eight characters eat at a table, shower behind a curtain and sleep covered in bed.
+- Collect 60 virtual items and 10 moves, stock your fridge and decorate your room. Stars come from real quest XP; spending keeps your level. Purchases and care wait for household confirmation.
+
+## 1.16.0 · 2026-11-06
+
+- Compact list mode: Settings › Colors & appearance › Lists, or Cards | List on each page. Thin one-line rows that fit about twice as many tasks, items, expenses and more, lined up like a table.
+- Hebrew and English mix correctly: titles you type keep their word order in either interface, the title underline sits under the real last word, and + / − signs stay before the number.
+- Task rows give the text more room: the person’s photo at the edge, a line of the note, and XP only in the task details.
+- New tasks start with a notebook icon and new events with a calendar, instead of a dinner plate.
+
+## 1.15.0 · 2026-11-06
+
+- Notifications on your phone or computer, like any app: Settings → Notifications → Notifications on this device. On iPhone, add Bayit to the Home Screen first.
+- Task priority: None, Low, Medium or High, with a coloured frame on the task, a priority filter, a “By priority” view and Top priorities on Today. Change it right from the task details.
+- Settings are now defaults: each event or task can choose its own reminder, and new tasks start with your chosen “done” and overdue updates.
+- On tablets and laptops the side menu shows your 5 chosen places and More; titles in details are underlined neatly under the last word.
+
+## 1.14.1 · 2026-11-06
+
+- Telegram messages are tidy: a bold header, short sections and one bullet per item, for /today, the AI’s answers and lists.
+- Daily summary on Telegram: choose a time in Settings → Accounts & connections → Telegram and get your calendar, tasks (important first), anything overdue, shopping and approvals each morning. It arrives even during quiet hours.
+
+## 1.14.0 · 2026-11-05
+
+- Repeating tasks and events can end on a date, and repeat monthly or yearly. Every task and event shows who created it and when.
+- Ask to hear when someone finishes your task, or to alert you and the assignee if it isn’t done in time. Telegram tells you too, with a Done button.
+- After saving, the new task or event opens right where it was added.
+- A new Shopping page: one place to add items, lists you can see and switch clearly, compact rows, and Hebrew and English item names recognised with the right picture and category.
+- Calendar cards with one tidy layout, clearer today highlight, and details in a centred pop-up on tablets.
+- Picking people works the same everywhere, and the selected person is clearly marked. Sharing looks the same in every editor.
+- Tablets: a slim menu with your 5 chosen places (Settings › Quick menu) and More for the rest.
+- Expenses: a cleaner toolbar with one Add button, amounts that always fit, and restaurants from RiseUp correctly shown as Eating out.
+
+## 1.13.1 · 2026-11-05
+
+- Shared expenses (RiseUp and imported statements set to “Both parents”) are now visible to every adult in the home, including a partner who joined after they were connected.
+
+## 1.13.0 · 2026-11-05
+
+- Telegram is now a full home assistant: just write, speak or send a photo to add, complete, move, edit or delete tasks, events, shopping items and notes, add expenses, or ask what you spent. Every change waits for Apply and can be undone.
+- A full “/” menu in Telegram: /today, /tasks and /shopping with tap-to-complete, /week, /lists, /note and /expenses. It appears on its own; no need to reconnect.
+- Ask AI in the app can now complete, move, edit and delete existing items too, and knows task lists, subtasks and anytime tasks.
+
+## 1.12.0 · 2026-11-05
+
+- Calendar: one tidy filter row, a new Agenda list with Add on every day, a clearer Month view with dots on phones, and Edit and Delete together in event details.
+- Delete anything you created — tasks, events, notes, shopping items and lists, pantry, expenses, bills, meals, maintenance — with a button or by swiping a row, and Undo right after.
+- iPhone landscape: a compact top and bottom bar instead of the sidebar, and a tidy menu with equal buttons.
+
+## 1.11.0 · 2026-11-05
+
+- On phones, Tasks, Calendar and Kids use one People button instead of a long row of names: it shows everyone’s faces, or the person you chose, and opens a sheet to pick someone.
+
+## 1.10.1 · 2026-11-05
+
+- On Today and in the Home journal, the faces of the people involved now sit on their own line under the title.
+
+## 1.10.0 · 2026-11-05
+
+- Cards with several people show overlapping faces with a +N, on Today, Calendar, Journal, Shopping and task lists.
+- No scrollbars on phones and on sideways strips: a soft fade shows there is more to swipe.
+- Task rows line up like a table, and the selected person chip gets a clean ring around the photo.
+
+## 1.9.0 · 2026-11-05
+
+- A new Tasks page: shared task lists (only me, family or selected people), filters for today, this week, upcoming, a day, a person or done, tasks grouped by day, subtasks, and tasks with no date.
+- Plan a shopping trip from any shopping list. It shows up in Tasks and Today with how much is in the bag, and completes when everything is bought.
+- A friendlier date picker everywhere, a richer Home journal with the latest entries first, a bigger family photo in the menu, a sun for Today, and a button to collapse the menu.
+- Kids: name chips like the calendar and a pixel-block XP bar.
+
+## 1.8.0 · 2026-11-05
+
+- A new opening screen and sign-in in the Bayit sunrise style, a tablet menu that fits without scrolling with Menu size that really changes spacing, AI provider logos, and friendly pixel helpers on empty lists.
+
+## 1.7.0 · 2026-11-05
+
+- Take photo: on phones and tablets, use the camera to add a document, the family photo, a profile photo or an image.
+- Camera pictures are made smaller before upload, so they are quick to save and stay readable.
+- Run Bayit anywhere: besides Cloudflare, Bayit now also runs with Docker on a home computer, NAS, Raspberry Pi or any cloud server, using the same code (see the self-hosting guide).
+- All your connections in one place: Settings → Accounts & connections shows Google, storage, AI, Telegram and RiseUp with live status, and sets each one up.
+- Today’s task list now matches the Tasks screen: icon, owner, repeats and XP, and a tap opens the task.
+- Loading screens now show a soft skeleton of the page instead of “Loading…” text, and opening your home shows a centred message.
+
+## 1.6.0 · 2026-11-05
+
+- Optional RiseUp connection: if you use RiseUp, Bayit reads your bank and card transactions from it every day (read-only), with step-by-step setup in Household → Expenses. Only you or both parents see them, as you choose, and imported statements are not counted twice.
+- Money is now called Expenses, and shows your live bank balance when RiseUp is connected.
+- Clearer navigation everywhere: section tiles, view switches with counts, and small filter chips. Add by hand is now a button.
+- New pixel-art celebrations when you add or finish things, a ringing bell and a save badge, with Calm, Playful or Party in Settings → Animations & celebrations.
+
+## 1.5.0 · 2026-11-05
+
+- Choose your AI: Claude, OpenAI (including Codex models), Google Gemini, xAI Grok, or any OpenAI-compatible service, in Settings → AI.
+- Eight grown-up pixel characters, including a grandma and grandpa. Parents can show a character, a photo or an icon.
+- The character picker has Grown-ups and Kids groups.
+
+## 1.4.0 · 2026-11-05
+
+- Money is clearer: a monthly summary, tappable categories with every purchase inside, and fixed bills with due dates.
+- New Today widgets: Money this month and Coming up: bills, plus an Add widget tile.
+- Share Bayit with friends on WhatsApp, Telegram or email (Settings → Family).
+- Each Household tab now explains what it is for; Expenses is now called Money.
+
+## 1.3.0 · 2026-11-05
+
+- Money: import Bank Leumi and Max statements (PDF) in the app or through Telegram. Every total is checked against the statement, card charges are not counted twice, and you see income, spending, savings, recurring bills, a next-month forecast and optional tips from Claude.
+- Eight pixel characters for children (and anyone who likes them), each with the cap and moon cape.
+- Add a profile with a character or a photo, and a birthday.
+- Birthdays appear in the family calendar every year, with the age shown in the profile.
+- The family photo card is aligned on phones.
+
+## 1.2.0 · 2026-11-05
+
+- Eight full color themes that change the background, cards, menu and buttons, in day and night.
+- Clearer Colors & appearance settings: theme previews, light, tinted or deep menu, and button color swatches.
+- A new phone menu that fits on one screen, with large section tiles.
+- The family photo and name line up neatly in the menu.
+
+## 1.1.1 · 2026-11-05
+
+- Refined family menu, separate family photo editing, profile alignment, text sizes and white logos on dark sidebars.
+- Explicit viewing and editing permissions, with private notes, calendar and tasks in My Space.
+- Expanded Pantry, Expenses, Bills and Maintenance workflows.
+- Child invitations can link existing profiles while retaining routines and progress.
+- AI source cards, optional browser dictation and improved phone and tablet layouts.
+
+## 1.1.0 · 2026-11-05
+
+- Telegram: connect your own family bot for reminders with Done and Snooze buttons, a morning summary, and Claude chat that understands text, photos and voice messages.
+- Saving is reliable on iPhone: photos are compressed, and one refused change can no longer block later ones.
+- You only see “saved” after the household server confirms it. Otherwise you see what went wrong.
+- Simpler phone forms: the icon picker sits next to the name, Save stays at the bottom, and fields no longer zoom or overlap.
+- Calendar events line up with their day on every screen size.
+- Version and update check in Settings.
+- Title rays stay with the last word when a title wraps, and mirror in Hebrew.
+- Calendar portraits have a ring and soft shadow so they stand out.
+
+## 1.0.0 · 2026-11-04
+
+- First family release: Today, calendar, tasks, shopping lists, journal, kids, household, statistics and Claude.

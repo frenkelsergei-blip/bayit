@@ -1,45 +1,89 @@
 <p align="center">
-  <img src="app/public/assets/generated/bayit-logo.png" alt="Bayit" width="96">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="app/public/assets/brand-selected-20261107/logo-dark-alpha.png">
+    <img src="app/public/assets/brand-selected-20261107/logo-light-alpha.png" alt="Bayit" width="260">
+  </picture>
 </p>
 
-<h1 align="center">Bayit · בית</h1>
-
-<p align="center"><b>A warm, bilingual family home app: your day, tasks, shopping, kids, money and memories in one place.</b><br>
-Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop · self-hosted on your own Cloudflare account.</p>
+<p align="center"><b>A warm, bilingual family home app: your day, calendar, tasks, shopping, kids, money and a Telegram bot, in one place.</b><br>
+Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop · your own installation on Cloudflare or Docker.</p>
 
 <p align="center">
-  <a href="https://frenkelsergei-blip.github.io/bayit/">Website</a> ·
-  <a href="docs/self-hosting.md">Self-host it</a> ·
-  <a href="docs/extending.md">Extend it</a> ·
-  <a href="LICENSE">MIT license</a>
+  <a href="https://github.com/frenkelsergei-blip/bayit/actions/workflows/ci.yml"><img src="https://github.com/frenkelsergei-blip/bayit/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0240DE" alt="MIT license"></a>
 </p>
 
-<p align="center"><img src="docs/images/hero-direction.jpg" alt="Bayit Today screen" width="900"></p>
+<p align="center">
+  <a href="https://frenkelsergei-blip.github.io/bayit/">Website and video</a> ·
+  <a href="https://bayit-8n0.pages.dev/?demo=1">Live demo</a> ·
+  <a href="docs/README.md">Documentation</a> ·
+  <a href="docs/self-hosting.md">Install</a> ·
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
+<p align="center"><img src="site/assets/shots/today-desktop-en-light.webp" alt="Bayit Today screen" width="900"></p>
 
 ## What it does
 
 | | |
 | --- | --- |
-| **Today** | Your family's day in customizable widgets: agenda, tasks, shopping, notes, money this month, upcoming bills, and an AI question box. |
-| **Calendar** | Week, agenda and month views, with each member's color and portrait, and repeating events. |
-| **Tasks & routines** | Tasks with owners, routines for kids with weekdays, times, rewards, approvals and turn-taking. |
-| **Shopping** | Multiple lists, categories, quantities and units, history-based suggestions, and lists that move from trip to trip. |
-| **Kids** | Pixel characters, XP and achievements, a wardrobe (cap and moon cape), and turn history. |
-| **Household** | Meals and pantry, **Expenses**, maintenance, and documents (files in private storage). |
-| **Expenses** | Import **Bank Leumi** and **Max** statements (PDF), or connect **[RiseUp](docs/riseup.md)** (optional) to read transactions daily. Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
-| **Ask AI** | Your choice of AI (**Claude, OpenAI/Codex, Gemini, Grok**, or any OpenAI-compatible service) answers questions from records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
-| **Telegram** | Your own family bot that works as a home assistant. It sends reminders with Done and Snooze buttons, a morning summary and parent approvals. Its **/** menu covers today, tasks, the week, shopping, lists, notes and expenses, with tap-to-complete. In plain words, by text, **photo** or **voice**, it adds, completes, moves, edits or deletes tasks, events, shopping items and notes. Every change waits for Apply and can be undone. It also accepts statement PDFs. |
-| **Privacy** | Every note, task and event has an owner and visibility (private, family, or selected people). The server enforces it, and AI, reminders, statistics and widgets follow the same rules. |
+| **Today** | The family's day on one calm page you arrange: agenda, little things to do, overdue and anytime tasks, the kids' routines, shopping, notes, money this month, and an AI question box. |
+| **Calendar** | Week, agenda and month views, with each person's colour and portrait, repeating events and optional locations. |
+| **Tasks & routines** | Tasks with owners, priorities and up to five reminders each. Kids' routines with weekdays, times, rewards, approvals and turn-taking. |
+| **Shopping** | Several shared lists with categories, quantities and units, suggestions from what you usually buy, and lists that move from trip to trip. |
+| **Kids · My Hero** | Pixel heroes the kids care for, a garden to grow, games and dress-up, earned with XP from routines. |
+| **Household** | Meals and pantry, expenses, insurance, home maintenance, contacts, and private documents. |
+| **Journal & My Space** | A family journal and each person's own notes and tasks, with search, filters, tags and privacy per note. |
+| **Statistics** | Overview, tasks, calendar, kids, shopping and money, with charts, summary cards and trends. Only the areas your family uses appear, and children never see money. |
+| **Expenses** | Import **Bank Leumi** and **Max** statements (PDF), or connect **[RiseUp](docs/riseup.md)** (optional). Every total is checked against the statement, and card payments are never counted twice. You get income vs. spending, categories with drill-down, recurring bills, a next-month forecast and optional AI tips. |
+| **Ask AI** | Your choice of AI (**Claude, OpenAI, Gemini, Grok**, or any OpenAI-compatible service) answers from the records you're allowed to see and prepares changes. **Nothing is saved until you tap Apply**, and Undo is available. |
+| **Telegram** | Your own family bot. It sends reminders with Done and Snooze, a morning summary, approval requests, and tells you when someone changes something assigned to you. Its **/** menu covers today, tasks, the week, shopping, lists, notes and expenses. In plain words, by text, **photo** or **voice**, it adds, completes, moves or edits things. Every change waits for Apply. |
+| **Notifications** | Reminders on phones and computers as well as Telegram, with quiet hours. |
+| **Privacy** | Every note, task and event has an owner and a visibility: private, family, or chosen people. The server enforces it, and AI, reminders, statistics and widgets follow the same rules. |
 
 <p align="center">
-  <img src="docs/images/money.jpg" alt="Money" width="440">
-  <img src="docs/images/today-widgets.jpg" alt="Today widgets" width="440">
+  <img src="site/assets/shots/kids-phone-en-light.webp" alt="My Hero on a phone" width="210">
+  <img src="site/assets/shots/shopping-phone-he-light.webp" alt="Shopping list in Hebrew" width="210">
+  <img src="site/assets/shots/today-phone-en-dark.webp" alt="Today in night mode" width="210">
+  <img src="site/assets/shots/calendar-phone-he-dark.webp" alt="Calendar in Hebrew, night mode" width="210">
 </p>
-<p align="center">
-  <img src="docs/images/kids.jpg" alt="Kids" width="290">
-  <img src="docs/images/shopping.jpg" alt="Shopping" width="290">
-  <img src="docs/images/today-dark.jpg" alt="Night mode" width="290">
-</p>
+<p align="center"><sub>Screens show a fictional family.</sub></p>
+
+## Try it
+
+- **In your browser:** open the [live demo](https://bayit-8n0.pages.dev/?demo=1) with a fictional family. Nothing is saved.
+- **On your computer:**
+  ```bash
+  git clone https://github.com/frenkelsergei-blip/bayit.git
+  cd bayit/app
+  npm install
+  npm run dev -- --host 127.0.0.1 --port 4173
+  ```
+  Open <http://127.0.0.1:4173/?demo=1>. You need Node.js 22.13 or newer.
+
+## Run your own
+
+Each family (or each installation) runs its own copy with its own accounts. There is no central Bayit server.
+
+| Where | Guide | Good for |
+| --- | --- | --- |
+| **Cloudflare** (free plan) | [Install on Cloudflare](docs/self-hosting.md) | Most families: no server to look after. About 45 minutes. |
+| **Docker** | [Run with Docker](docs/self-hosting-docker.md) | A home computer, NAS, Raspberry Pi, VPS or container host. |
+
+**What you'll need:**
+
+| | Required? | Guide |
+| --- | --- | --- |
+| A Cloudflare account, or a machine with Docker | Yes | above |
+| A Google Cloud sign-in client (free) | Yes | [Google sign-in setup](docs/google-sign-in.md) |
+| An AI provider key (Claude, OpenAI, Gemini, Grok or compatible) | Optional | [Connections → AI](docs/connections.md#ai-assistant) |
+| A Telegram bot from @BotFather | Optional | [Connections → Telegram](docs/connections.md#telegram-bot) |
+| Google Maps keys | Optional | [Connections → Maps](docs/connections.md#google-maps-optional) |
+| A RiseUp token | Optional | [RiseUp](docs/riseup.md) |
+
+Then keep it healthy with [Updating and backups](docs/updating-and-backups.md) and [Troubleshooting](docs/troubleshooting.md). All guides are listed in [docs/](docs/README.md).
+
+**Let your AI agent do it.** Open the repository in Claude Code, Codex or another agent that reads skills, and ask "Install Bayit on my Cloudflare", "Run Bayit with Docker on my Raspberry Pi", "Help me connect Telegram", "Is my Bayit set up correctly?" or "Update my Bayit". The [skills](.agents/skills/README.md) follow the same steps as these guides. They never put your keys in files or chat, and they ask before deploying.
 
 ## How it works
 
@@ -47,48 +91,40 @@ Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop �
 Browser (React + Vite) ──► Cloudflare Pages ──► Pages Function (app/cloud/worker.mjs)
                                                  ├── D1      households, records, money, Telegram links
                                                  ├── R2      private documents
+                                                 ├── PDF reader Worker (private) bank statements
                                                  ├── Workers AI (optional) voice transcription
                                                  ├── AI provider: Claude, OpenAI, Gemini, Grok or custom (each household's own key)
-                                                 └── Telegram Bot API (each household's own bot)
-Cloudflare Worker "bayit-reminders" (cron, every minute) ──► /api/internal/reminders
+                                                 └── Telegram Bot API (each household's own bot), Web Push
+Scheduler Worker (cron, every minute) ──► /api/internal/reminders
 ```
 
-- **One installation, many households.** Each person signs in with Google. A parent creates a household and invites others with single-use links.
-- **Each installation brings its own credentials.** Cloudflare account, Google OAuth client, AI key and Telegram bot belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
-- **Fictional demo mode:** open `/?demo=1` to explore with a sample family. Nothing is saved.
+With Docker, one Node.js server does all of this, with SQLite and a folder in a data volume (`app/host/`).
 
-## Quick start (local demo)
-
-```bash
-cd app
-npm install
-npm run dev -- --host 127.0.0.1 --port 4173
-```
-
-Open <http://127.0.0.1:4173/?demo=1>. For the full cloud setup (sign-in, sharing, expenses, Telegram), follow **[docs/self-hosting.md](docs/self-hosting.md)**.
-
-**Let your AI agent do it.** Open the repository in Claude Code, Codex or another agent that reads skills, and ask: "Install Bayit on my Cloudflare", "Run Bayit with Docker on my Raspberry Pi", "Update my Bayit" or "Help me connect Telegram". The [skills](.agents/skills/README.md) follow the same steps as these guides. They never put your keys in files or chat, and they ask before deploying.
-
-**Prefer your own machine or another provider?** Bayit also runs with Docker on a home computer, NAS, Raspberry Pi, free cloud server or VPS. It's the same code, with SQLite and a local folder instead of D1 and R2: `cp .env.example .env && docker compose up -d --build`. See **[docs/self-hosting-docker.md](docs/self-hosting-docker.md)**.
+- **One installation, many households.** Each person signs in with Google. The owner creates a household and invites others with single-use links.
+- **Each installation brings its own credentials.** The Cloudflare account or server, the Google sign-in client, AI keys and Telegram bots belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
+- **Fictional demo mode:** add `/?demo=1` to any installation's address to explore with a sample family.
 
 ## Make it yours
 
-- **Country settings:** `shared/home-config.mjs` sets the home timezone and currency (Israel and ₪ by default).
-- **AI providers:** households pick Claude, OpenAI (Responses API, so Codex models work), Gemini, Grok or a custom OpenAI-compatible URL in Settings → AI. Adapters are in `app/cloud/ai-providers.mjs`, and speech providers are in `app/cloud/speech.mjs`.
+- **Country settings:** `shared/home-config.mjs` sets the home timezone and currency (Israel and ₪ by default). Another language? See [extending.md](docs/extending.md).
+- **AI providers:** adapters are in `app/cloud/ai-providers.mjs`, and speech providers are in `app/cloud/speech.mjs`.
 - **Banks and cards:** add a statement format in `shared/finance-parse.mjs`. Each parser must reconcile against the totals printed on the statement.
-- **Widgets, categories and languages:** see **[docs/extending.md](docs/extending.md)**.
+- **Widgets and categories:** see [extending.md](docs/extending.md).
 
 ## Project layout
 
 ```
-app/               React client (src), Cloudflare server (cloud), static assets (public)
-app/cloud/         API, auth, household state, Telegram, reminders, money, speech
-app/cloud/migrations/  D1 schema
-shared/            Code used by both the client and the server (AI contract, finance, shopping lists, config)
+app/src/           React client
+app/cloud/         API, auth, household state, Telegram, reminders, push, money, speech (Cloudflare)
+app/cloud/migrations/  Database schema
+app/host/          Node.js host for Docker (SQLite, file store, built-in scheduler)
+app/scripts/       bayit-configure (point at your resources), bayit-doctor (check an installation)
+shared/            Code used by both client and server (AI contract, finance, shopping lists, config)
 design-system/     Design tokens, copy (en/he), icon catalog
 tests/             Unit tests (node --test); tests/e2e for local end-to-end runs
-docs/              Self-hosting, extending, testing, images
+docs/              Guides
 site/              The project website (GitHub Pages)
+.agents/skills/    Skills for AI coding agents
 ```
 
 ## Tests
@@ -97,20 +133,20 @@ site/              The project website (GitHub Pages)
 cd app && npm run test:domain && npm run test:sites && npm run build:cloud
 ```
 
-End-to-end runs against a local `wrangler dev` with fake Telegram/Claude/speech APIs are described in [docs/testing.md](docs/testing.md).
+End-to-end runs against a local server with fake Telegram, AI and speech APIs are described in [docs/testing.md](docs/testing.md).
 
 ## Status and limitations
 
 Bayit is a working family app that's used day to day, and it's still young:
-- **Locale:** it's Israel-first (Hebrew/English, ₪). Bank import supports Bank Leumi and Max only so far.
-- **Hosting:** Cloudflare (Pages, D1, R2) is the only hosting target so far. A run-anywhere Docker version is planned.
-- **Channels:** Telegram is the only messaging channel; WhatsApp and phone push are not built yet.
+- **Locale:** it's Israel-first (Hebrew and English, ₪). Bank import supports Bank Leumi and Max only so far.
+- **Channels:** Telegram and web push are the messaging channels; WhatsApp isn't built.
+- **Docker:** Telegram voice messages need Cloudflare Workers AI and are off with Docker.
 - **Code layout:** much of the UI is still in one large `app/src/App.jsx`. It's being split up gradually, and contributions are welcome.
 - **Data ownership:** whoever operates an installation can technically read its database. Bayit keeps family members' data apart *inside the app*; it is not end-to-end encrypted.
 
 ## Contributing
 
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) for the product and design rules. Please report security issues privately (see [SECURITY.md](SECURITY.md)).
+Issues and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) (the product and design rules). Report security problems privately; see [SECURITY.md](SECURITY.md).
 
 ## License
 
