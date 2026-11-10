@@ -27,7 +27,7 @@ The provider bills you for what you use. Bayit has a daily limit per person. The
 
 ## Telegram bot
 
-Your family's own bot sends reminders with **Done** and **Snooze**, a morning summary and approval requests. It answers the **/** menu and understands plain messages, photos and (on Cloudflare) voice.
+Your family's own bot sends reminders with **Done** and **Snooze**, a morning summary and approval requests. It answers the **/** menu and understands plain messages, photos and voice.
 
 **Create the bot (once per household):**
 1. In Telegram, open **@BotFather** and send `/newbot`.
@@ -45,7 +45,7 @@ Your family's own bot sends reminders with **Done** and **Snooze**, a morning su
 
 **Good to know:**
 - Reminders and the morning summary need the **scheduler** ([Cloudflare step 8](self-hosting.md#8-the-scheduler); with Docker it's built in). The Telegram card shows when the scheduler last ran.
-- Photos need the AI connection. **Voice messages** use Cloudflare Workers AI, so they're available on Cloudflare installations only.
+- Photos need the AI connection. **Voice messages** use Cloudflare Workers AI on Cloudflare, or the household AI key when it is OpenAI or Gemini (Claude cannot transcribe audio).
 - The bot replies in each person's Bayit language.
 
 ## Notifications on phones and computers

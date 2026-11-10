@@ -17,6 +17,7 @@ import {useConfirmedSave} from './confirmed-save';
 import {useDraftGuard} from './draft-guard';
 import {anchor} from './data';
 import {canAccessList} from '../../shared/shopping-lists.mjs';
+import {PendingSync} from './offline-ui';
 
 const normal=name=>String(name||'').normalize('NFKC').trim().toLocaleLowerCase();
 const UNIT_ALIASES={bottle:'bottles',bag:'bags',loaf:'loaves',pack:'packs',liter:'liters'};
@@ -84,7 +85,7 @@ export function ShoppingView({app:a,ui}){
     {usedGroups.filter(([group])=>shown.some(i=>i.group===group)).map(([group,he,code])=>{const rows=shown.filter(i=>i.group===group);return <section className="shop2-group" key={group}><h3><Icon code={code} size={24}/><span>{a.T(group,he)}</span><small>{rows.length}</small></h3>
      {rows.map(item=>{const who=item.memberId||item.ownerId;return <SwipeRow key={item.id} onDelete={item.ownerId===a.user||item.visibility==='family'?()=>a.remove('shopping',item.id,a.text(item)):null} label={a.T('Delete','מחיקה')}><div className={'shop2-row'+(item.done?' done':'')}>
       <Checkbox checked={!!item.done} onChange={()=>toggle(item)} aria-label={a.text(item)}/>
-      <button type="button" className="shop2-row-main" onClick={()=>edit(item)} title={a.T('Edit ','עריכת ')+a.text(item)}><Icon code={item.icon} size={36}/><span><strong>{a.text(item)}</strong><small><span className="shop2-qty">{quantityText(item)}</span><span className="shop2-who">{a.name(who)}</span></small></span></button>
+      <button type="button" className="shop2-row-main" onClick={()=>edit(item)} title={a.T('Edit ','עריכת ')+a.text(item)}><Icon code={item.icon} size={36}/><span><strong>{a.text(item)}</strong><small><span className="shop2-qty">{quantityText(item)}</span><span className="shop2-who">{a.name(who)}</span><PendingSync collection="shopping" id={item.id} T={a.T}/></small></span></button>
       <span className="shop2-row-avatar" title={a.name(who)}><Avatar who={who} size={30}/></span>
       <button type="button" className="icon-button shop2-row-edit" aria-label={a.T('Edit details for ','עריכת פרטים עבור ')+a.text(item)} onClick={()=>edit(item)}><PencilSimple size={19}/></button>
      </div></SwipeRow>})}

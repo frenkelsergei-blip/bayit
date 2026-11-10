@@ -1,3 +1,5 @@
+import {SourceLabel} from './payment-sources';
+import {issuerLabel,issuerOf} from '../../shared/payment-sources.mjs';
 import React,{useEffect,useId,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,ClockCounterClockwise,PencilSimple,Paperclip,ChartBar,LockSimple,UsersThree} from '@phosphor-icons/react';
@@ -6,7 +8,7 @@ import {transactionHistory} from '../../shared/money-records.mjs';
 import './money-transaction.css';
 
 const SOURCES={leumi:['Bank Leumi','בנק לאומי'],max:['Max','מקס'],manual:['Recorded manually','רישום ידני'],riseup:['RiseUp','RiseUp']};
-export function TransactionSheet({a,ui:{Icon,Avatar,Select},item,rows,imports=[],covered=false,onClose,onSelect,onEdit,onCategoryChange}){
+export function TransactionSheet({a,ui:{Icon,Avatar,Select},item,paymentSource,rows,imports=[],covered=false,onClose,onSelect,onEdit,onCategoryChange}){
  const T=a.T,he=a.lang==='he',locale=he?'he-IL':'en-US',id=useId(),panel=useRef(null),close=useRef(null),[limit,setLimit]=useState(8);
  const [editing,setEditing]=useState(false),[chosen,setChosen]=useState(item.category),[remember,setRemember]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
  const closeHandler=useRef(onClose);closeHandler.current=onClose;
@@ -23,9 +25,11 @@ export function TransactionSheet({a,ui:{Icon,Avatar,Select},item,rows,imports=[]
   [T('Cash-flow month','חודש בתזרים'),new Date(monthOf(item)+'-15T12:00Z').toLocaleDateString(locale,{month:'long',year:'numeric'})],
   [T('Category','קטגוריה'),he?category?.he:category?.en],
   [T('Source','מקור הנתונים'),source],
-  ...(item.account&&item.source!=='manual'?[[T('Card / account','כרטיס / חשבון'),<bdi dir="ltr">••{String(item.account).slice(-4)}</bdi>]]:[]),
-  ...(item.cardIssuer?[[T('Bank / card issuer','בנק / חברת אשראי'),<bdi dir="auto">{item.cardIssuer}</bdi>]]:[]),
-  ...(item.memberId&&a.members.some(m=>m.id===item.memberId)?[[history.kind==='income'?T('Received by','התקבל אצל'):T('Paid by','שולם על ידי'),<span className="transaction-person"><Avatar who={item.memberId} size={26}/>{a.name(item.memberId)}</span>]]:[]),
+  // The card or account (payment-sources.jsx). A RiseUp account code is never shown as card digits.
+  ...(paymentSource&&paymentSource.kind!=='manual'?[[T('Card / account','כרטיס / חשבון'),<SourceLabel a={a} source={paymentSource}/>],[T('Whose','של מי'),paymentSource.shared?T('Shared','משותף'):!paymentSource.ownerId?T('Not assigned yet','עדיין לא שויך'):<span className="transaction-person"><Avatar who={paymentSource.ownerId} size={26}/>{a.name(paymentSource.ownerId)}</span>]]
+   :item.account&&item.source!=='manual'&&item.source!=='riseup'?[[T('Card / account','כרטיס / חשבון'),<bdi dir="ltr">••{String(item.account).slice(-4)}</bdi>]]:[]),
+  ...(item.kind==='card_payment'&&item.cardIssuer?[[T('Pays the card of','משלם את הכרטיס של'),<bdi dir="auto">{issuerLabel(issuerOf(item.cardIssuer),a.lang)||item.cardIssuer}</bdi>]]:[]),
+  ...(item.source==='manual'&&item.memberId&&a.members.some(m=>m.id===item.memberId)?[[history.kind==='income'?T('Received by','התקבל אצל'):T('Paid by','שולם על ידי'),<span className="transaction-person"><Avatar who={item.memberId} size={26}/>{a.name(item.memberId)}</span>]]:[]),
   ...(item.ownerId&&a.members.some(m=>m.id===item.ownerId)?[[T('Recorded by','נרשם על ידי'),a.name(item.ownerId)]]:[]),
   ...(item.installmentOf?[[T('Installments','תשלומים'),T('Payment '+item.installmentN+' of '+item.installmentOf,'תשלום '+item.installmentN+' מתוך '+item.installmentOf)]]:[]),
   ...(item.standingOrder?[[T('Payment type','סוג תשלום'),T('Standing order','הוראת קבע')]]:[]),
@@ -47,7 +51,7 @@ export function TransactionSheet({a,ui:{Icon,Avatar,Select},item,rows,imports=[]
   {covered&&<p className="transaction-note">{T('This bank card payment is already represented by its card-statement purchases and is not counted twice.','חיוב הכרטיס הזה בבנק כבר מיוצג בפירוט העסקאות של הכרטיס ואינו נספר פעמיים.')}</p>}
   <dl className="transaction-facts">{facts.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value||unknown}</dd></div>)}</dl>
   {item.notes&&<section className="transaction-section"><h3>{T('Notes','הערות')}</h3><p className="transaction-notes" dir="auto">{item.notes}</p></section>}
-  {receipt&&<button type="button" className="button secondary transaction-receipt" onClick={()=>{onClose();a.go('household/documents?doc='+receipt.id)}}><Paperclip size={20}/>{T('Open receipt','פתיחת קבלה')}</button>}
+  {receipt&&(a.features?.route('household/documents')!==false&&<button type="button" className="button secondary transaction-receipt" onClick={()=>{onClose();a.go('household/documents?doc='+receipt.id)}}><Paperclip size={20}/>{T('Open receipt','פתיחת קבלה')}</button>)}
   <section className="transaction-section"><h3><ChartBar size={22}/>{history.kind==='savings'?T('Savings transfers over time','הפקדות לחיסכון לאורך זמן'):history.kind==='income'?T('This income over time','ההכנסה הזאת לאורך זמן'):T('This merchant over time','בית העסק לאורך זמן')}</h3>
    <div className="transaction-comparison"><div><span>{T('This cash-flow month','בחודש התזרים הזה')}</span><strong><bdi dir="ltr">{money(history.current.amount)}</bdi></strong><small>{history.current.count} {T('transactions','תנועות')}</small></div><div><span>{T('Previous month','בחודש הקודם')}</span><strong>{previous.count?<bdi dir="ltr">{money(previous.amount)}</bdi>:'—'}</strong><small>{previous.count?previous.count+' '+T('transactions','תנועות'):previous.loaded?T('No matching transactions','אין תנועות תואמות'):T('No data loaded','לא נטענו נתונים')}</small></div><div><span>{T('Earlier monthly average','ממוצע חודשי קודם')}</span><strong>{history.average==null?'—':<bdi dir="ltr">{money(history.average)}</bdi>}</strong><small>{T('Months with matching transactions','בחודשים עם תנועות תואמות')}</small></div></div>
    <ul className="transaction-months">{history.months.map(m=><li key={m.month} className={m.month===monthOf(item)?'current':''}><span>{month(m.month)}</span><span className="transaction-bar" aria-hidden="true"><i style={{width:Math.abs(m.amount)/max*100+'%'}}/></span><strong>{m.count?<bdi dir="ltr">{money(m.amount)}</bdi>:'—'}</strong><small>{m.count?m.count+' '+T('transactions','תנועות'):m.loaded?T('No match','אין התאמה'):T('No data','אין נתונים')}</small></li>)}</ul>

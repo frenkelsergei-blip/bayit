@@ -38,6 +38,6 @@ The app port is loopback-only. Preserve the original keys and follow `docs/secur
 
 - Give the address. They sign in, create their family, then use `bayit-connect`.
 - **Be clear about the differences from Cloudflare:**
-  - Telegram voice messages are off (Workers AI is Cloudflare-only).
+  - Telegram voice messages use the household AI key (OpenAI or Gemini; Claude cannot transcribe audio). Workers AI is Cloudflare-only.
   - They're responsible for updates (`bayit-update`), backups and uptime.
 - Report what the doctor verified and what it didn't (real Google sign-in needs them to try it).

@@ -4,6 +4,118 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.56.0 · 2026-11-10
+
+- Settings › Accounts & connections is simpler: "To start" shows what to set up first, everything else waits under "More connections", and every connection opens the same step-by-step guide in one window.
+- The Telegram window is tidier: a parent sees a short summary and the family's chats, everyone else sees only "My Telegram chat", and Photos & voice has its own row.
+- How much AI Bayit uses now sits inside the AI window, and the Bayit AI recommendations switch moved to AI › Daily suggestions.
+- After you confirm with Google, changes to accounts and connections stay open for 30 minutes instead of 10, so a first setup no longer asks again halfway.
+
+## 1.55.0 · 2026-11-10
+
+- The Bayit AI button now sits exactly as far from the menu as from the side on every phone, and short notices no longer cover the menu or the button.
+- The Ask Bayit AI page uses the same chat as the button: questions you tap are sent, you see Sent and Thinking, recordings show "Turning your voice into text", mixed Hebrew and English lines read in their own direction, and Prepare a plan is right in the chat.
+
+## 1.54.0 · 2026-11-10
+
+- Statistics › Money: a RiseUp card is no longer shown under the person who connected RiseUp. Cards nobody has claimed wait under "Not assigned yet" with "Choose whose". Bayit suggests whose a card is and its last 4 digits when the same purchases appear on an imported statement, or from the card's RiseUp nickname. You confirm, and it never makes up digits.
+- The selected card is now clear: a gold ring on the front card and its whole row highlighted, with nothing jumping. Swipe the stack, use the arrows or dots, or tap "+2" to reach every card.
+- Cards without an ending say where they're used most (e.g. "mostly at Shufersal"), so similar cards can be told apart.
+
+## 1.53.0 · 2026-11-10
+
+- Who we pay: a company you pay for several things (like Cellcom for phone, internet and electricity) now reads clearly as one company with its services, and each company and each heading opens and closes.
+
+## 1.52.0 · 2026-11-10
+
+- Bayit AI on every screen: a floating Bayit AI button (or a side tab, or next to the bell — your choice in Settings › General) opens a chat over the screen you're on. Ask by typing or by voice, see clear Sent / Thinking / Answer steps, tap a task in the answer to open it, approve proposed changes, and find every past conversation in History (only you see yours).
+
+## 1.51.1 · 2026-11-10
+
+- AI answers are now easy to scan: each part has its own icon and colour, times sit in small pills, and the people involved show with their faces.
+
+## 1.51.0 · 2026-11-10
+
+- A calmer header: the Bayit logo sits next to the menu, your family next to the notifications bell, and the saving sign no longer appears there.
+- Answers from Bayit's AI in the app are easier to read: a short answer first, then clear sections and lists.
+
+## 1.50.1 · 2026-11-10
+
+- Bayit AI has its final mark: a spark hugging the corner of the roof.
+
+## 1.50.0 · 2026-11-10
+
+- Bayit AI: when it's on (Settings → Accounts & connections, a parent turns it on), Bayit looks at your money and adds things worth a check to Today and Tasks with its own mark — a new recurring charge (a forgotten trial), a price jump on a fixed charge, or the same charge twice. Tick to mark it checked, or open it to see the last months, why, and answer OK / Needs action (makes a task) / Not relevant. Electricity, water, gas and arnona aren't flagged for price changes. Adults only; choose a daily or weekly summary in Settings → Notifications.
+
+## 1.49.0 · 2026-11-10
+
+- You can now see Who we pay by company as well as by area: Cellcom's phone, internet and electricity in one card with the company total.
+- Who we pay: electricity bought from a phone company (Cellcom Energy and others) is now electricity, separate from the phone bill; shop purchases and purchases paid in instalments no longer show as providers. Each provider shows its payment history and opens its payments in Transactions. The month control now works on this view, the categories are in a clearer order, and changing a provider's category works on phones (drop-down lists inside windows on phones can be tapped again).
+
+## 1.48.1 · 2026-11-10
+
+- Expenses on phones: the month no longer runs into the picker arrow.
+- Statistics in Hebrew: the amounts on the side of the charts no longer run into the bars.
+
+## 1.48.0 · 2026-11-09
+
+- Today: a new assistant at the top of Today. Ask your home a question, or turn a message into one plan with several items and a reminder for each, saved together so you can come back to it.
+- Expenses: filter by whose card it is. Each adult appears with their cards stacked beside them, and bank accounts sit under Shared. Pick several at once, then narrow to single cards. Works the same for RiseUp and imported statements; before, "Max" missed every purchase synced through RiseUp.
+- Statistics › Money: "By person and card" stacks each person's cards and shows six months per card, this month and the monthly average. Tap a card behind to bring it to the front, or a row to see its months and top categories. A Cards & accounts filter takes several choices.
+- New Cards & accounts window: choose whose each card is or mark it shared, and add a RiseUp card's last 4 digits to join it with its statement.
+- When a statement doesn't print the card number, you can say which card it is (optional). Recorded expenses can say which card or account paid (optional).
+- Original card and bank marks for Israeli issuers; cards from anywhere else get a neutral look.
+
+## 1.47.0 · 2026-11-09
+
+- Choose what your family uses. Settings › Features lets a parent turn features on or off for the whole family, and each person can hide what they don't need, just for themselves. Nothing is deleted: turn a feature back on and everything returns. New families start with a short setup: a few questions, suggested features, and simple guides for connecting your own accounts.
+
+## 1.46.0 · 2026-11-09
+
+- Puzzle: the "more pieces" sign is now a small arrow on the edge of the tray that gently nudges, so it no longer covers pieces. The tray always shows whole pieces, and swiping or tapping the arrow moves a full column at a time.
+
+## 1.45.0 · 2026-11-09
+
+- Expenses: the new "Who we pay" view shows at a glance which providers and subscriptions the family pays and how much — phone → Cellcom, TV → FreeTV, electricity, arnona, insurance, streaming and more. Messy statement names are grouped into one provider, price rises and overlapping services stand out, and you can rename, combine, hide or add a provider. With your household's AI connected, a short summary refreshes once a month. It replaces the Fixed bills list.
+- The yellow "partial month" note now sits below the numbers instead of between the controls and your data.
+
+## 1.44.0 · 2026-11-09
+
+- Puzzle: placed pieces leave the tray and the rest slide into the free spots, so the tray shrinks to one page. The tray scrolls smoothly, and a yellow "+N" sign shows how many more pieces are waiting; tap it to see them.
+
+## 1.43.0 · 2026-11-09
+
+- Settings › Accounts & connections now shows parents how much AI Bayit uses, by person and feature, with this month's spend, a 30-day chart, and an estimate of how long your prepaid credit will last. Enter your credit once; the provider's billing page stays the real balance.
+
+## 1.42.0 · 2026-11-09
+
+- Vouchers, Message to plan, Today suggestions and the Google Calendar connection are back. A release earlier today accidentally left them out; nothing you saved was lost.
+- Includes offline mode, the new section menus and the Settings photo and Quiet hours fixes.
+
+## 1.41.0 · 2026-11-09
+
+- Connect Google Calendar in Settings to share availability, import selected events, or keep a selected Bayit event updated in its own Google calendar.
+
+## 1.40.0 · 2026-11-09
+
+- Household › Vouchers keeps your vouchers private. Add a voucher photo, show its code at checkout, track the remaining balance, and set expiry reminders.
+- Today › Message to plan turns a message, photo or PDF into a draft to review before saving tasks or events.
+- Enable suggestions on Today to see overdue tasks, unassigned pickups and expiring vouchers.
+
+## 1.39.1 · 2026-11-09
+
+- The family photo is larger on phones, with the camera badge centered on the bottom edge.
+- Quiet hours fields stay level, with the times centered vertically even when a label wraps.
+
+## 1.39.0 · 2026-11-09
+
+- Bayit now opens without a connection. You see your latest Today, Calendar, Tasks, Shopping and kids' day, marked "Offline · showing data from …". Ticks, new items and finished tasks made offline wait on your device and sync when you're back online.
+- Section menus on every page now look the same: the icon above its label, with a half tile peeking out when there is more to scroll.
+
+## 1.38.1 · 2026-11-09
+
+- Titles written in the other language (a Hebrew reminder in the English app, or the reverse) now line up with everything else in Notifications and other lists, instead of sitting on the far side.
+
 ## 1.38.0 · 2026-11-09
 
 - Assigning someone now always lets them see it. If you choose "Only me" and assign another person, it becomes "Selected people: you and them", and the form says so.

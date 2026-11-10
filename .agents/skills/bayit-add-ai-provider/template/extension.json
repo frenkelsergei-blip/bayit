@@ -1,0 +1,17 @@
+{
+ "id": "my-ai",
+ "version": "1.0.0",
+ "name": {"en": "My AI provider", "he": "ספק הבינה המלאכותית שלי"},
+ "description": "Adds My AI to the AI provider choice (OpenAI-compatible chat).",
+ "seam": "ai-providers",
+ "minBayit": "1.56.0",
+ "files": [
+  "shared/extensions/my-ai.mjs",
+  "tests/extension-my-ai.test.mjs"
+ ],
+ "registry": [
+  {"seam": "ai-providers", "id": "my-ai", "file": "shared/extensions/my-ai.mjs", "export": "MY_AI"}
+ ],
+ "outbound": ["https://api.my-ai.example"],
+ "dependencies": {}
+}

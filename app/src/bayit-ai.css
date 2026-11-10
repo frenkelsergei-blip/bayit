@@ -1,0 +1,124 @@
+/* בית AI (Bayit AI) recommendations, concept A + B (2026-11-10). The AI's own mark: the Bayit house with a spark on
+   the roof, a violet "Bayit AI" chip, a dashed violet frame and its own three-step AI priority, kept apart from the
+   family's priority frames (coral / amber / blue-grey, solid). Everything else reuses the Today row, Tasks list cards,
+   FormSection and the Household window. Colours are tokens; night swaps the values only. */
+:root{--bai:#6A4FD8;--bai-soft:#EFEAFF;--bai-line:#B7A6F5;--bai-fill:color-mix(in srgb,var(--bai-soft) 55%,var(--surface,#fff));--bai-hi:#E0714F;--bai-bar:#B9C4E4}
+:root[data-theme="dark"]{--bai:#C3B5FF;--bai-soft:#2E2858;--bai-line:#6E5FC8;--bai-fill:color-mix(in srgb,var(--bai-soft) 55%,var(--surface,#1C2541));--bai-hi:#FF8A70;--bai-bar:#4A5A8C}
+
+.bai-mark{position:relative;display:inline-grid;flex:none;line-height:0}
+.bai-mark img{width:100%;height:100%;object-fit:contain;grid-area:1/1}
+.bai-mark-night{display:none}
+:root[data-theme="dark"] .bai-mark-day{display:none}
+:root[data-theme="dark"] .bai-mark-night{display:block}
+
+.bai-chip{display:inline-flex;align-items:center;gap:5px;height:24px;padding-inline:4px 9px;border-radius:999px;background:var(--bai-soft);color:var(--bai);font-weight:850;font-size:calc(12.5px * var(--text-scale,1));white-space:nowrap;line-height:1}
+.bai-level{display:inline-flex;align-items:center;gap:1px;color:color-mix(in srgb,var(--bai) 35%,transparent);white-space:nowrap}
+.bai-level svg.on{color:var(--bai)}
+.bai-level em{font-style:normal;font-size:calc(13px * var(--text-scale,1));font-weight:750;color:var(--bai);margin-inline-start:5px}
+.bai-delta{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:var(--peach);color:var(--text);font-weight:800;font-size:calc(12.5px * var(--text-scale,1));white-space:nowrap}
+.bai-outcome{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;font-weight:800;font-size:calc(12.5px * var(--text-scale,1));white-space:nowrap}
+.bai-outcome.o-ok{background:var(--green);color:var(--text)}.bai-outcome.o-action{background:var(--selected);color:var(--text)}.bai-outcome.o-dismissed,.bai-outcome.o-expired{background:var(--surfaceSoft);color:var(--muted)}
+.bai-when{color:var(--muted);font-weight:650}
+
+/* Rows: the Today row anatomy with the AI frame. */
+.task-row.bai-row{border:1.5px dashed var(--bai-line)!important;border-radius:18px;background:var(--bai-fill);padding:12px!important;margin-block:8px;box-sizing:border-box}
+.task-row.bai-row.done{border-style:solid!important;border-color:var(--border)!important;background:var(--surface)}
+.task-row.bai-row.done .task-title{color:var(--muted)}
+.bai-row .task-title{background:none;border:0;padding:0;color:var(--text);font:inherit;font-weight:750;cursor:pointer}
+.bai-meta{display:flex!important;flex-wrap:wrap;align-items:center;gap:6px!important}
+.bai-faces{display:inline-flex;justify-self:end}
+.bai-faces>*+*{margin-inline-start:-10px}
+
+/* Today: the part under your tasks. */
+.bai-today{margin-top:14px}
+.bai-heading{display:flex;align-items:center;gap:10px;margin:6px 0 4px;font-size:calc(19px * var(--text-scale,1));font-weight:850}
+.bai-count{display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 9px;border-radius:999px;background:var(--bai-soft);color:var(--bai);font-weight:900;font-size:calc(15px * var(--text-scale,1))}
+.bai-more{margin-top:2px}
+
+/* Tasks › בית AI */
+.bai-list-card .tasks-list-icon{background:var(--bai-soft)}
+.bai-list-card.chosen{border-color:var(--bai)!important}
+.bai-list{display:grid;gap:12px;min-width:0}
+.bai-seg{justify-self:start}
+.bai-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.bai-stats>div{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:10px 14px;min-width:0}
+.bai-stats b{display:block;font-size:calc(22px * var(--text-scale,1));font-weight:900;line-height:1.4}
+.bai-stats small{display:block;margin-top:2px;color:var(--muted);font-weight:700;font-size:calc(13px * var(--text-scale,1));line-height:1.3}
+.bai-group>h2>span{display:inline-flex;align-items:center;gap:8px;background:var(--bai-soft)!important;color:var(--bai)}
+.bai-empty{display:grid;justify-items:center;gap:12px;text-align:center;padding:28px 12px;color:var(--muted);font-weight:650}
+.bai-empty p{margin:0;max-width:420px}
+
+/* Window */
+.form-section.tone-ai{--tone:var(--bai-soft)}
+.form-section.tone-ai .form-section-icon{color:var(--bai)}
+.bai-window-title{display:grid;gap:4px;min-width:0}
+.bai-eyebrow{display:inline-flex;align-items:center;gap:7px;color:var(--bai);font-weight:850;font-size:calc(14px * var(--text-scale,1))}
+.bai-window .document-editor-header h2{overflow-wrap:anywhere}
+.bai-figure-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bai-figure{display:inline-flex;align-items:baseline;gap:10px;margin:0;font-size:calc(30px * var(--text-scale,1));font-weight:900;line-height:1.1}
+.bai-figure s{color:var(--muted);font-size:calc(20px * var(--text-scale,1));font-weight:700}
+.bai-figure svg{align-self:center;color:var(--muted)}
+.bai-figure small{font-size:calc(15px * var(--text-scale,1));color:var(--muted);font-weight:700}
+.bai-bars{display:flex;justify-content:space-between;align-items:flex-end;gap:6px;padding-top:6px;min-height:118px}
+.bai-bar-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:0}
+.bai-bar-value{font-size:calc(11.5px * var(--text-scale,1));color:var(--muted);font-weight:750;white-space:nowrap}
+.bai-bar{display:block;width:min(30px,70%);border-radius:7px 7px 3px 3px;background:var(--bai-bar)}
+.bai-bar.hi{background:var(--bai-hi)}
+.bai-bar-col small{font-size:calc(12px * var(--text-scale,1));color:var(--muted);font-weight:650}
+.bai-why{margin:0;font-size:calc(16px * var(--text-scale,1));line-height:1.45;font-weight:650}
+.bai-why span{display:block;color:var(--muted);font-weight:600;font-size:calc(15px * var(--text-scale,1))}
+.bai-charges{display:grid;gap:6px}
+.bai-charges>div{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surfaceSoft);border-radius:12px;padding:10px 12px;font-weight:700}
+.bai-facts{display:grid;gap:10px;margin:0}
+.bai-facts>div{display:grid;grid-template-columns:minmax(120px,auto) minmax(0,1fr);gap:10px;align-items:start}
+.bai-facts dt{display:inline-flex;align-items:center;gap:7px;font-weight:800;color:var(--text)}
+.bai-facts dt svg{color:var(--muted);flex:none}
+.bai-facts dd{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0}
+.bai-facts dd small{flex-basis:100%;color:var(--muted);font-weight:600}
+.bai-people>span{display:inline-flex;align-items:center;gap:6px;font-weight:750}
+.bai-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px}
+.bai-links .text-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:800}
+.bai-ask{margin-top:14px;padding:14px 16px;border-radius:20px;background:var(--surfaceSoft);display:grid;gap:10px}
+.bai-ask p{margin:0;font-weight:750}
+.bai-ask .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.bai-answers .bai-ok{background:var(--green)!important;color:var(--text)!important}
+.bai-answers .button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+@media(max-width:700px){
+ html .household-window.bai-window .document-editor-footer .actions.bai-answers{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);gap:8px;width:100%}
+ .bai-answers .button{padding-inline:8px;min-width:0;white-space:nowrap;font-size:calc(15px * var(--text-scale,1))}
+ .bai-facts>div{grid-template-columns:1fr}
+ .bai-stats{gap:8px}.bai-stats>div{padding:8px 10px}.bai-stats b{font-size:calc(19px * var(--text-scale,1))}
+}
+
+/* Needs action form */
+.bai-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bai-suggest{min-height:44px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:750;cursor:pointer;text-align:start}
+.bai-suggest.on{background:var(--selected);border-color:var(--primary)}
+.bai-field{display:grid;gap:8px}
+.bai-people-pick{display:flex;flex-wrap:wrap;gap:10px 12px}
+
+/* Settings */
+.bai-settings-title{display:inline-flex;align-items:center;gap:10px}
+.bai-switch-row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:44px}
+.bai-switch-row>span{display:grid;gap:2px;min-width:0}
+.bai-switch-row b{font-weight:800}
+.bai-switch-row small{color:var(--muted);font-weight:600}
+.bai-switch-row .switch:disabled{opacity:.5;cursor:not-allowed}
+.bai-soon-pill{font-style:normal;font-size:calc(12.5px * var(--text-scale,1));font-weight:800;background:var(--surfaceSoft);color:var(--muted);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.bai-disabled{opacity:.55;pointer-events:none}
+.bai-suppressed{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bai-suppressed li{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bai-suppressed li>span{display:grid;min-width:0}
+.bai-suppressed small{color:var(--muted);font-weight:600}
+.bai-last{margin:0;font-size:calc(13px * var(--text-scale,1))}
+.bai-notify{margin-top:18px}
+.bai-notify-row{display:flex;flex-wrap:wrap;gap:12px}
+.bai-notify-row label{display:grid;gap:6px;font-weight:750}
+.bai-notify-row input,.bai-notify-row select{min-height:44px;border-radius:15px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:0 12px;font:inherit;font-size:max(16px,calc(16px * var(--text-scale,1)))}
+
+/* Undo toast reuses the app toast; above the bottom menu on phones. */
+.toast.bai-toast .text-link{color:var(--yellow);font-weight:850;background:none;border:0;cursor:pointer;min-height:44px}
+html:root .view-tasks :is(.tasks-filters,.task-list-layout).bai-hidden{display:none!important}
+.bai-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html .household-window.bai-window .document-editor-footer .actions.bai-answers{display:flex;justify-content:flex-end;flex-wrap:wrap}
+@media(max-width:700px){html .household-window.bai-window .document-editor-footer .actions.bai-answers{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);gap:8px;width:100%}}

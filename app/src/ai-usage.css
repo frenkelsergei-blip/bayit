@@ -1,0 +1,131 @@
+/* Settings › Accounts & connections › AI usage & credit (ai-usage.jsx). Scoped to .ai-usage.
+   Tiles, a 30-day bar chart (the shared Statistics BarsChart with its cobalt series) and per-person / per-feature
+   meters, inside one FormSection. Uses the design-system tokens only; day/night change through them. */
+.ai-usage{
+ --ai-pad:18px;--ai-gap:14px;
+ --stats-c1:var(--primary);--stats-grid:color-mix(in srgb,var(--border) 75%,transparent);--stats-axis:var(--border);
+ --stats-cursor:color-mix(in srgb,var(--primary) 7%,transparent);--ai-usage-chart:200px;
+ display:grid;gap:18px;min-width:0;text-align:start
+}
+/* Every direct child and every block's content share one start edge; blocks use one padding and one inner rhythm,
+   so headings, text, fields, buttons and messages line up and never touch. */
+.ai-usage p{margin:0}
+.ai-usage-lead{color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.5;font-weight:600;max-width:900px}
+.ai-usage-link{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:var(--primary);text-decoration:underline;text-underline-offset:3px}
+.ai-usage-link svg{flex:none}
+.ai-usage-example{display:inline-block;margin-inline-end:8px;padding:2px 10px;border-radius:999px;background:var(--yellow);color:var(--text);font-size:calc(12.5px * var(--font-adjust,1));font-weight:850;vertical-align:1px}
+.ai-usage-muted{color:var(--muted);font-weight:650}
+.ai-usage-note{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--selected) 55%,var(--surface));color:var(--text);font-size:calc(14.5px * var(--font-adjust,1));line-height:1.45;font-weight:650}
+.ai-usage-note svg{flex:none;margin-top:1px;color:var(--primary)}
+.ai-usage-note.warn{background:color-mix(in srgb,var(--yellow) 60%,var(--surface))}
+
+/* Four tiles: icon, label, value, one-line hint. Two per row below 1100px, one per row on narrow phones. */
+.ai-usage-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--ai-gap);min-width:0}
+.ai-usage-tile{display:flex;align-items:flex-start;gap:12px;min-width:0;padding:var(--ai-pad);border:1px solid var(--border);border-radius:20px;background:var(--surface)}
+.ai-usage-tile>div{min-width:0;display:grid;gap:4px}
+.ai-usage-tile-icon{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:color-mix(in srgb,var(--selected) 80%,var(--surface));color:var(--primary)}
+.ai-usage-tile h4{margin:0;font-size:calc(14px * var(--font-adjust,1));font-weight:800;color:var(--muted);line-height:1.25}
+.ai-usage-tile strong{font-size:calc(26px * var(--font-adjust,1));font-weight:900;line-height:1.1;color:var(--text);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ai-usage-tile strong.word{font-size:calc(19px * var(--font-adjust,1));line-height:1.2}
+.ai-usage-tile small{color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));font-weight:650;line-height:1.35}
+.ai-usage-tile.warn{border-color:color-mix(in srgb,var(--danger) 55%,var(--border));background:color-mix(in srgb,var(--danger) 7%,var(--surface))}
+.ai-usage-tile.warn .ai-usage-tile-icon{background:color-mix(in srgb,var(--danger) 16%,var(--surface));color:var(--danger)}
+
+.ai-usage-block{min-width:0;display:grid;gap:12px;align-content:start;padding:var(--ai-pad);border:1px solid var(--border);border-radius:20px;background:var(--surface)}
+.ai-usage-block>h4{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:calc(17px * var(--font-adjust,1));font-weight:850;line-height:1.25}
+.ai-usage-block>h4 small{color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));font-weight:700}
+.ai-usage-chart .stats-figure{margin:0;min-width:0;display:grid}
+.ai-usage-chart .stats-chart{width:100%;min-width:0}
+
+.ai-usage-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ai-gap);min-width:0;align-items:stretch}
+.ai-usage-split>.ai-usage-wide{grid-column:1/-1}
+/* One grid for the whole list (rows are subgrids), so names, meters and amounts form straight columns. */
+.ai-usage-bars{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:36px minmax(0,11em) minmax(40px,1fr) max-content;column-gap:10px;row-gap:10px}
+.ai-usage-bars li{grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;min-height:44px}
+.ai-usage-row-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--selected) 80%,var(--surface));color:var(--primary)}
+.ai-usage-row-name{min-width:0;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-usage-meter{display:block;height:12px;border-radius:999px;background:color-mix(in srgb,var(--primary) 10%,var(--surface));overflow:hidden}
+.ai-usage-meter i{display:block;height:100%;border-radius:inherit;background:var(--primary)}
+.ai-usage-bars b{display:grid;justify-items:end;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.ai-usage-bars b small{color:var(--muted);font-weight:700;font-size:calc(12.5px * var(--font-adjust,1))}
+
+.ai-usage-credit-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ai-usage-credit-row p{flex:1 1 320px;line-height:1.5;font-weight:600}
+.ai-usage-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:end;gap:var(--ai-gap)}
+.ai-usage-form label,.ai-usage-price-fields label{display:grid;gap:8px;margin:0;min-width:0;font-weight:800;align-content:end}
+.ai-usage :is(.ai-usage-form,.ai-usage-price-fields) input[type=text]{min-height:44px;width:100%;box-sizing:border-box;margin:0;font-size:max(16px,calc(16px * var(--font-adjust,1)))}
+.ai-usage-form-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ai-usage-form-actions>*{margin:0}
+.ai-usage-form-remove{grid-column:1/-1}
+.ai-usage-saved{color:var(--muted);font-weight:750}
+.ai-usage-foot,.ai-usage-small{color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));line-height:1.45;font-weight:600}
+
+.ai-usage-block .save-error,.ai-usage-block .ai-usage-saved{margin:0}
+.ai-usage-text-button{display:inline;min-height:0;padding:0;border:0;background:none;color:var(--primary);font:inherit;font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+
+/* Models & prices: name | price | action on one centred row; the price form opens under its row. */
+.ai-usage-model-list,.ai-usage-recent ul,.ai-usage-other-credits,.ai-usage-history ul{list-style:none;margin:0;padding:0}
+.ai-usage-model-list{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) max-content;column-gap:var(--ai-gap)}
+.ai-usage-model-list>li{grid-column:1/-1;display:grid;grid-template-columns:subgrid;row-gap:12px;padding-block:12px;border-top:1px solid var(--border)}
+.ai-usage-model-list>li>.ai-usage-price-form{grid-column:1/-1}
+.ai-usage-model-list>li:first-child{border-top:0;padding-top:0}
+.ai-usage-model-list>li:last-child{padding-bottom:0}
+.ai-usage-model-row{grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center}
+.ai-usage-model-row>.button{margin:0}
+.ai-usage-model-name,.ai-usage-model-price{min-width:0;display:grid;gap:4px;justify-items:start}
+.ai-usage-model-name strong{font-weight:850;overflow-wrap:anywhere}
+.ai-usage-model-name small,.ai-usage-model-price small{color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));font-weight:650;line-height:1.35}
+.ai-usage-chip{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:2px 11px;border-radius:999px;font-size:calc(13px * var(--font-adjust,1));font-weight:800;line-height:1.2;background:color-mix(in srgb,var(--selected) 75%,var(--surface));color:var(--text)}
+.ai-usage-chip.household{background:color-mix(in srgb,var(--green) 70%,var(--surface))}
+.ai-usage-chip.unknown{background:color-mix(in srgb,var(--yellow) 75%,var(--surface))}
+.ai-usage .ai-usage-warn-text{color:var(--danger);font-weight:750}
+.ai-usage-price-form{display:grid;gap:12px;padding:var(--ai-pad);border-radius:16px;background:color-mix(in srgb,var(--selected) 30%,var(--surface))}
+.ai-usage-price-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.3fr);gap:var(--ai-gap);align-items:end}
+.ai-usage-history summary{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:800;cursor:pointer}
+.ai-usage-history li{color:var(--muted);font-weight:650;padding-block:4px}
+
+/* Credit: other providers' earlier credit, one row each. */
+.ai-usage-other-credits{display:grid;gap:8px}
+.ai-usage-other-credits li{display:flex;align-items:center;justify-content:space-between;gap:var(--ai-gap);font-weight:650}
+.ai-usage-other-credits .button{margin:0;flex:none}
+
+/* Recent requests: icon | who, feature, model, time | cost and tokens. */
+.ai-usage-recent li{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:12px;min-height:44px;padding-block:8px;border-top:1px solid var(--border)}
+.ai-usage-recent li:first-child{border-top:0;padding-top:0}
+.ai-usage-recent li:last-child{padding-bottom:0}
+.ai-usage-recent-main{min-width:0;display:grid;gap:2px}
+.ai-usage-recent-main strong{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-usage-recent-main small,.ai-usage-recent-cost small{color:var(--muted);font-size:calc(13px * var(--font-adjust,1));font-weight:650;overflow-wrap:anywhere}
+.ai-usage-recent-cost{display:grid;justify-items:end;gap:2px;text-align:end}
+.ai-usage-recent-cost b{font-weight:900;font-variant-numeric:tabular-nums}
+
+@media(max-width:1100px){
+ .ai-usage-price-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ai-usage-price-fields>label:last-child{grid-column:1/-1}
+ .ai-usage-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ai-usage-split{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:700px){
+ .ai-usage{--ai-usage-chart:180px;gap:14px}
+ .ai-usage-tile{flex-direction:column;gap:8px}
+ .ai-usage-tile-icon{width:34px;height:34px}
+ .ai-usage-tile strong{font-size:calc(22px * var(--font-adjust,1))}
+ .ai-usage-tile strong.word{font-size:calc(16px * var(--font-adjust,1))}
+ .ai-usage{--ai-pad:14px;--ai-gap:12px}
+ .ai-usage-model-list{grid-template-columns:minmax(0,1fr)}
+ .ai-usage-model-row{row-gap:10px}
+ .ai-usage-model-row>.button{width:100%}
+ .ai-usage-other-credits li{flex-wrap:wrap}
+ .ai-usage-recent li{grid-template-columns:36px minmax(0,1fr);align-items:start;row-gap:4px}
+ .ai-usage-recent li>.ai-usage-row-icon{grid-row:1/span 2}
+ .ai-usage-recent-main strong{white-space:normal}
+ .ai-usage-recent-cost{grid-column:2;justify-items:start;text-align:start;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+ .ai-usage-bars{grid-template-columns:36px minmax(0,1fr) max-content;row-gap:12px}
+ .ai-usage-bars li{row-gap:6px}
+ .ai-usage-bars .ai-usage-row-name{white-space:normal;overflow-wrap:anywhere;line-height:1.25}
+ .ai-usage-bars .ai-usage-meter{grid-column:2/-1;grid-row:2}
+ .ai-usage-form{grid-template-columns:minmax(0,1fr)}
+ .ai-usage-form-actions>*{flex:1 1 0}
+}
+@media(max-width:340px){.ai-usage-tiles{grid-template-columns:minmax(0,1fr)}}
+@media(max-height:520px) and (orientation:landscape){.ai-usage{--ai-usage-chart:160px}}

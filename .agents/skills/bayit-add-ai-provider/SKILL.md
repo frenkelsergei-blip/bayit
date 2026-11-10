@@ -1,37 +1,62 @@
 ---
 name: bayit-add-ai-provider
-description: Add a new AI provider (e.g. Mistral, DeepSeek, Azure OpenAI, a local model server) to Bayit's provider choice, following the existing adapter contract and tests. Use when someone asks to support another AI model or service.
+description: Add a new AI provider (e.g. Mistral, DeepSeek, Azure OpenAI, a local model server) to Bayit's provider choice as an extension, following the adapter contract and tests. Use when someone asks to support another AI model or service.
 ---
 
 # Add an AI provider
 
-Read the "AI providers" section of `docs/extending.md` and the rules in `.agents/skills/README.md`. The pieces:
+This is a **generator** skill (`docs/extension-skills.md`): it writes a new extension package for one provider into `local-extensions/<id>/`, then applies it with `app/scripts/bayit-extension.mjs`. The result is recorded in `shared/extensions/installed.json` and registered only in `shared/extensions/ai-providers.mjs`. No core file changes.
 
-- `shared/ai-providers.mjs`: the `AI_PROVIDERS` list (id, name, company, format, base URL, key hint, keys URL).
-- `app/cloud/ai-providers.mjs`: `providerBase()`, `listModels()` and `generate()`.
-- `tests/ai-providers.test.mjs`: tests with a stubbed `fetch`.
+Read first: `docs/extension-skills.md`, `docs/extensions-registry.md` (AI providers) and the rules in `.agents/skills/README.md`.
+
+## Ask the person first
+
+1. Which provider, and do they already have an account with it? (Creating the account and the key is theirs to do.)
+2. Is it a cloud service or a server on their own network? A server on the home network is not an extension: it uses the built-in **Custom** provider plus the installation's `AI_PRIVATE_ORIGINS` setting, set by whoever runs the installation.
 
 ## Decide the wire format
 
-- **OpenAI-compatible Chat Completions** (most services): format `chat`. Usually only a list entry is needed.
-- **OpenAI Responses API**: format `responses`.
-- **Anthropic Messages**: format `anthropic`.
-- **Something else:** a new format. Add branches in `generate()` and `listModels()` that map Bayit's tools to the provider's function calling and convert the reply back to Anthropic-shaped blocks (`text`, `tool_use`), so `normalizeAITools()`, Apply/Undo and visibility work unchanged.
+Check the provider's **current official docs** for the base URL, auth header, model-list endpoint and tool calling. Don't guess.
 
-Check the provider's **current official docs** for the base URL, auth header, model-list endpoint and tool-calling support. Don't guess.
+- **OpenAI-compatible Chat Completions** (most services): `format: 'chat'`.
+- **OpenAI Responses API**: `format: 'responses'`.
+- **Anthropic Messages**: `format: 'anthropic'`.
+- **Anything else** needs a new adapter branch in `app/cloud/ai-providers.mjs`. That is a core change, not an extension: stop and tell the person; offer to write it up as a contribution (a new format) instead.
 
-## Steps
+## Write the package
 
-1. Add the entry to `AI_PROVIDERS`. If its model list includes non-chat models (embeddings, audio, images), filter them in `listModels()`.
-2. Add a test in `tests/ai-providers.test.mjs`: stub `fetch`, then assert the request URL, the auth header, tool mapping and the parsed `tool_use` blocks. Use no real keys.
-3. Run `cd app && npm run test:domain && npm run build:cloud`.
-4. Open **Settings → Accounts & connections → AI assistant**. The provider appears in the picker, with its "Get a key" link.
-5. If the person has a real key, they paste it in the app themselves. Ask a question in Ask AI, then confirm that a prepared change still waits for **Apply**.
+1. Pick an id: lowercase letters, digits and `-`, not used by a core provider (`anthropic`, `openai`, `gemini`, `xai`, `custom`) or an installed extension.
+2. Copy `template/` from this skill to `local-extensions/<id>/`. Rename `my-ai` to the id and `MY_AI` to an UPPER_SNAKE name everywhere: in file names, `extension.json`, the payload, the test, `SKILL.md` and `REMOVE.md`.
+3. Fill in `payload/shared/extensions/<id>.mjs`: name, company, format, fixed https `base`, `keyHint`, `keysUrl`, `billingUrl` (or `''`).
+4. Put the base's origin in `extension.json` → `outbound`. Set `minBayit` to the version in `app/package.json` if it is newer than the template's.
+5. Adapt `tests/extension-<id>.test.mjs`: the URL the request goes to, the auth header, and the parsed `tool_use` blocks. Stub `fetch`; never use a real key.
+6. Fill in the package's own `SKILL.md` (what it adds, what to ask, Troubleshooting for the key) and `REMOVE.md`.
+
+## Apply and verify
+
+```bash
+node app/scripts/bayit-extension.mjs apply local-extensions/<id>
+node app/scripts/bayit-extension.mjs check
+cd app && npm run test:domain && npm run build:cloud
+```
+
+`apply` refuses rather than overwriting anything and rolls back if the provider fails the registry check or its tests. Fix the package and apply again.
+
+Then a parent opens **Settings → Accounts & connections → AI assistant**: the provider is in the picker with its "Get a key" link. If they have a key, they paste it in the app themselves, ask one question in Ask AI, and confirm that a prepared change still waits for **Apply**.
 
 ## Keep the contract
 
 - Never save changes without Apply, and never widen visibility.
 - Treat record text as untrusted data.
-- Custom endpoints must use https.
-- Keys stay encrypted on the server.
-- Add a release-note line in `app/src/app-version.jsx` if this will be released.
+- The base is a fixed https address declared in `outbound`.
+- Keys stay encrypted on the server; never in files, logs or chat.
+
+## Troubleshooting
+
+- `apply` says the id is already registered: pick another id; core and installed providers keep theirs.
+- "base must be an https address": no `http://`, no query, no trailing `?`.
+- The key is rejected in the app: it belongs to another provider or was copied with a space; the parent creates a new key.
+
+## Share it
+
+The package in `local-extensions/<id>/` is complete. To publish it for other families, move it to its own skill folder `.agents/skills/bayit-add-<id>/` in a fork or a contribution (`docs/extension-skills.md`, "Publishing").

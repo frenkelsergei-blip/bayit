@@ -1,11 +1,12 @@
 // Installed Auth.js login lifecycle and real D1 adapter; no live Google verification.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import {openD1,migrate} from '../app/host/d1-sqlite.mjs';
 import {authConfig,authHandler} from '../app/cloud/auth.mjs';
-import {requireRecent} from '../app/cloud/security.mjs';
+import {requireRecent,ownSessions,RECENT_IDENTITY_MS} from '../app/cloud/security.mjs';
 const require=createRequire(new URL('../app/package.json',import.meta.url));
 const {handleLoginOrRegister}=await import(pathToFileURL(require.resolve('@auth/core')).href.replace(/index\.js$/,'lib/actions/callback/handle-login.js'));
 const origin='http://localhost:55807',account={provider:'google',providerAccountId:'owner-google-sub',type:'oidc'},profile={email:'owner@example.test',email_verified:true};
@@ -28,4 +29,13 @@ test('session reads, forged return markers and failed callbacks do not refresh a
 });
 test('expired or revoked sessions are never made recent and are not reused by the adapter',async()=>{
  const f=await fixture();try{await f.DB.prepare('UPDATE sessions SET expires=? WHERE sessionToken=?').bind(new Date(Date.now()-60000).toISOString(),'owner-token').run();const config=authConfig(f.env,request());await config.events.signIn({user:{id:'owner'},account,profile});assert.equal(await f.stamp('owner-token'),0);assert.equal(await config.adapter.getSessionAndUser('owner-token'),null);assert.equal(await f.stamp('owner-token'),undefined);await config.events.signIn({user:{id:'owner'},account,profile});assert.equal(await f.stamp('owner-token'),undefined);assert.equal(await f.stamp('second-owner-token'),0)}finally{f.close()}
+});
+test('the recent-identity window is 30 minutes for everyone, and the client reads it from the server',async()=>{
+ const f=await fixture();try{assert.equal(RECENT_IDENTITY_MS,30*60000);const user={id:'owner'},stamp=ms=>f.DB.prepare('UPDATE session_auth SET authenticated_at=? WHERE session_token=?').bind(ms,'owner-token').run();
+  await stamp(Date.now()-20*60000);await requireRecent(request(),f.env,user);
+  const body=await (await ownSessions(request('/api/security/sessions'),f.env,user)).json();assert.equal(body.recent,true);assert.equal(body.recentWindowMs,RECENT_IDENTITY_MS);
+  await stamp(Date.now()-31*60000);await assert.rejects(requireRecent(request(),f.env,user),e=>e.code==='REAUTH_REQUIRED');
+  assert.equal((await (await ownSessions(request('/api/security/sessions'),f.env,user)).json()).recent,false);
+  assert.match(readFileSync(new URL('../app/src/connection-dialog.jsx',import.meta.url),'utf8'),/authenticated_at\+data\.recentWindowMs/,'the client uses the server value, not its own copy');
+ }finally{f.close()}
 });

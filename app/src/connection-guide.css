@@ -1,0 +1,47 @@
+/* One guide layout for every connection (concept A, 2026-11-10; guide-ai.png, guide-telegram.png).
+   Same parts as the first-run guide (family-setup.css), scoped here so either can change without the other. */
+.conn-guide{--setup-soft:color-mix(in srgb,var(--border) 45%,var(--surface));display:grid;gap:14px;align-content:start;min-width:0}
+.conn-guide-warning{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:start;border-radius:18px;padding:14px 16px;background:var(--yellow);border:2px solid var(--accent);color:var(--text)}
+.conn-guide-warning>svg{grid-row:span 2;color:#a15c00;margin-top:2px}
+.conn-guide-warning strong{font-size:calc(17px * var(--font-adjust,1));font-weight:900;line-height:1.35}
+.conn-guide-warning span{font-size:calc(14.5px * var(--font-adjust,1));line-height:1.5;font-weight:600}
+.conn-guide .setup-need{display:flex;flex-wrap:wrap;gap:8px}
+.conn-guide .setup-need span{display:inline-flex;gap:6px;align-items:center;padding:6px 12px;border-radius:999px;background:var(--setup-soft);font-size:calc(13.5px * var(--font-adjust,1));font-weight:800}
+.conn-guide .setup-need svg{color:var(--primary);flex:none}
+.conn-guide-intro{margin:0;color:var(--text);font-size:calc(15px * var(--font-adjust,1));line-height:1.5;font-weight:700}
+.conn-guide .setup-support{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px}
+.conn-guide .setup-support>div{border-radius:18px;padding:12px 14px;background:var(--green);color:var(--text)}
+.conn-guide .setup-support>.no{background:color-mix(in srgb,var(--danger) 14%,var(--surface))}
+.conn-guide .setup-support strong{display:flex;gap:6px;align-items:center;font-size:calc(14.5px * var(--font-adjust,1));font-weight:900}
+.conn-guide .setup-support ul{margin:6px 0 0;padding-inline-start:20px;font-size:calc(14px * var(--font-adjust,1));line-height:1.5}
+.conn-guide-steps{list-style:none;margin:0;padding:0}
+.conn-guide-steps>li{display:flex;gap:14px;padding:12px 0;position:relative}
+.conn-guide-steps>li:not(:last-child)::before{content:'';position:absolute;top:48px;bottom:-4px;inset-inline-start:17px;width:2px;background:var(--border)}
+.conn-guide-steps>li>div{flex:1;min-width:0}
+.conn-guide .setup-step-n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--primary);color:#fff;position:relative;z-index:1}
+.conn-guide .setup-step-n.done{background:#2fa86b}
+.conn-guide .setup-step-n.later{background:var(--surfaceSoft);color:var(--text)}
+.conn-guide-steps>li.later strong{color:var(--muted)}
+.conn-guide-steps strong{display:block;font-size:calc(16.5px * var(--font-adjust,1));font-weight:800;line-height:1.35}
+.conn-guide-steps small{display:block;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));line-height:1.45;margin-top:2px;font-weight:600}
+.conn-guide .setup-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.conn-guide .setup-action{min-height:44px;gap:6px;padding:8px 18px;font-size:calc(16px * var(--font-adjust,1));text-decoration:none}
+.conn-guide-slot{margin-top:2px;min-width:0}
+.conn-guide-slot>:is(.connection-account,.maps-settings,div):first-child{margin-top:10px}
+.conn-guide-panel{min-width:0}
+/* Choices, the code field, the check result and the model (AI and Telegram slots). */
+.conn-choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.conn-choice{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:6px 16px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);font:inherit;font-weight:800;font-size:calc(15px * var(--font-adjust,1));color:var(--text);cursor:pointer}
+.conn-choice.on{background:var(--selected);border-color:var(--primary)}
+.conn-choice:disabled{cursor:default;opacity:.7}
+.conn-field{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.conn-field input{flex:1;min-width:min(100%,200px);min-height:46px;border-radius:15px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);padding:0 14px;font:inherit;font-size:16px}
+.conn-field input.filled{border-color:var(--primary)}
+.conn-result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;margin-top:10px;border-radius:16px;padding:12px 14px;background:var(--green);color:var(--text)}
+.conn-result>svg{grid-row:span 2;color:#1f8a57}
+.conn-result strong{font-size:calc(15.5px * var(--font-adjust,1))}.conn-result span{font-size:calc(14px * var(--font-adjust,1));font-weight:600}
+.conn-model{display:grid;gap:6px;margin-top:10px;font-weight:800;font-size:calc(15px * var(--font-adjust,1))}
+:root[data-theme="dark"] .conn-guide-warning>svg{color:var(--accent)}
+:root[data-theme="dark"] .conn-result>svg{color:#5fd39a}
+:root[data-theme="dark"] .conn-guide .setup-step-n.done{background:#3fb87b}
+.conn-guide-steps .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}

@@ -17,13 +17,22 @@ Skills an AI coding agent (Claude Code, Codex, or any tool that reads `SKILL.md`
 | `bayit-update` | Moves an installation to the latest version safely |
 | `bayit-connect` | Walks a family through connecting Google sign-in, AI, Telegram and RiseUp in the app |
 | `bayit-localize` | Country, timezone, currency and language |
-| `bayit-add-ai-provider` | Adds an AI provider |
-| `bayit-add-statement-format` | Adds a bank or card statement format that reconciles with the printed totals |
-| `bayit-add-today-widget` | Adds a Today screen widget |
+| `bayit-add-ai-provider` | Writes and applies an extension that adds an AI provider |
+| `bayit-add-statement-format` | Writes and applies an extension that adds a bank or card statement format, reconciled with the printed totals |
+| `bayit-add-today-widget` | Adds a Today screen widget (still a core change: Today widgets have no extension seam yet) |
 | `bayit-update-riseup` | Adapts the RiseUp connection when RiseUp changes its API |
 | `bayit-release` | For maintainers: version, release notes, checks, deploy |
 
 Claude Code reads `.claude/skills/` (a link to this folder). Codex and other agents read `.agents/skills/`.
+
+## Two kinds of skills
+
+- **Operational** skills hold instructions only. They install, connect, check, update or release a copy and never add code: `bayit-install-*`, `bayit-check`, `bayit-connect`, `bayit-update`, `bayit-localize`, `bayit-update-riseup`, `bayit-release`.
+- **Extension** skills (`bayit-add-*`) add a capability as a package: `SKILL.md`, `REMOVE.md`, `extension.json`, `payload/` and `tests/`. The agent applies it with `node app/scripts/bayit-extension.mjs apply <package-folder>`, which copies the files, adds one line to a local registry file, records it in `shared/extensions/installed.json`, and rolls everything back if a check fails. `remove <id>` reverses it exactly. A **generator** (`bayit-add-ai-provider`, `bayit-add-statement-format`) writes a new package into `local-extensions/<id>/` from its `template/`, then applies it.
+
+### Write your own
+
+Start from a generator's `template/` (or `tests/fixtures/extensions/bayit-add-example-bank/`, the smallest complete package), follow the format in `docs/extension-skills.md`, and check it with `apply`, `check`, `npm run test:domain` and `remove` in a copy you can throw away. Core accepts fixes, security fixes, simplifications and new seams; capabilities arrive as extension skills.
 
 ## Rules every skill follows
 

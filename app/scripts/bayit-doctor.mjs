@@ -7,6 +7,7 @@ import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {dirname,join} from 'node:path';
+import {extensionReport} from './local-registries.mjs';
 
 const app=join(dirname(fileURLToPath(import.meta.url)),'..'),root=join(app,'..');
 const argv=process.argv.slice(2),mode=argv.includes('--docker')?'docker':'cloudflare',flag=n=>{const i=argv.indexOf('--'+n);return i>=0?argv[i+1]:''};
@@ -19,6 +20,12 @@ console.log('Bayit doctor · '+mode+' · this copy is version '+local.version+'\
 const [major,minor]=process.versions.node.split('.').map(Number);
 if(major>22||major===22&&minor>=13)ok('Node.js '+process.versions.node);else bad('Node.js '+process.versions.node+' is too old','Install Node.js 22.13 or newer (24 LTS recommended).');
 
+// Installed extensions (shared/extensions/installed.json) against what the local registries actually contain.
+console.log('\nExtensions');
+const ext=await extensionReport(root);
+if(!ext.installed.length&&!ext.registered.length)note('No extensions installed.');
+for(const x of ext.installed)if(x?.id)ok('Extension '+x.id+(x.version?' '+x.version:'')+Object.entries(x.entries||{}).map(([seam,ids])=>' · '+seam+': '+(ids||[]).join(', ')).join(''));
+for(const problem of ext.problems)bad(problem);
 let origin=flag('origin');
 if(mode==='cloudflare'){
  console.log('\nCloudflare');

@@ -1,6 +1,10 @@
 // Exact parsers for the statement formats Bayit supports today: Bank Leumi account statements ("דף חשבון")
 // and Max credit card statements ("פירוט החיובים בחשבון"). Input is positioned text rows (app/cloud/statement-pdf.mjs).
 // All amounts are integers in agorot. Negative = money out. Every parser returns its own reconciliation checks.
+// Installed extensions add formats in shared/extensions/statement-formats.mjs, each {id, name, detect(rows), parse(rows)};
+// parse returns the same shape as parseLeumi (kind 'bank') or parseMax (kind 'card'), with its own checks.
+import {joinRegistry} from './extension-registry.mjs';
+import {EXTRA_STATEMENT_FORMATS} from './extensions/statement-formats.mjs';
 
 const AMOUNT=/^-?[\d,]+\.\d{2}$/;
 export const cents=value=>{const n=Math.round(Number(String(value).replace(/,/g,''))*100);return Number.isFinite(n)?n:null};
@@ -10,17 +14,24 @@ const near=(items,x,tolerance=30)=>items.filter(i=>Math.abs(i.x-x)<=tolerance).s
 const has=(row,...words)=>words.every(w=>row.items.some(i=>i.s.includes(w))||row.text.includes(w));
 const last4=value=>String(value||'').replace(/\D/g,'').slice(-4);
 
+const BUILT_IN=[{id:'leumi'},{id:'max'}];
+const formatProblem=f=>BUILT_IN.includes(f)||typeof f.name==='string'&&f.name.trim()&&typeof f.detect==='function'&&typeof f.parse==='function'?'':'needs a name and detect(rows) and parse(rows) functions.';
+const EXTRA=joinRegistry('statement format',BUILT_IN,EXTRA_STATEMENT_FORMATS,formatProblem).slice(BUILT_IN.length);
+export const STATEMENT_FORMATS=[...BUILT_IN.map(f=>f.id),...EXTRA.map(f=>f.id)];
+
+// Built-in formats are recognised first, so an extension can never take over a Leumi or Max statement.
 export function detectFormat(rows){
  const text=rows.slice(0,40).map(r=>r.text).join('\n');
  if(text.includes('דף חשבון')&&rows.some(r=>has(r,'סוג תנועה')))return 'leumi';
  if(/max\.co\.il/i.test(text)||rows.some(r=>has(r,'פירוט','החיובים','לתאריך')))return 'max';
- return null;
+ return EXTRA.find(f=>f.detect(rows))?.id||null;
 }
 
 export function parseStatement(rows){
  const format=detectFormat(rows);
  if(format==='leumi')return parseLeumi(rows);
  if(format==='max')return parseMax(rows);
+ const extra=EXTRA.find(f=>f.id===format);if(extra)return extra.parse(rows);
  throw Object.assign(Error('This statement format is not supported yet. Bayit currently reads Bank Leumi account statements and Max card statements (PDF).'),{status:422});
 }
 

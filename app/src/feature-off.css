@@ -1,0 +1,7 @@
+/* Calm page for a direct link to a feature that is off (features registry, 2026-11-09). */
+.feature-off{max-width:560px;margin:clamp(24px,8vh,72px) auto 0;padding:0 16px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.feature-off-icon{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:var(--selected);color:var(--muted)}
+.feature-off h1{margin:0;font-size:calc(28px * var(--font-adjust,1));font-weight:900;line-height:1.2}
+.feature-off p{margin:0;color:var(--muted);font-size:calc(16px * var(--font-adjust,1));line-height:1.5}
+.feature-off-actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:6px}
+.feature-off-actions .button{min-height:44px}

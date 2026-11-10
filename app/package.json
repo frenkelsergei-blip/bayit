@@ -1,6 +1,6 @@
 {
   "name": "bayit",
-  "version": "1.38.0",
+  "version": "1.56.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,6 +25,8 @@
     "@auth/d1-adapter": "^1.11.3",
     "@phosphor-icons/react": "^2.1.10",
     "@vitejs/plugin-react": "5.0.4",
+    "@zxing/library": "0.23.0",
+    "bwip-js": "4.11.4",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "recharts": "^3.10.1",

@@ -1,0 +1,149 @@
+/* בית AI on every screen (2026-11-10): the launcher (bubble / edge tab / next to the bell), the chat (full screen on
+   phones; a panel on desktop: floating for bubble and corner, docked for the edge tab), history and the settings picker.
+   Tokens only; the AI's violet comes from bayit-ai.css (--bai, --bai-soft, --bai-line). */
+:root{--hai-nav:var(--shell-nav-clearance,var(--shell-nav-height,68px));--hai-head:var(--shell-header-height,82px)}
+
+/* ---- Launcher ---- */
+.hai-bubble{position:fixed;z-index:53;inset-inline-end:var(--float-end,16px);bottom:var(--float-bottom,calc(var(--hai-nav) + 16px));width:62px;height:62px;border-radius:50%;border:0;background:var(--surface);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 26px color-mix(in srgb,var(--text) 22%,transparent),0 0 0 3px var(--bai-soft);animation:hai-arrive .5s cubic-bezier(.2,1.4,.4,1) both}
+.hai-bubble::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--bai-line);opacity:0;animation:hai-ring 9s ease-out 1.2s infinite}
+.hai-twinkle{position:absolute;top:6px;inset-inline-start:8px;color:var(--yellow-strong,#FFD451);filter:drop-shadow(0 0 2px #0003);opacity:0;animation:hai-twinkle 7s ease-in-out 2s infinite}
+.hai-bubble:hover{box-shadow:0 12px 30px color-mix(in srgb,var(--text) 28%,transparent),0 0 0 4px var(--bai-line)}
+.hai-bubble:focus-visible,.hai-edge:focus-visible,.hai-corner:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.hai-badge{position:absolute;top:-3px;inset-inline-end:-3px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;background:var(--bai);color:#fff;border:2px solid var(--surface);display:grid;place-items:center;font-weight:900;font-size:12px;line-height:1}
+.hai-edge{position:fixed;z-index:53;inset-inline-end:0;transform:translateY(-50%);width:48px;height:76px;display:grid;place-items:center;background:var(--surface);border:1.5px solid var(--bai-line);border-inline-end:0;border-start-start-radius:22px;border-end-start-radius:22px;box-shadow:-4px 6px 18px color-mix(in srgb,var(--text) 18%,transparent);cursor:pointer;touch-action:none;padding:0}
+.hai-edge .hai-badge{top:-8px;inset-inline-end:auto;inset-inline-start:-8px}
+.hai-corner{position:relative;order:-1;flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--bai-soft);display:grid;place-items:center;cursor:pointer;padding:0}
+.hai-corner .hai-badge{min-width:18px;height:18px;font-size:10px;top:-4px;inset-inline-end:-6px}
+@keyframes hai-arrive{from{transform:scale(.6);opacity:0}}
+@keyframes hai-ring{0%{opacity:0;transform:scale(.85)}6%{opacity:.9}18%{opacity:0;transform:scale(1.25)}100%{opacity:0}}
+@keyframes hai-twinkle{0%,82%,100%{opacity:0;transform:scale(.4) rotate(0)}88%{opacity:1;transform:scale(1.15) rotate(20deg)}94%{opacity:0;transform:scale(.6) rotate(40deg)}}
+@media(prefers-reduced-motion:reduce){.hai-bubble,.hai-bubble::after,.hai-twinkle{animation:none}.hai-twinkle{opacity:1}}
+/* Dark menus show the light-on-dark mark. */
+.bayit-shell-nav .bai-nav-mark .bai-mark-day,.bayit-shell-menu .bai-nav-mark .bai-mark-day{display:none}
+.bayit-shell-nav .bai-nav-mark .bai-mark-night,.bayit-shell-menu .bai-nav-mark .bai-mark-night{display:block}
+:root[data-sidebar=matching] .bayit-shell-menu .bai-nav-mark .bai-mark-day{display:block}
+:root[data-sidebar=matching] .bayit-shell-menu .bai-nav-mark .bai-mark-night{display:none}
+
+/* ---- Chat ---- */
+.hai-layer{position:fixed;z-index:90;inset:0;pointer-events:none}
+.hai-chat{pointer-events:auto;position:absolute;display:flex;flex-direction:column;background:var(--bg);color:var(--text);overflow:hidden}
+.hai-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.hai-head>div{flex:1;min-width:0;display:grid}
+.hai-head h2{margin:0;font-size:calc(20px * var(--text-scale,1));font-weight:900;line-height:1.2}
+.hai-head small{color:var(--muted);font-weight:650;font-size:calc(13px * var(--text-scale,1));overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hai-tabs{display:flex;gap:6px;padding:10px 16px 0;background:var(--surface)}
+.hai-tabs{align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.hai-seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);flex:none}
+.hai-seg button{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:var(--text);font:inherit;font-weight:750;font-size:calc(14px * var(--text-scale,1));cursor:pointer;white-space:nowrap}
+.hai-seg button.on{background:var(--selected);color:var(--primary);font-weight:850}
+.hai-seg button:focus-visible{outline:3px solid var(--primary);outline-offset:1px}
+.hai-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.hai-scope{align-self:flex-start}
+.hai-connect{display:flex;align-items:center;gap:10px;background:var(--yellow);border-radius:16px;padding:10px 12px;font-weight:650;font-size:calc(14px * var(--text-scale,1))}
+.hai-connect>span{flex:1}
+.hai-hello{margin:0;background:var(--bai-soft);border-radius:18px;border-end-start-radius:6px;padding:10px 14px;font-weight:650;line-height:1.5;max-width:92%}
+.hai-intro{display:flex;flex-direction:column;gap:12px}
+.hai-intro h3{display:flex;align-items:center;gap:8px;margin:0 2px 6px;font-size:calc(14px * var(--text-scale,1));font-weight:850;color:var(--muted)}
+.hai-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--bai-soft);color:var(--bai);font-size:12px;font-weight:900}
+.hai-waiting{display:grid;gap:6px;border:1.5px dashed var(--bai-line);border-radius:16px;padding:10px;background:var(--surface)}
+.hai-rec{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:4px 6px;border:0;border-radius:12px;background:transparent;color:var(--text);font:inherit;font-weight:750;text-align:start;cursor:pointer}
+.hai-rec:hover{background:var(--bai-soft)}
+.hai-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hai-chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:750;font-size:calc(14px * var(--text-scale,1));cursor:pointer;text-align:start}
+.hai-chip svg{color:var(--bai);flex:none}
+.hai-chip:hover{border-color:var(--bai-line)}
+.hai-tips-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:0 4px;border:0;background:none;color:var(--muted);font:inherit;font-weight:850;cursor:pointer}
+.hai-tips-toggle[aria-expanded=true] svg{transform:rotate(180deg)}
+.hai-tips ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px}
+.hai-tips li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:9px 11px;font-size:calc(14px * var(--text-scale,1));line-height:1.45}
+.hai-tips li svg{color:var(--bai);flex:none;margin-top:2px}
+.hai-tips li b{display:block}
+.hai-pair{display:flex;flex-direction:column;gap:8px}
+.hai-mine{align-self:flex-end;max-width:86%;background:var(--primary);color:var(--onPrimary,#fff);border-radius:18px;border-end-end-radius:6px;padding:10px 13px;font-weight:650;line-height:1.45;display:grid;gap:4px}
+.hai-voice{display:inline-flex;align-items:center;gap:5px;font-size:calc(12.5px * var(--text-scale,1));font-weight:800;opacity:.9}
+.hai-steps{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:calc(13.5px * var(--text-scale,1));font-weight:800;color:var(--muted)}
+.hai-step{display:inline-flex;align-items:center;gap:6px}
+.hai-step.done svg{color:var(--success,#2E8B57)}
+.hai-step.now{color:var(--bai)}
+.hai-step.now i{width:6px;height:6px;border-radius:50%;background:var(--bai);animation:hai-dot 1.2s ease-in-out infinite}
+.hai-step.now i:nth-of-type(2){animation-delay:.2s}.hai-step.now i:nth-of-type(3){animation-delay:.4s}
+@keyframes hai-dot{0%,100%{opacity:.25}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.hai-step.now i{animation:none;opacity:.6}}
+.hai-answer{background:var(--surfaceSoft);border-radius:18px;border-end-start-radius:6px;padding:12px;display:grid;gap:10px;min-width:0}
+.hai-sources{display:flex;flex-wrap:wrap;gap:4px 14px}
+.hai-sources .text-link{display:inline-flex;align-items:center;gap:5px;min-height:36px;font-weight:750}
+.hai-plan{background:var(--surface);border:1.5px solid var(--bai-line);border-radius:16px;padding:10px 12px;display:grid;gap:8px}
+.hai-plan .hai-step{display:grid;gap:2px;margin:0}.hai-plan .hai-step span{font-weight:850;color:var(--text)}.hai-plan .hai-step small{color:var(--muted);font-weight:650}
+.hai-plan ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.hai-plan li{display:flex;align-items:center;gap:10px;background:var(--surfaceSoft);border-radius:12px;padding:8px 10px}
+.hai-plan li span{display:grid;min-width:0}.hai-plan li small{color:var(--muted);font-weight:650}
+.hai-plan-actions{display:grid;grid-template-columns:1fr 1.4fr;gap:8px}
+.hai-plan-actions .button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px}
+.hai-receipt{display:flex;align-items:center;gap:8px;margin:0;font-weight:800;color:var(--success,#2E8B57)}
+.hai-receipt .text-link{margin-inline-start:auto;display:inline-flex;align-items:center;gap:4px}
+.hai-error{margin:0;color:var(--danger);font-weight:700}
+.hai-composer{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--surface)}
+.hai-composer input{flex:1;min-width:0;min-height:48px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);padding:0 16px;font:inherit;font-size:max(16px,calc(16px * var(--text-scale,1)))}
+.hai-send{flex:none;width:48px;height:48px;border-radius:50%;border:0;background:var(--primary);color:var(--onPrimary,#fff);display:grid;place-items:center;cursor:pointer}
+.hai-send:disabled{opacity:.45;cursor:default}
+.hai-new{display:inline-flex;align-items:center;gap:6px;min-height:40px}
+
+/* History */
+.hai-history{display:flex;flex-direction:column;gap:10px}
+.hai-search{display:flex;align-items:center;gap:8px;min-height:44px;border:1.5px solid var(--border);border-radius:999px;background:var(--surface);padding:0 14px}
+.hai-search input{flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:max(16px,calc(16px * var(--text-scale,1)));min-height:42px;outline:none}
+.hai-day{margin:6px 2px 0;font-size:calc(13px * var(--text-scale,1));font-weight:850;color:var(--muted)}
+.hai-session{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+.hai-session>button.hai-open{all:unset;display:contents;cursor:pointer}
+.hai-session .hai-s-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--bai-soft);color:var(--bai)}
+.hai-session .hai-s-text{display:grid;gap:2px;min-width:0;cursor:pointer}
+.hai-session .hai-s-text b{font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hai-session .hai-s-text small{color:var(--muted);font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hai-session .hai-s-text mark{background:var(--yellow);color:inherit;border-radius:4px}
+.hai-session.current{border-color:var(--bai-line);box-shadow:0 0 0 3px var(--bai-soft)}
+.hai-more{align-self:center}
+.hai-empty{color:var(--muted);text-align:center;font-weight:650;padding:24px 8px}
+.hai-old{color:var(--muted);font-size:calc(13px * var(--text-scale,1));font-weight:700;margin:0}
+
+/* Phones: every place opens full screen, above the menus. */
+.hai-chat{inset:0;padding-top:env(safe-area-inset-top)}
+@media(min-width:701px){
+ .hai-layer.hai-at-bubble .hai-chat{inset:auto;inset-inline-end:24px;bottom:calc(var(--hai-nav) + 24px);width:min(440px,calc(100vw - 48px));height:min(680px,calc(100dvh - var(--hai-head) - var(--hai-nav) - 48px));border-radius:26px;border:1px solid var(--border);box-shadow:0 18px 50px color-mix(in srgb,var(--text) 26%,transparent);padding-top:0}
+ :root[data-nav-position=top] .hai-layer.hai-at-bubble .hai-chat{bottom:24px;height:min(680px,calc(100dvh - var(--hai-head) - var(--hai-nav) - 48px))}
+ .hai-layer.hai-at-corner .hai-chat{inset:auto;inset-inline-end:24px;top:calc(var(--hai-head) + 10px);width:min(440px,calc(100vw - 48px));height:min(680px,calc(100dvh - var(--hai-head) - var(--hai-nav) - 32px));border-radius:26px;border:1px solid var(--border);box-shadow:0 18px 50px color-mix(in srgb,var(--text) 26%,transparent);padding-top:0}
+ :root[data-nav-position=top] .hai-layer.hai-at-corner .hai-chat{top:calc(var(--hai-head) + var(--hai-nav) + 10px)}
+ .hai-layer.hai-at-edge .hai-chat{inset:auto;inset-inline-end:0;top:var(--hai-head);bottom:var(--hai-nav);width:min(460px,100vw);border-inline-start:1px solid var(--border);box-shadow:0 0 40px color-mix(in srgb,var(--text) 18%,transparent);padding-top:0}
+ :root[data-nav-position=top] .hai-layer.hai-at-edge .hai-chat{top:calc(var(--hai-head) + var(--hai-nav));bottom:0}
+ .hai-composer{padding-bottom:12px}
+}
+
+/* Settings › General: the place picker. */
+.hai-place{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.hai-place-option{display:grid;gap:4px;justify-items:start;text-align:start;padding:10px;border:1.5px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer;min-height:44px}
+.hai-place-option.on{border-color:var(--primary);background:var(--selected)}
+.hai-place-option b{font-weight:850}.hai-place-option small{color:var(--muted);font-weight:650;line-height:1.35}
+.hai-place-pic{position:relative;width:100%;height:58px;border-radius:12px;background:var(--surfaceSoft);border:1px solid var(--border);overflow:hidden;margin-bottom:4px}
+.hai-place-pic::before{content:"";position:absolute;inset-inline:0;top:0;height:10px;background:var(--border)}
+.hai-place-pic i{position:absolute;display:block;background:var(--bai);border-radius:50%}
+.hai-place-pic.p-bubble i{width:16px;height:16px;inset-inline-end:8px;bottom:8px}
+.hai-place-pic.p-edge i{width:9px;height:20px;border-radius:6px 0 0 6px;inset-inline-end:0;top:24px}
+[dir=rtl] .hai-place-pic.p-edge i{border-radius:0 6px 6px 0}
+.hai-place-pic.p-corner i{width:9px;height:9px;inset-inline-end:8px;top:1px}
+.hai-place-pic.p-off i{display:none}
+.hai-settings{margin-top:18px}
+@media(max-width:700px){.hai-place{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* The Ask Bayit AI page shows the same chat inline (2026-11-10). */
+.hai-chat.hai-embedded{position:relative;inset:auto;width:100%;max-width:980px;height:calc(100dvh - var(--hai-head) - var(--hai-nav) - 230px);min-height:520px;margin:0 auto;border:1px solid var(--border);border-radius:26px;box-shadow:0 2px 10px color-mix(in srgb,var(--text) 6%,transparent);padding-top:0;pointer-events:auto}
+@media(max-width:700px){.hai-chat.hai-embedded{height:calc(100dvh - var(--hai-head) - var(--hai-nav) - 190px);min-height:460px;border-radius:22px}}
+.hai-line{display:block;text-align:start}
+.hai-sources{display:grid;gap:4px;padding-top:6px;border-top:1px solid var(--border)}
+.hai-sources-title{font-size:calc(12.5px * var(--text-scale,1));font-weight:850;color:var(--muted)}
+.hai-source{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-height:40px;padding:4px 6px;border:0;border-radius:10px;background:transparent;color:var(--primary);font:inherit;font-weight:750;text-align:start;cursor:pointer}
+.hai-source:hover{background:color-mix(in srgb,var(--primary) 7%,transparent)}
+.hai-source>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.hai-source>small{color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.hai-plan-btn{flex:none;color:var(--muted)}
+.hai-chip-plan{border-style:dashed}
+.hai-chat.hai-embedded>.hai-head[hidden]{display:none}
+.hai-chat.hai-embedded>.hai-tabs{border-start-start-radius:26px;border-start-end-radius:26px;padding-top:12px}

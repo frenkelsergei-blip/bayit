@@ -23,7 +23,7 @@ export function JournalRecordView({a,item,ui:{Avatar,Button,Badge},editable,onEd
   <div className="calendar-detail-section"><div className="calendar-detail-row"><NotePencil size={27}/><span>{item.recordType==='note'?a.T('Note','הערה'):a.T('Details','פרטים')}</span></div><p className="journal-detail-text">{text||a.T('No extra details yet.','אין עדיין פרטים נוספים.')}</p></div>
   {tags.length>0&&<div className="calendar-detail-row journal-detail-tags"><Tag size={27}/><div>{tags.map(t=><span className="journal-tag" key={t}>#{t}</span>)}</div></div>}
   <div className="calendar-detail-row"><span className="journal-detail-lock">{item.visibility==='private'?<LockSimple size={27}/>:<Users size={27}/>}</span><span>{sharing}</span></div>
-  <button className="text-link journal-detail-ai" onClick={onAskAI}><Sparkle size={21}/>{a.T('Ask AI about this','שאלו את AI על הרישום')}</button>
+  {onAskAI&&<button className="text-link journal-detail-ai" onClick={onAskAI}><Sparkle size={21}/>{a.T('Ask AI about this','שאלו את AI על הרישום')}</button>}
   <div className="journal-detail-actions">
    {item.recordType==='note'?<>{editable&&<Button secondary icon={PencilSimple} onClick={onEdit}>{a.T('Edit note','עריכת הערה')}</Button>}{item.ownerId===a.user&&<Button secondary icon={Trash} onClick={onDelete}>{a.T('Delete','מחיקה')}</Button>}</>
    :<Button icon={ArrowSquareOut} onClick={onOpenOriginal}>{item.recordType==='event'?a.T('Open in calendar','פתיחה ביומן'):a.T('Open in tasks','פתיחה במשימות')}</Button>}

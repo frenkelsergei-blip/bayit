@@ -1,0 +1,58 @@
+.voucher-wallet{display:grid;gap:16px;min-width:0}
+.voucher-wallet-toolbar,.voucher-detail-actions,.voucher-detail-footer{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.voucher-wallet-toolbar{justify-content:space-between}
+.voucher-wallet-toolbar .tabs{margin:0}
+.voucher-wallet .household-filter-row{margin:0}
+.voucher-preview-note,.voucher-empty,.voucher-error p{margin:0;color:var(--muted)}
+.voucher-expiring{display:flex;align-items:center;gap:10px;text-align:start;border:0;border-radius:16px;background:var(--yellow);color:var(--text);padding:12px 16px;min-height:44px;font:inherit;font-weight:800}
+.voucher-expiring svg,.voucher-active-filters svg{flex:none}
+.voucher-expiring[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--primary)}
+.voucher-active-filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px;color:var(--muted)}
+.voucher-active-filters button,.voucher-tag{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:5px 10px;background:var(--selected);color:var(--text);font:inherit;font-size:.85em;font-weight:750}
+.voucher-active-filters button{border:0;min-height:44px}
+.voucher-records{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px;list-style:none;padding:0;margin:0}
+.voucher-records li{min-width:0}
+.voucher-record{width:100%;height:100%;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,auto);align-items:center;gap:12px;text-align:start;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:20px;padding:14px;font:inherit;min-height:78px}
+.voucher-record.expiring{background:var(--selected)}
+.voucher-record:hover{border-color:var(--primary)}
+.voucher-icon{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:14px;background:var(--yellow);color:var(--text)}
+.voucher-record-text,.voucher-row-balance{display:grid;justify-items:start;gap:4px;min-width:0;overflow-wrap:anywhere}
+.voucher-row-balance{text-align:end;justify-items:end;max-width:12ch}
+.voucher-record small,.voucher-detail-sheet small,.voucher-validity dt{color:var(--muted);font-size:.85em}
+.voucher-detail-sheet{display:flex;flex-direction:column}
+.voucher-detail-title{display:flex;align-items:center;gap:12px}
+.voucher-detail-title h3,.voucher-validity,.voucher-validity dd,.voucher-confirm p{margin:0;overflow-wrap:anywhere}
+.voucher-detail-title div{min-width:0}
+.voucher-detail-title .voucher-tag{margin-inline-start:auto}
+.voucher-balance,.voucher-code{display:grid;justify-items:center;gap:8px;text-align:center;background:var(--selected);border-radius:20px;padding:16px;min-width:0}
+.voucher-balance>strong,.voucher-code>strong{font-size:calc(26px * var(--font-adjust,1));font-weight:900;max-width:100%;overflow-wrap:anywhere}
+.voucher-code{background:var(--surface);border:1px solid var(--border)}
+.voucher-code>strong{user-select:text}
+.voucher-validity{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.voucher-validity dd{font-weight:750}
+.voucher-detail-actions .button,.voucher-detail-footer .button{font-size:max(15px, .88em);min-height:44px;white-space:normal;min-width:0}
+.voucher-detail-actions a{text-decoration:none}
+.voucher-detail-footer{justify-content:end}
+.voucher-management-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.voucher-management-actions .button{justify-content:center;padding-inline:8px;gap:6px}
+.voucher-management-actions svg{flex:none;width:19px;height:19px}
+.voucher-confirm{display:grid;gap:10px;background:var(--surfaceSoft);border:1px solid var(--border);border-radius:16px;padding:12px}
+.voucher-dates>div{display:grid;gap:8px;min-width:0}
+.voucher-dates .field-label{margin:0}
+.voucher-upload span,.voucher-reminder{display:flex;align-items:center;gap:8px}
+.voucher-photo-preview,.voucher-source-photo img{display:block;max-width:100%;max-height:390px;object-fit:contain;border-radius:12px}
+.voucher-code canvas{max-width:100%;height:auto}
+.voucher-source-photo{min-width:0}
+.voucher-source-photo summary{cursor:pointer;padding-block:8px}
+html[data-density-page=household-vouchers] .household-module-tabs .nav-section>button.active{scroll-snap-align:center}
+html[data-density=compact] .voucher-records{grid-template-columns:1fr;gap:7px}
+html[data-density=compact] .voucher-record{min-height:54px;padding:7px 12px;border-radius:13px}
+html[data-density=compact] .voucher-record .voucher-icon{width:34px;height:34px;border-radius:10px}
+html[data-density=compact] .voucher-record .voucher-icon svg{width:21px;height:21px}
+@media(max-width:700px){
+ .voucher-wallet-toolbar>*{width:100%}
+ .voucher-wallet-toolbar .tabs{display:flex}
+ .voucher-wallet-toolbar .tabs>*{flex:1}
+ .voucher-wallet-toolbar .button,.voucher-detail-footer>.button:only-child{justify-content:center;width:100%}
+ .voucher-record{gap:9px;padding:11px}
+}

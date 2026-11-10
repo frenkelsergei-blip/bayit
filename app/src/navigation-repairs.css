@@ -14,7 +14,10 @@
 
 /* A reserved utility cell keeps the real save state beside the bell. */
 .bayit-shell-utility{gap:5px}
-.bayit-shell-save-slot{display:grid;place-items:center;flex:0 0 28px;width:28px;height:32px}
+/* User request 2026-11-10: no save/sync sign in the header at all (the family photo sits right beside the bell).
+   Saving is silent when it works; "waiting to sync", "syncing" and failures are told by the note above the bottom
+   menu (offline-ui.jsx) and by the dashed mark on the changed row. */
+.bayit-shell-save-slot{display:none!important}
 .bayit-shell-save-slot [hidden]{display:none!important}
 .shell-v2>.cloud-sync-status{display:none}
 :root[data-shell=horizontal] .bayit-shell-save-slot .save-status{position:static!important;inset:auto!important;margin:0;width:28px;height:28px;border:0;border-radius:8px;box-shadow:none;background:transparent;color:var(--muted);animation:none}

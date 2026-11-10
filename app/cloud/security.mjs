@@ -2,7 +2,11 @@ import {fail,json,hash,random,bodyJSON} from './util.mjs';
 import {maintainFiles} from './files.mjs';
 export function sessionToken(request){for(const part of (request.headers.get('Cookie')||'').split(';')){const at=part.indexOf('=');if(['authjs.session-token','__Secure-authjs.session-token'].includes(part.slice(0,at).trim()))return decodeURIComponent(part.slice(at+1))}return ''}
 export async function currentSession(request,env,user){const token=sessionToken(request);if(!token)return null;return env.DB.prepare('SELECT s.id,s.expires,a.authenticated_at FROM sessions s LEFT JOIN session_auth a ON a.session_token=s.sessionToken WHERE s.sessionToken=? AND s.userId=? AND s.expires>?').bind(token,user.id,new Date().toISOString()).first()}
-export async function requireRecent(request,env,user){const session=await currentSession(request,env,user);if(!session?.authenticated_at||session.authenticated_at<Date.now()-10*60000)throw Object.assign(fail('Confirm your identity with Google before changing accounts, connections or invitations.',403),{code:'REAUTH_REQUIRED'});return session}
+// Recent-identity window: a change to accounts, connections or invitations needs a Google sign-in on this session within
+// this time. 30 minutes for everyone (user decision 2026-11-10, AGENTS.md); /api/security/sessions returns it so the client
+// never keeps its own copy.
+export const RECENT_IDENTITY_MS=30*60000;
+export async function requireRecent(request,env,user){const session=await currentSession(request,env,user);if(!session?.authenticated_at||session.authenticated_at<Date.now()-RECENT_IDENTITY_MS)throw Object.assign(fail('Confirm your identity with Google before changing accounts, connections or invitations.',403),{code:'REAUTH_REQUIRED'});return session}
 export async function limit(env,bucket,{max=120,period=60000}={}){
  const window=Math.floor(Date.now()/period),key=await hash(bucket);
  const result=await env.DB.prepare('INSERT INTO security_rate_limits(bucket,window,count,expires_at) VALUES(?,?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=CASE WHEN window=excluded.window THEN count+1 ELSE 1 END,window=excluded.window,expires_at=excluded.expires_at RETURNING count').bind(key,window,(window+1)*period).first();
@@ -12,7 +16,7 @@ export function auditStatement(env,{home=null,actor,action,resource=null,result=
 export async function audit(env,event){await auditStatement(env,event).run()}
 export async function ownSessions(request,env,user){
  const current=await currentSession(request,env,user);
- if(request.method==='GET'){const sessions=(await env.DB.prepare('SELECT s.id,s.expires,a.authenticated_at FROM sessions s LEFT JOIN session_auth a ON a.session_token=s.sessionToken WHERE s.userId=? AND s.expires>? ORDER BY a.authenticated_at DESC LIMIT 100').bind(user.id,new Date().toISOString()).all()).results;return json({recent:!!current?.authenticated_at&&current.authenticated_at>Date.now()-10*60000,sessions:sessions.map(s=>({...s,current:s.id===current?.id}))})}
+ if(request.method==='GET'){const sessions=(await env.DB.prepare('SELECT s.id,s.expires,a.authenticated_at FROM sessions s LEFT JOIN session_auth a ON a.session_token=s.sessionToken WHERE s.userId=? AND s.expires>? ORDER BY a.authenticated_at DESC LIMIT 100').bind(user.id,new Date().toISOString()).all()).results;return json({recent:!!current?.authenticated_at&&current.authenticated_at>Date.now()-RECENT_IDENTITY_MS,recentWindowMs:RECENT_IDENTITY_MS,sessions:sessions.map(s=>({...s,current:s.id===current?.id}))})}
  if(request.method==='DELETE'){await requireRecent(request,env,user);const body=await bodyJSON(request,3000);if(typeof body.id!=='string')throw fail('Choose a session.');await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE id=? AND userId=?').bind(body.id,user.id),auditStatement(env,{actor:user.id,action:'session.revoke',resource:body.id})]);return json({ok:true})}throw fail('Method not allowed.',405);
 }
 export {lease} from './leases.mjs';

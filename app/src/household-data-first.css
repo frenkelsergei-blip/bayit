@@ -58,6 +58,11 @@ html:root main.view-household .insurance-v2 .ins-coverage-help{margin-top:24px}
  html:root main.view-household .money-page .money-controls-row>.money-nav>.tabs.nav-view.nav-view>button{flex:1 0 auto}
  html:root main.view-household .money-page .money-controls-row>.expense-month{grid-column:1;grid-row:2;min-width:0}
  html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field{flex:1 1 auto}
+ /* Phones: the field sits between the month arrows and Add (107–138px wide), so the month text ran into the caret
+    (orchestrator collision check, 2026-11-10). The caret alone marks the picker here; the text never overlaps it. */
+ html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field{padding-inline:8px;gap:6px}
+ html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field>svg:first-child{display:none}
+ html:root main.view-household .money-page .money-controls-row>.expense-month>.month-field>.month-field-value{overflow:hidden;text-overflow:ellipsis}
  html:root main.view-household .money-page .money-controls-row>.money-income{grid-column:2;grid-row:2;margin:0;padding-inline:14px}
  html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter{grid-column:1/-1;grid-row:3;display:flex;width:100%}
  html:root main.view-household .money-page .money-controls-row>.tabs.nav-filter>button{flex:1 1 0;min-width:0;justify-content:center}

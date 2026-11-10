@@ -31,7 +31,7 @@ An AI agent can do this with you: open the repository in an agent that reads ski
 | Card says "Paused" | That person blocked the bot. Unblock it in Telegram and press **Start**. |
 | Reminders don't arrive | The card shows when the scheduler last ran. On Cloudflare, check that `wrangler.cron.jsonc` has your address and that `REMINDER_CRON_SECRET` is the same on the Pages project and the scheduler Worker ([step 8](self-hosting.md#8-the-scheduler)). Also check quiet hours in **Settings → Notifications**. |
 | The bot doesn't understand plain messages | Plain messages and photos need the AI connection. |
-| Voice messages don't work | Voice uses Cloudflare Workers AI, so it isn't available with Docker. |
+| Voice messages don't work | With Docker, voice uses the household AI key: choose it in Telegram › Photos & voice; it needs OpenAI or Gemini (Claude cannot transcribe audio). |
 
 ## AI
 

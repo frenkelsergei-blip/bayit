@@ -1,27 +1,25 @@
-/* Dark section bars that scroll sideways (Household, Settings, My Space, Ask AI…), user report 2026-11-08:
-   the old edge fade masked the whole bar, so the bar itself turned transparent and the light page showed through
-   ("white fade"). Now the bar stays solid and rounded, and only the tabs fade into the bar's own colour at the edge
-   that has more to scroll (scroll-hints.js sets data-hscroll="start"/"end"). Equal padding on all four sides keeps
-   the selected yellow tab off the bar's edge. */
-html:root .tabs.nav-section.nav-section[data-hscroll]{
- --tab-pad:5px;--tab-fade:44px;--tab-bar:var(--menu-deep,#101B3D);
- display:flex!important;flex-wrap:nowrap!important;align-items:stretch;
- -webkit-mask-image:none!important;mask-image:none!important;
- padding:var(--tab-pad)!important;scroll-padding-inline:calc(var(--tab-pad) + var(--tab-fade));
- overflow-x:auto;overflow-y:hidden
-}
-html:root .tabs.nav-section.nav-section[data-hscroll]>button{flex:0 0 auto}
-/* Settings tiles keep their equal width while scrolling. */
-html:root .main-content.view-settings>.tabs.nav-section.nav-section[data-hscroll]>button{flex:1 0 80px;min-width:80px}
-html:root .tabs.nav-section.nav-section[data-hscroll]::before,
-html:root .tabs.nav-section.nav-section[data-hscroll]::after{
- content:"";position:sticky;z-index:2;flex:0 0 var(--tab-fade);align-self:stretch;
- margin-block:calc(-1 * var(--tab-pad));pointer-events:none;opacity:0;transition:opacity .18s ease
-}
-html:root .tabs.nav-section.nav-section[data-hscroll]::before{order:-1;inset-inline-start:0;margin-inline:calc(-1 * var(--tab-pad)) calc(-1 * var(--tab-fade));background:linear-gradient(to right,var(--tab-bar) 18%,transparent)}
-html:root .tabs.nav-section.nav-section[data-hscroll]::after{order:99;inset-inline-end:0;margin-inline:calc(-1 * var(--tab-fade)) calc(-1 * var(--tab-pad));background:linear-gradient(to left,var(--tab-bar) 18%,transparent)}
-html[dir=rtl] .tabs.nav-section.nav-section[data-hscroll]::before{background:linear-gradient(to left,var(--tab-bar) 18%,transparent)}
-html[dir=rtl] .tabs.nav-section.nav-section[data-hscroll]::after{background:linear-gradient(to right,var(--tab-bar) 18%,transparent)}
-html:root .tabs.nav-section.nav-section[data-hscroll~=start]::before,
-html:root .tabs.nav-section.nav-section[data-hscroll~=end]::after{opacity:1}
-@media(prefers-reduced-motion:reduce){html:root .tabs.nav-section.nav-section[data-hscroll]::before,html:root .tabs.nav-section.nav-section[data-hscroll]::after{transition:none}}
+/* Section menus that scroll sideways (Household, Settings, Statistics… on phones). History: 2026-11-08 a mask on the
+   whole bar faded the bar's own colour ("white fade"); sticky overlay fades were then placed mid-bar by WebKit in
+   Hebrew, and a JS per-tile fade lagged behind fast swipes, so bits of yellow flashed at the edges (user, 2026-11-09).
+   Now (2026-11-09): the bar (.tabs.nav-section) draws the rim and colour and does not scroll; its inner .nav-track
+   scrolls. The track carries a plain CSS mask on the edge that has more (scroll-hints.js sets data-hscroll="start"/
+   "end", logical sides), so the tiles fade into the bar colour behind them, in step with the scroll, in every
+   direction and engine. 52px soft ramp; the track is clipped to the bar's inner rounded box. */
+html:root .tabs.nav-section.nav-section>.nav-track[data-hscroll]{scroll-padding-inline:52px}
+html:root .tabs.nav-section.nav-section>.nav-track:is([data-hscroll="start"],[data-hscroll="end"],[data-hscroll="start end"]){-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+/* one edge: [physical left fade] — start in LTR, end in RTL */
+html:root[dir=ltr] .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"],
+html:root[dir=rtl] .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"],
+html:root:not([dir]) .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"]{
+ -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px);
+ mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px)}
+/* one edge: [physical right fade] — end in LTR, start in RTL */
+html:root[dir=ltr] .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"],
+html:root[dir=rtl] .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"],
+html:root:not([dir]) .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"]{
+ -webkit-mask-image:linear-gradient(to left,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px);
+ mask-image:linear-gradient(to left,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px)}
+/* both edges */
+html:root .tabs.nav-section.nav-section>.nav-track[data-hscroll="start end"]{
+ -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px,#000 calc(100% - 52px),rgba(0,0,0,.9) calc(100% - 44px),rgba(0,0,0,.62) calc(100% - 30px),rgba(0,0,0,.22) calc(100% - 14px),transparent 100%);
+ mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px,#000 calc(100% - 52px),rgba(0,0,0,.9) calc(100% - 44px),rgba(0,0,0,.62) calc(100% - 30px),rgba(0,0,0,.22) calc(100% - 14px),transparent 100%)}

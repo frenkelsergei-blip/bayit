@@ -8,7 +8,7 @@ Bayit's default home is Cloudflare's free tier ([self-hosting.md](self-hosting.m
 | R2 private files | A folder in the data volume |
 | Pages static hosting | The same server serves the app |
 | Cron Worker (`bayit-reminders`) | A built-in timer, every minute |
-| Workers AI (voice transcription) | Not available yet: voice messages are off. Photos, chat and everything else work. |
+| Workers AI (voice transcription) | Not available. Voice messages use the household AI key instead (OpenAI or Gemini; Claude cannot transcribe audio). |
 
 Everything else is identical: the AI providers (Claude, OpenAI, Gemini, Grok, custom), Telegram, RiseUp, statement import, privacy rules and encryption.
 
@@ -108,6 +108,6 @@ DATA_DIR=./data PORT=8080 npm run start:host
 
 ## What's different from Cloudflare, honestly
 
-- **Voice messages** (Telegram) need Cloudflare Workers AI and are off with Docker. Another speech provider can be added in `app/cloud/speech.mjs` (see [extending.md](extending.md)).
+- **Voice messages** (Telegram) use the household AI key when it is OpenAI or Gemini (Claude cannot transcribe audio). Another speech provider can be added as an extension (see [extensions-registry.md](extensions-registry.md)).
 - **You run the server**: updates, backups, disk space and uptime are yours. Cloudflare's free tier does that for you.
 - The adapters are in `app/host/`: `d1-sqlite.mjs` (database), `file-store.mjs` (files), `node-server.mjs` (web server and timer). The test suites in `tests/e2e` pass against both hosts. To run them against a Docker or Node server, set `BAYIT_TEST_ORIGIN` to its address and `BAYIT_SQLITE` to its database file.

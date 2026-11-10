@@ -92,7 +92,7 @@ Browser (React + Vite) ──► Cloudflare Pages ──► Pages Function (app/
                                                  ├── D1      households, records, money, Telegram links
                                                  ├── R2      private documents
                                                  ├── PDF reader Worker (private) bank statements
-                                                 ├── Workers AI (optional) voice transcription
+                                                 ├── Workers AI or household AI key (optional) voice transcription
                                                  ├── AI provider: Claude, OpenAI, Gemini, Grok or custom (each household's own key)
                                                  └── Telegram Bot API (each household's own bot), Web Push
 Scheduler Worker (cron, every minute) ──► /api/internal/reminders
@@ -115,7 +115,7 @@ With Docker, one Node.js server does all of this, with SQLite and a folder in a 
 
 ```
 app/src/           React client
-app/cloud/         API, auth, household state, Telegram, reminders, push, money, speech (Cloudflare)
+app/cloud/         API, auth, household state, Telegram, reminders, push, money, speech (Workers AI or the household AI key)
 app/cloud/migrations/  Database schema
 app/host/          Node.js host for Docker (SQLite, file store, built-in scheduler)
 app/scripts/       bayit-configure (point at your resources), bayit-doctor (check an installation)
@@ -140,7 +140,7 @@ End-to-end runs against a local server with fake Telegram, AI and speech APIs ar
 Bayit is a working family app that's used day to day, and it's still young:
 - **Locale:** it's Israel-first (Hebrew and English, ₪). Bank import supports Bank Leumi and Max only so far.
 - **Channels:** Telegram and web push are the messaging channels; WhatsApp isn't built.
-- **Docker:** Telegram voice messages need Cloudflare Workers AI and are off with Docker.
+- **Docker:** Telegram voice messages use the household AI key (OpenAI or Gemini); Claude cannot transcribe audio.
 - **Code layout:** much of the UI is still in one large `app/src/App.jsx`. It's being split up gradually, and contributions are welcome.
 - **Data ownership:** whoever operates an installation can technically read its database. Bayit keeps family members' data apart *inside the app*; it is not end-to-end encrypted.
 

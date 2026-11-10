@@ -20,7 +20,9 @@ export const bucketTick=(rows,locale)=>d=>{if(!(rows.length<=7&&rows.every(r=>r.
 // Round value-axis steps (0 5 10 15, 0 50 100 150 200): the top is the next round number above the highest value.
 export function niceAxis(max,count=4){const m=Math.max(1,max)*1.08,raw=m/count,mag=10**Math.floor(Math.log10(raw)),step=Math.max(1,[1,2,5,10].map(f=>f*mag).find(v=>v>=raw)||10*mag),top=Math.ceil(m/step)*step;return {domain:[0,top],ticks:Array.from({length:Math.round(top/step)+1},(_,i)=>+(i*step).toFixed(6))}}
 const tooltipStyle={background:'var(--surface)',color:'var(--text)',border:'1px solid var(--border)',borderRadius:14,boxShadow:'0 8px 24px #0000001a'};
-const yTickStyle={fill:'var(--muted)',fontSize:12,fontWeight:650};
+// direction:ltr: in Hebrew the axis sits on the right with text-anchor "start"; an RTL text run would then grow
+// leftwards into the plot ("10,000 ₪" under the bar labels, 2026-11-10). Amounts read left to right anyway.
+const yTickStyle={fill:'var(--muted)',fontSize:12,fontWeight:650,direction:'ltr'};
 const xTickStyle={fill:'var(--text)',fontSize:13,fontWeight:800};
 
 // "+12% vs the previous 7 days": an arrow and green/red text (a pill only where `pill` is set).
@@ -80,6 +82,12 @@ const pillLabel=({fill,color='#fff',text,align='middle',below=false})=>props=>{
  return <g><rect x={cx-w/2} y={cy-12} width={w} height={24} rx={12} fill={fill}/><text x={cx} y={cy+4.5} textAnchor="middle" fill={color} fontSize={12.5} fontWeight={850}>{s}</text></g>;
 };
 
+// A bar's value above it, only when it fits the bar's column: on a phone six month columns are ~40px and the amounts
+// ran into each other (2026-11-10). The tooltip still gives every value.
+const barValue=format=>({x,y,width,value})=>{const s=format?format(value):value;if(s===''||s===null||s===undefined)return null;
+ const visible=String(s).replace(/[\u200e\u200f]/g,'').length*8.6;if(!(width>0)||visible>width/0.8-4)return null;
+ return <text x={x+width/2} y={y-8} textAnchor="middle" fill="var(--text)" fontSize={15} fontWeight={900}>{s}</text>};
+
 // Vertical bars. `keys` are the stacked series ({id,color,label}); one key = simple bars.
 export function BarsChart({rows,keys,xTick,yTick,yLabel,xLabel,rtl,height='var(--stats-chart)',valueLabels=true,valueFormat,tooltipLabel,tooltipValue,reference}){
  const stacked=keys.length>1,top=keys.at(-1).id,axis=niceAxis(Math.max(reference?.y||0,...rows.map(r=>stacked?keys.reduce((n,k)=>n+(r[k.id]||0),0):r[keys[0].id]||0)));
@@ -88,10 +96,10 @@ export function BarsChart({rows,keys,xTick,yTick,yLabel,xLabel,rtl,height='var(-
   <div className="stats-chart" style={{height}}><ResponsiveContainer width="100%" height="100%"><BarChart data={rows} margin={{top:26,right:rtl?2:10,left:rtl?10:2,bottom:0}} barCategoryGap="20%">
    <CartesianGrid stroke="var(--stats-grid)" vertical={false}/>
    <XAxis reversed={rtl} dataKey="date" tickFormatter={xTick} tickLine={false} axisLine={{stroke:'var(--stats-axis)'}} tick={xTickStyle} interval={rows.length<=8?0:'preserveStartEnd'} minTickGap={6} height={28}/>
-   <YAxis orientation={rtl?'right':'left'} allowDecimals={false} tickLine={false} axisLine={false} tick={yTickStyle} tickFormatter={yTick} width={yTick?58:30} domain={axis.domain} ticks={axis.ticks}/>
+   <YAxis orientation={rtl?'right':'left'} allowDecimals={false} tickLine={false} axisLine={false} tick={yTickStyle} tickFormatter={yTick} width={yTick?74:30} domain={axis.domain} ticks={axis.ticks}/>
    {reference&&<ReferenceLine y={reference.y} stroke="var(--stats-limit)" strokeDasharray="7 6" strokeWidth={2.5} ifOverflow="extendDomain" label={pillLabel({fill:'var(--stats-limit-pill)',color:'var(--stats-limit-text)',text:()=>reference.label,align:rtl?'end':'start'})}/>}
    <Tooltip cursor={{fill:'var(--stats-cursor)'}} labelFormatter={tooltipLabel} formatter={tooltipValue} contentStyle={tooltipStyle}/>
-   {keys.map(k=><Bar key={k.id} isAnimationActive={false} dataKey={k.id} name={k.label} stackId={stacked?'a':undefined} fill={k.color} stroke={stacked?'var(--surface)':undefined} strokeWidth={stacked?1.5:0} radius={stacked?(k.id===top?[10,10,0,0]:[0,0,0,0]):[10,10,3,3]} maxBarSize={112}>{valueLabels&&rows.length<=14&&k.id===top&&<LabelList dataKey={stacked?'total':k.id} position="top" offset={8} fill="var(--text)" formatter={valueFormat} style={{fontSize:15,fontWeight:900}}/>}</Bar>)}
+   {keys.map(k=><Bar key={k.id} isAnimationActive={false} dataKey={k.id} name={k.label} stackId={stacked?'a':undefined} fill={k.color} stroke={stacked?'var(--surface)':undefined} strokeWidth={stacked?1.5:0} radius={stacked?(k.id===top?[10,10,0,0]:[0,0,0,0]):[10,10,3,3]} maxBarSize={112}>{valueLabels&&rows.length<=14&&k.id===top&&<LabelList dataKey={stacked?'total':k.id} content={barValue(valueFormat)}/>}</Bar>)}
   </BarChart></ResponsiveContainer></div>
   {xLabel&&<figcaption className="stats-axis-title x">{xLabel}</figcaption>}
  </figure>;

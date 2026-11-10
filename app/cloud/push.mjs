@@ -1,13 +1,16 @@
 // Web Push for Bayit: VAPID (RFC 8292) + message encryption (RFC 8291, aes128gcm), WebCrypto only,
 // so it runs in Cloudflare Workers and in the Node.js host alike. Each installation generates its own key pair.
 // Payloads are built from visibleState(state, recipient), the same access rules as the app and Telegram.
+import {deliveryView,stateFeatureContext} from '../../shared/features.mjs';
 import {json,fail,bodyJSON,hash,encryptKey,decryptKey,localDate,localTime,encoder,loopbackOr} from './util.mjs';
 import {visibleState} from './state.mjs';
 import {whenLabel} from '../../shared/item-reminders.mjs';
 import {dueReminders,digestDue,approvalRequests,childUpdates,taskDoneUpdates,overdueAlerts,notificationPrefs,inQuietHours,minutes,reminderMatchesOccurrence,changeUpdates} from './reminders.mjs';
 import {describeChange} from '../../shared/change-notices.mjs';
 import {financeDeliveryMessages} from './finance-goals.mjs';
+import {bayitAIDeliveryMessages} from './bayit-ai.mjs';
 import {insuranceAlerts} from '../../shared/insurance-lifecycle.mjs';
+import {voucherDeliveryMessages} from './voucher-delivery.mjs';
 import {currentSession} from './security.mjs';
 import {pushEndpoint,externalFetch} from './outbound.mjs';
 
@@ -98,7 +101,7 @@ const nameIn=(state,lang)=>id=>{const m=state.members.find(x=>x.id===id);return 
 
 // The notifications one member should get now, as plain push messages (same sources and rules as Telegram).
 export function pushMessages(state,memberId,{date,time,now=Date.now()},role){
- const visible=visibleState(state,memberId),lang=state.profiles?.[memberId]?.locale||'he',prefs=notificationPrefs(state.profiles?.[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),nameOf=nameIn(state,lang),out=[];
+ const visible=deliveryView(visibleState(state,memberId),memberId),lang=state.profiles?.[memberId]?.locale||'he',prefs=notificationPrefs(state.profiles?.[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),nameOf=nameIn(state,lang),out=[];
  const open=(kind,id,day)=>kind==='maintenance'?'#household/maintenance?task='+id:kind==='event'?'#calendar?date='+day+'&event='+id:'#tasks?date='+day+'&task='+id;
  for(const item of dueReminders(visible,memberId,{date,time})){if(!reminderMatchesOccurrence(item,{date,time}))continue;const when=whenLabel({date:item.date,time:item.time},{date,time},lang),sameDay=item.date===date&&item.time;out.push({key:item.key,title:title(item.record,lang),body:item.kind==='maintenance'?L(lang,'Home care due: ','טיפול בבית לתאריך: ')+item.dueDate:(item.kind==='event'?L(lang,'Event','אירוע'):L(lang,'Task','משימה'))+' · '+(sameDay?item.time+(when!==L(lang,'now','עכשיו')?' · '+when:''):when),url:open(item.kind,item.record.id,item.date),tag:item.kind+':'+item.record.id,urgency:'high'})}
  // Changes to things assigned to me by someone else (same rule as Telegram; held, not dropped, during quiet hours).
@@ -111,7 +114,7 @@ export function pushMessages(state,memberId,{date,time,now=Date.now()},role){
   for(const u of updates)out.push({key:u.key,title:L(lang,'Done ✓','בוצע ✓'),body:nameOf(u.entry.memberId)+' '+L(lang,'completed','השלים/ה')+': '+title(u.entry,lang),url:'#kids',tag:u.key});
  }
  for(const u of taskDoneUpdates(visible,memberId,{date})){const own=notificationPrefs(visible.profiles?.[memberId],u.task.routine?'routines':'tasks');if(!inQuietHours(time,own.quietStart,own.quietEnd)&&!reported.has(u.task.id+':'+u.date))out.push({key:u.key,title:L(lang,'Done ✓','בוצע ✓'),body:nameOf(u.actorId)+' '+L(lang,'completed','השלים/ה')+': '+title(u.task,lang),url:open('task',u.task.id,u.date),tag:u.key})}
- out.push(...insuranceAlerts(visible,memberId,{date,time,channel:'push',lang}));
+ if(visible.features.on('insurance'))out.push(...insuranceAlerts(visible,memberId,{date,time,channel:'push',lang}));
  return out;
 }
 
@@ -127,8 +130,11 @@ export async function deliverPush(env,now,{fetcher=fetch,subject,loadHome,deadli
   let home;try{home=loadHome?await loadHome(householdId):await (await import('./assistant.mjs')).loadHousehold(env,householdId)}catch{summary.failed++;continue}summary.households++;
   for(const [memberId,devices] of members){if(Date.now()>=deadline)break;
    const role=home.state.members.find(m=>m.id===memberId)?.role;if(!role)continue;
-   let finance=[];try{finance=await financeDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++}
-   for(const message of [...pushMessages(home.state,memberId,{date,time,now:now.getTime()},role),...finance].slice(0,MAX_PER_MEMBER_TICK)){
+   // Features registry (2026-11-09): money and voucher alerts only while those features are on for this person.
+   const features=stateFeatureContext(home.state,memberId);let finance=[],vouchers=[];if(features.on('expenses'))try{finance=await financeDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++}
+   if(features.on('vouchers'))try{vouchers=await voucherDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++}
+   let bayitAI=[];try{bayitAI=await bayitAIDeliveryMessages(env,home,memberId,{date,time,channel:'push'})}catch{summary.failed++} // בית AI digest (2026-11-10)
+   for(const message of [...pushMessages(home.state,memberId,{date,time,now:now.getTime()},role),...finance,...vouchers,...bayitAI].slice(0,MAX_PER_MEMBER_TICK)){
     const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'push',?,'sending',?)").bind(householdId,memberId,message.key,now.getTime()).run();
     if(!(claim.meta?.changes>0))continue;
     let delivered=0;

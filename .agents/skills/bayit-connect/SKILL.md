@@ -27,7 +27,7 @@ Used for Ask AI, Telegram chat, photos and expense tips.
 1. In Telegram, open **@BotFather**, send `/newbot`, choose a name and username, and copy the token.
 2. A parent pastes the token on the Telegram card. The card shows "Bot connected" with the bot's @name.
 3. Each person presses **Connect** next to their name, and then **Start** in the Telegram chat that opens. Parents can link a child's profile.
-4. Optional: the morning summary time, photos (needs AI) and voice messages (Cloudflare installations only).
+4. Optional: the morning summary time, photos (needs AI) and voice messages (Cloudflare Workers AI, or the household AI key with OpenAI or Gemini).
 5. ✔ when **Send test** reports that Telegram accepted the message *and* the person sees it in their chat.
 6. Show them the **/** menu in the chat: /today, /tasks (tap ✓ to complete), /week, /shopping (tap to check off), /lists, /note, /expenses and /mine. They can also just write, e.g. “move the dentist to Thursday at 10” or “mark the laundry done”. Every change waits for **Apply** and can be undone.
 

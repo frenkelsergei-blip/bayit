@@ -12,7 +12,7 @@ test('Claude: Messages API with forced tool and images',async()=>{
  const calls=stub({content:[{type:'tool_use',name:'prepare_tasks',input:{tasks:[{title:'A'}]}}],stop_reason:'tool_use',usage:{input_tokens:5,output_tokens:6}});
  const r=await generate(env,{provider:'anthropic',key:'k',model:'claude-x',system:'S',history:[{role:'user',content:'hi'}],prompt:'P',images:[image],tools,forceTool:'prepare_tasks'});
  assert.equal(calls[0].url,'https://api.anthropic.com/v1/messages');assert.deepEqual(calls[0].body.tool_choice,{type:'tool',name:'prepare_tasks'});
- assert.equal(calls[0].body.messages.at(-1).content[0].type,'image');assert.equal(r.content[0].input.tasks[0].title,'A');assert.deepEqual(r.usage,{inputTokens:5,outputTokens:6});
+ assert.equal(calls[0].body.messages.at(-1).content[0].type,'image');assert.equal(r.content[0].input.tasks[0].title,'A');assert.deepEqual(r.usage,{inputTokens:5,outputTokens:6,cacheReadTokens:0,cacheWriteTokens:0});
 });
 
 test('OpenAI (GPT and Codex): Responses API, function calls and truncation',async()=>{
@@ -29,7 +29,7 @@ test('Gemini: OpenAI-compatible chat with a simplified schema',async()=>{
  const body=calls[0].body;assert.equal(calls[0].url,'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions');
  assert.equal(body.messages[0].role,'system');assert.deepEqual(body.tool_choice,{type:'function',function:{name:'prepare_tasks'}});
  assert.equal(JSON.stringify(body.tools).includes('additionalProperties'),false);assert.equal(JSON.stringify(body.tools).includes('maxItems'),false);
- assert.equal(r.content[0].input.tasks[0].title,'C');assert.deepEqual(r.usage,{inputTokens:3,outputTokens:4});
+ assert.equal(r.content[0].input.tasks[0].title,'C');assert.deepEqual(r.usage,{inputTokens:3,outputTokens:4,cacheReadTokens:0,cacheWriteTokens:0});
 });
 
 test('Grok and custom endpoints use chat completions; custom must be https',async()=>{

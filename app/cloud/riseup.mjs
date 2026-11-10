@@ -7,6 +7,7 @@ import {fail,hash,encryptKey,decryptKey,localDate,loopbackOr} from './util.mjs';
 import {categorize,normalizeName,CATEGORY} from '../../shared/finance.mjs';
 import {retryAfterDelay} from './retry-after.mjs';
 import {lease} from './leases.mjs';
+import {sourceSchema} from './payment-sources.mjs';
 
 export const RISEUP_API_VERSION='external-api, matching @riseup-oss/mcp 0.7.0';
 const BASE='https://input.riseup.co.il',TOKENS_URL='https://input.riseup.co.il/developer/tokens',PREFIX='riseup_pat_';
@@ -47,7 +48,7 @@ export function riseupCategory(t,rules={}){
 export function rowFromRiseup(t,rules={}){
  const amount=Math.round(Math.abs(Number(t.amount)||0)*100),day=v=>v?String(v).slice(0,10):null;
  const category=riseupCategory(t,rules),date=day(t.transactionDate)||(t.cashflowDate+'-01');
- return {source:'riseup',externalId:String(t.transactionId),account:t.accountNumberHash||'',accountLabel:t.accountNickname||t.source||'',sourceType:t.sourceType||'',date,chargeDate:day(t.billingDate)||date,month:t.cashflowDate||date.slice(0,7),description:String(t.businessName||t.paymentAppAddressee||'').trim().slice(0,160)||'—',amount:t.isIncome?amount:-amount,category,kind:t.sourceType==='creditCard'?'card':'bank',standingOrder:t.actualType==='fixed'||!!t.commitmentId,installmentN:t.isInstallment?Number(t.installmentNumber)||null:null,installmentOf:t.isInstallment?Number(t.totalNumberOfInstallments||t.totalNumberOfPayments)||null:null,excluded:!!t.isExcluded};
+ return {source:'riseup',externalId:String(t.transactionId),account:t.accountNumberHash||'',accountLabel:t.accountNickname||t.source||'',institution:String(t.source||''),nickname:String(t.accountNickname||'').trim().slice(0,60),sourceType:t.sourceType||'',date,chargeDate:day(t.billingDate)||date,month:t.cashflowDate||date.slice(0,7),description:String(t.businessName||t.paymentAppAddressee||'').trim().slice(0,160)||'—',amount:t.isIncome?amount:-amount,category,kind:t.sourceType==='creditCard'?'card':'bank',standingOrder:t.actualType==='fixed'||!!t.commitmentId,installmentN:t.isInstallment?Number(t.installmentNumber)||null:null,installmentOf:t.isInstallment?Number(t.totalNumberOfInstallments||t.totalNumberOfPayments)||null:null,excluded:!!t.isExcluded};
 }
 
 const monthsBack=(n,now=new Date())=>{const [y,m]=localDate(now).slice(0,7).split('-').map(Number);return Array.from({length:n},(_,i)=>new Date(Date.UTC(y,m-1-i,1)).toISOString().slice(0,7))};
@@ -57,17 +58,18 @@ export async function syncRiseup(env,{householdId,memberId,token,visibility,allo
  const deadline=Date.now()+45000;
  const rules=Object.fromEntries((await env.DB.prepare('SELECT name_key,category FROM finance_rules WHERE household_id=?').bind(householdId).all()).results.map(r=>[r.name_key,r.category]));
  const importId='riseup:'+memberId,allowed=JSON.stringify(allowedIds||[]),stamp=now.getTime(),allStatements=[];let count=0;
- const owners=new Set(adults);
+ const owners=new Set(adults),labels=(await sourceSchema(env)).label;
  for(const month of monthsBack(Math.max(1,Math.min(12,months)),now)){
   const data=await riseupGet(env,token,'/api/external/transactions?cashflowMonth='+month,deadline);
   const rows=(data.transactions||[]).map(t=>rowFromRiseup(t,rules)),keep=[];
   const statements=[];
   for(const r of rows){
    if(r.excluded)continue;const fingerprint=await hash(householdId+'|riseup|'+memberId+'|'+r.externalId);keep.push(fingerprint);count++;
-   const params=[crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,r.accountLabel||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp];
-   const selection=connectionCiphertext?"SELECT ?,?,?,?,c.visibility,c.allowed_ids,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,? FROM finance_connections c WHERE c.household_id=? AND c.member_id=? AND c.provider='riseup' AND c.ciphertext=?":"VALUES(?,?,?,?,?,?,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?)";
-   statements.push(env.DB.prepare(`INSERT INTO finance_transactions(id,household_id,import_id,owner_id,visibility,allowed_ids,source,account,member_id,date,charge_date,month,description,name_key,amount,currency,category,kind,card_issuer,installment_n,installment_of,standing_order,foreign_tx,fingerprint,created_at) ${selection}
-     ON CONFLICT(household_id,fingerprint) DO UPDATE SET category=CASE WHEN finance_transactions.category='taxes' AND excluded.category!='taxes' THEN excluded.category ELSE finance_transactions.category END,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order`).bind(...(connectionCiphertext?[...params.slice(0,4),...params.slice(6),householdId,memberId,connectionCiphertext]:params)));
+   // With migration 0018 the institution and the nickname are kept apart (card_issuer / account_label); before it the nickname wins as before.
+   const params=[crypto.randomUUID(),householdId,importId,memberId,visibility,allowed,r.account,owners.has(memberId)?memberId:null,r.date,r.chargeDate,r.month,r.description,normalizeName(r.description),r.amount,r.category,r.kind,(labels?r.institution||r.accountLabel:r.accountLabel)||null,r.installmentN,r.installmentOf,r.standingOrder?1:0,fingerprint,stamp,...(labels?[r.nickname||null]:[])];
+   const extra=labels?',?':'',selection=connectionCiphertext?"SELECT ?,?,?,?,c.visibility,c.allowed_ids,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?"+extra+" FROM finance_connections c WHERE c.household_id=? AND c.member_id=? AND c.provider='riseup' AND c.ciphertext=?":"VALUES(?,?,?,?,?,?,'riseup',?,?,?,?,?,?,?,?,'ILS',?,?,?,?,?,?,0,?,?"+extra+")";
+   statements.push(env.DB.prepare(`INSERT INTO finance_transactions(id,household_id,import_id,owner_id,visibility,allowed_ids,source,account,member_id,date,charge_date,month,description,name_key,amount,currency,category,kind,card_issuer,installment_n,installment_of,standing_order,foreign_tx,fingerprint,created_at${labels?',account_label':''}) ${selection}
+     ON CONFLICT(household_id,fingerprint) DO UPDATE SET category=CASE WHEN finance_transactions.category='taxes' AND excluded.category!='taxes' THEN excluded.category ELSE finance_transactions.category END,visibility=excluded.visibility,allowed_ids=excluded.allowed_ids,account=excluded.account,date=excluded.date,charge_date=excluded.charge_date,month=excluded.month,description=excluded.description,name_key=excluded.name_key,amount=excluded.amount,kind=excluded.kind,card_issuer=excluded.card_issuer,installment_n=excluded.installment_n,installment_of=excluded.installment_of,standing_order=excluded.standing_order${labels?',account_label=excluded.account_label':''}`).bind(...(connectionCiphertext?[...params.slice(0,4),...params.slice(6),householdId,memberId,connectionCiphertext]:params)));
   }
   // An empty month is left alone (a RiseUp hiccup must not wipe a month); otherwise rows RiseUp no longer returns are removed.
   if(keep.length)statements.push(env.DB.prepare("DELETE FROM finance_transactions WHERE household_id=? AND import_id=? AND month=? AND fingerprint NOT IN (SELECT value FROM json_each(?))"+(connectionCiphertext?" AND EXISTS(SELECT 1 FROM finance_connections WHERE household_id=? AND member_id=? AND provider='riseup' AND ciphertext=?)":"")).bind(householdId,importId,month,JSON.stringify(keep),...(connectionCiphertext?[householdId,memberId,connectionCiphertext]:[])));

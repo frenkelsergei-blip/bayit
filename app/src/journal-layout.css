@@ -129,10 +129,6 @@ html:root .private-note-editor .private-note-lock{margin:var(--journal-step,16px
  html:root main.view-mine .private-space>*{grid-column:1/-1;min-width:0}
  html:root main.view-mine .private-space>.private-space-tabs{grid-column:1}
  html:root main.view-mine .private-space>.private-space-tabs+.private-space-toolbar{grid-column:2;align-self:center}
- html:root main.view-mine .private-space-tabs .tabs.nav-section.nav-section{padding:4px;gap:4px}
- html:root main.view-mine .private-space-tabs .tabs.nav-section.nav-section>button{min-height:52px;padding:5px 2px;gap:3px;font-size:calc(11.5px * var(--font-adjust,1))}
- html:root main.view-mine .private-space-tabs .tabs.nav-section .nav-icon{width:26px;height:26px;border-radius:9px}
- html:root main.view-mine .private-space-tabs .tabs.nav-section .nav-icon>svg{width:18px;height:18px}
 }
 
 /* ---------- Window controls at the shared sizes ---------- */

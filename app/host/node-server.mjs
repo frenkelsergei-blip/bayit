@@ -31,7 +31,7 @@ if(!ORIGIN&&!['localhost','127.0.0.1','::1'].includes(HOST))throw Error('Set BAY
 await mkdir(join(DATA,'files'),{recursive:true,mode:0o700});await chmod(DATA,0o700);await chmod(join(DATA,'files'),0o700);
 const secrets=await installationSecrets(DATA);
 const db=openD1(join(DATA,'bayit.sqlite')),applied=migrate(db,MIGRATIONS);await chmod(join(DATA,'bayit.sqlite'),0o600);
-const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE','BAYIT_BOOTSTRAP_EMAIL','BAYIT_ALLOWED_EMAILS','BAYIT_REGISTRATION_MODE','BAYIT_MAX_HOUSEHOLDS','AI_ALLOWED_ORIGINS','AI_PRIVATE_ORIGINS','PUSH_ALLOWED_ORIGINS','APP_ENCRYPTION_KEY_ID','APP_ENCRYPTION_KEYS_JSON','PDF_DAILY_LIMIT'];
+const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','GOOGLE_CALENDAR_CLIENT_ID','GOOGLE_CALENDAR_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE','BAYIT_BOOTSTRAP_EMAIL','BAYIT_ALLOWED_EMAILS','BAYIT_REGISTRATION_MODE','BAYIT_MAX_HOUSEHOLDS','AI_ALLOWED_ORIGINS','AI_PRIVATE_ORIGINS','PUSH_ALLOWED_ORIGINS','APP_ENCRYPTION_KEY_ID','APP_ENCRYPTION_KEYS_JSON','PDF_DAILY_LIMIT'];
 const env={...Object.fromEntries(pass.filter(k=>process.env[k]).map(k=>[k,process.env[k]])),...secrets,DB:db,FILES:openFileStore(join(DATA,'files')),ASSETS:{fetch:serveStatic}};
 // Test-only overrides; the server code accepts them for loopback addresses only.
 for(const k of ['TELEGRAM_API_ORIGIN','AI_TEST_ORIGIN','SPEECH_TEST_ORIGIN','RISEUP_TEST_ORIGIN','PUSH_TEST_ORIGIN'])if(process.env[k])env[k]=process.env[k];

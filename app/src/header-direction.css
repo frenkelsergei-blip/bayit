@@ -1,7 +1,7 @@
 /* Follow the document RTL direction in the header; keep the LTR layout intact. */
 html[dir=rtl] .bayit-shell-header-inner{direction:inherit;padding-left:max(40px,env(safe-area-inset-left));padding-right:max(40px,env(safe-area-inset-right))}
-html[dir=rtl] .bayit-shell-family{border-left:0;border-inline-start:1px solid var(--border);padding-inline:25px 0}
-html[dir=rtl] .bayit-shell-utility{direction:inherit;margin-left:0;margin-inline-start:auto}
+html[dir=rtl] .bayit-shell-family{margin-left:0;margin-inline-start:auto;border:0;padding-inline:0}
+html[dir=rtl] .bayit-shell-utility{direction:inherit;margin-left:0;margin-inline-start:-12px}
 @media(max-width:900px){
  html[dir=rtl] .bayit-shell-header-inner{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
  html[dir=rtl] .bayit-shell-family{margin-left:0;margin-inline-start:auto;border-inline-start:0;padding-inline:0}
@@ -9,5 +9,5 @@ html[dir=rtl] .bayit-shell-utility{direction:inherit;margin-left:0;margin-inline
 }
 @media(max-width:600px){
  html[dir=rtl] .bayit-shell-header-inner{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
- html[dir=rtl] .bayit-shell-brand{margin-left:0;margin-inline-start:auto}
+ html[dir=rtl] .bayit-shell-brand{margin-left:0;margin-inline-start:0}
 }

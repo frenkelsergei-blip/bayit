@@ -1,6 +1,7 @@
 import React,{useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {List,CaretDown,DotsThree,CloudArrowUp,WarningCircle} from '@phosphor-icons/react';
 import {BrandMark} from './brand-mark';
+import './floating.css'; // one spacing rule for floating items (2026-11-10)
 import {menuStyle} from './appearance-settings';
 
 const defaultDesktop=['today','calendar','tasks','shopping','household'];
@@ -13,8 +14,9 @@ export function ShellNavigation({app:a,root,familyAnchor,onFamily,onMenu,onViewp
  const rotate=useRef(onViewportRotate);rotate.current=onViewportRotate;
  const [sync,setSync]=useState({pending:0,failed:0});
  useEffect(()=>a.cloud?.client?.subscribeStatus(setSync),[a.cloud?.client]);
- const syncState=sync.failed?'failed':sync.pending?'saving':'',SyncGlyph=sync.failed?WarningCircle:CloudArrowUp;
- const syncLabel=sync.failed?a.T('Not saved','לא נשמר'):a.T('Saving…','שומרים…');
+ // Offline (2026-11-09): changes kept on this device until the connection returns read “Waiting to sync”, not “Not saved”.
+ const syncState=sync.failed?'failed':sync.waiting?'queued':sync.pending?'saving':'',SyncGlyph=sync.failed?WarningCircle:CloudArrowUp;
+ const syncLabel=sync.failed?a.T('Not saved','לא נשמר'):sync.waiting?a.T('Waiting to sync','ממתין לסנכרון'):a.T('Saving…','שומרים…');
  useEffect(()=>{
   const media=matchMedia('(min-width:901px) and (min-height:521px)'),change=()=>setWide(media.matches);
   media.addEventListener('change',change);return()=>media.removeEventListener('change',change);
@@ -42,6 +44,8 @@ export function ShellNavigation({app:a,root,familyAnchor,onFamily,onMenu,onViewp
  const saved=Array.isArray(appearance.quickNav)&&appearance.quickNav.length?appearance.quickNav:null;
  const keys=saved?saved.slice(0,wide?5:4):wide?defaultDesktop:['today','calendar','tasks','shopping'];
  const items=keys.map(key=>a.places.find(item=>item[0]===key)).filter(Boolean);
+ // Features registry: when a default place is turned off, the next available place takes its slot.
+ if(!saved)for(const place of a.places)if(items.length<(wide?5:4)&&place[0]!=='mine'&&!items.includes(place))items.push(place);
  const familyName=a.data.preferences.householdName||a.T('The Levi family','משפחת לוי');
  const memberCount=a.T(a.members.length+' family members',a.members.length+' בני משפחה');
  return <>

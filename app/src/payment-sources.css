@@ -1,0 +1,201 @@
+/* Payment sources (cards and bank accounts): issuer marks, card visuals, the by-person filter in Expenses and the
+   per-person panels in Statistics › Money. Concept C, chosen 2026-11-09. Sizes follow the shared scale. */
+html:root main.view-household .money-page .money-partial.money-note.money-note-end{margin:16px 0 0}
+
+/* Issuer mark: original shape in the issuer's colour; neutral glyph for unknown sources. */
+.issuer-mark{position:relative;display:inline-grid;place-items:center;flex:none;width:var(--mark);height:var(--mark);border-radius:calc(var(--mark) * .26);overflow:hidden;color:#fff;vertical-align:middle}
+.issuer-mark>svg{position:absolute;inset:0}
+.issuer-mark>b{position:relative;font-family:Heebo,'Nunito Sans',sans-serif;font-weight:800;line-height:1;letter-spacing:0}
+.issuer-mark>svg+svg{position:relative;inset:auto}
+
+/* Overlapping marks, the card counterpart of AvatarStack. */
+.source-stack{display:inline-flex;align-items:center;flex:none;padding-inline-start:calc(var(--stack-size) * .35)}
+.source-stack-item{display:inline-flex;margin-inline-start:calc(var(--stack-size) * -.35);border-radius:calc(var(--stack-size) * .3);box-shadow:0 0 0 2px var(--surface,#fff)}
+.source-stack-more{display:inline-grid;place-items:center;min-width:var(--stack-size);height:var(--stack-size);margin-inline-start:calc(var(--stack-size) * -.35);padding:0 4px;border-radius:999px;background:var(--lilac);color:var(--text);font-weight:850;font-size:calc(var(--stack-size) * .45);box-shadow:0 0 0 2px var(--surface,#fff)}
+
+/* Card visual. */
+.payment-card{position:relative;display:flex;flex-direction:column;justify-content:space-between;flex:none;box-sizing:border-box;width:var(--card-w);aspect-ratio:1.586;padding:calc(var(--card-w) * .065) calc(var(--card-w) * .075);border-radius:calc(var(--card-w) * .07);overflow:hidden;color:#fff;background:linear-gradient(135deg,var(--card-bg),color-mix(in srgb,var(--card-bg) 70%,#000));box-shadow:0 8px 18px -10px rgba(0,0,36,.55)}
+.payment-card.bank{border-radius:calc(var(--card-w) * .05);background:linear-gradient(160deg,var(--card-bg),color-mix(in srgb,var(--card-bg) 78%,#000))}
+.payment-card.bank::after{content:'';position:absolute;inset:auto 0 0 0;height:calc(var(--card-w) * .035);background:var(--card-accent);opacity:.85}
+.payment-card.generic{background:linear-gradient(135deg,#4A5168,#2B3042)}
+.payment-card-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.payment-card>span{position:relative;display:flex;align-items:center;gap:calc(var(--card-w) * .04);min-width:0}
+.payment-card-name{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:800;font-size:calc(var(--card-w) * .085)}
+.payment-card-chip{flex:none;width:calc(var(--card-w) * .13);height:calc(var(--card-w) * .095);border-radius:calc(var(--card-w) * .02);background:linear-gradient(135deg,#F5D88A,#C9A44C);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.payment-card-amount{flex-direction:column;align-items:flex-end!important;font-weight:900;font-size:calc(var(--card-w) * .12);line-height:1}
+.payment-card-amount small{font-size:calc(var(--card-w) * .06);font-weight:650;opacity:.88}
+.payment-card-bottom{justify-content:space-between}
+.payment-card-digits{font-family:'Nunito Sans',Heebo,sans-serif;font-weight:800;letter-spacing:.06em;font-size:calc(var(--card-w) * .085)}
+.payment-card-owner{display:inline-flex;align-items:center;gap:calc(var(--card-w) * .025);min-width:0;font-size:calc(var(--card-w) * .07);font-weight:700}
+.payment-card-owner>span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.payment-card-owner .avatar{box-shadow:0 0 0 1.5px rgba(255,255,255,.75)!important;flex:none}
+
+/* Inline source in a transaction row. */
+.source-label{display:inline-flex;align-items:center;gap:5px;vertical-align:middle}
+.source-label .issuer-mark{margin-inline-end:1px}
+.source-label-via{color:var(--muted)}
+
+/* Expenses › Transactions (concept C): a rounded row per person with their cards stacked at the end. */
+.money-page .source-filter{display:flex;flex-direction:column;gap:10px;margin:0 0 14px}
+.money-page .source-whos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:8px}
+.money-page .source-who{display:flex;align-items:center;gap:10px;min-height:58px;padding:8px 12px;border:1px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.money-page .source-who.on{border-color:var(--primary);background:var(--selected);box-shadow:inset 0 0 0 1px var(--primary)}
+.money-page .source-who.some{border-color:var(--primary);border-style:dashed}
+.money-page .source-who>.avatar{flex:none}
+.source-who-text{flex:1;display:flex;flex-direction:column;min-width:0}
+.source-who-text b{font-size:calc(var(--scale-item,16px) * var(--font-adjust,1));font-weight:850;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.source-who-text small{color:var(--muted);font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))}
+.source-who-fan{display:flex;align-items:center;flex:none}
+.source-who-fan>span{display:inline-flex;margin-inline-start:-8px;border-radius:10px;box-shadow:0 0 0 2px var(--surface)}
+.source-who-fan>span:first-child{margin-inline-start:0}
+.source-who.on .source-who-fan>span{box-shadow:0 0 0 2px var(--selected)}
+.source-who-more{align-self:center;padding:2px 7px;border-radius:999px;background:var(--lilac);font-weight:850;font-size:13px;box-shadow:none!important}
+.money-page .source-filter-cards{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.source-filter-of{color:var(--muted);font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))}
+.money-page .source-chip{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:4px 12px 4px 6px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:750;cursor:pointer}
+[dir=rtl] .money-page .source-chip{padding:4px 6px 4px 12px}
+.money-page .source-chip.on{background:var(--selected);border-color:var(--primary);color:var(--primary)}
+.money-rows .source-label{font-size:inherit}
+
+/* Statistics › Money: by person and card. */
+.source-panels{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.source-panels-head h3{margin:0;font-size:calc(var(--scale-section,22px) * var(--font-adjust,1));font-weight:850}
+.source-panels-head p{margin:4px 0 0;color:var(--muted);font-size:calc(var(--scale-meta,14px) * var(--font-adjust,1))}
+.source-panels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:16px;align-items:start}
+.source-panel{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:16px;min-width:0}
+.source-panel>header{display:flex;align-items:center;gap:12px}
+.source-panel>header>div{min-width:0}
+.source-panel h4{margin:0;font-size:calc(var(--scale-item,17px) * var(--font-adjust,1));font-weight:850}
+.source-panel>header p{margin:2px 0 0;color:var(--muted);font-size:calc(var(--scale-meta,14px) * var(--font-adjust,1))}
+.source-panel>header p b{color:var(--text)}
+/* Fanned cards (concept C): each card sits in a slot; the front slot is the last one at the reading end. */
+.source-fan-stage{position:relative;width:var(--fan-w);height:var(--fan-h);flex:none}
+.source-fan-card{position:absolute;top:0;inset-inline-start:0;touch-action:pan-y;padding:0;margin:0;border:0;background:none;border-radius:calc(var(--card-w,168px) * .07);cursor:pointer;transform-origin:50% 60%;transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .3s;-webkit-tap-highlight-color:transparent}
+[dir=rtl] .source-fan-card{transform-origin:50% 60%}
+.source-fan-card:not(.front):hover{filter:brightness(1.08)}
+.source-fan-card:not(.front):hover .payment-card{box-shadow:0 14px 26px -12px rgba(0,0,36,.6)}
+.source-fan-card:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.source-fan-card.front{cursor:default}
+/* The card that comes forward lifts out above the stack, changes layer at the top, then settles in front. */
+.source-fan-card.arrive-a{animation:fan-arrive-a .62s cubic-bezier(.3,.7,.2,1)}
+.source-fan-card.arrive-b{animation:fan-arrive-b .62s cubic-bezier(.3,.7,.2,1)}
+@keyframes fan-arrive-a{0%{transform:var(--from);z-index:1}45%{transform:var(--lift);z-index:1}46%{z-index:9}100%{transform:var(--to);z-index:9}}
+@keyframes fan-arrive-b{0%{transform:var(--from);z-index:1}45%{transform:var(--lift);z-index:1}46%{z-index:9}100%{transform:var(--to);z-index:9}}
+@media(prefers-reduced-motion:reduce){.source-fan-card{transition:none}.source-fan-card.arrive-a,.source-fan-card.arrive-b{animation:none}}
+.source-rows{list-style:none;margin:0;padding:0}
+.source-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto 16px;align-items:center;gap:10px;width:100%;padding:9px 2px;border:0;background:none;color:inherit;font:inherit;text-align:start;cursor:pointer}
+.source-row-name{display:flex;flex-direction:column;min-width:0}
+.source-row-name b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:calc(var(--scale-body,15px) * var(--font-adjust,1))}
+.source-row-name small,.source-row-sum small{color:var(--muted);font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))}
+.source-mini{display:flex;align-items:flex-end;gap:3px;height:40px;width:66px}
+.source-mini i{flex:1;border-radius:3px;background:var(--primary);opacity:.8}
+.source-mini i.now{background:var(--muted);opacity:.45}
+.source-row-sum{display:flex;flex-direction:column;align-items:flex-end;white-space:nowrap}
+.source-row-sum b{font-size:calc(var(--scale-body,15px) * var(--font-adjust,1))}
+.source-row-caret{color:var(--muted);transition:transform .15s}
+.source-detail{padding:4px 2px 14px}
+.source-detail-bars{position:relative;display:flex;align-items:flex-end;gap:8px;height:170px;padding-top:6px}
+.source-detail-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;min-width:0;height:100%}
+.source-detail-bar i{display:block;width:100%;max-width:44px;border-radius:8px 8px 3px 3px}
+.source-detail-bar.now i{opacity:.45}
+.source-detail-bar small{font-size:calc(11px * var(--font-adjust,1));color:var(--muted);white-space:nowrap}
+.source-detail-bar>span{font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1));color:var(--muted);height:20px}
+.source-detail-average{position:absolute;inset-inline:0;border-top:2px dashed var(--primary);pointer-events:none}
+.source-detail-top,.source-detail-via{margin:8px 0 0;font-size:calc(var(--scale-meta,14px) * var(--font-adjust,1))}
+.source-detail-via{color:var(--muted)}
+
+/* Cards & accounts window. */
+.source-editor-lead{margin:0 0 4px;color:var(--muted)}
+.source-editor-row{display:flex;gap:16px;align-items:center;padding:10px 0;border-top:1px solid var(--border)}
+.source-editor-row:first-child{border-top:0;padding-top:0}
+.source-editor-fields{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.source-editor-hint{color:var(--muted)}
+@media(max-width:560px){.source-editor-row{flex-direction:column;align-items:stretch}.source-editor-row>.payment-card{align-self:center}}
+
+/* Statement import: "Which card or account is this?" (optional) and the guessed-owner prompt in Transactions. */
+.money-import .money-ending{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+.money-import .money-ending input{width:7ch;min-height:40px;text-align:center}
+.money-page .money-source-check{margin:-6px 0 10px}
+
+/* Statistics › Money: the Cards & accounts multi-select sits in the aligned filter row like its neighbours. */
+.statistics-reference .stat-sources .multi-filter{flex:1;min-width:0}
+.statistics-reference .stat-sources .multi-filter-trigger{width:100%}
+.source-option{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.source-option>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Shared: two faces in one circle (concept C). */
+.shared-faces{position:relative;display:inline-block;flex:none;width:var(--faces);height:var(--faces)}
+.shared-faces>.avatar{position:absolute!important;width:calc(var(--faces) * .7)!important;height:calc(var(--faces) * .7)!important;border-radius:50%;box-shadow:0 0 0 1.5px var(--surface,#fff)!important;margin:0!important}
+.shared-faces>.avatar:first-child{top:0;inset-inline-start:0}
+.shared-faces>.avatar:last-child{bottom:0;inset-inline-end:0}
+.payment-card-owner .shared-faces>.avatar{box-shadow:0 0 0 1px rgba(255,255,255,.8)!important}
+.source-mini i.now{opacity:.35!important}
+.source-mini i{opacity:1}
+/* Names may take two lines instead of being cut. */
+.source-row-name b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.25}
+.source-panels{margin-top:0;margin-bottom:22px}
+/* The Cards & accounts multi-select matches the Select buttons in the Statistics filter row. */
+html:root main.view-statistics .statistics-filter-grid .stat-select-icon .multi-filter-trigger{box-sizing:border-box;width:100%;height:var(--scale-control);min-height:var(--scale-control);padding-block:0;padding-inline-start:44px;border-radius:15px;font-size:calc(16px * var(--font-adjust,1));white-space:nowrap}
+@media(max-width:700px){html:root main.view-statistics .statistics-filter-grid .stat-select-icon .multi-filter-trigger{padding-inline:13px;font-size:calc(15px * var(--font-adjust,1))}}
+@media(max-height:520px) and (orientation:landscape){html:root main.view-statistics .statistics-filter-grid .stat-select-icon .multi-filter-trigger{padding-inline-start:38px;font-size:calc(14px * var(--font-adjust,1))}}
+/* Bars use the card's colour; on the night theme its lighter accent, so navy cards stay visible. */
+.source-mini i,.source-detail-bar i{background:var(--bar,var(--primary))!important}
+:root[data-theme="dark"] .source-mini i,:root[data-theme="dark"] .source-detail-bar i{background:var(--bar-dark,var(--primary))!important}
+
+
+/* Round 2 (2026-11-10, user feedback): the deck. Every card is reachable (swipe, arrows, dots, a card behind, +N,
+   arrow keys). The front card is the selected one and wears the gold selected ring (--accent, the same gold as the
+   selected menu item). Cards that are not shown wait behind the stack. Reduced motion: no transitions. */
+.source-deck{--fan-dir:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 0 8px}
+[dir=rtl] .source-deck{--fan-dir:-1}
+.source-deck-row{display:flex;align-items:center;justify-content:center;gap:10px;max-width:100%}
+.source-fan-stage{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.source-fan-card{transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .25s,filter .3s}
+.source-fan-card.hidden{opacity:0;pointer-events:none}
+.source-fan-card.front .payment-card{box-shadow:0 0 0 3px var(--accent),0 0 0 5px color-mix(in srgb,var(--accent) 35%,transparent),0 10px 22px -10px rgba(0,0,36,.6)}
+@keyframes fan-arrive-a{0%{transform:var(--from)}40%{transform:var(--lift)}100%{transform:var(--to)}}
+@keyframes fan-arrive-b{0%{transform:var(--from)}40%{transform:var(--lift)}100%{transform:var(--to)}}
+.source-fan-card.arrive-a{animation:fan-arrive-a .5s cubic-bezier(.3,.7,.2,1)}
+.source-fan-card.arrive-b{animation:fan-arrive-b .5s cubic-bezier(.3,.7,.2,1)}
+.source-deck-more{flex:none;min-width:44px;min-height:44px;padding:0 10px;border:1px solid var(--border);border-radius:999px;background:var(--lilac);color:var(--text);font:inherit;font-weight:850;cursor:pointer}
+.source-deck-nav{display:flex;align-items:center;gap:4px}
+.source-deck-dots{display:flex;align-items:center}
+.source-deck-dots button{display:grid;place-items:center;width:20px;height:28px;padding:0;border:0;background:none;cursor:pointer}
+.source-deck-dots i{display:block;width:7px;height:7px;border-radius:999px;background:var(--border);transition:width .25s,background-color .25s}
+.source-deck-dots button.on i{width:18px;background:var(--accent);box-shadow:inset 0 0 0 1px rgba(0,0,36,.18)}
+@media(prefers-reduced-motion:reduce){.source-fan-card,.source-deck-dots i{transition:none!important}.source-fan-card.arrive-a,.source-fan-card.arrive-b{animation:none!important}}
+
+/* Rows: the selected row is highlighted across the panel's full width, with nothing moving (the highlight extends
+   into the panel padding; the content stays where it was). */
+.source-rows>li.source-row-item{position:relative;margin:0 -16px;padding:0 16px;list-style:none;background:linear-gradient(var(--border),var(--border)) no-repeat center top/calc(100% - 32px) 1px;transition:background-color .2s}
+.source-rows>li.source-row-item.is-selected{background-color:var(--yellow)}
+.source-rows>li.source-row-item.is-selected::before{content:'';position:absolute;inset-block:8px;inset-inline-start:0;width:4px;border-radius:0 4px 4px 0;background:var(--accent)}
+[dir=rtl] .source-rows>li.source-row-item.is-selected::before{border-radius:4px 0 0 4px}
+.source-rows .source-row{width:100%;max-width:none;min-width:0;margin:0;box-sizing:border-box;border-radius:0;transform:none!important}
+.source-rows>li.is-expanded .source-row-caret{transform:rotate(180deg)}
+.source-row-prompt{color:var(--primary);font-weight:750}
+@media(prefers-reduced-motion:reduce){.source-rows>li.source-row-item,.source-row-caret{transition:none}}
+
+/* The average is a legend under the bars, so it never covers a bar's value. */
+.source-detail-legend{display:flex;align-items:center;gap:6px;margin:8px 0 0;color:var(--primary);font-weight:750;font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))}
+.source-detail-legend i{display:inline-block;width:20px;border-top:2px dashed var(--primary)}
+
+/* Not assigned yet: a dashed face with a question mark, and a gentle prompt instead of a dead "unknown". */
+.unassigned-face{display:inline-grid;place-items:center;flex:none;width:var(--faces);height:var(--faces);box-sizing:border-box;border-radius:50%;border:2px dashed var(--muted);color:var(--muted);background:var(--surface)}
+.payment-card-owner .unassigned-face{border-color:rgba(255,255,255,.85);color:#fff;background:transparent}
+.source-assign-note{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 0;padding:10px 12px;border-radius:14px;background:var(--yellow)}
+.source-assign-note p{margin:0;flex:1 1 200px;font-size:calc(var(--scale-meta,14px) * var(--font-adjust,1))}
+.source-detail-assign{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 0;padding:10px 12px;border-radius:14px;background:var(--yellow)}
+.source-detail-assign p{margin:0;flex:1 1 200px;display:flex;align-items:center;gap:6px;font-size:calc(var(--scale-meta,14px) * var(--font-adjust,1))}
+.money-page .source-who.unassigned{border-style:dashed}
+.source-editor-hint{display:inline-flex;align-items:center;gap:4px}
+.source-row-where{color:var(--muted);font-weight:500}
+.source-rows>li.is-selected .source-detail-assign{background:var(--surface)}
+.source-deck-nav .source-deck-more{margin-inline-start:6px}
+.source-row-where{color:var(--muted);font-weight:500}
+.source-rows>li.is-selected .source-detail-assign{background:var(--surface)}
+.source-deck-nav .source-deck-more{margin-inline-start:6px}
+.source-row-name small{display:flex;flex-direction:column;min-width:0}
+.source-row-where{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+/* "mostly at …" gets its own line under the name, across the row, so phones and 120% text keep it readable. */
+.source-rows .source-row>.source-row-where{grid-column:2/-1;margin-top:-6px;color:var(--muted);font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))}

@@ -1,6 +1,6 @@
 # Install Bayit on your own Cloudflare account
 
-Bayit runs entirely on **your own Cloudflare account**. It uses a Pages project with a Function, a D1 database, a private R2 bucket, a small private Worker that reads bank statements, a scheduler Worker, and optionally Workers AI for voice messages. The free Cloudflare plan is enough for a family. Every outside service (Google sign-in, your AI provider, Telegram) uses accounts and keys **you** create.
+Bayit runs entirely on **your own Cloudflare account**. It uses a Pages project with a Function, a D1 database, a private R2 bucket, a small private Worker that reads bank statements, a scheduler Worker, and optionally Workers AI for voice messages (or the household AI key). The free Cloudflare plan is enough for a family. Every outside service (Google sign-in, your AI provider, Telegram) uses accounts and keys **you** create.
 
 > Prefer your own computer, a NAS, a Raspberry Pi or another provider? See [Run Bayit anywhere with Docker](self-hosting-docker.md).
 >

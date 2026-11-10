@@ -11,6 +11,7 @@ import {createRequire} from 'node:module';
 import {openD1,migrate} from '../app/host/d1-sqlite.mjs';
 import {encryptKey,hash,localDate} from '../app/cloud/util.mjs';
 import {blankState} from '../app/cloud/state.mjs';
+import {FEATURE_IDS} from '../shared/features.mjs';
 import {whenLabel} from '../shared/item-reminders.mjs';
 import {snoozable,snoozeStillDue} from '../app/cloud/reminders.mjs';
 import {alertCard,dayReport} from '../app/cloud/telegram-format.mjs';
@@ -28,7 +29,7 @@ async function fixture(build){
  const DB=openD1(':memory:');migrate(DB,new URL('../app/cloud/migrations',import.meta.url).pathname);
  const sent=[],env={DB,APP_ENCRYPTION_KEY:Buffer.alloc(32,9).toString('base64')};
  const members=[{id:'mom',name:'Maya',he:'מאיה',role:'parent'},{id:'dad',name:'Dan',he:'דן',role:'parent'},{id:'kid',name:'Noa',he:'נועה',role:'child'}];
- const state=blankState('home','Fictional household',members[0]);state.members=structuredClone(members);
+ const state=blankState('home','Fictional household',members[0]);state.members=structuredClone(members);state.preferences.features=Object.fromEntries(FEATURE_IDS.map(id=>[id,true])); /* every feature on (features registry, 2026-11-09) */
  const prefs={quietStart:'23:00',quietEnd:'06:00'};
  state.profiles={mom:{name:'Maya',he:'מאיה',locale:'he',notificationPrefs:{...prefs}},dad:{name:'Dan',he:'דן',locale:'en',notificationPrefs:{...prefs}},kid:{name:'Noa',he:'נועה',locale:'he',notificationPrefs:{...prefs}}};
  build?.(state);

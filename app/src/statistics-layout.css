@@ -77,22 +77,9 @@ html:root main.view-statistics .statistics-people{display:none}
 
 /* ---------- Full-width section tabs ---------- */
 html:root main.view-statistics .statistics-mode-tabs{margin:0 0 var(--stats-step)}
-html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{display:grid!important;grid-template-columns:repeat(var(--nav-count,3),minmax(0,1fr));width:100%;max-width:100%;min-height:0;height:auto;margin:0;padding:5px;gap:4px;border-radius:20px;box-sizing:border-box;overflow:visible}
-html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:row;align-items:center;justify-content:center;gap:10px;min-width:0;min-height:46px;height:auto;padding:5px 12px;border-radius:15px;font-size:calc(15.5px * var(--font-adjust,1));white-space:nowrap}
-html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:34px;height:34px}
-html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{display:block;-webkit-line-clamp:unset;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@media(max-width:700px){
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{padding:4px;gap:4px;border-radius:18px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:column;min-height:56px;padding:5px 2px;gap:3px;font-size:calc(12px * var(--font-adjust,1));white-space:normal}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:28px;height:28px;border-radius:9px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon>svg{width:18px;height:18px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{max-width:100%;text-align:center}
-}
-@media(max-height:520px) and (orientation:landscape){
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{padding:3px;gap:3px;border-radius:16px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{flex-direction:row;min-height:var(--scale-control);height:var(--scale-control);padding:3px 10px;gap:8px;font-size:calc(14px * var(--font-adjust,1))}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
-}
+/* The shared section tiles (navigation.css); Statistics keeps its approved full-width strip on desktop too. */
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{width:100%;margin:0}
+html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>.nav-track>button{flex-grow:1}
 
 /* ---------- Summary cards (Activities, Shopping and Household) ---------- */
 html:root main.view-statistics .statistics-summary-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0 0 var(--stats-step)}
@@ -294,16 +281,6 @@ html:root main.view-statistics{
  html:root main.view-statistics .statistics-filter-grid.no-third.no-person>.statistics-scope{grid-column:auto}
  html:root main.view-statistics .statistics-filter-grid.no-scope.no-third>.statistics-person{grid-column:auto}
 }
-/* Six area tabs: one equal row everywhere; icon above a short label on phones. */
-@media(max-width:1100px) and (min-width:701px){
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{gap:8px;padding:5px 6px;font-size:calc(14px * var(--font-adjust,1))}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
-}
-@media(max-width:700px){
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{gap:2px;padding:4px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{min-height:54px;padding:4px 0;font-size:calc(11px * var(--font-adjust,1));letter-spacing:-.1px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-icon{width:26px;height:26px}
-}
 
 /* Summary cards: four across when there are four (two by two on phones), a fourth tone. */
 html:root main.view-statistics .statistics-summary-cards:has(>:nth-child(4)){grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -437,15 +414,6 @@ html:root main.view-statistics .stats-area-card>.stats-trend{margin-top:-4px}
 @media(max-width:700px){
  html:root main.view-statistics .stats-area-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
  html:root main.view-statistics .stats-spark{height:52px}
-}
-/* Six tabs on phones: when they do not fit, the strip scrolls sideways with the shared edge fade (tab-fade.css,
-   scroll-hints.js sets data-hscroll); tabs keep an equal width of at least 64px, as in Settings. */
-@media(max-width:700px){
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section{grid-template-columns:repeat(var(--nav-count,6),minmax(min-content,1fr));overflow-x:auto;scrollbar-width:none}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section[data-hscroll]{display:flex!important;padding:4px!important}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section[data-hscroll]>button{flex:1 0 64px;min-width:64px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section.nav-section>button{padding:4px 2px;font-size:calc(11px * var(--font-adjust,1));letter-spacing:-.2px}
- html:root main.view-statistics .statistics-mode-tabs .tabs.nav-section .nav-label{overflow:visible;text-overflow:clip}
 }
 /* Kids cards fill the row. */
 html:root main.view-statistics .stats-kid-cards{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}

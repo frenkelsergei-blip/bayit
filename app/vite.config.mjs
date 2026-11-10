@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { readFileSync } from "node:fs";
+import { swPrecache } from "./scripts/sw-precache.mjs";
 
 // App version comes from package.json; every build gets a unique id. Both are compiled into the client and
 // published as /version.json so open tabs can detect a newer deployment (Settings → About & updates).
@@ -35,5 +36,5 @@ export default defineConfig(({ command }) => ({
       clientFiles: ["./src/main.jsx"],
     },
   },
-  plugins: [react(), versionFile],
+  plugins: [react(), versionFile, swPrecache({ buildId })],
 }));

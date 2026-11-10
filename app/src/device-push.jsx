@@ -17,8 +17,10 @@ async function api(path,body){
  return result;
 }
 
+// The worker also keeps the app usable offline, so it is registered wherever service workers exist, including
+// iPhone Safari tabs, which have no Push API (2026-11-09). Push itself still checks supported().
 export function registerServiceWorker(){
- if(!supported())return;
+ if(typeof window==='undefined'||!('serviceWorker' in navigator))return;
  navigator.serviceWorker.register('/sw.js').catch(()=>{});
  navigator.serviceWorker.addEventListener?.('message',event=>{if(event.data?.type==='bayit-open'&&typeof event.data.url==='string')location.hash=event.data.url.replace(/^#/,'')});
 }

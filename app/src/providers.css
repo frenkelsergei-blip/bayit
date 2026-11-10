@@ -1,0 +1,154 @@
+/* Household › Expenses › Who we pay (concept A, 2026-11-09). Tokens only; logical properties for RTL. */
+.who-pay{display:grid;gap:var(--scale-gap-section,24px);color:var(--text);min-width:0}
+.who-pay h2{margin:0;font-size:var(--scale-section,24px)}
+.who-pay-card{background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:22px 24px;box-shadow:0 10px 28px rgba(19,31,74,.06)}
+.who-pay-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 36px;align-items:center}
+.who-pay-total small{display:block;color:var(--muted);font-size:var(--scale-meta,13px);font-weight:700}
+.who-pay-total strong{display:block;font-size:44px;line-height:1.25;margin-block:6px;font-weight:900} /* the Hebrew font's ₪ and figures paint taller than a tight line, over the lines above and below (collision check 2026-11-10) */
+.who-pay-total span{color:var(--muted);font-size:var(--scale-body,15px);font-weight:650}
+.who-pay-bar{display:flex;height:16px;border-radius:999px;overflow:hidden;gap:3px}
+.who-pay-bar i{display:block;min-width:6px;height:100%}
+.who-pay-legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin:12px 0 0;padding:0;list-style:none;font-size:var(--scale-body,15px)}
+.who-pay-legend li{display:flex;align-items:center;gap:8px}
+.who-pay-legend i{width:12px;height:12px;border-radius:4px;flex:none}
+.who-pay-legend b{font-weight:800}
+.who-pay-add{min-height:var(--scale-control,44px);white-space:nowrap}
+
+.who-pay-note{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:start;background:var(--selected);border-radius:24px;padding:18px 22px}
+.who-pay-note-icon{width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--primary)}
+.who-pay-note h3{margin:0;font-size:17px}
+.who-pay-note ul{margin:6px 0 0;padding-inline-start:18px;font-size:var(--scale-body,15px);line-height:1.55}
+.who-pay-note p{margin:6px 0 0;font-size:var(--scale-body,15px)}
+.who-pay-note-source{display:block;margin-top:6px;color:var(--muted);font-size:var(--scale-meta,13px)}
+.who-pay .control-button{min-height:var(--scale-control,44px)}
+.who-pay-ai{white-space:nowrap}
+.who-pay-ai-error{margin:6px 0 0;color:var(--danger);font-size:var(--scale-meta,13px);font-weight:700}
+
+.who-pay-group-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:12px}
+.who-pay-group-head b{display:inline-flex;align-items:center;min-height:30px;padding:2px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:15px;font-weight:800;white-space:nowrap}
+.who-pay-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.who-pay-tile{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 12px;align-items:center;align-content:start;min-height:124px;padding:16px 18px;border:1px solid var(--border);border-radius:22px;background:var(--surface);color:var(--text);font:inherit;text-align:start;cursor:pointer;box-shadow:0 2px 6px #0000000d;transition:box-shadow .15s,border-color .15s}
+.who-pay-tile:hover{border-color:var(--primary);box-shadow:0 8px 20px rgba(19,31,74,.1)}
+.who-pay-tile:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.who-pay-tile>img{grid-row:1/span 2;align-self:start}
+.who-pay-area{grid-column:2;color:var(--muted);font-size:var(--scale-meta,13px);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who-pay-tile strong{grid-column:2;font-size:19px;font-weight:850;line-height:1.2;overflow-wrap:anywhere}
+.who-pay-amount{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 6px;min-width:0;margin-top:8px;font-size:22px;font-weight:900}
+.who-pay-amount>span{font-size:var(--scale-meta,13px);color:var(--muted);font-weight:700}
+.who-pay-amount .who-pay-unknown{font-size:15px;color:var(--muted)}
+.who-pay-how{grid-column:1/-1;font-size:var(--scale-meta,13px);color:var(--muted);padding-inline-end:64px}
+.who-pay-up{align-self:center;display:inline-flex;align-items:center;gap:2px;background:var(--peach);border-radius:999px;padding:2px 9px;font-size:13px;font-weight:800;font-style:normal}
+.who-pay-people{position:absolute;inset-inline-end:12px;bottom:12px;display:flex}
+.who-pay-people>*+*{margin-inline-start:-8px}
+.who-pay-people .avatar{box-shadow:0 0 0 2px var(--surface)}
+
+.who-pay-more{border:1px solid var(--border);border-radius:22px;background:var(--surface);padding:6px 18px;box-shadow:0 2px 6px #0000000d}
+.who-pay-more summary{min-height:var(--scale-control,44px);display:flex;align-items:center;gap:8px;font-weight:800;cursor:pointer}
+.who-pay-more ul{list-style:none;margin:0 0 10px;padding:0}
+.who-pay-more li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--border)}
+.who-pay-more li small{display:block;color:var(--muted);font-size:var(--scale-meta,13px)}
+.who-pay-empty{margin:0}
+
+/* By area | By company (2026-11-10): the shared view tabs at their natural width; one card per company with its
+   services in rows (each opens the provider's details), the company total at the reading end of the header. */
+.who-pay-by{display:flex;margin-bottom:calc(var(--scale-gap-section,24px) * -0.4)}
+/* Same compact view-switch rules as Expenses, Insurance and Meals (household-data-first.css): natural width, 44px tabs. */
+html:root main.view-household .who-pay-by>.tabs.nav-view.nav-view{display:inline-flex;flex:none;width:auto;max-width:100%;margin:0;overflow-x:auto}
+html:root main.view-household .who-pay-by>.tabs.nav-view.nav-view>button{flex:0 0 auto;justify-content:center;min-height:var(--scale-control,44px);padding-block:0}
+.who-pay-companies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.who-pay-company{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:16px 18px 8px;box-shadow:0 2px 6px #0000000d;min-width:0}
+.who-pay-company.single{padding:0}
+.who-pay-company.single>.who-pay-service{grid-template-columns:40px minmax(0,1fr) auto;gap:12px;padding:16px 18px;border-radius:22px}
+.who-pay-company.single .who-pay-service-text strong{font-size:19px;font-weight:850;line-height:1.25}
+.who-pay-company.single .who-pay-service-amount{font-size:20px;font-weight:900}
+.who-pay-company li{border-top:1px solid var(--border)}
+.who-pay-service{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;min-height:var(--scale-control,44px);padding:10px 0;border:0;background:none;color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.who-pay-service:hover strong{color:var(--primary)}
+.who-pay-service:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:10px}
+.who-pay-service-text{min-width:0;display:grid;line-height:1.35}
+.who-pay-service-text strong{font-weight:800}
+.who-pay-service-text small{color:var(--muted);font-size:var(--scale-meta,13px);overflow-wrap:anywhere}
+.who-pay-service-amount{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:4px 6px;font-weight:850;white-space:nowrap}
+/* A company with several services (user feedback 2026-11-10: the parent was not clear): a "Company · N services" label,
+   a building mark, the services as chips while closed; the whole header opens it, and open it spans the row with the
+   services as By area tiles in a tinted panel. Area headings open and close the same way. */
+.who-pay-company.multi{padding:0}
+.who-pay-company.multi.open{grid-column:1/-1;box-shadow:0 10px 28px rgba(19,31,74,.08)}
+.who-pay-company-head{display:grid;grid-template-columns:48px minmax(0,1fr) auto 22px;gap:12px 14px;align-items:center;width:100%;min-height:var(--scale-control,44px);padding:16px 18px;border:0;border-radius:22px;background:none;color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.who-pay-company-head:focus-visible,.who-pay-toggle:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.who-pay-company-mark{width:48px;height:48px;border-radius:14px;background:var(--selected);color:var(--primary);display:grid;place-items:center}
+.who-pay-company-text{min-width:0}
+.who-pay-company-text>small{display:block;color:var(--muted);font-size:var(--scale-meta,13px);font-weight:750;line-height:1.35}
+.who-pay-company-text>strong{display:block;font-size:20px;font-weight:900;line-height:1.3;overflow-wrap:anywhere}
+.who-pay-company-head>.who-pay-company-mark{grid-row:1/span 2;align-self:start}
+.who-pay-chips{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:6px}
+.who-pay-chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 6px;border-radius:999px;background:var(--bg);border:1px solid var(--border);font-size:var(--scale-meta,13px);font-weight:700;line-height:1.5;white-space:nowrap}
+.who-pay-chip b{font-weight:850}
+.who-pay-company-total{text-align:end;line-height:1.3}
+.who-pay-company-total b{display:block;font-size:22px;font-weight:900}
+.who-pay-company-total small{display:block;color:var(--muted);font-size:var(--scale-meta,13px);font-weight:700}
+.who-pay-caret{color:var(--muted);transition:transform .15s;flex:none}
+[aria-expanded=true]>.who-pay-caret{transform:rotate(180deg)}
+.who-pay-company-body{border-top:1px solid var(--border);background:var(--bg);padding:14px;border-radius:0 0 22px 22px}
+.who-pay-toggle{display:inline-flex;align-items:center;gap:8px;min-height:var(--scale-control,44px);padding:0;border:0;background:none;color:inherit;font:inherit;text-align:start;cursor:pointer;border-radius:10px}
+.who-pay-tiles[hidden],.who-pay-company-body[hidden]{display:none!important}
+.who-pay-closed-note{color:var(--muted);font-size:var(--scale-meta,13px);font-weight:700}
+@media (prefers-reduced-motion:reduce){.who-pay-caret{transition:none}}
+@media (max-width:1100px){.who-pay-companies{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.who-pay-companies{grid-template-columns:1fr;gap:10px}
+ .who-pay-company-head{grid-template-columns:40px minmax(0,1fr) 20px;gap:6px 10px;padding:14px}.who-pay-company-mark{width:40px;height:40px;border-radius:12px}
+ .who-pay-company-head>.who-pay-company-text{grid-column:2;grid-row:1}.who-pay-company-head>.who-pay-caret{grid-column:3;grid-row:1}
+ .who-pay-company-head>.who-pay-company-total{grid-column:2/-1;grid-row:2;text-align:start;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px}.who-pay-company-total b{display:inline;font-size:20px}.who-pay-company-total small{display:inline}
+ .who-pay-company-head>.who-pay-chips{grid-column:2/-1;grid-row:3}.who-pay-company-head>.who-pay-company-mark{grid-row:1/span 3}.who-pay-company-body{padding:10px}
+ html:root main.view-household .who-pay-by>.tabs.nav-view.nav-view{display:flex;width:100%}html:root main.view-household .who-pay-by>.tabs.nav-view.nav-view>button{flex:1 0 auto}}
+@media (max-height:520px) and (orientation:landscape){.who-pay-companies{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Details window */
+.who-pay-window .who-pay-people-pick{display:flex;flex-wrap:wrap;gap:8px}
+.who-pay-facts{display:grid;gap:8px;margin:0}
+.who-pay-facts div{display:flex;justify-content:space-between;gap:12px}
+.who-pay-facts dt{color:var(--muted)}
+.who-pay-facts dd{margin:0;font-weight:800;text-align:end}
+.who-pay-lines{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.who-pay-lines li{padding:10px 12px;border-radius:14px;background:var(--bg);border:1px solid var(--border)}
+.who-pay-lines strong{display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+.who-pay-lines small{display:block;color:var(--muted);font-size:var(--scale-meta,13px)}
+.who-pay-merged{display:grid;gap:6px;margin-top:12px}
+.who-pay-merged-row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.who-pay-check{display:flex!important;flex-direction:row!important;align-items:center;gap:10px;min-height:var(--scale-control,44px);font-weight:700}
+.who-pay-check input{width:22px;height:22px;margin:0}
+.who-pay-window .who-pay-option-group,.select-menu .who-pay-option-group{display:inline!important;margin:0!important;color:var(--muted);font-size:.8em;font-weight:600}
+.select-button .who-pay-option-group{display:none!important}
+/* Payment history (details window, 2026-11-10) */
+.who-pay-history-sum{margin:0;color:var(--muted)}
+.who-pay-history-sum strong{color:var(--text)}
+.who-pay-history{list-style:none;margin:10px 0 0;padding:0;display:grid}
+.who-pay-history>li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--border)}
+.who-pay-history>li:first-child{border-top:0}
+.who-pay-history-month{font-weight:750}
+.who-pay-history>li>b{font-weight:850;text-align:end}
+.who-pay-history>li>small,.who-pay-history>li>ul{grid-column:1/-1;color:var(--muted);font-size:var(--scale-meta,13px);overflow-wrap:anywhere}
+.who-pay-history>li>ul{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:2px}
+.who-pay-history>li>ul li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px}
+.who-pay-to-ledger{margin-top:12px;min-height:var(--scale-control,44px)}
+/* Transactions filtered to one provider (from Who we pay) */
+.money-provider-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 16px;margin:0 0 14px;border-radius:18px;background:var(--selected)}
+.money-provider-filter p{margin:0;flex:1 1 220px;min-width:0}
+.money-provider-filter .control-button{min-height:var(--scale-control,44px)}
+
+@media (max-width:1100px){.who-pay-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.who-pay-head{grid-template-columns:auto minmax(0,1fr)}.who-pay-add{grid-column:1/-1;justify-self:start}}
+@media (max-width:700px){
+ .who-pay-head{grid-template-columns:1fr;padding:18px}.who-pay-total strong{font-size:36px}
+ .who-pay-note{grid-template-columns:auto minmax(0,1fr);padding:16px}.who-pay-ai{grid-column:1/-1;justify-self:start}
+ .who-pay-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .who-pay-tile{grid-template-columns:34px minmax(0,1fr);padding:14px;min-height:0}.who-pay-tile>img{width:34px;height:34px}
+ .who-pay-tile strong{font-size:17px}.who-pay-amount{font-size:19px}
+ .who-pay-how{padding-inline-end:0}.who-pay-tile:has(.who-pay-people) .who-pay-how{padding-inline-end:58px}
+}
+@media (max-height:520px) and (orientation:landscape){.who-pay-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.who-pay-total strong{font-size:32px}.who-pay-head{grid-template-columns:auto minmax(0,1fr) auto}.who-pay-add{grid-column:auto}}
+
+/* Demo Expenses (expenses-demo.jsx): one controls row like the signed-in Expenses page (household-data-first.css). */
+main.view-household .demo-expenses-nav{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 var(--household-step,16px)}
+main.view-household .demo-expenses-nav>.money-nav{flex:none;min-width:0;max-width:100%}
+main.view-household .demo-expenses-nav>.tabs.nav-filter{display:inline-flex;align-items:center;flex:none;height:var(--scale-control,44px);margin:0;padding:0}
+main.view-household .demo-expenses-nav>.tabs.nav-filter>button{min-height:var(--scale-control,44px)}

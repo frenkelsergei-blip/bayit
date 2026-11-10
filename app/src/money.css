@@ -473,3 +473,6 @@
 .ai-provider:disabled{opacity:.6;cursor:default}
 .ai-provider-dot{position:absolute;top:10px;inset-inline-end:10px;width:10px;height:10px;border-radius:50%;background:#2FA86B;box-shadow:0 0 0 3px var(--surface)}
 .ai-key-link{align-self:flex-start;font-weight:800}
+
+/* Coverage note below the numbers (user, 2026-11-09; same rule as payment-sources.css). */
+html:root main.view-household .money-page .money-partial.money-note.money-note-end{margin:16px 0 0}

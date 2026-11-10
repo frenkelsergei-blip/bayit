@@ -1,5 +1,9 @@
 import React,{useEffect,useRef,useState} from 'react';
-import {CalendarDots,Stack,UsersThree,ChartPieSlice,CheckCircle,Star,ShoppingCart,Wallet} from '@phosphor-icons/react';
+import {statsFeature} from '../../shared/features.mjs';
+import {CalendarDots,Stack,UsersThree,ChartPieSlice,CheckCircle,Star,ShoppingCart,Wallet,Cards} from '@phosphor-icons/react';
+import {MultiFilter} from './multi-filter';
+import {IssuerMark} from './payment-sources';
+import {sourceName,sourceDigits} from '../../shared/payment-sources.mjs';
 import {Select} from './Select';
 import {anchor} from './data';
 import {SHOPPING_CATEGORIES} from '../../shared/item-dictionary.mjs';
@@ -19,9 +23,10 @@ function useNarrow(){const query='(max-width:700px)',[narrow,setNarrow]=useState
 export function StatisticsView({app:a,ui}){
  const {Heading,Tabs,Scope,Avatar}=ui,narrow=useNarrow(),tabsRef=useRef(null);
  const isChild=a.member(a.user).role==='child',parent=!isChild,T=a.T,rtl=a.lang==='he',locale=rtl?'he-IL':'en-US',end=anchor;
- const [scope,setScope]=useState('family'),[person,setPerson]=useState('all'),[range,setRange]=useState('7'),[recordType,setRecordType]=useState('all'),[group,setGroup]=useState('all'),[source,setSource]=useState('all');
+ const [scope,setScope]=useState('family'),[person,setPerson]=useState('all'),[range,setRange]=useState('7'),[recordType,setRecordType]=useState('all'),[group,setGroup]=useState('all'),[source,setSource]=useState('all'),[sourceKeys,setSourceKeys]=useState([]);
  const remote=useStatisticsMoney(a,parent);
- const usage=statisticsUsage({data:a.data,user:a.user,members:a.members,parent,money:remote.data});
+ // Features registry (2026-11-09): an area that is off for this person has no tab and no Overview card.
+ const usage=Object.fromEntries(Object.entries(statisticsUsage({data:a.data,user:a.user,members:a.members,parent,money:remote.data})).map(([id,used])=>{const f=statsFeature(id);return [id,used&&(!f||!a.features||a.features.on(f))]}));
  const requested=(a.route.split('?')[0].split('/')[1]||'overview').replace(/^household$/,'money');
  const tabs=TABS.filter(([id])=>id==='overview'||usage[id]),tab=tabs.some(([id])=>id===requested)?requested:'overview';
  const kidsOnly=tab==='kids',personFilter=!(kidsOnly&&isChild)&&scope!=='private',people=kidsOnly?a.members.filter(m=>m.role==='child'):a.members;
@@ -35,13 +40,15 @@ export function StatisticsView({app:a,ui}){
  };
  if(usage.money&&tab==='overview'){const now=moneyModel(a,remote,{range,scope,person:who,end}),all=moneyModel(a,remote,{range:'all',scope,person:who,end}),oldest=all.rows.map(r=>String(r.date).slice(0,10)).sort()[0],w=periodWindow(range,end,oldest),prev=previousWindow(w,oldest),before=prev?moneyModel(a,remote,{range,scope,person:who,end:prev.end}).total:null;models.money={ready:remote.ready,total:now.total,trend:remote.ready?trend(now.total,before):null,months:monthlySpending(all.rows,end,6).map(m=>({date:m.month,total:Math.round(m.total/100)}))}}
  const ctx={a,T,rtl,locale,ui,scope,person:who,range,isChild,window:periodWindow(range,end)};
+ // Cards and accounts for the Money filter (several at once), from the records this viewer may see in this sharing view.
+ const sourceIndex=tab==='money'&&usage.money?moneyModel(a,remote,{range:'all',scope,end}).index:{list:[],byKey:new Map()};
  const go=id=>a.go(id==='overview'?'statistics':'statistics/'+id);
  // On phones the tab strip scrolls sideways: keep the chosen tab in view (same as the Household module tabs).
  useEffect(()=>{const reveal=()=>{const el=tabsRef.current?.querySelector('[aria-current=page]'),strip=el?.parentElement;if(!el||!strip||strip.scrollWidth<=strip.clientWidth+1)return;const s=strip.getBoundingClientRect(),r=el.getBoundingClientRect();if(r.left<s.left+4||r.right>s.right-4)strip.scrollBy({left:r.left<s.left+4?r.left-s.left-8:r.right-s.right+8,behavior:'auto'})};const f=requestAnimationFrame(()=>requestAnimationFrame(reveal)),t=setTimeout(reveal,400);return()=>{cancelAnimationFrame(f);clearTimeout(t)}},[tab]);
  const categoryLabel=key=>{const pair=SHOPPING_CATEGORIES.find(c=>c[0]===key);return pair?T(pair[0],pair[1]):key};
  const third=tab==='tasks'?<div className="stat-select-icon stat-records"><Stack size={22}/><Select aria-label={T('Statistics records','סוג הרשומות לסטטיסטיקה')} value={recordType} onChange={e=>setRecordType(e.target.value)}><option value="all">{T('All activities','כל הפעילויות')}</option><option value="routines">{narrow?T('Routines','שגרות'):T('Children’s routines','שגרות הילדים')}</option><option value="tasks">{T('Other tasks','משימות אחרות')}</option></Select></div>
   :tab==='shopping'&&models.shopping?<div className="stat-select-icon stat-records"><Stack size={22}/><Select aria-label={T('Shopping category','קטגוריית קניות')} value={group} onChange={e=>setGroup(e.target.value)}><option value="all">{T('All purchases','כל הקניות')}</option>{models.shopping.groups.map(g=><option key={g} value={g}>{categoryLabel(g)}</option>)}</Select></div>
-  :tab==='money'?<div className="stat-select-icon stat-records"><Stack size={22}/><Select aria-label={T('Statistics money source','מקור ההוצאות לסטטיסטיקה')} value={source} onChange={e=>setSource(e.target.value)}><option value="all">{T('All sources','כל המקורות')}</option><option value="imports">{T('Statements & connections','דפי חשבון וחיבורים')}</option><option value="manual">{T('Recorded manually','נרשמו ידנית')}</option></Select></div>:null;
+  :tab==='money'?<div className="stat-select-icon stat-records stat-sources"><Cards size={22}/><MultiFilter T={T} label={T('Cards & accounts','כרטיסים וחשבונות')} allLabel={T('All cards & accounts','כל הכרטיסים והחשבונות')} value={sourceKeys.filter(k=>sourceIndex.byKey.has(k))} onChange={setSourceKeys} options={sourceIndex.list.map(s=>{const text=sourceName(s,a.lang)+(s.last4?' '+sourceDigits(s):'')+' · '+(s.kind==='manual'?a.name(s.ownerId):s.shared||!s.ownerId?T('Shared','משותף'):a.name(s.ownerId));return {id:s.key,label:text,content:<span className="source-option"><IssuerMark source={s} size={22}/><span dir="auto">{text}</span></span>}})}/></div>:null;
  return <div className={'statistics-reference statistics-'+tab}><Heading title={T('Every little step adds up.','כל צעד קטן מצטבר.')} subtitle={T('Statistics · '+(!a.data.householdId||a.data.householdId==='demo'?'Sample data':'Saved records'),'סטטיסטיקה · '+(!a.data.householdId||a.data.householdId==='demo'?'מידע לדוגמה':'הרישומים שלכם'))}/>
   <div className={'statistics-filter-grid'+(personFilter?'':' no-person')+(third?'':' no-third')+(kidsOnly?' no-scope':'')}>
    <div className="stat-select-icon stat-period"><CalendarDots size={22}/><Select aria-label={T('Statistics period','תקופת הסטטיסטיקה')} value={range} onChange={e=>setRange(e.target.value)}>{(narrow?[['7','7 days','7 ימים'],['30','30 days','30 ימים'],['all','All time','כל הזמן']]:[['7','Last 7 days','7 ימים אחרונים'],['30','Last 30 days','30 ימים אחרונים'],['all','All history','כל ההיסטוריה']]).map(([v,en,he])=><option key={v} value={v}>{T(en,he)}</option>)}</Select></div>
@@ -55,6 +62,6 @@ export function StatisticsView({app:a,ui}){
    :tab==='calendar'?<CalendarTab c={ctx} m={models}/>
    :tab==='kids'?<KidsTab c={ctx} m={models}/>
    :tab==='shopping'?<ShoppingTab c={ctx} m={models}/>
-   :<HouseholdMoneyStatistics a={a} range={range} scope={scope} person={who} source={source} end={end} Button={ui.Button} remote={remote}/>}
+   :<HouseholdMoneyStatistics a={a} range={range} scope={scope} person={who} source={source} sourceKeys={sourceKeys.filter(k=>sourceIndex.byKey.has(k))} end={end} Button={ui.Button} Avatar={Avatar} remote={remote}/>}
  </div>;
 }

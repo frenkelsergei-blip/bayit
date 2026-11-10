@@ -1,0 +1,111 @@
+/* Settings › Accounts & connections, concept A "quiet checklist" (2026-11-10; concept/explorations/connections-20261110/).
+   Uses the shared section cards (form-section.css) and controls; only the rows, the bar and the window details are here. */
+.conn-a{gap:0}
+.conn-a .conn-sections{margin-top:4px}
+.conn-progress{display:flex;align-items:center;gap:10px;font-size:calc(15px * var(--font-adjust,1));font-weight:800;color:var(--muted);margin-bottom:4px}
+.conn-bar{display:flex;gap:6px;flex:none}.conn-bar i{width:34px;height:8px;border-radius:4px;background:var(--border)}.conn-bar i.on{background:#2fa86b}
+.conn-rows{display:grid;min-width:0}
+.conn-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:4px 16px;align-items:center;padding:16px 0;border-top:1px solid var(--border);min-width:0}
+.conn-row:first-child{border-top:0;padding-top:4px}.conn-row:last-child{padding-bottom:2px}
+.conn-tile{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;grid-row:span 3;align-self:start;background:var(--selected);color:var(--primary)}
+.conn-tile.tone-telegram{background:var(--lilac);color:var(--text)}
+.conn-tile.tone-family{background:var(--green);color:var(--text)}
+.conn-tile:is(.tone-soft,.tone-google,.tone-storage,.tone-riseup){background:var(--surfaceSoft);color:var(--text)}
+.conn-name{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}
+.conn-name h4{margin:0;font-size:calc(19px * var(--font-adjust,1));font-weight:850;line-height:1.3}
+.conn-row .conn-pill{font-size:calc(13.5px * var(--font-adjust,1));padding:3px 10px 3px 8px}
+.conn-row .conn-what{grid-column:2;margin:0;color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.45;font-weight:600}
+.conn-row .conn-detail{grid-column:2;margin:0;padding:0;background:none;border-radius:0;font-size:calc(14px * var(--font-adjust,1));font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.conn-row>.button{grid-column:3;grid-row:1/span 3;min-height:46px;padding:8px 22px;font-size:calc(17px * var(--font-adjust,1))}
+.conn-people{display:inline-flex;flex:none}.conn-people>*{--avatar-size:28px;width:28px;height:28px;border:2px solid var(--surface);border-radius:50%;margin-inline-start:-8px}.conn-people>*:first-child{margin-inline-start:0}
+.conn-more .conn-row{grid-template-columns:44px minmax(0,1fr) auto;padding:14px 0}
+.conn-more .conn-tile{width:44px;height:44px;border-radius:14px}
+.conn-more .conn-name h4{font-size:calc(17px * var(--font-adjust,1))}
+.conn-who{grid-column:2;margin:0;display:flex;align-items:center;gap:6px;color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));font-weight:700}
+.conn-a .conn-intro{margin:0 0 4px;color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.45;font-weight:600;max-width:none}
+.conn-about-rows{display:grid}
+.conn-about-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:12px 0;border-top:1px solid var(--border);color:var(--text)}
+.conn-about-row:first-child{border-top:0;padding-top:0}.conn-about-row:last-child{padding-bottom:0}.conn-about-row>svg{color:var(--muted)}
+.conn-about-row strong{display:block;font-size:calc(15.5px * var(--font-adjust,1));font-weight:800}
+.conn-about-row span{display:block;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));font-weight:600;overflow-wrap:anywhere}
+.conn-link{color:var(--primary);font-weight:800;font-size:calc(15px * var(--font-adjust,1));text-decoration:underline;text-underline-offset:4px;white-space:nowrap;background:none;border:0;padding:0;min-height:44px;cursor:pointer;font-family:inherit}
+.conn-ok{color:#1f8a57}.conn-wait{color:#a15c00}
+:root[data-theme="dark"] .conn-ok{color:#5fd39a}:root[data-theme="dark"] .conn-wait{color:#ffc26b}
+:root[data-theme="dark"] .conn-bar i.on{background:#3fb87b}
+
+/* The window: one header (icon, title, one line, status), a scrolling body and a footer with a note and Close. */
+.connection-dialog{width:min(780px,100%)}
+.connection-dialog-compact{width:min(540px,100%)}
+.connection-dialog-header{align-items:flex-start;border-bottom:0;padding:22px 24px 12px;gap:14px}
+.connection-dialog-heading{align-items:flex-start;gap:14px}
+.connection-dialog-heading>div{gap:4px}
+.connection-dialog-heading h2{font-size:calc(24px * var(--font-adjust,1));font-weight:900}
+.connection-dialog-heading .connection-dialog-description{margin:0 0 4px;color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.45;font-weight:600}
+.connection-dialog-heading .conn-pill{font-size:calc(13.5px * var(--font-adjust,1));margin-top:4px}
+.connection-dialog-body{padding:4px 24px 18px}
+.connection-dialog-footer{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 24px 16px;border-top:1px solid var(--border);background:var(--surface)}
+.connection-dialog-footer .button{min-height:48px;padding-inline:26px;flex:none}
+.conn-foot-note{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));font-weight:600;line-height:1.4;min-width:0}
+.conn-foot-note svg{flex:none}
+.conn-offline{margin:10px 0 0;color:var(--muted);font-weight:600}
+.conn-window-section{margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
+.conn-window-section>h3{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 12px;font-size:calc(18px * var(--font-adjust,1));font-weight:900}
+.conn-window-section>h3 small{color:var(--muted);font-weight:600;font-size:calc(14px * var(--font-adjust,1))}
+.conn-window-section>h3 svg{color:var(--primary)}
+/* Telegram after setup: summary line, family list, closed rows. */
+.conn-telegram{display:grid;gap:14px;min-width:0}
+.conn-summary{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 12px;align-items:center;border-radius:18px;padding:12px 16px;background:var(--green);color:var(--text)}
+.conn-summary>svg{grid-row:span 2;color:#1f8a57}
+.conn-summary strong{font-size:calc(16px * var(--font-adjust,1));font-weight:850;min-width:0}
+.conn-summary span{grid-column:2;font-size:calc(14px * var(--font-adjust,1));font-weight:600;min-width:0}
+.conn-summary .conn-link{grid-row:1/span 2;grid-column:3}
+:root[data-theme="dark"] .conn-summary>svg{color:#5fd39a}
+.conn-bot-manage{display:grid;gap:12px}
+.conn-h{margin:4px 0 0;font-size:calc(17px * var(--font-adjust,1));font-weight:900}
+.conn-members,.conn-family-list{list-style:none;margin:0;padding:0;display:grid}
+.conn-members>li,.conn-family-list>li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--border)}
+.conn-members>li:first-child,.conn-family-list>li:first-child{border-top:0}
+.conn-members>li>:first-child,.conn-family-list>li>:first-child{grid-row:span 2}
+.conn-members strong,.conn-family-list strong{font-size:calc(16.5px * var(--font-adjust,1));font-weight:850}
+.conn-members :is(strong,small),.conn-family-list :is(strong,small){grid-column:2}
+.conn-members small,.conn-family-list small{font-size:calc(13.5px * var(--font-adjust,1));font-weight:700}
+.conn-members .conn-act{grid-row:1/span 2;grid-column:3;display:flex;gap:6px;flex-wrap:wrap}
+.conn-members .conn-act .button{min-height:44px;padding:6px 16px;font-size:calc(15px * var(--font-adjust,1))}
+.conn-family{display:grid;gap:16px}
+.conn-fold{border:1px solid var(--border);border-radius:18px;background:var(--surface)}
+.conn-fold>summary{display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:56px;cursor:pointer;list-style:none;font-weight:800}
+.conn-fold>summary::-webkit-details-marker{display:none}
+.conn-fold>summary>span{flex:1;min-width:0}
+.conn-fold>summary strong{display:block;font-size:calc(16px * var(--font-adjust,1))}
+.conn-fold>summary small{display:block;color:var(--muted);font-weight:600;font-size:calc(13.5px * var(--font-adjust,1))}
+.conn-fold-caret{flex:none;transition:transform .2s}
+.conn-fold[open] .conn-fold-caret{transform:rotate(180deg)}
+.conn-fold-body{padding:0 16px 16px}
+.conn-fold-body .telegram-digest{margin:0}
+/* The older Telegram layout's step 4 (kept for the standalone panel): number and title on one line. */
+.telegram-media-fold>summary{display:flex;align-items:center;gap:10px}
+.telegram-step-inline{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;font-weight:900;flex:none}
+@media(prefers-reduced-motion:reduce){.conn-fold-caret{transition:none}}
+
+@media(max-width:700px){
+ .conn-row{grid-template-columns:44px minmax(0,1fr);gap:4px 12px}
+ .conn-tile{width:44px;height:44px;border-radius:14px}
+ .conn-row>.button{grid-column:2;grid-row:auto;justify-self:start;margin-top:8px}
+ .conn-name h4{font-size:calc(17.5px * var(--font-adjust,1))}
+ .conn-more .conn-row{grid-template-columns:40px minmax(0,1fr)}.conn-more .conn-tile{width:40px;height:40px}
+ .conn-about-row{grid-template-columns:24px minmax(0,1fr)}.conn-about-row .conn-link{grid-column:2;justify-self:start;min-height:36px}
+ .conn-members>li{grid-template-columns:40px minmax(0,1fr)}.conn-members .conn-act{grid-column:2;grid-row:auto;margin-top:6px}
+ .conn-summary{grid-template-columns:auto minmax(0,1fr)}.conn-summary .conn-link{grid-column:2;grid-row:auto;justify-self:start;min-height:36px}
+}
+/* Phones and short landscape: every window is full screen (AGENTS.md, 2026-11-08), above either menu position. */
+@media(max-width:700px),(max-height:520px) and (orientation:landscape){
+ .connection-dialog-backdrop{padding:0;align-items:stretch;z-index:400}
+ .connection-dialog,.connection-dialog-compact{width:100%;height:100dvh;max-height:none;border-radius:0;border:0}
+ .connection-dialog-header{padding:calc(16px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left))}
+ .connection-dialog-heading h2{font-size:calc(22px * var(--font-adjust,1))}
+ .connection-dialog-body{flex:1;padding:4px max(16px,env(safe-area-inset-right)) 16px max(16px,env(safe-area-inset-left))}
+ .connection-dialog-footer{padding:12px max(16px,env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+}
+/* AI usage & credit inside the AI window: two tiles a row and one column for the split, at window width. */
+.conn-window-section .ai-usage-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+.conn-window-section .ai-usage-split{grid-template-columns:minmax(0,1fr)}

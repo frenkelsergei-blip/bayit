@@ -1,4 +1,6 @@
 import {validateDocumentCategories} from './document-categories.mjs';
+import {validateFeatures,validateFeaturesByUser} from './features.mjs';
+import {normalizeFamilyProfile} from './family-setup.mjs';
 import {validatePins} from './household-pins.mjs';
 import {mediaType} from './safe-media.mjs';
 import {validateInsuranceDocument,validateInsuranceAlertPrefs} from './insurance-lifecycle.mjs';
@@ -124,5 +126,8 @@ export function validatePreference(key,value){
  if(['monthlyBudget','turnInterval','maxSuggestions'].includes(key)&&(!Number.isFinite(value)||value<0||value>100000000))throw Error('Choose a valid setting value.');
  if(key==='privacyDefaults'&&(!value||typeof value!=='object'||Object.entries(value).some(([k,v])=>!['noteVisibility','eventVisibility'].includes(k)||!['private','family'].includes(v))))throw Error('Choose valid privacy defaults.');
  if(['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser','turnOverrides'].includes(key)&&(!value||typeof value!=='object'||Array.isArray(value)))throw Error('Choose valid personal settings.');
+ if(key==='features')validateFeatures(value);
+ if(key==='familyProfile')normalizeFamilyProfile(value);
+ if(key==='featuresByUser')validateFeaturesByUser(value);
  if(key==='shoppingCategories'&&(!Array.isArray(value)||value.length>100||value.some(v=>typeof v==='string'?v.length>100:!v||typeof v!=='object')))throw Error('Choose valid shopping categories.');
 }

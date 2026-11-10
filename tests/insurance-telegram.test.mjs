@@ -9,6 +9,7 @@ import * as XLSX from '../app/node_modules/xlsx/xlsx.mjs';
 import {openD1,migrate} from '../app/host/d1-sqlite.mjs';
 import {encryptKey,hash} from '../app/cloud/util.mjs';
 import {blankState,visibleState} from '../app/cloud/state.mjs';
+import {FEATURE_IDS} from '../shared/features.mjs';
 import {stageInsuranceReport,readInsurancePreview,discardInsurancePreview,applyInsurancePreview} from '../app/cloud/insurance-import.mjs';
 
 const require=createRequire(new URL('../app/package.json',import.meta.url)),scratch=await mkdtemp(join(tmpdir(),'bayit-insurance-telegram-'));
@@ -19,7 +20,7 @@ function workbook(){const w=XLSX.utils.book_new();XLSX.utils.book_append_sheet(w
 async function fixture(){
  const DB=openD1(':memory:');migrate(DB,new URL('../app/cloud/migrations',import.meta.url).pathname);const sent=[],files=[],bytes=workbook(),env={DB,APP_ENCRYPTION_KEY:Buffer.alloc(32,9).toString('base64')};
  const objects=new Map();env.FILES={async put(k,b){objects.set(k,new Uint8Array(b))},async get(k){const b=objects.get(k);return b?{body:new Response(b).body}:null},async delete(k){objects.delete(k)}};
- const state=blankState('home','Fictional household',{id:'a',name:'Adult A',role:'parent'});state.members.push({id:'b',name:'Adult B',role:'adult'},{id:'kid',name:'Child',role:'child'});state.profiles.b={name:'Adult B'};state.profiles.kid={name:'Child'};
+ const state=blankState('home','Fictional household',{id:'a',name:'Adult A',role:'parent'});state.preferences.features=Object.fromEntries(FEATURE_IDS.map(id=>[id,true])); /* every feature on (features registry, 2026-11-09) */state.members.push({id:'b',name:'Adult B',role:'adult'},{id:'kid',name:'Child',role:'child'});state.profiles.b={name:'Adult B'};state.profiles.kid={name:'Child'};
  for(const [id,role,name]of [['a','parent','Adult A'],['b','adult','Adult B']]){await DB.prepare('INSERT INTO users(id,name) VALUES(?,?)').bind(id,name).run();await DB.prepare('INSERT INTO memberships(household_id,user_id,member_id,role,created_at) VALUES(?,?,?,?,?)').bind('home',id,id,role,new Date().toISOString()).run();}
  await DB.prepare('INSERT INTO household_data(household_id,state,revision) VALUES(?,?,0)').bind('home',JSON.stringify(state)).run();
  const hook='test-hook-12345678901234',secret='test-webhook-secret';await DB.prepare('INSERT INTO telegram_bots(household_id,ciphertext,bot_id,bot_username,hook_id,secret_hash,connected_by,connected_at) VALUES(?,?,?,?,?,?,?,?)').bind('home',await encryptKey('fictional-bot-token',env,'telegram:home'),'1','test_bot',hook,await hash(secret),'a',new Date().toISOString()).run();

@@ -11,5 +11,16 @@
 .pantry-item strong,.maintenance-item strong,.document-card strong,.expense-row strong,.subtask-list span,.task-subtasks span{unicode-bidi:plaintext}
 html[dir=ltr] :is(.calendar-detail-heading h2,.tasks-row-main>strong,.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.shop2-row-main strong,.prio-widget-text strong,.calendar-detail-section p,.task-row strong,.shop2-head h2,.subtask-list span,.task-subtasks span){text-align:left}
 html[dir=rtl] :is(.calendar-detail-heading h2,.tasks-row-main>strong,.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.shop2-row-main strong,.prio-widget-text strong,.calendar-detail-section p,.task-row strong,.shop2-head h2,.subtask-list span,.task-subtasks span){text-align:right}
+/* Every text above aligns to the interface side, not to its own first letter (user report 2026-11-09: a Hebrew
+   notification title in the English inbox list sat on the right, its time on the left). match-parent resolves
+   "start" against the parent's direction and keeps a centred parent centred; :where keeps any explicit
+   alignment a component sets. */
+:where(.calendar-detail-heading h2,.detail-title,.tasks-row-main>strong,.tasks-detail-heading h2,.task-row strong,.task-title,
+.calendar-reference-event strong,.agenda-text strong,.agenda-text small,.month-event,.month-day-agenda li strong,
+.calendar-detail-section p,.journal-detail p,.journal-entry strong,.journal-entry p,.journal-card strong,.journal-card p,
+.shop2-row-main strong,.shop2-head h2,.shop2-list-card strong,.tasks-list-card strong,.tasks-list-name,
+.prio-widget-text strong,.today-widget li strong,.timeline-item strong,.timeline-item p,
+.note-card strong,.note-card p,.notes-list strong,.notes-list p,.notification-item strong,.notification-item p,
+.pantry-item strong,.maintenance-item strong,.document-card strong,.expense-row strong,.subtask-list span,.task-subtasks span){text-align:-webkit-match-parent;text-align:match-parent}
 /* Typing: fields follow what is typed */
 input:not([type]),input[type=text],input[type=search],textarea{unicode-bidi:plaintext}

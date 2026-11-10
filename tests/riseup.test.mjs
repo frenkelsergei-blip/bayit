@@ -65,6 +65,8 @@ test('sync stores rows once, updates them, keeps category edits and removes rows
   assert.deepEqual(calls.slice(0,2),['/api/external/transactions?cashflowMonth=2026-11','/api/external/transactions?cashflowMonth=2026-10']);
   const rows=()=>e.DB.db.prepare("SELECT * FROM finance_transactions WHERE import_id='riseup:mom' ORDER BY description").all();
   assert.equal(rows().length,3);assert.ok(rows().every(r=>r.visibility==='selected'&&r.allowed_ids==='["dad"]'));
+  // Migration 0018: the institution stays in card_issuer and the RiseUp nickname goes to account_label.
+  assert.ok(rows().every(r=>r.card_issuer==='max'&&r.account_label==='Max'&&r.account==='hash-1'));
   e.DB.db.prepare("UPDATE finance_transactions SET category='dining' WHERE description='שופרסל דיל' AND month='2026-10'").run();
   months['2026-10']=[tx('a1',{amount:260})];fakeRiseup(months);
   const second=await syncRiseup(e,{householdId:'h1',memberId:'mom',token:TOKEN,visibility:'selected',allowedIds:['dad'],months:2,adults:['mom','dad']},NOW);

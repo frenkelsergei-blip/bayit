@@ -71,7 +71,7 @@ export function NotificationInbox({app:a,close,ui:{Button,Badge,Tabs,Avatar,Icon
     </SwipeRow>)}
     {!shown.length&&<div className="notifications-empty" role="status"><CheckCircle size={42}/><h3>{emptyTitle}</h3><p>{emptyDetail}</p>{!busy&&filter!=='all'&&items.length>0&&<Button secondary onClick={()=>setFilter('all')}>{a.T('Show all notifications','הצגת כל ההתראות')}</Button>}</div>}
    </div>
-   <footer><small>{a.T('Your in-app inbox. Phone and Telegram delivery need a configured service.','תיבת העדכונים שלכם באפליקציה. משלוח לטלפון ולטלגרם דורש הגדרת שירות.')}</small><div><Button quiet icon={Bell} onClick={()=>{close();a.go('settings/notifications')}}>{a.T('Notification settings','הגדרות התראות')}</Button><Button quiet icon={Sparkle} onClick={()=>{close();a.go('ai/suggestions')}}>{a.T('Daily suggestions','הצעות יומיות')}</Button></div></footer>
+   <footer><small>{a.T('Your in-app inbox. Phone and Telegram delivery need a configured service.','תיבת העדכונים שלכם באפליקציה. משלוח לטלפון ולטלגרם דורש הגדרת שירות.')}</small><div><Button quiet icon={Bell} onClick={()=>{close();a.go('settings/notifications')}}>{a.T('Notification settings','הגדרות התראות')}</Button>{a.features?.route('ai')!==false&&<Button quiet icon={Sparkle} onClick={()=>{close();a.go('ai/suggestions')}}>{a.T('Daily suggestions','הצעות יומיות')}</Button>}</div></footer>
   </section>
  </div>,document.body)
 }

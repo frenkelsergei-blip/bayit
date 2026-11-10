@@ -14,7 +14,9 @@ let pending=0;
 export function trackSave(saving,fx){
  if(!saving){fxBus.emit('save','local');if(fx)fxBus.emit('celebrate',fx);return}
  pending++;fxBus.emit('save','saving');
- saving.then(()=>{pending=Math.max(0,pending-1);if(!pending)fxBus.emit('save','saved');if(fx)fxBus.emit('celebrate',fx)},()=>{pending=Math.max(0,pending-1);fxBus.emit('save','failed');fxBus.emit('failed')});
+ saving.then(()=>{pending=Math.max(0,pending-1);if(!pending)fxBus.emit('save','saved');if(fx)fxBus.emit('celebrate',fx)},error=>{pending=Math.max(0,pending-1);
+  // Offline: the change is kept on this device and sent when the connection returns. Not "saved" yet, not a failure either.
+  if(error?.queued){fxBus.emit('save','queued');return}fxBus.emit('save','failed');fxBus.emit('failed')});
 }
 
 export const FX_STYLES=['calm','playful','party'];
@@ -142,8 +144,8 @@ export function SaveStatus({T,cloud}){
  const [state,setState]=useState('idle');
  useEffect(()=>{let timer;const off=fxBus.on((type,value)=>{if(type!=='save')return;clearTimeout(timer);setState(value);if(value!=='saving')timer=setTimeout(()=>setState('idle'),value==='failed'?4500:1700)});return()=>{off();clearTimeout(timer)}},[]);
  if(state==='idle')return null;
- const label=state==='saving'?T('Saving…','שומרים…'):state==='failed'?T('Not saved','לא נשמר'):state==='local'?T('Saved on this device','נשמר במכשיר'):T('Saved','נשמר');
- const img=state==='saving'?'cloud-up':state==='failed'?'undo':'cloud-check',Glyph=state==='saving'?CloudArrowUp:state==='failed'?WarningCircle:CloudCheck;
+ const label=state==='saving'?T('Saving…','שומרים…'):state==='queued'?T('Waiting to sync','ממתין לסנכרון'):state==='failed'?T('Not saved','לא נשמר'):state==='local'?T('Saved on this device','נשמר במכשיר'):T('Saved','נשמר');
+ const img=state==='saving'||state==='queued'?'cloud-up':state==='failed'?'undo':'cloud-check',Glyph=state==='saving'||state==='queued'?CloudArrowUp:state==='failed'?WarningCircle:CloudCheck;
  return <span className={'save-status save-'+state} role="status" title={label}><img className="save-sprite" src={sprite(img)} alt=""/><Glyph className="save-glyph" size={20}/><span className="save-label">{label}</span>{state==='saving'&&<span className="save-dots" aria-hidden="true"><i/><i/><i/></span>}</span>;
 }
 

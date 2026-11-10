@@ -1,0 +1,13 @@
+/* One rule for things that float over the page (user request 2026-11-10: "the gap from the side and from the menu
+   must be the same"): the בית AI bubble, toasts and the offline/sync note sit --float-gap from the screen side and
+   --float-gap above the bottom menu, or above the screen's safe bottom edge (home indicator) when the menu is at the
+   top. --shell-nav-clearance is the measured menu height and already includes the iPhone home-indicator padding,
+   so it is never added twice. */
+:root{--float-gap:16px;--float-bottom:calc(env(safe-area-inset-bottom,0px) + var(--float-gap));--float-start:max(var(--float-gap),env(safe-area-inset-left,0px));--float-end:max(var(--float-gap),env(safe-area-inset-right,0px))}
+:root[data-nav-position=bottom]{--float-bottom:calc(var(--shell-nav-clearance,var(--shell-nav-height,68px)) + var(--float-gap))}
+[dir=rtl]{--float-start:max(var(--float-gap),env(safe-area-inset-right,0px));--float-end:max(var(--float-gap),env(safe-area-inset-left,0px))}
+/* Toasts: centred, one gap above the menu; above the bubble while it is shown. */
+html:root .toast{bottom:var(--float-bottom)}
+html:root[data-ai-bubble] .toast{bottom:calc(var(--float-bottom) + 62px + var(--float-gap))}
+/* The offline / sync note. */
+html:root .offline-banner,html:root[data-nav-position=bottom] .offline-banner{bottom:var(--float-bottom)}

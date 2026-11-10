@@ -1,0 +1,18 @@
+/* Voice questions (2026-11-10): the idle microphone is an ordinary 44px icon button; while recording a bar with live
+   level marks, a timer, the bin and Send takes the composer's width. Tokens only; reduced motion keeps it still. */
+.voice-input{display:contents}
+.voice-input .voice-mic{color:var(--bai,var(--primary))}
+.voice-input.recording,.voice-input.sending{display:flex;flex:1 1 100%;min-width:0;order:9}
+.voice-bar{display:flex;align-items:center;gap:8px;flex:1;min-width:0;min-height:44px;padding-inline:4px;border-radius:999px;background:var(--surface);border:1.5px solid color-mix(in srgb,var(--danger) 45%,var(--border))}
+.voice-wave{flex:1;min-width:0;display:flex;align-items:center;gap:3px;height:30px;overflow:hidden}
+.voice-wave b{display:block;flex:1 1 3px;max-width:4px;border-radius:2px;background:var(--danger);opacity:.85;transition:height .1s linear}
+.voice-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--danger);margin-inline-end:6px;animation:voice-pulse 1.2s ease-in-out infinite}
+.voice-time{font-weight:800;font-variant-numeric:tabular-nums;color:var(--danger);font-size:calc(15px * var(--text-scale,1));white-space:nowrap}
+.voice-send{background:var(--primary)!important;color:var(--onPrimary,#fff)!important;border-radius:50%}
+.voice-spin{animation:voice-spin 1s linear infinite}
+.voice-error{flex-basis:100%;order:10;color:var(--danger);font-weight:650;font-size:calc(13px * var(--text-scale,1))}
+@keyframes voice-pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--danger) 40%,transparent)}50%{box-shadow:0 0 0 6px transparent}}
+@keyframes voice-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.voice-dot,.voice-spin{animation:none}.voice-wave b{transition:none}}
+.voice-busy{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--primary);font-weight:800;font-size:calc(14px * var(--text-scale,1));min-width:0;text-align:center}
+.voice-input.sending .voice-bar{border-color:color-mix(in srgb,var(--primary) 45%,var(--border))}

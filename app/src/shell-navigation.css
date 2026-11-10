@@ -6,14 +6,15 @@
 .bayit-shell-header-inner{display:flex;align-items:center;gap:26px;height:100%;max-width:1536px;margin:0 auto;padding-inline:max(40px,env(safe-area-inset-left)) max(40px,env(safe-area-inset-right));direction:ltr}
 .bayit-shell-brand{display:flex;align-items:center;justify-content:center;flex:none;padding:0;border:0;background:transparent;color:inherit;min-height:44px}
 .bayit-shell-brand .bayit-brandmark{width:148px}
-.bayit-shell-family{display:flex;align-items:center;gap:13px;min-width:0;min-height:54px;max-width:370px;border:0;border-left:1px solid var(--border);padding:0 0 0 25px;background:transparent;color:var(--text);text-align:start;cursor:pointer}
+/* User request 2026-11-10: the logo sits beside the menu button and the family beside the bell on every layout. */
+.bayit-shell-family{display:flex;align-items:center;gap:13px;min-width:0;min-height:54px;max-width:370px;border:0;padding:0;margin-left:auto;background:transparent;color:var(--text);text-align:start;cursor:pointer}
 .bayit-shell-family-photo{display:flex;align-items:center;justify-content:center;flex:none;width:48px;height:48px}
 .bayit-shell-family-photo>.avatar{width:46px!important;height:46px!important;min-width:46px!important;max-width:46px!important;flex:0 0 46px;object-fit:cover;border-radius:50%;border:1px solid color-mix(in srgb,var(--text) 12%,transparent);box-shadow:0 2px 6px #00000010}
 .bayit-shell-family-text{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;line-height:1.2}
 .bayit-shell-family-text strong{font-weight:900;font-size:calc(19px * var(--font-adjust,1));overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:250px}
 .bayit-shell-family-text small{font-size:calc(13px * var(--font-adjust,1));font-weight:650;color:var(--muted)}
 .bayit-shell-family-caret{flex:none;align-self:center}
-.bayit-shell-utility{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:44px;direction:ltr}
+.bayit-shell-utility{margin-left:-12px;display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:44px;direction:ltr}
 .bayit-shell-utility>button{flex:none;min-width:44px;min-height:44px}
 .bayit-shell-utility>.bayit-shell-bell{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;padding:8px;background:transparent;color:var(--text)}
 .bayit-shell-menu-trigger{display:none;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;color:var(--text)}
@@ -55,7 +56,7 @@
  .bayit-shell-family-photo>.avatar{width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;flex-basis:38px}
  .bayit-shell-family-text strong{font-size:calc(16px * var(--font-adjust,1));max-width:170px}
  .bayit-shell-family-text small{font-size:calc(11px * var(--font-adjust,1))}
- .bayit-shell-utility{margin-left:0}
+ .bayit-shell-utility{margin-left:0;margin-right:0}
  .bayit-shell-nav-inner{gap:5px;padding:6px max(12px,env(safe-area-inset-right)) 6px max(12px,env(safe-area-inset-left))}
  .bayit-shell-nav-inner>button{gap:9px;min-height:52px;padding:8px 10px;font-size:calc(14px * var(--font-adjust,1) * var(--menu-scale,1));border-radius:16px}
  :root[data-shell=horizontal] .shell-v2>.main-content{padding-top:calc(var(--shell-header-height) + env(safe-area-inset-top) + 24px)!important;padding-inline:24px!important}
@@ -63,7 +64,7 @@
 }
 @media(max-width:600px){
  .bayit-shell-header-inner{gap:8px;padding-inline:max(12px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-right))}
- .bayit-shell-brand{margin-left:auto}
+ .bayit-shell-brand{margin-left:0}
  .bayit-shell-brand .bayit-brandmark{width:118px}
  .bayit-shell-family{margin-left:auto;gap:4px}
  .bayit-shell-family-text{display:none}

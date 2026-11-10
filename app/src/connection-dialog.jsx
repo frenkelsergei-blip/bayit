@@ -9,13 +9,16 @@ export const connectionNeedsIdentity=e=>e?.code==='REAUTH_REQUIRED'||e?.status==
 const Identity=createContext({recent:null,checking:false,guard:async()=>true,request:()=>{},rejected:()=>{}});
 export const useConnectionIdentity=()=>useContext(Identity);
 
-export function ConnectionDialog({a,title,icon:Icon,status,description,onClose,busy=false,children,compact=false}){
+// Header: icon, title, one plain line and the status; the body scrolls; an optional footer holds a short note and Close
+// (concept A, 2026-11-10). Phones open it full screen (connections-a.css).
+export function ConnectionDialog({a,title,icon:Icon,status,description,onClose,busy=false,children,compact=false,footer=null}){
  const id=useId(),close=useRef(null);
  useEffect(()=>{close.current?.focus({preventScroll:true})},[]);
  return createPortal(<div className="connection-dialog-backdrop" onPointerDown={e=>e.target===e.currentTarget&&!busy&&onClose()}>
   <section className={'connection-dialog'+(compact?' connection-dialog-compact':'')} role="dialog" aria-modal="true" aria-labelledby={id} dir={a.lang==='he'?'rtl':'ltr'} aria-busy={busy||undefined}>
-   <header className="connection-dialog-header"><div className="connection-dialog-heading">{Icon&&<span className="connection-dialog-icon"><Icon size={27}/></span>}<div><h2 id={id}>{title}</h2>{status}</div></div><button ref={close} type="button" className="icon-button connection-dialog-close" aria-label={a.T('Close','סגירה')} onClick={onClose} disabled={busy}><X size={25}/></button></header>
-   <div className="connection-dialog-body">{description&&<p className="connection-dialog-description">{description}</p>}{children}</div>
+   <header className="connection-dialog-header"><div className="connection-dialog-heading">{Icon&&<span className="connection-dialog-icon"><Icon size={27}/></span>}<div><h2 id={id}>{title}</h2>{description&&<p className="connection-dialog-description">{description}</p>}{status}</div></div><button ref={close} type="button" className="icon-button connection-dialog-close" aria-label={a.T('Close','סגירה')} onClick={onClose} disabled={busy}><X size={25}/></button></header>
+   <div className="connection-dialog-body">{children}</div>
+   {footer&&<footer className="connection-dialog-footer">{footer}</footer>}
   </section>
  </div>,document.body);
 }
@@ -26,7 +29,7 @@ export function ConnectionIdentityProvider({a,children}){
  const current=useRef(identity),generation=useRef(0),guardLock=useRef(false);
  const refresh=useCallback(async()=>{
   if(!a.cloud)return true;const epoch=generation.current;
-  try{const r=await fetch('/api/security/sessions',{headers:cloudHeaders(),cache:'no-store'});if(!r.ok)throw Error();const data=await r.json(),session=data.sessions?.find(s=>s.current),next={recent:!!data.recent,checking:false,expiresAt:session?.authenticated_at?session.authenticated_at+600000:0};if(epoch===generation.current){current.current=next;setIdentity(next)}return !!data.recent}
+  try{const r=await fetch('/api/security/sessions',{headers:cloudHeaders(),cache:'no-store'});if(!r.ok)throw Error();const data=await r.json(),session=data.sessions?.find(s=>s.current),next={recent:!!data.recent,checking:false,expiresAt:session?.authenticated_at&&data.recentWindowMs?session.authenticated_at+data.recentWindowMs:0};if(epoch===generation.current){current.current=next;setIdentity(next)}return !!data.recent}
   catch{if(epoch===generation.current){const next={recent:null,checking:false,failed:true};current.current=next;setIdentity(next)}return null}
  },[!!a.cloud,a.user]);
  useEffect(()=>{generation.current++;refresh();const focus=()=>refresh(),timer=setInterval(()=>{if(document.visibilityState==='visible')refresh()},60000);window.addEventListener('focus',focus);return()=>{generation.current++;clearInterval(timer);window.removeEventListener('focus',focus)}},[refresh]);

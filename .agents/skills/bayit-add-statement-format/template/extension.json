@@ -1,0 +1,17 @@
+{
+ "id": "my-bank",
+ "version": "1.0.0",
+ "name": {"en": "My Bank statements", "he": "דפי חשבון של הבנק שלי"},
+ "description": "Reads My Bank account statement PDFs in Expenses, reconciled with the printed totals.",
+ "seam": "statement-formats",
+ "minBayit": "1.56.0",
+ "files": [
+  "shared/extensions/my-bank.mjs",
+  "tests/extension-my-bank.test.mjs"
+ ],
+ "registry": [
+  {"seam": "statement-formats", "id": "my-bank", "file": "shared/extensions/my-bank.mjs", "export": "MY_BANK"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

@@ -10,12 +10,9 @@ html:root main.view-household>.page-actions .density-toggle{margin:0}
 html:root main.view-household>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
 html:root main.view-household>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
 
-/* Section tabs: one row, 20px below the title. */
+/* Section menu: the shared tile bar (navigation.css); Household only places it. */
 html:root main.view-household>.household-module-tabs{margin-inline:0;margin-bottom:0} /* top gap: page-header.css (--scale-gap-header) */
-html:root .view-household .household-module-tabs .tabs.nav-section{min-height:56px;height:auto;padding:5px;margin:0}
-html:root .view-household .household-module-tabs .tabs.nav-section>button{min-height:46px;height:auto;padding:5px 14px 5px 5px}
-html:root[dir=rtl] .view-household .household-module-tabs .tabs.nav-section>button{padding:5px 5px 5px 14px}
-html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:34px;height:34px}
+html:root .view-household .household-module-tabs .tabs.nav-section{margin:0}
 
 /* Intro text: body size, one short line under the tabs. */
 html:root .view-household .household-page-intro{font-size:calc(var(--scale-body) * var(--font-adjust,1));line-height:1.5;margin:16px 0 0;max-width:820px}
@@ -69,22 +66,10 @@ html:root .view-household .expense-toolbar>.button:first-of-type{margin-inline-s
 html:root .view-household .expense-toolbar .button{min-height:var(--scale-control);height:auto;padding:0 18px;font-size:calc(16px * var(--font-adjust,1));border-radius:999px;white-space:nowrap;margin-block:0}
 html:root .view-household .expense-toolbar .button svg{width:20px;height:20px}
 
-/* Tablet: Cards/List stays on the title row; tabs fit or scroll. */
-@media(max-width:1100px){
- html:root .view-household .household-module-tabs .tabs.nav-section{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}
- html:root .view-household .household-module-tabs .tabs.nav-section::-webkit-scrollbar{display:none}
- html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto}
-}
-/* Phones: the tabs are one row that scrolls sideways (not a 2-row grid); intro text follows the content. */
+/* Phones: intro text follows the content. */
 @media(max-width:700px){
  html:root main.view-household{column-gap:12px}
  html:root main.view-household>.page-actions{align-self:start}
- html:root main.view-household>.household-module-tabs{margin-inline:-4px}
- html:root .view-household .household-module-tabs .tabs.nav-section{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;border-radius:20px;min-height:0}
- html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto;flex-direction:row!important;align-items:center;gap:8px;min-height:44px;height:44px;padding:4px 12px 4px 4px;scroll-snap-align:start;font-size:calc(15px * var(--font-adjust,1))}
- html:root[dir=rtl] .view-household .household-module-tabs .tabs.nav-section>button{padding:4px 4px 4px 12px}
- html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:32px;height:32px}
- html:root .view-household .household-module-tabs .tabs.nav-section .nav-label{font-size:calc(15px * var(--font-adjust,1));-webkit-line-clamp:unset;display:block;white-space:nowrap;line-height:1.2}
  html:root .view-household :is(.pantry-reference,.maintenance-reference){display:flex;flex-direction:column}
  html:root .view-household .household-page-intro{order:99;margin-top:20px}
  html:root main.view-household>.household-page-intro{order:99}
@@ -92,10 +77,6 @@ html:root .view-household .expense-toolbar .button svg{width:20px;height:20px}
 }
 /* Short landscape phones: everything one notch tighter. */
 @media(max-height:520px) and (orientation:landscape){
- html:root .view-household .household-module-tabs .tabs.nav-section{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;min-height:0}
- html:root .view-household .household-module-tabs .tabs.nav-section>button{flex:0 0 auto;flex-direction:row!important;gap:8px;min-height:44px;height:44px;padding:4px 12px 4px 4px}
- html:root .view-household .household-module-tabs .tabs.nav-section .nav-label{font-size:calc(14px * var(--font-adjust,1));-webkit-line-clamp:unset;display:block;white-space:nowrap}
- html:root .view-household .household-module-tabs .tabs.nav-section .nav-icon{width:30px;height:30px}
  html:root .view-household :is(.pantry-reference,.maintenance-reference){display:flex;flex-direction:column}
  html:root .view-household .household-page-intro{order:99;margin-top:16px}
  html:root main.view-household>.household-page-intro{order:99}
@@ -182,8 +163,6 @@ html:root .view-household :is(.pantry-reference,.maintenance-reference)>.househo
 /* The intro (after the list on phones) keeps a section-sized gap. */
 html:root .view-household .household-page-intro{margin-bottom:0}
 
-/* Section tab bar hugs its tabs on every size (it scrolls when it is too wide), as on desktop. */
-html:root .view-household .household-module-tabs .tabs.nav-section{width:fit-content;max-width:100%}
 
 /* Phones: a heading or view switch comes before its actions; page actions fill their row (as on Tasks). */
 @media(max-width:700px){
@@ -314,8 +293,6 @@ html:root .view-household .month-field>input[type=month]:not(#household-none){in
 /* Short landscape after the shared header (page-header.css keeps the subtitle on every layout): the Household rows
    are as compact as their 44px controls allow, so the first content still starts above the menu. */
 @media(max-height:520px) and (orientation:landscape){
- html:root .view-household .household-module-tabs .tabs.nav-section{min-height:0;padding:1px}
- html:root .view-household .household-module-tabs .tabs.nav-section>button{height:var(--scale-control);min-height:var(--scale-control)}
  html:root .view-household .tabs.nav-view{padding:0;min-height:0}
  html:root .view-household .documents-toolbar{min-height:0}
  html:root .view-household .expense-toolbar{row-gap:8px!important}
@@ -330,12 +307,7 @@ html:root .view-household .expense-toolbar>.tabs.nav-filter{padding:0;min-height
    its row to the meals themselves; the chosen day stays highlighted in the week. */
 @media(max-width:700px){html:root main.view-household>.household-toolbar~.split>section>.section-title{display:none}}
 
-/* Section bar inset (user review, 2026-11-08): the active pill sits the same 6px from the bar's top, bottom and start,
-   and the corners are concentric (bar radius = pill radius + inset). Applies on every size. */
-html:root .view-household .household-module-tabs .tabs.nav-section.nav-section{padding:6px!important;gap:4px;border-radius:22px!important;scroll-padding-inline:6px;align-items:center;box-sizing:border-box}
-html:root .view-household .household-module-tabs .tabs.nav-section.nav-section>button{border-radius:16px!important;margin:0!important}
 
 /* Data first (round 3, H-19): the short intro paragraph comes after the content on every size, never above the data. */
 html:root .view-household .household-page-intro.household-page-intro{order:99;grid-column:1/-1!important;grid-row:auto!important;margin-top:var(--scale-gap-section,24px)!important}
 @media(min-width:701px) and (min-height:521px),(min-width:701px) and (orientation:portrait){html:root .view-household .maintenance-reference{display:flex;flex-direction:column;align-items:stretch}}
-@media(max-height:520px) and (orientation:landscape){html:root .view-household .household-module-tabs .tabs.nav-section.nav-section{padding:3px!important;border-radius:17px!important;scroll-padding-inline:3px}html:root .view-household .household-module-tabs .tabs.nav-section.nav-section>button{min-height:42px!important;height:42px!important;border-radius:14px!important}}

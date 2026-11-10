@@ -1,0 +1,124 @@
+/* First-run setup (features registry, 2026-11-09). Full screen on every size, the app's tokens, gentle motion:
+   each step slides in from the reading end, tiles pop in one after another, the progress bar fills, and the
+   rays burst at the end. Reduced motion and the "calm" animation setting keep only a fade. */
+.family-setup{--setup-soft:color-mix(in srgb,var(--border) 45%,var(--surface));position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;background:var(--bg);color:var(--text);overflow:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+.family-setup::before{content:'';position:absolute;inset:auto -10% -30% -10%;height:60%;background:radial-gradient(60% 60% at 50% 100%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%);pointer-events:none}
+.setup-top{flex:none;display:flex;align-items:center;gap:16px;padding:18px clamp(16px,4vw,40px);position:relative;z-index:1}
+.setup-logo{display:flex;align-items:center;height:40px}.setup-logo img{height:40px;width:auto}
+.setup-steps{list-style:none;margin:0 0 0 auto;padding:0;display:flex;gap:8px}
+[dir=rtl] .setup-steps{margin:0 auto 0 0}
+.setup-steps li{display:flex;align-items:center;gap:8px;font-weight:800;font-size:calc(14px * var(--font-adjust,1));color:var(--muted);padding-block:5px;padding-inline:5px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border);white-space:nowrap}
+.setup-steps li>span{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--setup-soft);font-size:13px}
+.setup-steps li.current{color:var(--text);border-color:var(--primary)}.setup-steps li.current>span{background:var(--primary);color:#fff}
+.setup-steps li.done>span{background:var(--accent);color:#000024}
+.setup-close{flex:none}
+.setup-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:8px clamp(16px,4vw,40px) 32px;position:relative;z-index:1;scrollbar-width:none}
+.setup-body::-webkit-scrollbar{display:none}
+.setup-card{width:min(760px,100%);background:var(--surface);border:1px solid var(--border);border-radius:32px;padding:32px 40px 34px;box-shadow:0 18px 50px #00002414}
+.setup-wide{width:min(1120px,100%)}
+.family-setup h1{margin:0;font-size:calc(34px * var(--font-adjust,1));font-weight:900;line-height:1.2;outline:none}
+.setup-hint{margin:10px 0 0;color:var(--muted);font-size:calc(16px * var(--font-adjust,1));line-height:1.5;font-weight:600}
+.setup-progress{height:8px;border-radius:4px;background:var(--setup-soft);overflow:hidden}.setup-progress span{display:block;height:100%;background:var(--primary);border-radius:4px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.setup-count{margin:10px 0 0;font-size:calc(13.5px * var(--font-adjust,1));font-weight:800;color:var(--muted)}
+.setup-qicon{display:grid;place-items:center;width:64px;height:64px;border-radius:22px;background:var(--yellow);margin:22px 0 14px}
+.setup-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+.setup-options.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+.setup-option{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;min-height:118px;padding:16px 12px;border-radius:22px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-size:calc(16px * var(--font-adjust,1));cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.setup-option strong{font-weight:800;line-height:1.25}
+.setup-option:active{transform:scale(.98)}
+.setup-option-icon,.setup-tile-icon{flex:none;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--setup-soft);color:var(--primary);transition:background .2s,color .2s}
+.setup-option.on{border-color:var(--primary);background:var(--selected);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
+.setup-option.on .setup-option-icon{background:var(--primary);color:#fff}
+.setup-check{position:absolute;top:10px;inset-inline-end:10px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--border);color:transparent;background:var(--surface)}
+.on>.setup-check{background:var(--primary);border-color:var(--primary);color:#fff}
+.setup-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(16px,4vw,40px) calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--surface);position:relative;z-index:2}
+.setup-foot .button{min-height:48px;white-space:nowrap;gap:8px}
+.setup-skip{background:none;border:0;color:var(--primary);font:inherit;font-weight:800;font-size:calc(15px * var(--font-adjust,1));text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px;padding:0 8px;text-align:center}
+.setup-count-pill{color:var(--muted);font-weight:800}
+.setup-group h2{margin:22px 0 10px;font-size:calc(13px * var(--font-adjust,1));font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+[dir=rtl] .setup-group h2{letter-spacing:0;font-size:calc(14px * var(--font-adjust,1))}
+.setup-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.setup-tile{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 12px 14px;border-radius:22px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;cursor:pointer;min-height:150px;transition:border-color .2s,background .2s}
+.setup-tile strong{font-size:calc(16px * var(--font-adjust,1));font-weight:800}
+.setup-tile small{font-size:calc(13px * var(--font-adjust,1));color:var(--muted);line-height:1.35;font-weight:600}
+.setup-tile em{font-style:normal;margin-top:4px;display:inline-flex;align-items:center;gap:5px;font-size:calc(12px * var(--font-adjust,1));font-weight:800;color:#5C4300;background:#FFE9A8;border-radius:999px;padding:3px 9px}
+:root[data-theme=dark] .setup-tile em{color:#FFE7A0;background:#4A3C1C}
+.setup-tile .setup-tile-icon{color:var(--muted)}
+.setup-tile.on{border-color:var(--primary);background:var(--selected)}.setup-tile.on .setup-tile-icon{background:var(--primary);color:#fff}
+.setup-tile[aria-disabled=true]{cursor:default}
+.setup-connect{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.setup-conn{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;text-align:start;cursor:pointer;flex-wrap:wrap}
+.setup-conn .setup-tile-icon{background:var(--selected);color:var(--primary)}
+.setup-conn-text{flex:1 1 200px;min-width:0}.setup-conn-text strong{display:block;font-size:calc(16.5px * var(--font-adjust,1));font-weight:800}.setup-conn-text small{display:block;color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1));line-height:1.4;margin-top:3px;font-weight:600}
+.setup-status{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;font-size:calc(13px * var(--font-adjust,1));font-weight:800;padding:5px 11px;border-radius:999px;background:var(--setup-soft);color:var(--muted)}
+.setup-status.ok{background:var(--green);color:#1F5A2E}:root[data-theme=dark] .setup-status.ok{color:#BFE7C6}
+.setup-status.todo{background:#FFE9A8;color:#5C4300}:root[data-theme=dark] .setup-status.todo{background:#4A3C1C;color:#FFE7A0}
+.setup-conn-go{flex:none;min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;border:1.5px solid var(--border);font-weight:800;font-size:calc(15px * var(--font-adjust,1));white-space:nowrap}
+.setup-conn-go.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.setup-done{display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:16px}
+.setup-burst{position:relative;width:120px;height:120px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:#000024;margin:10px 0 18px}
+/* Decorative rays use physical sides, so Hebrew never shows them reversed (user report 2026-11-09). */
+.setup-burst img{position:absolute;width:56px;top:-26px}.setup-burst .setup-ray-right{right:-30px}.setup-burst .setup-ray-left{left:-30px;transform:scaleX(-1)}
+.setup-done-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 6px;max-width:520px}
+.setup-done-icons span{width:40px;height:40px;border-radius:13px;background:var(--selected);color:var(--primary);display:grid;place-items:center}
+.setup-tips{list-style:none;padding:0;margin:14px 0 22px;display:grid;gap:10px;text-align:start;max-width:520px}
+.setup-tips li{display:flex;gap:12px;align-items:flex-start;font-size:calc(15px * var(--font-adjust,1));line-height:1.45;color:var(--muted);font-weight:600}.setup-tips li svg{color:var(--primary);flex:none;margin-top:1px}
+.setup-big{min-height:56px;padding:0 34px;font-size:calc(18px * var(--font-adjust,1));gap:10px}
+/* Guide */
+.setup-guide-backdrop{position:fixed;inset:0;z-index:2100;background:#00002455;display:grid;place-items:center;padding:24px}
+.setup-guide{width:min(760px,100%);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;background:var(--surface);border-radius:28px;box-shadow:0 18px 50px #00000033;overflow:hidden}
+.setup-guide>header{display:flex;gap:14px;align-items:flex-start;padding:22px 24px 12px}.setup-guide>header>div{flex:1;min-width:0}
+.setup-guide h2{margin:0;font-size:calc(24px * var(--font-adjust,1));font-weight:900;outline:none}.setup-guide>header p{margin:4px 0 0;color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.45;font-weight:600}
+.setup-guide>header .setup-tile-icon{background:var(--selected);color:var(--primary)}
+.setup-guide-body{flex:1;min-height:0;overflow:auto;padding:4px 24px 16px;display:grid;gap:14px;align-content:start}
+.setup-need{display:flex;flex-wrap:wrap;gap:8px}.setup-need span{display:inline-flex;gap:6px;align-items:center;padding:6px 12px;border-radius:999px;background:var(--setup-soft);font-size:calc(13.5px * var(--font-adjust,1));font-weight:800}.setup-need svg{color:var(--primary)}
+.setup-support{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.setup-support>div{border-radius:18px;padding:12px 14px;background:var(--green)}.setup-support>.no{background:color-mix(in srgb,var(--danger) 14%,var(--surface))}
+.setup-support strong{display:flex;gap:6px;align-items:center;font-size:calc(14.5px * var(--font-adjust,1));font-weight:900}.setup-support ul{margin:6px 0 0;padding-inline-start:20px;font-size:calc(14px * var(--font-adjust,1));line-height:1.5}
+.setup-guide-steps{list-style:none;margin:0;padding:0}
+.setup-guide-steps li{display:flex;gap:14px;padding:12px 0;position:relative}
+.setup-guide-steps li:not(:last-child)::before{content:'';position:absolute;top:48px;bottom:-4px;inset-inline-start:17px;width:2px;background:var(--border)}
+.setup-step-n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--primary);color:#fff;position:relative;z-index:1}
+.setup-guide-steps strong{display:block;font-size:calc(16.5px * var(--font-adjust,1));font-weight:800}.setup-guide-steps small{display:block;color:var(--muted);font-size:calc(14px * var(--font-adjust,1));line-height:1.45;margin-top:2px;font-weight:600}
+.setup-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.setup-action{min-height:44px;gap:6px;text-decoration:none}
+.setup-guide-foot{margin:0;color:var(--muted);font-size:calc(13.5px * var(--font-adjust,1))}
+.setup-guide>footer{padding:12px 24px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+/* Motion */
+@keyframes setup-in{from{opacity:0;transform:translateX(calc(var(--setup-from,1) * 28px))}to{opacity:1;transform:none}}
+@keyframes setup-pop{from{opacity:0;transform:scale(.92) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes setup-burst{from{opacity:0;transform:scale(.4) rotate(-18deg)}60%{opacity:1;transform:scale(1.08)}to{transform:none}}
+.setup-body>[data-dir="1"]{--setup-from:1}.setup-body>[data-dir="-1"]{--setup-from:-1}
+[dir=rtl] .setup-body>[data-dir="1"]{--setup-from:-1}[dir=rtl] .setup-body>[data-dir="-1"]{--setup-from:1}
+.setup-body>.setup-card,.setup-body>.setup-wide{animation:setup-in .38s cubic-bezier(.2,.8,.2,1) both}
+.setup-option,.setup-tile,.setup-conn,.setup-done-icons span{animation:setup-pop .32s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i,0) * 35ms + 80ms)}
+.setup-burst{animation:setup-burst .6s cubic-bezier(.2,1.6,.4,1) both}
+@media (prefers-reduced-motion:reduce){.family-setup *{animation-duration:.01ms!important;animation-delay:0ms!important;transition:none!important}}
+:root[data-fx=calm] .family-setup *{animation:none!important}
+/* Phone */
+@media (max-width:700px){
+ .setup-top{flex-wrap:wrap;padding:12px 16px;gap:10px}.setup-logo{height:32px}.setup-logo img{height:32px}
+ .setup-steps{order:3;width:100%;margin:0;justify-content:center}.setup-steps li{font-size:calc(12.5px * var(--font-adjust,1));padding-inline:4px 10px}.setup-steps li>span{width:22px;height:22px}
+ .setup-close{margin-inline-start:auto}
+ .setup-card{padding:20px 18px 22px;border-radius:26px}.family-setup h1{font-size:calc(26px * var(--font-adjust,1))}
+ .setup-qicon{width:52px;height:52px;margin:16px 0 10px}
+ .setup-options,.setup-options.six{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.setup-option{min-height:104px;padding:12px 8px;font-size:calc(15px * var(--font-adjust,1))}
+ .setup-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.setup-tile{padding:14px 10px 12px}.setup-tile strong{font-size:calc(15px * var(--font-adjust,1))}.setup-tile small{font-size:calc(12.5px * var(--font-adjust,1))}
+ .setup-connect{grid-template-columns:1fr;gap:10px}.setup-conn{padding:12px 14px;gap:10px}.setup-conn-text{flex-basis:calc(100% - 64px)}.setup-status{margin-inline-start:62px}.setup-conn-go{margin-inline-start:auto}
+ .setup-foot{padding:10px 14px calc(12px + env(safe-area-inset-bottom))}.setup-skip{font-size:calc(13.5px * var(--font-adjust,1))}
+ .setup-guide-backdrop{padding:0}.setup-guide{width:100%;height:100dvh;max-height:none;border-radius:0}
+}
+/* Short landscape phones */
+@media (max-height:520px) and (orientation:landscape){
+ .setup-top{padding:6px 24px}.setup-logo,.setup-logo img{height:26px}.setup-steps li{font-size:12px;padding-block:3px}.setup-steps li>span{width:20px;height:20px}
+ .setup-body{padding:4px 24px 16px}.setup-card{width:100%;padding:12px 20px 14px;border-radius:22px}.family-setup h1{font-size:calc(21px * var(--font-adjust,1))}
+ .setup-progress,.setup-count,.setup-qicon{display:none}.setup-hint{font-size:13px;margin-top:4px}
+ .setup-options,.setup-options.six{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}.setup-option{min-height:74px;padding:8px 6px;font-size:13px;gap:6px}.setup-option-icon{width:34px;height:34px;border-radius:12px}
+ .setup-tiles{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.setup-tile{min-height:0;padding:8px 6px;gap:3px}.setup-tile small{font-size:11.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.setup-tile em{font-size:11px;padding:2px 7px}.setup-tile .setup-tile-icon{width:32px;height:32px}
+ .setup-connect{gap:8px;margin-top:10px}.setup-conn{padding:8px 10px;flex-wrap:nowrap}.setup-conn-text small{display:none}.setup-conn .setup-tile-icon{width:32px;height:32px}.setup-status{font-size:12px;padding:4px 9px}
+ .setup-foot{padding:6px 24px calc(8px + env(safe-area-inset-bottom))}.setup-foot .button{min-height:44px}
+ .setup-done{margin-top:4px}.setup-burst{width:64px;height:64px;margin:4px 0 6px}.setup-burst img{width:30px;top:-14px}.setup-done-icons,.setup-tips{display:none}
+}
+/* Keep status pills and actions at their own size inside the wrapping connect cards (phone review 2026-11-09). */
+.family-setup .setup-conn>.setup-status,.family-setup .setup-conn>.setup-conn-go{align-self:center;height:auto;min-height:0;line-height:1.25;padding-block:6px}
+.family-setup .setup-conn>.setup-conn-go{min-height:40px;padding-block:0}
+.family-setup .setup-top{border:0;box-shadow:none}

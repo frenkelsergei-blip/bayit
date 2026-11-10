@@ -1,0 +1,20 @@
+/* Settings › Features (features registry, 2026-11-09). Rows follow the shared section anatomy: icon tile,
+   plain name + one-line description, one control at the reading end. */
+html:root .feature-settings .settings-grid{align-items:start}
+.feature-settings ul{list-style:none;margin:0;padding:0}
+.feature-group{display:grid;gap:2px}
+.feature-group h4{margin:10px 0 0;font-size:calc(13px * var(--font-adjust,1));font-weight:900;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+[dir=rtl] .feature-group h4{letter-spacing:0;font-size:calc(14px * var(--font-adjust,1))}
+.feature-row{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 0;border-top:1px solid var(--border)}
+.feature-group h4+ul>.feature-row:first-child,.feature-settings-mine ul>.feature-row:first-child{border-top:0}
+.feature-row-icon{flex:none;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--selected);color:var(--primary)}
+.feature-row.off .feature-row-icon{background:color-mix(in srgb,var(--border) 60%,transparent);color:var(--muted)}
+.feature-row-text{flex:1;min-width:0;display:grid;gap:2px}
+.feature-row-text strong{font-size:calc(17px * var(--font-adjust,1));font-weight:800;line-height:1.25}
+.feature-row-text small{font-size:calc(14px * var(--font-adjust,1));color:var(--muted);line-height:1.35;font-weight:600}
+.feature-row.off .feature-row-text strong{color:var(--muted)}
+.feature-row>.switch{flex:none}
+.feature-pill{flex:none;min-height:32px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;font-size:calc(13px * var(--font-adjust,1));font-weight:800;color:var(--muted);background:color-mix(in srgb,var(--border) 55%,transparent);white-space:nowrap}
+.feature-pill.on{color:var(--primary);background:var(--selected)}
+.feature-row .feature-add{flex:none;min-height:44px;padding-inline:16px;gap:6px;white-space:nowrap}
+.feature-settings-helper{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 0}.feature-settings-helper .button{min-height:44px;gap:8px}.feature-settings-helper>span{color:var(--muted);font-weight:600;font-size:calc(14px * var(--font-adjust,1))}

@@ -1,0 +1,17 @@
+{
+ "id": "example-bank",
+ "version": "1.0.0",
+ "name": {"en": "Example Bank statements", "he": "דפי חשבון של בנק לדוגמה"},
+ "description": "Reads the fictional Bayit Example Bank statement. A test fixture for the extension format; never install it in a family's copy.",
+ "seam": "statement-formats",
+ "minBayit": "1.56.0",
+ "files": [
+  "shared/extensions/example-bank.mjs",
+  "tests/extension-example-bank.test.mjs"
+ ],
+ "registry": [
+  {"seam": "statement-formats", "id": "example-bank", "file": "shared/extensions/example-bank.mjs", "export": "EXAMPLE_BANK"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ArrowRight,FileText,PushPin,Package,Wrench,ForkKnife,ShieldCheck} from '@phosphor-icons/react';
 import {visiblePins,recordRoute} from '../../shared/household-pins.mjs';
+import {recordOn} from '../../shared/features.mjs';
 import {serviceDue} from '../../shared/maintenance-service.mjs';
 import {policyStatus} from '../../shared/insurance.mjs';
 import {PinToToday} from './household-pins';
@@ -8,7 +9,7 @@ import './household-widgets.css';
 export const HOUSEHOLD_WIDGETS=['pins','documents','pantry','maintenance','meals','insurance'];
 export function householdWidgetLabel(a,key){return {pins:a.T('Pinned to Today','נעוצים ביום שלי'),documents:a.T('Documents at hand','מסמכים בהישג יד'),pantry:a.T('Pantry · running low','מזווה · עומד להיגמר'),maintenance:a.T('Home care coming up','טיפול בבית בקרוב'),meals:a.T('Meals for the day','ארוחות היום'),insurance:a.T('Insurance dates to review','ביטוחים שכדאי לבדוק')}[key]}
 export function HouseholdWidget({app:a,kind,date,ui:{Icon}}){
- const visible=Object.fromEntries(['documents','pantry','tasks','meals','events','notes','insurances'].map(c=>[c,a.visible(a.data[c]||[]).filter(r=>!r.deletedAt)])),pins=visiblePins(a.data,a.user,visible),adult=a.member(a.user).role!=='child';let rows=[],route='',empty='',Glyph=PushPin;
+ const visible=Object.fromEntries(['documents','pantry','tasks','meals','events','notes','insurances'].map(c=>[c,a.visible(a.data[c]||[]).filter(r=>!r.deletedAt)])),pins=visiblePins(a.data,a.user,visible).filter(p=>!a.features||recordOn(a.features,p.collection,p.record,a.user)),adult=a.member(a.user).role!=='child';let rows=[],route='',empty='',Glyph=PushPin;
  if(kind==='pins'){rows=pins;route='household/documents';empty=a.T('Pin a document, meal, pantry item or home-care task to keep it here. Pins are personal.','נעצו מסמך, ארוחה, פריט במזווה או משימת תחזוקה כדי למצוא אותם כאן. הנעיצות אישיות.');}
  if(kind==='documents'){rows=visible.documents.slice().sort((x,y)=>Number(pins.some(p=>p.collection==='documents'&&p.id===y.id))-Number(pins.some(p=>p.collection==='documents'&&p.id===x.id))||String(y.createdAt||y.date||'').localeCompare(x.createdAt||x.date||'')).map(record=>({collection:'documents',id:record.id,record}));route='household/documents';Glyph=FileText;empty=a.T('Keep important files here. Upload a document or pin one for quick access.','שמרו כאן קבצים חשובים. העלו מסמך או נעצו מסמך לגישה מהירה.');}
  if(kind==='pantry'){rows=visible.pantry.filter(r=>Number(r.quantityValue)<Number(r.minimum??2)).sort((x,y)=>Number(x.quantityValue)-Number(y.quantityValue)).map(record=>({collection:'pantry',record}));route='household/pantry';Glyph=Package;empty=a.T('Nothing is marked low in your saved inventory. Keep quantities and minimums current.','אין כרגע פריטים שמסומנים כחסרים במלאי השמור. עדכנו כמויות ומלאי מינימלי.');}

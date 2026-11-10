@@ -9,21 +9,9 @@ html:root{--settings-gap:22px}
 html:root .main-content:is(.view-settings,.view-profile,.view-family)>.page-heading h1{font-size:calc(var(--scale-title) * var(--font-adjust,1));line-height:1.15;letter-spacing:-.5px}
 html:root .main-content:is(.view-settings,.view-profile,.view-family)>.page-heading p{font-size:calc(var(--scale-subtitle) * var(--font-adjust,1));margin-top:8px;line-height:1.35;font-weight:650}
 
-/* Settings sections bar: one row of the shared section tiles at every size (it used to wrap to a second row on
-   desktop and fill two rows of tiles on phones). Phones scroll the row sideways; the chosen tile stays in view. */
-html:root .main-content.view-settings>.tabs.nav-section.nav-section{display:grid;grid-template-columns:repeat(var(--nav-count,8),minmax(0,1fr));grid-auto-flow:row;width:100%;max-width:100%;margin-block:18px 24px}
-html:root .main-content.view-settings>.tabs.nav-section.nav-section>button{flex-direction:column;justify-content:flex-start;min-height:74px;padding:9px 4px 8px;gap:6px;font-size:calc(13px * var(--font-adjust,1));line-height:1.15;white-space:normal}
-html:root .main-content.view-settings>.tabs.nav-section.nav-section>button .nav-label{-webkit-line-clamp:2}
-@media(max-width:820px){
- html:root .main-content.view-settings>.tabs.nav-section.nav-section{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(80px,1fr);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none}
- html:root .main-content.view-settings>.tabs.nav-section.nav-section::-webkit-scrollbar{display:none}
- html:root .main-content.view-settings>.tabs.nav-section.nav-section>button{scroll-snap-align:start;min-height:68px;font-size:calc(11.5px * var(--font-adjust,1))}
-}
-@media(max-height:520px) and (orientation:landscape){
- html:root .main-content.view-settings>.tabs.nav-section.nav-section{margin-block:12px 16px}
- html:root .main-content.view-settings>.tabs.nav-section.nav-section>button{min-height:62px;padding:6px 3px;gap:4px}
- html:root .main-content.view-settings>.tabs.nav-section .nav-icon{width:30px;height:30px}
-}
+/* Settings sections bar: the shared section tiles (navigation.css), one row; it scrolls sideways when it does not fit. */
+html:root .main-content.view-settings>.tabs.nav-section.nav-section{margin-block:18px 24px}
+@media(max-height:520px) and (orientation:landscape){html:root .main-content.view-settings>.tabs.nav-section.nav-section{margin-block:12px 16px}}
 
 /* Columns of sections: two on wide screens, one below 1100px. */
 html:root .settings-v2{display:grid;gap:var(--settings-gap);min-width:0}
@@ -43,6 +31,10 @@ html:root .settings-v2 .switch-row{margin:0;min-height:44px;font-size:calc(16px 
 html:root .settings-v2 .form-subgroup{display:grid;gap:14px;padding-top:18px;border-top:1px solid var(--border);min-width:0}
 html:root .settings-v2 .form-subgroup>.field-label{margin:0}
 html:root .settings-v2 .two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+/* Align the controls even when one of the translated labels wraps. Keep the native picker. */
+html:root .settings-notifications .quiet-hours-fields>label{align-self:stretch;grid-template-rows:1fr auto}
+html:root .settings-notifications .quiet-hours-fields input[type=time]{height:var(--scale-control,44px);padding-block:0}
+html:root .settings-notifications .quiet-hours-fields input[type=time]::-webkit-date-and-time-value{line-height:normal;text-align:inherit}
 html:root .settings-v2 .appearance-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 @media(max-width:420px){html:root .settings-v2 .appearance-row{grid-template-columns:minmax(0,1fr)}}
 html:root .settings-v2 .settings-shortcuts{display:flex;flex-wrap:wrap;gap:10px;margin:0}
@@ -114,7 +106,10 @@ html:root .settings-v2 .security-settings .actions{display:flex;align-items:cent
 
 /* Family: the photo, member list, add form, invitations and Share Bayit sit inside their sections without a
    second card or heading of their own. */
-html:root .settings-v2 .family-photo-card{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:18px;margin:0;padding:0;border:0;background:none;box-shadow:none}
+html:root .settings-v2 .family-photo-card{--family-portrait-size:144px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:18px;margin:0;padding:0;border:0;background:none;box-shadow:none}
+html:root .settings-v2 .family-photo-edit{width:var(--family-portrait-size);height:var(--family-portrait-size)}
+html:root .settings-v2 .family-photo-edit:has(>input){margin-block-end:12px}
+html:root .settings-v2 .family-photo-edit>span:not(.avatar){inset-inline:0;bottom:-12px;margin-inline:auto;width:var(--scale-control,44px);height:var(--scale-control,44px)}
 html:root .settings-v2 .family-photo-card>div{display:grid;gap:8px;min-width:0}
 html:root .settings-v2 .family-photo-card p{margin:0;color:var(--muted);font-size:calc(14.5px * var(--font-adjust,1));line-height:1.45}
 html:root .settings-v2 .family-photo-card .family-photo-title{margin:0}
@@ -220,7 +215,17 @@ html:root .settings-v2 .conn-list .conn-actions .button{min-height:44px;padding:
 html:root .main-content.view-settings .connections-hub>.conn-intro{max-width:none;margin:0 0 4px}
 html:root .settings-v2 .family-photo-card{text-align:start;justify-items:stretch}
 html:root .settings-v2 .family-photo-card>div{justify-items:start;align-items:start}
-@media(max-width:480px){html:root .settings-v2 .family-photo-card{grid-template-columns:auto minmax(0,1fr);gap:14px}html:root .settings-v2 .family-photo-card .avatar{width:96px!important;height:96px!important}html:root .settings-v2 .family-photo-actions{flex-direction:column;align-items:flex-start}}
+@media(max-width:700px){
+ html:root .settings-v2 .family-photo-card{--family-portrait-size:120px}
+}
+@media(max-width:480px){
+ html:root .settings-v2 .family-photo-card{gap:14px}
+ html:root .settings-v2 .family-photo-actions{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:374px){
+ html:root .settings-v2 .family-photo-card{grid-template-columns:minmax(0,1fr)}
+ html:root .settings-v2 .family-photo-edit{justify-self:center}
+}
 
 /* Kids parent area inside its section: the section heading replaces the panel's own card and heading. */
 html:root .settings-v2.settings-kids .kids-parent-panel{margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;display:grid;gap:16px}
@@ -243,9 +248,6 @@ html:root .connection-dialog-body h2.icon-heading{gap:0}
 /* Phone landscape: a compact one-row bar and no subtitle, so the first section shows on the first screen. */
 @media(max-height:520px) and (orientation:landscape){
  html:root .main-content:is(.view-settings,.view-profile)>.page-heading p{display:none}
- html:root .main-content.view-settings>.tabs.nav-section.nav-section>button{min-height:54px;padding:5px 2px;gap:3px;font-size:calc(11px * var(--font-adjust,1))}
- html:root .main-content.view-settings>.tabs.nav-section .nav-icon{width:26px;height:26px;border-radius:9px}
- html:root .main-content.view-settings>.tabs.nav-section .nav-icon>svg{width:18px;height:18px}
 }
 html:root .settings-v2.settings-kids .kids-parent-panel>header{margin:0;align-items:center}
 html:root .settings-v2.settings-kids .kids-parent-panel>header :is(.button,button){display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 18px}
@@ -322,7 +324,6 @@ html:root .settings-v2 .family-access ul{margin:0;padding:0;list-style:none;disp
 html:root .settings-v2 .family-access li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
 html:root .settings-v2 .family-access li:first-child{border-top:0}
 /* Orchestrator review: snap tiles to the bar's padding edge, so the first tile opens at scroll 0 and the start fade never covers the chosen tile. */
-html:root .main-content.view-settings>.tabs.nav-section.nav-section{scroll-padding-inline:5px}
 
 /* Shared control size (design system, approved 2026-11-08: every control 44px, footers 48px). Settings, Profile and
    Family: header actions, shortcut buttons, the birthday field and the photo choice use --scale-control. Section

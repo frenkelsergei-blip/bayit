@@ -7,6 +7,11 @@ import {CATEGORY} from '../../shared/finance.mjs';
 import {cloudHeaders} from './cloud-transport';
 import {householdMoneyStatistics} from './household-money-statistics.mjs';
 import './household-money-statistics.css';
+import {SourcePanels} from './payment-sources';
+import {Select} from './Select';
+import {memberNames} from '../../shared/payment-sources.mjs';
+// "Whose card is this?" from Statistics saves through the adult-only finance API, then reloads the records.
+const saveSource=async body=>{const r=await fetch('/api/finance/sources',{method:'PUT',headers:{...cloudHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)});let out={};try{out=await r.json()}catch{}if(!r.ok)throw new Error(out.error||'The card could not be saved.');return out};
 
 // Connected money records (statements, RiseUp) for this household and viewer, loaded from the finance server, which
 // already applies the access rules. `enabled` is false for children: they never load money.
@@ -17,12 +22,12 @@ export function useStatisticsMoney(a,enabled=true){
  return {data:loaded?.key===key?loaded.data:null,ready:!remote||loaded?.key===key,busy,error,load};
 }
 export const moneyFormat=(a,cents,digits=2)=>new Intl.NumberFormat(a.lang==='he'?'he-IL':'en-US',{style:'currency',currency:'ILS',maximumFractionDigits:digits}).format(cents/100);
-export const moneyModel=(a,remote,{range,scope='family',person='all',source='all',end})=>householdMoneyStatistics({manual:a.visible(a.data.expenses||[]),transactions:remote.data?.transactions||[],groups:remote.data?.groups||[],user:a.user,scope,person,source,range,end,plan:a.data.profiles[a.user]?.financePlans?.[scope],legacyBudget:a.data.preferences.monthlyBudget});
+export const moneyModel=(a,remote,{range,scope='family',person='all',source='all',sourceKeys=[],end})=>householdMoneyStatistics({manual:a.visible(a.data.expenses||[]),transactions:remote.data?.transactions||[],groups:remote.data?.groups||[],savedSources:remote.data?.sources||[],inferredSources:remote.data?.inferred||[],memberList:memberNames(a.members,a.data.profiles),sourceKeys,user:a.user,scope,person,source,range,end,plan:a.data.profiles[a.user]?.financePlans?.[scope],legacyBudget:a.data.preferences.monthlyBudget});
 
 // The Money tab (adults only; the view never renders it for a child).
-export function HouseholdMoneyStatistics({a,range,scope='family',person='all',source='all',end,Button,remote:given}){
+export function HouseholdMoneyStatistics({a,range,scope='family',person='all',source='all',sourceKeys=[],end,Button,Avatar,remote:given}){
  const own=useStatisticsMoney(a,!given),remote=given||own,T=a.T,locale=a.lang==='he'?'he-IL':'en-US',rtl=a.lang==='he';
- const model=moneyModel(a,remote,{range,scope,person,source,end}),history=moneyModel(a,remote,{range:'all',scope,person,source,end});
+ const model=moneyModel(a,remote,{range,scope,person,source,sourceKeys,end}),history=moneyModel(a,remote,{range:'all',scope,person,source,sourceKeys,end});
  const months=monthlySpending(history.rows,end,6),monthName=m=>new Date(m+'-15T12:00:00Z').toLocaleDateString(locale,{month:'short'});
  const money=n=>moneyFormat(a,n),label=id=>CATEGORY[id]?.[a.lang==='he'?'he':'en']||id,maximum=Math.max(1,...model.categories.map(r=>Math.abs(r.amount)));
  const exportCSV=()=>downloadCSV('bayit-money-'+scope+'.csv',['date','description','category','amount','person','source'],model.rows,(r,k)=>k==='date'?String(r.date||'').slice(0,10):k==='description'?r.description||r.title||'':k==='category'?label(r.category||'other'):k==='amount'?(r.spent/100).toFixed(2):k==='person'?(r.memberId?a.name(r.memberId):''):r.source==='manual'?T('Recorded manually','נרשם ידנית'):T('Statement or connection','דף חשבון או חיבור'));
@@ -30,6 +35,8 @@ export function HouseholdMoneyStatistics({a,range,scope='family',person='all',so
  const waiting=<div className="household-stat-empty"><ChartBar size={36}/><p role="status">{remote.busy?T('Loading the expense records available to you…','טוענים את ההוצאות הזמינות לכם…'):T('Expense records are unavailable. Try refreshing or open the expense ledger.','רשומות ההוצאות אינן זמינות. אפשר לרענן או לפתוח את רישום ההוצאות.')}</p></div>;
  return <div className="household-money-statistics" aria-busy={remote.busy}>
   <StatisticsSummary rtl={rtl} items={[{icon:Receipt,viz:months.some(m=>m.total)?{kind:'bars',values:months.map(m=>m.total)}:null,label:T('Recorded expenses','הוצאות שתועדו'),value:remote.ready&&(!model.invalid||model.count>0)?money(model.total):'—',word:true,hint:remote.ready?(model.count===1?T('1 record in this period','רשומה אחת בתקופה'):T(model.count+' records in this period',model.count+' רשומות בתקופה')):T('Not loaded yet','עדיין לא נטען')},{icon:Wallet,label:T('Monthly limit','תקרה חודשית'),value:model.budget?money(model.budget):T('Not set','לא הוגדרה'),word:true,hint:model.budget?null:T('Set it in Expenses','אפשר להגדיר בהוצאות')},{icon:Gauge,label:T('Limit used this month','ניצול התקרה החודש'),value:remote.ready&&model.used!==null?model.used+'%':'—',word:true,hint:!model.budget?T('No limit to compare','אין תקרה להשוואה'):null,viz:model.budget&&remote.ready&&model.used!==null?{kind:'ring',pct:model.used}:null}]}/>
+  {/* By person and card (concept C, 2026-11-09): right under the summary, before the charts. */}
+  {remote.ready&&Avatar&&<SourcePanels a={a} index={history.index} rows={history.rows} months={months.map(m=>m.month)} Avatar={Avatar} money={n=>moneyFormat(a,n,0)} memberIds={a.members.filter(m=>m.role!=='child'&&!m.former).map(m=>m.id)} Select={Select} onSave={a.cloud?saveSource:null} onSaved={remote.load}/>}
   {remote.error&&<div className="household-stat-message" role="alert"><Info size={20}/><p>{remote.ready?T('Could not refresh connected records. The last loaded records are still shown.','לא ניתן לרענן את הרשומות המחוברות. הרשומות האחרונות שנטענו עדיין מוצגות.'):T('Connected expense records could not be loaded. This does not mean there was no spending.','לא ניתן לטעון את ההוצאות המחוברות. אין להסיק שלא היו הוצאות.')}</p><button className="control-button" type="button" disabled={remote.busy} onClick={remote.load}>{T('Try again','ניסיון נוסף')}</button></div>}
   <div className="stats-grid two">
    <ChartCard title={T('Spending against the limit','הוצאות חודשיות מול התקרה')} note={T('Last six months, by transaction date','ששת החודשים האחרונים, לפי תאריך העסקה')} footer={model.budget?T('Limit used this month: ','ניצול התקרה החודש: ')+(model.used??'—')+'%':T('No monthly limit set yet. Set one in Expenses to see it here.','עוד לא הוגדרה תקרה חודשית. אפשר להגדיר בהוצאות ולראות אותה כאן.')}>
