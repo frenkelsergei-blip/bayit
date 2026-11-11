@@ -8,6 +8,7 @@ Skills an AI coding agent (Claude Code, Codex, or any tool that reads `SKILL.md`
 - "Help me connect Telegram and my AI key."
 - "Add Discount Bank statement import."
 - "Add Mistral as an AI provider."
+- "I want to build my own Bayit extension and share it."
 
 | Skill | What it does |
 |---|---|
@@ -19,6 +20,7 @@ Skills an AI coding agent (Claude Code, Codex, or any tool that reads `SKILL.md`
 | `bayit-localize` | Country, timezone, currency and language |
 | `bayit-add-ai-provider` | Writes and applies an extension that adds an AI provider |
 | `bayit-add-statement-format` | Writes and applies an extension that adds a bank or card statement format, reconciled with the printed totals |
+| `bayit-new-extension` | Creates a new extension from scratch for any seam (AI provider, statement format, speech, sign-in, connection), with its conformance test, and explains how to publish it |
 | `bayit-add-today-widget` | Adds a Today screen widget (still a core change: Today widgets have no extension seam yet) |
 | `bayit-update-riseup` | Adapts the RiseUp connection when RiseUp changes its API |
 | `bayit-release` | For maintainers: version, release notes, checks, deploy |
@@ -32,7 +34,7 @@ Claude Code reads `.claude/skills/` (a link to this folder). Codex and other age
 
 ### Write your own
 
-Start from a generator's `template/` (or `tests/fixtures/extensions/bayit-add-example-bank/`, the smallest complete package), follow the format in `docs/extension-skills.md`, and check it with `apply`, `check`, `npm run test:domain` and `remove` in a copy you can throw away. Core accepts fixes, security fixes, simplifications and new seams; capabilities arrive as extension skills.
+Ask your agent to use `bayit-new-extension`, or run `node app/scripts/bayit-new-extension.mjs seams` and then `node app/scripts/bayit-new-extension.mjs <kind> <id> --name "…" --he "…"`: it writes a complete package with the seam's conformance test and a behaviour test that fails until the real logic is written. The format is in `docs/extension-skills.md`. Check it with `apply`, `check`, `npm run test:domain` and `remove` in a copy you can throw away. Core accepts fixes, security fixes, simplifications and new seams; capabilities arrive as extension skills.
 
 ## Rules every skill follows
 

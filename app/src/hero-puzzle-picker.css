@@ -1,0 +1,18 @@
+/* Puzzle picture picker (2026-11-10, user report: "Choose another picture" seemed to do nothing — the picker opened
+   1000px below, off screen). It is now a Kids window in the top layer, so it always opens in view and above everything. */
+.hero-organization .hero-puzzle-picker-dialog.hero-context-dialog{width:min(780px,calc(100vw - 28px))}
+.hero-organization .hero-puzzle-picker-dialog .hero-context-dialog-body{display:flex;flex-direction:column;box-sizing:border-box;max-height:inherit;overflow:hidden}
+.hero-organization .hero-puzzle-picker-dialog .hero-context-dialog-body>header{flex:none;margin-bottom:12px}
+.hero-organization .hero-puzzle-picker-dialog .hero-puzzle-picker-grid{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;margin:0 -4px;padding:4px}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices>button{position:relative;display:flex;flex-direction:column;gap:7px;align-items:stretch;width:auto;height:auto;min-height:44px;padding:7px;border-radius:13px;border:3px solid transparent;background:var(--surfaceSoft);color:var(--text);text-align:start;cursor:pointer}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices>button[aria-pressed=true]{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 22%,transparent)}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:8px}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices span{font-size:calc(12px * var(--font-adjust,1));font-weight:800;line-height:1.35}
+.hero-organization .hero-puzzle-picker-dialog .hg-art-choices svg{position:absolute;inset-block-start:12px;inset-inline-end:12px;color:#fff;background:#287a4c;border-radius:50%;padding:2px;box-sizing:content-box}
+.hero-organization .hero-puzzle-picker-dialog footer{flex:none;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;padding-top:14px;margin-top:12px;border-top:1px solid var(--border)}
+.hero-organization .hero-puzzle-picker-dialog footer small{color:var(--muted);font-size:calc(13px * var(--font-adjust,1));line-height:1.4}
+.hero-organization .hero-puzzle-picker-dialog footer .button{min-height:48px;margin-inline-start:auto}
+@media(max-width:900px){.hero-organization .hero-puzzle-picker-dialog .hg-art-choices{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.hero-organization .hero-puzzle-picker-dialog .hg-art-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.hero-organization .hero-puzzle-picker-dialog footer .button{width:100%}}
+@media(orientation:landscape) and (max-height:520px){.hero-organization .hero-puzzle-picker-dialog .hg-art-choices{grid-template-columns:repeat(4,minmax(0,1fr))}.hero-organization .hero-puzzle-picker-dialog .hero-context-dialog-body>header p{display:none}}

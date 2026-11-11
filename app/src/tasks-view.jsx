@@ -18,6 +18,7 @@ import {CreatedBy,fmtMinutes} from './created-by';
 import {SwipeRow} from './swipe-row';
 import {canAccessList,applyListAudience,createTaskList} from '../../shared/task-lists.mjs';
 import {GENERAL_TASK_LIST_ID,generalTaskList} from './task-list-choice.mjs';
+import {isKidsRoutine,hidesKidsRoutines} from '../../shared/kids-context.mjs';
 import {PeoplePicker} from './people-picker';
 import {Select} from './Select';
 import {PriorityMark,PriorityChoice,priorityLabel,priorityTitle,groupByPriority,normalizePriority} from './priority';
@@ -28,8 +29,11 @@ import {repeatLabel as describeRepeat} from './repeat-label';
 import {FormSection} from './form-section.jsx';
 import {PendingSync} from './offline-ui';
 import {BayitAIList,BayitAIListCard,BAYIT_AI_LIST} from './bayit-ai';
-import {ClipboardText as SecDetails,LockSimple as SecPrivacy,Funnel,Flag} from '@phosphor-icons/react';
+import {ClipboardText as SecDetails,LockSimple as SecPrivacy,Funnel,Flag,Baby} from '@phosphor-icons/react';
 const storedView=()=>{try{return JSON.parse(localStorage.getItem('bayit-tasks-view'))||{}}catch{return {}}};
+/* Kids' routines shown in Tasks: remembered per person on this device (user decision 2026-11-11). */
+const storedKidsRoutines=user=>{try{return !!(JSON.parse(localStorage.getItem('bayit-tasks-kids-routines'))||{})[user]}catch{return false}};
+const storeKidsRoutines=(user,on)=>{try{const all=JSON.parse(localStorage.getItem('bayit-tasks-kids-routines'))||{};if(on)all[user]=true;else delete all[user];localStorage.setItem('bayit-tasks-kids-routines',JSON.stringify(all))}catch{}};
 
 const addDays=(v,n)=>{const d=new Date(v+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 const uid=()=>crypto.randomUUID();
@@ -39,10 +43,15 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
  const [filtersOpen,setFiltersOpen]=useState(false),[listId,setListId]=useState(q.get('list')||'all'),[range,setRange]=useState(q.get('date')?'day':'today'),[day,setDay]=useState(q.get('date')||anchor),[person,setPerson]=useState('all'),[status,setStatus]=useState('open'),[search,setSearch]=useState(''),[selected,setSelected]=useState(q.get('task')?{id:q.get('task'),date:q.get('date')||anchor}:null),[detailOpen,setDetailOpen]=useState(!!q.get('task')),[sheet,setSheet]=useState(null);
  const [prio,setPrio]=useState(()=>{const v=q.get('priority')||storedView().priority;return normalizePriority(v)||'all'}),[order,setOrder]=useState(()=>(q.get('order')||storedView().order)==='priority'?'priority':'time');
  useEffect(()=>{try{localStorage.setItem('bayit-tasks-view',JSON.stringify({priority:prio,order}))}catch{}},[prio,order]);
+ const [kidsRoutines,setKidsRoutines]=useState(()=>storedKidsRoutines(a.user));
+ useEffect(()=>{setKidsRoutines(storedKidsRoutines(a.user))},[a.user]);
+ useEffect(()=>{storeKidsRoutines(a.user,kidsRoutines)},[a.user,kidsRoutines]);
  useEffect(()=>{const link=new URLSearchParams(a.route.split('?')[1]||'');if(link.get('task')){const date=link.get('date')||anchor;setSelected({id:link.get('task'),date});setDetailOpen(true)}else setDetailOpen(false)},[a.route]);
  const lists=(a.data.taskLists||[]).filter(l=>canAccessList(l,a.user));
  /* Tasks shows everything you may see; "assigned to me" is the person filter set to you (assignment and visibility model, 2026-11-08). */
- const base=a.visible(a.data.tasks);
+ /* Kids' routines live on the Kids screen; grown-ups see them here only with the "Kids' routines" filter (2026-11-11). */
+ const routineRule=hidesKidsRoutines(a.member(a.user).role,a.features?.route?.('kids')),allTasks=a.visible(a.data.tasks),kidsRoutineCount=routineRule?allTasks.filter(t=>isKidsRoutine(t,a.members)).length:0,showKidsRoutines=routineRule&&kidsRoutines;
+ const base=routineRule&&!kidsRoutines?allTasks.filter(t=>!isKidsRoutine(t,a.members)):allTasks;
  const knownList=id=>!!id&&lists.some(l=>l.id===id),inList=t=>listId==='all'||(listId===GENERAL_TASK_LIST_ID?!knownList(t.listId)&&!t.routine:t.listId===listId);
  const matches=t=>inList(t)&&(person==='all'||taskAssignedTo(t,person))&&(prio==='all'||normalizePriority(t.priority)===prio)&&(!search||[a.text(t),t.note,t.noteHe].join(' ').toLowerCase().includes(search.toLowerCase()));
  const label=d=>d===anchor?a.T('Today','היום'):d===addDays(anchor,1)?a.T('Tomorrow','מחר'):d===addDays(anchor,-1)?a.T('Yesterday','אתמול'):new Date(d+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'long',day:'numeric',month:'short'});
@@ -59,9 +68,9 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
   return out;
  },[base,listId,person,status,search,range,day,anchor,a.lang,prio,order]);
  const total=groups.reduce((n,g)=>n+g.rows.length,0);
- const activeFilters=(person!=='all')+(prio!=='all')+(order!=='time')+(search.trim()?1:0);
- const filterSummary=[person!=='all'&&a.name(person),prio!=='all'&&priorityTitle(prio,a.lang),order!=='time'&&a.T('By priority','לפי עדיפות'),search.trim()&&'“'+search.trim()+'”'].filter(Boolean).join(' · ');
- const clearFilters=()=>change(()=>{setPerson('all');setPrio('all');setOrder('time');setSearch('')});
+ const activeFilters=(person!=='all')+(prio!=='all')+(order!=='time')+(search.trim()?1:0)+(showKidsRoutines?1:0);
+ const filterSummary=[person!=='all'&&a.name(person),prio!=='all'&&priorityTitle(prio,a.lang),order!=='time'&&a.T('By priority','לפי עדיפות'),search.trim()&&'“'+search.trim()+'”',showKidsRoutines&&a.T('Kids’ routines','שגרות הילדים')].filter(Boolean).join(' · ');
+ const clearFilters=()=>change(()=>{setPerson('all');setPrio('all');setOrder('time');setSearch('');setKidsRoutines(false)});
  const linkedTask=q.get('task')&&a.visible(a.data.tasks).find(t=>t.id===q.get('task'));
  const current=selected?(base.find(t=>t.id===selected.id)||linkedTask?.id===selected.id&&linkedTask?{t:base.find(t=>t.id===selected.id)||linkedTask,date:selected.date}:null):groups[0]?.rows[0];
  const canEdit=t=>parent||t.ownerId===a.user;
@@ -93,7 +102,8 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
   </div>
   {filtersOpen&&<div className="modal-backdrop tasks-sheet-backdrop" onMouseDown={e=>e.target===e.currentTarget&&setFiltersOpen(false)}><section className="tasks-sheet tasks-filter-sheet" role="dialog" aria-modal="true" aria-label={a.T('Filters','סינון')} onKeyDown={e=>e.key==='Escape'&&setFiltersOpen(false)}><header><h2>{a.T('Filters','סינון')}</h2><button type="button" className="icon-button" aria-label={a.T('Close','סגירה')} onClick={()=>setFiltersOpen(false)}><X size={20}/></button></header><div className="tasks-sheet-body"><FormSection T={a.T} icon={MagnifyingGlass} tone="blue" title={a.T('Search','חיפוש')}><label className="tasks-search tasks-search-field"><MagnifyingGlass size={18}/><input type="search" value={search} onChange={e=>change(()=>setSearch(e.target.value))} placeholder={a.T('Search tasks','חיפוש משימות')} aria-label={a.T('Search tasks','חיפוש משימות')}/></label>
   </FormSection><FormSection T={a.T} icon={Users} tone="yellow" title={a.T('Whose tasks','המשימות של')}><div className="tasks-people calendar-person-legend"><button type="button" className={'calendar-all-members '+(person==='all'?'chosen':'')} onClick={()=>change(()=>setPerson('all'))}><Users size={18}/>{a.T('Everyone','כולם')}</button>{a.members.filter(m=>parent||m.id===a.user).map(m=><PersonChip key={m.id} who={m.id} name={a.name(m.id)} Avatar={Avatar} tone={m.color} selected={person===m.id} onClick={()=>change(()=>setPerson(person===m.id?'all':m.id))}/>)}</div>
-   </FormSection><FormSection T={a.T} icon={Flag} tone="peach" title={a.T('Priority & order','עדיפות וסדר')}><div className="tasks-prio-filters"><Select className={'tasks-prio-select'+(prio!=='all'?' filtered':'')} aria-label={a.T('Priority','עדיפות')} value={prio} onChange={e=>change(()=>setPrio(e.target.value))}><option value="all"><span className="prio-opt"><PriorityMark a={a} priority="" size={18} decorative/>{a.T('All priorities','כל העדיפויות')}</span></option>{['high','medium','low'].map(p=><option key={p} value={p}><span className="prio-opt"><PriorityMark a={a} priority={p} size={18} decorative/>{a.lang==='he'?'עדיפות '+priorityLabel(p,a.lang):priorityLabel(p,a.lang)}</span></option>)}</Select><Select className={'tasks-order-select'+(order==='priority'?' filtered':'')} aria-label={a.T('Order','סדר')} value={order} onChange={e=>change(()=>setOrder(e.target.value))}><option value="time"><span className="prio-opt"><Clock size={18}/>{a.T('By time','לפי זמן')}</span></option><option value="priority"><span className="prio-opt"><SortAscending size={18}/>{a.T('By priority','לפי עדיפות')}</span></option></Select></div>
+   </FormSection>{routineRule&&(kidsRoutineCount>0||kidsRoutines)&&<FormSection T={a.T} icon={Baby} tone="green" title={a.T('Kids’ routines','שגרות הילדים')} note={a.T('They stay on the Kids screen. Show them here too when you want.','הן נמצאות במסך הילדים. אפשר להציג אותן גם כאן.')}><div className="tasks-people calendar-person-legend"><button type="button" className={'calendar-all-members tasks-kids-routines '+(kidsRoutines?'chosen':'')} aria-pressed={kidsRoutines} onClick={()=>change(()=>setKidsRoutines(!kidsRoutines))}>{a.T('Show the kids’ routines','להציג את שגרות הילדים')} <bdi>({kidsRoutineCount})</bdi></button></div>
+   </FormSection>}<FormSection T={a.T} icon={Flag} tone="peach" title={a.T('Priority & order','עדיפות וסדר')}><div className="tasks-prio-filters"><Select className={'tasks-prio-select'+(prio!=='all'?' filtered':'')} aria-label={a.T('Priority','עדיפות')} value={prio} onChange={e=>change(()=>setPrio(e.target.value))}><option value="all"><span className="prio-opt"><PriorityMark a={a} priority="" size={18} decorative/>{a.T('All priorities','כל העדיפויות')}</span></option>{['high','medium','low'].map(p=><option key={p} value={p}><span className="prio-opt"><PriorityMark a={a} priority={p} size={18} decorative/>{a.lang==='he'?'עדיפות '+priorityLabel(p,a.lang):priorityLabel(p,a.lang)}</span></option>)}</Select><Select className={'tasks-order-select'+(order==='priority'?' filtered':'')} aria-label={a.T('Order','סדר')} value={order} onChange={e=>change(()=>setOrder(e.target.value))}><option value="time"><span className="prio-opt"><Clock size={18}/>{a.T('By time','לפי זמן')}</span></option><option value="priority"><span className="prio-opt"><SortAscending size={18}/>{a.T('By priority','לפי עדיפות')}</span></option></Select></div>
    </FormSection></div><div className="tasks-sheet-actions"><Button secondary onClick={clearFilters} disabled={!activeFilters}>{a.T('Clear filters','ניקוי הסינון')}</Button><Button onClick={()=>setFiltersOpen(false)}>{total===1?a.T('Show 1 task','הצגת משימה אחת'):a.T('Show '+total+' tasks','הצגת '+total+' משימות')}</Button></div></section></div>}
 
   <div className={'split task-list-layout tasks-v2-layout'+(listId===BAYIT_AI_LIST?' bai-hidden':'')}><section className="tasks-groups">

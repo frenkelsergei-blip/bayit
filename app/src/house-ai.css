@@ -130,7 +130,7 @@
 [dir=rtl] .hai-place-pic.p-edge i{border-radius:0 6px 6px 0}
 .hai-place-pic.p-corner i{width:9px;height:9px;inset-inline-end:8px;top:1px}
 .hai-place-pic.p-off i{display:none}
-.hai-settings{margin-top:18px}
+.hai-settings{margin-top:var(--settings-gap,18px)}
 @media(max-width:700px){.hai-place{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* The Ask Bayit AI page shows the same chat inline (2026-11-10). */
@@ -147,3 +147,15 @@
 .hai-chip-plan{border-style:dashed}
 .hai-chat.hai-embedded>.hai-head[hidden]{display:none}
 .hai-chat.hai-embedded>.hai-tabs{border-start-start-radius:26px;border-start-end-radius:26px;padding-top:12px}
+/* Steps aside while a window or a save bar is under it (2026-11-10). */
+.hai-bubble.hai-away,.hai-edge.hai-away{opacity:0;visibility:hidden;pointer-events:none;transform:scale(.85);transition:opacity .15s,transform .15s,visibility 0s .15s}
+.hai-edge.hai-away{transform:translateY(-50%) translateX(12px)}
+[dir=rtl] .hai-edge.hai-away{transform:translateY(-50%) translateX(-12px)}
+.hai-bubble,.hai-edge{transition:opacity .15s,transform .15s}
+@media(prefers-reduced-motion:reduce){.hai-bubble.hai-away,.hai-edge.hai-away,.hai-bubble,.hai-edge{transition:none}}
+/* One בית AI: four tabs (2026-11-11). They share the width evenly; on phones the icons give way to the words. */
+.hai-views{flex:1 1 auto;max-width:560px}
+.hai-views button{flex:1 1 0;justify-content:center;padding:0 10px;min-height:40px;position:relative}
+.hai-tab-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--bai,var(--primary));color:var(--onPrimary,#fff);font-size:calc(12px * var(--text-scale,1));font-weight:900}
+.hai-scope-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media(max-width:480px){.hai-views button{padding:0 6px;gap:4px}.hai-views button>svg{display:none}}

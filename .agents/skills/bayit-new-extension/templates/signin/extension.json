@@ -1,0 +1,17 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__ sign-in", "he": "__NAME_HE__"},
+ "description": "Adds \"Continue with __NAME_EN__\" to the sign-in screen. Needs a security review before a family uses it.",
+ "seam": "signin",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "app/cloud/extensions/__ID__.mjs",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "signin", "id": "__ID__", "file": "app/cloud/extensions/__ID__.mjs", "export": "__EXPORT__"}
+ ],
+ "outbound": ["https://__ID__.invalid"],
+ "dependencies": {}
+}

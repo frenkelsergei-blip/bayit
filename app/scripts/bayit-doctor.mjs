@@ -40,7 +40,11 @@ if(mode==='cloudflare'){
  const who=run('npx',['wrangler','whoami']);
  if(!who||/not authenticated|You are not logged in/i.test(who))bad('wrangler is not logged in','Run `npx wrangler login`.');else{ok('wrangler is logged in');
   if(db?.database_id&&!db.database_id.includes('<')){const list=run('npx',['wrangler','d1','migrations','list',db.database_name,'--remote']);if(list===null)bad('Could not read remote migrations','Check that the D1 database exists in this Cloudflare account.');else if(/No migrations to apply/i.test(list))ok('Database schema is up to date');else bad('Database migrations are waiting','Run `npx wrangler d1 migrations apply '+db.database_name+' --remote` before deploying.')}
-  if(project){const secrets=run('npx',['wrangler','pages','secret','list','--project-name',project]);if(secrets===null)bad('Could not list Pages secrets for '+project,'Create the project with `npx wrangler pages project create '+project+'`.');else for(const name of ['AUTH_SECRET','APP_ENCRYPTION_KEY','GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET']){if(secrets.includes(name))ok('Secret '+name+' is set');else bad('Secret '+name+' is missing','Run `npx wrangler pages secret put '+name+' --project-name '+project+'`.')}
+  if(project){const secrets=run('npx',['wrangler','pages','secret','list','--project-name',project]);if(secrets===null)bad('Could not list Pages secrets for '+project,'Create the project with `npx wrangler pages project create '+project+'`.');else{for(const name of ['AUTH_SECRET','APP_ENCRYPTION_KEY']){if(secrets.includes(name))ok('Secret '+name+' is set');else bad('Secret '+name+' is missing','Run `npx wrangler pages secret put '+name+' --project-name '+project+'`.')}
+   // Sign-in: passkeys need BAYIT_ORIGIN (docs/passkey-sign-in-design.md); Google needs both client values. One of them is enough.
+   const passkeys=secrets.includes('BAYIT_ORIGIN'),google=secrets.includes('GOOGLE_CLIENT_ID')&&secrets.includes('GOOGLE_CLIENT_SECRET');
+   if(passkeys)ok('Secret BAYIT_ORIGIN is set (passkeys)');if(google)ok('Google sign-in secrets are set');
+   if(!passkeys&&!google)bad('No sign-in is set up','Set BAYIT_ORIGIN for passkeys (`npx wrangler pages secret put BAYIT_ORIGIN --project-name '+project+'`), or GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET for Google.')}
    const secretsList=secrets||'';if(!secretsList.includes('REMINDER_CRON_SECRET'))note('REMINDER_CRON_SECRET is not set (only needed for Telegram reminders).')}
  }
 }else{
@@ -49,7 +53,9 @@ if(mode==='cloudflare'){
  if(!env)bad('No .env file in the repository root','Run `cp .env.example .env` and fill it in.');else{
   origin=origin||env.BAYIT_ORIGIN||'http://localhost:'+(env.BAYIT_PORT||8080);
   ok('.env found · BAYIT_ORIGIN '+(env.BAYIT_ORIGIN||'(not set)'));
-  if(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET)ok('Google sign-in values are set');else bad('GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are empty','Create a Web OAuth client and add '+(env.BAYIT_ORIGIN||'<BAYIT_ORIGIN>')+'/api/auth/callback/google as redirect URI. The demo works without them.');
+  // An https address on Docker means a reverse proxy (Caddy, a tunnel, Tailscale) in front: without BAYIT_TRUSTED_PROXIES every visitor shares one rate-limit bucket, so one stranger can block passkey sign-in (passkey review finding 2).
+  if(/^https:/.test(env.BAYIT_ORIGIN||'')&&!String(env.BAYIT_TRUSTED_PROXIES||'').trim())console.log('  ⚠ BAYIT_TRUSTED_PROXIES is empty but a proxy serves '+env.BAYIT_ORIGIN+'. Every visitor counts as the proxy, so one stranger can block passkey sign-in for everyone. Fix: set BAYIT_TRUSTED_PROXIES in .env (docs/self-hosting-docker.md, "Behind a proxy").');
+  if(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET)ok('Google sign-in values are set');else if(env.BAYIT_ORIGIN&&String(env.BAYIT_PASSKEYS||'').toLowerCase()!=='off')ok('Google sign-in is not set; passkeys only');else bad('GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are empty','Create a Web OAuth client and add '+(env.BAYIT_ORIGIN||'<BAYIT_ORIGIN>')+'/api/auth/callback/google as redirect URI. The demo works without them.');
   if(env.BAYIT_ORIGIN&&!env.BAYIT_ORIGIN.startsWith('https://'))note('BAYIT_ORIGIN is not https: Google sign-in and Telegram need a public https address (Caddy profile or a tunnel).');
  }
  const ps=run('docker',['compose','ps','--format','{{.Service}} {{.State}} {{.Health}}'],{cwd:root});if(ps&&/bayit running/.test(ps))ok('Container: '+ps.trim().split('\n').find(l=>l.startsWith('bayit')));else bad('The bayit container is not running','Run `docker compose up -d --build` in the repository root.');
@@ -61,7 +67,7 @@ if(!origin)note('No site address yet. Configure this copy first, or pass --origi
   const health=await fetch(origin+'/api/health',{signal:AbortSignal.timeout(15000)});if(!health.ok)throw new Error('HTTP '+health.status);ok(origin+' answers');
   const config=await (await fetch(origin+'/api/config',{signal:AbortSignal.timeout(15000)})).json();
   if(config.storage?.connected)ok('Household storage connected');else bad('Storage is not connected','Check the D1/R2 bindings (Cloudflare) or the data volume (Docker).');
-  if(config.auth?.configured)ok('Google sign-in is configured');else bad('Google sign-in is off','Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and AUTH_SECRET, then redeploy/restart.');
+  {const methods=(config.signIn?.methods||[]).map(m=>m.id);if(config.auth?.configured)ok('Sign-in is configured: '+(methods.join(' and ')||'yes'));else bad('Sign-in is off','Set BAYIT_ORIGIN (passkeys) or GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET (Google), plus AUTH_SECRET, then redeploy/restart.');if(config.passkeys?.enabled&&!config.passkeys?.address)bad('Passkeys are on but the address cannot use them','Set BAYIT_ORIGIN to the exact https address (or http://localhost for this computer only).');if(config.registration?.setup==='code')ok('Setup is open with a setup code (the first owner has not finished yet)')}
   const v=await (await fetch(origin+'/version.json?t='+Date.now(),{signal:AbortSignal.timeout(15000)})).json();
   if(v.version===local.version)ok('Running version '+v.version+' (build '+v.buildId+')');else note('Running version '+v.version+', this copy is '+local.version+'. Deploy/rebuild to update.');
  }catch(e){bad('Could not reach '+origin+' ('+e.message+')',mode==='docker'?'Start the container, or check the port and BAYIT_ORIGIN.':'Deploy with `npm run deploy:cloud`.')}

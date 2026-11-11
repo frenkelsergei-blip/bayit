@@ -1,0 +1,48 @@
+/* One בית AI (2026-11-11): the Suggestions and Settings tabs inside the chat window and the בית AI page, and the one
+   row in Settings that opens them. Tokens only; controls keep the 44px rule; FormSection anatomy for every section. */
+.bh-suggestions,.bh-settings{display:flex;flex-direction:column;gap:14px;min-width:0}
+.bh-group{display:flex;flex-direction:column;gap:8px;min-width:0}
+.bh-group .bai-today{margin-top:0}
+.bh-head{display:flex;align-items:center;gap:10px;margin:2px 0 0;font-size:calc(17px * var(--text-scale,1));font-weight:850;color:var(--text)}
+.bh-head>svg{flex:none;color:var(--primary)}
+.bh-head>span{display:grid;gap:1px;min-width:0;flex:1}
+.bh-head small{font-size:calc(13px * var(--text-scale,1));font-weight:650;color:var(--muted)}
+.bh-count{display:inline-grid;place-items:center;min-width:28px;height:28px;padding:0 9px;border-radius:999px;background:var(--selected);color:var(--primary);font-weight:900;font-size:calc(15px * var(--text-scale,1))}
+.bh-card{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:18px;background:var(--surface);border:1px solid var(--border)}
+.bh-card>div{display:grid;gap:4px;min-width:0;flex:1}
+.bh-card b{font-weight:800;font-size:calc(16px * var(--text-scale,1))}
+.bh-card small{color:var(--muted);font-weight:600;font-size:calc(14px * var(--text-scale,1))}
+.bh-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.bh-actions .button{min-height:44px;display:inline-flex;align-items:center;gap:6px}
+.bh-actions .text-link{min-height:44px}
+.bh-empty{display:flex;align-items:center;gap:8px;margin:0;padding:10px 12px;border-radius:16px;background:var(--surface);color:var(--muted);font-weight:650}
+.bh-empty svg{color:var(--success,var(--primary));flex:none}
+.bh-day .home-planning-panel{margin:0}
+.bh-foot{margin:4px 0 0;color:var(--muted);font-weight:650;font-size:calc(14px * var(--text-scale,1))}
+.bh-foot .text-link{display:inline-flex;align-items:center;gap:4px;min-height:44px;vertical-align:middle}
+.bh-intro{margin:0;color:var(--muted);font-weight:650}
+.bh-settings .settings-v2{display:contents}
+.bh-settings .form-section{min-width:0}
+.bh-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;flex-wrap:wrap}
+.bh-row>span{display:grid;gap:2px;min-width:0;flex:1 1 220px}
+.bh-row b{font-weight:800}
+.bh-row small{color:var(--muted);font-weight:600}
+.bh-row .button{min-height:44px;display:inline-flex;align-items:center;gap:6px}
+.bh-checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 16px}
+.bh-checks .ai-source-option{min-height:44px}
+.bh-note{margin:0}
+.bh-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.bh-fields label{display:grid;gap:6px;font-weight:750}
+/* The page (wide): settings in two columns. */
+@media(min-width:900px){.hai-chat.hai-embedded .bh-settings{display:block;columns:2;column-gap:14px}.hai-chat.hai-embedded .bh-settings .form-section,.hai-chat.hai-embedded .bh-intro{break-inside:avoid;margin:0 0 14px}.hai-chat.hai-embedded .bh-intro{column-span:all}}
+/* Settings › Accounts & connections › AI: one row to בית AI › Settings (replaces "Records AI may use"). */
+.conn-bai-link{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;min-height:56px;font:inherit;color:var(--text);text-align:start;cursor:pointer;font-weight:800}
+.conn-bai-link>span{flex:1;min-width:0;display:grid;gap:2px}
+.conn-bai-link small{color:var(--muted);font-weight:600}
+.conn-bai-link>svg{flex:none;color:var(--primary)}
+/* One heading style for every kind of suggestion (the recommendations' heading comes from bayit-ai.jsx). */
+.bh-head>span{flex:0 1 auto}
+.bh-bai .bai-heading{font-size:calc(17px * var(--text-scale,1));margin:2px 0 0;gap:10px}
+.settings-v2.bh-link{margin-top:var(--settings-gap,16px)}
+/* Usage tiles sit in a narrower column here than in the old connection window. */
+.bh-settings .ai-usage-tiles{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}

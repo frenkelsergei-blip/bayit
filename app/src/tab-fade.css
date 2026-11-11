@@ -1,25 +1,25 @@
 /* Section menus that scroll sideways (Household, Settings, Statistics… on phones). History: 2026-11-08 a mask on the
-   whole bar faded the bar's own colour ("white fade"); sticky overlay fades were then placed mid-bar by WebKit in
-   Hebrew, and a JS per-tile fade lagged behind fast swipes, so bits of yellow flashed at the edges (user, 2026-11-09).
-   Now (2026-11-09): the bar (.tabs.nav-section) draws the rim and colour and does not scroll; its inner .nav-track
-   scrolls. The track carries a plain CSS mask on the edge that has more (scroll-hints.js sets data-hscroll="start"/
-   "end", logical sides), so the tiles fade into the bar colour behind them, in step with the scroll, in every
-   direction and engine. 52px soft ramp; the track is clipped to the bar's inner rounded box. */
-html:root .tabs.nav-section.nav-section>.nav-track[data-hscroll]{scroll-padding-inline:52px}
-html:root .tabs.nav-section.nav-section>.nav-track:is([data-hscroll="start"],[data-hscroll="end"],[data-hscroll="start end"]){-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-/* one edge: [physical left fade] — start in LTR, end in RTL */
-html:root[dir=ltr] .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"],
-html:root[dir=rtl] .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"],
-html:root:not([dir]) .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"]{
- -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px);
- mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px)}
-/* one edge: [physical right fade] — end in LTR, start in RTL */
-html:root[dir=ltr] .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"],
-html:root[dir=rtl] .tabs.nav-section.nav-section>.nav-track[data-hscroll="start"],
-html:root:not([dir]) .tabs.nav-section.nav-section>.nav-track[data-hscroll="end"]{
- -webkit-mask-image:linear-gradient(to left,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px);
- mask-image:linear-gradient(to left,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px)}
-/* both edges */
-html:root .tabs.nav-section.nav-section>.nav-track[data-hscroll="start end"]{
- -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px,#000 calc(100% - 52px),rgba(0,0,0,.9) calc(100% - 44px),rgba(0,0,0,.62) calc(100% - 30px),rgba(0,0,0,.22) calc(100% - 14px),transparent 100%);
- mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.22) 14px,rgba(0,0,0,.62) 30px,rgba(0,0,0,.9) 44px,#000 52px,#000 calc(100% - 52px),rgba(0,0,0,.9) calc(100% - 44px),rgba(0,0,0,.62) calc(100% - 30px),rgba(0,0,0,.22) calc(100% - 14px),transparent 100%)}
+   whole bar faded the bar's own colour ("white fade"); sticky overlay fades inside the scroller were then placed
+   mid-bar by WebKit in Hebrew; a JS per-tile fade lagged behind fast swipes (bits of yellow at the edges); a 52px CSS
+   mask on the scrolling track hid almost all of the half tile that peeks out, so only a sliver showed, and it was
+   re-made whenever the scroll started (user, 2026-11-10: "you don't see there is more", "stuck when I scroll").
+   Now (2026-11-10): the bar (.tabs.nav-section) draws the rim and colour and does not scroll; its inner .nav-track
+   scrolls and carries no effect at all. The fade is two overlays on the bar itself, in the bar's colour, 32px wide,
+   shown with an opacity change on the edge that has more (scroll-hints.js mirrors the track's data-hscroll onto the
+   bar as data-more="start"/"end", logical sides). The generic strip mask (scroll-hints.css) is switched off here. The bar does not scroll, so the overlays stay put in every engine and direction, and the
+   scroll itself is plain native scrolling. The peeking tile shows about 60% of itself, its icon included. */
+html:root .tabs.nav-section.nav-section>.nav-track[data-hscroll]{scroll-padding-inline:36px;-webkit-mask-image:none;mask-image:none}
+html:root .tabs.nav-section.nav-section::before,html:root .tabs.nav-section.nav-section::after{content:"";position:absolute;z-index:1;inset-block:0;width:32px;pointer-events:none;opacity:0;transition:opacity .2s ease}
+html:root .tabs.nav-section.nav-section::before{inset-inline-start:0}
+html:root .tabs.nav-section.nav-section::after{inset-inline-end:0}
+html:root .tabs.nav-section.nav-section[data-more~="start"]::before,html:root .tabs.nav-section.nav-section[data-more~="end"]::after{opacity:1}
+/* gradient from the bar's colour at the edge to clear, pointing inwards: physical left / physical right */
+html:root[dir=ltr] .tabs.nav-section.nav-section::before,html:root:not([dir]) .tabs.nav-section.nav-section::before,html:root[dir=rtl] .tabs.nav-section.nav-section::after{background:linear-gradient(to right,color-mix(in srgb,var(--menu-deep,#101B3D) 92%,transparent) 0,color-mix(in srgb,var(--menu-deep,#101B3D) 55%,transparent) 12px,transparent 32px)}
+html:root[dir=ltr] .tabs.nav-section.nav-section::after,html:root:not([dir]) .tabs.nav-section.nav-section::after,html:root[dir=rtl] .tabs.nav-section.nav-section::before{background:linear-gradient(to left,color-mix(in srgb,var(--menu-deep,#101B3D) 92%,transparent) 0,color-mix(in srgb,var(--menu-deep,#101B3D) 55%,transparent) 12px,transparent 32px)}
+/* One-time nudge (scroll-hints.js): the tiles slide a little towards the hidden ones and back. */
+@keyframes nav-nudge-ltr{0%,100%{transform:none}45%{transform:translateX(-22px)}70%{transform:translateX(-22px)}}
+@keyframes nav-nudge-rtl{0%,100%{transform:none}45%{transform:translateX(22px)}70%{transform:translateX(22px)}}
+html:root .tabs.nav-section.nav-section>.nav-track.nav-nudge>button{animation:nav-nudge-ltr 1.4s cubic-bezier(.45,0,.25,1) both}
+html:root[dir=rtl] .tabs.nav-section.nav-section>.nav-track.nav-nudge>button{animation-name:nav-nudge-rtl}
+@media(prefers-reduced-motion:reduce){html:root .tabs.nav-section.nav-section>.nav-track.nav-nudge>button{animation:none}}
+html:root[data-motion=reduced] .tabs.nav-section.nav-section>.nav-track.nav-nudge>button{animation:none}

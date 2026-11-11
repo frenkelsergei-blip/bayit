@@ -29,6 +29,17 @@ An extension skill is either:
 
 A generator skill has `SKILL.md`, `REMOVE.md` and `template/`, where `template/` is a complete package with a placeholder id (`my-ai`, `my-bank`).
 
+### Starting a new package
+
+`bayit-new-extension` (skill) and `app/scripts/bayit-new-extension.mjs` (script) write a new package for any seam that can be scaffolded (`ai-provider`, `statement-format`, `speech`, `signin`, `connection`) from `.agents/skills/bayit-new-extension/templates/`:
+
+```bash
+node app/scripts/bayit-new-extension.mjs seams
+node app/scripts/bayit-new-extension.mjs <kind> <id> --name "English name" --he "שם בעברית" [--out <folder>]
+```
+
+The package is valid for `apply` as written. Its test has a **conformance** part that passes from the start and a **behaviour** part that fails ("Not written yet") until every `TODO(bayit)` is filled in, and outside addresses start as `https://….invalid` placeholders, which `apply` refuses. So an unfinished extension can never be installed. `tests/bayit-new-extension.test.mjs` checks every kind.
+
 ### SKILL.md
 
 Under 500 lines, with front matter `name` and `description` (for a published skill). Sections:
@@ -36,7 +47,7 @@ Under 500 lines, with front matter `name` and `description` (for a published ski
 1. **What it adds**: in the family's words, and which outside addresses it calls.
 2. **Ask first**: keys, accounts, choices. Only what needs a person.
 3. **Apply**: one command, `node app/scripts/bayit-extension.mjs apply <package-folder>`. The agent never copies files or edits registry files by hand: the script does it the same way every time.
-4. **Verify**: `node app/scripts/bayit-extension.mjs check`, then `cd app && npm run test:domain && npm run build:cloud`, then what a person checks in the app.
+4. **Verify**: `node app/scripts/bayit-extension.mjs check`, then `cd app && npm run test:domain && npm run build:cloud`, then what a person checks in the app. In a copy with extensions installed, the core tests that require the local files to ship empty skip themselves (they still run upstream, where `installed.json` is `[]`), and core lists are compared without the extension entries.
 5. **Troubleshooting**: required when there is a key, an account or any interactive step.
 
 ### REMOVE.md
@@ -67,10 +78,10 @@ Usually `node app/scripts/bayit-extension.mjs remove <id>`, plus anything outsid
 | `id` | 2–40 lowercase letters, digits or `-`, starting with a letter. Unique among installed extensions. |
 | `version` | `major.minor.patch`. |
 | `name` | English and Hebrew. |
-| `seam` | The main seam: `features`, `ai-providers`, `speech`, `signin`, `statement-formats` or `connections`. At least one registry line uses it. |
+| `seam` | The main seam: `features`, `ai-providers`, `speech`, `signin`, `statement-formats`, `connections` or `modules` (a feature module). At least one registry line uses it. |
 | `minBayit` | The oldest Bayit version (`app/package.json`) it works with. |
 | `files` | Every file it adds, and nothing else. See "Where files may go". |
-| `registry` | The registry lines it adds: the seam, the entry's `id` in that registry, the file that exports the entry, and the export's name. An extension may touch several seams (a feature plus its connection). |
+| `registry` | The registry lines it adds: the seam, the entry's `id` in that registry, the file that exports the entry, and the export's name. An extension may touch several seams (a feature plus its connection). A line may also use the client seam `connection-panels` (`app/src/extensions/connection-panels.jsx`, a connection's panel), never as the main seam. A feature module (`seam: "modules"`) has exactly three lines with its own id: `features`, `modules` and the client seam `screens` (`app/src/extensions/screens.jsx`), and `outbound: []` (`docs/feature-module-contract.md`). |
 | `outbound` | Every outside address it calls, as exact `https://` origins, so the installation's outbound policy can allow exactly those. |
 | `dependencies` | npm packages it needs, pinned to exact versions (`"1.2.3"`, never `^1.2.3`). |
 
@@ -101,13 +112,15 @@ From the modular entry in `AGENTS.md`. Review a package against these before app
 node app/scripts/bayit-extension.mjs apply <package-folder> [--update] [--no-tests]
 node app/scripts/bayit-extension.mjs remove <id> [--force]
 node app/scripts/bayit-extension.mjs check
+node app/scripts/bayit-extension.mjs keep <folder>      # before updating Bayit (see Update)
+node app/scripts/bayit-extension.mjs restore <folder>   # after updating Bayit
 ```
 
 `--root <folder>` works on another copy (the tests use it on temporary copies).
 
 **apply** reads and validates `extension.json`, then:
 
-1. refuses if the id is installed (use `--update`), if this Bayit is older than `minBayit`, or if a dependency is not already in `app/package.json` at that exact version. It prints the `npm install --save-exact …` command; the person agrees to running it, because it downloads code.
+1. refuses if `outbound` still has a `https://….invalid` placeholder, if the id is installed (use `--update`), if this Bayit is older than `minBayit`, or if a dependency is not already in `app/package.json` at that exact version. It prints the `npm install --save-exact …` command; the person agrees to running it, because it downloads code.
 2. refuses to overwrite any existing file, or a file another extension owns;
 3. copies the files and adds one line per registry entry to the local registry file, above its list, and the entry to the list:
    ```js
@@ -118,6 +131,8 @@ node app/scripts/bayit-extension.mjs check
 4. records the install in `shared/extensions/installed.json`;
 5. loads the touched core registries in a fresh Node (each entry passes the same checks as core entries), runs bayit-doctor's extension report, and runs the package's own tests (`--no-tests` skips them);
 6. if anything fails, **rolls back**: every file it wrote or edited is restored, every folder it created is removed. A copy is either fully applied or exactly as it was.
+
+**Client registries.** `app/src/extensions/connection-panels.jsx` is JSX, which Node cannot load. Apply edits it like the others, then checks it without running it: every marked import's file exists and exports the imported name, and the registry and those files parse as JSX (with esbuild, which Vite installs). The browser build (`npm run build:cloud`) is its full check. Client lines are kept in the record's `registry` (so remove and check handle them) but left out of `entries`, which bayit-doctor reads by loading the Node registries.
 
 **remove** deletes the recorded files and the folders they leave empty, removes the lines marked `// bayit-extension: <id>` and their names from the list, removes the record, and loads the registries again. After remove the copy is byte for byte what it was before apply. It stops when a file changed since apply (keep a copy of the change, then `--force`), and it rolls back when the copy would no longer load without the extension (another extension depends on it).
 
@@ -144,7 +159,7 @@ node app/scripts/bayit-extension.mjs check
 ## Update
 
 - **Updating an extension**: `apply <new-package> --update`. It removes the old version (stopping if its files were changed), applies the new one, and checks. If the new version fails, the old one is restored exactly. Applying the same version again with `--update` re-applies it.
-- **Updating Bayit**: upstream never edits local registry files or extension files, so an update does not touch them. After an update, run `check`: an extension whose `minBayit` is now satisfied keeps working; one whose registry fails the new core checks is reported with its seam and id, and the person updates or removes it. `bayit-update` will do this for them (work package 3.5).
+- **Updating Bayit**: the person's local registry lines, extension files and `installed.json` are changes to their copy, so `git pull` refuses or conflicts on them (also when upstream only rewords an empty registry file's comment) and a fresh download simply has none of them. `bayit-update` therefore runs `keep <folder>` before the update: it copies every installed extension (record, files as they are now, a package in `local-extensions/`) to a folder outside the copy and takes the extensions out, so the tree is exactly as upstream shipped it. After the update, `restore <folder>` applies each kept extension again, in install order, with its kept files and its lines regenerated in the new registry files, running its own tests on the new version. One that no longer fits is left out whole and reported with three choices (keep the old Bayit, update without it, ask its author); the copy is never half-restored. Neither command touches stored data: a module's records stay in the household data, hidden while the module is out. Code: `app/scripts/bayit-extension-keep.mjs`; tests: `tests/bayit-extension-keep.test.mjs`.
 - **Dependencies** stay in `app/package.json` after remove, because another extension may use them; remove says so.
 
 ## Two extensions on the same seam
@@ -155,7 +170,7 @@ Rules that span extensions (for example, a Today widget or Telegram command belo
 
 ## Publishing
 
-- **Fixed extension skill**: put the package in `.agents/skills/bayit-add-<name>/` in a fork, with `SKILL.md`, `REMOVE.md`, `extension.json`, `payload/` and `tests/`, and open a pull request. The public repository's CI (work package 3.3) applies it to a clean copy, runs the tests and the build, removes it, and checks the tree is clean.
+- **Fixed extension skill**: put the package in `.agents/skills/bayit-add-<name>/` in a fork, with `SKILL.md`, `REMOVE.md`, `extension.json`, `payload/` and `tests/`, and open a pull request. CI (`.github/workflows/extensions.yml`, the same check locally with `cd app && npm run test:extensions`, about a minute) applies every package the repository ships to a clean copy, runs `check` and its tests, removes it and requires the copy to be byte-identical to before; then applies all of them together and runs the whole test suite. `tests/fixtures/extensions/negative/` holds packages that must fail it (one edits a core file).
 - **From a generator**: the package in `local-extensions/<id>/` is already complete; move it into its own skill folder.
 - `local-extensions/` is the person's own: upstream never ships it, and the public export does not copy it.
 
@@ -169,4 +184,5 @@ Some "add" requests cannot be an extension yet, because core has no local regist
 | **Card issuers** (linking a bank's card payment to a card company's statement) | `CARD_ISSUERS` in `shared/finance.mjs` | `EXTRA_CARD_ISSUERS`, or let a statement format declare `cardIssuer: {id, pattern}`. |
 | **Merchant category rules** | `RULES` in `shared/finance.mjs` | `EXTRA_CATEGORY_RULES`, checked after the core rules. |
 | **A new AI wire format** | branches in `app/cloud/ai-providers.mjs` | Adapter registry by `format`; until then a new format is a core contribution. |
-| **Connection panels** | `app/src/extensions/connection-panels.jsx` exists but is a `.jsx` file that Node cannot load, so the script does not manage it yet. | Add it to the script's seams once its check can run without a browser build. |
+| **Server routes for an extension** (a connection that stores its own code or calls its service) | Only core files add `/api/` routes. A connection extension can show a guide and a panel, but its status can use only what the app already has. Feature modules v1 (2026-11-10) have no routes of their own either: their records go through `/changes`. | The wrapped `/api/x/<module>/` routes in `docs/feature-module-design.md` §2.4, later. |
+| **Feature modules: later surfaces** (Today card, reminders, Telegram, Statistics, Bayit AI, outside services, files, own tables) | v1 (2026-11-10) gives a module its own screen, records and the family on/off switch only (`docs/feature-module-contract.md`). | Each later surface needs the user's approval; Today card first. |

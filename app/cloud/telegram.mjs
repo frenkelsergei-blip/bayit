@@ -5,7 +5,6 @@ import {deliveryView,stateFeatureContext,telegramFeature,telegramCallbackFeature
 // Every message is built from visibleState(state, recipient), the same access rules as the app.
 import {json,fail,random,hash,sameDigest,bodyJSON,encryptKey,decryptKey,localDate,localTime,base64} from './util.mjs';
 import {importStatement,applyImport,visibleFinance} from './finance.mjs';
-import {refreshDueConnections} from './riseup.mjs';
 import {CATEGORY,monthSummary,monthOf} from '../../shared/finance.mjs';
 import {describeAction,taskStateNow,taskStateDate} from '../../shared/ai-actions.mjs';
 import {whenLabel} from '../../shared/item-reminders.mjs';
@@ -14,21 +13,15 @@ import {HOME_CURRENCY_SYMBOL} from '../../shared/home-config.mjs';
 import {SPEECH_PROVIDERS,MAX_VOICE_SECONDS,MAX_VOICE_BYTES,DAILY_VOICE_SECONDS,speechAvailability,speechNames,speechOptions,speechHousehold,speechState,speechChoice,transcribe} from './speech.mjs';
 import {loadHousehold,roleOf,commitAsMember,runAssistant,aiStatusRecord,catalog} from './assistant.mjs';
 import {visibleState} from './state.mjs';
-import {lease,maintenance} from './security.mjs';
 import {withPDFSlot} from './pdf-budget.mjs';
 import {telegramLinkIdentity,authorizeTelegramClaim,claimTelegramLink,ownAccountInvitation} from './child-identity.mjs';
 import {externalFetch,boundedBytes,boundedJSON} from './outbound.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
-import {deliverPush} from './push.mjs';
-import {financeDeliveryMessages} from './finance-goals.mjs';
-import {insuranceAlerts} from '../../shared/insurance-lifecycle.mjs';
-import {searchVouchers,voucherDeliveryMessages,voucherLink} from './voucher-delivery.mjs';
-import {syncDueGoogleCalendar} from './google-calendar.mjs';
-import {generateDueSuggestions} from './home-suggestions.mjs';
-import {runDueBayitAI,bayitAIDeliveryMessages} from './bayit-ai.mjs';
+import {searchVouchers,voucherLink} from './voucher-delivery.mjs';
 import {stageInsuranceReport,readInsurancePreview,insurancePreviewSummary,applyInsurancePreview,discardInsurancePreview} from './insurance-import.mjs';
-import {dueReminders,digestDue,approvalRequests,childUpdates,taskDoneUpdates,overdueAlerts,agenda,notificationPrefs,inQuietHours,minutes,snoozable,snoozeStillDue,reminderMatchesOccurrence,changeUpdates} from './reminders.mjs';
+import {snoozable} from './reminders.mjs';
+import {deliverChannels} from './channel-delivery.mjs';
 import {describeChange,changeWhen} from '../../shared/change-notices.mjs';
 
 // The "/" menu. Registered when a bot connects, on Test connection, and re-registered automatically by the
@@ -38,7 +31,7 @@ const COMMANDS={en:[['today','My day'],['tasks','My tasks · tap to complete'],[
  he:[['today','היום שלי'],['tasks','המשימות שלי · הקשה מסמנת כבוצע'],['week','7 הימים הקרובים'],['shopping','רשימת הקניות · הקשה מסמנת כנקנה'],['lists','כל הרשימות שלי'],['note','כתיבת הערה: /note טקסט'],['expenses','ההוצאות החודש'],['insurance','ייבוא דוח Excel מהר הביטוח'],['mine','בקשה פרטית: /mine טקסט'],['help','מה אני יודע לעשות'],['stop','ניתוק הצ׳אט']]};
 async function registerCommands(env,token){let ok=true;for(const lang of ['en','he']){try{await tg(env,token,'setMyCommands',{commands:[...COMMANDS[lang],['vouchers',L(lang,'Find my vouchers','חיפוש שוברים שלי')]].map(([command,description])=>({command,description})),...(lang==='he'?{language_code:'he'}:{})})}catch{ok=false}}return ok}
 async function ensureCommands(env,bot){const name='tg-commands:'+bot.household_id,row=await env.DB.prepare('SELECT detail FROM service_heartbeats WHERE name=?').bind(name).first();if(row?.detail===COMMANDS_VERSION)return;if(await registerCommands(env,bot.token))await env.DB.prepare("INSERT INTO service_heartbeats(name,at,detail) VALUES(?,?,?) ON CONFLICT(name) DO UPDATE SET at=excluded.at,detail=excluded.detail").bind(name,Date.now(),COMMANDS_VERSION).run()}
-const LINK_MINUTES=30,ACTION_DAYS=2,MAX_PER_MEMBER_TICK=10,SNOOZE_MINUTES=10,TURN_MINUTES=30;
+const LINK_MINUTES=30,ACTION_DAYS=2,SNOOZE_MINUTES=10,TURN_MINUTES=30;
 const TOKEN_PATTERN=/^\d{5,16}:[A-Za-z0-9_-]{30,60}$/;
 const L=(lang,en,he)=>lang==='he'?he:en;
 const esc=value=>String(value??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -473,84 +466,67 @@ async function onCallback(env,bot,query){
  }catch(error){await release();return answer(errorText(lang,error,'Bayit could not complete this. Nothing was changed.','Bayit לא הצליח להשלים את הפעולה. דבר לא שונה.'),true)}
 }
 
-// ---- Scheduled reminders ----
-export async function runReminderTick(request,env){
- const supplied=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');
- if(!env.REMINDER_CRON_SECRET||!supplied||!sameDigest(await hash(supplied),await hash(env.REMINDER_CRON_SECRET)))return json({error:'Unauthorized.'},401);
- const release=await lease(env,'reminder-tick');if(!release)return json({ok:true,skipped:'another tick is running'});
- try{await maintenance(env);const deadline=Date.now()+45000,result=await deliverReminders(env,new Date(),{deadline,origin:new URL(request.url).origin});
- try{result.push=await deliverPush(env,new Date(),{deadline})}catch{result.push={failed:1}}
- // The same minute tick refreshes each optional finance connection (RiseUp) about once an hour.
- try{result.financeSynced=Date.now()<deadline?await refreshDueConnections(env,new Date(),1):0}catch{result.financeSynced=0}
- try{result.calendarSynced=await syncDueGoogleCalendar(env,deadline)}catch{result.calendarSynced=0}
- try{result.suggestionsPrepared=await generateDueSuggestions(env,deadline)}catch{result.suggestionsPrepared=0}
- try{result.bayitAI=Date.now()<deadline?await runDueBayitAI(env,deadline):0}catch{result.bayitAI=0}
- return json(result);}finally{await release()}
+// ---- Scheduled delivery: Telegram behind the channel contract (docs/channel-contract.md) ----
+// Core (channel-delivery.mjs) plans what is due for whom and sends each message once; these hooks render a planned
+// message as Telegram HTML with its buttons, send it, and keep Telegram's own tables.
+const done=(ctx,taskId,extra={})=>button(ctx.env,ctx.householdId,ctx.memberId,L(ctx.lang,'✓ Done','✓ בוצע'),{type:'done',taskId,date:ctx.date,...extra});
+async function render(message,ctx){
+ const {env,householdId,memberId,role,lang,date,time,origin,visible,members,nameOf}=ctx;
+ if(message.type==='reminder'){const item=message.item;
+  if(message.snoozed)return [reminderText(item,lang,time,date),item.kind==='task'&&item.date===date?[[await done(ctx,item.record.id)]]:[]];
+  const row1=[...(item.kind==='task'&&item.date===date?[await done(ctx,item.record.id)]:[])];
+  // Snooze only for something happening today (Telegram audit 2026-11-08): a reminder days ahead offered "Snooze 10 min".
+  if(snoozable(item,{date,time},SNOOZE_MINUTES))row1.push(await button(env,householdId,memberId,L(lang,'Snooze '+SNOOZE_MINUTES+' min','נודניק '+SNOOZE_MINUTES+' דק׳'),{type:'snooze',item:{kind:item.kind,id:item.record.id,date:item.date||date,time:item.time||'',category:item.category,...(item.kind==='maintenance'?{dueDate:item.dueDate}:{})}}));
+  return [reminderText(item,lang,time,date),row1.length?[row1]:[]];
+ }
+ if(message.type==='change')return [changeText(message.burst,lang,nameOf),[]];
+ if(message.type==='digest'){const report=dayReport(visible,{memberId,role,date,lang,members,greeting:true}),rows=[];for(const t of report.openTasks.slice(0,4))rows.push([await button(env,householdId,memberId,'✓ '+cut(title(t,lang),40),{type:'done',taskId:t.id,date,keep:true})]);return [report.text,rows]}
+ if(message.type==='approval'){const who=message.by;return [card(lang,{icon:'⏳',title:esc(title(message.task,lang)),context:L(lang,'Approval needed · marked done by ','נדרש אישור · סומן כבוצע על ידי ')+esc(lang==='he'?who?.he||who?.name:who?.name)}),[[await button(env,householdId,memberId,L(lang,'Approve','אישור'),{type:'approve',taskId:message.task.id,date})]]]}
+ if(message.type==='overdue'){const alert=message.alert;return [card(lang,{icon:'⏰',title:esc(title(alert.task,lang)),context:[L(lang,'Not done yet','עדיין לא בוצע'),!alert.assignee&&esc(nameOf(alert.task.memberId)),esc(shortDay(alert.date,lang)),alert.task.time&&'<b>'+esc(alert.task.time)+'</b>'].filter(Boolean).join(' · ')}),alert.assignee&&alert.date===date?[[await done(ctx,alert.task.id)]]:[]]}
+ if(message.type==='completed'){const who=message.by;return [card(lang,{icon:'🎉',title:esc(title(message.task,lang)),context:L(lang,'Completed by ','הושלם על ידי ')+esc(lang==='he'?who?.he||who?.name:who?.name)})]}
+ const m=message.message;
+ if(message.type==='finance')return [alertCard(lang,{icon:m.icon==='1F4C8'?'📈':'💰',title:m.title,detail:m.detail})];
+ if(message.type==='bayit-ai')return [alertCard(lang,{icon:'✨',title:esc(m.title),detail:esc(m.body)}),origin?[[{text:L(lang,'Open in Bayit','פתיחה בבית'),url:origin+'/'+m.url}]]:[]];
+ if(message.type==='insurance')return [alertCard(lang,{icon:'🛡',title:m.title,detail:m.detail})];
+ if(message.type==='voucher')return [alertCard(lang,{icon:'🎟',title:m.title,detail:esc(m.body)}),origin?[[{text:L(lang,'Open voucher','פתיחת השובר'),url:origin+'/'+m.url}]]:[]];
+ throw fail('Unsupported message.');
 }
 
-export async function deliverReminders(env,now,{deadline=Date.now()+45000,origin=env.BAYIT_ORIGIN}={}){
- const date=localDate(now),time=localTime(now),summary={households:0,sent:0,failed:0,suppressed:0};
- const bots=(await env.DB.prepare('SELECT * FROM telegram_bots ORDER BY household_id LIMIT 100').all()).results;
- for(const row of bots){if(Date.now()>=deadline)break;
-  const links=(await linksFor(env,row.household_id)).filter(l=>!l.blocked);if(!links.length)continue;summary.households++;
-  let bot,home;try{bot=await withToken(env,row);home=await loadHousehold(env,row.household_id)}catch{summary.failed++;continue}
-  try{await ensureCommands(env,bot)}catch{}
-  // Only the yes/no "Update parents" choice of each child is shared with parents' delivery.
-  const childPrefs=Object.fromEntries(home.state.members.filter(m=>m.role==='child').map(m=>[m.id,notificationPrefs(home.state.profiles[m.id]).parentUpdates!==false]));
-  const snoozes=(await env.DB.prepare('SELECT * FROM telegram_snoozes WHERE household_id=? AND sent_at IS NULL AND due_at<=?').bind(row.household_id,now.getTime()).all()).results;
-  for(const link of links){if(Date.now()>=deadline)break;
-   const memberId=link.member_id,role=roleOf(home.state,memberId);if(!role)continue;
-   const visible=deliveryView(visibleState(home.state,memberId),memberId);if(!visible.features.on('telegram'))continue;
-   const lang=languageOf(home.state,memberId),prefs=notificationPrefs(home.state.profiles[memberId]),quiet=inQuietHours(time,prefs.quietStart,prefs.quietEnd),outbox=[];
-   // A snoozed reminder the person asked for goes first, so the per-tick limit never drops it after it was claimed.
-   for(const snooze of snoozes.filter(s=>s.member_id===memberId)){
-    const item=JSON.parse(snooze.payload),record=(item.kind==='event'?visible.events:visible.tasks).find(r=>r.id===item.id);
-    await env.DB.prepare('UPDATE telegram_snoozes SET sent_at=? WHERE id=?').bind(now.getTime(),snooze.id).run();
-    // Re-checked against the item as it is now: moved, deleted, done, no longer visible or already started → not sent.
-    if(!snoozeStillDue(item,record,memberId,{date,time})){summary.suppressed++;continue}
-    const reminder={...item,record,time:record.time||(item.kind==='maintenance'?time:'')};outbox.push({key:'snooze:'+snooze.id,build:async()=>[reminderText(reminder,lang,time,date),item.kind==='task'&&item.date===date?[[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:record.id,date})]]:[]]});
-   }
-   // Changes to things assigned to this person, by someone else; then silent corrections of reminders already sent.
-   const nameOf=id=>{const m=home.state.members.find(x=>x.id===id);return lang==='he'?m?.he||m?.name:m?.name},changes=changeUpdates(visible,memberId,{time,now:now.getTime()});
-   for(const burst of changes.messages)outbox.push({key:burst.key,build:async()=>[changeText(burst,lang,nameOf),[]]});
-   for(const burst of changes.corrections){if(Date.now()>=deadline)break;const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'telegram',?,'sent',?)").bind(row.household_id,memberId,'fix:'+burst.key,now.getTime()).run();if(claim.meta.changes)summary.corrected=(summary.corrected||0)+await correctSentReminders(env,bot,row.household_id,link,memberId,burst,visible,lang,nameOf,date)}
-   for(const item of dueReminders(visible,memberId,{date,time}))if(!reminderMatchesOccurrence(item,{date,time}))summary.suppressed++;else outbox.push({key:item.key,build:async()=>{const row1=[...(item.kind==='task'&&item.date===date?[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:item.record.id,date})]:[])];
-    // Snooze only for something happening today (Telegram audit 2026-11-08): a reminder days ahead offered "Snooze 10 min".
-    if(snoozable(item,{date,time},SNOOZE_MINUTES))row1.push(await button(env,row.household_id,memberId,L(lang,'Snooze '+SNOOZE_MINUTES+' min','נודניק '+SNOOZE_MINUTES+' דק׳'),{type:'snooze',item:{kind:item.kind,id:item.record.id,date:item.date||date,time:item.time||'',category:item.category,...(item.kind==='maintenance'?{dueDate:item.dueDate}:{})}}));
-    return [reminderText(item,lang,time,date),row1.length?[row1]:[]]}});
-   const digest=digestDue(visible,memberId,{date,time});if(digest)outbox.push({key:digest.key,build:async()=>{const report=dayReport(visible,{memberId,role,date,lang,members:home.state.members,greeting:true}),rows=[];for(const t of report.openTasks.slice(0,4))rows.push([await button(env,row.household_id,memberId,'✓ '+cut(title(t,lang),40),{type:'done',taskId:t.id,date,keep:true})]);return [report.text,rows]}});
-   const updates=quiet?[]:childUpdates(visible,memberId,{date,time},role,childPrefs),reported=new Set(updates.map(u=>u.entry.taskId+':'+u.entry.date));
-   if(!quiet){
-    for(const request of approvalRequests(visible,memberId,{date},role)){const who=home.state.members.find(m=>m.id===request.task.memberId);outbox.push({key:request.key,build:async()=>[card(lang,{icon:'⏳',title:esc(title(request.task,lang)),context:L(lang,'Approval needed · marked done by ','נדרש אישור · סומן כבוצע על ידי ')+esc(lang==='he'?who?.he||who?.name:who?.name)}),[[await button(env,row.household_id,memberId,L(lang,'Approve','אישור'),{type:'approve',taskId:request.task.id,date})]]]})}
-    for(const alert of overdueAlerts(visible,memberId,{date,time}))outbox.push({key:alert.key,build:async()=>[card(lang,{icon:'⏰',title:esc(title(alert.task,lang)),context:[L(lang,'Not done yet','עדיין לא בוצע'),!alert.assignee&&esc(nameOf(alert.task.memberId)),esc(shortDay(alert.date,lang)),alert.task.time&&'<b>'+esc(alert.task.time)+'</b>'].filter(Boolean).join(' · ')}),alert.assignee&&alert.date===date?[[await button(env,row.household_id,memberId,L(lang,'✓ Done','✓ בוצע'),{type:'done',taskId:alert.task.id,date})]]:[]]});
-    for(const update of updates){const who=home.state.members.find(m=>m.id===update.entry.memberId);outbox.push({key:update.key,build:async()=>[card(lang,{icon:'🎉',title:esc(title(update.entry,lang)),context:L(lang,'Completed by ','הושלם על ידי ')+esc(lang==='he'?who?.he||who?.name:who?.name)})]})}
-   }
-   for(const u of taskDoneUpdates(visible,memberId,{date})){const own=notificationPrefs(visible.profiles?.[memberId],u.task.routine?'routines':'tasks');if(!inQuietHours(time,own.quietStart,own.quietEnd)&&!reported.has(u.task.id+':'+u.date)){const actor=home.state.members.find(m=>m.id===u.actorId);outbox.push({key:u.key,build:async()=>[card(lang,{icon:'🎉',title:esc(title(u.task,lang)),context:L(lang,'Completed by ','הושלם על ידי ')+esc(lang==='he'?actor?.he||actor?.name:actor?.name)})]})}}
-   if(visible.features.on('expenses'))try{for(const message of await financeDeliveryMessages(env,home,memberId,{date,time,channel:'telegram'}))outbox.push({key:message.key,build:async()=>[alertCard(lang,{icon:message.icon==='1F4C8'?'📈':'💰',title:message.title,detail:message.detail})]})}catch{summary.failed++}
-   // בית AI digest (2026-11-10): only for adults who chose Telegram, outside quiet hours, while Ask AI and Expenses are on.
-   try{for(const message of await bayitAIDeliveryMessages(env,home,memberId,{date,time,channel:'telegram'}))outbox.push({key:message.key,build:async()=>[alertCard(lang,{icon:'✨',title:esc(message.title),detail:esc(message.body)}),origin?[[{text:L(lang,'Open in Bayit','פתיחה בבית'),url:origin+'/'+message.url}]]:[]]})}catch{summary.failed++}
-   if(visible.features.on('insurance'))for(const message of insuranceAlerts(visible,memberId,{date,time,channel:'telegram',lang}))outbox.push({key:message.key,build:async()=>[alertCard(lang,{icon:'🛡',title:message.title,detail:message.detail})]});
-   if(visible.features.on('vouchers'))try{for(const message of await voucherDeliveryMessages(env,home,memberId,{date,time,channel:'telegram'}))outbox.push({key:message.key,build:async()=>[
-    alertCard(lang,{icon:'🎟',title:message.title,detail:esc(message.body)}),origin?[[{text:L(lang,'Open voucher','פתיחת השובר'),url:origin+'/'+message.url}]]:[]
-   ]});}catch{summary.failed++}
-   for(const message of outbox.slice(0,MAX_PER_MEMBER_TICK)){if(Date.now()>=deadline)break;
-    const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,'telegram',?,'sending',?)").bind(row.household_id,memberId,message.key,now.getTime()).run();if(!claim.meta.changes)continue;
-    const mark=(status,detail='')=>env.DB.prepare("UPDATE notification_deliveries SET status=?,detail=? WHERE household_id=? AND member_id=? AND channel='telegram' AND delivery_key=?").bind(status,detail,row.household_id,memberId,message.key).run();
-    try{const [text,rows]=await message.build(),sent=await send(env,bot,link.chat_id,text,rows,lang);await mark('sent',sent?.message_id?'m:'+sent.message_id:'');summary.sent++} // The message id lets a later change correct this reminder.
-    catch(error){summary.failed++;
-     if(error.transient)await env.DB.prepare("DELETE FROM notification_deliveries WHERE household_id=? AND member_id=? AND channel='telegram' AND delivery_key=?").bind(row.household_id,memberId,message.key).run();
-     else{await mark('failed',cut(String(error.message||''),200));if(error.telegramStatus===403){await env.DB.prepare('UPDATE telegram_links SET blocked=1 WHERE household_id=? AND member_id=?').bind(row.household_id,memberId).run();break}}}
-   }
-  }
+export const TELEGRAM_CHANNEL={
+ id:'telegram',
+ name:{en:'Telegram',he:'טלגרם'},
+ feature:'telegram',
+ apiPath:'/api/telegram/',
+ hookPath:'/api/telegram/hook/',
+ api:handleTelegramAPI,
+ webhook:handleTelegramWebhook,
+ delivery:{
+  targets:async env=>(await env.DB.prepare('SELECT * FROM telegram_bots ORDER BY household_id LIMIT 100').all()).results.map(row=>({householdId:row.household_id,row})),
+  recipients:async(env,target)=>(await linksFor(env,target.householdId)).filter(l=>!l.blocked).map(link=>({memberId:link.member_id,link})),
+  open:(env,target)=>withToken(env,target.row),
+  prepare:ensureCommands,
+  // The payload is read when core uses it, as before, so one unreadable snooze affects only its own person.
+  dueSnoozes:async(env,target,now)=>(await env.DB.prepare('SELECT * FROM telegram_snoozes WHERE household_id=? AND sent_at IS NULL AND due_at<=?').bind(target.householdId,now.getTime()).all()).results.map(s=>({id:s.id,memberId:s.member_id,get item(){return JSON.parse(s.payload)}})),
+  snoozeSent:(env,id,now)=>env.DB.prepare('UPDATE telegram_snoozes SET sent_at=? WHERE id=?').bind(now.getTime(),id).run(),
+  render,
+  send:async(env,bot,recipient,[text,rows],lang)=>{try{const sent=await send(env,bot,recipient.link.chat_id,text,rows,lang);return {messageId:sent?.message_id}}catch(error){if(error.telegramStatus===403)error.blocked=true;throw error}},
+  correct:(env,bot,recipient,burst,ctx)=>correctSentReminders(env,bot,ctx.householdId,recipient.link,ctx.memberId,burst,ctx.visible,ctx.lang,ctx.nameOf,ctx.date),
+  blocked:(env,householdId,memberId)=>env.DB.prepare('UPDATE telegram_links SET blocked=1 WHERE household_id=? AND member_id=?').bind(householdId,memberId).run(),
+  cleanup:(env,at)=>[
+   env.DB.prepare('DELETE FROM telegram_actions WHERE expires_at<?').bind(at-86400000),
+   env.DB.prepare('DELETE FROM telegram_link_tokens WHERE expires_at<?').bind(at-86400000),
+   env.DB.prepare('DELETE FROM telegram_updates WHERE received_at<?').bind(at-2*86400000),
+   env.DB.prepare('DELETE FROM telegram_snoozes WHERE sent_at IS NOT NULL AND sent_at<?').bind(at-86400000)
+  ]
  }
- const at=now.getTime();
- await env.DB.batch([
-  env.DB.prepare("INSERT INTO service_heartbeats(name,at,detail) VALUES('reminders',?,?) ON CONFLICT(name) DO UPDATE SET at=excluded.at,detail=excluded.detail").bind(at,JSON.stringify(summary)),
-  env.DB.prepare("DELETE FROM notification_deliveries WHERE created_at<? AND delivery_key NOT LIKE 'insurance:%'").bind(at-40*86400000),
-  env.DB.prepare('DELETE FROM telegram_actions WHERE expires_at<?').bind(at-86400000),
-  env.DB.prepare('DELETE FROM telegram_link_tokens WHERE expires_at<?').bind(at-86400000),
-  env.DB.prepare('DELETE FROM telegram_updates WHERE received_at<?').bind(at-2*86400000),
-  env.DB.prepare('DELETE FROM telegram_snoozes WHERE sent_at IS NOT NULL AND sent_at<?').bind(at-86400000)
- ]);
- return {ok:true,date,time,...summary};
+};
+// Telegram only, as before; the scheduler (scheduler.mjs) delivers every registered channel (channels.mjs).
+export const deliverReminders=(env,now,options)=>deliverChannels(env,now,[TELEGRAM_CHANNEL],options);
+// Passkey recovery notice (docs/passkey-sign-in-design.md §4.2): one plain message to the person's own linked private
+// chat, only while Telegram is on for them. Returns whether it was sent.
+export async function sendTelegramNotice(env,home,memberId,{title,body}){
+ const link=await env.DB.prepare('SELECT chat_id,blocked FROM telegram_links WHERE household_id=? AND member_id=?').bind(home.id,memberId).first();
+ if(!link||link.blocked||!stateFeatureContext(home.state,memberId).on('telegram'))return false;
+ const bot=await withToken(env,await botRow(env,home.id));if(!bot)return false;
+ await send(env,bot,link.chat_id,'<b>'+esc(title)+'</b>\n'+esc(body),null,languageOf(home.state,memberId));return true;
 }

@@ -22,6 +22,14 @@ docker run --rm -v bayit_bayit-data:/data -v "$PWD":/backup busybox tar czf /bac
 docker compose start bayit
 ```
 
+To restore that archive (this replaces everything in the volume):
+
+```bash
+docker compose stop bayit
+docker run --rm -v bayit_bayit-data:/data -v "$PWD":/backup busybox sh -c 'rm -rf /data/* && tar xzf /backup/bayit-backup.tgz -C /data'
+docker compose start bayit
+```
+
 The volume is named `<folder>_bayit-data`; `docker volume ls` shows it.
 
 **Always keep `APP_ENCRYPTION_KEY` with your backups**, in a password manager. Without it, the stored AI keys, bot tokens and other connection credentials can't be decrypted. [security-hardening.md](security-hardening.md) covers encrypted offline backups, restores and key rotation. Test a restore at least once.
@@ -39,7 +47,7 @@ npm run deploy:cloud
 npm run deploy:reminders                             # only if app/cloud/reminder-cron.mjs changed
 ```
 
-If you changed the project or database names with `bayit-configure.mjs`, `git pull` keeps your edits. If git reports a conflict in a `wrangler*.jsonc` file, keep your names and IDs.
+If you changed the project or database names with `bayit-configure.mjs`, commit those files once (`git commit -am "My Cloudflare names"`) before your first `git pull`; otherwise git refuses to pull when an update touches them. If git reports a conflict in a `wrangler*.jsonc` file, keep your names and IDs.
 
 **Docker:**
 

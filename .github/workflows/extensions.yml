@@ -1,0 +1,29 @@
+# Apply-and-remove check for extension packages (work package 3.3; app/scripts/bayit-extension-ci.mjs).
+# Every package the repository ships (.agents/skills/bayit-add-*/template, fixed bayit-add-* skills, tests/fixtures/extensions/*)
+# is applied to a clean copy, checked, its tests run, removed, and the copy must be byte-identical to before; then all
+# of them together with the whole test suite. The negative fixture (an extension that edits a core file) must fail.
+# Prepared in the private folder; work/export-public.sh does not carry .github, so copy this file to the public
+# repository by hand (the action pins below are the public repository's).
+name: Extensions
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  apply-and-remove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run test:extensions

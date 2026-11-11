@@ -1,0 +1,17 @@
+{
+ "id": "core-editor",
+ "version": "1.0.0",
+ "name": {"en": "Core editor (must be refused)", "he": "עורך ליבה (חייב להיפסל)"},
+ "description": "NEGATIVE test fixture for the apply-and-remove check (app/scripts/bayit-extension-ci.mjs): its manifest is valid, but its test edits a core file, which the check must catch. Never install it.",
+ "seam": "statement-formats",
+ "minBayit": "1.56.0",
+ "files": [
+  "shared/extensions/core-editor.mjs",
+  "tests/extension-core-editor.test.mjs"
+ ],
+ "registry": [
+  {"seam": "statement-formats", "id": "core-editor", "file": "shared/extensions/core-editor.mjs", "export": "CORE_EDITOR"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

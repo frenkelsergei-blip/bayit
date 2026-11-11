@@ -27,8 +27,8 @@ html:root .tasks-sheet:not(.shop-item-sheet)>.tasks-sheet-actions{position:stati
  html:root :is(.tasks-sheet-backdrop,.household-window-backdrop,.modal-backdrop.insurance-backdrop,.modal-backdrop.transaction-backdrop){z-index:400!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;place-items:stretch!important}
  /* Pop-ups opened from a window (dropdown menus, the date picker) sit above it; at 310 they were drawn behind the
     400 window, visible but not tappable (user report 2026-11-10, Who we pay › What it’s for). */
- html:root .date-pop-backdrop{z-index:405!important}
- html:root :is(.select-menu,.date-pop){z-index:410!important}
+ html:root .date-pop-backdrop{z-index:455!important}
+ html:root :is(.select-menu,.date-pop){z-index:460!important}
  html:root :is(.tasks-sheet,.household-window,.household-window.wide,.insurance-backdrop .insurance-dialog,.transaction-backdrop [role=dialog]){width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;border-radius:0!important;border:0!important;box-shadow:none!important}
  /* Header clear of the status bar / Dynamic Island; footer clear of the home indicator. */
  html:root .tasks-sheet:not(.shop-item-sheet)>header{padding-top:max(16px,env(safe-area-inset-top))!important;padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right))!important;padding-bottom:12px!important}

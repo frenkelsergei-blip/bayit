@@ -10,7 +10,7 @@
 .reminder-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .reminder-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0}
 .reminder-row>input[type=number]{width:5.2em;min-width:0;flex:none;text-align:center;font-variant-numeric:tabular-nums}
-.reminder-row>input[type=time]{width:auto;min-width:6.5em;flex:none}
+.reminder-row>.time-field{width:auto;min-width:6.5em;flex:none;margin:0}
 .reminder-row>.select-control{flex:0 1 9.5em;min-width:7.5em}
 .reminder-row>span{font-weight:750;white-space:nowrap}
 .reminder-row>input[aria-invalid=true]{border-color:#c43d3d}
@@ -34,7 +34,7 @@
 .reminder-pills li>svg{flex:none;color:var(--primary)}
 .reminder-summary-default{margin-block:6px;overflow-wrap:anywhere}
 @media(max-width:700px){
- .reminder-row>input[type=number],.reminder-row>input[type=time]{font-size:16px}
+ .reminder-row>input[type=number]{font-size:16px}
  .reminder-row>.select-control{flex:1 1 7.5em}
  /* Phones: a narrower amount box (no spin arrows on touch) leaves the unit name room to stay whole. */
  .reminder-row:not(:has(input[type=time])){grid-template-columns:3.2em minmax(0,12em) auto minmax(0,1fr) 44px;gap:6px}

@@ -58,7 +58,7 @@ html:root .household-window .document-editor-footer .actions>.household-window-d
  html:root .household-window .document-editor-footer .actions>:only-child{grid-column:1/-1}
 }
 @media(max-width:700px){
- html:root .household-window .form-section-body .two-fields:has(.date-field-button,input[type=time],.select-button){grid-template-columns:minmax(0,1fr)}
+ html:root .household-window .form-section-body .two-fields:has(.date-field-button,.time-field,.select-button){grid-template-columns:minmax(0,1fr)}
 }
 @media(max-height:520px) and (orientation:landscape){
  html:root .household-window .document-editor-header{padding:10px 18px 8px}

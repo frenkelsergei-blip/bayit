@@ -9,9 +9,11 @@ Bayit runs entirely on **your own Cloudflare account**. It uses a Pages project 
 **Time:** about 45 minutes.
 
 **You need:**
-- a Cloudflare account (free) and a Google account;
-- Node.js 22.13 or newer, and git;
-- the Google email of the person who will own the installation.
+- a Cloudflare account (free);
+- [Node.js](https://nodejs.org) 22.13 or newer (the LTS installer) and [git](https://git-scm.com/downloads);
+- a **terminal**: the window where you type commands (Terminal on a Mac, PowerShell on Windows).
+
+Everyone signs in with a passkey (face, fingerprint or screen lock); no Google account or Google Cloud project is needed. Google sign-in is optional (step 5).
 
 ## 1. Get the code
 
@@ -42,7 +44,7 @@ If a name is already taken in your account, choose another one. Then pass it to 
 node scripts/bayit-configure.mjs --project <project> --database-id <database_id>
 ```
 
-This writes only names and IDs, never secrets. It updates `wrangler.jsonc`, `wrangler.worker.jsonc`, `wrangler.pdf.jsonc`, `wrangler.cron.jsonc` and the deploy script in `package.json`. Review the changes with `git diff`.
+This writes only names and IDs, never secrets. It updates `wrangler.jsonc`, `wrangler.worker.jsonc`, `wrangler.pdf.jsonc`, `wrangler.cron.jsonc` and the deploy script in `package.json`. If you used git clone, review the changes with `git diff` and commit them once (`git commit -am "My Cloudflare names"`), so later updates can merge.
 
 ## 4. Create the database tables
 
@@ -50,13 +52,25 @@ This writes only names and IDs, never secrets. It updates `wrangler.jsonc`, `wra
 npx wrangler d1 migrations apply bayit-home --remote
 ```
 
-## 5. Google sign-in
+## 5. Sign-in: passkeys
 
-Everyone signs in with their own Google account. Create the sign-in client by following **[Google sign-in setup](google-sign-in.md)**, using this redirect URI:
+> **New in 1.59.0, not yet tested on real phones.** Passkey sign-in ("מפתח גישה": Face ID, fingerprint or the phone's screen lock) passed an independent code review, but it has not been tried on real phones yet. It is on by default; to switch it off, set `BAYIT_PASSKEYS` to `off` and deploy again. Google sign-in keeps working either way.
+
+Passkeys need your address as a secret, exactly the address people open, with no trailing slash. Choose it once: changing it later makes every stored passkey stop working.
 
 ```
-https://<project>.pages.dev/api/auth/callback/google
+npx wrangler pages secret put BAYIT_ORIGIN --project-name <project>   # https://<project>.pages.dev
 ```
+
+The owner proves they installed Bayit with a one-time setup code. Run `node scripts/bayit-setup-code.mjs` in your own terminal, keep the code it prints, and store it:
+
+```
+npx wrangler pages secret put BAYIT_SETUP_CODE --project-name <project>
+```
+
+## 5a. Google sign-in (optional)
+
+Skip this unless you want "Continue with Google" too. Create the sign-in client with **[Google sign-in setup](google-sign-in.md)**, using the redirect URI `https://<project>.pages.dev/api/auth/callback/google`, and add the three Google secrets in step 6. To offer Google only, also put `BAYIT_PASSKEYS` with the value `off`.
 
 ## 6. Secrets
 
@@ -71,13 +85,14 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```bash
 npx wrangler pages secret put AUTH_SECRET --project-name <project>             # random value 1
 npx wrangler pages secret put APP_ENCRYPTION_KEY --project-name <project>      # random value 2
+# Only with Google sign-in (5a):
 npx wrangler pages secret put BAYIT_BOOTSTRAP_EMAIL --project-name <project>   # the owner's Google email
 npx wrangler pages secret put GOOGLE_CLIENT_ID --project-name <project>
 npx wrangler pages secret put GOOGLE_CLIENT_SECRET --project-name <project>
 ```
 
 - **`APP_ENCRYPTION_KEY`** encrypts every household's AI key, bot token and other connection credentials. Keep a copy in your password manager. Never replace it without the key-rotation steps in [security-hardening.md](security-hardening.md), or households will have to reconnect.
-- **`BAYIT_BOOTSTRAP_EMAIL`** decides who may create the first household. A new installation does not let any Google user in. The owner signs in, creates the family and invites everyone else. To let more people create their own households, see the registration settings in [security-hardening.md](security-hardening.md).
+- **`BAYIT_BOOTSTRAP_EMAIL`** (Google only) decides who may create the first household with Google; with passkeys the setup code does. A new installation does not let any Google user in. The owner signs in, creates the family and invites everyone else. To let more people create their own households, see the registration settings in [security-hardening.md](security-hardening.md).
 
 ## 7. Deploy
 
@@ -110,7 +125,7 @@ node scripts/bayit-doctor.mjs --cloudflare --origin https://<project>.pages.dev
 
 The doctor checks your tools, configuration, secret names (never their values), migrations, the site, the sign-in setup and the running version. It prints a fix for every ✖.
 
-Then open your address, sign in with the owner's Google account and create your family. Invite the others in **Settings → Family → Invite**: one link per person, each used once.
+Then open your address, choose **Start setting up** (or sign in with the owner's Google account), create your passkey and your family; a short first-run wizard follows. Invite the others in **Settings → Family → Invite**: one link per person, each used once.
 
 ## 10. Connect the extras
 

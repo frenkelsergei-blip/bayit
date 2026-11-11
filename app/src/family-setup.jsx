@@ -15,15 +15,19 @@ import {cloudHeaders} from './cloud-transport';
 import {BrandMark} from './brand-mark';
 import './family-setup.css';
 import './connection-guide.css';
+import {SetupChecklist,SetupDone,useInstallPrompt} from './setup-checklist'; // install wizard concept A (2026-11-11)
 
 const Icon=({name,size=24,...rest})=>{const C=P[name]||P.Circle;return <C size={size} {...rest}/>};
 const L=(a,o)=>o?(a.lang==='he'?o.he:o.en):'';
 const get=async path=>{const r=await fetch(path,{headers:cloudHeaders(),signal:AbortSignal.timeout(15000)});if(!r.ok)throw new Error(String(r.status));return r.json()};
 
-export function FamilySetup({app:a,onClose,start='questions'}){
+// wizard (install wizard concept A, user decision 2026-11-11): a new family's first run ends with the live "To start"
+// checklist and the Done screen (setup-checklist.jsx) instead of the connection cards; resume = opened from Today's card.
+export function FamilySetup({app:a,onClose,start='questions',ui,wizard=false,resume=false}){
+ const install=useInstallPrompt(),[summary,setSummary]=useState(null);
  const profile=a.data.preferences.familyProfile||{};
  const [stage,setStage]=useState(start),[answers,setAnswers]=useState(profile.answers||{}),[index,setIndex]=useState(0),[dir,setDir]=useState(1);
- const [picked,setPicked]=useState(()=>start==='features'?{...a.features.family}:featureDefaults()),[reasons,setReasons]=useState({}),[guide,setGuide]=useState(''),[saving,setSaving]=useState(false),[error,setError]=useState('');
+ const [picked,setPicked]=useState(()=>start==='features'||start==='connect'?{...a.features.family}:featureDefaults()),[reasons,setReasons]=useState({}),[guide,setGuide]=useState(''),[saving,setSaving]=useState(false),[error,setError]=useState('');
  const questions=questionsFor(answers),q=questions[Math.min(index,questions.length-1)],he=a.lang==='he';
  const Back=he?P.ArrowRight:P.ArrowLeft,Next=he?P.ArrowLeft:P.ArrowRight;
  const body=useRef(null);useEffect(()=>{body.current?.scrollTo?.(0,0);body.current?.querySelector('h1')?.focus?.()},[stage,index,guide]);
@@ -34,11 +38,11 @@ export function FamilySetup({app:a,onClose,start='questions'}){
  const toSuggestWith=next=>{const s=suggestFeatures(next);setPicked(s.features);setReasons(s.reasons);go('features')};
  const nextQ=()=>{setDir(1);if(index<questions.length-1)setIndex(index+1);else toSuggest()};
  const prevQ=()=>{setDir(-1);if(index>0)setIndex(index-1);else onClose?.()};
- const save=async(skipped)=>{setSaving(true);setError('');try{await a.update(d=>{d.preferences.features={...picked};d.preferences.familyProfile={answers:skipped?{}:answers,completedAt:new Date().toISOString(),...(skipped?{skipped:true}:{})}});go('connect')}catch(e){setError(a.T('Not saved. Check the connection and try again.','לא נשמר. בדקו את החיבור ונסו שוב.'))}finally{setSaving(false)}};
- const steps=[['questions',a.T('About you','עליכם')],['features',a.T('Features','תכונות')],['connect',a.T('Connect','חיבורים')]],cur=steps.findIndex(s=>s[0]===stage);
+ const save=async(skipped)=>{setSaving(true);setError('');try{await a.update(d=>{d.preferences.features={...picked};d.preferences.familyProfile={answers:skipped?{}:answers,completedAt:new Date().toISOString(),...(skipped?{skipped:true}:{}),...(wizard?{checklist:{since:d.preferences.familyProfile?.checklist?.since||new Date().toISOString()}}:{})}});go('connect')}catch(e){setError(a.T('Not saved. Check the connection and try again.','לא נשמר. בדקו את החיבור ונסו שוב.'))}finally{setSaving(false)}};
+ const steps=[['questions',a.T('About you','עליכם')],['features',a.T('Features','תכונות')],['connect',wizard?a.T('To start','להתחלה'):a.T('Connect','חיבורים')]],cur=wizard&&stage==='done'?2:steps.findIndex(s=>s[0]===stage);
  const count=Object.values(picked).filter(Boolean).length;
- const header=<header className="setup-top"><span className="setup-logo"><BrandMark/></span>{stage!=='done'&&<ol className="setup-steps">{steps.map(([id,label],i)=><li key={id} className={i<cur?'done':i===cur?'current':''} aria-current={i===cur?'step':undefined}><span>{i<cur?<P.Check size={14} weight="bold"/>:i+1}</span>{label}</li>)}</ol>}
-  {onClose&&stage!=='done'&&<button type="button" className="icon-button setup-close" aria-label={a.T('Close setup','סגירת ההגדרה')} onClick={onClose}><P.X size={22}/></button>}</header>;
+ const header=<header className="setup-top"><span className="setup-logo"><BrandMark/></span>{(stage!=='done'||wizard)&&<ol className="setup-steps">{steps.map(([id,label],i)=><li key={id} className={i<cur?'done':i===cur?'current':''} aria-current={i===cur?'step':undefined}><span>{i<cur?<P.Check size={14} weight="bold"/>:i+1}</span>{label}</li>)}</ol>}
+  {onClose&&(stage!=='done'||wizard)&&<button type="button" className="icon-button setup-close" aria-label={a.T('Close setup','סגירת ההגדרה')} onClick={onClose}><P.X size={22}/></button>}</header>;
  let content,footer;
  if(stage==='questions'){
   const multi=!!q.multi,chosen=answers[q.id];
@@ -63,6 +67,12 @@ export function FamilySetup({app:a,onClose,start='questions'}){
      {why&&on&&<em><P.Sparkle size={13}/>{L(a,why)}</em>}</button>})}</div></section>)}
    {error&&<p className="save-error" role="alert">{error}</p>}</div>;
   footer=<><button type="button" className="button quiet" onClick={()=>{setDir(-1);setStage('questions')}}><Back size={20}/>{a.T('Back','חזרה')}</button><span className="setup-count-pill">{a.T(count+' on',count+' פעילות')}</span><button type="button" className="button" disabled={saving} onClick={()=>save(!Object.keys(answers).length)}>{a.T('Looks good','נראה טוב')}<Next size={20}/></button></>;
+ }else if(stage==='connect'&&wizard){
+  content=<SetupChecklist a={a} ui={ui} resume={resume} onSummary={setSummary}/>;
+  footer=<><button type="button" className="button quiet" onClick={()=>{setDir(-1);setStage('features')}}><Back size={20}/>{a.T('Back','חזרה')}</button><button type="button" className="setup-skip" onClick={()=>onClose?.()}>{a.T('I’ll finish later','אמשיך אחר כך')}</button><button type="button" className="button" onClick={()=>go('done')}>{a.T('Go to my home','לבית שלי')}<Next size={20}/></button></>;
+ }else if(stage==='done'&&wizard){
+  content=<SetupDone a={a} summary={summary} install={install}/>;
+  footer=<><button type="button" className="button quiet" onClick={()=>{setDir(-1);setStage('connect')}}><Back size={20}/>{a.T('Back','חזרה')}</button><button type="button" className="button" onClick={()=>{onClose?.();a.go('today')}}>{a.T('Go to my home','לבית שלי')}<Next size={20}/></button></>;
  }else if(stage==='connect'){
   content=<SetupConnect a={a} picked={picked} answers={answers} openGuide={setGuide} dir={dir}/>;
   footer=<><button type="button" className="button quiet" onClick={()=>{setDir(-1);setStage('features')}}><Back size={20}/>{a.T('Back','חזרה')}</button><button type="button" className="setup-skip" onClick={()=>go('done')}>{a.T('I’ll do it later','אעשה את זה אחר כך')}</button><button type="button" className="button" onClick={()=>go('done')}>{a.T('Finish','סיום')}<Next size={20}/></button></>;
@@ -132,12 +142,16 @@ function SetupGuide({a,id,g,onClose,openCard}){
 }
 
 // Shown automatically to a parent of a new family (familyProfile.pending), or from Settings › Features.
-export function FamilySetupGate({app:a}){
+// The new-family run is the install wizard (it stays open after the features are saved, until closed); ?setup=start
+// (the Today card's Continue) reopens its checklist with "Welcome back". Households set up before never get either.
+export function FamilySetupGate({app:a,ui}){
  const parent=a.member(a.user).role==='parent',pending=a.data.preferences.familyProfile?.pending===true;
- const asked=/[?&]setup=1/.test(a.route),[closed,setClosed]=useState(false);
- useEffect(()=>{if(asked)setClosed(false)},[asked]);
- if(!parent||closed||!(pending||asked))return null;
+ const asked=/[?&]setup=1/.test(a.route),resume=/[?&]setup=start/.test(a.route)&&!!a.data.preferences.familyProfile?.checklist,[closed,setClosed]=useState(false),[kept,setKept]=useState(false);
+ useEffect(()=>{if(asked||resume)setClosed(false)},[asked,resume]);
+ useEffect(()=>{if(pending)setKept(true)},[pending]);
+ if(!parent||closed||!(pending||asked||kept||resume))return null;
  // Closing a new family's setup keeps the Core 5 and does not ask again; it can be run later from Settings › Features.
- const close=()=>{setClosed(true);if(pending)a.update(d=>{d.preferences.familyProfile={answers:{},skipped:true,completedAt:new Date().toISOString()}});if(asked)a.go('settings/features')};
- return <FamilySetup app={a} onClose={close}/>;
+ // Its checklist still waits on Today (FinishSetupCard) until done or dismissed.
+ const close=()=>{setClosed(true);setKept(false);if(pending)a.update(d=>{const now=new Date().toISOString();d.preferences.familyProfile={answers:{},skipped:true,completedAt:now,checklist:{since:now}}});if(asked)a.go('settings/features');else if(resume)a.go('today')};
+ return <FamilySetup key={resume?'resume':'run'} app={a} ui={ui} onClose={close} wizard={!asked&&(pending||kept||resume)} start={resume?'connect':'questions'} resume={resume}/>;
 }

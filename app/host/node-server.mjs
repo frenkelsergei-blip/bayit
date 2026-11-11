@@ -12,6 +12,8 @@ import worker from '../cloud/worker.mjs';
 import {openD1,migrate} from './d1-sqlite.mjs';
 import {openFileStore} from './file-store.mjs';
 import {installationSecrets} from './installation-secrets.mjs';
+import {hostSetupCode,setupCompleted,recoveryDigestGetter} from './setup-code.mjs';
+import {clientAddress,trustedProxies} from './client-address.mjs';
 import {createOutboundFetch} from './outbound-fetch.mjs';
 import {installPlatformPDFReader} from '../cloud/statement-pdf.mjs';
 import {isolatedPDFRows} from './pdf-isolate.mjs';
@@ -25,17 +27,22 @@ const DATA=resolve(process.env.DATA_DIR||join(here,'data')),STATIC=resolve(proce
 const originURL=process.env.BAYIT_ORIGIN?new URL(process.env.BAYIT_ORIGIN):null;
 if(originURL&&(originURL.username||originURL.password||originURL.pathname!=='/'||originURL.search||originURL.hash||originURL.protocol!=='https:'&&!(originURL.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(originURL.hostname))))throw Error('BAYIT_ORIGIN must be an HTTPS origin, or loopback HTTP for local use.');
 const ORIGIN=originURL?.origin||'';
+const TRUSTED_PROXIES=trustedProxies(process.env.BAYIT_TRUSTED_PROXIES);
 if(!ORIGIN&&!['localhost','127.0.0.1','::1'].includes(HOST))throw Error('Set BAYIT_ORIGIN before exposing this server.');
 
 // Existing installations never silently regenerate lost or damaged encryption keys.
 await mkdir(join(DATA,'files'),{recursive:true,mode:0o700});await chmod(DATA,0o700);await chmod(join(DATA,'files'),0o700);
 const secrets=await installationSecrets(DATA);
 const db=openD1(join(DATA,'bayit.sqlite')),applied=migrate(db,MIGRATIONS);await chmod(join(DATA,'bayit.sqlite'),0o600);
-const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','GOOGLE_CALENDAR_CLIENT_ID','GOOGLE_CALENDAR_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE','BAYIT_BOOTSTRAP_EMAIL','BAYIT_ALLOWED_EMAILS','BAYIT_REGISTRATION_MODE','BAYIT_MAX_HOUSEHOLDS','AI_ALLOWED_ORIGINS','AI_PRIVATE_ORIGINS','PUSH_ALLOWED_ORIGINS','APP_ENCRYPTION_KEY_ID','APP_ENCRYPTION_KEYS_JSON','PDF_DAILY_LIMIT'];
+const pass=['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','GOOGLE_CALENDAR_CLIENT_ID','GOOGLE_CALENDAR_CLIENT_SECRET','BAYIT_ORIGIN','HOME_TIMEZONE','BAYIT_BOOTSTRAP_EMAIL','BAYIT_ALLOWED_EMAILS','BAYIT_REGISTRATION_MODE','BAYIT_MAX_HOUSEHOLDS','BAYIT_PASSKEYS','AI_ALLOWED_ORIGINS','AI_PRIVATE_ORIGINS','PUSH_ALLOWED_ORIGINS','APP_ENCRYPTION_KEY_ID','APP_ENCRYPTION_KEYS_JSON','PDF_DAILY_LIMIT'];
 const env={...Object.fromEntries(pass.filter(k=>process.env[k]).map(k=>[k,process.env[k]])),...secrets,DB:db,FILES:openFileStore(join(DATA,'files')),ASSETS:{fetch:serveStatic}};
 // Test-only overrides; the server code accepts them for loopback addresses only.
 for(const k of ['TELEGRAM_API_ORIGIN','AI_TEST_ORIGIN','SPEECH_TEST_ORIGIN','RISEUP_TEST_ORIGIN','PUSH_TEST_ORIGIN'])if(process.env[k])env[k]=process.env[k];
 env.OUTBOUND_FETCH=createOutboundFetch(env);
+// Passkeys (setup-code.mjs): the first-owner setup code while setup is open, and the live operator recovery digest.
+const setup=await hostSetupCode(DATA,db);Object.assign(env,setup.env);env.HOST_SETUP_COMPLETE=setupCompleted(DATA);
+Object.defineProperty(env,'BAYIT_RECOVERY_CODE_HASH',{get:recoveryDigestGetter(DATA),enumerable:false});
+if(setup.line)console.log(setup.line);
 installPlatformPDFReader(async bytes=>{await checkPDFBudget(env);return isolatedPDFRows(bytes)});
 const ctx={waitUntil:p=>Promise.resolve(p).catch(e=>console.error('Bayit background task failed:',e?.message||e)),passThroughOnException(){}};
 
@@ -57,6 +64,8 @@ function toRequest(req){
  const base=ORIGIN||'http://127.0.0.1:'+PORT;
  const headers=new Headers();for(const [k,v]of Object.entries(req.headers)){if(k.startsWith(':')||['x-forwarded-host','x-forwarded-proto','forwarded','cf-connecting-ip','x-real-ip','x-forwarded-for'].includes(k))continue;if(Array.isArray(v))v.forEach(x=>headers.append(k,x));else if(v!=null)headers.set(k,v)}
  headers.set('Host',new URL(base).host);
+ // The client's own address for rate limits (client-address.mjs); forwarded only through BAYIT_TRUSTED_PROXIES.
+ headers.set('CF-Connecting-IP',clientAddress(req.socket?.remoteAddress,req.headers['x-forwarded-for'],TRUSTED_PROXIES));
  const body=!['GET','HEAD'].includes(req.method);
  return new Request(new URL(req.url,base),{method:req.method,headers,body:body?Readable.toWeb(req):undefined,duplex:body?'half':undefined});
 }

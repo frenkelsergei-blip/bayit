@@ -1,6 +1,7 @@
 // One reminder choice for events and tasks. Empty = the recipient's own default from Settings → Notifications;
 // a number = minutes before; 'none' = no reminder. The server applies the same rule (reminders.mjs dueReminders).
 import React from 'react';
+import {TimeField} from './time-field';
 
 export const defaultLead=(a,category='events')=>{const p=a.data.profiles?.[a.user]?.notificationPrefs||{};const value=Number(p.categories?.[category]?.reminder??p.reminder??10);return Number.isFinite(value)&&value>=0?value:10};
 const LEADS=[0,5,10,15,30,60,120];
@@ -51,7 +52,7 @@ export function ReminderListEditor({a,Select,value,onChange,category='events',al
    return <li key={i} className="reminder-row" data-invalid={bad||undefined}>
     <input type="number" inputMode="numeric" min="0" max={maxFor(row.unit,allDay)} step="1" value={row.value} aria-label={a.T('Notification amount','כמות זמן להתראה')+' '+(i+1)} aria-invalid={bad||undefined} onChange={e=>set({value:e.target.value})}/>
     <Select aria-label={a.T('Notification unit','יחידת זמן להתראה')+' '+(i+1)} value={row.unit} onChange={e=>{const unit=e.target.value,v=Math.min(Number(row.value)||0,maxFor(unit,allDay));set({unit,value:String(v)})}}>{units.map(u=><option key={u} value={u}>{unitName(u,row.value)}</option>)}</Select>
-    {allDay?<><span>{a.T('before at','לפני, בשעה')}</span><input type="time" value={row.time||ALL_DAY_TIME} aria-label={a.T('Notification time','שעת ההתראה')+' '+(i+1)} onChange={e=>set({time:e.target.value||ALL_DAY_TIME})}/></>:<span>{a.T('before','לפני')}</span>}
+    {allDay?<><span>{a.T('before at','לפני, בשעה')}</span><TimeField value={row.time||ALL_DAY_TIME} aria-label={a.T('Notification time','שעת ההתראה')+' '+(i+1)} onChange={e=>set({time:e.target.value||ALL_DAY_TIME})}/></>:<span>{a.T('before','לפני')}</span>}
     <button type="button" className="reminder-remove" aria-label={a.T('Remove notification','הסרת התראה')+' '+(i+1)} onClick={()=>publish(rows.filter((_,j)=>j!==i))}><X size={20} weight="bold"/></button>
     {bad&&<small className="reminder-error" role="alert">{a.T('Up to 4 weeks before','עד 4 שבועות לפני')}</small>}
    </li>})}</ul>}

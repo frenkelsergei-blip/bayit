@@ -17,9 +17,9 @@ html .button.danger:hover{background:color-mix(in srgb,var(--danger) 10%,transpa
    (date-field.css, was 46–52px, including the date + time pair in forms). Page toolbars that draw the date as plain
    text (Calendar, Tasks range) keep their own approved size. */
 html:root .tabs.nav-filter.nav-filter>button{min-height:var(--scale-control,44px)}
-html:root .date-field-button{min-height:var(--scale-control,44px)}
+html:root .date-field-button{min-height:var(--scale-control,44px);padding-block:0}
 html:root .date-field-toolbar .date-field-button{min-height:var(--scale-control,44px)}
-html:root .two-fields.date-time-fields :is(.date-field-button,input[type=time]){height:var(--scale-control,44px);min-height:var(--scale-control,44px)}
+html:root .two-fields.date-time-fields :is(.date-field-button,.time-field){height:var(--scale-control,44px);min-height:var(--scale-control,44px)}
 /* Opening the Documents trash is navigation, not a deletion: that quiet Trash button keeps its normal colour
    (orchestrator review of decision 8, 2026-11-08). Real Delete buttons stay red. */
 html:root .documents-toolbar .household-actions>.button.quiet.danger{color:var(--primary);border-color:transparent;background:transparent}
@@ -32,5 +32,4 @@ html:root .statistics-footer .button{min-height:var(--scale-control,44px);paddin
 html:root .main-content .page-actions>.button{padding-block:8px}
 html:root .main-content .button.quiet{min-height:var(--scale-control,44px)}
 html:root .main-content .page-actions{align-items:center}
-/* Time fields: audit-fixes-a.css set a 52px line-height inside the 44px field, so "19:00" sat low (Journal audit hand-over). */
-html input[type=time]{line-height:calc(var(--scale-control,44px) - 4px)!important}
+/* Time fields: the shared TimeField (time-field.jsx) draws its own centred value; no line-height tweak on the native input. */

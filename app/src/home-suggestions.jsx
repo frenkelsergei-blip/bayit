@@ -30,10 +30,10 @@ export function HomeSuggestions({a,Button}) {
  };
  // Features registry (2026-11-09): task suggestions need Tasks, voucher suggestions need Vouchers.
  const featureOn=id=>a.features?.on(id)!==false,shown=item=>item.kind==='voucher'?featureOn('vouchers'):featureOn('tasks');
- if(!a.cloud||(!featureOn('tasks')&&!featureOn('vouchers'))||(!status&&!error)||status?.available===false)return null;
+ // Off: nothing here; it is turned on in בית AI › Settings › Help with our day (one place for every setting, 2026-11-11).
+ if(!a.cloud||(!featureOn('tasks')&&!featureOn('vouchers'))||(!status&&!error)||status?.available===false||(status&&!status.enabled&&!error))return null;
  return <section className="home-planning-panel" aria-label={T('Bayit suggestions','הצעות מבַּיִת')}>
   {error&&<p role="alert">{error}</p>}
-  {status&&!status.enabled?<div className="home-planning-actions"><Button secondary icon={Sparkle} disabled={busy} onClick={()=>run('preferences',{enabled:true})}>{T('Enable suggestions','הפעלת הצעות')}</Button></div>:null}
   {status?.enabled&&<>
    {status.items.filter(shown).map(item=>{
     const suggested=item.candidate,candidate=chosen[item.key]??suggested??'';
@@ -58,7 +58,8 @@ export function HomeSuggestions({a,Button}) {
      </div>}
     </article>;
    })}
-   <details><summary>{T('Suggestion settings','הגדרות הצעות')}</summary><Button secondary disabled={busy} onClick={()=>run('preferences',{enabled:false})}>{T('Turn off suggestions','כיבוי הצעות')}</Button></details>
+   {/* Turning this off lives in בית AI › Settings (one place for every AI setting, 2026-11-11). */}
+   {a.route?.split(/[/?]/)[0]!=='ai'&&<button type="button" className="text-link home-planning-settings" onClick={()=>a.go('ai/settings')}>{T('Suggestion settings','הגדרות הצעות')}</button>}
   </>}
  </section>;
 }

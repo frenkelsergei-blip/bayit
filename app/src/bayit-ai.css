@@ -111,7 +111,7 @@
 .bai-suppressed li>span{display:grid;min-width:0}
 .bai-suppressed small{color:var(--muted);font-weight:600}
 .bai-last{margin:0;font-size:calc(13px * var(--text-scale,1))}
-.bai-notify{margin-top:18px}
+.bai-notify{margin-top:var(--settings-gap,18px)}
 .bai-notify-row{display:flex;flex-wrap:wrap;gap:12px}
 .bai-notify-row label{display:grid;gap:6px;font-weight:750}
 .bai-notify-row input,.bai-notify-row select{min-height:44px;border-radius:15px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:0 12px;font:inherit;font-size:max(16px,calc(16px * var(--text-scale,1)))}

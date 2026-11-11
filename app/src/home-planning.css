@@ -9,12 +9,6 @@
 .message-plan-people .routine-people{row-gap:14px;margin-block:10px}
 .message-plan-reminders{display:grid;gap:6px;min-inline-size:0}
 .message-plan-reminders p{margin:0}
-.message-plan-time{position:relative;display:block;min-inline-size:0}
-.message-plan-time[data-empty=true] input:not(:focus){color:transparent}
-.message-plan-time[data-empty=true] input:not(:focus)::-webkit-datetime-edit{color:transparent}
-.message-plan-time[data-empty=true] input:not(:focus)::-webkit-date-and-time-value{color:transparent}
-.message-plan-time>span{position:absolute;inset-inline-start:12px;inset-block-start:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:.9em}
-.message-plan-time:focus-within>span{display:none}
 .google-calendar-panel{display:grid;gap:12px}
 .google-calendar-panel :is(h3,p){margin:0}
 .google-calendar-options{display:grid;gap:8px;min-inline-size:0;margin:0;padding:0;border:0}

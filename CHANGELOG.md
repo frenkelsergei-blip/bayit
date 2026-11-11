@@ -4,6 +4,64 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.64.1 · 2026-11-11
+
+- **Docker: the quick start works again.** A typo in `compose.yaml` (an unquoted comma in the `/tmp` mount) stopped `docker compose up` on every machine with `invalid mount path: 'mode=1777'`. It is fixed, a test checks the file, and CI now runs the exact documented quick start (`cp .env.example .env`, `docker compose up -d --build`, the health check and the setup-code line).
+- **No Google project needed.** The Docker and Cloudflare guides, the README and the install skills now start with passkeys: `docker compose up`, read the one-time setup code with `docker compose logs bayit`, open <http://localhost:8080>, choose **Start setting up** and create your passkey and family. Google sign-in is optional. The guides explain the terms they use and include a restore command next to the backup.
+- **About passkeys** (new since 1.59.0): passkey sign-in passed an independent code review and is switched on on the maintainers' own installation, but it **has not yet been confirmed on real phones**. It is on by default; set `BAYIT_PASSKEYS=off` to offer Google only. Google sign-in keeps working either way.
+- Bayit AI: a stray "0" no longer shows above your own typed message. Spoken questions still show their recording length.
+- `bayit-configure.mjs` prints a clear one-line message instead of a stack trace when a name or ID is wrong.
+
+## 1.64.0 · 2026-11-11
+
+- A new installation now guides you from the first open: Bayit checks the address, the database and your browser before the setup code, then your name, passkey and family name, and ends with a short To start list: invite your family (a link per person, Send or Copy), and optionally the AI helper and Telegram. A card on Today keeps the rest until it's done. Families already using Bayit see no change.
+- On small screens, the "Own this installation and can't sign in?" link no longer sits on the drawing.
+
+## 1.63.0 · 2026-11-11
+
+- One Bayit AI: the menu item and the floating button now open the same thing, with four tabs — Chat, Suggestions, History and Settings. Every AI option (connection, what Bayit AI may read, recommendations, daily ideas, the summary, the button, voice, usage and cost) now lives in one place, Bayit AI › Settings; Settings only links there.
+
+## 1.62.0 · 2026-11-11
+
+- Times sit neatly in the middle of their boxes everywhere, on iPhone too: quiet hours, events, reminders, Bayit AI and every other time field now share one control, the same height as the fields around it.
+- Settings › Family: the account buttons are shorter (Disconnect, Help back in) and sit under the name on phones, so names are never covered. The daily suggestions settings are one tidy card with even spacing.
+
+## 1.61.0 · 2026-11-11
+
+- The kids' routines no longer fill grown-ups' Tasks and Today. They stay on the Kids screen; in Tasks, the "Kids' routines" filter shows them when you want, and Today shows one short line ("Kids' routines · 7 of 12 done") that opens Kids. One-off tasks for a child still show as usual.
+
+## 1.60.0 · 2026-11-10
+
+- Hundreds of new Bayit icons: about 340 new drawings in Bayit's style for events, Jewish, Israeli, Christian and Muslim holidays, birthdays and parties, health, school, clubs, travel, home, car, work, pets, weather and money. The icon window shows Recent first and a section per category, and search works in Hebrew and English (חנוכה, Hanukkah, פסח, party…). A new event starts with the Event icon.
+
+## 1.59.0 · 2026-11-10
+
+- Sign in with a passkey ("מפתח גישה": Face ID, fingerprint or your phone's screen lock) instead of Google. It needs no Google Cloud setup, and Google sign-in keeps working alongside it. Setting up, joining with an invitation, confirming it's you, and getting back in after losing a phone are all included. See [Sign-in methods](docs/sign-in-methods.md).
+- **Not yet tested on real phones.** Passkey sign-in passed an independent code review, but it has not been tried on real phones yet. It is on by default; set `BAYIT_PASSKEYS=off` to offer Google only. Google sign-in keeps working either way. The maintainers' own installation switched it on on 2026-11-11 to test it on real phones.
+- Database: migration `0021_passkeys.sql` (apply it before deploying this version).
+
+## 1.58.2 · 2026-11-10
+
+- Puzzle: every picture is now a full scene (the garden island and the moonlight garden no longer float on an empty background), and "Choose another picture" opens a window right on screen where you pick a picture and start a new puzzle.
+
+## 1.58.1 · 2026-11-10
+
+- The Bayit AI button now steps aside while you fill in a form or use a window, so it never covers Save.
+
+## 1.58.0 · 2026-11-10
+
+- Nothing changes in how your family uses Bayit: same screens, and Telegram sends the same messages as before.
+- For people who extend Bayit: Telegram now works through a general channel connection, so other messaging apps can be added the same way; a whole new screen with its own records can be added as an extension; updating Bayit keeps the extensions you installed; and there is a guided way to build a new extension, with new guides.
+
+## 1.57.1 · 2026-11-10
+
+- Drop-down lists and date pickers now always open on top: the icon category list in the icon picker (for example when adding an event) opened behind it and couldn't be seen.
+
+## 1.57.0 · 2026-11-10
+
+- Statistics: Money is now called Expenses and comes right after Overview.
+- Section menus show clearly when there is more: on most phones all of Statistics fits, and where it doesn't, part of the next tile shows and a short nudge points to it once. Swiping the menu moves at once.
+
 ## 1.56.0 · 2026-11-10
 
 - Settings › Accounts & connections is simpler: "To start" shows what to set up first, everything else waits under "More connections", and every connection opens the same step-by-step guide in one window.

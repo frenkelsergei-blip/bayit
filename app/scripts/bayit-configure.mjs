@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Points this copy of Bayit at YOUR Cloudflare resources. Edits only names and IDs, never secrets.
 //   node scripts/bayit-configure.mjs --project my-bayit --database-id <id> [--database bayit-home] [--bucket bayit-home-files] [--origin https://my-bayit.pages.dev]
-// Files changed: wrangler.jsonc, wrangler.worker.jsonc, wrangler.cron.jsonc, package.json (deploy scripts).
+// Files changed: wrangler.jsonc, wrangler.worker.jsonc, wrangler.pdf.jsonc, wrangler.cron.jsonc, package.json (deploy scripts).
 import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname,join} from 'node:path';
@@ -9,10 +9,11 @@ import {dirname,join} from 'node:path';
 const app=join(dirname(fileURLToPath(import.meta.url)),'..');
 const args=Object.fromEntries(process.argv.slice(2).join(' ').split(/\s+--/).map(s=>s.replace(/^--/,'').trim()).filter(Boolean).map(s=>{const [k,...v]=s.split(/[\s=]+/);return [k,v.join(' ')]}));
 const project=args.project,databaseId=args['database-id'],database=args.database||'bayit-home',bucket=args.bucket||'bayit-home-files',origin=(args.origin||(project?'https://'+project+'.pages.dev':'')).replace(/\/$/,'');
-if(!project&&!databaseId&&!args.origin){console.log(readFileSync(fileURLToPath(import.meta.url),'utf8').split('\n').slice(1,5).join('\n').replace(/\/\/ ?/g,''));process.exit(1)}
-if(project&&!/^[a-z0-9][a-z0-9-]{0,56}[a-z0-9]$/.test(project))throw new Error('The Pages project name must use lowercase letters, digits and dashes.');
-if(databaseId&&!/^[0-9a-f-]{36}$/i.test(databaseId))throw new Error('The D1 database_id is the UUID printed by `wrangler d1 create`.');
-if(origin&&!/^https:\/\/[a-z0-9.-]+$/i.test(origin))throw new Error('The origin must look like https://name.pages.dev or your own https domain.');
+if(!project&&!databaseId&&!args.origin){console.log(readFileSync(fileURLToPath(import.meta.url),'utf8').split('\n').slice(1,4).join('\n').replace(/^\/\/ ?/gm,''));process.exit(1)}
+const fail=message=>{console.error('✖ '+message);process.exit(1)};
+if(project&&!/^[a-z0-9][a-z0-9-]{0,56}[a-z0-9]$/.test(project))fail('The Pages project name must use lowercase letters, digits and dashes.');
+if(databaseId&&!/^[0-9a-f-]{36}$/i.test(databaseId))fail('The D1 database_id is the UUID printed by `wrangler d1 create`.');
+if(origin&&!/^https:\/\/[a-z0-9.-]+$/i.test(origin))fail('The origin must look like https://name.pages.dev or your own https domain.');
 
 const changed=[];
 const readJSONC=file=>readFileSync(file,'utf8');

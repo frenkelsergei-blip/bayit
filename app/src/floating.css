@@ -11,3 +11,5 @@ html:root .toast{bottom:var(--float-bottom)}
 html:root[data-ai-bubble] .toast{bottom:calc(var(--float-bottom) + 62px + var(--float-gap))}
 /* The offline / sync note. */
 html:root .offline-banner,html:root[data-nav-position=bottom] .offline-banner{bottom:var(--float-bottom)}
+/* While the בית AI bubble shows, every page ends with room for it, so the last control can scroll clear of it. */
+html:root[data-ai-bubble] .shell-v2>.main-content::after{content:"";display:block;height:calc(62px + var(--float-gap));flex:none;pointer-events:none}

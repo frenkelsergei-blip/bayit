@@ -31,10 +31,9 @@ html:root .settings-v2 .switch-row{margin:0;min-height:44px;font-size:calc(16px 
 html:root .settings-v2 .form-subgroup{display:grid;gap:14px;padding-top:18px;border-top:1px solid var(--border);min-width:0}
 html:root .settings-v2 .form-subgroup>.field-label{margin:0}
 html:root .settings-v2 .two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-/* Align the controls even when one of the translated labels wraps. Keep the native picker. */
+/* Align the controls even when one of the translated labels wraps. The fields are the shared TimeField (native picker on top). */
 html:root .settings-notifications .quiet-hours-fields>label{align-self:stretch;grid-template-rows:1fr auto}
-html:root .settings-notifications .quiet-hours-fields input[type=time]{height:var(--scale-control,44px);padding-block:0}
-html:root .settings-notifications .quiet-hours-fields input[type=time]::-webkit-date-and-time-value{line-height:normal;text-align:inherit}
+html:root .settings-notifications .quiet-hours-fields>label>.time-field{align-self:end}
 html:root .settings-v2 .appearance-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 @media(max-width:420px){html:root .settings-v2 .appearance-row{grid-template-columns:minmax(0,1fr)}}
 html:root .settings-v2 .settings-shortcuts{display:flex;flex-wrap:wrap;gap:10px;margin:0}
@@ -273,8 +272,10 @@ html:root .settings-v2.settings-profile>.profile-editor-actions{margin:0}
    like the switches. Text fields and pairs of fields keep their title above. */
 html:root .settings-v2 .form-section-body label:has(>.select-control):not(.family-add-row>label):not(.two-fields>label):not(.money-goal-fields>label){display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:16px;row-gap:6px;min-height:48px}
 html:root .settings-v2 .form-section-body label:has(>.select-control):not(.family-add-row>label):not(.two-fields>label):not(.money-goal-fields>label)>.select-control{width:clamp(150px,34vw,250px);justify-self:end}
+@media(max-width:700px){html:root .settings-v2 .form-section-body label:has(>.select-control):not(.family-add-row>label):not(.two-fields>label):not(.money-goal-fields>label)>.select-control{width:auto;min-width:min(150px,100%);max-width:62vw}}
+/* The chosen value stays on one line (2026-11-11: “Standard · 100%”, “Up to 2 per day” wrapped to 62px in a 150px box on phones). */
+html:root .settings-v2 .form-section-body label:has(>.select-control):not(.family-add-row>label):not(.two-fields>label):not(.money-goal-fields>label)>.select-control>.select-button>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 html:root .settings-v2 .appearance-row{grid-template-columns:minmax(0,1fr)!important;gap:8px}
-@media(max-width:420px){html:root .settings-v2 .form-section-body label:has(>.select-control):not(.family-add-row>label):not(.two-fields>label):not(.money-goal-fields>label)>.select-control{width:150px}}
 /* Pairs of short fields (times, amounts) stay narrow instead of stretching across a wide card. */
 html:root .settings-v2 .two-fields{max-width:520px}
 html:root .settings-v2 .settings-people{display:block}
@@ -323,6 +324,19 @@ html:root .settings-v2 .family-access p{margin:0;color:var(--muted);font-size:ca
 html:root .settings-v2 .family-access ul{margin:0;padding:0;list-style:none;display:grid;gap:0}
 html:root .settings-v2 .family-access li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
 html:root .settings-v2 .family-access li:first-child{border-top:0}
+/* Linked accounts and invitations (2026-11-11, iPhone report: buttons covered Shani's name and ran off the edge). The name
+   and role are always fully visible; the row's actions are compact secondary buttons (44px, 15px text, 18px icons) after
+   the name, wrapping under it when there is no room, and always on their own line, at the reading start, on phones. */
+html:root .family-access li{flex-wrap:wrap;row-gap:10px}
+html:root .family-access li>span:first-child{flex:1 1 12em;min-width:0}
+html:root .family-access li>span:first-child>strong{overflow-wrap:anywhere}
+html:root .family-access .family-access-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;flex:0 1 auto;min-width:0;max-width:100%}
+html:root .family-access .family-access-actions>.button{flex:none;gap:6px;margin:0;min-height:var(--scale-control,44px);height:auto;padding:0 14px;font-size:calc(15px * var(--font-adjust,1));white-space:nowrap}
+html:root .family-access .family-access-actions>.button>svg{width:18px;height:18px;flex:none}
+@media(max-width:700px){
+ html:root .family-access li>span:first-child{flex-basis:100%}
+ html:root .family-access .family-access-actions{justify-content:flex-start}
+}
 /* Orchestrator review: snap tiles to the bar's padding edge, so the first tile opens at scroll 0 and the start fade never covers the chosen tile. */
 
 /* Shared control size (design system, approved 2026-11-08: every control 44px, footers 48px). Settings, Profile and
@@ -336,3 +350,8 @@ html:root .settings-v2 .date-field-button{min-height:var(--scale-control,44px);h
 html:root .settings-v2 .photo-choice{min-height:var(--scale-control,44px)}
 html:root .settings-v2 .photo-choice{position:relative}
 html:root .settings-v2 .photo-choice>input[type=file]{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);margin:0}
+/* Ask AI › Daily suggestions (1.60.x, iPhone report 2026-11-11): the settings beside the suggestions are one standard
+   section card (was a bare aside plus a yellow card with a lone bell); the Bayit AI card below keeps the shared card gap. */
+html:root .split>.suggestion-settings{align-self:start;margin:0;padding:0;border:0;background:none;box-shadow:none}
+html:root .split>.suggestion-settings .settings-hint{margin:0}
+html:root .split:has(>.suggestion-settings)+.ai-feature-settings{margin-top:var(--settings-gap)}

@@ -9,6 +9,7 @@ import {fileURLToPath} from 'node:url';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {allowedPath} from '../app/scripts/bayit-extension.mjs';
+import {LOCAL_REGISTRIES,emptyRegistry} from '../app/scripts/local-registries.mjs';
 
 const root=join(dirname(fileURLToPath(import.meta.url)),'..'),src=p=>readFileSync(join(root,p),'utf8');
 const scratch=mkdtempSync(join(tmpdir(),'bayit-extension-skills-'));
@@ -23,6 +24,11 @@ function copy(){
  cpSync(join(root,'shared'),join(dir,'shared'),{recursive:true});
  for(const d of ['cloud','scripts'])cpSync(join(root,'app',d),join(dir,'app',d),{recursive:true});
  cpSync(join(root,'app/package.json'),join(dir,'app/package.json'));
+ // Start from empty local registries, as upstream ships them, also when this folder has extensions installed.
+ for(const r of LOCAL_REGISTRIES)if(existsSync(join(dir,r.file)))writeFileSync(join(dir,r.file),emptyRegistry(r));
+ writeFileSync(join(dir,'shared/extensions/installed.json'),'[]\n');
+ // A family's copy has its installed extensions' files; the scratch copy starts as upstream ships it, without them.
+ for(const f of JSON.parse(readFileSync(join(root,'shared/extensions/installed.json'),'utf8')).flatMap(x=>x?.files||[]))rmSync(join(dir,f),{force:true});
  symlinkSync(join(root,'app/node_modules'),join(dir,'app/node_modules'));
  mkdirSync(join(dir,'tests'));
  return dir;

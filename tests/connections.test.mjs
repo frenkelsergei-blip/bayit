@@ -38,7 +38,7 @@ test('every connection has both languages, a known group, a valid feature and a 
 
 test('concept A: To start has AI, Telegram and Family; optional ones are never in it; no WhatsApp',()=>{
  assert.deepEqual(CONNECTION_GROUPS.map(g=>g.id),['start','more','about']);
- const ids=group=>CONNECTIONS.filter(c=>c.group===group).map(c=>c.id);
+ const ids=group=>CONNECTIONS.filter(c=>c.group===group&&!EXTRA_CONNECTIONS.includes(c)).map(c=>c.id);// core rows; extensions come after them
  assert.deepEqual(ids('start'),['ai','telegram','family']);
  assert.deepEqual(ids('more'),['maps','google-calendar','riseup']);
  assert.deepEqual(ids('about'),['account','storage']);
@@ -74,15 +74,18 @@ test('every core connection has a live status and a panel in the client',()=>{
  assert.match(hub,/const cards=allCards\.filter\(c=>!c\.feature\|\|a\.features\?\.on\(c\.feature\)!==false\),inGroup=/);
  assert.match(hub,/CONNECTION_LIVE\[id\]\|\|.*EXTRA_CONNECTION_PANELS\.find\(p=>p\?\.id===id&&p\.Panel\)/);
  assert.match(hub,/CONNECTION_GROUPS\.find\(g=>g\.id===id\)/);
- // The bar counts only "To start"; the AI window holds usage & credit; recommendations live with the AI feature.
+ // The bar counts only "To start"; every AI setting (usage & credit, recommendations, what AI may read) lives only in
+ // בית AI › Settings (one place, 2026-11-11); the AI window and Settings link there.
  assert.match(hub,/ready=start\.filter\(c=>c\.state==='on'\)\.length/);
- assert.match(hub,/<AIUsageSection /);assert.doesNotMatch(hub,/BayitAISettings/);
- assert.match(src('app/src/App.jsx'),/<BayitAISettings a=\{a\}\/>/);
- assert.match(src('app/src/extensions/connection-panels.jsx'),/export const EXTRA_CONNECTION_PANELS=\[\];/);
+ assert.doesNotMatch(hub,/<AIUsageSection |BayitAISettings/);
+ const aiHub=src('app/src/bayit-ai-hub.jsx');assert.match(aiHub,/<AIUsageSection /);assert.match(aiHub,/<BayitAISettings a=\{a\}\/>/);assert.match(aiHub,/<BayitAINotify a=\{a\}\/>/);
+ assert.doesNotMatch(src('app/src/App.jsx'),/<BayitAISettings |<BayitAINotify |<BayitAIButtonSettings /);
+ assert.match(src('app/src/ai.jsx'),/a\.go\('ai\/settings'\)/);
+ assert.match(src('app/src/extensions/connection-panels.jsx'),EXTRA_CONNECTIONS.length?/^export const EXTRA_CONNECTION_PANELS=\[[\w$,]*\];$/m:/export const EXTRA_CONNECTION_PANELS=\[\];/);
 });
 
 test('the local connection file ships empty, and an extra entry is picked up and checked',async()=>{
- assert.deepEqual(EXTRA_CONNECTIONS,[]);
+ if(JSON.parse(src('shared/extensions/installed.json')).length===0)assert.deepEqual(EXTRA_CONNECTIONS,[]);// a copy with extensions has its own
  const scratch=mkdtempSync(join(tmpdir(),'bayit-connections-'));
  try{
   const copy=(n,code)=>{const dir=join(scratch,'copy-'+n);cpSync(join(root,'shared'),join(dir,'shared'),{recursive:true});writeFileSync(join(dir,'shared/extensions/connections.mjs'),code);return import(pathToFileURL(join(dir,'shared/connections.mjs')).href)};
@@ -90,7 +93,7 @@ test('the local connection file ships empty, and an extra entry is picked up and
    name:{en:'Signal',he:'Signal'},description:{en:'Fictional test channel.',he:'ערוץ בדיקה בדיוני.'},
    guide:{icon:'ChatCircleDots',en:'Signal',he:'Signal',why:{en:'Test.',he:'בדיקה.'},steps:[[{en:'Open the card',he:'פתחו את הכרטיס'},{en:'Paste the test value.',he:'הדביקו את ערך הבדיקה.'},{card:'signal',en:'Open',he:'פתיחה'}]]}};
   const m=await copy(1,'export const EXTRA_CONNECTIONS=['+JSON.stringify(extra)+'];\n');
-  assert.deepEqual(m.CONNECTION_IDS,[...CONNECTION_IDS,'signal']);
+  assert.deepEqual(m.CONNECTION_IDS,[...CONNECTION_IDS.filter(id=>!EXTRA_CONNECTIONS.some(c=>c.id===id)),'signal']);
   assert.equal(m.connectionGuides().signal.en,'Signal','its guide reaches first-run setup');
   const bad={...extra,id:'nohebrew',description:{en:'Only English'}};
   await assert.rejects(copy(2,'export const EXTRA_CONNECTIONS=['+JSON.stringify(bad)+'];\n'),/English and Hebrew/);

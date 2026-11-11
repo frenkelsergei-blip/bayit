@@ -1,5 +1,5060 @@
 [
   {
+    "id": "bayit-life-celebration",
+    "name": "Celebration",
+    "he": "חגיגה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "celebrate simcha mazal tov festive occasion congratulations שמחה מזל טוב חגיגה אירוע משמח ברכות",
+    "aliases": [],
+    "emoji": "1F38A"
+  },
+  {
+    "id": "bayit-life-holiday",
+    "name": "Holiday",
+    "he": "חג",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "holiday festival feast day chag sameach sigd tisha bav tu bav thanksgiving halloween valentine mothers day fathers day holi vesak nowruz kwanzaa carnival st patrick orthodox christmas independence day national day חג חג שמח ערב חג מועד סיגד תשעה באב ט״ו באב ט\"ו באב טו באב יום האהבה יום המשפחה יום האם נובי גוד סילבסטר",
+    "aliases": [],
+    "emoji": "1F5D3"
+  },
+  {
+    "id": "bayit-life-event",
+    "name": "Event",
+    "he": "אירוע",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "event occasion save the date gathering ceremony appointment אירוע מועד שמרו את התאריך טקס כנס מפגש",
+    "aliases": [],
+    "emoji": "1F4C5"
+  },
+  {
+    "id": "bayit-life-party",
+    "name": "Party",
+    "he": "מסיבה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "party popper confetti celebration fun night out מסיבה חגיגה קונפטי בילוי",
+    "aliases": [
+      "1F389"
+    ],
+    "emoji": "1F389"
+  },
+  {
+    "id": "bayit-life-birthday-kid",
+    "name": "Kid's birthday",
+    "he": "יום הולדת לילד",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birthday kids child happy birthday party יום הולדת ילדים מסיבת יום הולדת יום הולדת שמח",
+    "aliases": [],
+    "emoji": "1F382"
+  },
+  {
+    "id": "bayit-life-birthday-adult",
+    "name": "Birthday",
+    "he": "יום הולדת",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birthday adult grown up happy birthday יום הולדת מבוגר יום הולדת שמח",
+    "aliases": [],
+    "emoji": "1F370"
+  },
+  {
+    "id": "bayit-life-family-gathering",
+    "name": "Family gathering",
+    "he": "מפגש משפחתי",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "family gathering dinner reunion holiday meal relatives visit מפגש משפחתי ארוחה משפחתית ארוחת חג כינוס משפחתי",
+    "aliases": [],
+    "emoji": "1F46A"
+  },
+  {
+    "id": "bayit-life-religious-holiday",
+    "name": "Religious holiday",
+    "he": "חג דתי",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "religious holiday festival prayer faith observance fast feast חג דתי מועד תפילה צום",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-trip",
+    "name": "Trip",
+    "he": "טיול",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "trip outing excursion day trip journey טיול יציאה טיול יומי נסיעה",
+    "aliases": [
+      "1F5FA"
+    ],
+    "emoji": "1F5FA"
+  },
+  {
+    "id": "bayit-life-kids-party",
+    "name": "Kids' party",
+    "he": "מסיבת ילדים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "kids party children celebration playdate גן מסיבה מסיבת ילדים מסיבת גן מסיבת כיתה",
+    "aliases": [],
+    "emoji": "1F973"
+  },
+  {
+    "id": "bayit-life-new-baby",
+    "name": "New baby",
+    "he": "לידה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birth newborn baby born welcome baby לידה תינוק נולד תינוקת נולדה ברוך הבא",
+    "aliases": [],
+    "emoji": "1F476"
+  },
+  {
+    "id": "bayit-life-baby-naming",
+    "name": "Brit or naming",
+    "he": "ברית או בריתה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "brit milah naming ceremony simchat bat baptism christening aqiqah ברית מילה בריתה זבד הבת שמחת בת טבילה",
+    "aliases": [],
+    "emoji": "1F37C"
+  },
+  {
+    "id": "bayit-life-engagement",
+    "name": "Engagement",
+    "he": "אירוסין",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "engagement proposal engaged אירוסין הצעת נישואין התארסו",
+    "aliases": [
+      "1F48D"
+    ],
+    "emoji": "1F48D"
+  },
+  {
+    "id": "bayit-life-anniversary",
+    "name": "Anniversary",
+    "he": "יום נישואין",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "anniversary love couple romantic date valentine יום נישואין זוגיות דייט אהבה",
+    "aliases": [],
+    "emoji": "1F49E"
+  },
+  {
+    "id": "bayit-life-housewarming",
+    "name": "New home",
+    "he": "חנוכת בית",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "housewarming new home move in חנוכת בית בית חדש",
+    "aliases": [],
+    "emoji": "1F3E1"
+  },
+  {
+    "id": "bayit-life-retirement",
+    "name": "Retirement",
+    "he": "פרישה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "retirement pension farewell work party פרישה פנסיה מסיבת פרידה",
+    "aliases": [],
+    "emoji": "1FA91"
+  },
+  {
+    "id": "bayit-life-condolence",
+    "name": "Condolence",
+    "he": "ניחום אבלים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "condolence shiva funeral mourning memorial sympathy ניחום אבלים שבעה הלוויה אבל אזכרה תנחומים",
+    "aliases": [],
+    "emoji": "1F490"
+  },
+  {
+    "id": "bayit-life-fair",
+    "name": "Festival",
+    "he": "פסטיבל",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "festival fair carnival market fete פסטיבל יריד קרנבל שוק",
+    "aliases": [],
+    "emoji": "1F3AA"
+  },
+  {
+    "id": "bayit-life-surprise",
+    "name": "Surprise",
+    "he": "הפתעה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "surprise gift present הפתעה מתנה",
+    "aliases": [],
+    "emoji": "1F381"
+  },
+  {
+    "id": "bayit-life-special-day",
+    "name": "Special day",
+    "he": "יום מיוחד",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "special day important date reminder milestone יום מיוחד תאריך חשוב ציון דרך",
+    "aliases": [],
+    "emoji": "1F496"
+  },
+  {
+    "id": "bayit-life-shofar",
+    "name": "Shofar",
+    "he": "שופר",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "rosh hashana new year yom kippur horn ראש השנה יום כיפור תקיעה",
+    "aliases": [],
+    "emoji": "1F4EF"
+  },
+  {
+    "id": "bayit-life-apple-honey",
+    "name": "Apple & honey",
+    "he": "תפוח בדבש",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "apple and honey rosh hashana new year sweet ראש השנה שנה טובה",
+    "aliases": [],
+    "emoji": "1F36F"
+  },
+  {
+    "id": "bayit-life-pomegranate",
+    "name": "Pomegranate",
+    "he": "רימון",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "rosh hashana fruit ראש השנה פרי",
+    "aliases": [
+      "E0C4"
+    ],
+    "emoji": "E0C4"
+  },
+  {
+    "id": "bayit-life-round-challah",
+    "name": "Round challah",
+    "he": "חלה עגולה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "rosh hashana bread ראש השנה לחם",
+    "aliases": [],
+    "emoji": "1F35E"
+  },
+  {
+    "id": "bayit-life-synagogue",
+    "name": "Synagogue",
+    "he": "בית כנסת",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "yom kippur prayer shul יום כיפור תפילה",
+    "aliases": [
+      "1F54D"
+    ],
+    "emoji": "1F54D"
+  },
+  {
+    "id": "bayit-life-prayer-book",
+    "name": "Prayer book",
+    "he": "סידור",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "siddur machzor prayer yom kippur מחזור תפילה יום כיפור",
+    "aliases": [],
+    "emoji": "1F4D6"
+  },
+  {
+    "id": "bayit-life-sukkah",
+    "name": "Sukkah",
+    "he": "סוכה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "sukkot booth hut סוכות",
+    "aliases": [],
+    "emoji": "1F6D6"
+  },
+  {
+    "id": "bayit-life-four-species",
+    "name": "Lulav and etrog",
+    "he": "לולב ואתרוג",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "sukkot four species ארבעת המינים סוכות",
+    "aliases": [],
+    "emoji": "1F334"
+  },
+  {
+    "id": "bayit-life-torah-scroll",
+    "name": "Torah scroll",
+    "he": "ספר תורה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "simchat torah scroll שמחת תורה",
+    "aliases": [],
+    "emoji": "1F4DC"
+  },
+  {
+    "id": "bayit-life-menorah",
+    "name": "Menorah",
+    "he": "חנוכייה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah menorah chanukah candles חנוכה נרות",
+    "aliases": [
+      "1F54E"
+    ],
+    "emoji": "1F54E"
+  },
+  {
+    "id": "bayit-life-dreidel",
+    "name": "Dreidel",
+    "he": "סביבון",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah spinning top חנוכה",
+    "aliases": [],
+    "emoji": "1F300"
+  },
+  {
+    "id": "bayit-life-sufganiyah",
+    "name": "Sufganiyah",
+    "he": "סופגנייה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah doughnut jelly חנוכה סופגניות",
+    "aliases": [
+      "1F369"
+    ],
+    "emoji": "1F369"
+  },
+  {
+    "id": "bayit-life-almond-blossom",
+    "name": "Almond blossom",
+    "he": "שקדייה פורחת",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "tu bishvat tree spring ט״ו בשבט ט\"ו בשבט טו בשבט עץ",
+    "aliases": [],
+    "emoji": "1F338"
+  },
+  {
+    "id": "bayit-life-dried-fruit",
+    "name": "Dried fruits",
+    "he": "פירות יבשים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "tu bishvat nuts dates figs ט״ו בשבט ט\"ו בשבט טו בשבט",
+    "aliases": [],
+    "emoji": "1F330"
+  },
+  {
+    "id": "bayit-life-purim-mask",
+    "name": "Purim mask",
+    "he": "מסכה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "purim costume carnival פורים תחפושת",
+    "aliases": [],
+    "emoji": "1F3AD"
+  },
+  {
+    "id": "bayit-life-hamantash",
+    "name": "Hamantash",
+    "he": "אוזן המן",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "purim cookie פורים עוגייה",
+    "aliases": [],
+    "emoji": "1F36A"
+  },
+  {
+    "id": "bayit-life-gragger",
+    "name": "Gragger",
+    "he": "רעשן",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "purim noisemaker purim gragger rattle פורים",
+    "aliases": [],
+    "emoji": "1F4E3"
+  },
+  {
+    "id": "bayit-life-mishloach-manot",
+    "name": "Mishloach manot",
+    "he": "משלוח מנות",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "purim gift basket treats פורים",
+    "aliases": [],
+    "emoji": "1F381"
+  },
+  {
+    "id": "bayit-life-matzah",
+    "name": "Matzah",
+    "he": "מצה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover pesach unleavened פסח מצות",
+    "aliases": [],
+    "emoji": "1FAD3"
+  },
+  {
+    "id": "bayit-life-seder-plate",
+    "name": "Seder plate",
+    "he": "קערת פסח",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover pesach seder פסח ליל הסדר",
+    "aliases": [],
+    "emoji": "1F37D"
+  },
+  {
+    "id": "bayit-life-shabbat-candles",
+    "name": "Shabbat candles",
+    "he": "נרות שבת",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shabbat friday candle lighting שבת הדלקת נרות",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-braided-challah",
+    "name": "Challah",
+    "he": "חלה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shabbat bread friday שבת לחם",
+    "aliases": [],
+    "emoji": "1F35E"
+  },
+  {
+    "id": "bayit-life-kiddush-cup",
+    "name": "Kiddush cup",
+    "he": "גביע קידוש",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shabbat kiddush wine passover שבת קידוש יין פסח",
+    "aliases": [],
+    "emoji": "1F377"
+  },
+  {
+    "id": "bayit-life-havdalah",
+    "name": "Havdalah",
+    "he": "הבדלה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shabbat ends havdalah candle spices מוצאי שבת",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-haggadah",
+    "name": "Haggadah",
+    "he": "הגדה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover pesach seder reading פסח ליל הסדר",
+    "aliases": [],
+    "emoji": "1F4D5"
+  },
+  {
+    "id": "bayit-life-matzah-ball-soup",
+    "name": "Matzah ball soup",
+    "he": "מרק קניידלך",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover chicken soup kneidlach פסח מרק עוף",
+    "aliases": [],
+    "emoji": "1F372"
+  },
+  {
+    "id": "bayit-life-wheat-sheaf",
+    "name": "Wheat sheaf",
+    "he": "שיבולים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shavuot harvest wheat שבועות קציר",
+    "aliases": [],
+    "emoji": "1F33E"
+  },
+  {
+    "id": "bayit-life-cheesecake",
+    "name": "Cheesecake",
+    "he": "עוגת גבינה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shavuot dairy cake שבועות מאכלי חלב",
+    "aliases": [],
+    "emoji": "1F370"
+  },
+  {
+    "id": "bayit-life-first-fruits",
+    "name": "First fruits",
+    "he": "סל ביכורים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "first fruits basket shavuot bikkurim harvest fruit שבועות ביכורים",
+    "aliases": [],
+    "emoji": "1F9FA"
+  },
+  {
+    "id": "bayit-life-flower-wreath",
+    "name": "Flower crown",
+    "he": "זר פרחים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shavuot kindergarten wreath שבועות גן",
+    "aliases": [],
+    "emoji": "1F33C"
+  },
+  {
+    "id": "bayit-life-bonfire",
+    "name": "Bonfire",
+    "he": "מדורה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "lag baomer campfire fire ל״ג בעומר ל\"ג בעומר לג בעומר",
+    "aliases": [],
+    "emoji": "1F525"
+  },
+  {
+    "id": "bayit-life-bow-arrow",
+    "name": "Bow and arrow",
+    "he": "קשת וחץ",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "lag baomer ל״ג בעומר ל\"ג בעומר לג בעומר",
+    "aliases": [
+      "1F3F9"
+    ],
+    "emoji": "1F3F9"
+  },
+  {
+    "id": "bayit-life-israel-flag",
+    "name": "Israeli flag",
+    "he": "דגל ישראל",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "independence day yom haatzmaut israel יום העצמאות ישראל",
+    "aliases": [
+      "1F1EE-1F1F1"
+    ],
+    "emoji": "1F1EE-1F1F1"
+  },
+  {
+    "id": "bayit-life-fireworks",
+    "name": "Fireworks",
+    "he": "זיקוקים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "independence day new year celebration יום העצמאות חגיגה",
+    "aliases": [
+      "1F386"
+    ],
+    "emoji": "1F386"
+  },
+  {
+    "id": "bayit-life-barbecue",
+    "name": "Barbecue",
+    "he": "מנגל",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "independence day grill mangal bbq יום העצמאות על האש",
+    "aliases": [],
+    "emoji": "1F356"
+  },
+  {
+    "id": "bayit-life-memorial-candle",
+    "name": "Memorial candle",
+    "he": "נר נשמה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "memorial day yom hazikaron holocaust remembrance yahrzeit יום הזיכרון יום השואה אזכרה יארצייט",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-red-anemone",
+    "name": "Red anemone",
+    "he": "כלנית",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "memorial day remembrance flower יום הזיכרון פרח",
+    "aliases": [],
+    "emoji": "1F33A"
+  },
+  {
+    "id": "bayit-life-jerusalem",
+    "name": "Jerusalem",
+    "he": "ירושלים",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "jerusalem day old city tower יום ירושלים העיר העתיקה",
+    "aliases": [],
+    "emoji": "1F3F0"
+  },
+  {
+    "id": "bayit-life-simchat-torah-flag",
+    "name": "Simchat Torah",
+    "he": "דגל שמחת תורה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "simchat torah flag simchat torah flag apple שמחת תורה",
+    "aliases": [],
+    "emoji": "1F6A9"
+  },
+  {
+    "id": "bayit-life-holiday-card",
+    "name": "Greeting card",
+    "he": "כרטיס ברכה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "holiday greeting card greeting card shana tova wishes ברכה שנה טובה חג שמח",
+    "aliases": [],
+    "emoji": "1F48C"
+  },
+  {
+    "id": "bayit-life-christmas-tree",
+    "name": "Christmas",
+    "he": "חג המולד",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "christmas xmas tree noel chag hamolad חג המולד כריסמס עץ אשוח נובי גוד",
+    "aliases": [],
+    "emoji": "1F384"
+  },
+  {
+    "id": "bayit-life-star-of-bethlehem",
+    "name": "Christmas star",
+    "he": "כוכב חג המולד",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "christmas star bethlehem nativity חג המולד כוכב",
+    "aliases": [],
+    "emoji": "1F31F"
+  },
+  {
+    "id": "bayit-life-christmas-bells",
+    "name": "Christmas bells",
+    "he": "פעמוני חג המולד",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "christmas bells holly jingle חג המולד פעמונים",
+    "aliases": [
+      "1F514"
+    ],
+    "emoji": "1F514"
+  },
+  {
+    "id": "bayit-life-advent-wreath",
+    "name": "Advent",
+    "he": "אדוונט",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "advent wreath candles christmas אדוונט זר חג המולד",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-easter-eggs",
+    "name": "Easter",
+    "he": "פסחא",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "easter eggs spring פסחא ביצי פסחא חג הפסחא",
+    "aliases": [],
+    "emoji": "1F95A"
+  },
+  {
+    "id": "bayit-life-easter-bunny",
+    "name": "Easter bunny",
+    "he": "ארנב הפסחא",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "easter bunny rabbit spring פסחא ארנב",
+    "aliases": [
+      "1F407"
+    ],
+    "emoji": "1F407"
+  },
+  {
+    "id": "bayit-life-good-friday",
+    "name": "Good Friday",
+    "he": "יום שישי הטוב",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "good friday holy week lent cross יום שישי הטוב השבוע הקדוש לנט",
+    "aliases": [],
+    "emoji": "271D"
+  },
+  {
+    "id": "bayit-life-church",
+    "name": "Church",
+    "he": "כנסייה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "church mass service sunday כנסייה מיסה",
+    "aliases": [],
+    "emoji": "26EA"
+  },
+  {
+    "id": "bayit-life-epiphany",
+    "name": "Epiphany",
+    "he": "התגלות",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "epiphany three kings twelfth night התגלות שלושת המלכים",
+    "aliases": [],
+    "emoji": "1F451"
+  },
+  {
+    "id": "bayit-life-pentecost",
+    "name": "Pentecost",
+    "he": "פנטקוסט",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "חג השבועות הנוצרי pentecost whitsun dove pentecostes חג השבועות הנוצרי פנטקוסט",
+    "aliases": [],
+    "emoji": "1F54A"
+  },
+  {
+    "id": "bayit-life-name-day",
+    "name": "Name day",
+    "he": "יום שם",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "name day saints day patron saint יום שם יום הקדוש",
+    "aliases": [],
+    "emoji": "1F490"
+  },
+  {
+    "id": "bayit-life-ramadan-lantern",
+    "name": "Ramadan",
+    "he": "רמדאן",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "ramadan ramazan lantern fanous month of fasting רמדאן רמדאן כרים פנס",
+    "aliases": [],
+    "emoji": "1F3EE"
+  },
+  {
+    "id": "bayit-life-crescent-star",
+    "name": "Crescent and star",
+    "he": "סהר וכוכב",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "islamic crescent moon star muslim holiday סהר חג מוסלמי",
+    "aliases": [],
+    "emoji": "262A"
+  },
+  {
+    "id": "bayit-life-iftar",
+    "name": "Iftar",
+    "he": "איפטאר",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "iftar break fast ramadan dates suhoor איפטאר ארוחת שבירת הצום רמדאן תמרים סחור",
+    "aliases": [],
+    "emoji": "1F37D"
+  },
+  {
+    "id": "bayit-life-eid-al-fitr",
+    "name": "Eid al-Fitr",
+    "he": "עיד אל־פיטר",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "eid al fitr eid mubarak sweets maamoul עיד אל פיטר חג הפסקת הצום עיד מובארכ",
+    "aliases": [],
+    "emoji": "1F36A"
+  },
+  {
+    "id": "bayit-life-eid-al-adha",
+    "name": "Eid al-Adha",
+    "he": "עיד אל־אדחא",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "eid al adha feast of sacrifice hajj kurban bayram עיד אל אדחא חג הקורבן",
+    "aliases": [],
+    "emoji": "1F411"
+  },
+  {
+    "id": "bayit-life-mawlid",
+    "name": "Mawlid",
+    "he": "מולד הנביא",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "mawlid milad an nabi prophet birthday מולד הנביא מאולד",
+    "aliases": [],
+    "emoji": "1F54C"
+  },
+  {
+    "id": "bayit-life-hijri-new-year",
+    "name": "Islamic New Year",
+    "he": "ראש השנה המוסלמי",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "islamic new year hijri muharram ראש השנה המוסלמי היג׳רה",
+    "aliases": [],
+    "emoji": "1F319"
+  },
+  {
+    "id": "bayit-life-mosque",
+    "name": "Mosque",
+    "he": "מסגד",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "mosque prayer friday prayer מסגד תפילה",
+    "aliases": [],
+    "emoji": "1F54C"
+  },
+  {
+    "id": "bayit-life-diwali",
+    "name": "Diwali",
+    "he": "דיוואלי",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "diwali deepavali diya lamp festival of lights דיוואלי חג האורות",
+    "aliases": [],
+    "emoji": "1FA94"
+  },
+  {
+    "id": "bayit-life-lunar-new-year",
+    "name": "Lunar New Year",
+    "he": "ראש השנה הסיני",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "lunar new year chinese new year spring festival tet seollal ראש השנה הסיני",
+    "aliases": [],
+    "emoji": "1F3EE"
+  },
+  {
+    "id": "bayit-life-new-years-eve",
+    "name": "New Year",
+    "he": "סילבסטר",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "new year's eve nye new year eve countdown midnight sylvester ערב השנה האזרחית סילבסטר חצות",
+    "aliases": [],
+    "emoji": "1F570"
+  },
+  {
+    "id": "bayit-life-hanukkah-gelt",
+    "name": "Hanukkah gelt",
+    "he": "דמי חנוכה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah chanukah gelt chocolate coins חנוכה דמי חנוכה מטבעות שוקולד",
+    "aliases": [
+      "1FA99"
+    ],
+    "emoji": "1FA99"
+  },
+  {
+    "id": "bayit-life-oil-jug",
+    "name": "Oil jug",
+    "he": "כד השמן",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah chanukah oil jug miracle חנוכה כד שמן נס",
+    "aliases": [
+      "1FAD9"
+    ],
+    "emoji": "1FAD9"
+  },
+  {
+    "id": "bayit-life-latkes",
+    "name": "Latkes",
+    "he": "לביבות",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "hanukkah chanukah latkes potato pancakes חנוכה לביבות לטקס",
+    "aliases": [],
+    "emoji": "1F95E"
+  },
+  {
+    "id": "bayit-life-megillah",
+    "name": "Megillah",
+    "he": "מגילת אסתר",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "purim megillah esther scroll reading פורים מגילה מגילת אסתר",
+    "aliases": [],
+    "emoji": "1F4DC"
+  },
+  {
+    "id": "bayit-life-peace-dove",
+    "name": "Dove",
+    "he": "יונה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "dove peace yom kippur shalom יונה שלום יום כיפור",
+    "aliases": [],
+    "emoji": "1F54A"
+  },
+  {
+    "id": "bayit-life-western-wall",
+    "name": "Western Wall",
+    "he": "הכותל",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "western wall kotel jerusalem tisha bav הכותל הכותל המערבי ירושלים תשעה באב",
+    "aliases": [],
+    "emoji": "1F9F1"
+  },
+  {
+    "id": "bayit-life-mimouna",
+    "name": "Mimouna",
+    "he": "מימונה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "mimouna mufleta moroccan passover end מימונה מופלטה",
+    "aliases": [],
+    "emoji": "1F95E"
+  },
+  {
+    "id": "bayit-life-tu-bav",
+    "name": "Tu B'Av",
+    "he": "ט״ו באב",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "tu bav love day valentine ט״ו באב ט\"ו באב טו באב חג האהבה",
+    "aliases": [],
+    "emoji": "1F49E"
+  },
+  {
+    "id": "bayit-life-new-moon",
+    "name": "New month",
+    "he": "ראש חודש",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "rosh chodesh new month new moon ראש חודש מולד הירח",
+    "aliases": [],
+    "emoji": "1F312"
+  },
+  {
+    "id": "bayit-life-elijah-cup",
+    "name": "Elijah's cup",
+    "he": "כוס של אליהו",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover pesach seder elijah cup פסח ליל הסדר כוס אליהו",
+    "aliases": [],
+    "emoji": "1F377"
+  },
+  {
+    "id": "bayit-life-chametz-search",
+    "name": "Chametz search",
+    "he": "בדיקת חמץ",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "passover pesach cleaning chametz bedikat chametz פסח בדיקת חמץ ניקיון לפסח",
+    "aliases": [],
+    "emoji": "1FAB6"
+  },
+  {
+    "id": "bayit-life-shavuot-milk",
+    "name": "Shavuot dairy",
+    "he": "מאכלי חלב",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "shavuot dairy milk cheese שבועות חלב מאכלי חלב",
+    "aliases": [],
+    "emoji": "1F95B"
+  },
+  {
+    "id": "bayit-life-sukkah-chain",
+    "name": "Sukkah decor",
+    "he": "קישוטי סוכה",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "sukkah decorations sukkot sukkah decorations paper chain סוכות קישוטים שרשרת נייר",
+    "aliases": [],
+    "emoji": "1F38F"
+  },
+  {
+    "id": "bayit-life-fast-day",
+    "name": "Fast day",
+    "he": "יום צום",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "fast fasting day yom kippur tisha bav ramadan lent צום יום צום תענית",
+    "aliases": [],
+    "emoji": "1F37D"
+  },
+  {
+    "id": "bayit-life-squeaky-hammer",
+    "name": "Plastic hammer",
+    "he": "פטיש צעצוע",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "independence day plastic hammer squeaky yom haatzmaut יום העצמאות פטיש",
+    "aliases": [],
+    "emoji": "1F528"
+  },
+  {
+    "id": "bayit-life-flag-garland",
+    "name": "Flag garland",
+    "he": "דגלי כחול לבן",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "שרשרת דגלים independence day blue white bunting decorations יום העצמאות קישוטים כחול לבן",
+    "aliases": [],
+    "emoji": "1F1EE-1F1F1"
+  },
+  {
+    "id": "bayit-life-costume",
+    "name": "Costume",
+    "he": "תחפושת",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "costume dress up purim halloween carnival תחפושת פורים תחפושות",
+    "aliases": [],
+    "emoji": "1F9B8"
+  },
+  {
+    "id": "bayit-life-honey-cake",
+    "name": "Honey cake",
+    "he": "עוגת דבש",
+    "group": "Holidays",
+    "groupHe": "חגים ומועדים",
+    "collection": "life",
+    "tags": "rosh hashana honey cake new year ראש השנה עוגת דבש",
+    "aliases": [],
+    "emoji": "1F370"
+  },
+  {
+    "id": "bayit-life-bouquet",
+    "name": "Bouquet",
+    "he": "זר פרחים לאירוע",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "bouquet flowers bride wedding congratulations זר זר כלה פרחים ברכות",
+    "aliases": [],
+    "emoji": "1F490"
+  },
+  {
+    "id": "bayit-life-balloons",
+    "name": "Balloons",
+    "he": "בלונים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birthday party balloons יום הולדת מסיבה",
+    "aliases": [
+      "1F388"
+    ],
+    "emoji": "1F388"
+  },
+  {
+    "id": "bayit-life-party-hat",
+    "name": "Party hat",
+    "he": "כובע מסיבה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birthday party hat יום הולדת",
+    "aliases": [],
+    "emoji": "1F973"
+  },
+  {
+    "id": "bayit-life-cupcake",
+    "name": "Cupcake",
+    "he": "קאפקייק",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "birthday cupcake candle יום הולדת",
+    "aliases": [
+      "1F9C1"
+    ],
+    "emoji": "1F9C1"
+  },
+  {
+    "id": "bayit-life-bunting",
+    "name": "Party garland",
+    "he": "שרשרת דגלים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "decoration garland bunting party קישוטים מסיבה",
+    "aliases": [],
+    "emoji": "1F38F"
+  },
+  {
+    "id": "bayit-life-wedding-rings",
+    "name": "Wedding rings",
+    "he": "טבעות נישואין",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "wedding engagement anniversary חתונה אירוסין יום נישואין",
+    "aliases": [],
+    "emoji": "1F48D"
+  },
+  {
+    "id": "bayit-life-chuppah",
+    "name": "Chuppah",
+    "he": "חופה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "wedding canopy חתונה",
+    "aliases": [],
+    "emoji": "1F492"
+  },
+  {
+    "id": "bayit-life-wedding-cake",
+    "name": "Wedding cake",
+    "he": "עוגת חתונה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "wedding cake tiered חתונה",
+    "aliases": [],
+    "emoji": "1F382"
+  },
+  {
+    "id": "bayit-life-tallit",
+    "name": "Tallit",
+    "he": "טלית",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "bar mitzvah tallit prayer shawl בר מצווה",
+    "aliases": [],
+    "emoji": "1F9E3"
+  },
+  {
+    "id": "bayit-life-tiara",
+    "name": "Tiara",
+    "he": "כתר",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "bat mitzvah princess crown בת מצווה",
+    "aliases": [],
+    "emoji": "1F451"
+  },
+  {
+    "id": "bayit-life-toast-glasses",
+    "name": "Cheers",
+    "he": "לחיים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "toast champagne celebration anniversary לחיים הרמת כוסית",
+    "aliases": [
+      "1F942"
+    ],
+    "emoji": "1F942"
+  },
+  {
+    "id": "bayit-life-microphone",
+    "name": "Microphone",
+    "he": "מיקרופון",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "karaoke show performance singing קריוקי הופעה שירה",
+    "aliases": [
+      "1F3A4"
+    ],
+    "emoji": "1F3A4"
+  },
+  {
+    "id": "bayit-life-disco-ball",
+    "name": "Disco ball",
+    "he": "כדור דיסקו",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "dance party disco ריקודים מסיבה",
+    "aliases": [
+      "1FAA9"
+    ],
+    "emoji": "1FAA9"
+  },
+  {
+    "id": "bayit-life-dance-music",
+    "name": "Dance music",
+    "he": "מוזיקה לריקודים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "dj headphones music party תקליטן אוזניות",
+    "aliases": [],
+    "emoji": "1F3A7"
+  },
+  {
+    "id": "bayit-life-invitation",
+    "name": "Invitation",
+    "he": "הזמנה",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "invitation invite event wedding party הזמנה לאירוע",
+    "aliases": [],
+    "emoji": "1F48C"
+  },
+  {
+    "id": "bayit-life-camera",
+    "name": "Photos",
+    "he": "צילומים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "camera photographer photos צלם מצלמה תמונות",
+    "aliases": [
+      "1F4F7"
+    ],
+    "emoji": "1F4F7"
+  },
+  {
+    "id": "bayit-life-trophy",
+    "name": "Trophy",
+    "he": "גביע",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "award win competition ceremony פרס זכייה תחרות טקס",
+    "aliases": [
+      "1F3C6"
+    ],
+    "emoji": "1F3C6"
+  },
+  {
+    "id": "bayit-life-graduation-cap",
+    "name": "Graduation",
+    "he": "סיום לימודים",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "graduation ceremony diploma end of year טקס סיום",
+    "aliases": [
+      "1F393"
+    ],
+    "emoji": "1F393"
+  },
+  {
+    "id": "bayit-life-baby-rattle",
+    "name": "Baby gift",
+    "he": "מתנה לתינוק",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "baby birth brit britah newborn תינוק לידה ברית בריתה",
+    "aliases": [],
+    "emoji": "1F37C"
+  },
+  {
+    "id": "bayit-life-sparkler",
+    "name": "Sparkler",
+    "he": "זיקוק יד",
+    "group": "Celebrations",
+    "groupHe": "חגיגות ואירועים",
+    "collection": "life",
+    "tags": "sparkler celebration new year חגיגה",
+    "aliases": [
+      "1F387"
+    ],
+    "emoji": "1F387"
+  },
+  {
+    "id": "bayit-life-picnic",
+    "name": "Picnic",
+    "he": "פיקניק",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "picnic park outing פיקניק פארק",
+    "aliases": [],
+    "emoji": "1F9FA"
+  },
+  {
+    "id": "bayit-life-popcorn",
+    "name": "Movie night",
+    "he": "ערב סרט",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "movie night cinema film popcorn סרט קולנוע",
+    "aliases": [
+      "1F37F"
+    ],
+    "emoji": "1F37F"
+  },
+  {
+    "id": "bayit-life-clapperboard",
+    "name": "Cinema",
+    "he": "קולנוע",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "cinema movie film קולנוע סרט",
+    "aliases": [
+      "1F3AC"
+    ],
+    "emoji": "1F3AC"
+  },
+  {
+    "id": "bayit-life-playing-cards",
+    "name": "Card games",
+    "he": "משחק קלפים",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "cards game night משחק קלפים ערב משחקים",
+    "aliases": [],
+    "emoji": "1F0CF"
+  },
+  {
+    "id": "bayit-life-ice-cream",
+    "name": "Ice cream",
+    "he": "גלידה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "ice cream treat summer outing גלידה",
+    "aliases": [
+      "1F366"
+    ],
+    "emoji": "1F366"
+  },
+  {
+    "id": "bayit-life-grandparents",
+    "name": "Grandparents",
+    "he": "סבא וסבתא",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "visit grandparents ביקור אצל סבא וסבתא grandma grandpa visit family סבא סבתא ביקור",
+    "aliases": [],
+    "emoji": "1F475"
+  },
+  {
+    "id": "bayit-life-video-call",
+    "name": "Video call",
+    "he": "שיחת וידאו",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "video call phone family שיחת וידאו טלפון",
+    "aliases": [],
+    "emoji": "1F4F1"
+  },
+  {
+    "id": "bayit-life-bedtime-story",
+    "name": "Bedtime story",
+    "he": "סיפור לפני השינה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "bedtime story reading night סיפור לילה",
+    "aliases": [],
+    "emoji": "1F4D6"
+  },
+  {
+    "id": "bayit-life-baking",
+    "name": "Baking",
+    "he": "אפייה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "baking cookies cake kitchen אפייה עוגיות",
+    "aliases": [],
+    "emoji": "1F36A"
+  },
+  {
+    "id": "bayit-life-zoo",
+    "name": "Zoo",
+    "he": "גן חיות",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "zoo animals safari גן חיות ספארי",
+    "aliases": [
+      "1F992"
+    ],
+    "emoji": "1F992"
+  },
+  {
+    "id": "bayit-life-ferris-wheel",
+    "name": "Amusement park",
+    "he": "לונה פארק",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "amusement park ferris wheel fair לונה פארק",
+    "aliases": [
+      "1F3A1"
+    ],
+    "emoji": "1F3A1"
+  },
+  {
+    "id": "bayit-life-playground",
+    "name": "Playground",
+    "he": "גן שעשועים",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "playground slide park גן שעשועים מגלשה",
+    "aliases": [
+      "1F6DD"
+    ],
+    "emoji": "1F6DD"
+  },
+  {
+    "id": "bayit-life-museum",
+    "name": "Museum",
+    "he": "מוזיאון",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "museum exhibition מוזיאון תערוכה",
+    "aliases": [],
+    "emoji": "1F3DB"
+  },
+  {
+    "id": "bayit-life-theater",
+    "name": "Theater",
+    "he": "הצגה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "theater show play הצגה תיאטרון",
+    "aliases": [],
+    "emoji": "1F3AD"
+  },
+  {
+    "id": "bayit-life-concert",
+    "name": "Concert",
+    "he": "הופעה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "concert music show guitar הופעה קונצרט",
+    "aliases": [],
+    "emoji": "1F3B8"
+  },
+  {
+    "id": "bayit-life-library",
+    "name": "Library",
+    "he": "ספרייה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "library books borrow ספרייה ספרים",
+    "aliases": [
+      "1F4DA"
+    ],
+    "emoji": "1F4DA"
+  },
+  {
+    "id": "bayit-life-kite",
+    "name": "Kite",
+    "he": "עפיפון",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "kite flying outdoor wind עפיפון",
+    "aliases": [
+      "1FA81"
+    ],
+    "emoji": "1FA81"
+  },
+  {
+    "id": "bayit-life-tent",
+    "name": "Camping",
+    "he": "קמפינג",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "camping tent outdoors קמפינג אוהל",
+    "aliases": [
+      "26FA"
+    ],
+    "emoji": "26FA"
+  },
+  {
+    "id": "bayit-life-board-games-night",
+    "name": "Game night",
+    "he": "ערב משחקים",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "family game night game night dice family ערב משחקים",
+    "aliases": [],
+    "emoji": "1F3B2"
+  },
+  {
+    "id": "bayit-life-family-hearts",
+    "name": "Family time",
+    "he": "זמן משפחה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "family together time זמן משפחה ביחד",
+    "aliases": [],
+    "emoji": "1F46A"
+  },
+  {
+    "id": "bayit-life-sick-day",
+    "name": "Sick day",
+    "he": "יום מחלה",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "sick child ill fever stay home ילד חולה חום מחלה",
+    "aliases": [],
+    "emoji": "1F912"
+  },
+  {
+    "id": "bayit-life-doctor-bag",
+    "name": "Doctor",
+    "he": "רופא",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "doctor appointment clinic קופת חולים רופא תור",
+    "aliases": [],
+    "emoji": "1FA7A"
+  },
+  {
+    "id": "bayit-life-tooth",
+    "name": "Dentist",
+    "he": "רופא שיניים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "dentist teeth checkup רופא שיניים",
+    "aliases": [],
+    "emoji": "1F9B7"
+  },
+  {
+    "id": "bayit-life-pharmacy",
+    "name": "Pharmacy",
+    "he": "בית מרקחת",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "pharmacy medicine prescription בית מרקחת מרשם",
+    "aliases": [],
+    "emoji": "1F48A"
+  },
+  {
+    "id": "bayit-life-vaccine",
+    "name": "Vaccine",
+    "he": "חיסון",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "vaccine shot injection חיסון זריקה",
+    "aliases": [
+      "1F489"
+    ],
+    "emoji": "1F489"
+  },
+  {
+    "id": "bayit-life-bandage",
+    "name": "Bandage",
+    "he": "פלסטר",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "bandage first aid wound פלסטר עזרה ראשונה",
+    "aliases": [
+      "1FA79"
+    ],
+    "emoji": "1FA79"
+  },
+  {
+    "id": "bayit-life-pills",
+    "name": "Pills",
+    "he": "כדורים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "pills medicine dose תרופה כדורים",
+    "aliases": [],
+    "emoji": "1F48A"
+  },
+  {
+    "id": "bayit-life-tissues",
+    "name": "Cold and flu",
+    "he": "הצטננות",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "cold flu tissues cough הצטננות שפעת טישו",
+    "aliases": [],
+    "emoji": "1F927"
+  },
+  {
+    "id": "bayit-life-glasses",
+    "name": "Eye doctor",
+    "he": "רופא עיניים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "glasses eye exam optometrist משקפיים בדיקת עיניים",
+    "aliases": [
+      "1F453"
+    ],
+    "emoji": "1F453"
+  },
+  {
+    "id": "bayit-life-blood-test",
+    "name": "Blood test",
+    "he": "בדיקת דם",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "blood test lab בדיקת דם מעבדה",
+    "aliases": [],
+    "emoji": "1FA78"
+  },
+  {
+    "id": "bayit-life-hospital",
+    "name": "Hospital",
+    "he": "בית חולים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "hospital emergency בית חולים מיון",
+    "aliases": [
+      "1F3E5"
+    ],
+    "emoji": "1F3E5"
+  },
+  {
+    "id": "bayit-life-ambulance",
+    "name": "Ambulance",
+    "he": "אמבולנס",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "ambulance emergency אמבולנס חירום",
+    "aliases": [
+      "1F691"
+    ],
+    "emoji": "1F691"
+  },
+  {
+    "id": "bayit-life-heart-check",
+    "name": "Heart check",
+    "he": "בדיקת לב",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "heart cardiology checkup בדיקת לב",
+    "aliases": [],
+    "emoji": "2764"
+  },
+  {
+    "id": "bayit-life-crutches",
+    "name": "Physiotherapy",
+    "he": "פיזיותרפיה",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "physio injury crutches פיזיותרפיה פציעה",
+    "aliases": [
+      "1FA7C"
+    ],
+    "emoji": "1FA7C"
+  },
+  {
+    "id": "bayit-life-pacifier",
+    "name": "Baby clinic",
+    "he": "טיפת חלב",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "baby clinic well baby checkup טיפת חלב תינוק",
+    "aliases": [],
+    "emoji": "1F37C"
+  },
+  {
+    "id": "bayit-life-inhaler",
+    "name": "Inhaler",
+    "he": "משאף",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "asthma inhaler allergy אסתמה משאף אלרגיה",
+    "aliases": [],
+    "emoji": "1FAC1"
+  },
+  {
+    "id": "bayit-life-lice-comb",
+    "name": "Lice check",
+    "he": "בדיקת כינים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "lice comb kids head check כינים מסרק",
+    "aliases": [],
+    "emoji": "1FAB2"
+  },
+  {
+    "id": "bayit-life-sleep-mask",
+    "name": "Sleep",
+    "he": "שינה",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "sleep rest nap שינה מנוחה",
+    "aliases": [],
+    "emoji": "1F634"
+  },
+  {
+    "id": "bayit-life-vitamins",
+    "name": "Vitamins",
+    "he": "ויטמינים",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "vitamins supplements ויטמינים תוספים",
+    "aliases": [],
+    "emoji": "1F48A"
+  },
+  {
+    "id": "bayit-life-therapy-talk",
+    "name": "Therapy",
+    "he": "טיפול רגשי",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "therapy counselling talk פסיכולוג טיפול שיחה",
+    "aliases": [],
+    "emoji": "1F4AC"
+  },
+  {
+    "id": "bayit-life-school-building",
+    "name": "School",
+    "he": "בית ספר",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "school class בית ספר כיתה",
+    "aliases": [
+      "1F3EB"
+    ],
+    "emoji": "1F3EB"
+  },
+  {
+    "id": "bayit-life-blocks",
+    "name": "Kindergarten",
+    "he": "גן ילדים",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "kindergarten preschool blocks גן ילדים גנון",
+    "aliases": [],
+    "emoji": "1F9F8"
+  },
+  {
+    "id": "bayit-life-teacher-apple",
+    "name": "Parent meeting",
+    "he": "אסיפת הורים",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "parent teacher meeting conference אסיפת הורים פגישה עם המורה",
+    "aliases": [],
+    "emoji": "1F34E"
+  },
+  {
+    "id": "bayit-life-school-bus",
+    "name": "School trip",
+    "he": "טיול שנתי",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "school trip bus excursion טיול שנתי הסעה",
+    "aliases": [
+      "1F68C"
+    ],
+    "emoji": "1F68C"
+  },
+  {
+    "id": "bayit-life-exam",
+    "name": "Exam",
+    "he": "מבחן",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "exam test quiz מבחן בוחן",
+    "aliases": [],
+    "emoji": "1F4DD"
+  },
+  {
+    "id": "bayit-life-homework",
+    "name": "Homework",
+    "he": "שיעורי בית",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "homework study שיעורי בית",
+    "aliases": [],
+    "emoji": "270F"
+  },
+  {
+    "id": "bayit-life-diploma",
+    "name": "End of year",
+    "he": "סוף שנה",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "end of year certificate diploma סוף שנה תעודה",
+    "aliases": [],
+    "emoji": "1F4DC"
+  },
+  {
+    "id": "bayit-life-school-bell",
+    "name": "School bell",
+    "he": "צלצול",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "bell break recess צלצול הפסקה",
+    "aliases": [],
+    "emoji": "1F514"
+  },
+  {
+    "id": "bayit-life-ruler-triangle",
+    "name": "Geometry",
+    "he": "גאומטריה",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "math geometry ruler מתמטיקה סרגל",
+    "aliases": [
+      "1F4D0"
+    ],
+    "emoji": "1F4D0"
+  },
+  {
+    "id": "bayit-life-calculator",
+    "name": "Math",
+    "he": "חשבון",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "math calculator arithmetic חשבון מתמטיקה",
+    "aliases": [],
+    "emoji": "1F9EE"
+  },
+  {
+    "id": "bayit-life-globe",
+    "name": "Geography",
+    "he": "גאוגרפיה",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "globe geography world גאוגרפיה גלובוס",
+    "aliases": [
+      "1F30D"
+    ],
+    "emoji": "1F30D"
+  },
+  {
+    "id": "bayit-life-microscope",
+    "name": "Science",
+    "he": "מדעים",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "science lab microscope מדעים מעבדה",
+    "aliases": [
+      "1F52C"
+    ],
+    "emoji": "1F52C"
+  },
+  {
+    "id": "bayit-life-chalkboard",
+    "name": "Class",
+    "he": "שיעור",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "lesson class teacher blackboard שיעור לוח",
+    "aliases": [],
+    "emoji": "1F9D1"
+  },
+  {
+    "id": "bayit-life-laptop",
+    "name": "Online class",
+    "he": "שיעור מקוון",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "online lesson zoom computer שיעור בזום מחשב",
+    "aliases": [
+      "1F4BB"
+    ],
+    "emoji": "1F4BB"
+  },
+  {
+    "id": "bayit-life-pencil-case",
+    "name": "Pencil case",
+    "he": "קלמר",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "pencil case supplies קלמר ציוד",
+    "aliases": [],
+    "emoji": "1F58A"
+  },
+  {
+    "id": "bayit-life-crayons",
+    "name": "Crayons",
+    "he": "צבעים",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "crayons drawing coloring צבעים ציור",
+    "aliases": [],
+    "emoji": "1F58D"
+  },
+  {
+    "id": "bayit-life-report-card",
+    "name": "Report card",
+    "he": "תעודה",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "report card grades certificate תעודה ציונים",
+    "aliases": [],
+    "emoji": "1F4C4"
+  },
+  {
+    "id": "bayit-life-paper-plane",
+    "name": "Paper plane",
+    "he": "מטוס נייר",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "paper plane craft ideas מטוס נייר",
+    "aliases": [
+      "2708"
+    ],
+    "emoji": "2708"
+  },
+  {
+    "id": "bayit-life-whistle",
+    "name": "PE class",
+    "he": "ספורט בבית הספר",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "gym physical education whistle שיעור ספורט חינוך גופני",
+    "aliases": [],
+    "emoji": "1F3BD"
+  },
+  {
+    "id": "bayit-life-magnifier",
+    "name": "Discovery",
+    "he": "חקר",
+    "group": "School & kindergarten",
+    "groupHe": "בית ספר וגן",
+    "collection": "life",
+    "tags": "discover research magnifying glass חקר מחקר",
+    "aliases": [],
+    "emoji": "1F50D"
+  },
+  {
+    "id": "bayit-life-ballet",
+    "name": "Ballet",
+    "he": "בלט",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "ballet dance class בלט מחול ריקוד",
+    "aliases": [
+      "1FA70"
+    ],
+    "emoji": "1FA70"
+  },
+  {
+    "id": "bayit-life-karate",
+    "name": "Martial arts",
+    "he": "אומנויות לחימה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "karate judo taekwondo martial arts קרטה ג'ודו",
+    "aliases": [
+      "1F94B"
+    ],
+    "emoji": "1F94B"
+  },
+  {
+    "id": "bayit-life-tennis",
+    "name": "Tennis",
+    "he": "טניס",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "tennis racket ball טניס",
+    "aliases": [
+      "1F3BE"
+    ],
+    "emoji": "1F3BE"
+  },
+  {
+    "id": "bayit-life-swimming",
+    "name": "Swimming",
+    "he": "שחייה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "swimming pool lesson שחייה בריכה",
+    "aliases": [],
+    "emoji": "1F3CA"
+  },
+  {
+    "id": "bayit-life-boxing",
+    "name": "Boxing",
+    "he": "אגרוף",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "boxing gloves אגרוף כפפות",
+    "aliases": [
+      "1F94A"
+    ],
+    "emoji": "1F94A"
+  },
+  {
+    "id": "bayit-life-gymnastics",
+    "name": "Gymnastics",
+    "he": "התעמלות",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "gymnastics ribbon rhythmic התעמלות קרקע אמנותית",
+    "aliases": [],
+    "emoji": "1F938"
+  },
+  {
+    "id": "bayit-life-guitar",
+    "name": "Guitar lesson",
+    "he": "שיעור גיטרה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "guitar music lesson גיטרה",
+    "aliases": [],
+    "emoji": "1F3B8"
+  },
+  {
+    "id": "bayit-life-violin",
+    "name": "Violin",
+    "he": "כינור",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "violin music lesson orchestra כינור",
+    "aliases": [
+      "1F3BB"
+    ],
+    "emoji": "1F3BB"
+  },
+  {
+    "id": "bayit-life-drum",
+    "name": "Drums",
+    "he": "תופים",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "drums percussion תופים",
+    "aliases": [
+      "1F941"
+    ],
+    "emoji": "1F941"
+  },
+  {
+    "id": "bayit-life-chess",
+    "name": "Chess",
+    "he": "שחמט",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "chess club strategy שחמט",
+    "aliases": [],
+    "emoji": "265F"
+  },
+  {
+    "id": "bayit-life-art-easel",
+    "name": "Art class",
+    "he": "חוג ציור",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "art painting class easel חוג אמנות ציור",
+    "aliases": [],
+    "emoji": "1F3A8"
+  },
+  {
+    "id": "bayit-life-robot",
+    "name": "Robotics",
+    "he": "רובוטיקה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "robotics coding science רובוטיקה תכנות",
+    "aliases": [
+      "1F916"
+    ],
+    "emoji": "1F916"
+  },
+  {
+    "id": "bayit-life-scouts",
+    "name": "Scouts",
+    "he": "צופים",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "scouts youth movement tzofim צופים תנועת נוער",
+    "aliases": [],
+    "emoji": "269C"
+  },
+  {
+    "id": "bayit-life-horse-riding",
+    "name": "Horse riding",
+    "he": "רכיבה על סוסים",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "horse riding equestrian רכיבה על סוסים",
+    "aliases": [],
+    "emoji": "1F40E"
+  },
+  {
+    "id": "bayit-life-stopwatch",
+    "name": "Running",
+    "he": "ריצה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "running training stopwatch ריצה אימון",
+    "aliases": [
+      "23F1"
+    ],
+    "emoji": "23F1"
+  },
+  {
+    "id": "bayit-life-yoga",
+    "name": "Yoga",
+    "he": "יוגה",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "yoga pilates mat יוגה פילאטיס",
+    "aliases": [],
+    "emoji": "1F9D8"
+  },
+  {
+    "id": "bayit-life-dumbbell",
+    "name": "Gym",
+    "he": "חדר כושר",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "gym workout fitness weights כושר אימון",
+    "aliases": [],
+    "emoji": "1F3CB"
+  },
+  {
+    "id": "bayit-life-volleyball",
+    "name": "Volleyball",
+    "he": "כדורעף",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "volleyball beach ball כדורעף",
+    "aliases": [
+      "1F3D0"
+    ],
+    "emoji": "1F3D0"
+  },
+  {
+    "id": "bayit-life-skateboard",
+    "name": "Skateboard",
+    "he": "סקייטבורד",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "skateboard skating סקייטבורד",
+    "aliases": [
+      "1F6F9"
+    ],
+    "emoji": "1F6F9"
+  },
+  {
+    "id": "bayit-life-roller-skates",
+    "name": "Roller skates",
+    "he": "גלגיליות",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "roller skates skating גלגיליות",
+    "aliases": [
+      "1F6FC"
+    ],
+    "emoji": "1F6FC"
+  },
+  {
+    "id": "bayit-life-airplane",
+    "name": "Flight",
+    "he": "טיסה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "flight airport plane abroad טיסה שדה תעופה חו״ל חו\"ל",
+    "aliases": [],
+    "emoji": "2708"
+  },
+  {
+    "id": "bayit-life-suitcase",
+    "name": "Packing",
+    "he": "אריזה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "suitcase packing luggage trip מזוודה אריזה",
+    "aliases": [
+      "1F9F3"
+    ],
+    "emoji": "1F9F3"
+  },
+  {
+    "id": "bayit-life-passport",
+    "name": "Passport",
+    "he": "דרכון",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "passport documents abroad דרכון",
+    "aliases": [],
+    "emoji": "1F6C2"
+  },
+  {
+    "id": "bayit-life-beach",
+    "name": "Beach",
+    "he": "ים",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "beach sea summer ים חוף",
+    "aliases": [],
+    "emoji": "1F3D6"
+  },
+  {
+    "id": "bayit-life-mountain",
+    "name": "Hiking",
+    "he": "טיול רגלי",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "hike mountain trail טיול טרק הר",
+    "aliases": [],
+    "emoji": "1F3D4"
+  },
+  {
+    "id": "bayit-life-hiking-boots",
+    "name": "Hiking boots",
+    "he": "נעלי הליכה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "hiking boots trail נעלי טיולים",
+    "aliases": [
+      "1F97E"
+    ],
+    "emoji": "1F97E"
+  },
+  {
+    "id": "bayit-life-caravan",
+    "name": "Camper",
+    "he": "קרוואן",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "camper caravan road trip קרוואן",
+    "aliases": [],
+    "emoji": "1F690"
+  },
+  {
+    "id": "bayit-life-hotel",
+    "name": "Hotel",
+    "he": "מלון",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "hotel vacation stay מלון חופשה",
+    "aliases": [
+      "1F3E8"
+    ],
+    "emoji": "1F3E8"
+  },
+  {
+    "id": "bayit-life-map-pin",
+    "name": "Map",
+    "he": "מפה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "map directions destination מפה יעד",
+    "aliases": [],
+    "emoji": "1F5FA"
+  },
+  {
+    "id": "bayit-life-compass",
+    "name": "Compass",
+    "he": "מצפן",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "compass navigation outdoor מצפן ניווט",
+    "aliases": [
+      "1F9ED"
+    ],
+    "emoji": "1F9ED"
+  },
+  {
+    "id": "bayit-life-train",
+    "name": "Train",
+    "he": "רכבת",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "train railway רכבת",
+    "aliases": [
+      "1F686"
+    ],
+    "emoji": "1F686"
+  },
+  {
+    "id": "bayit-life-city-bus",
+    "name": "Bus",
+    "he": "אוטובוס",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "bus public transport אוטובוס תחבורה ציבורית",
+    "aliases": [],
+    "emoji": "1F68C"
+  },
+  {
+    "id": "bayit-life-ship",
+    "name": "Cruise",
+    "he": "שייט",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "cruise ship boat sail שייט ספינה",
+    "aliases": [
+      "1F6F3"
+    ],
+    "emoji": "1F6F3"
+  },
+  {
+    "id": "bayit-life-sunglasses",
+    "name": "Sunglasses",
+    "he": "משקפי שמש",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "sunglasses summer vacation משקפי שמש חופשה",
+    "aliases": [
+      "1F576"
+    ],
+    "emoji": "1F576"
+  },
+  {
+    "id": "bayit-life-binoculars",
+    "name": "Binoculars",
+    "he": "משקפת",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "binoculars nature birdwatching משקפת",
+    "aliases": [],
+    "emoji": "1F52D"
+  },
+  {
+    "id": "bayit-life-tickets",
+    "name": "Tickets",
+    "he": "כרטיסים",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "tickets show event entry כרטיסים",
+    "aliases": [
+      "1F39F"
+    ],
+    "emoji": "1F39F"
+  },
+  {
+    "id": "bayit-life-swim-ring",
+    "name": "Pool",
+    "he": "בריכה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "pool swim ring float בריכה גלגל ים",
+    "aliases": [
+      "1F6DF"
+    ],
+    "emoji": "1F6DF"
+  },
+  {
+    "id": "bayit-life-hiking-backpack",
+    "name": "Trip backpack",
+    "he": "תיק טיולים",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "backpacking trip trek תרמיל טיול",
+    "aliases": [],
+    "emoji": "1F392"
+  },
+  {
+    "id": "bayit-life-island",
+    "name": "Vacation",
+    "he": "חופשה",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "vacation holiday island חופשה",
+    "aliases": [
+      "1F3DD"
+    ],
+    "emoji": "1F3DD"
+  },
+  {
+    "id": "bayit-life-cable-car",
+    "name": "Cable car",
+    "he": "רכבל",
+    "group": "Travel & trips",
+    "groupHe": "נסיעות וטיולים",
+    "collection": "life",
+    "tags": "cable car mountain north רכבל",
+    "aliases": [
+      "1F6A1"
+    ],
+    "emoji": "1F6A1"
+  },
+  {
+    "id": "bayit-life-shopping-bag",
+    "name": "Shopping",
+    "he": "קניות",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "shopping mall store קניות קניון",
+    "aliases": [
+      "1F6CD"
+    ],
+    "emoji": "1F6CD"
+  },
+  {
+    "id": "bayit-life-parcel",
+    "name": "Parcel",
+    "he": "חבילה",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "parcel package delivery post office חבילה משלוח דואר",
+    "aliases": [
+      "1F4E6"
+    ],
+    "emoji": "1F4E6"
+  },
+  {
+    "id": "bayit-life-mailbox",
+    "name": "Mail",
+    "he": "דואר",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "mail letter mailbox post דואר מכתב",
+    "aliases": [
+      "1F4EB"
+    ],
+    "emoji": "1F4EB"
+  },
+  {
+    "id": "bayit-life-house-keys",
+    "name": "Keys",
+    "he": "מפתחות",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "keys house locksmith מפתחות",
+    "aliases": [
+      "1F511"
+    ],
+    "emoji": "1F511"
+  },
+  {
+    "id": "bayit-life-toolbox",
+    "name": "Repairs",
+    "he": "תיקונים",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "repair fix toolbox handyman תיקונים",
+    "aliases": [
+      "1F9F0"
+    ],
+    "emoji": "1F9F0"
+  },
+  {
+    "id": "bayit-life-light-bulb",
+    "name": "Electrician",
+    "he": "חשמלאי",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "electrician light bulb electricity חשמלאי נורה",
+    "aliases": [
+      "1F4A1"
+    ],
+    "emoji": "1F4A1"
+  },
+  {
+    "id": "bayit-life-plumber",
+    "name": "Plumber",
+    "he": "אינסטלטור",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "plumber leak faucet אינסטלטור נזילה",
+    "aliases": [],
+    "emoji": "1F527"
+  },
+  {
+    "id": "bayit-life-paint-roller",
+    "name": "Renovation",
+    "he": "שיפוץ",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "renovation paint walls שיפוץ צביעה",
+    "aliases": [],
+    "emoji": "1F58C"
+  },
+  {
+    "id": "bayit-life-garbage-bag",
+    "name": "Trash",
+    "he": "זבל",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "garbage trash take out זבל פח",
+    "aliases": [],
+    "emoji": "1F5D1"
+  },
+  {
+    "id": "bayit-life-sofa",
+    "name": "Furniture",
+    "he": "רהיטים",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "furniture sofa couch רהיטים ספה",
+    "aliases": [],
+    "emoji": "1F6CB"
+  },
+  {
+    "id": "bayit-life-washing-machine",
+    "name": "Washing machine",
+    "he": "מכונת כביסה",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "washing machine laundry service מכונת כביסה",
+    "aliases": [],
+    "emoji": "1F9FA"
+  },
+  {
+    "id": "bayit-life-iron",
+    "name": "Ironing",
+    "he": "גיהוץ",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "ironing clothes גיהוץ",
+    "aliases": [],
+    "emoji": "1F455"
+  },
+  {
+    "id": "bayit-life-sewing",
+    "name": "Sewing",
+    "he": "תפירה",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "sewing tailor needle thread תפירה תופרת",
+    "aliases": [
+      "1FAA1"
+    ],
+    "emoji": "1FAA1"
+  },
+  {
+    "id": "bayit-life-gardening",
+    "name": "Gardening",
+    "he": "גינון",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "garden gardening gloves גינה גינון",
+    "aliases": [],
+    "emoji": "1FAB4"
+  },
+  {
+    "id": "bayit-life-lawn-mower",
+    "name": "Lawn",
+    "he": "דשא",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "lawn mowing grass דשא כיסוח",
+    "aliases": [],
+    "emoji": "1F33F"
+  },
+  {
+    "id": "bayit-life-hair-dryer",
+    "name": "Haircut",
+    "he": "תספורת",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "hair salon haircut barber מספרה תספורת",
+    "aliases": [],
+    "emoji": "1F488"
+  },
+  {
+    "id": "bayit-life-hanger",
+    "name": "Dry cleaning",
+    "he": "ניקוי יבש",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "dry cleaning clothes hanger ניקוי יבש",
+    "aliases": [],
+    "emoji": "1F454"
+  },
+  {
+    "id": "bayit-life-moving-boxes",
+    "name": "Moving house",
+    "he": "מעבר דירה",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "moving house boxes מעבר דירה ארגזים",
+    "aliases": [],
+    "emoji": "1F4E6"
+  },
+  {
+    "id": "bayit-life-front-door",
+    "name": "Front door",
+    "he": "דלת",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "door guests visitor דלת אורחים",
+    "aliases": [
+      "1F6AA"
+    ],
+    "emoji": "1F6AA"
+  },
+  {
+    "id": "bayit-life-air-conditioner",
+    "name": "Air conditioner",
+    "he": "מזגן",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "air conditioner ac technician service מזגן טכנאי",
+    "aliases": [],
+    "emoji": "2744"
+  },
+  {
+    "id": "bayit-life-fuel",
+    "name": "Fuel",
+    "he": "דלק",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "fuel gas station petrol דלק תדלוק",
+    "aliases": [
+      "26FD"
+    ],
+    "emoji": "26FD"
+  },
+  {
+    "id": "bayit-life-car-wash",
+    "name": "Car wash",
+    "he": "שטיפת רכב",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "car wash clean שטיפת רכב",
+    "aliases": [],
+    "emoji": "1F697"
+  },
+  {
+    "id": "bayit-life-garage",
+    "name": "Car service",
+    "he": "טיפול לרכב",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "car service garage mechanic טיפול מוסך",
+    "aliases": [],
+    "emoji": "1F527"
+  },
+  {
+    "id": "bayit-life-tire",
+    "name": "Tires",
+    "he": "צמיגים",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "tire wheel puncture צמיג פנצ'ר",
+    "aliases": [
+      "1F6DE"
+    ],
+    "emoji": "1F6DE"
+  },
+  {
+    "id": "bayit-life-car-key",
+    "name": "Car key",
+    "he": "מפתח רכב",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "car key fob מפתח רכב",
+    "aliases": [],
+    "emoji": "1F511"
+  },
+  {
+    "id": "bayit-life-steering-wheel",
+    "name": "Driving lesson",
+    "he": "שיעור נהיגה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "driving lesson test steering wheel שיעור נהיגה טסט",
+    "aliases": [],
+    "emoji": "1F698"
+  },
+  {
+    "id": "bayit-life-parking",
+    "name": "Parking",
+    "he": "חניה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "parking meter car park חניה",
+    "aliases": [],
+    "emoji": "1F17F"
+  },
+  {
+    "id": "bayit-life-ev-charger",
+    "name": "EV charging",
+    "he": "טעינת רכב",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "electric car charging טעינה רכב חשמלי",
+    "aliases": [],
+    "emoji": "1F50C"
+  },
+  {
+    "id": "bayit-life-car-insurance",
+    "name": "Car insurance",
+    "he": "ביטוח רכב",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "car insurance policy ביטוח רכב",
+    "aliases": [
+      "1F6E1"
+    ],
+    "emoji": "1F6E1"
+  },
+  {
+    "id": "bayit-life-traffic-light",
+    "name": "Traffic",
+    "he": "תנועה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "traffic light road תנועה רמזור",
+    "aliases": [
+      "1F6A6"
+    ],
+    "emoji": "1F6A6"
+  },
+  {
+    "id": "bayit-life-scooter",
+    "name": "Scooter",
+    "he": "קורקינט",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "electric scooter ride קורקינט חשמלי",
+    "aliases": [
+      "1F6F4"
+    ],
+    "emoji": "1F6F4"
+  },
+  {
+    "id": "bayit-life-taxi",
+    "name": "Taxi",
+    "he": "מונית",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "taxi cab מונית",
+    "aliases": [
+      "1F695"
+    ],
+    "emoji": "1F695"
+  },
+  {
+    "id": "bayit-life-truck",
+    "name": "Delivery",
+    "he": "משלוח",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "delivery truck movers משאית משלוח",
+    "aliases": [
+      "1F69A"
+    ],
+    "emoji": "1F69A"
+  },
+  {
+    "id": "bayit-life-road-trip",
+    "name": "Road trip",
+    "he": "נסיעה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "road trip drive journey נסיעה דרך",
+    "aliases": [],
+    "emoji": "1F6E3"
+  },
+  {
+    "id": "bayit-life-car-seat",
+    "name": "Car seat",
+    "he": "כיסא בטיחות",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "child car seat baby כיסא בטיחות",
+    "aliases": [],
+    "emoji": "1F476"
+  },
+  {
+    "id": "bayit-life-car-battery",
+    "name": "Car battery",
+    "he": "מצבר",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "battery car מצבר",
+    "aliases": [
+      "1F50B"
+    ],
+    "emoji": "1F50B"
+  },
+  {
+    "id": "bayit-life-oil-change",
+    "name": "Oil change",
+    "he": "החלפת שמן",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "oil change service החלפת שמן",
+    "aliases": [],
+    "emoji": "1F6E2"
+  },
+  {
+    "id": "bayit-life-car-test",
+    "name": "Annual test",
+    "he": "טסט שנתי",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "car test inspection license renewal טסט רישוי",
+    "aliases": [],
+    "emoji": "1F4CB"
+  },
+  {
+    "id": "bayit-life-license",
+    "name": "Driver's license",
+    "he": "רישיון נהיגה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "driver license id card רישיון נהיגה",
+    "aliases": [],
+    "emoji": "1FAAA"
+  },
+  {
+    "id": "bayit-life-helmet",
+    "name": "Helmet",
+    "he": "קסדה",
+    "group": "Car",
+    "groupHe": "רכב",
+    "collection": "life",
+    "tags": "helmet bike motorcycle safety קסדה",
+    "aliases": [],
+    "emoji": "26D1"
+  },
+  {
+    "id": "bayit-life-briefcase",
+    "name": "Work",
+    "he": "עבודה",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "work office job עבודה משרד",
+    "aliases": [
+      "1F4BC"
+    ],
+    "emoji": "1F4BC"
+  },
+  {
+    "id": "bayit-life-monitor",
+    "name": "Computer",
+    "he": "מחשב",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "computer desk office מחשב",
+    "aliases": [
+      "1F5A5"
+    ],
+    "emoji": "1F5A5"
+  },
+  {
+    "id": "bayit-life-headset",
+    "name": "Online meeting",
+    "he": "פגישה מקוונת",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "meeting zoom call headset פגישה זום",
+    "aliases": [],
+    "emoji": "1F3A7"
+  },
+  {
+    "id": "bayit-life-handshake",
+    "name": "Meeting",
+    "he": "פגישה",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "meeting deal agreement פגישה",
+    "aliases": [
+      "1F91D"
+    ],
+    "emoji": "1F91D"
+  },
+  {
+    "id": "bayit-life-coffee-to-go",
+    "name": "Coffee break",
+    "he": "הפסקת קפה",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "coffee break cafe הפסקת קפה",
+    "aliases": [],
+    "emoji": "2615"
+  },
+  {
+    "id": "bayit-life-office",
+    "name": "Office",
+    "he": "משרד",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "office building company משרד",
+    "aliases": [
+      "1F3E2"
+    ],
+    "emoji": "1F3E2"
+  },
+  {
+    "id": "bayit-life-presentation",
+    "name": "Presentation",
+    "he": "מצגת",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "presentation slides chart מצגת",
+    "aliases": [
+      "1F4CA"
+    ],
+    "emoji": "1F4CA"
+  },
+  {
+    "id": "bayit-life-email",
+    "name": "Email",
+    "he": "מייל",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "email message inbox מייל דואר אלקטרוני",
+    "aliases": [
+      "1F4E7"
+    ],
+    "emoji": "1F4E7"
+  },
+  {
+    "id": "bayit-life-hourglass",
+    "name": "Deadline",
+    "he": "דדליין",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "deadline time due הגשה דדליין",
+    "aliases": [
+      "23F3"
+    ],
+    "emoji": "23F3"
+  },
+  {
+    "id": "bayit-life-printer",
+    "name": "Printing",
+    "he": "הדפסה",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "print printer documents הדפסה",
+    "aliases": [
+      "1F5A8"
+    ],
+    "emoji": "1F5A8"
+  },
+  {
+    "id": "bayit-life-badge",
+    "name": "Name badge",
+    "he": "תג עובד",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "badge lanyard conference תג כנס",
+    "aliases": [],
+    "emoji": "1FAAA"
+  },
+  {
+    "id": "bayit-life-phone",
+    "name": "Phone call",
+    "he": "שיחת טלפון",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "phone call ring שיחה טלפון",
+    "aliases": [
+      "1F4DE"
+    ],
+    "emoji": "1F4DE"
+  },
+  {
+    "id": "bayit-life-folder",
+    "name": "Documents",
+    "he": "מסמכים",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "documents folder paperwork מסמכים תיקייה",
+    "aliases": [
+      "1F4C1"
+    ],
+    "emoji": "1F4C1"
+  },
+  {
+    "id": "bayit-life-sticky-notes",
+    "name": "Notes",
+    "he": "פתקים",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "notes reminders sticky פתקים תזכורת",
+    "aliases": [],
+    "emoji": "1F4DD"
+  },
+  {
+    "id": "bayit-life-hammock",
+    "name": "Day off",
+    "he": "יום חופש",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "day off vacation rest יום חופש מנוחה",
+    "aliases": [],
+    "emoji": "1F3D6"
+  },
+  {
+    "id": "bayit-life-reserve-duty",
+    "name": "Reserve duty",
+    "he": "מילואים",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "reserve duty army military מילואים צבא",
+    "aliases": [],
+    "emoji": "1FA96"
+  },
+  {
+    "id": "bayit-life-work-from-home",
+    "name": "Work from home",
+    "he": "עבודה מהבית",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "work from home remote עבודה מהבית",
+    "aliases": [],
+    "emoji": "1F3E1"
+  },
+  {
+    "id": "bayit-life-certificate",
+    "name": "Course",
+    "he": "קורס",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "course training certificate קורס הכשרה",
+    "aliases": [],
+    "emoji": "1F4DC"
+  },
+  {
+    "id": "bayit-life-checklist",
+    "name": "Checklist",
+    "he": "רשימת משימות",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "checklist to do list רשימה משימות",
+    "aliases": [],
+    "emoji": "2705"
+  },
+  {
+    "id": "bayit-life-hard-hat",
+    "name": "Site visit",
+    "he": "ביקור באתר",
+    "group": "Work",
+    "groupHe": "עבודה",
+    "collection": "life",
+    "tags": "construction site hard hat אתר בנייה",
+    "aliases": [],
+    "emoji": "1F477"
+  },
+  {
+    "id": "bayit-life-dog-house",
+    "name": "Dog",
+    "he": "כלב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "dog kennel כלב מלונה",
+    "aliases": [],
+    "emoji": "1F415"
+  },
+  {
+    "id": "bayit-life-cat-yarn",
+    "name": "Cat",
+    "he": "חתול",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "cat kitten חתול",
+    "aliases": [],
+    "emoji": "1F408"
+  },
+  {
+    "id": "bayit-life-fishbowl",
+    "name": "Fish",
+    "he": "דגים",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "fish aquarium fishbowl דג אקווריום",
+    "aliases": [],
+    "emoji": "1F420"
+  },
+  {
+    "id": "bayit-life-hamster",
+    "name": "Hamster",
+    "he": "אוגר",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "hamster small pet אוגר",
+    "aliases": [
+      "1F439"
+    ],
+    "emoji": "1F439"
+  },
+  {
+    "id": "bayit-life-parrot",
+    "name": "Bird",
+    "he": "תוכי",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "parrot bird budgie תוכי ציפור",
+    "aliases": [
+      "1F99C"
+    ],
+    "emoji": "1F99C"
+  },
+  {
+    "id": "bayit-life-rabbit",
+    "name": "Rabbit",
+    "he": "ארנב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "rabbit bunny ארנב ארנבון",
+    "aliases": [],
+    "emoji": "1F407"
+  },
+  {
+    "id": "bayit-life-turtle",
+    "name": "Turtle",
+    "he": "צב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "turtle tortoise צב",
+    "aliases": [
+      "1F422"
+    ],
+    "emoji": "1F422"
+  },
+  {
+    "id": "bayit-life-vet",
+    "name": "Vet",
+    "he": "וטרינר",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "vet veterinarian pet clinic וטרינר",
+    "aliases": [],
+    "emoji": "1FA7A"
+  },
+  {
+    "id": "bayit-life-dog-bone",
+    "name": "Treats",
+    "he": "חטיף לכלב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "bone treat dog חטיף עצם",
+    "aliases": [
+      "1F9B4"
+    ],
+    "emoji": "1F9B4"
+  },
+  {
+    "id": "bayit-life-litter-box",
+    "name": "Litter box",
+    "he": "ארגז חול",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "litter box cat clean ארגז חול לחתול",
+    "aliases": [],
+    "emoji": "1F431"
+  },
+  {
+    "id": "bayit-life-pet-bath",
+    "name": "Pet grooming",
+    "he": "רחצת כלב",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "grooming dog bath טיפוח כלב רחצה",
+    "aliases": [],
+    "emoji": "1F6C1"
+  },
+  {
+    "id": "bayit-life-paw",
+    "name": "Pets",
+    "he": "חיות מחמד",
+    "group": "Pets",
+    "groupHe": "חיות מחמד",
+    "collection": "life",
+    "tags": "pet paw animal חיית מחמד",
+    "aliases": [
+      "1F43E"
+    ],
+    "emoji": "1F43E"
+  },
+  {
+    "id": "bayit-life-rain",
+    "name": "Rain",
+    "he": "גשם",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "rain rainy umbrella גשם",
+    "aliases": [
+      "1F327"
+    ],
+    "emoji": "1F327"
+  },
+  {
+    "id": "bayit-life-snow",
+    "name": "Snow",
+    "he": "שלג",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "snow winter hermon שלג חרמון",
+    "aliases": [
+      "26C4"
+    ],
+    "emoji": "26C4"
+  },
+  {
+    "id": "bayit-life-heatwave",
+    "name": "Heatwave",
+    "he": "שרב",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "heatwave hot hamsin sharav שרב חמסין חם",
+    "aliases": [],
+    "emoji": "1F975"
+  },
+  {
+    "id": "bayit-life-wind",
+    "name": "Wind",
+    "he": "רוח",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "wind windy storm רוח",
+    "aliases": [],
+    "emoji": "1F32C"
+  },
+  {
+    "id": "bayit-life-autumn",
+    "name": "Autumn",
+    "he": "סתיו",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "autumn fall leaves סתיו",
+    "aliases": [
+      "1F342"
+    ],
+    "emoji": "1F342"
+  },
+  {
+    "id": "bayit-life-spring",
+    "name": "Spring",
+    "he": "אביב",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "spring flowers tulips אביב פרחים",
+    "aliases": [
+      "1F337"
+    ],
+    "emoji": "1F337"
+  },
+  {
+    "id": "bayit-life-storm",
+    "name": "Thunderstorm",
+    "he": "סופה",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "storm thunder lightning סופה ברקים",
+    "aliases": [
+      "26C8"
+    ],
+    "emoji": "26C8"
+  },
+  {
+    "id": "bayit-life-rainbow",
+    "name": "Rainbow",
+    "he": "קשת בענן",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "rainbow קשת",
+    "aliases": [
+      "1F308"
+    ],
+    "emoji": "1F308"
+  },
+  {
+    "id": "bayit-life-wallet",
+    "name": "Wallet",
+    "he": "ארנק",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "wallet money ארנק כסף",
+    "aliases": [
+      "1F45B"
+    ],
+    "emoji": "1F45B"
+  },
+  {
+    "id": "bayit-life-coins",
+    "name": "Coins",
+    "he": "מטבעות",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "coins change money מטבעות",
+    "aliases": [],
+    "emoji": "1FA99"
+  },
+  {
+    "id": "bayit-life-banknotes",
+    "name": "Cash",
+    "he": "מזומן",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "cash banknotes money מזומן שטרות",
+    "aliases": [
+      "1F4B5"
+    ],
+    "emoji": "1F4B5"
+  },
+  {
+    "id": "bayit-life-credit-card",
+    "name": "Credit card",
+    "he": "כרטיס אשראי",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "credit card payment כרטיס אשראי תשלום",
+    "aliases": [
+      "1F4B3"
+    ],
+    "emoji": "1F4B3"
+  },
+  {
+    "id": "bayit-life-piggy-bank",
+    "name": "Savings",
+    "he": "חיסכון",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "savings piggy bank חיסכון קופה",
+    "aliases": [],
+    "emoji": "1F437"
+  },
+  {
+    "id": "bayit-life-bill",
+    "name": "Bill",
+    "he": "חשבון",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "bill invoice pay חשבון חשבונית תשלום",
+    "aliases": [
+      "1F9FE"
+    ],
+    "emoji": "1F9FE"
+  },
+  {
+    "id": "bayit-life-electricity",
+    "name": "Electricity bill",
+    "he": "חשבון חשמל",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "electricity bill power חשבון חשמל",
+    "aliases": [],
+    "emoji": "26A1"
+  },
+  {
+    "id": "bayit-life-water-bill",
+    "name": "Water bill",
+    "he": "חשבון מים",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "water bill meter חשבון מים",
+    "aliases": [],
+    "emoji": "1F4A7"
+  },
+  {
+    "id": "bayit-life-gas-cylinder",
+    "name": "Gas",
+    "he": "גז",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "gas cylinder balloon order גז בלון גז",
+    "aliases": [],
+    "emoji": "1F525"
+  },
+  {
+    "id": "bayit-life-rent",
+    "name": "Rent",
+    "he": "שכר דירה",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "rent mortgage home payment שכירות משכנתא",
+    "aliases": [],
+    "emoji": "1F3E0"
+  },
+  {
+    "id": "bayit-life-receipt",
+    "name": "Receipt",
+    "he": "קבלה",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "receipt tax refund קבלה מס",
+    "aliases": [],
+    "emoji": "1F9FE"
+  },
+  {
+    "id": "bayit-life-savings-jar",
+    "name": "Savings goal",
+    "he": "יעד חיסכון",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "savings goal jar יעד חיסכון",
+    "aliases": [],
+    "emoji": "1FAD9"
+  },
+  {
+    "id": "bayit-life-bank",
+    "name": "Bank",
+    "he": "בנק",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "bank appointment בנק",
+    "aliases": [
+      "1F3E6"
+    ],
+    "emoji": "1F3E6"
+  },
+  {
+    "id": "bayit-life-allowance",
+    "name": "Pocket money",
+    "he": "דמי כיס",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "pocket money allowance kids דמי כיס",
+    "aliases": [
+      "1F4B0"
+    ],
+    "emoji": "1F4B0"
+  },
+  {
+    "id": "bayit-life-subscription",
+    "name": "Subscription",
+    "he": "מינוי",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "subscription renewal monthly מנוי חידוש",
+    "aliases": [],
+    "emoji": "1F501"
+  },
+  {
+    "id": "bayit-life-price-tag",
+    "name": "Price",
+    "he": "מחיר",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "price tag sale discount מחיר מבצע",
+    "aliases": [
+      "1F3F7"
+    ],
+    "emoji": "1F3F7"
+  },
+  {
+    "id": "bayit-life-insurance",
+    "name": "Insurance",
+    "he": "ביטוח",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "insurance policy ביטוח",
+    "aliases": [],
+    "emoji": "1F6E1"
+  },
+  {
+    "id": "bayit-life-city-hall",
+    "name": "Municipality",
+    "he": "עירייה",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "municipality arnona city council עירייה ארנונה",
+    "aliases": [],
+    "emoji": "1F3DB"
+  },
+  {
+    "id": "bayit-life-umbrella",
+    "name": "Umbrella",
+    "he": "מטרייה",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "umbrella rain מטרייה",
+    "aliases": [
+      "2602"
+    ],
+    "emoji": "2602"
+  },
+  {
+    "id": "bayit-life-sunscreen",
+    "name": "Sunscreen",
+    "he": "קרם הגנה",
+    "group": "Weather & seasons",
+    "groupHe": "מזג אוויר ועונות",
+    "collection": "life",
+    "tags": "sunscreen summer sun protection קרם הגנה",
+    "aliases": [
+      "1F9F4"
+    ],
+    "emoji": "1F9F4"
+  },
+  {
+    "id": "bayit-life-playdate",
+    "name": "Playdate",
+    "he": "מפגש משחק",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "playdate friends play kids מפגש חברים משחק אצל חבר",
+    "aliases": [],
+    "emoji": "1F9F8"
+  },
+  {
+    "id": "bayit-life-baby-monitor",
+    "name": "Babysitter",
+    "he": "בייביסיטר",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "babysitter baby monitor night out בייביסיטר שמרטפית",
+    "aliases": [],
+    "emoji": "1F476"
+  },
+  {
+    "id": "bayit-life-sleepover",
+    "name": "Sleepover",
+    "he": "לינה אצל חבר",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "sleepover pajama party overnight לינה אצל חבר מסיבת פיג׳מות",
+    "aliases": [],
+    "emoji": "1F6CC"
+  },
+  {
+    "id": "bayit-life-braces",
+    "name": "Orthodontist",
+    "he": "אורתודונט",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "orthodontist braces teeth אורתודונט גשר יישור שיניים",
+    "aliases": [],
+    "emoji": "1F9B7"
+  },
+  {
+    "id": "bayit-life-volunteering",
+    "name": "Volunteering",
+    "he": "התנדבות",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "volunteer volunteering help community התנדבות עזרה קהילה",
+    "aliases": [],
+    "emoji": "1F91D"
+  },
+  {
+    "id": "bayit-life-charity-box",
+    "name": "Donation",
+    "he": "תרומה",
+    "group": "Money & bills",
+    "groupHe": "כסף וחשבונות",
+    "collection": "life",
+    "tags": "donation charity tzedakah give תרומה צדקה קופת צדקה",
+    "aliases": [],
+    "emoji": "1FA99"
+  },
+  {
+    "id": "bayit-life-blood-donation",
+    "name": "Blood donation",
+    "he": "תרומת דם",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "blood donation donor תרומת דם",
+    "aliases": [],
+    "emoji": "1FA78"
+  },
+  {
+    "id": "bayit-life-ballot-box",
+    "name": "Elections",
+    "he": "בחירות",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "elections vote voting ballot בחירות הצבעה קלפי",
+    "aliases": [],
+    "emoji": "1F5F3"
+  },
+  {
+    "id": "bayit-life-building-committee",
+    "name": "Building meeting",
+    "he": "ועד בית",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "building committee residents meeting vaad bayit ועד בית אסיפת דיירים",
+    "aliases": [],
+    "emoji": "1F3E2"
+  },
+  {
+    "id": "bayit-life-emergency-kit",
+    "name": "Emergency kit",
+    "he": "ערכת חירום",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "emergency kit shelter safe room mamad first aid ערכת חירום ממ״ד ממ\"ד מקלט",
+    "aliases": [],
+    "emoji": "1F392"
+  },
+  {
+    "id": "bayit-life-phone-repair",
+    "name": "Phone repair",
+    "he": "תיקון טלפון",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "phone repair screen fix תיקון טלפון מסך",
+    "aliases": [],
+    "emoji": "1F4F1"
+  },
+  {
+    "id": "bayit-life-wifi",
+    "name": "Internet",
+    "he": "אינטרנט",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "internet wifi router technician אינטרנט ראוטר טכנאי",
+    "aliases": [],
+    "emoji": "1F4F6"
+  },
+  {
+    "id": "bayit-life-tv",
+    "name": "TV",
+    "he": "טלוויזיה",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "tv television series show טלוויזיה סדרה",
+    "aliases": [],
+    "emoji": "1F4FA"
+  },
+  {
+    "id": "bayit-life-friends-coffee",
+    "name": "Friends",
+    "he": "חברים",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "friends meet coffee catch up חברים פגישה קפה",
+    "aliases": [],
+    "emoji": "2615"
+  },
+  {
+    "id": "bayit-life-date-night",
+    "name": "Date night",
+    "he": "ערב זוגי",
+    "group": "Family time",
+    "groupHe": "זמן משפחה",
+    "collection": "life",
+    "tags": "date night couple dinner romantic ערב זוגי דייט",
+    "aliases": [],
+    "emoji": "1F56F"
+  },
+  {
+    "id": "bayit-life-chef-hat",
+    "name": "Cooking class",
+    "he": "סדנת בישול",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "cooking class chef workshop סדנת בישול שף",
+    "aliases": [],
+    "emoji": "1F9D1"
+  },
+  {
+    "id": "bayit-life-spa",
+    "name": "Self care",
+    "he": "זמן לעצמי",
+    "group": "Health",
+    "groupHe": "בריאות",
+    "collection": "life",
+    "tags": "self care spa relax massage זמן לעצמי ספא עיסוי",
+    "aliases": [],
+    "emoji": "1F9D6"
+  },
+  {
+    "id": "bayit-life-nail-polish",
+    "name": "Manicure",
+    "he": "מניקור",
+    "group": "Home & errands",
+    "groupHe": "בית וסידורים",
+    "collection": "life",
+    "tags": "manicure nails beauty salon מניקור ציפורניים קוסמטיקאית",
+    "aliases": [],
+    "emoji": "1F485"
+  },
+  {
+    "id": "bayit-life-stadium",
+    "name": "Match",
+    "he": "משחק ספורט",
+    "group": "Clubs & sports",
+    "groupHe": "חוגים וספורט",
+    "collection": "life",
+    "tags": "match game stadium sports fan משחק כדורגל אצטדיון",
+    "aliases": [],
+    "emoji": "1F3DF"
+  },
+  {
+    "id": "bayit-activities-toothbrush",
+    "name": "Blue toothbrush",
+    "he": "צחצוח שיניים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Blue toothbrush צחצוח שיניים Hygiene היגיינה",
+    "aliases": [
+      "1FAA5"
+    ],
+    "file": "/assets/icons/bayit/activities/toothbrush-128.png",
+    "png": "/assets/icons/bayit/activities/toothbrush-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toothbrush-64.png",
+      "128": "/assets/icons/bayit/activities/toothbrush-128.png",
+      "256": "/assets/icons/bayit/activities/toothbrush-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Toothbrush"
+  },
+  {
+    "id": "bayit-activities-toothpaste",
+    "name": "Toothpaste tube",
+    "he": "משחת שיניים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Toothpaste tube משחת שיניים Hygiene היגיינה",
+    "aliases": [
+      "1F9B7"
+    ],
+    "file": "/assets/icons/bayit/activities/toothpaste-128.png",
+    "png": "/assets/icons/bayit/activities/toothpaste-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toothpaste-64.png",
+      "128": "/assets/icons/bayit/activities/toothpaste-128.png",
+      "256": "/assets/icons/bayit/activities/toothpaste-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-shower",
+    "name": "Showerhead with blue water",
+    "he": "מקלחת",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Showerhead with blue water מקלחת Hygiene היגיינה",
+    "aliases": [
+      "1F6BF"
+    ],
+    "file": "/assets/icons/bayit/activities/shower-128.png",
+    "png": "/assets/icons/bayit/activities/shower-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/shower-64.png",
+      "128": "/assets/icons/bayit/activities/shower-128.png",
+      "256": "/assets/icons/bayit/activities/shower-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Shower"
+  },
+  {
+    "id": "bayit-activities-bathtub",
+    "name": "Bathtub with rubber duck",
+    "he": "אמבטיה",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Bathtub with rubber duck אמבטיה Hygiene היגיינה",
+    "aliases": [
+      "1F6C1"
+    ],
+    "file": "/assets/icons/bayit/activities/bathtub-128.png",
+    "png": "/assets/icons/bayit/activities/bathtub-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bathtub-64.png",
+      "128": "/assets/icons/bayit/activities/bathtub-128.png",
+      "256": "/assets/icons/bayit/activities/bathtub-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Bath"
+  },
+  {
+    "id": "bayit-activities-soap",
+    "name": "Pump soap",
+    "he": "שטיפת ידיים",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Pump soap שטיפת ידיים Hygiene היגיינה",
+    "aliases": [
+      "1F9FC"
+    ],
+    "file": "/assets/icons/bayit/activities/soap-128.png",
+    "png": "/assets/icons/bayit/activities/soap-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/soap-64.png",
+      "128": "/assets/icons/bayit/activities/soap-128.png",
+      "256": "/assets/icons/bayit/activities/soap-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-hand-towel",
+    "name": "Hand towel",
+    "he": "מגבת",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Hand towel מגבת Hygiene היגיינה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/hand-towel-128.png",
+    "png": "/assets/icons/bayit/activities/hand-towel-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/hand-towel-64.png",
+      "128": "/assets/icons/bayit/activities/hand-towel-128.png",
+      "256": "/assets/icons/bayit/activities/hand-towel-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-hairbrush",
+    "name": "Hairbrush",
+    "he": "סירוק שיער",
+    "group": "Hygiene",
+    "groupHe": "היגיינה",
+    "collection": "activities",
+    "subgroup": "Hygiene",
+    "tags": "Hairbrush סירוק שיער Hygiene היגיינה",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/hairbrush-128.png",
+    "png": "/assets/icons/bayit/activities/hairbrush-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/hairbrush-64.png",
+      "128": "/assets/icons/bayit/activities/hairbrush-128.png",
+      "256": "/assets/icons/bayit/activities/hairbrush-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-sneakers",
+    "name": "Blue sneakers",
+    "he": "נעליים",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Blue sneakers נעליים Routines שגרות",
+    "aliases": [
+      "1F45F"
+    ],
+    "file": "/assets/icons/bayit/activities/sneakers-128.png",
+    "png": "/assets/icons/bayit/activities/sneakers-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/sneakers-64.png",
+      "128": "/assets/icons/bayit/activities/sneakers-128.png",
+      "256": "/assets/icons/bayit/activities/sneakers-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-folded-shirt",
+    "name": "Folded shirt",
+    "he": "התלבשות",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Folded shirt התלבשות Routines שגרות",
+    "aliases": [
+      "1F455"
+    ],
+    "file": "/assets/icons/bayit/activities/folded-shirt-128.png",
+    "png": "/assets/icons/bayit/activities/folded-shirt-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/folded-shirt-64.png",
+      "128": "/assets/icons/bayit/activities/folded-shirt-128.png",
+      "256": "/assets/icons/bayit/activities/folded-shirt-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-bed",
+    "name": "Made bed",
+    "he": "סידור המיטה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Made bed סידור המיטה Routines שגרות",
+    "aliases": [
+      "1F6CF"
+    ],
+    "file": "/assets/icons/bayit/activities/bed-128.png",
+    "png": "/assets/icons/bayit/activities/bed-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bed-64.png",
+      "128": "/assets/icons/bayit/activities/bed-128.png",
+      "256": "/assets/icons/bayit/activities/bed-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-backpack",
+    "name": "School backpack",
+    "he": "תיק לבית הספר",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "School backpack תיק לבית הספר School בית ספר",
+    "aliases": [
+      "1F392"
+    ],
+    "file": "/assets/icons/bayit/activities/backpack-128.png",
+    "png": "/assets/icons/bayit/activities/backpack-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/backpack-64.png",
+      "128": "/assets/icons/bayit/activities/backpack-128.png",
+      "256": "/assets/icons/bayit/activities/backpack-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-book",
+    "name": "Closed blue book",
+    "he": "קריאה",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Closed blue book קריאה School בית ספר",
+    "aliases": [
+      "1F4D6"
+    ],
+    "file": "/assets/icons/bayit/activities/book-128.png",
+    "png": "/assets/icons/bayit/activities/book-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/book-64.png",
+      "128": "/assets/icons/bayit/activities/book-128.png",
+      "256": "/assets/icons/bayit/activities/book-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-pencils",
+    "name": "Pencils in yellow cup",
+    "he": "ציור",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Pencils in yellow cup ציור School בית ספר",
+    "aliases": [
+      "1F58D"
+    ],
+    "file": "/assets/icons/bayit/activities/pencils-128.png",
+    "png": "/assets/icons/bayit/activities/pencils-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/pencils-64.png",
+      "128": "/assets/icons/bayit/activities/pencils-128.png",
+      "256": "/assets/icons/bayit/activities/pencils-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Pencils"
+  },
+  {
+    "id": "bayit-activities-notebook",
+    "name": "Notebook",
+    "he": "מחברת",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Notebook מחברת School בית ספר",
+    "aliases": [
+      "1F4D3"
+    ],
+    "file": "/assets/icons/bayit/activities/notebook-128.png",
+    "png": "/assets/icons/bayit/activities/notebook-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/notebook-64.png",
+      "128": "/assets/icons/bayit/activities/notebook-128.png",
+      "256": "/assets/icons/bayit/activities/notebook-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-lunchbox",
+    "name": "Lunchbox",
+    "he": "קופסת אוכל",
+    "group": "School",
+    "groupHe": "בית ספר",
+    "collection": "activities",
+    "subgroup": "School",
+    "tags": "Lunchbox קופסת אוכל School בית ספר",
+    "aliases": [
+      "1F371"
+    ],
+    "file": "/assets/icons/bayit/activities/lunchbox-128.png",
+    "png": "/assets/icons/bayit/activities/lunchbox-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/lunchbox-64.png",
+      "128": "/assets/icons/bayit/activities/lunchbox-128.png",
+      "256": "/assets/icons/bayit/activities/lunchbox-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-water-glass",
+    "name": "Drinking glass of water",
+    "he": "שתיית מים",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Drinking glass of water שתיית מים Meals ארוחות",
+    "aliases": [
+      "1F6B0"
+    ],
+    "file": "/assets/icons/bayit/activities/water-glass-128.png",
+    "png": "/assets/icons/bayit/activities/water-glass-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/water-glass-64.png",
+      "128": "/assets/icons/bayit/activities/water-glass-128.png",
+      "256": "/assets/icons/bayit/activities/water-glass-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Water"
+  },
+  {
+    "id": "bayit-activities-healthy-dinner",
+    "name": "Healthy dinner plate",
+    "he": "ארוחת ערב",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Healthy dinner plate ארוחת ערב Meals ארוחות",
+    "aliases": [
+      "1F37D"
+    ],
+    "file": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+    "png": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/healthy-dinner-64.png",
+      "128": "/assets/icons/bayit/activities/healthy-dinner-128.png",
+      "256": "/assets/icons/bayit/activities/healthy-dinner-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Dinner"
+  },
+  {
+    "id": "bayit-activities-oatmeal",
+    "name": "Breakfast oatmeal with fruit",
+    "he": "ארוחת בוקר",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Breakfast oatmeal with fruit ארוחת בוקר Meals ארוחות",
+    "aliases": [
+      "1F963"
+    ],
+    "file": "/assets/icons/bayit/activities/oatmeal-128.png",
+    "png": "/assets/icons/bayit/activities/oatmeal-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/oatmeal-64.png",
+      "128": "/assets/icons/bayit/activities/oatmeal-128.png",
+      "256": "/assets/icons/bayit/activities/oatmeal-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Breakfast"
+  },
+  {
+    "id": "bayit-activities-cooking-pot",
+    "name": "Cooking pot",
+    "he": "בישול",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Cooking pot בישול Meals ארוחות",
+    "aliases": [
+      "1F373"
+    ],
+    "file": "/assets/icons/bayit/activities/cooking-pot-128.png",
+    "png": "/assets/icons/bayit/activities/cooking-pot-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/cooking-pot-64.png",
+      "128": "/assets/icons/bayit/activities/cooking-pot-128.png",
+      "256": "/assets/icons/bayit/activities/cooking-pot-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-dishwashing",
+    "name": "Dishwashing plate with bubbles",
+    "he": "שטיפת כלים",
+    "group": "Meals",
+    "groupHe": "ארוחות",
+    "collection": "activities",
+    "subgroup": "Meals",
+    "tags": "Dishwashing plate with bubbles שטיפת כלים Meals ארוחות",
+    "aliases": [
+      "1F9FD"
+    ],
+    "file": "/assets/icons/bayit/activities/dishwashing-128.png",
+    "png": "/assets/icons/bayit/activities/dishwashing-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/dishwashing-64.png",
+      "128": "/assets/icons/bayit/activities/dishwashing-128.png",
+      "256": "/assets/icons/bayit/activities/dishwashing-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Dishes"
+  },
+  {
+    "id": "bayit-activities-laundry",
+    "name": "Laundry basket",
+    "he": "כביסה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Laundry basket כביסה Chores מטלות",
+    "aliases": [
+      "1F9FA"
+    ],
+    "file": "/assets/icons/bayit/activities/laundry-128.png",
+    "png": "/assets/icons/bayit/activities/laundry-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/laundry-64.png",
+      "128": "/assets/icons/bayit/activities/laundry-128.png",
+      "256": "/assets/icons/bayit/activities/laundry-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-broom",
+    "name": "Broom",
+    "he": "טאטוא",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Broom טאטוא Chores מטלות",
+    "aliases": [
+      "1F9F9"
+    ],
+    "file": "/assets/icons/bayit/activities/broom-128.png",
+    "png": "/assets/icons/bayit/activities/broom-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/broom-64.png",
+      "128": "/assets/icons/bayit/activities/broom-128.png",
+      "256": "/assets/icons/bayit/activities/broom-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-vacuum",
+    "name": "Vacuum cleaner",
+    "he": "שאיבת אבק",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Vacuum cleaner שאיבת אבק Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/vacuum-128.png",
+    "png": "/assets/icons/bayit/activities/vacuum-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/vacuum-64.png",
+      "128": "/assets/icons/bayit/activities/vacuum-128.png",
+      "256": "/assets/icons/bayit/activities/vacuum-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-mop-bucket",
+    "name": "Mop and bucket",
+    "he": "שטיפת רצפה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Mop and bucket שטיפת רצפה Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/mop-bucket-128.png",
+    "png": "/assets/icons/bayit/activities/mop-bucket-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/mop-bucket-64.png",
+      "128": "/assets/icons/bayit/activities/mop-bucket-128.png",
+      "256": "/assets/icons/bayit/activities/mop-bucket-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-houseplant",
+    "name": "Houseplant",
+    "he": "עציץ",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Houseplant עציץ Chores מטלות",
+    "aliases": [
+      "1FAB4"
+    ],
+    "file": "/assets/icons/bayit/activities/houseplant-128.png",
+    "png": "/assets/icons/bayit/activities/houseplant-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/houseplant-64.png",
+      "128": "/assets/icons/bayit/activities/houseplant-128.png",
+      "256": "/assets/icons/bayit/activities/houseplant-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-watering-can",
+    "name": "Watering can",
+    "he": "השקיה",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Watering can השקיה Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/watering-can-128.png",
+    "png": "/assets/icons/bayit/activities/watering-can-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/watering-can-64.png",
+      "128": "/assets/icons/bayit/activities/watering-can-128.png",
+      "256": "/assets/icons/bayit/activities/watering-can-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-pet-food",
+    "name": "Pet food bowl",
+    "he": "האכלת חיית מחמד",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Pet food bowl האכלת חיית מחמד Chores מטלות",
+    "aliases": [
+      "1F415"
+    ],
+    "file": "/assets/icons/bayit/activities/pet-food-128.png",
+    "png": "/assets/icons/bayit/activities/pet-food-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/pet-food-64.png",
+      "128": "/assets/icons/bayit/activities/pet-food-128.png",
+      "256": "/assets/icons/bayit/activities/pet-food-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-dog-leash",
+    "name": "Dog walking leash",
+    "he": "טיול עם הכלב",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Dog walking leash טיול עם הכלב Chores מטלות",
+    "aliases": [],
+    "file": "/assets/icons/bayit/activities/dog-leash-128.png",
+    "png": "/assets/icons/bayit/activities/dog-leash-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/dog-leash-64.png",
+      "128": "/assets/icons/bayit/activities/dog-leash-128.png",
+      "256": "/assets/icons/bayit/activities/dog-leash-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Dog walk"
+  },
+  {
+    "id": "bayit-activities-toybox",
+    "name": "Tidy toybox with teddy bear",
+    "he": "סידור צעצועים",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Tidy toybox with teddy bear סידור צעצועים Chores מטלות",
+    "aliases": [
+      "1F9F8"
+    ],
+    "file": "/assets/icons/bayit/activities/toybox-128.png",
+    "png": "/assets/icons/bayit/activities/toybox-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/toybox-64.png",
+      "128": "/assets/icons/bayit/activities/toybox-128.png",
+      "256": "/assets/icons/bayit/activities/toybox-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Toys"
+  },
+  {
+    "id": "bayit-activities-recycling",
+    "name": "Recycling bin",
+    "he": "מחזור",
+    "group": "Chores",
+    "groupHe": "מטלות",
+    "collection": "activities",
+    "subgroup": "Chores",
+    "tags": "Recycling bin מחזור Chores מטלות",
+    "aliases": [
+      "267B"
+    ],
+    "file": "/assets/icons/bayit/activities/recycling-128.png",
+    "png": "/assets/icons/bayit/activities/recycling-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/recycling-64.png",
+      "128": "/assets/icons/bayit/activities/recycling-128.png",
+      "256": "/assets/icons/bayit/activities/recycling-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-bicycle",
+    "name": "Bicycle",
+    "he": "רכיבה על אופניים",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Bicycle רכיבה על אופניים Play משחק ופנאי",
+    "aliases": [
+      "1F6B2"
+    ],
+    "file": "/assets/icons/bayit/activities/bicycle-128.png",
+    "png": "/assets/icons/bayit/activities/bicycle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/bicycle-64.png",
+      "128": "/assets/icons/bayit/activities/bicycle-128.png",
+      "256": "/assets/icons/bayit/activities/bicycle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-football",
+    "name": "Football",
+    "he": "כדורגל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Football כדורגל Play משחק ופנאי",
+    "aliases": [
+      "26BD"
+    ],
+    "file": "/assets/icons/bayit/activities/football-128.png",
+    "png": "/assets/icons/bayit/activities/football-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/football-64.png",
+      "128": "/assets/icons/bayit/activities/football-128.png",
+      "256": "/assets/icons/bayit/activities/football-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-basketball",
+    "name": "Basketball",
+    "he": "כדורסל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Basketball כדורסל Play משחק ופנאי",
+    "aliases": [
+      "1F3C0"
+    ],
+    "file": "/assets/icons/bayit/activities/basketball-128.png",
+    "png": "/assets/icons/bayit/activities/basketball-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/basketball-64.png",
+      "128": "/assets/icons/bayit/activities/basketball-128.png",
+      "256": "/assets/icons/bayit/activities/basketball-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-swim-goggles",
+    "name": "Swimming goggles",
+    "he": "שחייה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Swimming goggles שחייה Play משחק ופנאי",
+    "aliases": [
+      "1F93F"
+    ],
+    "file": "/assets/icons/bayit/activities/swim-goggles-128.png",
+    "png": "/assets/icons/bayit/activities/swim-goggles-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/swim-goggles-64.png",
+      "128": "/assets/icons/bayit/activities/swim-goggles-128.png",
+      "256": "/assets/icons/bayit/activities/swim-goggles-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-music",
+    "name": "Musical notes",
+    "he": "מוזיקה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Musical notes מוזיקה Play משחק ופנאי",
+    "aliases": [
+      "1F3B5"
+    ],
+    "file": "/assets/icons/bayit/activities/music-128.png",
+    "png": "/assets/icons/bayit/activities/music-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/music-64.png",
+      "128": "/assets/icons/bayit/activities/music-128.png",
+      "256": "/assets/icons/bayit/activities/music-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-piano",
+    "name": "Piano keys",
+    "he": "פסנתר",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Piano keys פסנתר Play משחק ופנאי",
+    "aliases": [
+      "1F3B9"
+    ],
+    "file": "/assets/icons/bayit/activities/piano-128.png",
+    "png": "/assets/icons/bayit/activities/piano-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/piano-64.png",
+      "128": "/assets/icons/bayit/activities/piano-128.png",
+      "256": "/assets/icons/bayit/activities/piano-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-puzzle",
+    "name": "Puzzle pieces",
+    "he": "פאזל",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Puzzle pieces פאזל Play משחק ופנאי",
+    "aliases": [
+      "1F9E9"
+    ],
+    "file": "/assets/icons/bayit/activities/puzzle-128.png",
+    "png": "/assets/icons/bayit/activities/puzzle-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/puzzle-64.png",
+      "128": "/assets/icons/bayit/activities/puzzle-128.png",
+      "256": "/assets/icons/bayit/activities/puzzle-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-board-game",
+    "name": "Board game",
+    "he": "משחק קופסה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Board game משחק קופסה Play משחק ופנאי",
+    "aliases": [
+      "1F3B2"
+    ],
+    "file": "/assets/icons/bayit/activities/board-game-128.png",
+    "png": "/assets/icons/bayit/activities/board-game-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/board-game-64.png",
+      "128": "/assets/icons/bayit/activities/board-game-128.png",
+      "256": "/assets/icons/bayit/activities/board-game-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-painting",
+    "name": "Paint palette",
+    "he": "ציור בצבעים",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Paint palette ציור בצבעים Play משחק ופנאי",
+    "aliases": [
+      "1F3A8"
+    ],
+    "file": "/assets/icons/bayit/activities/painting-128.png",
+    "png": "/assets/icons/bayit/activities/painting-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/painting-64.png",
+      "128": "/assets/icons/bayit/activities/painting-128.png",
+      "256": "/assets/icons/bayit/activities/painting-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-scissors",
+    "name": "Craft scissors",
+    "he": "יצירה",
+    "group": "Play",
+    "groupHe": "משחק ופנאי",
+    "collection": "activities",
+    "subgroup": "Play",
+    "tags": "Craft scissors יצירה Play משחק ופנאי",
+    "aliases": [
+      "2702"
+    ],
+    "file": "/assets/icons/bayit/activities/scissors-128.png",
+    "png": "/assets/icons/bayit/activities/scissors-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/scissors-64.png",
+      "128": "/assets/icons/bayit/activities/scissors-128.png",
+      "256": "/assets/icons/bayit/activities/scissors-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-moon-stars",
+    "name": "Crescent moon and stars",
+    "he": "שעת שינה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Crescent moon and stars שעת שינה Routines שגרות",
+    "aliases": [
+      "1F319"
+    ],
+    "file": "/assets/icons/bayit/activities/moon-stars-128.png",
+    "png": "/assets/icons/bayit/activities/moon-stars-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/moon-stars-64.png",
+      "128": "/assets/icons/bayit/activities/moon-stars-128.png",
+      "256": "/assets/icons/bayit/activities/moon-stars-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Bedtime"
+  },
+  {
+    "id": "bayit-activities-sun",
+    "name": "Friendly sun",
+    "he": "בוקר",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Friendly sun בוקר Routines שגרות",
+    "aliases": [
+      "1F31E"
+    ],
+    "file": "/assets/icons/bayit/activities/sun-128.png",
+    "png": "/assets/icons/bayit/activities/sun-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/sun-64.png",
+      "128": "/assets/icons/bayit/activities/sun-128.png",
+      "256": "/assets/icons/bayit/activities/sun-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-alarm-clock",
+    "name": "Alarm clock",
+    "he": "שעון מעורר",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Alarm clock שעון מעורר Routines שגרות",
+    "aliases": [
+      "23F0"
+    ],
+    "file": "/assets/icons/bayit/activities/alarm-clock-128.png",
+    "png": "/assets/icons/bayit/activities/alarm-clock-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/alarm-clock-64.png",
+      "128": "/assets/icons/bayit/activities/alarm-clock-128.png",
+      "256": "/assets/icons/bayit/activities/alarm-clock-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-medicine",
+    "name": "Medicine bottle and spoon",
+    "he": "תרופה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Medicine bottle and spoon תרופה Routines שגרות",
+    "aliases": [
+      "1F48A"
+    ],
+    "file": "/assets/icons/bayit/activities/medicine-128.png",
+    "png": "/assets/icons/bayit/activities/medicine-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/medicine-64.png",
+      "128": "/assets/icons/bayit/activities/medicine-128.png",
+      "256": "/assets/icons/bayit/activities/medicine-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false,
+    "label": "Medicine"
+  },
+  {
+    "id": "bayit-activities-thermometer",
+    "name": "Thermometer",
+    "he": "מד חום",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Thermometer מד חום Routines שגרות",
+    "aliases": [
+      "1F321"
+    ],
+    "file": "/assets/icons/bayit/activities/thermometer-128.png",
+    "png": "/assets/icons/bayit/activities/thermometer-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/thermometer-64.png",
+      "128": "/assets/icons/bayit/activities/thermometer-128.png",
+      "256": "/assets/icons/bayit/activities/thermometer-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-stethoscope",
+    "name": "Stethoscope",
+    "he": "רופא",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Stethoscope רופא Routines שגרות",
+    "aliases": [
+      "1FA7A"
+    ],
+    "file": "/assets/icons/bayit/activities/stethoscope-128.png",
+    "png": "/assets/icons/bayit/activities/stethoscope-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/stethoscope-64.png",
+      "128": "/assets/icons/bayit/activities/stethoscope-128.png",
+      "256": "/assets/icons/bayit/activities/stethoscope-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-birthday-cake",
+    "name": "Birthday cake",
+    "he": "יום הולדת",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Birthday cake יום הולדת Routines שגרות",
+    "aliases": [
+      "1F382"
+    ],
+    "file": "/assets/icons/bayit/activities/birthday-cake-128.png",
+    "png": "/assets/icons/bayit/activities/birthday-cake-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/birthday-cake-64.png",
+      "128": "/assets/icons/bayit/activities/birthday-cake-128.png",
+      "256": "/assets/icons/bayit/activities/birthday-cake-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-gift",
+    "name": "Gift box",
+    "he": "מתנה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Gift box מתנה Routines שגרות",
+    "aliases": [
+      "1F381"
+    ],
+    "file": "/assets/icons/bayit/activities/gift-128.png",
+    "png": "/assets/icons/bayit/activities/gift-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/gift-64.png",
+      "128": "/assets/icons/bayit/activities/gift-128.png",
+      "256": "/assets/icons/bayit/activities/gift-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-family-house",
+    "name": "Family house",
+    "he": "בית המשפחה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Family house בית המשפחה Routines שגרות",
+    "aliases": [
+      "1F3E0"
+    ],
+    "file": "/assets/icons/bayit/activities/family-house-128.png",
+    "png": "/assets/icons/bayit/activities/family-house-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/family-house-64.png",
+      "128": "/assets/icons/bayit/activities/family-house-128.png",
+      "256": "/assets/icons/bayit/activities/family-house-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
+    "id": "bayit-activities-car",
+    "name": "Car",
+    "he": "הסעה",
+    "group": "Routines",
+    "groupHe": "שגרות",
+    "collection": "activities",
+    "subgroup": "Routines",
+    "tags": "Car הסעה Routines שגרות",
+    "aliases": [
+      "1F697"
+    ],
+    "file": "/assets/icons/bayit/activities/car-128.png",
+    "png": "/assets/icons/bayit/activities/car-128.png",
+    "files": {
+      "64": "/assets/icons/bayit/activities/car-64.png",
+      "128": "/assets/icons/bayit/activities/car-128.png",
+      "256": "/assets/icons/bayit/activities/car-256.png"
+    },
+    "source": "Bayit generated artwork",
+    "pixel": false
+  },
+  {
     "id": "bayit-groceries-tomatoes",
     "name": "Tomatoes",
     "he": "עגבניות",
@@ -567,7 +5622,8 @@
       "256": "/assets/icons/bayit/groceries/bread-256.png"
     },
     "source": "Bayit generated artwork",
-    "pixel": false
+    "pixel": false,
+    "label": "Bread"
   },
   {
     "id": "bayit-groceries-pita",
@@ -611,7 +5667,8 @@
       "256": "/assets/icons/bayit/groceries/rice-256.png"
     },
     "source": "Bayit generated artwork",
-    "pixel": false
+    "pixel": false,
+    "label": "Rice"
   },
   {
     "id": "bayit-groceries-pasta",
@@ -1019,7 +6076,8 @@
       "256": "/assets/icons/bayit/groceries/orange-juice-256.png"
     },
     "source": "Bayit generated artwork",
-    "pixel": false
+    "pixel": false,
+    "label": "Orange juice"
   },
   {
     "id": "bayit-groceries-toilet-paper",
@@ -1041,7 +6099,8 @@
       "256": "/assets/icons/bayit/groceries/toilet-paper-256.png"
     },
     "source": "Bayit generated artwork",
-    "pixel": false
+    "pixel": false,
+    "label": "Toilet paper"
   },
   {
     "id": "bayit-groceries-dish-soap",
@@ -1081,1095 +6140,8 @@
       "256": "/assets/icons/bayit/groceries/laundry-detergent-256.png"
     },
     "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-toothbrush",
-    "name": "Blue toothbrush",
-    "he": "צחצוח שיניים",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Blue toothbrush צחצוח שיניים Hygiene היגיינה",
-    "aliases": [
-      "1FAA5"
-    ],
-    "file": "/assets/icons/bayit/activities/toothbrush-128.png",
-    "png": "/assets/icons/bayit/activities/toothbrush-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/toothbrush-64.png",
-      "128": "/assets/icons/bayit/activities/toothbrush-128.png",
-      "256": "/assets/icons/bayit/activities/toothbrush-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-toothpaste",
-    "name": "Toothpaste tube",
-    "he": "משחת שיניים",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Toothpaste tube משחת שיניים Hygiene היגיינה",
-    "aliases": [
-      "1F9B7"
-    ],
-    "file": "/assets/icons/bayit/activities/toothpaste-128.png",
-    "png": "/assets/icons/bayit/activities/toothpaste-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/toothpaste-64.png",
-      "128": "/assets/icons/bayit/activities/toothpaste-128.png",
-      "256": "/assets/icons/bayit/activities/toothpaste-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-shower",
-    "name": "Showerhead with blue water",
-    "he": "מקלחת",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Showerhead with blue water מקלחת Hygiene היגיינה",
-    "aliases": [
-      "1F6BF"
-    ],
-    "file": "/assets/icons/bayit/activities/shower-128.png",
-    "png": "/assets/icons/bayit/activities/shower-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/shower-64.png",
-      "128": "/assets/icons/bayit/activities/shower-128.png",
-      "256": "/assets/icons/bayit/activities/shower-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-bathtub",
-    "name": "Bathtub with rubber duck",
-    "he": "אמבטיה",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Bathtub with rubber duck אמבטיה Hygiene היגיינה",
-    "aliases": [
-      "1F6C1"
-    ],
-    "file": "/assets/icons/bayit/activities/bathtub-128.png",
-    "png": "/assets/icons/bayit/activities/bathtub-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/bathtub-64.png",
-      "128": "/assets/icons/bayit/activities/bathtub-128.png",
-      "256": "/assets/icons/bayit/activities/bathtub-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-soap",
-    "name": "Pump soap",
-    "he": "שטיפת ידיים",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Pump soap שטיפת ידיים Hygiene היגיינה",
-    "aliases": [
-      "1F9FC"
-    ],
-    "file": "/assets/icons/bayit/activities/soap-128.png",
-    "png": "/assets/icons/bayit/activities/soap-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/soap-64.png",
-      "128": "/assets/icons/bayit/activities/soap-128.png",
-      "256": "/assets/icons/bayit/activities/soap-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-hand-towel",
-    "name": "Hand towel",
-    "he": "מגבת",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Hand towel מגבת Hygiene היגיינה",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/hand-towel-128.png",
-    "png": "/assets/icons/bayit/activities/hand-towel-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/hand-towel-64.png",
-      "128": "/assets/icons/bayit/activities/hand-towel-128.png",
-      "256": "/assets/icons/bayit/activities/hand-towel-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-hairbrush",
-    "name": "Hairbrush",
-    "he": "סירוק שיער",
-    "group": "Hygiene",
-    "groupHe": "היגיינה",
-    "collection": "activities",
-    "subgroup": "Hygiene",
-    "tags": "Hairbrush סירוק שיער Hygiene היגיינה",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/hairbrush-128.png",
-    "png": "/assets/icons/bayit/activities/hairbrush-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/hairbrush-64.png",
-      "128": "/assets/icons/bayit/activities/hairbrush-128.png",
-      "256": "/assets/icons/bayit/activities/hairbrush-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-sneakers",
-    "name": "Blue sneakers",
-    "he": "נעליים",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Blue sneakers נעליים Routines שגרות",
-    "aliases": [
-      "1F45F"
-    ],
-    "file": "/assets/icons/bayit/activities/sneakers-128.png",
-    "png": "/assets/icons/bayit/activities/sneakers-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/sneakers-64.png",
-      "128": "/assets/icons/bayit/activities/sneakers-128.png",
-      "256": "/assets/icons/bayit/activities/sneakers-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-folded-shirt",
-    "name": "Folded shirt",
-    "he": "התלבשות",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Folded shirt התלבשות Routines שגרות",
-    "aliases": [
-      "1F455"
-    ],
-    "file": "/assets/icons/bayit/activities/folded-shirt-128.png",
-    "png": "/assets/icons/bayit/activities/folded-shirt-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/folded-shirt-64.png",
-      "128": "/assets/icons/bayit/activities/folded-shirt-128.png",
-      "256": "/assets/icons/bayit/activities/folded-shirt-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-bed",
-    "name": "Made bed",
-    "he": "סידור המיטה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Made bed סידור המיטה Routines שגרות",
-    "aliases": [
-      "1F6CF"
-    ],
-    "file": "/assets/icons/bayit/activities/bed-128.png",
-    "png": "/assets/icons/bayit/activities/bed-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/bed-64.png",
-      "128": "/assets/icons/bayit/activities/bed-128.png",
-      "256": "/assets/icons/bayit/activities/bed-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-backpack",
-    "name": "School backpack",
-    "he": "תיק לבית הספר",
-    "group": "School",
-    "groupHe": "בית ספר",
-    "collection": "activities",
-    "subgroup": "School",
-    "tags": "School backpack תיק לבית הספר School בית ספר",
-    "aliases": [
-      "1F392"
-    ],
-    "file": "/assets/icons/bayit/activities/backpack-128.png",
-    "png": "/assets/icons/bayit/activities/backpack-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/backpack-64.png",
-      "128": "/assets/icons/bayit/activities/backpack-128.png",
-      "256": "/assets/icons/bayit/activities/backpack-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-book",
-    "name": "Closed blue book",
-    "he": "קריאה",
-    "group": "School",
-    "groupHe": "בית ספר",
-    "collection": "activities",
-    "subgroup": "School",
-    "tags": "Closed blue book קריאה School בית ספר",
-    "aliases": [
-      "1F4D6"
-    ],
-    "file": "/assets/icons/bayit/activities/book-128.png",
-    "png": "/assets/icons/bayit/activities/book-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/book-64.png",
-      "128": "/assets/icons/bayit/activities/book-128.png",
-      "256": "/assets/icons/bayit/activities/book-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-pencils",
-    "name": "Pencils in yellow cup",
-    "he": "ציור",
-    "group": "School",
-    "groupHe": "בית ספר",
-    "collection": "activities",
-    "subgroup": "School",
-    "tags": "Pencils in yellow cup ציור School בית ספר",
-    "aliases": [
-      "1F58D"
-    ],
-    "file": "/assets/icons/bayit/activities/pencils-128.png",
-    "png": "/assets/icons/bayit/activities/pencils-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/pencils-64.png",
-      "128": "/assets/icons/bayit/activities/pencils-128.png",
-      "256": "/assets/icons/bayit/activities/pencils-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-notebook",
-    "name": "Notebook",
-    "he": "מחברת",
-    "group": "School",
-    "groupHe": "בית ספר",
-    "collection": "activities",
-    "subgroup": "School",
-    "tags": "Notebook מחברת School בית ספר",
-    "aliases": [
-      "1F4D3"
-    ],
-    "file": "/assets/icons/bayit/activities/notebook-128.png",
-    "png": "/assets/icons/bayit/activities/notebook-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/notebook-64.png",
-      "128": "/assets/icons/bayit/activities/notebook-128.png",
-      "256": "/assets/icons/bayit/activities/notebook-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-lunchbox",
-    "name": "Lunchbox",
-    "he": "קופסת אוכל",
-    "group": "School",
-    "groupHe": "בית ספר",
-    "collection": "activities",
-    "subgroup": "School",
-    "tags": "Lunchbox קופסת אוכל School בית ספר",
-    "aliases": [
-      "1F371"
-    ],
-    "file": "/assets/icons/bayit/activities/lunchbox-128.png",
-    "png": "/assets/icons/bayit/activities/lunchbox-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/lunchbox-64.png",
-      "128": "/assets/icons/bayit/activities/lunchbox-128.png",
-      "256": "/assets/icons/bayit/activities/lunchbox-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-water-glass",
-    "name": "Drinking glass of water",
-    "he": "שתיית מים",
-    "group": "Meals",
-    "groupHe": "ארוחות",
-    "collection": "activities",
-    "subgroup": "Meals",
-    "tags": "Drinking glass of water שתיית מים Meals ארוחות",
-    "aliases": [
-      "1F6B0"
-    ],
-    "file": "/assets/icons/bayit/activities/water-glass-128.png",
-    "png": "/assets/icons/bayit/activities/water-glass-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/water-glass-64.png",
-      "128": "/assets/icons/bayit/activities/water-glass-128.png",
-      "256": "/assets/icons/bayit/activities/water-glass-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-healthy-dinner",
-    "name": "Healthy dinner plate",
-    "he": "ארוחת ערב",
-    "group": "Meals",
-    "groupHe": "ארוחות",
-    "collection": "activities",
-    "subgroup": "Meals",
-    "tags": "Healthy dinner plate ארוחת ערב Meals ארוחות",
-    "aliases": [
-      "1F37D"
-    ],
-    "file": "/assets/icons/bayit/activities/healthy-dinner-128.png",
-    "png": "/assets/icons/bayit/activities/healthy-dinner-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/healthy-dinner-64.png",
-      "128": "/assets/icons/bayit/activities/healthy-dinner-128.png",
-      "256": "/assets/icons/bayit/activities/healthy-dinner-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-oatmeal",
-    "name": "Breakfast oatmeal with fruit",
-    "he": "ארוחת בוקר",
-    "group": "Meals",
-    "groupHe": "ארוחות",
-    "collection": "activities",
-    "subgroup": "Meals",
-    "tags": "Breakfast oatmeal with fruit ארוחת בוקר Meals ארוחות",
-    "aliases": [
-      "1F963"
-    ],
-    "file": "/assets/icons/bayit/activities/oatmeal-128.png",
-    "png": "/assets/icons/bayit/activities/oatmeal-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/oatmeal-64.png",
-      "128": "/assets/icons/bayit/activities/oatmeal-128.png",
-      "256": "/assets/icons/bayit/activities/oatmeal-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-cooking-pot",
-    "name": "Cooking pot",
-    "he": "בישול",
-    "group": "Meals",
-    "groupHe": "ארוחות",
-    "collection": "activities",
-    "subgroup": "Meals",
-    "tags": "Cooking pot בישול Meals ארוחות",
-    "aliases": [
-      "1F373"
-    ],
-    "file": "/assets/icons/bayit/activities/cooking-pot-128.png",
-    "png": "/assets/icons/bayit/activities/cooking-pot-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/cooking-pot-64.png",
-      "128": "/assets/icons/bayit/activities/cooking-pot-128.png",
-      "256": "/assets/icons/bayit/activities/cooking-pot-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-dishwashing",
-    "name": "Dishwashing plate with bubbles",
-    "he": "שטיפת כלים",
-    "group": "Meals",
-    "groupHe": "ארוחות",
-    "collection": "activities",
-    "subgroup": "Meals",
-    "tags": "Dishwashing plate with bubbles שטיפת כלים Meals ארוחות",
-    "aliases": [
-      "1F9FD"
-    ],
-    "file": "/assets/icons/bayit/activities/dishwashing-128.png",
-    "png": "/assets/icons/bayit/activities/dishwashing-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/dishwashing-64.png",
-      "128": "/assets/icons/bayit/activities/dishwashing-128.png",
-      "256": "/assets/icons/bayit/activities/dishwashing-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-laundry",
-    "name": "Laundry basket",
-    "he": "כביסה",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Laundry basket כביסה Chores מטלות",
-    "aliases": [
-      "1F9FA"
-    ],
-    "file": "/assets/icons/bayit/activities/laundry-128.png",
-    "png": "/assets/icons/bayit/activities/laundry-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/laundry-64.png",
-      "128": "/assets/icons/bayit/activities/laundry-128.png",
-      "256": "/assets/icons/bayit/activities/laundry-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-broom",
-    "name": "Broom",
-    "he": "טאטוא",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Broom טאטוא Chores מטלות",
-    "aliases": [
-      "1F9F9"
-    ],
-    "file": "/assets/icons/bayit/activities/broom-128.png",
-    "png": "/assets/icons/bayit/activities/broom-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/broom-64.png",
-      "128": "/assets/icons/bayit/activities/broom-128.png",
-      "256": "/assets/icons/bayit/activities/broom-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-vacuum",
-    "name": "Vacuum cleaner",
-    "he": "שאיבת אבק",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Vacuum cleaner שאיבת אבק Chores מטלות",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/vacuum-128.png",
-    "png": "/assets/icons/bayit/activities/vacuum-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/vacuum-64.png",
-      "128": "/assets/icons/bayit/activities/vacuum-128.png",
-      "256": "/assets/icons/bayit/activities/vacuum-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-mop-bucket",
-    "name": "Mop and bucket",
-    "he": "שטיפת רצפה",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Mop and bucket שטיפת רצפה Chores מטלות",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/mop-bucket-128.png",
-    "png": "/assets/icons/bayit/activities/mop-bucket-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/mop-bucket-64.png",
-      "128": "/assets/icons/bayit/activities/mop-bucket-128.png",
-      "256": "/assets/icons/bayit/activities/mop-bucket-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-houseplant",
-    "name": "Houseplant",
-    "he": "עציץ",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Houseplant עציץ Chores מטלות",
-    "aliases": [
-      "1FAB4"
-    ],
-    "file": "/assets/icons/bayit/activities/houseplant-128.png",
-    "png": "/assets/icons/bayit/activities/houseplant-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/houseplant-64.png",
-      "128": "/assets/icons/bayit/activities/houseplant-128.png",
-      "256": "/assets/icons/bayit/activities/houseplant-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-watering-can",
-    "name": "Watering can",
-    "he": "השקיה",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Watering can השקיה Chores מטלות",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/watering-can-128.png",
-    "png": "/assets/icons/bayit/activities/watering-can-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/watering-can-64.png",
-      "128": "/assets/icons/bayit/activities/watering-can-128.png",
-      "256": "/assets/icons/bayit/activities/watering-can-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-pet-food",
-    "name": "Pet food bowl",
-    "he": "האכלת חיית מחמד",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Pet food bowl האכלת חיית מחמד Chores מטלות",
-    "aliases": [
-      "1F415"
-    ],
-    "file": "/assets/icons/bayit/activities/pet-food-128.png",
-    "png": "/assets/icons/bayit/activities/pet-food-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/pet-food-64.png",
-      "128": "/assets/icons/bayit/activities/pet-food-128.png",
-      "256": "/assets/icons/bayit/activities/pet-food-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-dog-leash",
-    "name": "Dog walking leash",
-    "he": "טיול עם הכלב",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Dog walking leash טיול עם הכלב Chores מטלות",
-    "aliases": [],
-    "file": "/assets/icons/bayit/activities/dog-leash-128.png",
-    "png": "/assets/icons/bayit/activities/dog-leash-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/dog-leash-64.png",
-      "128": "/assets/icons/bayit/activities/dog-leash-128.png",
-      "256": "/assets/icons/bayit/activities/dog-leash-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-toybox",
-    "name": "Tidy toybox with teddy bear",
-    "he": "סידור צעצועים",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Tidy toybox with teddy bear סידור צעצועים Chores מטלות",
-    "aliases": [
-      "1F9F8"
-    ],
-    "file": "/assets/icons/bayit/activities/toybox-128.png",
-    "png": "/assets/icons/bayit/activities/toybox-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/toybox-64.png",
-      "128": "/assets/icons/bayit/activities/toybox-128.png",
-      "256": "/assets/icons/bayit/activities/toybox-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-recycling",
-    "name": "Recycling bin",
-    "he": "מחזור",
-    "group": "Chores",
-    "groupHe": "מטלות",
-    "collection": "activities",
-    "subgroup": "Chores",
-    "tags": "Recycling bin מחזור Chores מטלות",
-    "aliases": [
-      "267B"
-    ],
-    "file": "/assets/icons/bayit/activities/recycling-128.png",
-    "png": "/assets/icons/bayit/activities/recycling-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/recycling-64.png",
-      "128": "/assets/icons/bayit/activities/recycling-128.png",
-      "256": "/assets/icons/bayit/activities/recycling-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-bicycle",
-    "name": "Bicycle",
-    "he": "רכיבה על אופניים",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Bicycle רכיבה על אופניים Play משחק ופנאי",
-    "aliases": [
-      "1F6B2"
-    ],
-    "file": "/assets/icons/bayit/activities/bicycle-128.png",
-    "png": "/assets/icons/bayit/activities/bicycle-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/bicycle-64.png",
-      "128": "/assets/icons/bayit/activities/bicycle-128.png",
-      "256": "/assets/icons/bayit/activities/bicycle-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-football",
-    "name": "Football",
-    "he": "כדורגל",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Football כדורגל Play משחק ופנאי",
-    "aliases": [
-      "26BD"
-    ],
-    "file": "/assets/icons/bayit/activities/football-128.png",
-    "png": "/assets/icons/bayit/activities/football-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/football-64.png",
-      "128": "/assets/icons/bayit/activities/football-128.png",
-      "256": "/assets/icons/bayit/activities/football-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-basketball",
-    "name": "Basketball",
-    "he": "כדורסל",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Basketball כדורסל Play משחק ופנאי",
-    "aliases": [
-      "1F3C0"
-    ],
-    "file": "/assets/icons/bayit/activities/basketball-128.png",
-    "png": "/assets/icons/bayit/activities/basketball-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/basketball-64.png",
-      "128": "/assets/icons/bayit/activities/basketball-128.png",
-      "256": "/assets/icons/bayit/activities/basketball-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-swim-goggles",
-    "name": "Swimming goggles",
-    "he": "שחייה",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Swimming goggles שחייה Play משחק ופנאי",
-    "aliases": [
-      "1F93F"
-    ],
-    "file": "/assets/icons/bayit/activities/swim-goggles-128.png",
-    "png": "/assets/icons/bayit/activities/swim-goggles-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/swim-goggles-64.png",
-      "128": "/assets/icons/bayit/activities/swim-goggles-128.png",
-      "256": "/assets/icons/bayit/activities/swim-goggles-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-music",
-    "name": "Musical notes",
-    "he": "מוזיקה",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Musical notes מוזיקה Play משחק ופנאי",
-    "aliases": [
-      "1F3B5"
-    ],
-    "file": "/assets/icons/bayit/activities/music-128.png",
-    "png": "/assets/icons/bayit/activities/music-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/music-64.png",
-      "128": "/assets/icons/bayit/activities/music-128.png",
-      "256": "/assets/icons/bayit/activities/music-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-piano",
-    "name": "Piano keys",
-    "he": "פסנתר",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Piano keys פסנתר Play משחק ופנאי",
-    "aliases": [
-      "1F3B9"
-    ],
-    "file": "/assets/icons/bayit/activities/piano-128.png",
-    "png": "/assets/icons/bayit/activities/piano-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/piano-64.png",
-      "128": "/assets/icons/bayit/activities/piano-128.png",
-      "256": "/assets/icons/bayit/activities/piano-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-puzzle",
-    "name": "Puzzle pieces",
-    "he": "פאזל",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Puzzle pieces פאזל Play משחק ופנאי",
-    "aliases": [
-      "1F9E9"
-    ],
-    "file": "/assets/icons/bayit/activities/puzzle-128.png",
-    "png": "/assets/icons/bayit/activities/puzzle-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/puzzle-64.png",
-      "128": "/assets/icons/bayit/activities/puzzle-128.png",
-      "256": "/assets/icons/bayit/activities/puzzle-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-board-game",
-    "name": "Board game",
-    "he": "משחק קופסה",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Board game משחק קופסה Play משחק ופנאי",
-    "aliases": [
-      "1F3B2"
-    ],
-    "file": "/assets/icons/bayit/activities/board-game-128.png",
-    "png": "/assets/icons/bayit/activities/board-game-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/board-game-64.png",
-      "128": "/assets/icons/bayit/activities/board-game-128.png",
-      "256": "/assets/icons/bayit/activities/board-game-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-painting",
-    "name": "Paint palette",
-    "he": "ציור בצבעים",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Paint palette ציור בצבעים Play משחק ופנאי",
-    "aliases": [
-      "1F3A8"
-    ],
-    "file": "/assets/icons/bayit/activities/painting-128.png",
-    "png": "/assets/icons/bayit/activities/painting-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/painting-64.png",
-      "128": "/assets/icons/bayit/activities/painting-128.png",
-      "256": "/assets/icons/bayit/activities/painting-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-scissors",
-    "name": "Craft scissors",
-    "he": "יצירה",
-    "group": "Play",
-    "groupHe": "משחק ופנאי",
-    "collection": "activities",
-    "subgroup": "Play",
-    "tags": "Craft scissors יצירה Play משחק ופנאי",
-    "aliases": [
-      "2702"
-    ],
-    "file": "/assets/icons/bayit/activities/scissors-128.png",
-    "png": "/assets/icons/bayit/activities/scissors-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/scissors-64.png",
-      "128": "/assets/icons/bayit/activities/scissors-128.png",
-      "256": "/assets/icons/bayit/activities/scissors-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-moon-stars",
-    "name": "Crescent moon and stars",
-    "he": "שעת שינה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Crescent moon and stars שעת שינה Routines שגרות",
-    "aliases": [
-      "1F319"
-    ],
-    "file": "/assets/icons/bayit/activities/moon-stars-128.png",
-    "png": "/assets/icons/bayit/activities/moon-stars-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/moon-stars-64.png",
-      "128": "/assets/icons/bayit/activities/moon-stars-128.png",
-      "256": "/assets/icons/bayit/activities/moon-stars-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-sun",
-    "name": "Friendly sun",
-    "he": "בוקר",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Friendly sun בוקר Routines שגרות",
-    "aliases": [
-      "1F31E"
-    ],
-    "file": "/assets/icons/bayit/activities/sun-128.png",
-    "png": "/assets/icons/bayit/activities/sun-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/sun-64.png",
-      "128": "/assets/icons/bayit/activities/sun-128.png",
-      "256": "/assets/icons/bayit/activities/sun-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-alarm-clock",
-    "name": "Alarm clock",
-    "he": "שעון מעורר",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Alarm clock שעון מעורר Routines שגרות",
-    "aliases": [
-      "23F0"
-    ],
-    "file": "/assets/icons/bayit/activities/alarm-clock-128.png",
-    "png": "/assets/icons/bayit/activities/alarm-clock-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/alarm-clock-64.png",
-      "128": "/assets/icons/bayit/activities/alarm-clock-128.png",
-      "256": "/assets/icons/bayit/activities/alarm-clock-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-medicine",
-    "name": "Medicine bottle and spoon",
-    "he": "תרופה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Medicine bottle and spoon תרופה Routines שגרות",
-    "aliases": [
-      "1F48A"
-    ],
-    "file": "/assets/icons/bayit/activities/medicine-128.png",
-    "png": "/assets/icons/bayit/activities/medicine-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/medicine-64.png",
-      "128": "/assets/icons/bayit/activities/medicine-128.png",
-      "256": "/assets/icons/bayit/activities/medicine-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-thermometer",
-    "name": "Thermometer",
-    "he": "מד חום",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Thermometer מד חום Routines שגרות",
-    "aliases": [
-      "1F321"
-    ],
-    "file": "/assets/icons/bayit/activities/thermometer-128.png",
-    "png": "/assets/icons/bayit/activities/thermometer-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/thermometer-64.png",
-      "128": "/assets/icons/bayit/activities/thermometer-128.png",
-      "256": "/assets/icons/bayit/activities/thermometer-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-stethoscope",
-    "name": "Stethoscope",
-    "he": "רופא",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Stethoscope רופא Routines שגרות",
-    "aliases": [
-      "1FA7A"
-    ],
-    "file": "/assets/icons/bayit/activities/stethoscope-128.png",
-    "png": "/assets/icons/bayit/activities/stethoscope-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/stethoscope-64.png",
-      "128": "/assets/icons/bayit/activities/stethoscope-128.png",
-      "256": "/assets/icons/bayit/activities/stethoscope-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-birthday-cake",
-    "name": "Birthday cake",
-    "he": "יום הולדת",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Birthday cake יום הולדת Routines שגרות",
-    "aliases": [
-      "1F382"
-    ],
-    "file": "/assets/icons/bayit/activities/birthday-cake-128.png",
-    "png": "/assets/icons/bayit/activities/birthday-cake-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/birthday-cake-64.png",
-      "128": "/assets/icons/bayit/activities/birthday-cake-128.png",
-      "256": "/assets/icons/bayit/activities/birthday-cake-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-gift",
-    "name": "Gift box",
-    "he": "מתנה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Gift box מתנה Routines שגרות",
-    "aliases": [
-      "1F381"
-    ],
-    "file": "/assets/icons/bayit/activities/gift-128.png",
-    "png": "/assets/icons/bayit/activities/gift-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/gift-64.png",
-      "128": "/assets/icons/bayit/activities/gift-128.png",
-      "256": "/assets/icons/bayit/activities/gift-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-family-house",
-    "name": "Family house",
-    "he": "בית המשפחה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Family house בית המשפחה Routines שגרות",
-    "aliases": [
-      "1F3E0"
-    ],
-    "file": "/assets/icons/bayit/activities/family-house-128.png",
-    "png": "/assets/icons/bayit/activities/family-house-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/family-house-64.png",
-      "128": "/assets/icons/bayit/activities/family-house-128.png",
-      "256": "/assets/icons/bayit/activities/family-house-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
-  },
-  {
-    "id": "bayit-activities-car",
-    "name": "Car",
-    "he": "הסעה",
-    "group": "Routines",
-    "groupHe": "שגרות",
-    "collection": "activities",
-    "subgroup": "Routines",
-    "tags": "Car הסעה Routines שגרות",
-    "aliases": [
-      "1F697"
-    ],
-    "file": "/assets/icons/bayit/activities/car-128.png",
-    "png": "/assets/icons/bayit/activities/car-128.png",
-    "files": {
-      "64": "/assets/icons/bayit/activities/car-64.png",
-      "128": "/assets/icons/bayit/activities/car-128.png",
-      "256": "/assets/icons/bayit/activities/car-256.png"
-    },
-    "source": "Bayit generated artwork",
-    "pixel": false
+    "pixel": false,
+    "label": "Detergent"
   },
   {
     "id": "bayit-pixel-blue-cap",

@@ -5,7 +5,7 @@ export async function handleFamilyManagement(request,env,home){
  if(home.membership.role!=='parent')throw fail('A parent manages invitations and account access.',403);
  const parts=path.split('/'),kind=parts[3],id=parts[4];
  if(kind==='invitations'){
-  if(method==='GET'&&!id){const rows=(await env.DB.prepare('SELECT token_hash,role,member_id,expires_at FROM invitations WHERE household_id=? AND used_by IS NULL ORDER BY expires_at DESC LIMIT 100').bind(home.id).all()).results;return json({invitations:rows.map(r=>({id:r.token_hash,role:r.role,memberId:r.member_id,expiresAt:new Date(r.expires_at).toISOString(),status:r.expires_at>Date.now()?'pending':'expired'}))})}
+  if(method==='GET'&&!id){const rows=(await env.DB.prepare('SELECT token_hash,role,member_id,expires_at,purpose,usable_at FROM invitations WHERE household_id=? AND used_by IS NULL ORDER BY expires_at DESC LIMIT 100').bind(home.id).all()).results;return json({invitations:rows.map(r=>({id:r.token_hash,role:r.role,memberId:r.member_id,expiresAt:new Date(r.expires_at).toISOString(),status:r.expires_at>Date.now()?'pending':'expired',...(r.purpose==='recover'?{purpose:'recover',usableAt:new Date(r.usable_at).toISOString()}:{})}))})}
   if(method==='DELETE'&&/^[a-f0-9]{64}$/.test(id||'')){const result=await env.DB.prepare('DELETE FROM invitations WHERE household_id=? AND token_hash=? AND used_by IS NULL').bind(home.id,id).run();if(!result.meta.changes)throw fail('This invitation is unavailable or has already been used.',404);return json({revoked:true})}
  }
  if(kind==='members'){

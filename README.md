@@ -51,15 +51,15 @@ Hebrew (RTL) and English (LTR) · light and night · phone, tablet and desktop �
 
 ## Try it
 
-- **In your browser:** open the [live demo](https://bayit-8n0.pages.dev/?demo=1) with a fictional family. Nothing is saved.
-- **On your computer:**
+- **In your browser:** open the [live demo](https://bayit-8n0.pages.dev/?demo=1) with a fictional family. Changes stay in your browser only.
+- **On your computer, for real:** with [Docker Desktop](https://docs.docker.com/get-started/get-docker/) running,
   ```bash
   git clone https://github.com/frenkelsergei-blip/bayit.git
-  cd bayit/app
-  npm install
-  npm run dev -- --host 127.0.0.1 --port 4173
+  cd bayit && cp .env.example .env
+  docker compose up -d --build
+  docker compose logs bayit     # shows a one-time setup code
   ```
-  Open <http://127.0.0.1:4173/?demo=1>. You need Node.js 22.13 or newer.
+  Open <http://localhost:8080>, choose **Start setting up**, and create your passkey and family. Details: [Run with Docker](docs/self-hosting-docker.md).
 
 ## Run your own
 
@@ -67,15 +67,15 @@ Each family (or each installation) runs its own copy with its own accounts. Ther
 
 | Where | Guide | Good for |
 | --- | --- | --- |
-| **Cloudflare** (free plan) | [Install on Cloudflare](docs/self-hosting.md) | Most families: no server to look after. About 45 minutes. |
-| **Docker** | [Run with Docker](docs/self-hosting-docker.md) | A home computer, NAS, Raspberry Pi, VPS or container host. |
+| **Cloudflare** (free plan) | [Install on Cloudflare](docs/self-hosting.md) | Families who want phones to work everywhere: no server to look after. About 45 minutes, in a terminal. |
+| **Docker** | [Run with Docker](docs/self-hosting-docker.md) | The quickest start on one computer (about 5 minutes). Phones need your own https address. |
 
 **What you'll need:**
 
 | | Required? | Guide |
 | --- | --- | --- |
 | A Cloudflare account, or a machine with Docker | Yes | above |
-| A Google Cloud sign-in client (free) | Yes | [Google sign-in setup](docs/google-sign-in.md) |
+| Sign-in | Nothing to set up: passkeys (face, fingerprint or screen lock). Google sign-in is optional | [Google sign-in setup](docs/google-sign-in.md) |
 | An AI provider key (Claude, OpenAI, Gemini, Grok or compatible) | Optional | [Connections → AI](docs/connections.md#ai-assistant) |
 | A Telegram bot from @BotFather | Optional | [Connections → Telegram](docs/connections.md#telegram-bot) |
 | Google Maps keys | Optional | [Connections → Maps](docs/connections.md#google-maps-optional) |
@@ -100,8 +100,8 @@ Scheduler Worker (cron, every minute) ──► /api/internal/reminders
 
 With Docker, one Node.js server does all of this, with SQLite and a folder in a data volume (`app/host/`).
 
-- **One installation, many households.** Each person signs in with Google. The owner creates a household and invites others with single-use links.
-- **Each installation brings its own credentials.** The Cloudflare account or server, the Google sign-in client, AI keys and Telegram bots belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
+- **One installation, many households.** Each person signs in with a passkey (or, optionally, Google). The owner sets up with a one-time setup code, creates a household and invites others with single-use links.
+- **Each installation brings its own credentials.** The Cloudflare account or server, the optional Google sign-in client, AI keys and Telegram bots belong to whoever runs it. Keys are encrypted with AES-GCM on the server and never returned to the browser.
 - **Fictional demo mode:** add `/?demo=1` to any installation's address to explore with a sample family.
 
 ## Make it yours

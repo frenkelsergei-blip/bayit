@@ -4,7 +4,10 @@ import {cloudHeaders} from './cloud-transport';
 import {googleSignIn} from './cloud-client';
 import {useConnectionIdentity} from './connection-dialog';
 import {FormSection} from './form-section';
-export function SecuritySettings({a,Button,sessions=false,connection=''}){
+import {PasskeySecurity,passkeysAvailable} from './passkey-account';
+// With passkeys offered, Account security is concept A (passkey-account.jsx); a Google-only installation keeps this.
+export function SecuritySettings(props){return passkeysAvailable(props.a)?<PasskeySecurity a={props.a} sessions={props.sessions!==false}/>:<GoogleSecuritySettings {...props}/>}
+function GoogleSecuritySettings({a,Button,sessions=false,connection=''}){
  const [data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false);
  const identity=useConnectionIdentity();
  const load=async()=>{if(!a.cloud)return;const r=await fetch('/api/security/sessions',{headers:cloudHeaders()});if(!r.ok)throw Error(a.T('Session status is unavailable.','מצב הכניסה אינו זמין.'));setData(await r.json())};

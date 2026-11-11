@@ -1,6 +1,6 @@
 ---
 name: bayit-connect
-description: Walk a family through connecting Bayit's outside accounts inside the app (Google sign-in for each person, the AI provider, the Telegram bot and each person's chat, optional RiseUp), step by step, with honest status checks. Use when someone asks how to connect AI, Telegram, RiseUp, or "what do I need to set up after installing".
+description: Walk a family through connecting Bayit's outside accounts inside the app (sign-in with a passkey or Google for each person, the AI provider, the Telegram bot and each person's chat, optional RiseUp), step by step, with honest status checks. Use when someone asks how to connect AI, Telegram, RiseUp, or "what do I need to set up after installing".
 ---
 
 # Connect AI, Telegram and RiseUp
@@ -9,9 +9,13 @@ Everything is connected **in the app**, at **Settings → Accounts & connections
 
 Go one connection at a time. Ask which ones they want; all except sign-in are optional.
 
-## Google sign-in (each person)
+## Signing in (each person): a passkey and/or Google
 
-Each person signs in with their own Google account. A parent invites others in **Settings → Family → Invite**: one link per person, single use, with an expiry. Children can be managed profiles without an account.
+Each person signs in with their own account. A parent invites others in **Settings → Family → Invite**: one link per person, single use, with an expiry. Children can be managed profiles without an account.
+- **Passkey ("מפתח גישה"):** the invited person opens the link (in Safari or Chrome, not inside WhatsApp's or Telegram's built-in browser), writes their name and taps "Create a passkey on this device". Face, fingerprint or screen lock; no password. Tell them never to share it or create it on a shared device.
+- **Google:** "Continue with Google" on the same invitation; Google is set up by the installation owner (`bayit-install-*`).
+- Anyone can add a passkey later in **Settings → Privacy → Account security**, and confirm "it's you" with a touch before changing connections.
+- Lost every passkey: a parent opens **Settings → Family**, "Help them get back in"; the link works after 24 hours and the person is told and can cancel. Children get back in from their own Telegram chat with `/account`.
 
 ## AI assistant (one per household, a parent connects it)
 

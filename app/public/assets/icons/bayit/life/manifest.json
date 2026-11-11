@@ -1,0 +1,6108 @@
+{
+ "collection": "life",
+ "source": "Bayit generated artwork (Codex built-in ImageGen, 2026-11-10)",
+ "icons": [
+  {
+   "slug": "celebration",
+   "name": "Celebration",
+   "he": "חגיגה",
+   "sheet": "defaults",
+   "index": 0,
+   "atlasBox": [
+    39,
+    52,
+    261,
+    265
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/celebration-64.png",
+    "128": "/assets/icons/bayit/life/celebration-128.png",
+    "256": "/assets/icons/bayit/life/celebration-256.png"
+   }
+  },
+  {
+   "slug": "holiday",
+   "name": "Holiday",
+   "he": "חג",
+   "sheet": "defaults",
+   "index": 1,
+   "atlasBox": [
+    333,
+    57,
+    526,
+    262
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/holiday-64.png",
+    "128": "/assets/icons/bayit/life/holiday-128.png",
+    "256": "/assets/icons/bayit/life/holiday-256.png"
+   }
+  },
+  {
+   "slug": "event",
+   "name": "Event",
+   "he": "אירוע",
+   "sheet": "defaults",
+   "index": 2,
+   "atlasBox": [
+    604,
+    57,
+    800,
+    261
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/event-64.png",
+    "128": "/assets/icons/bayit/life/event-128.png",
+    "256": "/assets/icons/bayit/life/event-256.png"
+   }
+  },
+  {
+   "slug": "party",
+   "name": "Party",
+   "he": "מסיבה",
+   "sheet": "defaults",
+   "index": 3,
+   "atlasBox": [
+    879,
+    51,
+    1072,
+    266
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/party-64.png",
+    "128": "/assets/icons/bayit/life/party-128.png",
+    "256": "/assets/icons/bayit/life/party-256.png"
+   }
+  },
+  {
+   "slug": "birthday-kid",
+   "name": "Kid's birthday",
+   "he": "יום הולדת לילד",
+   "sheet": "defaults",
+   "index": 4,
+   "atlasBox": [
+    1131,
+    51,
+    1365,
+    271
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/birthday-kid-64.png",
+    "128": "/assets/icons/bayit/life/birthday-kid-128.png",
+    "256": "/assets/icons/bayit/life/birthday-kid-256.png"
+   }
+  },
+  {
+   "slug": "birthday-adult",
+   "name": "Birthday",
+   "he": "יום הולדת",
+   "sheet": "defaults",
+   "index": 5,
+   "atlasBox": [
+    36,
+    327,
+    261,
+    540
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/birthday-adult-64.png",
+    "128": "/assets/icons/bayit/life/birthday-adult-128.png",
+    "256": "/assets/icons/bayit/life/birthday-adult-256.png"
+   }
+  },
+  {
+   "slug": "family-gathering",
+   "name": "Family gathering",
+   "he": "מפגש משפחתי",
+   "sheet": "defaults",
+   "index": 6,
+   "atlasBox": [
+    306,
+    329,
+    541,
+    550
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/family-gathering-64.png",
+    "128": "/assets/icons/bayit/life/family-gathering-128.png",
+    "256": "/assets/icons/bayit/life/family-gathering-256.png"
+   }
+  },
+  {
+   "slug": "religious-holiday",
+   "name": "Religious holiday",
+   "he": "חג דתי",
+   "sheet": "defaults",
+   "index": 7,
+   "atlasBox": [
+    582,
+    328,
+    820,
+    547
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/religious-holiday-64.png",
+    "128": "/assets/icons/bayit/life/religious-holiday-128.png",
+    "256": "/assets/icons/bayit/life/religious-holiday-256.png"
+   }
+  },
+  {
+   "slug": "trip",
+   "name": "Trip",
+   "he": "טיול",
+   "sheet": "defaults",
+   "index": 8,
+   "atlasBox": [
+    854,
+    344,
+    1095,
+    541
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/trip-64.png",
+    "128": "/assets/icons/bayit/life/trip-128.png",
+    "256": "/assets/icons/bayit/life/trip-256.png"
+   }
+  },
+  {
+   "slug": "kids-party",
+   "name": "Kids' party",
+   "he": "מסיבת ילדים",
+   "sheet": "defaults",
+   "index": 9,
+   "atlasBox": [
+    1151,
+    327,
+    1366,
+    552
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/kids-party-64.png",
+    "128": "/assets/icons/bayit/life/kids-party-128.png",
+    "256": "/assets/icons/bayit/life/kids-party-256.png"
+   }
+  },
+  {
+   "slug": "new-baby",
+   "name": "New baby",
+   "he": "לידה",
+   "sheet": "defaults",
+   "index": 10,
+   "atlasBox": [
+    42,
+    588,
+    249,
+    819
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/new-baby-64.png",
+    "128": "/assets/icons/bayit/life/new-baby-128.png",
+    "256": "/assets/icons/bayit/life/new-baby-256.png"
+   }
+  },
+  {
+   "slug": "baby-naming",
+   "name": "Brit or naming",
+   "he": "ברית או בריתה",
+   "sheet": "defaults",
+   "index": 11,
+   "atlasBox": [
+    316,
+    601,
+    531,
+    812
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/baby-naming-64.png",
+    "128": "/assets/icons/bayit/life/baby-naming-128.png",
+    "256": "/assets/icons/bayit/life/baby-naming-256.png"
+   }
+  },
+  {
+   "slug": "engagement",
+   "name": "Engagement",
+   "he": "אירוסין",
+   "sheet": "defaults",
+   "index": 12,
+   "atlasBox": [
+    603,
+    600,
+    798,
+    815
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/engagement-64.png",
+    "128": "/assets/icons/bayit/life/engagement-128.png",
+    "256": "/assets/icons/bayit/life/engagement-256.png"
+   }
+  },
+  {
+   "slug": "anniversary",
+   "name": "Anniversary",
+   "he": "יום נישואין",
+   "sheet": "defaults",
+   "index": 13,
+   "atlasBox": [
+    855,
+    620,
+    1088,
+    802
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/anniversary-64.png",
+    "128": "/assets/icons/bayit/life/anniversary-128.png",
+    "256": "/assets/icons/bayit/life/anniversary-256.png"
+   }
+  },
+  {
+   "slug": "housewarming",
+   "name": "Housewarming",
+   "he": "חנוכת בית",
+   "sheet": "defaults",
+   "index": 14,
+   "atlasBox": [
+    1127,
+    610,
+    1373,
+    816
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/housewarming-64.png",
+    "128": "/assets/icons/bayit/life/housewarming-128.png",
+    "256": "/assets/icons/bayit/life/housewarming-256.png"
+   }
+  },
+  {
+   "slug": "retirement",
+   "name": "Retirement",
+   "he": "פרישה",
+   "sheet": "defaults",
+   "index": 15,
+   "atlasBox": [
+    24,
+    856,
+    269,
+    1096
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/retirement-64.png",
+    "128": "/assets/icons/bayit/life/retirement-128.png",
+    "256": "/assets/icons/bayit/life/retirement-256.png"
+   }
+  },
+  {
+   "slug": "condolence",
+   "name": "Condolence",
+   "he": "ניחום אבלים",
+   "sheet": "defaults",
+   "index": 16,
+   "atlasBox": [
+    314,
+    872,
+    522,
+    1095
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/condolence-64.png",
+    "128": "/assets/icons/bayit/life/condolence-128.png",
+    "256": "/assets/icons/bayit/life/condolence-256.png"
+   }
+  },
+  {
+   "slug": "fair",
+   "name": "Festival",
+   "he": "פסטיבל",
+   "sheet": "defaults",
+   "index": 17,
+   "atlasBox": [
+    563,
+    868,
+    819,
+    1094
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/fair-64.png",
+    "128": "/assets/icons/bayit/life/fair-128.png",
+    "256": "/assets/icons/bayit/life/fair-256.png"
+   }
+  },
+  {
+   "slug": "surprise",
+   "name": "Surprise",
+   "he": "הפתעה",
+   "sheet": "defaults",
+   "index": 18,
+   "atlasBox": [
+    862,
+    863,
+    1082,
+    1101
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/surprise-64.png",
+    "128": "/assets/icons/bayit/life/surprise-128.png",
+    "256": "/assets/icons/bayit/life/surprise-256.png"
+   }
+  },
+  {
+   "slug": "special-day",
+   "name": "Special day",
+   "he": "יום מיוחד",
+   "sheet": "defaults",
+   "index": 19,
+   "atlasBox": [
+    1153,
+    868,
+    1347,
+    1092
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/special-day-64.png",
+    "128": "/assets/icons/bayit/life/special-day-128.png",
+    "256": "/assets/icons/bayit/life/special-day-256.png"
+   }
+  },
+  {
+   "slug": "shofar",
+   "name": "Shofar",
+   "he": "שופר",
+   "sheet": "holidays-a",
+   "index": 0,
+   "atlasBox": [
+    62,
+    86,
+    260,
+    235
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/shofar-64.png",
+    "128": "/assets/icons/bayit/life/shofar-128.png",
+    "256": "/assets/icons/bayit/life/shofar-256.png"
+   }
+  },
+  {
+   "slug": "apple-honey",
+   "name": "Apple and honey",
+   "he": "תפוח בדבש",
+   "sheet": "holidays-a",
+   "index": 1,
+   "atlasBox": [
+    326,
+    80,
+    524,
+    256
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/apple-honey-64.png",
+    "128": "/assets/icons/bayit/life/apple-honey-128.png",
+    "256": "/assets/icons/bayit/life/apple-honey-256.png"
+   }
+  },
+  {
+   "slug": "pomegranate",
+   "name": "Pomegranate",
+   "he": "רימון",
+   "sheet": "holidays-a",
+   "index": 2,
+   "atlasBox": [
+    593,
+    57,
+    805,
+    255
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pomegranate-64.png",
+    "128": "/assets/icons/bayit/life/pomegranate-128.png",
+    "256": "/assets/icons/bayit/life/pomegranate-256.png"
+   }
+  },
+  {
+   "slug": "round-challah",
+   "name": "Round challah",
+   "he": "חלה עגולה",
+   "sheet": "holidays-a",
+   "index": 3,
+   "atlasBox": [
+    864,
+    82,
+    1066,
+    241
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/round-challah-64.png",
+    "128": "/assets/icons/bayit/life/round-challah-128.png",
+    "256": "/assets/icons/bayit/life/round-challah-256.png"
+   }
+  },
+  {
+   "slug": "synagogue",
+   "name": "Synagogue",
+   "he": "בית כנסת",
+   "sheet": "holidays-a",
+   "index": 4,
+   "atlasBox": [
+    1129,
+    57,
+    1353,
+    246
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/synagogue-64.png",
+    "128": "/assets/icons/bayit/life/synagogue-128.png",
+    "256": "/assets/icons/bayit/life/synagogue-256.png"
+   }
+  },
+  {
+   "slug": "prayer-book",
+   "name": "Prayer book",
+   "he": "סידור",
+   "sheet": "holidays-a",
+   "index": 5,
+   "atlasBox": [
+    69,
+    335,
+    251,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/prayer-book-64.png",
+    "128": "/assets/icons/bayit/life/prayer-book-128.png",
+    "256": "/assets/icons/bayit/life/prayer-book-256.png"
+   }
+  },
+  {
+   "slug": "sukkah",
+   "name": "Sukkah",
+   "he": "סוכה",
+   "sheet": "holidays-a",
+   "index": 6,
+   "atlasBox": [
+    314,
+    339,
+    533,
+    526
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sukkah-64.png",
+    "128": "/assets/icons/bayit/life/sukkah-128.png",
+    "256": "/assets/icons/bayit/life/sukkah-256.png"
+   }
+  },
+  {
+   "slug": "four-species",
+   "name": "Lulav and etrog",
+   "he": "לולב ואתרוג",
+   "sheet": "holidays-a",
+   "index": 7,
+   "atlasBox": [
+    602,
+    312,
+    775,
+    542
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/four-species-64.png",
+    "128": "/assets/icons/bayit/life/four-species-128.png",
+    "256": "/assets/icons/bayit/life/four-species-256.png"
+   }
+  },
+  {
+   "slug": "torah-scroll",
+   "name": "Torah scroll",
+   "he": "ספר תורה",
+   "sheet": "holidays-a",
+   "index": 8,
+   "atlasBox": [
+    883,
+    321,
+    1042,
+    536
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/torah-scroll-64.png",
+    "128": "/assets/icons/bayit/life/torah-scroll-128.png",
+    "256": "/assets/icons/bayit/life/torah-scroll-256.png"
+   }
+  },
+  {
+   "slug": "dreidel",
+   "name": "Dreidel",
+   "he": "סביבון",
+   "sheet": "holidays-a",
+   "index": 10,
+   "atlasBox": [
+    75,
+    597,
+    237,
+    802
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dreidel-64.png",
+    "128": "/assets/icons/bayit/life/dreidel-128.png",
+    "256": "/assets/icons/bayit/life/dreidel-256.png"
+   }
+  },
+  {
+   "slug": "sufganiyah",
+   "name": "Sufganiyah",
+   "he": "סופגנייה",
+   "sheet": "holidays-a",
+   "index": 11,
+   "atlasBox": [
+    331,
+    624,
+    519,
+    789
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sufganiyah-64.png",
+    "128": "/assets/icons/bayit/life/sufganiyah-128.png",
+    "256": "/assets/icons/bayit/life/sufganiyah-256.png"
+   }
+  },
+  {
+   "slug": "almond-blossom",
+   "name": "Almond blossom",
+   "he": "שקדייה פורחת",
+   "sheet": "holidays-a",
+   "index": 12,
+   "atlasBox": [
+    592,
+    599,
+    796,
+    803
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/almond-blossom-64.png",
+    "128": "/assets/icons/bayit/life/almond-blossom-128.png",
+    "256": "/assets/icons/bayit/life/almond-blossom-256.png"
+   }
+  },
+  {
+   "slug": "dried-fruit",
+   "name": "Dried fruits",
+   "he": "פירות יבשים",
+   "sheet": "holidays-a",
+   "index": 13,
+   "atlasBox": [
+    855,
+    610,
+    1066,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dried-fruit-64.png",
+    "128": "/assets/icons/bayit/life/dried-fruit-128.png",
+    "256": "/assets/icons/bayit/life/dried-fruit-256.png"
+   }
+  },
+  {
+   "slug": "purim-mask",
+   "name": "Purim mask",
+   "he": "מסכה",
+   "sheet": "holidays-a",
+   "index": 14,
+   "atlasBox": [
+    1128,
+    597,
+    1354,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/purim-mask-64.png",
+    "128": "/assets/icons/bayit/life/purim-mask-128.png",
+    "256": "/assets/icons/bayit/life/purim-mask-256.png"
+   }
+  },
+  {
+   "slug": "hamantash",
+   "name": "Hamantash",
+   "he": "אוזן המן",
+   "sheet": "holidays-a",
+   "index": 15,
+   "atlasBox": [
+    61,
+    878,
+    255,
+    1060
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hamantash-64.png",
+    "128": "/assets/icons/bayit/life/hamantash-128.png",
+    "256": "/assets/icons/bayit/life/hamantash-256.png"
+   }
+  },
+  {
+   "slug": "gragger",
+   "name": "Purim noisemaker",
+   "he": "רעשן",
+   "sheet": "holidays-a",
+   "index": 16,
+   "atlasBox": [
+    330,
+    869,
+    520,
+    1077
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/gragger-64.png",
+    "128": "/assets/icons/bayit/life/gragger-128.png",
+    "256": "/assets/icons/bayit/life/gragger-256.png"
+   }
+  },
+  {
+   "slug": "mishloach-manot",
+   "name": "Mishloach manot",
+   "he": "משלוח מנות",
+   "sheet": "holidays-a",
+   "index": 17,
+   "atlasBox": [
+    582,
+    862,
+    802,
+    1081
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mishloach-manot-64.png",
+    "128": "/assets/icons/bayit/life/mishloach-manot-128.png",
+    "256": "/assets/icons/bayit/life/mishloach-manot-256.png"
+   }
+  },
+  {
+   "slug": "matzah",
+   "name": "Matzah",
+   "he": "מצה",
+   "sheet": "holidays-a",
+   "index": 18,
+   "atlasBox": [
+    862,
+    877,
+    1058,
+    1068
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/matzah-64.png",
+    "128": "/assets/icons/bayit/life/matzah-128.png",
+    "256": "/assets/icons/bayit/life/matzah-256.png"
+   }
+  },
+  {
+   "slug": "seder-plate",
+   "name": "Seder plate",
+   "he": "קערת פסח",
+   "sheet": "holidays-a",
+   "index": 19,
+   "atlasBox": [
+    1123,
+    862,
+    1350,
+    1084
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/seder-plate-64.png",
+    "128": "/assets/icons/bayit/life/seder-plate-128.png",
+    "256": "/assets/icons/bayit/life/seder-plate-256.png"
+   }
+  },
+  {
+   "slug": "shabbat-candles",
+   "name": "Shabbat candles",
+   "he": "נרות שבת",
+   "sheet": "holidays-b",
+   "index": 0,
+   "atlasBox": [
+    86,
+    62,
+    242,
+    265
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/shabbat-candles-64.png",
+    "128": "/assets/icons/bayit/life/shabbat-candles-128.png",
+    "256": "/assets/icons/bayit/life/shabbat-candles-256.png"
+   }
+  },
+  {
+   "slug": "braided-challah",
+   "name": "Challah",
+   "he": "חלה",
+   "sheet": "holidays-b",
+   "index": 1,
+   "atlasBox": [
+    324,
+    99,
+    539,
+    239
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/braided-challah-64.png",
+    "128": "/assets/icons/bayit/life/braided-challah-128.png",
+    "256": "/assets/icons/bayit/life/braided-challah-256.png"
+   }
+  },
+  {
+   "slug": "kiddush-cup",
+   "name": "Kiddush cup",
+   "he": "גביע קידוש",
+   "sheet": "holidays-b",
+   "index": 2,
+   "atlasBox": [
+    631,
+    70,
+    770,
+    263
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/kiddush-cup-64.png",
+    "128": "/assets/icons/bayit/life/kiddush-cup-128.png",
+    "256": "/assets/icons/bayit/life/kiddush-cup-256.png"
+   }
+  },
+  {
+   "slug": "havdalah",
+   "name": "Havdalah",
+   "he": "הבדלה",
+   "sheet": "holidays-b",
+   "index": 3,
+   "atlasBox": [
+    903,
+    56,
+    1054,
+    269
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/havdalah-64.png",
+    "128": "/assets/icons/bayit/life/havdalah-128.png",
+    "256": "/assets/icons/bayit/life/havdalah-256.png"
+   }
+  },
+  {
+   "slug": "haggadah",
+   "name": "Haggadah",
+   "he": "הגדה",
+   "sheet": "holidays-b",
+   "index": 4,
+   "atlasBox": [
+    1121,
+    79,
+    1352,
+    266
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/haggadah-64.png",
+    "128": "/assets/icons/bayit/life/haggadah-128.png",
+    "256": "/assets/icons/bayit/life/haggadah-256.png"
+   }
+  },
+  {
+   "slug": "matzah-ball-soup",
+   "name": "Matzah ball soup",
+   "he": "מרק קניידלך",
+   "sheet": "holidays-b",
+   "index": 5,
+   "atlasBox": [
+    51,
+    354,
+    272,
+    534
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/matzah-ball-soup-64.png",
+    "128": "/assets/icons/bayit/life/matzah-ball-soup-128.png",
+    "256": "/assets/icons/bayit/life/matzah-ball-soup-256.png"
+   }
+  },
+  {
+   "slug": "wheat-sheaf",
+   "name": "Wheat sheaf",
+   "he": "שיבולים",
+   "sheet": "holidays-b",
+   "index": 6,
+   "atlasBox": [
+    342,
+    322,
+    518,
+    539
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wheat-sheaf-64.png",
+    "128": "/assets/icons/bayit/life/wheat-sheaf-128.png",
+    "256": "/assets/icons/bayit/life/wheat-sheaf-256.png"
+   }
+  },
+  {
+   "slug": "cheesecake",
+   "name": "Cheesecake",
+   "he": "עוגת גבינה",
+   "sheet": "holidays-b",
+   "index": 7,
+   "atlasBox": [
+    603,
+    354,
+    799,
+    518
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/cheesecake-64.png",
+    "128": "/assets/icons/bayit/life/cheesecake-128.png",
+    "256": "/assets/icons/bayit/life/cheesecake-256.png"
+   }
+  },
+  {
+   "slug": "first-fruits",
+   "name": "First fruits basket",
+   "he": "סל ביכורים",
+   "sheet": "holidays-b",
+   "index": 8,
+   "atlasBox": [
+    855,
+    330,
+    1076,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/first-fruits-64.png",
+    "128": "/assets/icons/bayit/life/first-fruits-128.png",
+    "256": "/assets/icons/bayit/life/first-fruits-256.png"
+   }
+  },
+  {
+   "slug": "flower-wreath",
+   "name": "Flower crown",
+   "he": "זר פרחים",
+   "sheet": "holidays-b",
+   "index": 9,
+   "atlasBox": [
+    1129,
+    331,
+    1350,
+    519
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/flower-wreath-64.png",
+    "128": "/assets/icons/bayit/life/flower-wreath-128.png",
+    "256": "/assets/icons/bayit/life/flower-wreath-256.png"
+   }
+  },
+  {
+   "slug": "bonfire",
+   "name": "Bonfire",
+   "he": "מדורה",
+   "sheet": "holidays-b",
+   "index": 10,
+   "atlasBox": [
+    71,
+    590,
+    253,
+    805
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bonfire-64.png",
+    "128": "/assets/icons/bayit/life/bonfire-128.png",
+    "256": "/assets/icons/bayit/life/bonfire-256.png"
+   }
+  },
+  {
+   "slug": "bow-arrow",
+   "name": "Bow and arrow",
+   "he": "קשת וחץ",
+   "sheet": "holidays-b",
+   "index": 11,
+   "atlasBox": [
+    338,
+    586,
+    532,
+    802
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bow-arrow-64.png",
+    "128": "/assets/icons/bayit/life/bow-arrow-128.png",
+    "256": "/assets/icons/bayit/life/bow-arrow-256.png"
+   }
+  },
+  {
+   "slug": "israel-flag",
+   "name": "Israeli flag",
+   "he": "דגל ישראל",
+   "sheet": "holidays-b",
+   "index": 12,
+   "atlasBox": [
+    594,
+    598,
+    809,
+    795
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/israel-flag-64.png",
+    "128": "/assets/icons/bayit/life/israel-flag-128.png",
+    "256": "/assets/icons/bayit/life/israel-flag-256.png"
+   }
+  },
+  {
+   "slug": "fireworks",
+   "name": "Fireworks",
+   "he": "זיקוקים",
+   "sheet": "holidays-b",
+   "index": 13,
+   "atlasBox": [
+    860,
+    594,
+    1069,
+    781
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/fireworks-64.png",
+    "128": "/assets/icons/bayit/life/fireworks-128.png",
+    "256": "/assets/icons/bayit/life/fireworks-256.png"
+   }
+  },
+  {
+   "slug": "barbecue",
+   "name": "Barbecue",
+   "he": "מנגל",
+   "sheet": "holidays-b",
+   "index": 14,
+   "atlasBox": [
+    1135,
+    581,
+    1338,
+    799
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/barbecue-64.png",
+    "128": "/assets/icons/bayit/life/barbecue-128.png",
+    "256": "/assets/icons/bayit/life/barbecue-256.png"
+   }
+  },
+  {
+   "slug": "memorial-candle",
+   "name": "Memorial candle",
+   "he": "נר נשמה",
+   "sheet": "holidays-b",
+   "index": 15,
+   "atlasBox": [
+    78,
+    878,
+    248,
+    1062
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/memorial-candle-64.png",
+    "128": "/assets/icons/bayit/life/memorial-candle-128.png",
+    "256": "/assets/icons/bayit/life/memorial-candle-256.png"
+   }
+  },
+  {
+   "slug": "red-anemone",
+   "name": "Red anemone",
+   "he": "כלנית",
+   "sheet": "holidays-b",
+   "index": 16,
+   "atlasBox": [
+    336,
+    862,
+    526,
+    1071
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/red-anemone-64.png",
+    "128": "/assets/icons/bayit/life/red-anemone-128.png",
+    "256": "/assets/icons/bayit/life/red-anemone-256.png"
+   }
+  },
+  {
+   "slug": "jerusalem",
+   "name": "Jerusalem",
+   "he": "ירושלים",
+   "sheet": "holidays-b",
+   "index": 17,
+   "atlasBox": [
+    577,
+    849,
+    805,
+    1067
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/jerusalem-64.png",
+    "128": "/assets/icons/bayit/life/jerusalem-128.png",
+    "256": "/assets/icons/bayit/life/jerusalem-256.png"
+   }
+  },
+  {
+   "slug": "simchat-torah-flag",
+   "name": "Simchat Torah flag",
+   "he": "דגל שמחת תורה",
+   "sheet": "holidays-b",
+   "index": 18,
+   "atlasBox": [
+    862,
+    867,
+    1073,
+    1063
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/simchat-torah-flag-64.png",
+    "128": "/assets/icons/bayit/life/simchat-torah-flag-128.png",
+    "256": "/assets/icons/bayit/life/simchat-torah-flag-256.png"
+   }
+  },
+  {
+   "slug": "holiday-card",
+   "name": "Holiday greeting card",
+   "he": "כרטיס ברכה",
+   "sheet": "holidays-b",
+   "index": 19,
+   "atlasBox": [
+    1134,
+    862,
+    1340,
+    1062
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/holiday-card-64.png",
+    "128": "/assets/icons/bayit/life/holiday-card-128.png",
+    "256": "/assets/icons/bayit/life/holiday-card-256.png"
+   }
+  },
+  {
+   "slug": "christmas-tree",
+   "name": "Christmas",
+   "he": "חג המולד",
+   "sheet": "holidays-c",
+   "index": 0,
+   "atlasBox": [
+    63,
+    55,
+    251,
+    271
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/christmas-tree-64.png",
+    "128": "/assets/icons/bayit/life/christmas-tree-128.png",
+    "256": "/assets/icons/bayit/life/christmas-tree-256.png"
+   }
+  },
+  {
+   "slug": "star-of-bethlehem",
+   "name": "Christmas star",
+   "he": "כוכב חג המולד",
+   "sheet": "holidays-c",
+   "index": 1,
+   "atlasBox": [
+    336,
+    67,
+    524,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/star-of-bethlehem-64.png",
+    "128": "/assets/icons/bayit/life/star-of-bethlehem-128.png",
+    "256": "/assets/icons/bayit/life/star-of-bethlehem-256.png"
+   }
+  },
+  {
+   "slug": "christmas-bells",
+   "name": "Christmas bells",
+   "he": "פעמוני חג המולד",
+   "sheet": "holidays-c",
+   "index": 2,
+   "atlasBox": [
+    599,
+    81,
+    800,
+    250
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/christmas-bells-64.png",
+    "128": "/assets/icons/bayit/life/christmas-bells-128.png",
+    "256": "/assets/icons/bayit/life/christmas-bells-256.png"
+   }
+  },
+  {
+   "slug": "advent-wreath",
+   "name": "Advent",
+   "he": "אדוונט",
+   "sheet": "holidays-c",
+   "index": 3,
+   "atlasBox": [
+    862,
+    72,
+    1076,
+    256
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/advent-wreath-64.png",
+    "128": "/assets/icons/bayit/life/advent-wreath-128.png",
+    "256": "/assets/icons/bayit/life/advent-wreath-256.png"
+   }
+  },
+  {
+   "slug": "easter-eggs",
+   "name": "Easter",
+   "he": "פסחא",
+   "sheet": "holidays-c",
+   "index": 4,
+   "atlasBox": [
+    1137,
+    65,
+    1343,
+    260
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/easter-eggs-64.png",
+    "128": "/assets/icons/bayit/life/easter-eggs-128.png",
+    "256": "/assets/icons/bayit/life/easter-eggs-256.png"
+   }
+  },
+  {
+   "slug": "easter-bunny",
+   "name": "Easter bunny",
+   "he": "ארנב הפסחא",
+   "sheet": "holidays-c",
+   "index": 5,
+   "atlasBox": [
+    75,
+    322,
+    250,
+    537
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/easter-bunny-64.png",
+    "128": "/assets/icons/bayit/life/easter-bunny-128.png",
+    "256": "/assets/icons/bayit/life/easter-bunny-256.png"
+   }
+  },
+  {
+   "slug": "good-friday",
+   "name": "Good Friday",
+   "he": "יום שישי הטוב",
+   "sheet": "holidays-c",
+   "index": 6,
+   "atlasBox": [
+    348,
+    333,
+    511,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/good-friday-64.png",
+    "128": "/assets/icons/bayit/life/good-friday-128.png",
+    "256": "/assets/icons/bayit/life/good-friday-256.png"
+   }
+  },
+  {
+   "slug": "church",
+   "name": "Church",
+   "he": "כנסייה",
+   "sheet": "holidays-c",
+   "index": 7,
+   "atlasBox": [
+    593,
+    319,
+    806,
+    530
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/church-64.png",
+    "128": "/assets/icons/bayit/life/church-128.png",
+    "256": "/assets/icons/bayit/life/church-256.png"
+   }
+  },
+  {
+   "slug": "epiphany",
+   "name": "Epiphany",
+   "he": "התגלות",
+   "sheet": "holidays-c",
+   "index": 8,
+   "atlasBox": [
+    864,
+    323,
+    1072,
+    516
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/epiphany-64.png",
+    "128": "/assets/icons/bayit/life/epiphany-128.png",
+    "256": "/assets/icons/bayit/life/epiphany-256.png"
+   }
+  },
+  {
+   "slug": "pentecost",
+   "name": "Pentecost",
+   "he": "חג השבועות הנוצרי",
+   "sheet": "holidays-c",
+   "index": 9,
+   "atlasBox": [
+    1156,
+    323,
+    1328,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pentecost-64.png",
+    "128": "/assets/icons/bayit/life/pentecost-128.png",
+    "256": "/assets/icons/bayit/life/pentecost-256.png"
+   }
+  },
+  {
+   "slug": "name-day",
+   "name": "Name day",
+   "he": "יום שם",
+   "sheet": "holidays-c",
+   "index": 10,
+   "atlasBox": [
+    46,
+    593,
+    251,
+    808
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/name-day-64.png",
+    "128": "/assets/icons/bayit/life/name-day-128.png",
+    "256": "/assets/icons/bayit/life/name-day-256.png"
+   }
+  },
+  {
+   "slug": "ramadan-lantern",
+   "name": "Ramadan",
+   "he": "רמדאן",
+   "sheet": "holidays-c",
+   "index": 11,
+   "atlasBox": [
+    363,
+    586,
+    498,
+    808
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ramadan-lantern-64.png",
+    "128": "/assets/icons/bayit/life/ramadan-lantern-128.png",
+    "256": "/assets/icons/bayit/life/ramadan-lantern-256.png"
+   }
+  },
+  {
+   "slug": "crescent-star",
+   "name": "Crescent and star",
+   "he": "סהר וכוכב",
+   "sheet": "holidays-c",
+   "index": 12,
+   "atlasBox": [
+    598,
+    604,
+    785,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/crescent-star-64.png",
+    "128": "/assets/icons/bayit/life/crescent-star-128.png",
+    "256": "/assets/icons/bayit/life/crescent-star-256.png"
+   }
+  },
+  {
+   "slug": "iftar",
+   "name": "Iftar",
+   "he": "איפטאר",
+   "sheet": "holidays-c",
+   "index": 13,
+   "atlasBox": [
+    853,
+    604,
+    1066,
+    792
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/iftar-64.png",
+    "128": "/assets/icons/bayit/life/iftar-128.png",
+    "256": "/assets/icons/bayit/life/iftar-256.png"
+   }
+  },
+  {
+   "slug": "eid-al-fitr",
+   "name": "Eid al-Fitr",
+   "he": "עיד אל־פיטר",
+   "sheet": "holidays-c",
+   "index": 14,
+   "atlasBox": [
+    1129,
+    597,
+    1348,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/eid-al-fitr-64.png",
+    "128": "/assets/icons/bayit/life/eid-al-fitr-128.png",
+    "256": "/assets/icons/bayit/life/eid-al-fitr-256.png"
+   }
+  },
+  {
+   "slug": "eid-al-adha",
+   "name": "Eid al-Adha",
+   "he": "עיד אל־אדחא",
+   "sheet": "holidays-c",
+   "index": 15,
+   "atlasBox": [
+    45,
+    872,
+    258,
+    1070
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/eid-al-adha-64.png",
+    "128": "/assets/icons/bayit/life/eid-al-adha-128.png",
+    "256": "/assets/icons/bayit/life/eid-al-adha-256.png"
+   }
+  },
+  {
+   "slug": "mawlid",
+   "name": "Mawlid",
+   "he": "מולד הנביא",
+   "sheet": "holidays-c",
+   "index": 16,
+   "atlasBox": [
+    324,
+    856,
+    530,
+    1066
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mawlid-64.png",
+    "128": "/assets/icons/bayit/life/mawlid-128.png",
+    "256": "/assets/icons/bayit/life/mawlid-256.png"
+   }
+  },
+  {
+   "slug": "hijri-new-year",
+   "name": "Islamic New Year",
+   "he": "ראש השנה המוסלמי",
+   "sheet": "holidays-c",
+   "index": 17,
+   "atlasBox": [
+    602,
+    862,
+    788,
+    1072
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hijri-new-year-64.png",
+    "128": "/assets/icons/bayit/life/hijri-new-year-128.png",
+    "256": "/assets/icons/bayit/life/hijri-new-year-256.png"
+   }
+  },
+  {
+   "slug": "mosque",
+   "name": "Mosque",
+   "he": "מסגד",
+   "sheet": "holidays-c",
+   "index": 18,
+   "atlasBox": [
+    855,
+    857,
+    1068,
+    1070
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mosque-64.png",
+    "128": "/assets/icons/bayit/life/mosque-128.png",
+    "256": "/assets/icons/bayit/life/mosque-256.png"
+   }
+  },
+  {
+   "slug": "diwali",
+   "name": "Diwali",
+   "he": "דיוואלי",
+   "sheet": "holidays-c",
+   "index": 19,
+   "atlasBox": [
+    1128,
+    872,
+    1348,
+    1075
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/diwali-64.png",
+    "128": "/assets/icons/bayit/life/diwali-128.png",
+    "256": "/assets/icons/bayit/life/diwali-256.png"
+   }
+  },
+  {
+   "slug": "lunar-new-year",
+   "name": "Lunar New Year",
+   "he": "ראש השנה הסיני",
+   "sheet": "holidays-d",
+   "index": 0,
+   "atlasBox": [
+    84,
+    57,
+    244,
+    278
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/lunar-new-year-64.png",
+    "128": "/assets/icons/bayit/life/lunar-new-year-128.png",
+    "256": "/assets/icons/bayit/life/lunar-new-year-256.png"
+   }
+  },
+  {
+   "slug": "new-years-eve",
+   "name": "New Year's Eve",
+   "he": "סילבסטר",
+   "sheet": "holidays-d",
+   "index": 1,
+   "atlasBox": [
+    319,
+    69,
+    536,
+    272
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/new-years-eve-64.png",
+    "128": "/assets/icons/bayit/life/new-years-eve-128.png",
+    "256": "/assets/icons/bayit/life/new-years-eve-256.png"
+   }
+  },
+  {
+   "slug": "hanukkah-gelt",
+   "name": "Hanukkah gelt",
+   "he": "דמי חנוכה",
+   "sheet": "holidays-d",
+   "index": 2,
+   "atlasBox": [
+    602,
+    99,
+    795,
+    243
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hanukkah-gelt-64.png",
+    "128": "/assets/icons/bayit/life/hanukkah-gelt-128.png",
+    "256": "/assets/icons/bayit/life/hanukkah-gelt-256.png"
+   }
+  },
+  {
+   "slug": "oil-jug",
+   "name": "Oil jug",
+   "he": "כד השמן",
+   "sheet": "holidays-d",
+   "index": 3,
+   "atlasBox": [
+    869,
+    76,
+    1058,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/oil-jug-64.png",
+    "128": "/assets/icons/bayit/life/oil-jug-128.png",
+    "256": "/assets/icons/bayit/life/oil-jug-256.png"
+   }
+  },
+  {
+   "slug": "latkes",
+   "name": "Latkes",
+   "he": "לביבות",
+   "sheet": "holidays-d",
+   "index": 4,
+   "atlasBox": [
+    1130,
+    79,
+    1345,
+    244
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/latkes-64.png",
+    "128": "/assets/icons/bayit/life/latkes-128.png",
+    "256": "/assets/icons/bayit/life/latkes-256.png"
+   }
+  },
+  {
+   "slug": "megillah",
+   "name": "Megillah",
+   "he": "מגילת אסתר",
+   "sheet": "holidays-d",
+   "index": 5,
+   "atlasBox": [
+    62,
+    327,
+    267,
+    540
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/megillah-64.png",
+    "128": "/assets/icons/bayit/life/megillah-128.png",
+    "256": "/assets/icons/bayit/life/megillah-256.png"
+   }
+  },
+  {
+   "slug": "peace-dove",
+   "name": "Dove",
+   "he": "יונה",
+   "sheet": "holidays-d",
+   "index": 6,
+   "atlasBox": [
+    323,
+    349,
+    543,
+    532
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/peace-dove-64.png",
+    "128": "/assets/icons/bayit/life/peace-dove-128.png",
+    "256": "/assets/icons/bayit/life/peace-dove-256.png"
+   }
+  },
+  {
+   "slug": "western-wall",
+   "name": "Western Wall",
+   "he": "הכותל",
+   "sheet": "holidays-d",
+   "index": 7,
+   "atlasBox": [
+    587,
+    352,
+    805,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/western-wall-64.png",
+    "128": "/assets/icons/bayit/life/western-wall-128.png",
+    "256": "/assets/icons/bayit/life/western-wall-256.png"
+   }
+  },
+  {
+   "slug": "mimouna",
+   "name": "Mimouna",
+   "he": "מימונה",
+   "sheet": "holidays-d",
+   "index": 8,
+   "atlasBox": [
+    854,
+    355,
+    1077,
+    519
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mimouna-64.png",
+    "128": "/assets/icons/bayit/life/mimouna-128.png",
+    "256": "/assets/icons/bayit/life/mimouna-256.png"
+   }
+  },
+  {
+   "slug": "tu-bav",
+   "name": "Tu B'Av",
+   "he": "ט״ו באב",
+   "sheet": "holidays-d",
+   "index": 9,
+   "atlasBox": [
+    1130,
+    351,
+    1345,
+    529
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tu-bav-64.png",
+    "128": "/assets/icons/bayit/life/tu-bav-128.png",
+    "256": "/assets/icons/bayit/life/tu-bav-256.png"
+   }
+  },
+  {
+   "slug": "new-moon",
+   "name": "New month",
+   "he": "ראש חודש",
+   "sheet": "holidays-d",
+   "index": 10,
+   "atlasBox": [
+    66,
+    610,
+    268,
+    787
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/new-moon-64.png",
+    "128": "/assets/icons/bayit/life/new-moon-128.png",
+    "256": "/assets/icons/bayit/life/new-moon-256.png"
+   }
+  },
+  {
+   "slug": "elijah-cup",
+   "name": "Elijah's cup",
+   "he": "כוס של אליהו",
+   "sheet": "holidays-d",
+   "index": 11,
+   "atlasBox": [
+    329,
+    596,
+    532,
+    810
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/elijah-cup-64.png",
+    "128": "/assets/icons/bayit/life/elijah-cup-128.png",
+    "256": "/assets/icons/bayit/life/elijah-cup-256.png"
+   }
+  },
+  {
+   "slug": "chametz-search",
+   "name": "Chametz search",
+   "he": "בדיקת חמץ",
+   "sheet": "holidays-d",
+   "index": 12,
+   "atlasBox": [
+    587,
+    603,
+    805,
+    792
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/chametz-search-64.png",
+    "128": "/assets/icons/bayit/life/chametz-search-128.png",
+    "256": "/assets/icons/bayit/life/chametz-search-256.png"
+   }
+  },
+  {
+   "slug": "shavuot-milk",
+   "name": "Shavuot dairy",
+   "he": "מאכלי חלב",
+   "sheet": "holidays-d",
+   "index": 13,
+   "atlasBox": [
+    853,
+    607,
+    1054,
+    790
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/shavuot-milk-64.png",
+    "128": "/assets/icons/bayit/life/shavuot-milk-128.png",
+    "256": "/assets/icons/bayit/life/shavuot-milk-256.png"
+   }
+  },
+  {
+   "slug": "sukkah-chain",
+   "name": "Sukkah decorations",
+   "he": "קישוטי סוכה",
+   "sheet": "holidays-d",
+   "index": 14,
+   "atlasBox": [
+    1118,
+    604,
+    1356,
+    795
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sukkah-chain-64.png",
+    "128": "/assets/icons/bayit/life/sukkah-chain-128.png",
+    "256": "/assets/icons/bayit/life/sukkah-chain-256.png"
+   }
+  },
+  {
+   "slug": "fast-day",
+   "name": "Fast day",
+   "he": "יום צום",
+   "sheet": "holidays-d",
+   "index": 15,
+   "atlasBox": [
+    56,
+    880,
+    267,
+    1059
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/fast-day-64.png",
+    "128": "/assets/icons/bayit/life/fast-day-128.png",
+    "256": "/assets/icons/bayit/life/fast-day-256.png"
+   }
+  },
+  {
+   "slug": "squeaky-hammer",
+   "name": "Plastic hammer",
+   "he": "פטיש צעצוע",
+   "sheet": "holidays-d",
+   "index": 16,
+   "atlasBox": [
+    350,
+    862,
+    528,
+    1058
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/squeaky-hammer-64.png",
+    "128": "/assets/icons/bayit/life/squeaky-hammer-128.png",
+    "256": "/assets/icons/bayit/life/squeaky-hammer-256.png"
+   }
+  },
+  {
+   "slug": "flag-garland",
+   "name": "Flag garland",
+   "he": "שרשרת דגלים כחול לבן",
+   "sheet": "holidays-d",
+   "index": 17,
+   "atlasBox": [
+    585,
+    896,
+    808,
+    1030
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/flag-garland-64.png",
+    "128": "/assets/icons/bayit/life/flag-garland-128.png",
+    "256": "/assets/icons/bayit/life/flag-garland-256.png"
+   }
+  },
+  {
+   "slug": "costume",
+   "name": "Costume",
+   "he": "תחפושת",
+   "sheet": "holidays-d",
+   "index": 18,
+   "atlasBox": [
+    850,
+    856,
+    1076,
+    1058
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/costume-64.png",
+    "128": "/assets/icons/bayit/life/costume-128.png",
+    "256": "/assets/icons/bayit/life/costume-256.png"
+   }
+  },
+  {
+   "slug": "honey-cake",
+   "name": "Honey cake",
+   "he": "עוגת דבש",
+   "sheet": "holidays-d",
+   "index": 19,
+   "atlasBox": [
+    1126,
+    881,
+    1349,
+    1041
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/honey-cake-64.png",
+    "128": "/assets/icons/bayit/life/honey-cake-128.png",
+    "256": "/assets/icons/bayit/life/honey-cake-256.png"
+   }
+  },
+  {
+   "slug": "bouquet",
+   "name": "Bouquet",
+   "he": "זר פרחים לאירוע",
+   "sheet": "celebrations-a",
+   "index": 0,
+   "atlasBox": [
+    56,
+    51,
+    253,
+    280
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bouquet-64.png",
+    "128": "/assets/icons/bayit/life/bouquet-128.png",
+    "256": "/assets/icons/bayit/life/bouquet-256.png"
+   }
+  },
+  {
+   "slug": "balloons",
+   "name": "Balloons",
+   "he": "בלונים",
+   "sheet": "celebrations-a",
+   "index": 1,
+   "atlasBox": [
+    327,
+    49,
+    527,
+    281
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/balloons-64.png",
+    "128": "/assets/icons/bayit/life/balloons-128.png",
+    "256": "/assets/icons/bayit/life/balloons-256.png"
+   }
+  },
+  {
+   "slug": "party-hat",
+   "name": "Party hat",
+   "he": "כובע מסיבה",
+   "sheet": "celebrations-a",
+   "index": 2,
+   "atlasBox": [
+    620,
+    52,
+    780,
+    274
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/party-hat-64.png",
+    "128": "/assets/icons/bayit/life/party-hat-128.png",
+    "256": "/assets/icons/bayit/life/party-hat-256.png"
+   }
+  },
+  {
+   "slug": "cupcake",
+   "name": "Cupcake",
+   "he": "קאפקייק",
+   "sheet": "celebrations-a",
+   "index": 3,
+   "atlasBox": [
+    886,
+    49,
+    1055,
+    280
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/cupcake-64.png",
+    "128": "/assets/icons/bayit/life/cupcake-128.png",
+    "256": "/assets/icons/bayit/life/cupcake-256.png"
+   }
+  },
+  {
+   "slug": "bunting",
+   "name": "Party garland",
+   "he": "שרשרת דגלים",
+   "sheet": "celebrations-a",
+   "index": 4,
+   "atlasBox": [
+    1135,
+    105,
+    1360,
+    219
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bunting-64.png",
+    "128": "/assets/icons/bayit/life/bunting-128.png",
+    "256": "/assets/icons/bayit/life/bunting-256.png"
+   }
+  },
+  {
+   "slug": "wedding-rings",
+   "name": "Wedding rings",
+   "he": "טבעות נישואין",
+   "sheet": "celebrations-a",
+   "index": 5,
+   "atlasBox": [
+    43,
+    342,
+    257,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wedding-rings-64.png",
+    "128": "/assets/icons/bayit/life/wedding-rings-128.png",
+    "256": "/assets/icons/bayit/life/wedding-rings-256.png"
+   }
+  },
+  {
+   "slug": "chuppah",
+   "name": "Chuppah",
+   "he": "חופה",
+   "sheet": "celebrations-a",
+   "index": 6,
+   "atlasBox": [
+    316,
+    343,
+    535,
+    542
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/chuppah-64.png",
+    "128": "/assets/icons/bayit/life/chuppah-128.png",
+    "256": "/assets/icons/bayit/life/chuppah-256.png"
+   }
+  },
+  {
+   "slug": "wedding-cake",
+   "name": "Wedding cake",
+   "he": "עוגת חתונה",
+   "sheet": "celebrations-a",
+   "index": 7,
+   "atlasBox": [
+    594,
+    326,
+    809,
+    549
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wedding-cake-64.png",
+    "128": "/assets/icons/bayit/life/wedding-cake-128.png",
+    "256": "/assets/icons/bayit/life/wedding-cake-256.png"
+   }
+  },
+  {
+   "slug": "tallit",
+   "name": "Tallit",
+   "he": "טלית",
+   "sheet": "celebrations-a",
+   "index": 8,
+   "atlasBox": [
+    868,
+    340,
+    1072,
+    539
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tallit-64.png",
+    "128": "/assets/icons/bayit/life/tallit-128.png",
+    "256": "/assets/icons/bayit/life/tallit-256.png"
+   }
+  },
+  {
+   "slug": "tiara",
+   "name": "Tiara",
+   "he": "כתר",
+   "sheet": "celebrations-a",
+   "index": 9,
+   "atlasBox": [
+    1135,
+    354,
+    1360,
+    507
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tiara-64.png",
+    "128": "/assets/icons/bayit/life/tiara-128.png",
+    "256": "/assets/icons/bayit/life/tiara-256.png"
+   }
+  },
+  {
+   "slug": "toast-glasses",
+   "name": "Cheers",
+   "he": "לחיים",
+   "sheet": "celebrations-a",
+   "index": 10,
+   "atlasBox": [
+    49,
+    590,
+    252,
+    808
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/toast-glasses-64.png",
+    "128": "/assets/icons/bayit/life/toast-glasses-128.png",
+    "256": "/assets/icons/bayit/life/toast-glasses-256.png"
+   }
+  },
+  {
+   "slug": "microphone",
+   "name": "Microphone",
+   "he": "מיקרופון",
+   "sheet": "celebrations-a",
+   "index": 11,
+   "atlasBox": [
+    351,
+    601,
+    501,
+    801
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/microphone-64.png",
+    "128": "/assets/icons/bayit/life/microphone-128.png",
+    "256": "/assets/icons/bayit/life/microphone-256.png"
+   }
+  },
+  {
+   "slug": "disco-ball",
+   "name": "Disco ball",
+   "he": "כדור דיסקו",
+   "sheet": "celebrations-a",
+   "index": 12,
+   "atlasBox": [
+    590,
+    590,
+    800,
+    810
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/disco-ball-64.png",
+    "128": "/assets/icons/bayit/life/disco-ball-128.png",
+    "256": "/assets/icons/bayit/life/disco-ball-256.png"
+   }
+  },
+  {
+   "slug": "dance-music",
+   "name": "Dance music",
+   "he": "מוזיקה לריקודים",
+   "sheet": "celebrations-a",
+   "index": 13,
+   "atlasBox": [
+    859,
+    603,
+    1079,
+    799
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dance-music-64.png",
+    "128": "/assets/icons/bayit/life/dance-music-128.png",
+    "256": "/assets/icons/bayit/life/dance-music-256.png"
+   }
+  },
+  {
+   "slug": "invitation",
+   "name": "Invitation",
+   "he": "הזמנה",
+   "sheet": "celebrations-a",
+   "index": 14,
+   "atlasBox": [
+    1141,
+    599,
+    1353,
+    799
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/invitation-64.png",
+    "128": "/assets/icons/bayit/life/invitation-128.png",
+    "256": "/assets/icons/bayit/life/invitation-256.png"
+   }
+  },
+  {
+   "slug": "camera",
+   "name": "Photos",
+   "he": "צילומים",
+   "sheet": "celebrations-a",
+   "index": 15,
+   "atlasBox": [
+    43,
+    889,
+    255,
+    1057
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/camera-64.png",
+    "128": "/assets/icons/bayit/life/camera-128.png",
+    "256": "/assets/icons/bayit/life/camera-256.png"
+   }
+  },
+  {
+   "slug": "trophy",
+   "name": "Trophy",
+   "he": "גביע",
+   "sheet": "celebrations-a",
+   "index": 16,
+   "atlasBox": [
+    321,
+    872,
+    530,
+    1076
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/trophy-64.png",
+    "128": "/assets/icons/bayit/life/trophy-128.png",
+    "256": "/assets/icons/bayit/life/trophy-256.png"
+   }
+  },
+  {
+   "slug": "graduation-cap",
+   "name": "Graduation",
+   "he": "סיום לימודים",
+   "sheet": "celebrations-a",
+   "index": 17,
+   "atlasBox": [
+    589,
+    894,
+    809,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/graduation-cap-64.png",
+    "128": "/assets/icons/bayit/life/graduation-cap-128.png",
+    "256": "/assets/icons/bayit/life/graduation-cap-256.png"
+   }
+  },
+  {
+   "slug": "baby-rattle",
+   "name": "Baby gift",
+   "he": "מתנה לתינוק",
+   "sheet": "celebrations-a",
+   "index": 18,
+   "atlasBox": [
+    901,
+    857,
+    1042,
+    1084
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/baby-rattle-64.png",
+    "128": "/assets/icons/bayit/life/baby-rattle-128.png",
+    "256": "/assets/icons/bayit/life/baby-rattle-256.png"
+   }
+  },
+  {
+   "slug": "sparkler",
+   "name": "Sparkler",
+   "he": "זיקוק יד",
+   "sheet": "celebrations-a",
+   "index": 19,
+   "atlasBox": [
+    1167,
+    865,
+    1339,
+    1076
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sparkler-64.png",
+    "128": "/assets/icons/bayit/life/sparkler-128.png",
+    "256": "/assets/icons/bayit/life/sparkler-256.png"
+   }
+  },
+  {
+   "slug": "picnic",
+   "name": "Picnic",
+   "he": "פיקניק",
+   "sheet": "family-a",
+   "index": 0,
+   "atlasBox": [
+    55,
+    72,
+    268,
+    254
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/picnic-64.png",
+    "128": "/assets/icons/bayit/life/picnic-128.png",
+    "256": "/assets/icons/bayit/life/picnic-256.png"
+   }
+  },
+  {
+   "slug": "popcorn",
+   "name": "Movie night",
+   "he": "ערב סרט",
+   "sheet": "family-a",
+   "index": 1,
+   "atlasBox": [
+    355,
+    69,
+    508,
+    256
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/popcorn-64.png",
+    "128": "/assets/icons/bayit/life/popcorn-128.png",
+    "256": "/assets/icons/bayit/life/popcorn-256.png"
+   }
+  },
+  {
+   "slug": "clapperboard",
+   "name": "Cinema",
+   "he": "קולנוע",
+   "sheet": "family-a",
+   "index": 2,
+   "atlasBox": [
+    616,
+    74,
+    789,
+    247
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/clapperboard-64.png",
+    "128": "/assets/icons/bayit/life/clapperboard-128.png",
+    "256": "/assets/icons/bayit/life/clapperboard-256.png"
+   }
+  },
+  {
+   "slug": "playing-cards",
+   "name": "Card games",
+   "he": "משחק קלפים",
+   "sheet": "family-a",
+   "index": 3,
+   "atlasBox": [
+    868,
+    86,
+    1080,
+    236
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/playing-cards-64.png",
+    "128": "/assets/icons/bayit/life/playing-cards-128.png",
+    "256": "/assets/icons/bayit/life/playing-cards-256.png"
+   }
+  },
+  {
+   "slug": "ice-cream",
+   "name": "Ice cream",
+   "he": "גלידה",
+   "sheet": "family-a",
+   "index": 4,
+   "atlasBox": [
+    1178,
+    66,
+    1315,
+    260
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ice-cream-64.png",
+    "128": "/assets/icons/bayit/life/ice-cream-128.png",
+    "256": "/assets/icons/bayit/life/ice-cream-256.png"
+   }
+  },
+  {
+   "slug": "grandparents",
+   "name": "Visit grandparents",
+   "he": "ביקור אצל סבא וסבתא",
+   "sheet": "family-a",
+   "index": 5,
+   "atlasBox": [
+    47,
+    349,
+    272,
+    527
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/grandparents-64.png",
+    "128": "/assets/icons/bayit/life/grandparents-128.png",
+    "256": "/assets/icons/bayit/life/grandparents-256.png"
+   }
+  },
+  {
+   "slug": "video-call",
+   "name": "Video call",
+   "he": "שיחת וידאו",
+   "sheet": "family-a",
+   "index": 6,
+   "atlasBox": [
+    363,
+    330,
+    503,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/video-call-64.png",
+    "128": "/assets/icons/bayit/life/video-call-128.png",
+    "256": "/assets/icons/bayit/life/video-call-256.png"
+   }
+  },
+  {
+   "slug": "bedtime-story",
+   "name": "Bedtime story",
+   "he": "סיפור לפני השינה",
+   "sheet": "family-a",
+   "index": 7,
+   "atlasBox": [
+    587,
+    335,
+    814,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bedtime-story-64.png",
+    "128": "/assets/icons/bayit/life/bedtime-story-128.png",
+    "256": "/assets/icons/bayit/life/bedtime-story-256.png"
+   }
+  },
+  {
+   "slug": "baking",
+   "name": "Baking",
+   "he": "אפייה",
+   "sheet": "family-a",
+   "index": 8,
+   "atlasBox": [
+    870,
+    338,
+    1079,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/baking-64.png",
+    "128": "/assets/icons/bayit/life/baking-128.png",
+    "256": "/assets/icons/bayit/life/baking-256.png"
+   }
+  },
+  {
+   "slug": "zoo",
+   "name": "Zoo",
+   "he": "גן חיות",
+   "sheet": "family-a",
+   "index": 9,
+   "atlasBox": [
+    1153,
+    333,
+    1345,
+    542
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/zoo-64.png",
+    "128": "/assets/icons/bayit/life/zoo-128.png",
+    "256": "/assets/icons/bayit/life/zoo-256.png"
+   }
+  },
+  {
+   "slug": "ferris-wheel",
+   "name": "Amusement park",
+   "he": "לונה פארק",
+   "sheet": "family-a",
+   "index": 10,
+   "atlasBox": [
+    62,
+    597,
+    259,
+    812
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ferris-wheel-64.png",
+    "128": "/assets/icons/bayit/life/ferris-wheel-128.png",
+    "256": "/assets/icons/bayit/life/ferris-wheel-256.png"
+   }
+  },
+  {
+   "slug": "playground",
+   "name": "Playground",
+   "he": "גן שעשועים",
+   "sheet": "family-a",
+   "index": 11,
+   "atlasBox": [
+    321,
+    620,
+    543,
+    798
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/playground-64.png",
+    "128": "/assets/icons/bayit/life/playground-128.png",
+    "256": "/assets/icons/bayit/life/playground-256.png"
+   }
+  },
+  {
+   "slug": "museum",
+   "name": "Museum",
+   "he": "מוזיאון",
+   "sheet": "family-a",
+   "index": 12,
+   "atlasBox": [
+    599,
+    607,
+    803,
+    798
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/museum-64.png",
+    "128": "/assets/icons/bayit/life/museum-128.png",
+    "256": "/assets/icons/bayit/life/museum-256.png"
+   }
+  },
+  {
+   "slug": "theater",
+   "name": "Theater",
+   "he": "הצגה",
+   "sheet": "family-a",
+   "index": 13,
+   "atlasBox": [
+    866,
+    616,
+    1077,
+    795
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/theater-64.png",
+    "128": "/assets/icons/bayit/life/theater-128.png",
+    "256": "/assets/icons/bayit/life/theater-256.png"
+   }
+  },
+  {
+   "slug": "concert",
+   "name": "Concert",
+   "he": "הופעה",
+   "sheet": "family-a",
+   "index": 14,
+   "atlasBox": [
+    1136,
+    597,
+    1350,
+    809
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/concert-64.png",
+    "128": "/assets/icons/bayit/life/concert-128.png",
+    "256": "/assets/icons/bayit/life/concert-256.png"
+   }
+  },
+  {
+   "slug": "library",
+   "name": "Library",
+   "he": "ספרייה",
+   "sheet": "family-a",
+   "index": 15,
+   "atlasBox": [
+    55,
+    893,
+    268,
+    1063
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/library-64.png",
+    "128": "/assets/icons/bayit/life/library-128.png",
+    "256": "/assets/icons/bayit/life/library-256.png"
+   }
+  },
+  {
+   "slug": "kite",
+   "name": "Kite",
+   "he": "עפיפון",
+   "sheet": "family-a",
+   "index": 16,
+   "atlasBox": [
+    337,
+    867,
+    514,
+    1077
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/kite-64.png",
+    "128": "/assets/icons/bayit/life/kite-128.png",
+    "256": "/assets/icons/bayit/life/kite-256.png"
+   }
+  },
+  {
+   "slug": "tent",
+   "name": "Camping",
+   "he": "קמפינג",
+   "sheet": "family-a",
+   "index": 17,
+   "atlasBox": [
+    574,
+    870,
+    825,
+    1063
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tent-64.png",
+    "128": "/assets/icons/bayit/life/tent-128.png",
+    "256": "/assets/icons/bayit/life/tent-256.png"
+   }
+  },
+  {
+   "slug": "board-games-night",
+   "name": "Family game night",
+   "he": "ערב משחקים",
+   "sheet": "family-a",
+   "index": 18,
+   "atlasBox": [
+    876,
+    873,
+    1056,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/board-games-night-64.png",
+    "128": "/assets/icons/bayit/life/board-games-night-128.png",
+    "256": "/assets/icons/bayit/life/board-games-night-256.png"
+   }
+  },
+  {
+   "slug": "family-hearts",
+   "name": "Family time",
+   "he": "זמן משפחה",
+   "sheet": "family-a",
+   "index": 19,
+   "atlasBox": [
+    1144,
+    890,
+    1343,
+    1055
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/family-hearts-64.png",
+    "128": "/assets/icons/bayit/life/family-hearts-128.png",
+    "256": "/assets/icons/bayit/life/family-hearts-256.png"
+   }
+  },
+  {
+   "slug": "sick-day",
+   "name": "Sick day",
+   "he": "יום מחלה",
+   "sheet": "health",
+   "index": 0,
+   "atlasBox": [
+    63,
+    70,
+    265,
+    261
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sick-day-64.png",
+    "128": "/assets/icons/bayit/life/sick-day-128.png",
+    "256": "/assets/icons/bayit/life/sick-day-256.png"
+   }
+  },
+  {
+   "slug": "doctor-bag",
+   "name": "Doctor",
+   "he": "רופא",
+   "sheet": "health",
+   "index": 1,
+   "atlasBox": [
+    344,
+    82,
+    532,
+    251
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/doctor-bag-64.png",
+    "128": "/assets/icons/bayit/life/doctor-bag-128.png",
+    "256": "/assets/icons/bayit/life/doctor-bag-256.png"
+   }
+  },
+  {
+   "slug": "tooth",
+   "name": "Dentist",
+   "he": "רופא שיניים",
+   "sheet": "health",
+   "index": 2,
+   "atlasBox": [
+    621,
+    77,
+    786,
+    255
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tooth-64.png",
+    "128": "/assets/icons/bayit/life/tooth-128.png",
+    "256": "/assets/icons/bayit/life/tooth-256.png"
+   }
+  },
+  {
+   "slug": "pharmacy",
+   "name": "Pharmacy",
+   "he": "בית מרקחת",
+   "sheet": "health",
+   "index": 3,
+   "atlasBox": [
+    869,
+    71,
+    1067,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pharmacy-64.png",
+    "128": "/assets/icons/bayit/life/pharmacy-128.png",
+    "256": "/assets/icons/bayit/life/pharmacy-256.png"
+   }
+  },
+  {
+   "slug": "vaccine",
+   "name": "Vaccine",
+   "he": "חיסון",
+   "sheet": "health",
+   "index": 4,
+   "atlasBox": [
+    1142,
+    77,
+    1337,
+    264
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/vaccine-64.png",
+    "128": "/assets/icons/bayit/life/vaccine-128.png",
+    "256": "/assets/icons/bayit/life/vaccine-256.png"
+   }
+  },
+  {
+   "slug": "bandage",
+   "name": "Bandage",
+   "he": "פלסטר",
+   "sheet": "health",
+   "index": 5,
+   "atlasBox": [
+    77,
+    350,
+    253,
+    527
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bandage-64.png",
+    "128": "/assets/icons/bayit/life/bandage-128.png",
+    "256": "/assets/icons/bayit/life/bandage-256.png"
+   }
+  },
+  {
+   "slug": "pills",
+   "name": "Pills",
+   "he": "כדורים",
+   "sheet": "health",
+   "index": 6,
+   "atlasBox": [
+    347,
+    348,
+    522,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pills-64.png",
+    "128": "/assets/icons/bayit/life/pills-128.png",
+    "256": "/assets/icons/bayit/life/pills-256.png"
+   }
+  },
+  {
+   "slug": "tissues",
+   "name": "Cold and flu",
+   "he": "הצטננות",
+   "sheet": "health",
+   "index": 7,
+   "atlasBox": [
+    604,
+    343,
+    796,
+    530
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tissues-64.png",
+    "128": "/assets/icons/bayit/life/tissues-128.png",
+    "256": "/assets/icons/bayit/life/tissues-256.png"
+   }
+  },
+  {
+   "slug": "glasses",
+   "name": "Eye doctor",
+   "he": "רופא עיניים",
+   "sheet": "health",
+   "index": 8,
+   "atlasBox": [
+    864,
+    386,
+    1075,
+    497
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/glasses-64.png",
+    "128": "/assets/icons/bayit/life/glasses-128.png",
+    "256": "/assets/icons/bayit/life/glasses-256.png"
+   }
+  },
+  {
+   "slug": "blood-test",
+   "name": "Blood test",
+   "he": "בדיקת דם",
+   "sheet": "health",
+   "index": 9,
+   "atlasBox": [
+    1167,
+    340,
+    1327,
+    533
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/blood-test-64.png",
+    "128": "/assets/icons/bayit/life/blood-test-128.png",
+    "256": "/assets/icons/bayit/life/blood-test-256.png"
+   }
+  },
+  {
+   "slug": "hospital",
+   "name": "Hospital",
+   "he": "בית חולים",
+   "sheet": "health",
+   "index": 10,
+   "atlasBox": [
+    58,
+    613,
+    269,
+    787
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hospital-64.png",
+    "128": "/assets/icons/bayit/life/hospital-128.png",
+    "256": "/assets/icons/bayit/life/hospital-256.png"
+   }
+  },
+  {
+   "slug": "ambulance",
+   "name": "Ambulance",
+   "he": "אמבולנס",
+   "sheet": "health",
+   "index": 11,
+   "atlasBox": [
+    337,
+    605,
+    539,
+    787
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ambulance-64.png",
+    "128": "/assets/icons/bayit/life/ambulance-128.png",
+    "256": "/assets/icons/bayit/life/ambulance-256.png"
+   }
+  },
+  {
+   "slug": "heart-check",
+   "name": "Heart check",
+   "he": "בדיקת לב",
+   "sheet": "health",
+   "index": 12,
+   "atlasBox": [
+    608,
+    623,
+    793,
+    788
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/heart-check-64.png",
+    "128": "/assets/icons/bayit/life/heart-check-128.png",
+    "256": "/assets/icons/bayit/life/heart-check-256.png"
+   }
+  },
+  {
+   "slug": "crutches",
+   "name": "Physiotherapy",
+   "he": "פיזיותרפיה",
+   "sheet": "health",
+   "index": 13,
+   "atlasBox": [
+    864,
+    614,
+    1074,
+    796
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/crutches-64.png",
+    "128": "/assets/icons/bayit/life/crutches-128.png",
+    "256": "/assets/icons/bayit/life/crutches-256.png"
+   }
+  },
+  {
+   "slug": "pacifier",
+   "name": "Baby clinic",
+   "he": "טיפת חלב",
+   "sheet": "health",
+   "index": 14,
+   "atlasBox": [
+    1153,
+    603,
+    1330,
+    805
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pacifier-64.png",
+    "128": "/assets/icons/bayit/life/pacifier-128.png",
+    "256": "/assets/icons/bayit/life/pacifier-256.png"
+   }
+  },
+  {
+   "slug": "inhaler",
+   "name": "Inhaler",
+   "he": "משאף",
+   "sheet": "health",
+   "index": 15,
+   "atlasBox": [
+    79,
+    882,
+    274,
+    1059
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/inhaler-64.png",
+    "128": "/assets/icons/bayit/life/inhaler-128.png",
+    "256": "/assets/icons/bayit/life/inhaler-256.png"
+   }
+  },
+  {
+   "slug": "lice-comb",
+   "name": "Lice check",
+   "he": "בדיקת כינים",
+   "sheet": "health",
+   "index": 16,
+   "atlasBox": [
+    328,
+    876,
+    534,
+    1066
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/lice-comb-64.png",
+    "128": "/assets/icons/bayit/life/lice-comb-128.png",
+    "256": "/assets/icons/bayit/life/lice-comb-256.png"
+   }
+  },
+  {
+   "slug": "sleep-mask",
+   "name": "Sleep",
+   "he": "שינה",
+   "sheet": "health",
+   "index": 17,
+   "atlasBox": [
+    588,
+    905,
+    814,
+    1031
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sleep-mask-64.png",
+    "128": "/assets/icons/bayit/life/sleep-mask-128.png",
+    "256": "/assets/icons/bayit/life/sleep-mask-256.png"
+   }
+  },
+  {
+   "slug": "vitamins",
+   "name": "Vitamins",
+   "he": "ויטמינים",
+   "sheet": "health",
+   "index": 18,
+   "atlasBox": [
+    891,
+    877,
+    1047,
+    1066
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/vitamins-64.png",
+    "128": "/assets/icons/bayit/life/vitamins-128.png",
+    "256": "/assets/icons/bayit/life/vitamins-256.png"
+   }
+  },
+  {
+   "slug": "therapy-talk",
+   "name": "Therapy",
+   "he": "טיפול רגשי",
+   "sheet": "health",
+   "index": 19,
+   "atlasBox": [
+    1133,
+    891,
+    1343,
+    1064
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/therapy-talk-64.png",
+    "128": "/assets/icons/bayit/life/therapy-talk-128.png",
+    "256": "/assets/icons/bayit/life/therapy-talk-256.png"
+   }
+  },
+  {
+   "slug": "school-building",
+   "name": "School",
+   "he": "בית ספר",
+   "sheet": "school",
+   "index": 0,
+   "atlasBox": [
+    63,
+    54,
+    274,
+    275
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/school-building-64.png",
+    "128": "/assets/icons/bayit/life/school-building-128.png",
+    "256": "/assets/icons/bayit/life/school-building-256.png"
+   }
+  },
+  {
+   "slug": "blocks",
+   "name": "Kindergarten",
+   "he": "גן ילדים",
+   "sheet": "school",
+   "index": 1,
+   "atlasBox": [
+    339,
+    87,
+    534,
+    270
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/blocks-64.png",
+    "128": "/assets/icons/bayit/life/blocks-128.png",
+    "256": "/assets/icons/bayit/life/blocks-256.png"
+   }
+  },
+  {
+   "slug": "teacher-apple",
+   "name": "Parent meeting",
+   "he": "אסיפת הורים",
+   "sheet": "school",
+   "index": 2,
+   "atlasBox": [
+    605,
+    65,
+    793,
+    279
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/teacher-apple-64.png",
+    "128": "/assets/icons/bayit/life/teacher-apple-128.png",
+    "256": "/assets/icons/bayit/life/teacher-apple-256.png"
+   }
+  },
+  {
+   "slug": "school-bus",
+   "name": "School trip",
+   "he": "טיול שנתי",
+   "sheet": "school",
+   "index": 3,
+   "atlasBox": [
+    861,
+    105,
+    1072,
+    254
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/school-bus-64.png",
+    "128": "/assets/icons/bayit/life/school-bus-128.png",
+    "256": "/assets/icons/bayit/life/school-bus-256.png"
+   }
+  },
+  {
+   "slug": "exam",
+   "name": "Exam",
+   "he": "מבחן",
+   "sheet": "school",
+   "index": 4,
+   "atlasBox": [
+    1150,
+    71,
+    1339,
+    271
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/exam-64.png",
+    "128": "/assets/icons/bayit/life/exam-128.png",
+    "256": "/assets/icons/bayit/life/exam-256.png"
+   }
+  },
+  {
+   "slug": "homework",
+   "name": "Homework",
+   "he": "שיעורי בית",
+   "sheet": "school",
+   "index": 5,
+   "atlasBox": [
+    58,
+    363,
+    277,
+    534
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/homework-64.png",
+    "128": "/assets/icons/bayit/life/homework-128.png",
+    "256": "/assets/icons/bayit/life/homework-256.png"
+   }
+  },
+  {
+   "slug": "diploma",
+   "name": "End of year",
+   "he": "סוף שנה",
+   "sheet": "school",
+   "index": 6,
+   "atlasBox": [
+    330,
+    370,
+    543,
+    516
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/diploma-64.png",
+    "128": "/assets/icons/bayit/life/diploma-128.png",
+    "256": "/assets/icons/bayit/life/diploma-256.png"
+   }
+  },
+  {
+   "slug": "school-bell",
+   "name": "School bell",
+   "he": "צלצול",
+   "sheet": "school",
+   "index": 7,
+   "atlasBox": [
+    619,
+    343,
+    768,
+    540
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/school-bell-64.png",
+    "128": "/assets/icons/bayit/life/school-bell-128.png",
+    "256": "/assets/icons/bayit/life/school-bell-256.png"
+   }
+  },
+  {
+   "slug": "ruler-triangle",
+   "name": "Geometry",
+   "he": "גאומטריה",
+   "sheet": "school",
+   "index": 8,
+   "atlasBox": [
+    864,
+    343,
+    1057,
+    534
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ruler-triangle-64.png",
+    "128": "/assets/icons/bayit/life/ruler-triangle-128.png",
+    "256": "/assets/icons/bayit/life/ruler-triangle-256.png"
+   }
+  },
+  {
+   "slug": "calculator",
+   "name": "Math",
+   "he": "חשבון",
+   "sheet": "school",
+   "index": 9,
+   "atlasBox": [
+    1158,
+    350,
+    1322,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/calculator-64.png",
+    "128": "/assets/icons/bayit/life/calculator-128.png",
+    "256": "/assets/icons/bayit/life/calculator-256.png"
+   }
+  },
+  {
+   "slug": "globe",
+   "name": "Geography",
+   "he": "גאוגרפיה",
+   "sheet": "school",
+   "index": 10,
+   "atlasBox": [
+    78,
+    592,
+    254,
+    813
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/globe-64.png",
+    "128": "/assets/icons/bayit/life/globe-128.png",
+    "256": "/assets/icons/bayit/life/globe-256.png"
+   }
+  },
+  {
+   "slug": "microscope",
+   "name": "Science",
+   "he": "מדעים",
+   "sheet": "school",
+   "index": 11,
+   "atlasBox": [
+    357,
+    592,
+    514,
+    805
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/microscope-64.png",
+    "128": "/assets/icons/bayit/life/microscope-128.png",
+    "256": "/assets/icons/bayit/life/microscope-256.png"
+   }
+  },
+  {
+   "slug": "chalkboard",
+   "name": "Class",
+   "he": "שיעור",
+   "sheet": "school",
+   "index": 12,
+   "atlasBox": [
+    586,
+    618,
+    812,
+    790
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/chalkboard-64.png",
+    "128": "/assets/icons/bayit/life/chalkboard-128.png",
+    "256": "/assets/icons/bayit/life/chalkboard-256.png"
+   }
+  },
+  {
+   "slug": "laptop",
+   "name": "Online class",
+   "he": "שיעור מקוון",
+   "sheet": "school",
+   "index": 13,
+   "atlasBox": [
+    864,
+    621,
+    1074,
+    787
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/laptop-64.png",
+    "128": "/assets/icons/bayit/life/laptop-128.png",
+    "256": "/assets/icons/bayit/life/laptop-256.png"
+   }
+  },
+  {
+   "slug": "pencil-case",
+   "name": "Pencil case",
+   "he": "קלמר",
+   "sheet": "school",
+   "index": 14,
+   "atlasBox": [
+    1132,
+    606,
+    1343,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pencil-case-64.png",
+    "128": "/assets/icons/bayit/life/pencil-case-128.png",
+    "256": "/assets/icons/bayit/life/pencil-case-256.png"
+   }
+  },
+  {
+   "slug": "crayons",
+   "name": "Crayons",
+   "he": "צבעים",
+   "sheet": "school",
+   "index": 15,
+   "atlasBox": [
+    72,
+    885,
+    265,
+    1061
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/crayons-64.png",
+    "128": "/assets/icons/bayit/life/crayons-128.png",
+    "256": "/assets/icons/bayit/life/crayons-256.png"
+   }
+  },
+  {
+   "slug": "report-card",
+   "name": "Report card",
+   "he": "תעודה",
+   "sheet": "school",
+   "index": 16,
+   "atlasBox": [
+    355,
+    865,
+    509,
+    1071
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/report-card-64.png",
+    "128": "/assets/icons/bayit/life/report-card-128.png",
+    "256": "/assets/icons/bayit/life/report-card-256.png"
+   }
+  },
+  {
+   "slug": "paper-plane",
+   "name": "Paper plane",
+   "he": "מטוס נייר",
+   "sheet": "school",
+   "index": 17,
+   "atlasBox": [
+    589,
+    874,
+    800,
+    1056
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/paper-plane-64.png",
+    "128": "/assets/icons/bayit/life/paper-plane-128.png",
+    "256": "/assets/icons/bayit/life/paper-plane-256.png"
+   }
+  },
+  {
+   "slug": "whistle",
+   "name": "PE class",
+   "he": "ספורט בבית הספר",
+   "sheet": "school",
+   "index": 18,
+   "atlasBox": [
+    848,
+    895,
+    1077,
+    1057
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/whistle-64.png",
+    "128": "/assets/icons/bayit/life/whistle-128.png",
+    "256": "/assets/icons/bayit/life/whistle-256.png"
+   }
+  },
+  {
+   "slug": "magnifier",
+   "name": "Discovery",
+   "he": "חקר",
+   "sheet": "school",
+   "index": 19,
+   "atlasBox": [
+    1138,
+    869,
+    1338,
+    1071
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/magnifier-64.png",
+    "128": "/assets/icons/bayit/life/magnifier-128.png",
+    "256": "/assets/icons/bayit/life/magnifier-256.png"
+   }
+  },
+  {
+   "slug": "ballet",
+   "name": "Ballet",
+   "he": "בלט",
+   "sheet": "clubs",
+   "index": 0,
+   "atlasBox": [
+    69,
+    70,
+    253,
+    266
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ballet-64.png",
+    "128": "/assets/icons/bayit/life/ballet-128.png",
+    "256": "/assets/icons/bayit/life/ballet-256.png"
+   }
+  },
+  {
+   "slug": "karate",
+   "name": "Martial arts",
+   "he": "אומנויות לחימה",
+   "sheet": "clubs",
+   "index": 1,
+   "atlasBox": [
+    331,
+    74,
+    536,
+    255
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/karate-64.png",
+    "128": "/assets/icons/bayit/life/karate-128.png",
+    "256": "/assets/icons/bayit/life/karate-256.png"
+   }
+  },
+  {
+   "slug": "tennis",
+   "name": "Tennis",
+   "he": "טניס",
+   "sheet": "clubs",
+   "index": 2,
+   "atlasBox": [
+    603,
+    70,
+    779,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tennis-64.png",
+    "128": "/assets/icons/bayit/life/tennis-128.png",
+    "256": "/assets/icons/bayit/life/tennis-256.png"
+   }
+  },
+  {
+   "slug": "swimming",
+   "name": "Swimming",
+   "he": "שחייה",
+   "sheet": "clubs",
+   "index": 3,
+   "atlasBox": [
+    867,
+    79,
+    1068,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/swimming-64.png",
+    "128": "/assets/icons/bayit/life/swimming-128.png",
+    "256": "/assets/icons/bayit/life/swimming-256.png"
+   }
+  },
+  {
+   "slug": "boxing",
+   "name": "Boxing",
+   "he": "אגרוף",
+   "sheet": "clubs",
+   "index": 4,
+   "atlasBox": [
+    1149,
+    76,
+    1337,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/boxing-64.png",
+    "128": "/assets/icons/bayit/life/boxing-128.png",
+    "256": "/assets/icons/bayit/life/boxing-256.png"
+   }
+  },
+  {
+   "slug": "gymnastics",
+   "name": "Gymnastics",
+   "he": "התעמלות",
+   "sheet": "clubs",
+   "index": 5,
+   "atlasBox": [
+    58,
+    330,
+    260,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/gymnastics-64.png",
+    "128": "/assets/icons/bayit/life/gymnastics-128.png",
+    "256": "/assets/icons/bayit/life/gymnastics-256.png"
+   }
+  },
+  {
+   "slug": "guitar",
+   "name": "Guitar lesson",
+   "he": "שיעור גיטרה",
+   "sheet": "clubs",
+   "index": 6,
+   "atlasBox": [
+    333,
+    325,
+    525,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/guitar-64.png",
+    "128": "/assets/icons/bayit/life/guitar-128.png",
+    "256": "/assets/icons/bayit/life/guitar-256.png"
+   }
+  },
+  {
+   "slug": "violin",
+   "name": "Violin",
+   "he": "כינור",
+   "sheet": "clubs",
+   "index": 7,
+   "atlasBox": [
+    598,
+    321,
+    776,
+    536
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/violin-64.png",
+    "128": "/assets/icons/bayit/life/violin-128.png",
+    "256": "/assets/icons/bayit/life/violin-256.png"
+   }
+  },
+  {
+   "slug": "drum",
+   "name": "Drums",
+   "he": "תופים",
+   "sheet": "clubs",
+   "index": 8,
+   "atlasBox": [
+    873,
+    345,
+    1057,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/drum-64.png",
+    "128": "/assets/icons/bayit/life/drum-128.png",
+    "256": "/assets/icons/bayit/life/drum-256.png"
+   }
+  },
+  {
+   "slug": "chess",
+   "name": "Chess",
+   "he": "שחמט",
+   "sheet": "clubs",
+   "index": 9,
+   "atlasBox": [
+    1145,
+    338,
+    1349,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/chess-64.png",
+    "128": "/assets/icons/bayit/life/chess-128.png",
+    "256": "/assets/icons/bayit/life/chess-256.png"
+   }
+  },
+  {
+   "slug": "art-easel",
+   "name": "Art class",
+   "he": "חוג ציור",
+   "sheet": "clubs",
+   "index": 10,
+   "atlasBox": [
+    64,
+    592,
+    239,
+    803
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/art-easel-64.png",
+    "128": "/assets/icons/bayit/life/art-easel-128.png",
+    "256": "/assets/icons/bayit/life/art-easel-256.png"
+   }
+  },
+  {
+   "slug": "robot",
+   "name": "Robotics",
+   "he": "רובוטיקה",
+   "sheet": "clubs",
+   "index": 11,
+   "atlasBox": [
+    343,
+    590,
+    518,
+    806
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/robot-64.png",
+    "128": "/assets/icons/bayit/life/robot-128.png",
+    "256": "/assets/icons/bayit/life/robot-256.png"
+   }
+  },
+  {
+   "slug": "scouts",
+   "name": "Scouts",
+   "he": "צופים",
+   "sheet": "clubs",
+   "index": 12,
+   "atlasBox": [
+    611,
+    600,
+    783,
+    793
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/scouts-64.png",
+    "128": "/assets/icons/bayit/life/scouts-128.png",
+    "256": "/assets/icons/bayit/life/scouts-256.png"
+   }
+  },
+  {
+   "slug": "horse-riding",
+   "name": "Horse riding",
+   "he": "רכיבה על סוסים",
+   "sheet": "clubs",
+   "index": 13,
+   "atlasBox": [
+    865,
+    597,
+    1066,
+    801
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/horse-riding-64.png",
+    "128": "/assets/icons/bayit/life/horse-riding-128.png",
+    "256": "/assets/icons/bayit/life/horse-riding-256.png"
+   }
+  },
+  {
+   "slug": "stopwatch",
+   "name": "Running",
+   "he": "ריצה",
+   "sheet": "clubs",
+   "index": 14,
+   "atlasBox": [
+    1154,
+    596,
+    1329,
+    806
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/stopwatch-64.png",
+    "128": "/assets/icons/bayit/life/stopwatch-128.png",
+    "256": "/assets/icons/bayit/life/stopwatch-256.png"
+   }
+  },
+  {
+   "slug": "yoga",
+   "name": "Yoga",
+   "he": "יוגה",
+   "sheet": "clubs",
+   "index": 15,
+   "atlasBox": [
+    48,
+    886,
+    264,
+    1046
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/yoga-64.png",
+    "128": "/assets/icons/bayit/life/yoga-128.png",
+    "256": "/assets/icons/bayit/life/yoga-256.png"
+   }
+  },
+  {
+   "slug": "dumbbell",
+   "name": "Gym",
+   "he": "חדר כושר",
+   "sheet": "clubs",
+   "index": 16,
+   "atlasBox": [
+    326,
+    904,
+    537,
+    1023
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dumbbell-64.png",
+    "128": "/assets/icons/bayit/life/dumbbell-128.png",
+    "256": "/assets/icons/bayit/life/dumbbell-256.png"
+   }
+  },
+  {
+   "slug": "volleyball",
+   "name": "Volleyball",
+   "he": "כדורעף",
+   "sheet": "clubs",
+   "index": 17,
+   "atlasBox": [
+    608,
+    874,
+    785,
+    1052
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/volleyball-64.png",
+    "128": "/assets/icons/bayit/life/volleyball-128.png",
+    "256": "/assets/icons/bayit/life/volleyball-256.png"
+   }
+  },
+  {
+   "slug": "skateboard",
+   "name": "Skateboard",
+   "he": "סקייטבורד",
+   "sheet": "clubs",
+   "index": 18,
+   "atlasBox": [
+    862,
+    889,
+    1072,
+    1041
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/skateboard-64.png",
+    "128": "/assets/icons/bayit/life/skateboard-128.png",
+    "256": "/assets/icons/bayit/life/skateboard-256.png"
+   }
+  },
+  {
+   "slug": "roller-skates",
+   "name": "Roller skates",
+   "he": "גלגיליות",
+   "sheet": "clubs",
+   "index": 19,
+   "atlasBox": [
+    1145,
+    870,
+    1332,
+    1058
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/roller-skates-64.png",
+    "128": "/assets/icons/bayit/life/roller-skates-128.png",
+    "256": "/assets/icons/bayit/life/roller-skates-256.png"
+   }
+  },
+  {
+   "slug": "airplane",
+   "name": "Flight",
+   "he": "טיסה",
+   "sheet": "travel",
+   "index": 0,
+   "atlasBox": [
+    56,
+    92,
+    258,
+    253
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/airplane-64.png",
+    "128": "/assets/icons/bayit/life/airplane-128.png",
+    "256": "/assets/icons/bayit/life/airplane-256.png"
+   }
+  },
+  {
+   "slug": "suitcase",
+   "name": "Packing",
+   "he": "אריזה",
+   "sheet": "travel",
+   "index": 1,
+   "atlasBox": [
+    360,
+    61,
+    504,
+    275
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/suitcase-64.png",
+    "128": "/assets/icons/bayit/life/suitcase-128.png",
+    "256": "/assets/icons/bayit/life/suitcase-256.png"
+   }
+  },
+  {
+   "slug": "passport",
+   "name": "Passport",
+   "he": "דרכון",
+   "sheet": "travel",
+   "index": 2,
+   "atlasBox": [
+    615,
+    75,
+    782,
+    266
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/passport-64.png",
+    "128": "/assets/icons/bayit/life/passport-128.png",
+    "256": "/assets/icons/bayit/life/passport-256.png"
+   }
+  },
+  {
+   "slug": "beach",
+   "name": "Beach",
+   "he": "ים",
+   "sheet": "travel",
+   "index": 3,
+   "atlasBox": [
+    865,
+    63,
+    1066,
+    271
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/beach-64.png",
+    "128": "/assets/icons/bayit/life/beach-128.png",
+    "256": "/assets/icons/bayit/life/beach-256.png"
+   }
+  },
+  {
+   "slug": "mountain",
+   "name": "Hiking",
+   "he": "טיול רגלי",
+   "sheet": "travel",
+   "index": 4,
+   "atlasBox": [
+    1133,
+    73,
+    1359,
+    264
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mountain-64.png",
+    "128": "/assets/icons/bayit/life/mountain-128.png",
+    "256": "/assets/icons/bayit/life/mountain-256.png"
+   }
+  },
+  {
+   "slug": "hiking-boots",
+   "name": "Hiking boots",
+   "he": "נעלי הליכה",
+   "sheet": "travel",
+   "index": 5,
+   "atlasBox": [
+    55,
+    347,
+    267,
+    529
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hiking-boots-64.png",
+    "128": "/assets/icons/bayit/life/hiking-boots-128.png",
+    "256": "/assets/icons/bayit/life/hiking-boots-256.png"
+   }
+  },
+  {
+   "slug": "caravan",
+   "name": "Camper",
+   "he": "קרוואן",
+   "sheet": "travel",
+   "index": 6,
+   "atlasBox": [
+    321,
+    353,
+    536,
+    530
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/caravan-64.png",
+    "128": "/assets/icons/bayit/life/caravan-128.png",
+    "256": "/assets/icons/bayit/life/caravan-256.png"
+   }
+  },
+  {
+   "slug": "hotel",
+   "name": "Hotel",
+   "he": "מלון",
+   "sheet": "travel",
+   "index": 7,
+   "atlasBox": [
+    590,
+    336,
+    811,
+    544
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hotel-64.png",
+    "128": "/assets/icons/bayit/life/hotel-128.png",
+    "256": "/assets/icons/bayit/life/hotel-256.png"
+   }
+  },
+  {
+   "slug": "map-pin",
+   "name": "Map",
+   "he": "מפה",
+   "sheet": "travel",
+   "index": 8,
+   "atlasBox": [
+    863,
+    343,
+    1071,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/map-pin-64.png",
+    "128": "/assets/icons/bayit/life/map-pin-128.png",
+    "256": "/assets/icons/bayit/life/map-pin-256.png"
+   }
+  },
+  {
+   "slug": "compass",
+   "name": "Compass",
+   "he": "מצפן",
+   "sheet": "travel",
+   "index": 9,
+   "atlasBox": [
+    1151,
+    329,
+    1337,
+    553
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/compass-64.png",
+    "128": "/assets/icons/bayit/life/compass-128.png",
+    "256": "/assets/icons/bayit/life/compass-256.png"
+   }
+  },
+  {
+   "slug": "train",
+   "name": "Train",
+   "he": "רכבת",
+   "sheet": "travel",
+   "index": 10,
+   "atlasBox": [
+    44,
+    629,
+    271,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/train-64.png",
+    "128": "/assets/icons/bayit/life/train-128.png",
+    "256": "/assets/icons/bayit/life/train-256.png"
+   }
+  },
+  {
+   "slug": "city-bus",
+   "name": "Bus",
+   "he": "אוטובוס",
+   "sheet": "travel",
+   "index": 11,
+   "atlasBox": [
+    315,
+    633,
+    539,
+    784
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/city-bus-64.png",
+    "128": "/assets/icons/bayit/life/city-bus-128.png",
+    "256": "/assets/icons/bayit/life/city-bus-256.png"
+   }
+  },
+  {
+   "slug": "ship",
+   "name": "Cruise",
+   "he": "שייט",
+   "sheet": "travel",
+   "index": 12,
+   "atlasBox": [
+    589,
+    612,
+    806,
+    798
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ship-64.png",
+    "128": "/assets/icons/bayit/life/ship-128.png",
+    "256": "/assets/icons/bayit/life/ship-256.png"
+   }
+  },
+  {
+   "slug": "sunglasses",
+   "name": "Sunglasses",
+   "he": "משקפי שמש",
+   "sheet": "travel",
+   "index": 13,
+   "atlasBox": [
+    856,
+    663,
+    1083,
+    757
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sunglasses-64.png",
+    "128": "/assets/icons/bayit/life/sunglasses-128.png",
+    "256": "/assets/icons/bayit/life/sunglasses-256.png"
+   }
+  },
+  {
+   "slug": "binoculars",
+   "name": "Binoculars",
+   "he": "משקפת",
+   "sheet": "travel",
+   "index": 14,
+   "atlasBox": [
+    1133,
+    629,
+    1356,
+    798
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/binoculars-64.png",
+    "128": "/assets/icons/bayit/life/binoculars-128.png",
+    "256": "/assets/icons/bayit/life/binoculars-256.png"
+   }
+  },
+  {
+   "slug": "tickets",
+   "name": "Tickets",
+   "he": "כרטיסים",
+   "sheet": "travel",
+   "index": 15,
+   "atlasBox": [
+    50,
+    875,
+    269,
+    1073
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tickets-64.png",
+    "128": "/assets/icons/bayit/life/tickets-128.png",
+    "256": "/assets/icons/bayit/life/tickets-256.png"
+   }
+  },
+  {
+   "slug": "swim-ring",
+   "name": "Pool",
+   "he": "בריכה",
+   "sheet": "travel",
+   "index": 16,
+   "atlasBox": [
+    327,
+    885,
+    533,
+    1059
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/swim-ring-64.png",
+    "128": "/assets/icons/bayit/life/swim-ring-128.png",
+    "256": "/assets/icons/bayit/life/swim-ring-256.png"
+   }
+  },
+  {
+   "slug": "hiking-backpack",
+   "name": "Trip backpack",
+   "he": "תיק טיולים",
+   "sheet": "travel",
+   "index": 17,
+   "atlasBox": [
+    597,
+    875,
+    795,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hiking-backpack-64.png",
+    "128": "/assets/icons/bayit/life/hiking-backpack-128.png",
+    "256": "/assets/icons/bayit/life/hiking-backpack-256.png"
+   }
+  },
+  {
+   "slug": "island",
+   "name": "Vacation",
+   "he": "חופשה",
+   "sheet": "travel",
+   "index": 18,
+   "atlasBox": [
+    860,
+    871,
+    1066,
+    1075
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/island-64.png",
+    "128": "/assets/icons/bayit/life/island-128.png",
+    "256": "/assets/icons/bayit/life/island-256.png"
+   }
+  },
+  {
+   "slug": "cable-car",
+   "name": "Cable car",
+   "he": "רכבל",
+   "sheet": "travel",
+   "index": 19,
+   "atlasBox": [
+    1137,
+    868,
+    1343,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/cable-car-64.png",
+    "128": "/assets/icons/bayit/life/cable-car-128.png",
+    "256": "/assets/icons/bayit/life/cable-car-256.png"
+   }
+  },
+  {
+   "slug": "shopping-bag",
+   "name": "Shopping",
+   "he": "קניות",
+   "sheet": "errands",
+   "index": 0,
+   "atlasBox": [
+    67,
+    63,
+    240,
+    259
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/shopping-bag-64.png",
+    "128": "/assets/icons/bayit/life/shopping-bag-128.png",
+    "256": "/assets/icons/bayit/life/shopping-bag-256.png"
+   }
+  },
+  {
+   "slug": "parcel",
+   "name": "Parcel",
+   "he": "חבילה",
+   "sheet": "errands",
+   "index": 1,
+   "atlasBox": [
+    337,
+    88,
+    523,
+    249
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/parcel-64.png",
+    "128": "/assets/icons/bayit/life/parcel-128.png",
+    "256": "/assets/icons/bayit/life/parcel-256.png"
+   }
+  },
+  {
+   "slug": "mailbox",
+   "name": "Mail",
+   "he": "דואר",
+   "sheet": "errands",
+   "index": 2,
+   "atlasBox": [
+    596,
+    62,
+    797,
+    260
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/mailbox-64.png",
+    "128": "/assets/icons/bayit/life/mailbox-128.png",
+    "256": "/assets/icons/bayit/life/mailbox-256.png"
+   }
+  },
+  {
+   "slug": "house-keys",
+   "name": "Keys",
+   "he": "מפתחות",
+   "sheet": "errands",
+   "index": 3,
+   "atlasBox": [
+    888,
+    63,
+    1054,
+    256
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/house-keys-64.png",
+    "128": "/assets/icons/bayit/life/house-keys-128.png",
+    "256": "/assets/icons/bayit/life/house-keys-256.png"
+   }
+  },
+  {
+   "slug": "toolbox",
+   "name": "Repairs",
+   "he": "תיקונים",
+   "sheet": "errands",
+   "index": 4,
+   "atlasBox": [
+    1144,
+    81,
+    1348,
+    257
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/toolbox-64.png",
+    "128": "/assets/icons/bayit/life/toolbox-128.png",
+    "256": "/assets/icons/bayit/life/toolbox-256.png"
+   }
+  },
+  {
+   "slug": "light-bulb",
+   "name": "Electrician",
+   "he": "חשמלאי",
+   "sheet": "errands",
+   "index": 5,
+   "atlasBox": [
+    60,
+    329,
+    250,
+    536
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/light-bulb-64.png",
+    "128": "/assets/icons/bayit/life/light-bulb-128.png",
+    "256": "/assets/icons/bayit/life/light-bulb-256.png"
+   }
+  },
+  {
+   "slug": "plumber",
+   "name": "Plumber",
+   "he": "אינסטלטור",
+   "sheet": "errands",
+   "index": 6,
+   "atlasBox": [
+    322,
+    345,
+    528,
+    529
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/plumber-64.png",
+    "128": "/assets/icons/bayit/life/plumber-128.png",
+    "256": "/assets/icons/bayit/life/plumber-256.png"
+   }
+  },
+  {
+   "slug": "paint-roller",
+   "name": "Renovation",
+   "he": "שיפוץ",
+   "sheet": "errands",
+   "index": 7,
+   "atlasBox": [
+    595,
+    347,
+    798,
+    526
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/paint-roller-64.png",
+    "128": "/assets/icons/bayit/life/paint-roller-128.png",
+    "256": "/assets/icons/bayit/life/paint-roller-256.png"
+   }
+  },
+  {
+   "slug": "garbage-bag",
+   "name": "Trash",
+   "he": "זבל",
+   "sheet": "errands",
+   "index": 8,
+   "atlasBox": [
+    859,
+    357,
+    1073,
+    524
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/garbage-bag-64.png",
+    "128": "/assets/icons/bayit/life/garbage-bag-128.png",
+    "256": "/assets/icons/bayit/life/garbage-bag-256.png"
+   }
+  },
+  {
+   "slug": "sofa",
+   "name": "Furniture",
+   "he": "רהיטים",
+   "sheet": "errands",
+   "index": 9,
+   "atlasBox": [
+    1134,
+    361,
+    1363,
+    523
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sofa-64.png",
+    "128": "/assets/icons/bayit/life/sofa-128.png",
+    "256": "/assets/icons/bayit/life/sofa-256.png"
+   }
+  },
+  {
+   "slug": "washing-machine",
+   "name": "Washing machine",
+   "he": "מכונת כביסה",
+   "sheet": "errands",
+   "index": 10,
+   "atlasBox": [
+    71,
+    607,
+    238,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/washing-machine-64.png",
+    "128": "/assets/icons/bayit/life/washing-machine-128.png",
+    "256": "/assets/icons/bayit/life/washing-machine-256.png"
+   }
+  },
+  {
+   "slug": "iron",
+   "name": "Ironing",
+   "he": "גיהוץ",
+   "sheet": "errands",
+   "index": 11,
+   "atlasBox": [
+    327,
+    615,
+    536,
+    788
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/iron-64.png",
+    "128": "/assets/icons/bayit/life/iron-128.png",
+    "256": "/assets/icons/bayit/life/iron-256.png"
+   }
+  },
+  {
+   "slug": "sewing",
+   "name": "Sewing",
+   "he": "תפירה",
+   "sheet": "errands",
+   "index": 12,
+   "atlasBox": [
+    603,
+    622,
+    789,
+    788
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sewing-64.png",
+    "128": "/assets/icons/bayit/life/sewing-128.png",
+    "256": "/assets/icons/bayit/life/sewing-256.png"
+   }
+  },
+  {
+   "slug": "gardening",
+   "name": "Gardening",
+   "he": "גינון",
+   "sheet": "errands",
+   "index": 13,
+   "atlasBox": [
+    859,
+    609,
+    1078,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/gardening-64.png",
+    "128": "/assets/icons/bayit/life/gardening-128.png",
+    "256": "/assets/icons/bayit/life/gardening-256.png"
+   }
+  },
+  {
+   "slug": "lawn-mower",
+   "name": "Lawn",
+   "he": "דשא",
+   "sheet": "errands",
+   "index": 14,
+   "atlasBox": [
+    1129,
+    608,
+    1362,
+    792
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/lawn-mower-64.png",
+    "128": "/assets/icons/bayit/life/lawn-mower-128.png",
+    "256": "/assets/icons/bayit/life/lawn-mower-256.png"
+   }
+  },
+  {
+   "slug": "hair-dryer",
+   "name": "Haircut",
+   "he": "תספורת",
+   "sheet": "errands",
+   "index": 15,
+   "atlasBox": [
+    44,
+    880,
+    261,
+    1070
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hair-dryer-64.png",
+    "128": "/assets/icons/bayit/life/hair-dryer-128.png",
+    "256": "/assets/icons/bayit/life/hair-dryer-256.png"
+   }
+  },
+  {
+   "slug": "hanger",
+   "name": "Dry cleaning",
+   "he": "ניקוי יבש",
+   "sheet": "errands",
+   "index": 16,
+   "atlasBox": [
+    338,
+    865,
+    517,
+    1073
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hanger-64.png",
+    "128": "/assets/icons/bayit/life/hanger-128.png",
+    "256": "/assets/icons/bayit/life/hanger-256.png"
+   }
+  },
+  {
+   "slug": "moving-boxes",
+   "name": "Moving house",
+   "he": "מעבר דירה",
+   "sheet": "errands",
+   "index": 17,
+   "atlasBox": [
+    595,
+    882,
+    795,
+    1064
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/moving-boxes-64.png",
+    "128": "/assets/icons/bayit/life/moving-boxes-128.png",
+    "256": "/assets/icons/bayit/life/moving-boxes-256.png"
+   }
+  },
+  {
+   "slug": "front-door",
+   "name": "Front door",
+   "he": "דלת",
+   "sheet": "errands",
+   "index": 18,
+   "atlasBox": [
+    877,
+    866,
+    1061,
+    1074
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/front-door-64.png",
+    "128": "/assets/icons/bayit/life/front-door-128.png",
+    "256": "/assets/icons/bayit/life/front-door-256.png"
+   }
+  },
+  {
+   "slug": "air-conditioner",
+   "name": "Air conditioner",
+   "he": "מזגן",
+   "sheet": "errands",
+   "index": 19,
+   "atlasBox": [
+    1133,
+    899,
+    1355,
+    1057
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/air-conditioner-64.png",
+    "128": "/assets/icons/bayit/life/air-conditioner-128.png",
+    "256": "/assets/icons/bayit/life/air-conditioner-256.png"
+   }
+  },
+  {
+   "slug": "fuel",
+   "name": "Fuel",
+   "he": "דלק",
+   "sheet": "car",
+   "index": 0,
+   "atlasBox": [
+    60,
+    72,
+    251,
+    276
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/fuel-64.png",
+    "128": "/assets/icons/bayit/life/fuel-128.png",
+    "256": "/assets/icons/bayit/life/fuel-256.png"
+   }
+  },
+  {
+   "slug": "car-wash",
+   "name": "Car wash",
+   "he": "שטיפת רכב",
+   "sheet": "car",
+   "index": 1,
+   "atlasBox": [
+    312,
+    76,
+    533,
+    277
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-wash-64.png",
+    "128": "/assets/icons/bayit/life/car-wash-128.png",
+    "256": "/assets/icons/bayit/life/car-wash-256.png"
+   }
+  },
+  {
+   "slug": "garage",
+   "name": "Car service",
+   "he": "טיפול לרכב",
+   "sheet": "car",
+   "index": 2,
+   "atlasBox": [
+    603,
+    71,
+    796,
+    276
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/garage-64.png",
+    "128": "/assets/icons/bayit/life/garage-128.png",
+    "256": "/assets/icons/bayit/life/garage-256.png"
+   }
+  },
+  {
+   "slug": "tire",
+   "name": "Tires",
+   "he": "צמיגים",
+   "sheet": "car",
+   "index": 3,
+   "atlasBox": [
+    879,
+    73,
+    1069,
+    277
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tire-64.png",
+    "128": "/assets/icons/bayit/life/tire-128.png",
+    "256": "/assets/icons/bayit/life/tire-256.png"
+   }
+  },
+  {
+   "slug": "car-key",
+   "name": "Car key",
+   "he": "מפתח רכב",
+   "sheet": "car",
+   "index": 4,
+   "atlasBox": [
+    1144,
+    69,
+    1353,
+    273
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-key-64.png",
+    "128": "/assets/icons/bayit/life/car-key-128.png",
+    "256": "/assets/icons/bayit/life/car-key-256.png"
+   }
+  },
+  {
+   "slug": "steering-wheel",
+   "name": "Driving lesson",
+   "he": "שיעור נהיגה",
+   "sheet": "car",
+   "index": 5,
+   "atlasBox": [
+    45,
+    345,
+    254,
+    555
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/steering-wheel-64.png",
+    "128": "/assets/icons/bayit/life/steering-wheel-128.png",
+    "256": "/assets/icons/bayit/life/steering-wheel-256.png"
+   }
+  },
+  {
+   "slug": "parking",
+   "name": "Parking",
+   "he": "חניה",
+   "sheet": "car",
+   "index": 6,
+   "atlasBox": [
+    361,
+    339,
+    489,
+    556
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/parking-64.png",
+    "128": "/assets/icons/bayit/life/parking-128.png",
+    "256": "/assets/icons/bayit/life/parking-256.png"
+   }
+  },
+  {
+   "slug": "ev-charger",
+   "name": "EV charging",
+   "he": "טעינת רכב",
+   "sheet": "car",
+   "index": 7,
+   "atlasBox": [
+    593,
+    343,
+    797,
+    553
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ev-charger-64.png",
+    "128": "/assets/icons/bayit/life/ev-charger-128.png",
+    "256": "/assets/icons/bayit/life/ev-charger-256.png"
+   }
+  },
+  {
+   "slug": "car-insurance",
+   "name": "Car insurance",
+   "he": "ביטוח רכב",
+   "sheet": "car",
+   "index": 8,
+   "atlasBox": [
+    862,
+    344,
+    1076,
+    547
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-insurance-64.png",
+    "128": "/assets/icons/bayit/life/car-insurance-128.png",
+    "256": "/assets/icons/bayit/life/car-insurance-256.png"
+   }
+  },
+  {
+   "slug": "traffic-light",
+   "name": "Traffic",
+   "he": "תנועה",
+   "sheet": "car",
+   "index": 9,
+   "atlasBox": [
+    1167,
+    341,
+    1345,
+    560
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/traffic-light-64.png",
+    "128": "/assets/icons/bayit/life/traffic-light-128.png",
+    "256": "/assets/icons/bayit/life/traffic-light-256.png"
+   }
+  },
+  {
+   "slug": "scooter",
+   "name": "Scooter",
+   "he": "קורקינט",
+   "sheet": "car",
+   "index": 10,
+   "atlasBox": [
+    50,
+    616,
+    254,
+    815
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/scooter-64.png",
+    "128": "/assets/icons/bayit/life/scooter-128.png",
+    "256": "/assets/icons/bayit/life/scooter-256.png"
+   }
+  },
+  {
+   "slug": "taxi",
+   "name": "Taxi",
+   "he": "מונית",
+   "sheet": "car",
+   "index": 11,
+   "atlasBox": [
+    315,
+    624,
+    529,
+    807
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/taxi-64.png",
+    "128": "/assets/icons/bayit/life/taxi-128.png",
+    "256": "/assets/icons/bayit/life/taxi-256.png"
+   }
+  },
+  {
+   "slug": "truck",
+   "name": "Delivery",
+   "he": "משלוח",
+   "sheet": "car",
+   "index": 12,
+   "atlasBox": [
+    582,
+    636,
+    809,
+    800
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/truck-64.png",
+    "128": "/assets/icons/bayit/life/truck-128.png",
+    "256": "/assets/icons/bayit/life/truck-256.png"
+   }
+  },
+  {
+   "slug": "road-trip",
+   "name": "Road trip",
+   "he": "נסיעה",
+   "sheet": "car",
+   "index": 13,
+   "atlasBox": [
+    859,
+    616,
+    1089,
+    813
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/road-trip-64.png",
+    "128": "/assets/icons/bayit/life/road-trip-128.png",
+    "256": "/assets/icons/bayit/life/road-trip-256.png"
+   }
+  },
+  {
+   "slug": "car-seat",
+   "name": "Car seat",
+   "he": "כיסא בטיחות",
+   "sheet": "car",
+   "index": 14,
+   "atlasBox": [
+    1163,
+    612,
+    1350,
+    819
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-seat-64.png",
+    "128": "/assets/icons/bayit/life/car-seat-128.png",
+    "256": "/assets/icons/bayit/life/car-seat-256.png"
+   }
+  },
+  {
+   "slug": "car-battery",
+   "name": "Car battery",
+   "he": "מצבר",
+   "sheet": "car",
+   "index": 15,
+   "atlasBox": [
+    46,
+    892,
+    254,
+    1060
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-battery-64.png",
+    "128": "/assets/icons/bayit/life/car-battery-128.png",
+    "256": "/assets/icons/bayit/life/car-battery-256.png"
+   }
+  },
+  {
+   "slug": "oil-change",
+   "name": "Oil change",
+   "he": "החלפת שמן",
+   "sheet": "car",
+   "index": 16,
+   "atlasBox": [
+    307,
+    916,
+    533,
+    1053
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/oil-change-64.png",
+    "128": "/assets/icons/bayit/life/oil-change-128.png",
+    "256": "/assets/icons/bayit/life/oil-change-256.png"
+   }
+  },
+  {
+   "slug": "car-test",
+   "name": "Annual test",
+   "he": "טסט שנתי",
+   "sheet": "car",
+   "index": 17,
+   "atlasBox": [
+    591,
+    872,
+    806,
+    1076
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/car-test-64.png",
+    "128": "/assets/icons/bayit/life/car-test-128.png",
+    "256": "/assets/icons/bayit/life/car-test-256.png"
+   }
+  },
+  {
+   "slug": "license",
+   "name": "Driver's license",
+   "he": "רישיון נהיגה",
+   "sheet": "car",
+   "index": 18,
+   "atlasBox": [
+    859,
+    905,
+    1082,
+    1052
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/license-64.png",
+    "128": "/assets/icons/bayit/life/license-128.png",
+    "256": "/assets/icons/bayit/life/license-256.png"
+   }
+  },
+  {
+   "slug": "helmet",
+   "name": "Helmet",
+   "he": "קסדה",
+   "sheet": "car",
+   "index": 19,
+   "atlasBox": [
+    1141,
+    884,
+    1364,
+    1073
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/helmet-64.png",
+    "128": "/assets/icons/bayit/life/helmet-128.png",
+    "256": "/assets/icons/bayit/life/helmet-256.png"
+   }
+  },
+  {
+   "slug": "briefcase",
+   "name": "Work",
+   "he": "עבודה",
+   "sheet": "work",
+   "index": 0,
+   "atlasBox": [
+    77,
+    82,
+    264,
+    256
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/briefcase-64.png",
+    "128": "/assets/icons/bayit/life/briefcase-128.png",
+    "256": "/assets/icons/bayit/life/briefcase-256.png"
+   }
+  },
+  {
+   "slug": "monitor",
+   "name": "Computer",
+   "he": "מחשב",
+   "sheet": "work",
+   "index": 1,
+   "atlasBox": [
+    346,
+    78,
+    531,
+    269
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/monitor-64.png",
+    "128": "/assets/icons/bayit/life/monitor-128.png",
+    "256": "/assets/icons/bayit/life/monitor-256.png"
+   }
+  },
+  {
+   "slug": "headset",
+   "name": "Online meeting",
+   "he": "פגישה מקוונת",
+   "sheet": "work",
+   "index": 2,
+   "atlasBox": [
+    602,
+    72,
+    798,
+    263
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/headset-64.png",
+    "128": "/assets/icons/bayit/life/headset-128.png",
+    "256": "/assets/icons/bayit/life/headset-256.png"
+   }
+  },
+  {
+   "slug": "handshake",
+   "name": "Meeting",
+   "he": "פגישה",
+   "sheet": "work",
+   "index": 3,
+   "atlasBox": [
+    853,
+    99,
+    1079,
+    245
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/handshake-64.png",
+    "128": "/assets/icons/bayit/life/handshake-128.png",
+    "256": "/assets/icons/bayit/life/handshake-256.png"
+   }
+  },
+  {
+   "slug": "coffee-to-go",
+   "name": "Coffee break",
+   "he": "הפסקת קפה",
+   "sheet": "work",
+   "index": 4,
+   "atlasBox": [
+    1158,
+    74,
+    1317,
+    269
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/coffee-to-go-64.png",
+    "128": "/assets/icons/bayit/life/coffee-to-go-128.png",
+    "256": "/assets/icons/bayit/life/coffee-to-go-256.png"
+   }
+  },
+  {
+   "slug": "office",
+   "name": "Office",
+   "he": "משרד",
+   "sheet": "work",
+   "index": 5,
+   "atlasBox": [
+    64,
+    345,
+    274,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/office-64.png",
+    "128": "/assets/icons/bayit/life/office-128.png",
+    "256": "/assets/icons/bayit/life/office-256.png"
+   }
+  },
+  {
+   "slug": "presentation",
+   "name": "Presentation",
+   "he": "מצגת",
+   "sheet": "work",
+   "index": 6,
+   "atlasBox": [
+    345,
+    345,
+    533,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/presentation-64.png",
+    "128": "/assets/icons/bayit/life/presentation-128.png",
+    "256": "/assets/icons/bayit/life/presentation-256.png"
+   }
+  },
+  {
+   "slug": "email",
+   "name": "Email",
+   "he": "מייל",
+   "sheet": "work",
+   "index": 7,
+   "atlasBox": [
+    608,
+    363,
+    796,
+    513
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/email-64.png",
+    "128": "/assets/icons/bayit/life/email-128.png",
+    "256": "/assets/icons/bayit/life/email-256.png"
+   }
+  },
+  {
+   "slug": "hourglass",
+   "name": "Deadline",
+   "he": "דדליין",
+   "sheet": "work",
+   "index": 8,
+   "atlasBox": [
+    892,
+    345,
+    1037,
+    537
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hourglass-64.png",
+    "128": "/assets/icons/bayit/life/hourglass-128.png",
+    "256": "/assets/icons/bayit/life/hourglass-256.png"
+   }
+  },
+  {
+   "slug": "printer",
+   "name": "Printing",
+   "he": "הדפסה",
+   "sheet": "work",
+   "index": 9,
+   "atlasBox": [
+    1134,
+    351,
+    1339,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/printer-64.png",
+    "128": "/assets/icons/bayit/life/printer-128.png",
+    "256": "/assets/icons/bayit/life/printer-256.png"
+   }
+  },
+  {
+   "slug": "badge",
+   "name": "Name badge",
+   "he": "תג עובד",
+   "sheet": "work",
+   "index": 10,
+   "atlasBox": [
+    90,
+    605,
+    251,
+    805
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/badge-64.png",
+    "128": "/assets/icons/bayit/life/badge-128.png",
+    "256": "/assets/icons/bayit/life/badge-256.png"
+   }
+  },
+  {
+   "slug": "phone",
+   "name": "Phone call",
+   "he": "שיחת טלפון",
+   "sheet": "work",
+   "index": 11,
+   "atlasBox": [
+    346,
+    613,
+    532,
+    805
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/phone-64.png",
+    "128": "/assets/icons/bayit/life/phone-128.png",
+    "256": "/assets/icons/bayit/life/phone-256.png"
+   }
+  },
+  {
+   "slug": "folder",
+   "name": "Documents",
+   "he": "מסמכים",
+   "sheet": "work",
+   "index": 12,
+   "atlasBox": [
+    596,
+    628,
+    803,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/folder-64.png",
+    "128": "/assets/icons/bayit/life/folder-128.png",
+    "256": "/assets/icons/bayit/life/folder-256.png"
+   }
+  },
+  {
+   "slug": "sticky-notes",
+   "name": "Notes",
+   "he": "פתקים",
+   "sheet": "work",
+   "index": 13,
+   "atlasBox": [
+    869,
+    619,
+    1067,
+    799
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sticky-notes-64.png",
+    "128": "/assets/icons/bayit/life/sticky-notes-128.png",
+    "256": "/assets/icons/bayit/life/sticky-notes-256.png"
+   }
+  },
+  {
+   "slug": "hammock",
+   "name": "Day off",
+   "he": "יום חופש",
+   "sheet": "work",
+   "index": 14,
+   "atlasBox": [
+    1120,
+    621,
+    1355,
+    797
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hammock-64.png",
+    "128": "/assets/icons/bayit/life/hammock-128.png",
+    "256": "/assets/icons/bayit/life/hammock-256.png"
+   }
+  },
+  {
+   "slug": "reserve-duty",
+   "name": "Reserve duty",
+   "he": "מילואים",
+   "sheet": "work",
+   "index": 15,
+   "atlasBox": [
+    70,
+    875,
+    262,
+    1077
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/reserve-duty-64.png",
+    "128": "/assets/icons/bayit/life/reserve-duty-128.png",
+    "256": "/assets/icons/bayit/life/reserve-duty-256.png"
+   }
+  },
+  {
+   "slug": "work-from-home",
+   "name": "Work from home",
+   "he": "עבודה מהבית",
+   "sheet": "work",
+   "index": 16,
+   "atlasBox": [
+    319,
+    881,
+    538,
+    1070
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/work-from-home-64.png",
+    "128": "/assets/icons/bayit/life/work-from-home-128.png",
+    "256": "/assets/icons/bayit/life/work-from-home-256.png"
+   }
+  },
+  {
+   "slug": "certificate",
+   "name": "Course",
+   "he": "קורס",
+   "sheet": "work",
+   "index": 17,
+   "atlasBox": [
+    599,
+    892,
+    800,
+    1067
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/certificate-64.png",
+    "128": "/assets/icons/bayit/life/certificate-128.png",
+    "256": "/assets/icons/bayit/life/certificate-256.png"
+   }
+  },
+  {
+   "slug": "checklist",
+   "name": "Checklist",
+   "he": "רשימת משימות",
+   "sheet": "work",
+   "index": 18,
+   "atlasBox": [
+    878,
+    866,
+    1051,
+    1073
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/checklist-64.png",
+    "128": "/assets/icons/bayit/life/checklist-128.png",
+    "256": "/assets/icons/bayit/life/checklist-256.png"
+   }
+  },
+  {
+   "slug": "hard-hat",
+   "name": "Site visit",
+   "he": "ביקור באתר",
+   "sheet": "work",
+   "index": 19,
+   "atlasBox": [
+    1126,
+    893,
+    1343,
+    1051
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hard-hat-64.png",
+    "128": "/assets/icons/bayit/life/hard-hat-128.png",
+    "256": "/assets/icons/bayit/life/hard-hat-256.png"
+   }
+  },
+  {
+   "slug": "dog-house",
+   "name": "Dog",
+   "he": "כלב",
+   "sheet": "pets-weather",
+   "index": 0,
+   "atlasBox": [
+    64,
+    74,
+    260,
+    258
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dog-house-64.png",
+    "128": "/assets/icons/bayit/life/dog-house-128.png",
+    "256": "/assets/icons/bayit/life/dog-house-256.png"
+   }
+  },
+  {
+   "slug": "cat-yarn",
+   "name": "Cat",
+   "he": "חתול",
+   "sheet": "pets-weather",
+   "index": 1,
+   "atlasBox": [
+    330,
+    74,
+    538,
+    262
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/cat-yarn-64.png",
+    "128": "/assets/icons/bayit/life/cat-yarn-128.png",
+    "256": "/assets/icons/bayit/life/cat-yarn-256.png"
+   }
+  },
+  {
+   "slug": "fishbowl",
+   "name": "Fish",
+   "he": "דגים",
+   "sheet": "pets-weather",
+   "index": 2,
+   "atlasBox": [
+    601,
+    78,
+    800,
+    265
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/fishbowl-64.png",
+    "128": "/assets/icons/bayit/life/fishbowl-128.png",
+    "256": "/assets/icons/bayit/life/fishbowl-256.png"
+   }
+  },
+  {
+   "slug": "hamster",
+   "name": "Hamster",
+   "he": "אוגר",
+   "sheet": "pets-weather",
+   "index": 3,
+   "atlasBox": [
+    882,
+    76,
+    1059,
+    261
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/hamster-64.png",
+    "128": "/assets/icons/bayit/life/hamster-128.png",
+    "256": "/assets/icons/bayit/life/hamster-256.png"
+   }
+  },
+  {
+   "slug": "parrot",
+   "name": "Bird",
+   "he": "תוכי",
+   "sheet": "pets-weather",
+   "index": 4,
+   "atlasBox": [
+    1159,
+    70,
+    1339,
+    268
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/parrot-64.png",
+    "128": "/assets/icons/bayit/life/parrot-128.png",
+    "256": "/assets/icons/bayit/life/parrot-256.png"
+   }
+  },
+  {
+   "slug": "rabbit",
+   "name": "Rabbit",
+   "he": "ארנב",
+   "sheet": "pets-weather",
+   "index": 5,
+   "atlasBox": [
+    74,
+    339,
+    245,
+    536
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/rabbit-64.png",
+    "128": "/assets/icons/bayit/life/rabbit-128.png",
+    "256": "/assets/icons/bayit/life/rabbit-256.png"
+   }
+  },
+  {
+   "slug": "turtle",
+   "name": "Turtle",
+   "he": "צב",
+   "sheet": "pets-weather",
+   "index": 6,
+   "atlasBox": [
+    325,
+    381,
+    536,
+    518
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/turtle-64.png",
+    "128": "/assets/icons/bayit/life/turtle-128.png",
+    "256": "/assets/icons/bayit/life/turtle-256.png"
+   }
+  },
+  {
+   "slug": "vet",
+   "name": "Vet",
+   "he": "וטרינר",
+   "sheet": "pets-weather",
+   "index": 7,
+   "atlasBox": [
+    597,
+    345,
+    804,
+    527
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/vet-64.png",
+    "128": "/assets/icons/bayit/life/vet-128.png",
+    "256": "/assets/icons/bayit/life/vet-256.png"
+   }
+  },
+  {
+   "slug": "dog-bone",
+   "name": "Treats",
+   "he": "חטיף לכלב",
+   "sheet": "pets-weather",
+   "index": 8,
+   "atlasBox": [
+    877,
+    373,
+    1062,
+    508
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/dog-bone-64.png",
+    "128": "/assets/icons/bayit/life/dog-bone-128.png",
+    "256": "/assets/icons/bayit/life/dog-bone-256.png"
+   }
+  },
+  {
+   "slug": "litter-box",
+   "name": "Litter box",
+   "he": "ארגז חול",
+   "sheet": "pets-weather",
+   "index": 9,
+   "atlasBox": [
+    1135,
+    344,
+    1348,
+    528
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/litter-box-64.png",
+    "128": "/assets/icons/bayit/life/litter-box-128.png",
+    "256": "/assets/icons/bayit/life/litter-box-256.png"
+   }
+  },
+  {
+   "slug": "pet-bath",
+   "name": "Pet grooming",
+   "he": "רחצת כלב",
+   "sheet": "pets-weather",
+   "index": 10,
+   "atlasBox": [
+    60,
+    611,
+    265,
+    797
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/pet-bath-64.png",
+    "128": "/assets/icons/bayit/life/pet-bath-128.png",
+    "256": "/assets/icons/bayit/life/pet-bath-256.png"
+   }
+  },
+  {
+   "slug": "paw",
+   "name": "Pets",
+   "he": "חיות מחמד",
+   "sheet": "pets-weather",
+   "index": 11,
+   "atlasBox": [
+    338,
+    625,
+    526,
+    784
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/paw-64.png",
+    "128": "/assets/icons/bayit/life/paw-128.png",
+    "256": "/assets/icons/bayit/life/paw-256.png"
+   }
+  },
+  {
+   "slug": "rain",
+   "name": "Rain",
+   "he": "גשם",
+   "sheet": "pets-weather",
+   "index": 12,
+   "atlasBox": [
+    601,
+    612,
+    798,
+    795
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/rain-64.png",
+    "128": "/assets/icons/bayit/life/rain-128.png",
+    "256": "/assets/icons/bayit/life/rain-256.png"
+   }
+  },
+  {
+   "slug": "snow",
+   "name": "Snow",
+   "he": "שלג",
+   "sheet": "pets-weather",
+   "index": 13,
+   "atlasBox": [
+    882,
+    598,
+    1062,
+    816
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/snow-64.png",
+    "128": "/assets/icons/bayit/life/snow-128.png",
+    "256": "/assets/icons/bayit/life/snow-256.png"
+   }
+  },
+  {
+   "slug": "heatwave",
+   "name": "Heatwave",
+   "he": "שרב",
+   "sheet": "pets-weather",
+   "index": 14,
+   "atlasBox": [
+    1141,
+    599,
+    1333,
+    803
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/heatwave-64.png",
+    "128": "/assets/icons/bayit/life/heatwave-128.png",
+    "256": "/assets/icons/bayit/life/heatwave-256.png"
+   }
+  },
+  {
+   "slug": "wind",
+   "name": "Wind",
+   "he": "רוח",
+   "sheet": "pets-weather",
+   "index": 15,
+   "atlasBox": [
+    60,
+    880,
+    262,
+    1054
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wind-64.png",
+    "128": "/assets/icons/bayit/life/wind-128.png",
+    "256": "/assets/icons/bayit/life/wind-256.png"
+   }
+  },
+  {
+   "slug": "autumn",
+   "name": "Autumn",
+   "he": "סתיו",
+   "sheet": "pets-weather",
+   "index": 16,
+   "atlasBox": [
+    330,
+    876,
+    532,
+    1056
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/autumn-64.png",
+    "128": "/assets/icons/bayit/life/autumn-128.png",
+    "256": "/assets/icons/bayit/life/autumn-256.png"
+   }
+  },
+  {
+   "slug": "spring",
+   "name": "Spring",
+   "he": "אביב",
+   "sheet": "pets-weather",
+   "index": 17,
+   "atlasBox": [
+    602,
+    876,
+    798,
+    1056
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/spring-64.png",
+    "128": "/assets/icons/bayit/life/spring-128.png",
+    "256": "/assets/icons/bayit/life/spring-256.png"
+   }
+  },
+  {
+   "slug": "storm",
+   "name": "Thunderstorm",
+   "he": "סופה",
+   "sheet": "pets-weather",
+   "index": 18,
+   "atlasBox": [
+    867,
+    876,
+    1070,
+    1064
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/storm-64.png",
+    "128": "/assets/icons/bayit/life/storm-128.png",
+    "256": "/assets/icons/bayit/life/storm-256.png"
+   }
+  },
+  {
+   "slug": "rainbow",
+   "name": "Rainbow",
+   "he": "קשת בענן",
+   "sheet": "pets-weather",
+   "index": 19,
+   "atlasBox": [
+    1123,
+    888,
+    1358,
+    1048
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/rainbow-64.png",
+    "128": "/assets/icons/bayit/life/rainbow-128.png",
+    "256": "/assets/icons/bayit/life/rainbow-256.png"
+   }
+  },
+  {
+   "slug": "wallet",
+   "name": "Wallet",
+   "he": "ארנק",
+   "sheet": "money-weather",
+   "index": 0,
+   "atlasBox": [
+    66,
+    71,
+    262,
+    252
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wallet-64.png",
+    "128": "/assets/icons/bayit/life/wallet-128.png",
+    "256": "/assets/icons/bayit/life/wallet-256.png"
+   }
+  },
+  {
+   "slug": "coins",
+   "name": "Coins",
+   "he": "מטבעות",
+   "sheet": "money-weather",
+   "index": 1,
+   "atlasBox": [
+    339,
+    77,
+    509,
+    249
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/coins-64.png",
+    "128": "/assets/icons/bayit/life/coins-128.png",
+    "256": "/assets/icons/bayit/life/coins-256.png"
+   }
+  },
+  {
+   "slug": "credit-card",
+   "name": "Credit card",
+   "he": "כרטיס אשראי",
+   "sheet": "money-weather",
+   "index": 3,
+   "atlasBox": [
+    875,
+    95,
+    1064,
+    234
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/credit-card-64.png",
+    "128": "/assets/icons/bayit/life/credit-card-128.png",
+    "256": "/assets/icons/bayit/life/credit-card-256.png"
+   }
+  },
+  {
+   "slug": "piggy-bank",
+   "name": "Savings",
+   "he": "חיסכון",
+   "sheet": "money-weather",
+   "index": 4,
+   "atlasBox": [
+    1136,
+    61,
+    1347,
+    255
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/piggy-bank-64.png",
+    "128": "/assets/icons/bayit/life/piggy-bank-128.png",
+    "256": "/assets/icons/bayit/life/piggy-bank-256.png"
+   }
+  },
+  {
+   "slug": "bill",
+   "name": "Bill",
+   "he": "חשבון",
+   "sheet": "money-weather",
+   "index": 5,
+   "atlasBox": [
+    79,
+    341,
+    245,
+    529
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bill-64.png",
+    "128": "/assets/icons/bayit/life/bill-128.png",
+    "256": "/assets/icons/bayit/life/bill-256.png"
+   }
+  },
+  {
+   "slug": "electricity",
+   "name": "Electricity bill",
+   "he": "חשבון חשמל",
+   "sheet": "money-weather",
+   "index": 6,
+   "atlasBox": [
+    347,
+    341,
+    521,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/electricity-64.png",
+    "128": "/assets/icons/bayit/life/electricity-128.png",
+    "256": "/assets/icons/bayit/life/electricity-256.png"
+   }
+  },
+  {
+   "slug": "water-bill",
+   "name": "Water bill",
+   "he": "חשבון מים",
+   "sheet": "money-weather",
+   "index": 7,
+   "atlasBox": [
+    608,
+    342,
+    789,
+    538
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/water-bill-64.png",
+    "128": "/assets/icons/bayit/life/water-bill-128.png",
+    "256": "/assets/icons/bayit/life/water-bill-256.png"
+   }
+  },
+  {
+   "slug": "gas-cylinder",
+   "name": "Gas",
+   "he": "גז",
+   "sheet": "money-weather",
+   "index": 8,
+   "atlasBox": [
+    892,
+    336,
+    1044,
+    535
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/gas-cylinder-64.png",
+    "128": "/assets/icons/bayit/life/gas-cylinder-128.png",
+    "256": "/assets/icons/bayit/life/gas-cylinder-256.png"
+   }
+  },
+  {
+   "slug": "rent",
+   "name": "Rent",
+   "he": "שכר דירה",
+   "sheet": "money-weather",
+   "index": 9,
+   "atlasBox": [
+    1135,
+    346,
+    1345,
+    536
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/rent-64.png",
+    "128": "/assets/icons/bayit/life/rent-128.png",
+    "256": "/assets/icons/bayit/life/rent-256.png"
+   }
+  },
+  {
+   "slug": "receipt",
+   "name": "Receipt",
+   "he": "קבלה",
+   "sheet": "money-weather",
+   "index": 10,
+   "atlasBox": [
+    68,
+    614,
+    252,
+    790
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/receipt-64.png",
+    "128": "/assets/icons/bayit/life/receipt-128.png",
+    "256": "/assets/icons/bayit/life/receipt-256.png"
+   }
+  },
+  {
+   "slug": "savings-jar",
+   "name": "Savings goal",
+   "he": "יעד חיסכון",
+   "sheet": "money-weather",
+   "index": 11,
+   "atlasBox": [
+    347,
+    610,
+    514,
+    794
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/savings-jar-64.png",
+    "128": "/assets/icons/bayit/life/savings-jar-128.png",
+    "256": "/assets/icons/bayit/life/savings-jar-256.png"
+   }
+  },
+  {
+   "slug": "allowance",
+   "name": "Pocket money",
+   "he": "דמי כיס",
+   "sheet": "money-weather",
+   "index": 13,
+   "atlasBox": [
+    881,
+    611,
+    1054,
+    796
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/allowance-64.png",
+    "128": "/assets/icons/bayit/life/allowance-128.png",
+    "256": "/assets/icons/bayit/life/allowance-256.png"
+   }
+  },
+  {
+   "slug": "subscription",
+   "name": "Subscription",
+   "he": "מינוי",
+   "sheet": "money-weather",
+   "index": 14,
+   "atlasBox": [
+    1152,
+    611,
+    1337,
+    796
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/subscription-64.png",
+    "128": "/assets/icons/bayit/life/subscription-128.png",
+    "256": "/assets/icons/bayit/life/subscription-256.png"
+   }
+  },
+  {
+   "slug": "price-tag",
+   "name": "Price",
+   "he": "מחיר",
+   "sheet": "money-weather",
+   "index": 15,
+   "atlasBox": [
+    67,
+    868,
+    239,
+    1071
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/price-tag-64.png",
+    "128": "/assets/icons/bayit/life/price-tag-128.png",
+    "256": "/assets/icons/bayit/life/price-tag-256.png"
+   }
+  },
+  {
+   "slug": "insurance",
+   "name": "Insurance",
+   "he": "ביטוח",
+   "sheet": "money-weather",
+   "index": 16,
+   "atlasBox": [
+    340,
+    872,
+    517,
+    1070
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/insurance-64.png",
+    "128": "/assets/icons/bayit/life/insurance-128.png",
+    "256": "/assets/icons/bayit/life/insurance-256.png"
+   }
+  },
+  {
+   "slug": "city-hall",
+   "name": "Municipality",
+   "he": "עירייה",
+   "sheet": "money-weather",
+   "index": 17,
+   "atlasBox": [
+    590,
+    868,
+    810,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/city-hall-64.png",
+    "128": "/assets/icons/bayit/life/city-hall-128.png",
+    "256": "/assets/icons/bayit/life/city-hall-256.png"
+   }
+  },
+  {
+   "slug": "umbrella",
+   "name": "Umbrella",
+   "he": "מטרייה",
+   "sheet": "money-weather",
+   "index": 18,
+   "atlasBox": [
+    870,
+    872,
+    1071,
+    1068
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/umbrella-64.png",
+    "128": "/assets/icons/bayit/life/umbrella-128.png",
+    "256": "/assets/icons/bayit/life/umbrella-256.png"
+   }
+  },
+  {
+   "slug": "sunscreen",
+   "name": "Sunscreen",
+   "he": "קרם הגנה",
+   "sheet": "money-weather",
+   "index": 19,
+   "atlasBox": [
+    1171,
+    868,
+    1306,
+    1069
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sunscreen-64.png",
+    "128": "/assets/icons/bayit/life/sunscreen-128.png",
+    "256": "/assets/icons/bayit/life/sunscreen-256.png"
+   }
+  },
+  {
+   "slug": "playdate",
+   "name": "Playdate",
+   "he": "מפגש משחק",
+   "sheet": "extras-a",
+   "index": 1,
+   "atlasBox": [
+    336,
+    81,
+    537,
+    246
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/playdate-64.png",
+    "128": "/assets/icons/bayit/life/playdate-128.png",
+    "256": "/assets/icons/bayit/life/playdate-256.png"
+   }
+  },
+  {
+   "slug": "baby-monitor",
+   "name": "Babysitter",
+   "he": "בייביסיטר",
+   "sheet": "extras-a",
+   "index": 2,
+   "atlasBox": [
+    616,
+    56,
+    783,
+    254
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/baby-monitor-64.png",
+    "128": "/assets/icons/bayit/life/baby-monitor-128.png",
+    "256": "/assets/icons/bayit/life/baby-monitor-256.png"
+   }
+  },
+  {
+   "slug": "sleepover",
+   "name": "Sleepover",
+   "he": "לינה אצל חבר",
+   "sheet": "extras-a",
+   "index": 3,
+   "atlasBox": [
+    863,
+    84,
+    1063,
+    246
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/sleepover-64.png",
+    "128": "/assets/icons/bayit/life/sleepover-128.png",
+    "256": "/assets/icons/bayit/life/sleepover-256.png"
+   }
+  },
+  {
+   "slug": "braces",
+   "name": "Orthodontist",
+   "he": "אורתודונט",
+   "sheet": "extras-a",
+   "index": 4,
+   "atlasBox": [
+    1154,
+    79,
+    1323,
+    252
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/braces-64.png",
+    "128": "/assets/icons/bayit/life/braces-128.png",
+    "256": "/assets/icons/bayit/life/braces-256.png"
+   }
+  },
+  {
+   "slug": "volunteering",
+   "name": "Volunteering",
+   "he": "התנדבות",
+   "sheet": "extras-a",
+   "index": 5,
+   "atlasBox": [
+    75,
+    354,
+    263,
+    521
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/volunteering-64.png",
+    "128": "/assets/icons/bayit/life/volunteering-128.png",
+    "256": "/assets/icons/bayit/life/volunteering-256.png"
+   }
+  },
+  {
+   "slug": "charity-box",
+   "name": "Donation",
+   "he": "תרומה",
+   "sheet": "extras-a",
+   "index": 6,
+   "atlasBox": [
+    352,
+    322,
+    524,
+    525
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/charity-box-64.png",
+    "128": "/assets/icons/bayit/life/charity-box-128.png",
+    "256": "/assets/icons/bayit/life/charity-box-256.png"
+   }
+  },
+  {
+   "slug": "blood-donation",
+   "name": "Blood donation",
+   "he": "תרומת דם",
+   "sheet": "extras-a",
+   "index": 7,
+   "atlasBox": [
+    624,
+    341,
+    772,
+    529
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/blood-donation-64.png",
+    "128": "/assets/icons/bayit/life/blood-donation-128.png",
+    "256": "/assets/icons/bayit/life/blood-donation-256.png"
+   }
+  },
+  {
+   "slug": "ballot-box",
+   "name": "Elections",
+   "he": "בחירות",
+   "sheet": "extras-a",
+   "index": 8,
+   "atlasBox": [
+    874,
+    325,
+    1049,
+    526
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/ballot-box-64.png",
+    "128": "/assets/icons/bayit/life/ballot-box-128.png",
+    "256": "/assets/icons/bayit/life/ballot-box-256.png"
+   }
+  },
+  {
+   "slug": "building-committee",
+   "name": "Building meeting",
+   "he": "ועד בית",
+   "sheet": "extras-a",
+   "index": 9,
+   "atlasBox": [
+    1125,
+    337,
+    1341,
+    525
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/building-committee-64.png",
+    "128": "/assets/icons/bayit/life/building-committee-128.png",
+    "256": "/assets/icons/bayit/life/building-committee-256.png"
+   }
+  },
+  {
+   "slug": "emergency-kit",
+   "name": "Emergency kit",
+   "he": "ערכת חירום",
+   "sheet": "extras-a",
+   "index": 10,
+   "atlasBox": [
+    68,
+    608,
+    273,
+    800
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/emergency-kit-64.png",
+    "128": "/assets/icons/bayit/life/emergency-kit-128.png",
+    "256": "/assets/icons/bayit/life/emergency-kit-256.png"
+   }
+  },
+  {
+   "slug": "phone-repair",
+   "name": "Phone repair",
+   "he": "תיקון טלפון",
+   "sheet": "extras-a",
+   "index": 11,
+   "atlasBox": [
+    364,
+    613,
+    522,
+    792
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/phone-repair-64.png",
+    "128": "/assets/icons/bayit/life/phone-repair-128.png",
+    "256": "/assets/icons/bayit/life/phone-repair-256.png"
+   }
+  },
+  {
+   "slug": "wifi",
+   "name": "Internet",
+   "he": "אינטרנט",
+   "sheet": "extras-a",
+   "index": 12,
+   "atlasBox": [
+    604,
+    614,
+    790,
+    790
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/wifi-64.png",
+    "128": "/assets/icons/bayit/life/wifi-128.png",
+    "256": "/assets/icons/bayit/life/wifi-256.png"
+   }
+  },
+  {
+   "slug": "tv",
+   "name": "TV",
+   "he": "טלוויזיה",
+   "sheet": "extras-a",
+   "index": 13,
+   "atlasBox": [
+    867,
+    631,
+    1059,
+    783
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/tv-64.png",
+    "128": "/assets/icons/bayit/life/tv-128.png",
+    "256": "/assets/icons/bayit/life/tv-256.png"
+   }
+  },
+  {
+   "slug": "friends-coffee",
+   "name": "Friends",
+   "he": "חברים",
+   "sheet": "extras-a",
+   "index": 14,
+   "atlasBox": [
+    1125,
+    606,
+    1348,
+    777
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/friends-coffee-64.png",
+    "128": "/assets/icons/bayit/life/friends-coffee-128.png",
+    "256": "/assets/icons/bayit/life/friends-coffee-256.png"
+   }
+  },
+  {
+   "slug": "date-night",
+   "name": "Date night",
+   "he": "ערב זוגי",
+   "sheet": "extras-a",
+   "index": 15,
+   "atlasBox": [
+    69,
+    874,
+    270,
+    1065
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/date-night-64.png",
+    "128": "/assets/icons/bayit/life/date-night-128.png",
+    "256": "/assets/icons/bayit/life/date-night-256.png"
+   }
+  },
+  {
+   "slug": "chef-hat",
+   "name": "Cooking class",
+   "he": "סדנת בישול",
+   "sheet": "extras-a",
+   "index": 16,
+   "atlasBox": [
+    336,
+    880,
+    533,
+    1064
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/chef-hat-64.png",
+    "128": "/assets/icons/bayit/life/chef-hat-128.png",
+    "256": "/assets/icons/bayit/life/chef-hat-256.png"
+   }
+  },
+  {
+   "slug": "spa",
+   "name": "Self care",
+   "he": "זמן לעצמי",
+   "sheet": "extras-a",
+   "index": 17,
+   "atlasBox": [
+    591,
+    886,
+    806,
+    1052
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/spa-64.png",
+    "128": "/assets/icons/bayit/life/spa-128.png",
+    "256": "/assets/icons/bayit/life/spa-256.png"
+   }
+  },
+  {
+   "slug": "nail-polish",
+   "name": "Manicure",
+   "he": "מניקור",
+   "sheet": "extras-a",
+   "index": 18,
+   "atlasBox": [
+    899,
+    873,
+    1022,
+    1065
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/nail-polish-64.png",
+    "128": "/assets/icons/bayit/life/nail-polish-128.png",
+    "256": "/assets/icons/bayit/life/nail-polish-256.png"
+   }
+  },
+  {
+   "slug": "stadium",
+   "name": "Match",
+   "he": "משחק ספורט",
+   "sheet": "extras-a",
+   "index": 19,
+   "atlasBox": [
+    1131,
+    882,
+    1334,
+    1057
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/stadium-64.png",
+    "128": "/assets/icons/bayit/life/stadium-128.png",
+    "256": "/assets/icons/bayit/life/stadium-256.png"
+   }
+  },
+  {
+   "slug": "menorah",
+   "name": "Menorah",
+   "he": "חנוכייה",
+   "sheet": "fixes-a",
+   "index": 0,
+   "atlasBox": [
+    137,
+    139,
+    614,
+    602
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/menorah-64.png",
+    "128": "/assets/icons/bayit/life/menorah-128.png",
+    "256": "/assets/icons/bayit/life/menorah-256.png"
+   }
+  },
+  {
+   "slug": "bank",
+   "name": "Bank",
+   "he": "בנק",
+   "sheet": "fixes-a",
+   "index": 1,
+   "atlasBox": [
+    848,
+    129,
+    1324,
+    598
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/bank-64.png",
+    "128": "/assets/icons/bayit/life/bank-128.png",
+    "256": "/assets/icons/bayit/life/bank-256.png"
+   }
+  },
+  {
+   "slug": "banknotes",
+   "name": "Cash",
+   "he": "מזומן",
+   "sheet": "fixes-a",
+   "index": 2,
+   "atlasBox": [
+    1565,
+    166,
+    2046,
+    571
+   ],
+   "files": {
+    "64": "/assets/icons/bayit/life/banknotes-64.png",
+    "128": "/assets/icons/bayit/life/banknotes-128.png",
+    "256": "/assets/icons/bayit/life/banknotes-256.png"
+   }
+  }
+ ]
+}

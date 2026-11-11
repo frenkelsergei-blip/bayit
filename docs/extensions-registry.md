@@ -10,10 +10,12 @@ Bayit's core keeps its registries. An extension adds new files plus **one line i
 | AI providers | `shared/extensions/ai-providers.mjs` → `EXTRA_AI_PROVIDERS` | `AI_PROVIDERS` in `shared/ai-providers.mjs` |
 | Speech-to-text | `app/cloud/extensions/speech.mjs` → `EXTRA_SPEECH` | `SPEECH_PROVIDERS`, `transcribe()` in `app/cloud/speech.mjs` |
 | Sign-in methods | `app/cloud/extensions/signin.mjs` → `EXTRA_SIGNIN` | `SIGNIN_METHODS` in `app/cloud/signin-methods.mjs` (contract: `docs/sign-in-methods.md`) |
+| Messaging channels | `app/cloud/extensions/channels.mjs` → `EXTRA_CHANNELS` | `CHANNELS` in `app/cloud/channels.mjs` (contract: `docs/channel-contract.md`) |
 | Statement formats | `shared/extensions/statement-formats.mjs` → `EXTRA_STATEMENT_FORMATS` | `detectFormat()`, `parseStatement()` in `shared/finance-parse.mjs` |
+| Feature modules | `shared/extensions/modules.mjs` → `EXTRA_MODULES` (screens: `app/src/extensions/screens.jsx` → `EXTRA_SCREENS`) | `MODULES` in `shared/feature-modules.mjs` (contract: `docs/feature-module-contract.md`) |
 | Install record | `shared/extensions/installed.json` → `[]` | read by `bayit-doctor` |
 
-The connections seam (`shared/extensions/connections.mjs`) follows the same rule.
+The connections seam (`shared/extensions/connections.mjs`) follows the same rule. A connection's panel is registered in the client file `app/src/extensions/connection-panels.jsx` → `EXTRA_CONNECTION_PANELS` (`{id, Panel, status?, Icon?}`, read by `app/src/connections-hub.jsx`); `bayit-extension.mjs` manages it too (seam `connection-panels`, checked without a browser, see `docs/extension-skills.md`).
 
 ## The rule
 
@@ -43,6 +45,18 @@ export const EXTRA_AI_PROVIDERS=[{id:'mistral',name:'Mistral',company:'Mistral A
 import {OPENAI_SPEECH} from './openai-speech.mjs';
 export const EXTRA_SPEECH=[OPENAI_SPEECH];
 // OPENAI_SPEECH = {id:'openai-speech',name:{en:'OpenAI',he:'OpenAI'},cost:{en:'…',he:'…'},available:(env,household)=>({ok,reason}),transcribe:async(env,bytes,{language,mimeType,household})=>text}
+
+// app/cloud/extensions/channels.mjs
+import {WHATSAPP} from './whatsapp.mjs';
+export const EXTRA_CHANNELS=[WHATSAPP];
+// WHATSAPP = {id:'whatsapp',name:{en,he},feature:'whatsapp' /* its own feature, shared/extensions/features.mjs */,apiPath:'/api/whatsapp/',hookPath:'/api/whatsapp/hook/',
+//   api(request,env,user,home,path,url),webhook(request,env,hookId),delivery:{targets,recipients,open,render,send,blocked,cleanup}}
+
+// shared/extensions/modules.mjs (+ its feature in shared/extensions/features.mjs and its screen in app/src/extensions/screens.jsx)
+import {LENDING_MODULE} from './lending.mjs';
+export const EXTRA_MODULES=[LENDING_MODULE];
+// LENDING_MODULE = {id:'lending',version:1,audience:'everyone',childrenMay:'read',offline:true,
+//   collections:{items:{edit:'owner',label:'title',fields:{title:{type:'text',max:200,required:true},returned:{type:'boolean'}}}}}
 
 // shared/extensions/statement-formats.mjs
 import {TESTBANK} from './testbank.mjs';

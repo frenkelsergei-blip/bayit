@@ -1,0 +1,19 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__ connection", "he": "__NAME_HE__"},
+ "description": "Adds a __NAME_EN__ card to Accounts & connections, with its guide and panel.",
+ "seam": "connections",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "shared/extensions/__ID__.mjs",
+  "app/src/extensions/__ID__-panel.jsx",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "connections", "id": "__ID__", "file": "shared/extensions/__ID__.mjs", "export": "__EXPORT__"},
+  {"seam": "connection-panels", "id": "__ID__", "file": "app/src/extensions/__ID__-panel.jsx", "export": "__EXPORT___PANEL"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

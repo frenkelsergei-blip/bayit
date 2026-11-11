@@ -1,4 +1,5 @@
 import {fail,random,hash} from './util.mjs';
+import {passkeysOn,relyingParty} from './passkey-config.mjs';
 
 export function hasPrivateIdentityData(state,memberId){
  for(const value of Object.values(state||{}))if(Array.isArray(value)&&value.some(r=>r&&r.ownerId===memberId&&r.visibility!=='family'))return true;
@@ -37,7 +38,10 @@ export function bindTelegramIdentity(env,homeId,memberId,telegramId){return env.
 export async function ownAccountInvitation(env,home,memberId,telegramUserId,origin){
  const member=home.state.members.find(m=>m.id===memberId&&m.role==='child'),identity=await identityFor(env,home,memberId);
  if(!member||identity?.telegram_user_id!==telegramUserId)throw fail('Use your own linked child chat.',403);
- const linked=await env.DB.prepare('SELECT user_id FROM memberships WHERE household_id=? AND member_id=?').bind(home.id,memberId).first();if(linked)throw fail('Your Google account is already linked.',409);
+ const linked=await env.DB.prepare('SELECT user_id FROM memberships WHERE household_id=? AND member_id=?').bind(home.id,memberId).first();
+ // Already linked: with passkeys on, the child's own verified chat may add a passkey to that same account (design §4.4),
+ // through a recovery link for exactly that account, without the parent hold (the chat already proves the child).
+ if(linked){if(!passkeysOn(env)||!relyingParty(env))throw fail('Your account is already linked.',409);const token=random(32),now=Date.now();await env.DB.prepare("INSERT INTO invitations(token_hash,household_id,role,created_by,expires_at,member_id,identity_verified,purpose,target_user_id,usable_at) VALUES(?,?,'child',?,?,?,1,'recover',?,?)").bind(await hash(token),home.id,'telegram:'+memberId,now+15*60000,memberId,linked.user_id,now).run();return new URL('/#join?invite='+token,origin).href}
  const token=random(32);await env.DB.prepare("INSERT INTO invitations(token_hash,household_id,role,created_by,expires_at,member_id,identity_verified) VALUES(?,?,'child',?,?,?,1)").bind(await hash(token),home.id,'telegram:'+memberId,Date.now()+15*60000,memberId).run();
  return new URL('/#join?invite='+token,origin).href;
 }

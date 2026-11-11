@@ -3,6 +3,8 @@ import {House,UsersThree,Link,Plus,ArrowRight,CheckCircle,DownloadSimple,ArrowCo
 import {configureCloudTransport} from './cloud-transport';
 import {linkedHousehold} from '../../shared/record-links.mjs';
 import {SplashHold,SplashOff,SignInSunrise,SunriseTitle} from './splash';
+import {PasskeyEntry,PasskeySignedUser,passkeysOffered,Steps} from './passkey-entry';
+import {SetupFamilyName} from './setup-first-open';
 import {EntrySurface,readEntryPreferences} from './entry-surface';
 import {HouseholdClient,request} from './household-sync.js';
 import {offlineStore,readSnapshot,loadQueue,clearOfflineData,forgetOtherAccounts,accountKey,queueSize} from './offline-store.js';
@@ -24,17 +26,22 @@ function CloudEntry({config,session,onHousehold,reload,embedded=false}){
  useEffect(()=>{document.documentElement.dir=language==='he'?'rtl':'ltr';document.documentElement.lang=language;document.documentElement.dataset.theme=readEntryPreferences().theme;try{localStorage.setItem('bayit-lang',JSON.stringify(language))}catch{}},[language]);
  const action=async fn=>{setBusy(true);setError('');try{await fn()}catch(e){setError(e.message)}finally{setBusy(false)}};
  const create=e=>{e.preventDefault();action(async()=>{const result=await request('/api/households',{name});await onHousehold(result.id)})},join=e=>{e.preventDefault();action(async()=>{let value=token.trim();try{const url=new URL(value);value=new URLSearchParams(url.hash.split('?')[1]||'').get('invite')||value}catch{}const result=await request('/api/family/join',{token:value});await onHousehold(result.id)})};
+ // Passkeys offered (or the owner's setup is open): concept A entry screens (passkey-entry.jsx). Otherwise unchanged.
+ if(!session?.user&&passkeysOffered(config,signInMethods(config))&&!config?.installation?.updateRequired)return <><SplashOff/><PasskeyEntry T={T} language={language} setLanguage={setLanguage} config={config} methods={signInMethods(config)} error={error} onGoogle={()=>action(()=>startSignIn('google'))} onDemo={()=>{const url=new URL(location.href);url.searchParams.set('demo','1');url.hash='today';location.href=url.href}}/></>;
  if(!session?.user)return <><SplashOff/><SignInSunrise T={T} language={language} setLanguage={setLanguage} busy={busy} configured={!!config?.auth?.configured&&!config?.registration?.setupRequired&&!config?.installation?.updateRequired} error={error||(config?.installation?.updateRequired?T('The installation owner must finish the database update. Your saved data is kept.','בעל ההתקנה צריך להשלים את עדכון מסד הנתונים. המידע שנשמר נשאר.'): null)||(config?.registration?.setupRequired?T('The installation owner must approve the first account before sign-in.','בעל ההתקנה צריך לאשר את החשבון הראשון לפני הכניסה.'): '')} methods={signInMethods(config)} onSignIn={id=>action(()=>startSignIn(id))} onDemo={()=>{const url=new URL(location.href);url.searchParams.set('demo','1');url.hash='today';location.href=url.href}}/></>;
+ // Right after the owner's setup passkey (no email, no household, no invitation in the link): the family-name step of
+ // the setup steps (install wizard concept A, e4-family). Same create call; joining is not offered to a brand-new owner.
+ if(!session.user.email&&!session.memberships?.length&&!token&&!embedded)return <EntrySurface T={T} language={language} setLanguage={setLanguage}><SplashOff/><SetupFamilyName T={T} user={<PasskeySignedUser T={T} name={session.user.name}/>} name={name} setName={setName} busy={busy} error={error} onSubmit={create} steps={<Steps T={T} n={4} labels={[T('Setup code','קוד הקמה'),T('Your name','השם שלכם'),T('Passkey','מפתח גישה'),T('Family','המשפחה')]}/>}/></EntrySurface>;
  return <EntrySurface T={T} language={language} setLanguage={setLanguage} onboarding embedded={embedded}><SplashOff/>
   <SunriseTitle text={T('Make yourself at home.','מרגישים בבית.')}/><p className="sunrise-sub">{T('Create your family, or use the invitation you received.','צרו משפחה, או הצטרפו באמצעות ההזמנה שקיבלתם.')}</p>
   <section className="bayit-entry-card" aria-label={T('Create or join a family','יצירת משפחה או הצטרפות')}>
-   <div className="cloud-signed-user">{session.user.image&&<img src={session.user.image} alt=""/>}<div><strong>{session.user.name}</strong><small>{session.user.email}</small></div></div>
+   {session.user.email?<div className="cloud-signed-user">{session.user.image&&<img src={session.user.image} alt=""/>}<div><strong>{session.user.name}</strong><small>{session.user.email}</small></div></div>:<PasskeySignedUser T={T} name={session.user.name}/>}
    <form className="form-stack" onSubmit={create}><label>{T('Family / household name','שם המשפחה / הבית')}<input required value={name} onChange={e=>setName(e.target.value)} maxLength={80} placeholder={T('e.g. The Levi family','למשל, משפחת לוי')}/></label><button className="button" disabled={busy}><Plus size={22}/>{T('Create a family','יצירת משפחה')}</button></form>
    <div className="cloud-join-divider"><span>{T('or join your family','או הצטרפו למשפחה שלכם')}</span></div>
    <form className="form-stack" onSubmit={join}><label>{T('Invitation link or code','קישור או קוד הזמנה')}<input value={token} onChange={e=>setToken(e.target.value)} required placeholder={T('Paste your invitation','הדביקו את ההזמנה')}/></label><button className="button secondary" disabled={busy}><Link size={22}/>{T('Join this household','הצטרפות לבית')}</button></form>
    {session.memberships?.length>0&&<div className="cloud-existing-homes"><h3>{T('Your households','הבתים שלכם')}</h3>{session.memberships.map(h=><button key={h.id} onClick={()=>onHousehold(h.id)}><House size={22}/>{h.name}<ArrowRight size={20}/></button>)}</div>}
    {error&&<p role="alert" className="entry-error">{error}</p>}
-   <small className="cloud-privacy-note">{T('Your partner uses their own Google account and joins through your invitation.','בן או בת הזוג משתמשים בחשבון Google אישי ומצטרפים באמצעות ההזמנה שלכם.')}</small>
+   <small className="cloud-privacy-note">{session.user.email?T('Your partner uses their own Google account and joins through your invitation.','בן או בת הזוג משתמשים בחשבון Google אישי ומצטרפים באמצעות ההזמנה שלכם.'):T('Everyone in the family joins through your invitation, with their own passkey.','כל אחד במשפחה מצטרף דרך ההזמנה שלכם, עם מפתח גישה משלו.')}</small>
   </section>
  </EntrySurface>
 }

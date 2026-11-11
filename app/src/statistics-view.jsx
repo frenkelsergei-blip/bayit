@@ -12,11 +12,14 @@ import {statisticsUsage,tasksModel,calendarModel,kidsModel,shoppingModel,periodW
 import {OverviewTab,TasksTab,CalendarTab,KidsTab,ShoppingTab} from './statistics-areas';
 import {HouseholdMoneyStatistics,useStatisticsMoney,moneyModel} from './household-money-statistics.jsx';
 import './statistics-layout.css';
-// Statistics (user decision 2026-11-08, AGENTS.md "Statistics direction"): tabs by area — Overview, Tasks, Calendar,
-// Kids, Shopping, Money — and only for areas this household uses. One aligned filter row (period · person · the
-// tab's own filter · Family/Mine), the full-width tab strip, then the tab. Children never get Money and see only
-// their own Kids progress. Routes: #statistics (Overview), #statistics/<tab>; the old #statistics/household opens Money.
-const TABS=[['overview',ChartPieSlice,'Overview','סקירה'],['tasks',CheckCircle,'Tasks','משימות'],['calendar',CalendarDots,'Calendar','יומן'],['kids',Star,'Kids','ילדים'],['shopping',ShoppingCart,'Shopping','קניות'],['money',Wallet,'Money','כסף']];
+// Statistics (user decision 2026-11-08, AGENTS.md "Statistics direction"): tabs by area — Overview, Expenses, Tasks,
+// Calendar, Kids, Shopping — and only for areas this household uses. One aligned filter row (period · person · the
+// tab's own filter · Family/Mine), the full-width tab strip, then the tab. Children never get Expenses and see only
+// their own Kids progress. Routes: #statistics (Overview), #statistics/<tab>.
+// Expenses (user 2026-11-10: "it isn't money, it's expenses", and one of the most important parts, so it comes right
+// after Overview). Its area id stays 'money' (data, Features registry, tests); its address is #statistics/expenses,
+// and the old #statistics/money and #statistics/household still open it.
+const TABS=[['overview',ChartPieSlice,'Overview','סקירה'],['money',Wallet,'Expenses','הוצאות'],['tasks',CheckCircle,'Tasks','משימות'],['calendar',CalendarDots,'Calendar','יומן'],['kids',Star,'Kids','ילדים'],['shopping',ShoppingCart,'Shopping','קניות']];
 // Phones get short period wording.
 function useNarrow(){const query='(max-width:700px)',[narrow,setNarrow]=useState(()=>typeof matchMedia==='function'&&matchMedia(query).matches);useEffect(()=>{if(typeof matchMedia!=='function')return;const m=matchMedia(query),on=()=>setNarrow(m.matches);m.addEventListener('change',on);return()=>m.removeEventListener('change',on)},[]);return narrow}
 
@@ -27,7 +30,7 @@ export function StatisticsView({app:a,ui}){
  const remote=useStatisticsMoney(a,parent);
  // Features registry (2026-11-09): an area that is off for this person has no tab and no Overview card.
  const usage=Object.fromEntries(Object.entries(statisticsUsage({data:a.data,user:a.user,members:a.members,parent,money:remote.data})).map(([id,used])=>{const f=statsFeature(id);return [id,used&&(!f||!a.features||a.features.on(f))]}));
- const requested=(a.route.split('?')[0].split('/')[1]||'overview').replace(/^household$/,'money');
+ const requested=(a.route.split('?')[0].split('/')[1]||'overview').replace(/^(household|expenses)$/,'money');
  const tabs=TABS.filter(([id])=>id==='overview'||usage[id]),tab=tabs.some(([id])=>id===requested)?requested:'overview';
  const kidsOnly=tab==='kids',personFilter=!(kidsOnly&&isChild)&&scope!=='private',people=kidsOnly?a.members.filter(m=>m.role==='child'):a.members;
  const who=personFilter&&people.some(m=>m.id===person)?person:'all';
@@ -42,7 +45,7 @@ export function StatisticsView({app:a,ui}){
  const ctx={a,T,rtl,locale,ui,scope,person:who,range,isChild,window:periodWindow(range,end)};
  // Cards and accounts for the Money filter (several at once), from the records this viewer may see in this sharing view.
  const sourceIndex=tab==='money'&&usage.money?moneyModel(a,remote,{range:'all',scope,end}).index:{list:[],byKey:new Map()};
- const go=id=>a.go(id==='overview'?'statistics':'statistics/'+id);
+ const go=id=>a.go(id==='overview'?'statistics':'statistics/'+(id==='money'?'expenses':id));
  // On phones the tab strip scrolls sideways: keep the chosen tab in view (same as the Household module tabs).
  useEffect(()=>{const reveal=()=>{const el=tabsRef.current?.querySelector('[aria-current=page]'),strip=el?.parentElement;if(!el||!strip||strip.scrollWidth<=strip.clientWidth+1)return;const s=strip.getBoundingClientRect(),r=el.getBoundingClientRect();if(r.left<s.left+4||r.right>s.right-4)strip.scrollBy({left:r.left<s.left+4?r.left-s.left-8:r.right-s.right+8,behavior:'auto'})};const f=requestAnimationFrame(()=>requestAnimationFrame(reveal)),t=setTimeout(reveal,400);return()=>{cancelAnimationFrame(f);clearTimeout(t)}},[tab]);
  const categoryLabel=key=>{const pair=SHOPPING_CATEGORIES.find(c=>c[0]===key);return pair?T(pair[0],pair[1]):key};

@@ -6,8 +6,8 @@ export const heroGameReward=kind=>HERO_GAME_REWARDS[kind]||{xp:0,coins:0};
 export const HERO_GAME_MAX_AGE=24*60*60*1000;
 export const HERO_PUZZLE_ART=[
  ['room','My cozy room','החדר הנעים שלי','/assets/generated/hero-home/room.png'],
- ['garden','Garden adventure','הרפתקה בגינה','/assets/generated/kids-garden.png'],
- ['moon','Moonlight garden','גינה לאור ירח','/assets/generated/hero-home/moon-garden.png'],
+ ['garden','Garden adventure','הרפתקה בגינה','/assets/generated/hero-puzzles/garden.png'],
+ ['moon','Moonlight garden','גינה לאור ירח','/assets/generated/hero-puzzles/moon.png'],
  ...[['forest','Woodland picnic','פיקניק ביער'],['beach','Sandcastle beach','ארמון בחוף'],['space','Space explorers','חוקרים בחלל'],['bakery','The little bakery','המאפייה הקטנה'],['aquarium','Under the sea','מתחת לים'],['farm','A day at the farm','יום בחווה'],['library','The cozy library','הספרייה הנעימה'],['train','All aboard!','עולים לרכבת'],['snow','Snowy adventures','הרפתקאות בשלג']].map(([id,en,he])=>[id,en,he,'/assets/generated/hero-puzzles/'+id+'.png']),
 ];
 export const heroPuzzleThumbnail=id=>'/assets/generated/hero-puzzles/thumbs/'+id+'.png';

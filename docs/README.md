@@ -6,7 +6,8 @@
 | --- | --- |
 | [Install on Cloudflare](self-hosting.md) | The default: free plan, no server to look after. |
 | [Run with Docker](self-hosting-docker.md) | Your own computer, NAS, Raspberry Pi, VPS or container host. |
-| [Google sign-in setup](google-sign-in.md) | Creating the sign-in client both installations need. |
+| [Google sign-in setup](google-sign-in.md) | Optional: "Continue with Google" next to passkeys. |
+| [Sign-in methods](sign-in-methods.md) | Passkeys, Google, and how sign-in methods work. |
 | [Connections](connections.md) | AI provider, Telegram bot, phone notifications, Google Maps, statements, RiseUp. |
 | [Updating and backups](updating-and-backups.md) | Backing up, updating safely, and following releases. |
 | [Troubleshooting](troubleshooting.md) | The doctor, and fixes for common problems. |

@@ -1,4 +1,10 @@
 Nine original puzzle scene illustrations generated for Bayit with OpenAI image_gen,2026-11-07.
 Scenes: forest, beach, space, bakery, aquarium, farm, library, train, snow.
 Prompt record: work/hero-play-review-20261107/image-prompts.json.
-The existing room, garden and moon assets retain their existing attribution.
+The existing room asset retains its existing attribution.
+garden.png and moon.png (2026-11-10) are full-scene derivatives of the existing generated island illustrations
+(../kids-garden.png and ../hero-home/moon-garden.png, built-in ImageGen, November 2026), because a puzzle must not show
+transparent background. Every drawn element (tree, house, dog, moon, lanterns, flowers) is the original artwork; the soil
+under each island was removed, and the sky, clouds, stars, hills, lawn, block flowers and tufts were filled in on the same
+pixel block grid with colours sampled from the island, by work/full-audit-20261108/kids/puzzle-art/flatten.py
+(garden-cfg.py, moon-cfg.py). No outside artwork or service was used. thumbs/garden.png and thumbs/moon.png are resizes.

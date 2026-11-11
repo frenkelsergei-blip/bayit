@@ -1,0 +1,106 @@
+/* Passkey sign-in screens ("מפתח גישה"), concept A chosen 2026-11-10 (concept/explorations/passkey-20261110/).
+   Taken from the concept's own stylesheet (mock.mjs CSS) so the screens match the boards; only classes concept A uses.
+   Tokens only (--primary, --surface, --peach, …); the entry surface, cards, dialogs and buttons are the app's own. */
+.pk-big{display:inline-flex;align-items:center;justify-content:center;gap:12px}
+.pk-big.secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border);box-shadow:none}
+.pk-big svg:last-child:not(:first-child){display:none}
+.pk-explain{display:flex;align-items:flex-start;gap:10px;margin:0;max-width:400px;text-align:start;color:var(--muted);font-size:calc(15px * var(--font-adjust,1));line-height:1.5;font-weight:600}
+.pk-explain>svg{flex:none;margin-top:2px;color:var(--primary)}.pk-explain strong{color:var(--text);font-weight:850}
+.pk-doors{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+.pk-or{display:flex;align-items:center;gap:12px;width:min(380px,100%);color:var(--muted);font-size:14px;font-weight:700}.pk-or::before,.pk-or::after{content:"";flex:1;border-top:1px solid var(--border)}
+.pk-foot{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:14px;line-height:1.5;max-width:46ch;text-align:center}
+.pk-foot a,.pk-link{color:var(--primary);font-weight:800;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.pk-quiet-link{color:var(--muted);font-size:13.5px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.pk-setup-entry{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--surface);border:1px dashed var(--border);font-size:15px;font-weight:700;color:var(--text)}
+.pk-setup-entry svg{color:var(--primary)}
+.pk-note{display:flex;gap:12px;align-items:flex-start;width:100%;padding:14px 16px;border-radius:18px;text-align:start;border:1px solid var(--border);background:var(--surfaceSoft);color:var(--text)}
+.pk-note>svg{flex:none;margin-top:1px}.pk-note strong{display:block;font-size:15.5px;font-weight:850;line-height:1.4}.pk-note p{margin:3px 0 0;font-size:14.5px;line-height:1.5;color:var(--text);opacity:.86;font-weight:600}
+.pk-note.yellow{background:var(--yellow);border-color:transparent}.pk-note.peach{background:var(--peach);border-color:transparent}.pk-note.green{background:var(--green);border-color:transparent}.pk-note.blue{background:var(--selected);border-color:transparent}.pk-note.lilac{background:var(--lilac);border-color:transparent}
+.pk-note p code,.pk-code-inline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1px 6px;white-space:nowrap}
+.bayit-entry-card.pk-card{display:flex;flex-direction:column;gap:14px;max-width:560px}
+.pk-card h2{margin:0;font-size:calc(22px * var(--font-adjust,1));font-weight:900;line-height:1.3}
+.pk-card .pk-lead{margin:-6px 0 0;color:var(--muted);font-size:15.5px;line-height:1.5;font-weight:600}
+.pk-card label{display:flex;flex-direction:column;gap:6px;font-weight:800}
+.pk-card input{width:100%}
+.pk-card .button{width:100%}
+.pk-code{direction:ltr;text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;font-size:18px!important;text-transform:uppercase}
+.pk-code.bad{border-color:var(--danger)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 14%,transparent)}
+.pk-hint{margin:-4px 0 0;color:var(--muted);font-size:13.5px;font-weight:650;line-height:1.45}
+.pk-steps{list-style:none;margin:0 0 2px;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+.pk-steps li{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 12px;border-radius:999px;background:var(--surfaceSoft);color:var(--muted);font-size:13px;font-weight:800}
+.pk-steps li>span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--surface);border:1px solid var(--border);font-size:12px}
+.pk-steps li.now{background:var(--selected);color:var(--primary)}.pk-steps li.now>span{background:var(--primary);color:var(--onPrimary);border-color:transparent}
+.pk-steps li.done{color:var(--text)}.pk-steps li.done>span{background:#2fa86b;color:#fff;border-color:transparent}
+.pk-where{display:grid;gap:0;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.pk-where>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 14px;font-weight:800;font-size:15px;background:var(--surfaceSoft)}
+.pk-where>summary svg:last-child{margin-inline-start:auto}
+.pk-where-row{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 12px;padding:14px;border-top:1px solid var(--border)}
+.pk-where-row>.pk-tile{grid-row:span 2}
+.pk-where-row strong{font-size:15px;font-weight:850}.pk-where-row p{margin:0;color:var(--muted);font-size:14px;line-height:1.5;font-weight:600}
+.pk-tile{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:var(--selected);color:var(--primary);flex:none}
+.pk-tile.lilac{background:var(--lilac);color:var(--text)}.pk-tile.green{background:var(--green);color:var(--text)}.pk-tile.soft{background:var(--surfaceSoft);color:var(--text)}.pk-tile.peach{background:var(--peach);color:var(--text)}.pk-tile.yellow{background:var(--yellow);color:var(--text)}
+.pk-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:6px 0}
+.pk-hero .pk-ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--selected);color:var(--primary)}
+.pk-hero .pk-ring.ok{background:var(--green);color:#1d7a4c}.pk-hero .pk-ring.warn{background:var(--peach);color:var(--text)}
+.pk-hero h2{font-size:calc(22px * var(--font-adjust,1))}.pk-hero p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.5;font-weight:600;max-width:42ch}
+.pk-wait{display:inline-flex;align-items:center;gap:10px;font-weight:800;color:var(--primary)}
+.pk-spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--selected);border-top-color:var(--primary);animation:pk-spin 1s linear infinite}
+@keyframes pk-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.pk-spin{animation-duration:3s}}
+.pk-user{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.pk-user img{width:44px;height:44px;border-radius:50%;object-fit:cover}.pk-user strong{display:block;font-size:17px}.pk-user small{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13.5px;font-weight:700}
+.pk-house{display:flex;align-items:center;gap:14px}
+.pk-house img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--surface);box-shadow:0 2px 10px #0000001a}
+.pk-house strong{display:block;font-size:calc(21px * var(--font-adjust,1));font-weight:900}
+.pk-role{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:3px 11px;border-radius:999px;background:var(--lilac);font-size:13.5px;font-weight:800}
+.pk-divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13.5px;font-weight:800;margin:2px 0}.pk-divider::before,.pk-divider::after{content:"";flex:1;border-top:1px solid var(--border)}
+.pk-option{display:grid;grid-template-columns:auto 44px minmax(0,1fr);gap:2px 14px;align-items:center;padding:14px 16px;border:1.5px solid var(--border);border-radius:18px;background:var(--surface);text-align:start}
+.pk-option.on{border-color:var(--primary);background:var(--selected)}
+.pk-option .pk-radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);grid-row:span 2}.pk-option.on .pk-radio{border:7px solid var(--primary)}
+.pk-option .pk-tile{grid-row:span 2}
+.pk-option strong{font-size:16.5px;font-weight:850}.pk-option span.pk-sub{color:var(--muted);font-size:14px;font-weight:600;line-height:1.4}
+.pk-rule{margin:0;color:var(--muted);font-size:13.5px;font-weight:650;text-align:center}
+/* account security */
+.pk-sec{display:grid;gap:16px}
+.pk-sub-h{display:flex;align-items:center;gap:10px;margin:2px 0 -4px;font-size:15px;font-weight:900;color:var(--text)}
+.pk-sub-h .pk-count{color:var(--muted);font-weight:750;font-size:13.5px}
+.pk-rows{display:grid}
+.pk-row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:13px 0;border-top:1px solid var(--border)}
+.pk-row:first-child{border-top:0}.pk-row>.pk-tile{grid-row:span 2}
+.pk-row strong{font-size:16px;font-weight:850;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pk-row .pk-meta{grid-column:2;color:var(--muted);font-size:13.5px;font-weight:650;line-height:1.45}
+.pk-row .pk-acts{grid-column:3;grid-row:1/span 2;display:flex;gap:6px}
+.pk-iconbtn{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.pk-iconbtn.danger{color:var(--danger)}
+.pk-badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:800;background:var(--surfaceSoft);color:var(--muted)}
+.pk-badge.sync{background:var(--green);color:var(--text)}.pk-badge.here{background:var(--yellow);color:var(--text)}.pk-badge.now{background:var(--selected);color:var(--primary)}
+.pk-empty{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:1px dashed var(--border)}
+.pk-empty p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600;line-height:1.45}.pk-empty strong{display:block;color:var(--text);font-size:15.5px}
+.pk-rename{display:flex;gap:8px;align-items:center;grid-column:2/span 2}.pk-rename input{flex:1;min-height:44px}
+.pk-sessions .pk-srow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;padding:8px 0;border-top:1px solid var(--border);font-weight:650}
+.pk-sessions .pk-srow:first-child{border-top:0}
+.pk-actions{display:flex;gap:10px;flex-wrap:wrap}.pk-actions .button{min-height:46px}
+.pk-dialog-body{display:grid;gap:14px;align-content:start}
+.connection-dialog:has(.pk-dialog-body) .connection-dialog-footer{display:flex;gap:10px;justify-content:flex-start}
+.pk-dialog-body p{margin:0;line-height:1.55}
+.pk-list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.pk-list li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;font-size:15.5px;line-height:1.5;font-weight:600}
+.pk-list li>b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surfaceSoft);border:1px solid var(--border);font-size:14px}
+.pk-when{font-weight:900;color:var(--primary)}
+.pk-banner{display:grid;grid-template-columns:48px minmax(0,1fr);gap:6px 14px;padding:18px 20px;border-radius:24px;background:var(--peach);color:var(--text);margin:0 0 18px;box-shadow:0 6px 20px #0000000d}
+.pk-banner>.pk-tile{grid-row:span 3;width:48px;height:48px;background:var(--surface)}
+.pk-banner strong{font-size:18px;font-weight:900}.pk-banner p{margin:0;font-size:15px;line-height:1.5;font-weight:600}
+.pk-banner .pk-actions{grid-column:2;margin-top:6px}
+.pk-pick{display:grid;gap:10px}
+@media(max-width:700px){
+ .bayit-entry-card.pk-card{padding:20px 18px}
+ .pk-steps li:not(.now){font-size:0;gap:0;padding:4px}.pk-steps li:not(.now)>span{font-size:12px}
+ .pk-row{grid-template-columns:40px minmax(0,1fr) auto}.pk-row strong{flex-direction:column;align-items:flex-start;gap:4px}.pk-row>.pk-tile{width:40px;height:40px}
+ .connection-dialog:has(.pk-dialog-body) .connection-dialog-footer .button{flex:1;white-space:nowrap;padding-inline:14px}.connection-dialog:has(.pk-dialog-body) .connection-dialog-footer .button:first-child{flex:1.5}
+}
+.pk-card-form{display:flex;flex-direction:column;gap:14px}
+/* Sign-in screen: keep its last links above the hills and the sun of the drawing (live report 2026-11-11: "Own this
+   installation and can't sign in?" ran under the drawing). The horizon's hilltop is at 77.5% of the surface's height
+   and the sun reaches higher on phones (sketch-renderer.js), so this screen keeps more room at the bottom. */
+.bayit-entry-content:has(>.pk-foot){padding-bottom:max(230px,30vh)}
+@media(max-width:600px){.bayit-entry-content:has(>.pk-foot){padding-bottom:max(270px,34vh)}}

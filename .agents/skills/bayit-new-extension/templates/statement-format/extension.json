@@ -1,0 +1,17 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__", "he": "__NAME_HE__"},
+ "description": "Reads __NAME_EN__ statements in Expenses, reconciled with the printed totals.",
+ "seam": "statement-formats",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "shared/extensions/__ID__.mjs",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "statement-formats", "id": "__ID__", "file": "shared/extensions/__ID__.mjs", "export": "__EXPORT__"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

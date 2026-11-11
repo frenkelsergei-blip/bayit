@@ -28,13 +28,15 @@ function copyWith(file,code){
 const load=(dir,module)=>import(pathToFileURL(join(dir,module)).href);
 const withExtra=(file,name,entries,module)=>load(copyWith(file,'export const '+name+'=['+entries+'];\n'),module);
 
-test('local registry files exist and ship empty in the source tree',()=>{
+// A person's copy with extensions installed keeps its own local entries; upstream (installed.json is []) ships them empty.
+const withExtensions=JSON.parse(src(INSTALLED_FILE)).length>0&&'this copy has extensions installed (shared/extensions/installed.json)';
+test('local registry files exist and ship empty in the source tree',{skip:withExtensions},()=>{
  for(const r of LOCAL_REGISTRIES.filter(r=>!r.optional))assert.equal(src(r.file),emptyRegistry(r),r.file+' must be exactly the empty template');
  assert.deepEqual(JSON.parse(src(INSTALLED_FILE)),[]);
  for(const f of localFiles(root))assert.ok(f.exists&&f.empty,f.file+' must be empty upstream');
 });
 
-test('with empty local files the registries are exactly the core ones',()=>{
+test('with empty local files the registries are exactly the core ones',{skip:withExtensions},()=>{
  assert.deepEqual(AI_PROVIDERS.map(p=>p.id),['anthropic','openai','gemini','xai','custom']);
  assert.deepEqual(SPEECH_PROVIDERS,['off','cloudflare','household-ai']);assert.deepEqual(speechNames(),{});
  assert.deepEqual(STATEMENT_FORMATS,['leumi','max']);

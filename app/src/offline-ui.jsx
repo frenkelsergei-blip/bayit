@@ -76,7 +76,7 @@ export async function warmIcons(data){
   const catalog=await fetch('/assets/icons/catalog.json').then(r=>r.ok?r.json():[]).catch(()=>[]),urls=[];
   for(const code of [...codes].slice(0,150)){
    if(code.startsWith('/')){urls.push(code);continue}
-   const item=catalog.find(i=>i.id===code||i.aliases?.includes(code)),direct=code.match(/^bayit-(groceries|activities|pixel)-(.+)$/);
+   const item=catalog.find(i=>i.id===code||i.aliases?.includes(code)),direct=code.match(/^bayit-(groceries|activities|pixel|life)-(.+)$/);
    if(item?.files)urls.push(...Object.values(item.files));else if(direct)urls.push(...[64,128,256].map(n=>'/assets/icons/bayit/'+direct[1]+'/'+direct[2]+'-'+n+'.png'));else if(/^[0-9A-F-]+$/i.test(code))urls.push('/assets/icons/openmoji/svg/'+code+'.svg');
   }
   if(urls.length)controller.postMessage({type:'bayit-cache-urls',urls:[...new Set(urls)].slice(0,400)});

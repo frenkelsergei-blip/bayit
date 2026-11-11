@@ -2,13 +2,11 @@
 /* Calendar and Tasks: under 1280px the details open as a sheet, so the grid/list gets the full width. */
 @media(max-width:1280px){.calendar-reference-layout{grid-template-columns:minmax(0,1fr)!important}.task-list-layout.tasks-v2-layout{grid-template-columns:minmax(0,1fr)!important}}
 /* Time, date and number inputs read left-to-right even in Hebrew (19:30, not 30:19) */
-input[type=time],input[type=date],input[type=number]{direction:ltr;unicode-bidi:isolate}
-[dir=rtl] input[type=time],[dir=rtl] input[type=number]{text-align:right}
-/* One field look for time inputs next to DateField */
-input[type=time]{height:52px;min-height:52px;box-sizing:border-box;border-radius:16px;font-weight:700;font-size:max(16px,calc(17px * var(--text-scale,1)));line-height:52px;padding-block:0}
-input[type=time]::-webkit-date-and-time-value{margin:0;text-align:start;line-height:52px}
+input[type=date],input[type=number]{direction:ltr;unicode-bidi:isolate}
+[dir=rtl] input[type=number]{text-align:right}
+/* Time fields: the shared TimeField (time-field.jsx/.css, 2026-11-11) replaced the raw input and its 52px hacks. */
 .two-fields.date-time-fields{grid-template-columns:1fr 1fr!important}
-.kids-form input[type=number],.routine-form input[type=number]{height:52px;min-height:52px;box-sizing:border-box}
+.kids-form input[type=number],.routine-form input[type=number]{height:var(--scale-control,44px);min-height:var(--scale-control,44px);box-sizing:border-box}
 /* Delivery info as plain text (was chips that looked like toggles) */
 .calendar-delivery-text{margin:6px 0 4px;color:var(--muted);font-size:calc(14px * var(--text-scale,1));line-height:1.45}
 /* Birthday: same field as other dates */

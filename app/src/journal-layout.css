@@ -98,7 +98,6 @@ html:root .note-window .two-fields.date-time-fields{display:grid;grid-template-c
 /* Phones: the date needs the full width (“Wed, Nov 4, 2026”), the time goes under it, as in the event form. */
 @media(max-width:700px){html:root .note-window .two-fields.date-time-fields{grid-template-columns:minmax(0,1fr)!important}}
 html:root .note-window .two-fields.date-time-fields>label{display:grid;gap:8px;min-width:0;margin:0;font-size:calc(16px * var(--font-adjust,1));font-weight:800}
-html:root .note-window .two-fields.date-time-fields input[type=time]{width:100%;box-sizing:border-box}
 html:root .note-window .form-section .record-access{margin:0;padding:0;border:0;min-width:0}
 html:root .note-window .form-section .record-access>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 html:root .note-window .note-window-private{display:grid;gap:4px}
@@ -143,10 +142,6 @@ html:root .household-filter-sheet:has(.journal-person-chips) .tasks-sheet-action
 html:root main:is(.view-journal,.view-mine) .page-actions>.button{min-height:var(--scale-control);height:var(--scale-control);padding-block:0;font-size:calc(16px * var(--font-adjust,1))}
 /* Pin to Today in the private note (the shared control is 39px outside the Calendar-style details). */
 html:root .private-note-editor .household-pin-control>.control-button{min-height:var(--scale-control)}
-/* WebKit time field: an old rule gives the input and its value a 52px line height (from the 52px inputs), so in a
-   44px field “18:30” sits low. Centre it in the note window. The event form has the same issue (shared, reported). */
-html:root .note-window input[type=time]{padding-block:0!important;line-height:calc(var(--scale-control) - 2px)!important}
-html:root .note-window input[type=time]::-webkit-date-and-time-value{line-height:normal!important;min-height:1.25em}
 /* No private notes yet: one empty state, not a second “Choose a note” panel beside it. */
 html:root main.view-mine .private-space-grid:has(>.private-note-list>.private-empty){grid-template-columns:minmax(0,1fr)!important}
 html:root main.view-mine .private-space-grid:has(>.private-note-list>.private-empty)>aside.detail-panel{display:none}

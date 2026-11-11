@@ -7,6 +7,7 @@ import {FormSection} from './form-section.jsx';
 import {useConfirmedSave} from './confirmed-save';
 import {useDraftGuard} from './draft-guard';
 import {DateField} from './date-field';
+import {TimeField} from './time-field';
 import {canAccessList,applyShoppingTripAudience} from '../../shared/task-lists.mjs';
 import {completionState} from './domain';
 
@@ -28,7 +29,7 @@ export function ShoppingTripControl({app:a,list,anchor,className='text-link',ui:
    <div className="tasks-sheet-body">
     <FormSection T={a.T} icon={CalendarBlank} tone="blue" title={a.T('When','מתי')}>
      <p className="tasks-sheet-hint shop-trip-hint"><ShoppingCart size={18}/><span>{a.T('For the list','לרשימה')} <strong>{name}</strong>. {a.T('It appears in Tasks and Today and completes when everything is in the bag.','היא תופיע במשימות ובהיום ותושלם כשהכול בסל.')}</span></p>
-     <div className="two-fields date-time-fields"><label>{a.T('Date','תאריך')}<DateField required value={date} onChange={e=>setDate(e.target.value)}/></label><label>{a.T('Time','שעה')}<input type="time" dir="ltr" value={time} onChange={e=>setTime(e.target.value)}/></label></div>
+     <div className="two-fields date-time-fields"><label>{a.T('Date','תאריך')}<DateField required value={date} onChange={e=>setDate(e.target.value)}/></label><label>{a.T('Time','שעה')}<TimeField value={time} onChange={e=>setTime(e.target.value)}/></label></div>
     </FormSection>
     <FormSection T={a.T} icon={Users} tone="yellow" title={a.T('Who is going','מי הולך')}><div className="tasks-sheet-people" role="radiogroup" aria-label={a.T('Who is going','מי הולך')}>{people.map(m=><PersonChip key={m.id} role="radio" who={m.id} name={a.name(m.id)} Avatar={Avatar} tone={m.color} selected={who===m.id} onClick={()=>setWho(m.id)}/>)}</div></FormSection>
     {saveError&&<p className="save-error" role="alert">{saveError}</p>}

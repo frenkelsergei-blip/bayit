@@ -1,6 +1,9 @@
 // Offline support: what a device keeps for offline use, how queued edits are applied and reported.
 // Pure functions, shared by the browser client (app/src/household-sync.js) and the node tests.
 
+import {parseExtKey,recordList,setRecordList} from './record-paths.mjs';
+import {moduleById,offlineModules} from './feature-modules.mjs';
+
 // Never kept on the device for offline use: money, insurance, documents, and AI receipts (saved plans keep their outline).
 // Connection secrets are never part of household state in the first place (they live server-side).
 export const OFFLINE_EXCLUDED=['expenses','bills','insurances','documents'];
@@ -17,6 +20,7 @@ export function offlineSnapshot(data){
   ?[[id,{id:r.id,ownerId:r.ownerId,scope:r.scope,status:'intake',title:r.title,appliedAt:r.appliedAt,items:r.items.map(({collection,id})=>({collection,id}))}]]:[]));
  for(const profile of Object.values(copy.profiles||{}))for(const key of PRIVATE_PROFILE_FIELDS)delete profile?.[key];
  for(const key of PRIVATE_PREFERENCES)if(copy.preferences)delete copy.preferences[key];
+ if(copy.extensions)copy.extensions=offlineModules(copy.extensions); // a module with offline:false stays online-only
  return copy;
 }
 
@@ -24,6 +28,7 @@ export function offlineSnapshot(data){
 // Kids › Parents checks the parent code on the server; My Hero's care, shop and games are confirmed by the server.
 const ONLINE_ONLY={ai:true,household:['expenses','insurance','documents','vouchers'],settings:['connections','ai','storage'],kids:['parents','hero']};
 export function needsConnection(root,view=''){
+ if(root==='x')return moduleById(String(view||'').split('?')[0])?.offline===false; // feature modules declare it
  const rule=ONLINE_ONLY[root];if(rule===true)return true;
  if(!Array.isArray(rule))return false;
  // The Household page opens on Expenses when no tab is chosen (Insurance/Expenses are hidden for children, see App.jsx).
@@ -38,7 +43,8 @@ export function applyQueued(data,entries){
   if(op.collection==='customIcons'){next.customIcons=structuredClone(op.value);continue}
   if(op.collection==='favorites'){next.favoriteIcons=structuredClone(op.value);continue}
   if(['profiles','preferences','aiOperations'].includes(op.collection)){next[op.collection]={...next[op.collection],[op.id]:structuredClone(op.value)};continue}
-  const list=Array.isArray(next[op.collection])?next[op.collection]:(next[op.collection]=[]),index=list.findIndex(r=>r?.id===op.id);
+  if(parseExtKey(op.collection)&&!Array.isArray(recordList(next,op.collection)))setRecordList(next,op.collection,[]);
+  const list=parseExtKey(op.collection)?recordList(next,op.collection):Array.isArray(next[op.collection])?next[op.collection]:(next[op.collection]=[]),index=list.findIndex(r=>r?.id===op.id);
   if(op.delete){if(index>=0)list.splice(index,1);continue}
   if(index>=0)list[index]=structuredClone(op.value);else list.push(structuredClone(op.value));
  }
@@ -63,8 +69,9 @@ export function newOpId(){
  try{return crypto.randomUUID()}catch{return 'op-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12)}
 }
 
-const recordOf=(data,op)=>{const collection=data?.[op.collection];return Array.isArray(collection)?collection.find(r=>r?.id===op.id):collection?.[op.id]};
-const labelOf=record=>({en:String(record?.title||record?.name||record?.text||record?.he||'').slice(0,80),he:String(record?.he||record?.title||record?.name||record?.text||'').slice(0,80)});
+const recordOf=(data,op)=>{const collection=parseExtKey(op.collection)?recordList(data,op.collection):data?.[op.collection];return Array.isArray(collection)?collection.find(r=>r?.id===op.id):collection?.[op.id]};
+const labelOf=(record,key)=>{const ref=parseExtKey(key),field=ref&&moduleById(ref.module)?.collections[ref.collection]?.label;if(field&&typeof record?.[field]==='string'){const t=record[field].slice(0,80);return {en:t,he:t}}return labelOfCore(record)};
+const labelOfCore=record=>({en:String(record?.title||record?.name||record?.text||record?.he||'').slice(0,80),he:String(record?.he||record?.title||record?.name||record?.text||'').slice(0,80)});
 
 // Why a queued change could not be applied, decided only from the server's latest data and its answer:
 // - deleted: the record no longer exists (someone removed it, or it is no longer visible to this member)
@@ -74,7 +81,7 @@ export function describeConflict(entry,latest,error){
  const op=(entry.changes||[]).find(o=>o.id&&o.collection!=='history'&&o.collection!=='purchases')||(entry.changes||[])[0]||{};
  const current=op.id?recordOf(latest,op):null;
  const reason=!op.delete&&op.before&&!current?'deleted':error?.code==='EDIT_CONFLICT'||error?.status===409?'changed':'refused';
- return {opId:entry.opId,reason,collection:op.collection||'',id:op.id||'',label:labelOf(op.value||op.before||current),message:reason==='refused'?String(error?.message||'').slice(0,200):'',at:Date.now(),canKeepMine:reason==='changed'&&!!current&&!op.delete};
+ return {opId:entry.opId,reason,collection:op.collection||'',id:op.id||'',label:labelOf(op.value||op.before||current,op.collection),message:reason==='refused'?String(error?.message||'').slice(0,200):'',at:Date.now(),canKeepMine:reason==='changed'&&!!current&&!op.delete};
 }
 
 // "Use mine" after a same-field conflict: reapply only the fields this person changed, on top of the latest version.

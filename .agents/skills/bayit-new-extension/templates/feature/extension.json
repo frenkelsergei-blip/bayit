@@ -1,0 +1,21 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__", "he": "__NAME_HE__"},
+ "description": "Adds the __NAME_EN__ screen with the family's own records (a feature module).",
+ "seam": "modules",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "shared/extensions/__ID__.mjs",
+  "app/src/extensions/__ID__.jsx",
+  "app/src/extensions/__ID__/__ID__-screen.jsx",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "features", "id": "__ID__", "file": "shared/extensions/__ID__.mjs", "export": "__EXPORT___FEATURE"},
+  {"seam": "modules", "id": "__ID__", "file": "shared/extensions/__ID__.mjs", "export": "__EXPORT___MODULE"},
+  {"seam": "screens", "id": "__ID__", "file": "app/src/extensions/__ID__.jsx", "export": "__EXPORT___SCREEN"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

@@ -1,0 +1,77 @@
+/* Install wizard, concept A (user decision 2026-11-11; concept/explorations/install-wizard-20261111/mock.mjs CSS).
+   Only the classes concept A uses, with tokens only. Cards, dialogs, buttons, notes (.pk-note), step chips and the
+   To start section are the app's own (passkeys.css, connections-a.css, form-section.css, family-setup.css). */
+.iw-checks{display:grid;gap:10px;width:100%;margin:4px 0 2px;padding:0;list-style:none;text-align:start}
+.iw-checks li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-weight:700;color:var(--text);font-size:calc(16px * var(--font-adjust,1));line-height:1.4}
+.iw-checks li>svg{color:var(--success,#1f8a4c);margin-top:1px}
+.iw-checks li.bad>svg{color:var(--danger,#b4232a)}
+.iw-checks li.wait>svg{color:var(--muted)}
+.iw-checks li small{display:block;color:var(--muted);font-weight:600;font-size:.88em}
+.iw-turn{animation:pk-spin 1.2s linear infinite}
+@media(prefers-reduced-motion:reduce){.iw-turn{animation:none}}
+.iw-addr{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--bg);font-weight:800;color:var(--text);font-size:calc(15px * var(--font-adjust,1));max-width:100%;overflow-wrap:anywhere;align-self:center;text-align:start}
+.iw-addr>svg{flex:none}
+.iw-plan{margin:0;color:var(--muted);font-weight:650;line-height:1.5;text-align:center}
+.iw-open .pk-big{width:100%}
+.iw-open .iw-small{align-self:center;max-width:none}
+.iw-below{width:min(560px,100%)}
+.iw-people{display:grid;gap:12px}
+.iw-person{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start;padding:14px;border:1.5px solid var(--border);border-radius:20px;background:var(--surface)}
+.iw-person img,.iw-ini{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--bg)}
+.iw-ini{display:grid;place-items:center;font-weight:850;color:var(--muted)}
+.iw-person h4{margin:0;font-size:calc(17px * var(--font-adjust,1));display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.iw-person p{margin:4px 0 0;color:var(--muted);font-weight:600;line-height:1.4}
+.iw-roles{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.iw-roles>*{padding:7px 12px;min-height:40px;border-radius:999px;border:1.5px solid var(--border);font:inherit;font-weight:750;font-size:calc(14px * var(--font-adjust,1));color:var(--text);background:var(--surface);display:inline-flex;align-items:center}
+.iw-roles>.on{background:var(--primary);border-color:var(--primary);color:var(--onPrimary,#fff)}
+.iw-roles>button{cursor:pointer}
+.iw-link{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.iw-link .button{width:auto;min-height:42px;padding:0 16px;font-size:calc(15px * var(--font-adjust,1))}
+.iw-url{margin-top:10px;width:100%;min-height:40px;font-size:13px;color:var(--muted);text-align:left}
+.iw-meta{font-size:13px}
+.iw-error{margin:8px 0 0;color:var(--danger);font-weight:700;line-height:1.45}
+.iw-field{margin-top:10px;display:grid;gap:6px;font-weight:750}
+.iw-add{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1.5px dashed var(--border);border-radius:20px;font:inherit;font-weight:800;color:var(--primary);background:transparent;width:100%;cursor:pointer}
+.iw-tip{display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-weight:650;line-height:1.45;margin:0}
+.iw-tip svg{flex:none;color:var(--primary);margin-top:2px}
+.iw-done-list{display:grid;gap:10px;list-style:none;margin:0;padding:0;text-align:start;width:100%}
+.iw-done-list li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-weight:750;line-height:1.4}
+.iw-done-list li small{display:block;color:var(--muted);font-weight:600}
+.iw-done-list li.ok>svg{color:var(--success,#1f8a4c)}.iw-done-list li.later>svg{color:var(--muted)}
+.iw-save{display:grid;gap:10px;width:100%;padding:16px;border-radius:20px;background:var(--bg);text-align:start}
+.iw-save strong{font-size:calc(16px * var(--font-adjust,1))}
+.iw-save .iw-addr{align-self:start;background:transparent;padding-inline:0}
+.iw-save .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.iw-save .row .button{width:auto}
+.iw-wiz{display:grid;gap:16px;text-align:start}
+.iw-wiz h1,.iw-wiz h2{margin:0}
+.iw-wiz .pk-lead{margin:0;color:var(--muted);font-size:15.5px;line-height:1.5;font-weight:600}
+.iw-out{display:grid;gap:8px;padding:14px;border-radius:18px;background:var(--bg)}
+.iw-out strong{display:flex;gap:8px;align-items:center}
+.iw-out ol{margin:0;padding-inline-start:22px;display:grid;gap:4px;font-weight:600;line-height:1.45}
+.iw-foot{display:flex;gap:10px;flex-wrap:wrap;width:100%}
+.iw-foot .button{flex:1}
+/* The checklist stage inside the first-run overlay: the To start section sits in the overlay's card. */
+.iw-checklist{max-width:760px}
+.iw-checklist .connections-hub,.iw-checklist .conn-sections,.iw-checklist .settings-grid{margin:0;padding:0;max-width:none}
+.iw-checklist .settings-grid{display:block}
+.iw-done{text-align:center;justify-items:center;max-width:620px}
+.iw-done .pk-hero h1{font-size:calc(26px * var(--font-adjust,1));font-weight:900}
+.iw-done .pk-hero p{margin:0;color:var(--muted);font-weight:600;line-height:1.5}
+/* Today: "Finish setting up your home" */
+.iw-today{margin:0 0 18px}
+.iw-today .form-section-body{display:grid;gap:12px}
+.iw-today .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.iw-today-acts{display:flex;gap:8px;flex-wrap:wrap}
+.iw-today-acts .button{width:auto}
+@media(max-width:700px){.iw-today-acts{width:100%}.iw-today-acts .button{flex:1}}
+/* Connection windows (Family members, the AI and Telegram guides, "confirm it's you") opened from the checklist
+   stage sit above the first-run overlay (z-index 2000) while it is open; elsewhere they keep their own layer. */
+body:has(>.family-setup) .connection-dialog-backdrop{z-index:2100}
+.iw-cmd{display:table;margin-top:8px;direction:ltr}
+.conn-pill.iw-you{background:var(--surfaceSoft);color:var(--muted)}.conn-pill.iw-you svg{color:var(--text)}
+.connection-dialog-footer:has(>.iw-foot){display:flex}
+.connection-dialog-footer>.iw-foot{flex:1}.connection-dialog-footer>.iw-foot .button{flex:1 1 0;width:auto;justify-content:center}
+/* The first-open card stays above the drawing's hills, as on the sign-in screen (passkeys.css). */
+.bayit-entry-content:has(>.iw-open){padding-bottom:max(230px,30vh)}
+@media(max-width:600px){.bayit-entry-content:has(>.iw-open){padding-bottom:max(270px,34vh)}}

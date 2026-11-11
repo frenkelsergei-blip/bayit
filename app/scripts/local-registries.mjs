@@ -16,8 +16,10 @@ export const LOCAL_REGISTRIES=[
  {seam:'ai-providers',file:'shared/extensions/ai-providers.mjs',name:'EXTRA_AI_PROVIDERS',what:'AI providers'},
  {seam:'speech',file:'app/cloud/extensions/speech.mjs',name:'EXTRA_SPEECH',what:'speech-to-text providers'},
  {seam:'signin',file:'app/cloud/extensions/signin.mjs',name:'EXTRA_SIGNIN',what:'sign-in methods'},
+ {seam:'channels',file:'app/cloud/extensions/channels.mjs',name:'EXTRA_CHANNELS',what:'messaging channels'},
  {seam:'statement-formats',file:'shared/extensions/statement-formats.mjs',name:'EXTRA_STATEMENT_FORMATS',what:'bank and card statement formats'},
  {seam:'connections',file:'shared/extensions/connections.mjs',name:'EXTRA_CONNECTIONS',what:'connections',optional:true},
+ {seam:'modules',file:'shared/extensions/modules.mjs',name:'EXTRA_MODULES',what:'feature modules'},
 ];
 export const INSTALLED_FILE='shared/extensions/installed.json';
 export const emptyRegistry=r=>header(r.what)+`export const ${r.name}=[];\n`;

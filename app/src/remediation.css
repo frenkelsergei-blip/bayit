@@ -63,8 +63,11 @@ main:focus,h1[tabindex="-1"]:focus{outline:none}
 .money-sync-details>.text-link{margin-inline-start:12px}
 .modal-backdrop{z-index:220}
 .detail-sheet-backdrop{z-index:150}
-.people-picker-backdrop,.date-pop-backdrop{z-index:300}
-.date-pop,.select-menu{z-index:310}
+.people-picker-backdrop{z-index:300}
+/* A pop-up opened from a control (dropdown menu, date picker) always sits above the layer that opened it: windows are
+   400, the icon picker 450 (user report 2026-11-10: the icon picker's category list opened behind it, invisible). */
+.date-pop-backdrop{z-index:455}
+.date-pop,.select-menu{z-index:460}
 .family-popover{z-index:350}
 .money-filter-disclosure{margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:12px 16px}
 .money-filter-disclosure summary{cursor:pointer;font-weight:800;min-height:30px}

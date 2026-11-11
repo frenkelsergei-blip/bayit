@@ -1,0 +1,17 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__", "he": "__NAME_HE__"},
+ "description": "Adds __NAME_EN__ to the AI provider choice.",
+ "seam": "ai-providers",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "shared/extensions/__ID__.mjs",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "ai-providers", "id": "__ID__", "file": "shared/extensions/__ID__.mjs", "export": "__EXPORT__"}
+ ],
+ "outbound": ["https://api.__ID__.invalid"],
+ "dependencies": {}
+}

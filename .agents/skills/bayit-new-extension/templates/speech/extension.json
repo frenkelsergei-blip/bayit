@@ -1,0 +1,17 @@
+{
+ "id": "__ID__",
+ "version": "1.0.0",
+ "name": {"en": "__NAME_EN__", "he": "__NAME_HE__"},
+ "description": "Transcribes voice messages with __NAME_EN__.",
+ "seam": "speech",
+ "minBayit": "__MIN_BAYIT__",
+ "files": [
+  "app/cloud/extensions/__ID__.mjs",
+  "tests/extension-__ID__.test.mjs"
+ ],
+ "registry": [
+  {"seam": "speech", "id": "__ID__", "file": "app/cloud/extensions/__ID__.mjs", "export": "__EXPORT__"}
+ ],
+ "outbound": ["https://api.__ID__.invalid"],
+ "dependencies": {}
+}

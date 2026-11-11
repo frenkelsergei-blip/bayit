@@ -44,3 +44,13 @@ jobs:
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:8080/api/health && break; sleep 1; done
           curl -sf http://127.0.0.1:8080/api/health
           docker logs bayit 2>&1 | tail -1
+      - name: The documented quick start works (compose.yaml, as people run it)
+        run: |
+          docker rm -f bayit
+          docker compose config --quiet
+          cp .env.example .env
+          docker compose up -d --build
+          for i in $(seq 1 30); do curl -sf http://localhost:8080/api/health && break; sleep 1; done
+          curl -sf http://localhost:8080/api/health
+          docker compose logs bayit | grep -q 'First-time setup code:'
+          docker compose down -v

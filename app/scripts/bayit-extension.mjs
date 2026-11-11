@@ -3,6 +3,7 @@
 //   node app/scripts/bayit-extension.mjs apply <package-folder> [--update] [--no-tests]
 //   node app/scripts/bayit-extension.mjs remove <id> [--force]
 //   node app/scripts/bayit-extension.mjs check
+//   node app/scripts/bayit-extension.mjs keep <folder> | restore <folder>   around a Bayit update (bayit-extension-keep.mjs)
 // Options: --root <folder> works on another copy of Bayit (default: the copy this script belongs to).
 // Apply copies the package's files, adds its lines to the LOCAL registry files only, records it in
 // shared/extensions/installed.json, then loads the registries and runs the package's tests. Anything that fails
@@ -13,12 +14,20 @@ import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {dirname,join,resolve,relative,posix,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
 import {LOCAL_REGISTRIES,INSTALLED_FILE} from './local-registries.mjs';
 
 // The core module that joins each local registry; loading it runs the same checks core entries pass.
-export const SEAM_MODULES={features:'shared/features.mjs','ai-providers':'shared/ai-providers.mjs',speech:'app/cloud/speech.mjs',signin:'app/cloud/signin-methods.mjs','statement-formats':'shared/finance-parse.mjs',connections:'shared/connections.mjs'};
+export const SEAM_MODULES={features:'shared/features.mjs','ai-providers':'shared/ai-providers.mjs',speech:'app/cloud/speech.mjs',signin:'app/cloud/signin-methods.mjs','statement-formats':'shared/finance-parse.mjs',connections:'shared/connections.mjs',modules:'shared/feature-modules.mjs'};
 // Folders an extension may write into; files there must be named after the extension (see allowedPath).
 export const EXTENSION_DIRS=['shared/extensions','app/cloud/extensions','app/src/extensions'];
+// Local registries in the client (.jsx): Node cannot load them, so apply checks them without running them (clientProblems)
+// and the browser build is their real check. They are never an extension's main seam and are left out of "entries",
+// which bayit-doctor reads by loading files in Node.
+export const CLIENT_REGISTRIES=[
+ {seam:'connection-panels',file:'app/src/extensions/connection-panels.jsx',name:'EXTRA_CONNECTION_PANELS',what:'connection panels',client:true},
+ {seam:'screens',file:'app/src/extensions/screens.jsx',name:'EXTRA_SCREENS',what:'feature-module screens',client:true},
+];
 const MARK=' // bayit-extension: ';
 const ID=/^[a-z][a-z0-9-]{1,39}$/,SEMVER=/^\d+\.\d+\.\d+$/,IDENT=/^[A-Za-z_$][A-Za-z0-9_$]*$/;
 
@@ -26,7 +35,8 @@ class Refusal extends Error{}
 const refuse=message=>{throw new Refusal(message)};
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const cmpVersion=(a,b)=>{const x=a.split('.').map(Number),y=b.split('.').map(Number);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]-y[i];return 0};
-const registryOf=seam=>LOCAL_REGISTRIES.find(r=>r.seam===seam);
+const registryOf=seam=>LOCAL_REGISTRIES.find(r=>r.seam===seam)||CLIENT_REGISTRIES.find(r=>r.seam===seam);
+const seamNames=()=>[...LOCAL_REGISTRIES,...CLIENT_REGISTRIES].map(r=>r.seam).join(', ');
 
 // A declared path is a plain relative path inside an extension folder, named after the extension:
 //   <dir>/<id>.<ext>, <dir>/<id>-<anything>, <dir>/<id>/<anything>  (dir: shared|app/cloud|app/src /extensions)
@@ -35,7 +45,7 @@ const registryOf=seam=>LOCAL_REGISTRIES.find(r=>r.seam===seam);
 export function allowedPath(id,path){
  if(typeof path!=='string'||!path||path.length>200||!/^[A-Za-z0-9._/-]+$/.test(path))return 'use letters, digits, ".", "_", "-" and "/" only';
  if(path.startsWith('/')||path.split('/').some(s=>s===''||s==='.'||s==='..')||posix.normalize(path)!==path)return 'must be a plain relative path without "..", "." or "//"';
- if(LOCAL_REGISTRIES.some(r=>r.file===path)||path===INSTALLED_FILE)return 'is a local registry file; declare a registry line instead';
+ if([...LOCAL_REGISTRIES,...CLIENT_REGISTRIES].some(r=>r.file===path)||path===INSTALLED_FILE)return 'is a local registry file; declare a registry line instead';
  const name=path.split('/').pop();
  for(const dir of EXTENSION_DIRS)if(path.startsWith(dir+'/')){
   const rest=path.slice(dir.length+1),first=rest.split('/')[0];
@@ -58,19 +68,27 @@ export function readPackage(pkgDir){
  if(typeof m.version!=='string'||!SEMVER.test(m.version))refuse(where+'version must look like 1.0.0.');
  if(!m.name||typeof m.name.en!=='string'||!m.name.en.trim()||typeof m.name.he!=='string'||!m.name.he.trim())refuse(where+'name needs English and Hebrew ({"en":…,"he":…}).');
  if(typeof m.minBayit!=='string'||!SEMVER.test(m.minBayit))refuse(where+'minBayit must be a Bayit version like 1.56.0.');
- if(!registryOf(m.seam))refuse(where+'seam must be one of '+LOCAL_REGISTRIES.map(r=>r.seam).join(', ')+'.');
+ if(!LOCAL_REGISTRIES.some(r=>r.seam===m.seam))refuse(where+'seam must be one of '+LOCAL_REGISTRIES.map(r=>r.seam).join(', ')+'.');
  if(!Array.isArray(m.files)||!m.files.length)refuse(where+'files must list every file the extension adds.');
  const files=new Set();
  for(const f of m.files){const problem=allowedPath(m.id,f);if(problem)refuse(where+'file "'+f+'" '+problem+'.');if(files.has(f))refuse(where+'file "'+f+'" is listed twice.');files.add(f)}
  if(!Array.isArray(m.registry)||!m.registry.length)refuse(where+'registry must list at least one registry line.');
  const lines=m.registry.map((r,i)=>{
-  if(!r||!registryOf(r.seam))refuse(where+'registry['+i+'].seam must be one of '+LOCAL_REGISTRIES.map(x=>x.seam).join(', ')+'.');
+  if(!r||!registryOf(r.seam))refuse(where+'registry['+i+'].seam must be one of '+seamNames()+'.');
   if(typeof r.id!=='string'||!/^[a-z][a-z0-9_-]{1,39}$/.test(r.id))refuse(where+'registry['+i+'].id must be the registry entry id.');
   if(!files.has(r.file)||!/\.m?jsx?$/.test(r.file))refuse(where+'registry['+i+'].file must be one of the listed .mjs/.js/.jsx files.');
   if(typeof r.export!=='string'||!IDENT.test(r.export)||r.export==='default')refuse(where+'registry['+i+'].export must be the name the file exports.');
   return {seam:r.seam,id:r.id,file:r.file,export:r.export};
  });
  if(!lines.some(l=>l.seam===m.seam))refuse(where+'seam "'+m.seam+'" must be the seam of at least one registry line.');
+ // A feature module (docs/feature-module-contract.md) is one feature, one manifest and one screen with the package's id;
+ // in the first version it calls no outside service and adds nothing to another seam.
+ if(m.seam==='modules'){
+  for(const seam of ['features','modules','screens'])if(!lines.some(l=>l.seam===seam&&l.id===m.id))refuse(where+'a feature module needs a '+seam+' line with id "'+m.id+'".');
+  if(lines.some(l=>!['features','modules','screens'].includes(l.seam)||l.id!==m.id))refuse(where+'a feature module registers only its own feature, module and screen (id "'+m.id+'").');
+  if((m.outbound??[]).length)refuse(where+'feature modules may not contact outside services in the first version; outbound must be [].');
+ }
+ if(lines.some(l=>l.seam==='modules'||l.seam==='screens')&&m.seam!=='modules')refuse(where+'module and screen lines belong to a package with seam "modules".');
  for(const l of lines)if(lines.filter(x=>x.seam===l.seam&&x.id===l.id).length>1)refuse(where+'registry entry '+l.seam+' "'+l.id+'" is listed twice.');
  const outbound=m.outbound??[];
  if(!Array.isArray(outbound))refuse(where+'outbound must be a list of https origins.');
@@ -144,7 +162,8 @@ function removeLines(root,id,lines){
 }
 
 // Loads every touched core registry plus bayit-doctor's report in a fresh Node, so module caches never hide a problem.
-export function verify(root,{seams=Object.keys(SEAM_MODULES),tests=[]}={}){
+export function verify(root,{seams=[...Object.keys(SEAM_MODULES),...CLIENT_REGISTRIES.map(r=>r.seam)],tests=[]}={}){
+ const client=clientProblems(root,seams);if(client)return client;
  const mods=seams.map(s=>SEAM_MODULES[s]).filter(m=>m&&existsSync(join(root,m)));
  const code=`const root=process.argv[1];const {pathToFileURL}=await import('node:url');const {join}=await import('node:path');
  for(const m of ${JSON.stringify(mods)})await import(pathToFileURL(join(root,m)).href);
@@ -154,6 +173,26 @@ export function verify(root,{seams=Object.keys(SEAM_MODULES),tests=[]}={}){
  if(load.status!==0)return (load.stderr||load.stdout).trim().split('\n').filter(l=>!/^\s+at |^Node\.js v|^$/.test(l)).slice(0,8).join('\n')||'the registries did not load';
  if(tests.length){const env={...process.env};delete env.NODE_TEST_CONTEXT;// run as a test run of its own, also when called from inside one
   const run=spawnSync(process.execPath,['--test',...tests],{encoding:'utf8',cwd:root,env});if(run.status!==0)return 'its tests failed:\n'+(run.stdout+run.stderr).split('\n').filter(l=>/^not ok|^# (pass|fail)|Error|expected|actual/.test(l.trim())).slice(0,12).join('\n')}
+ return '';
+}
+
+// A client registry and the files its marked lines import must exist, export the imported name and parse as JSX.
+// esbuild (installed with Vite) parses them when it is there; the browser build remains the full check.
+export function clientProblems(root,seams){
+ let esbuild=null;try{esbuild=createRequire(join(root,'app/package.json'))('esbuild')}catch{}
+ const parses=(file,text)=>{if(!esbuild)return '';try{esbuild.transformSync(text,{loader:'jsx',jsx:'automatic',sourcefile:file});return ''}catch(e){return file+' does not parse: '+String(e.message).split('\n').slice(0,3).join(' ')}};
+ for(const r of CLIENT_REGISTRIES.filter(r=>seams.includes(r.seam))){
+  const p=join(root,r.file);if(!existsSync(p))continue;
+  const text=readFileSync(p,'utf8');let problem=parses(r.file,text);if(problem)return problem;
+  for(const line of text.split('\n')){
+   const m=/^import \{([A-Za-z_$][\w$]*) as [A-Za-z_$][\w$]*\} from '(\.[^']+)';/.exec(line);if(!m)continue;
+   const file=posix.join(posix.dirname(r.file),m[2]),q=join(root,file);
+   if(!existsSync(q))return r.file+' imports '+file+', which is missing.';
+   const code=readFileSync(q,'utf8');
+   if(!new RegExp('export\\s+(const|let|function)\\s+'+m[1].replace(/\$/g,'\\$')+'\\b|export\\s*\\{[^}]*\\b'+m[1].replace(/\$/g,'\\$')+'\\b').test(code))return file+' does not export '+m[1]+'.';
+   problem=parses(file,code);if(problem)return problem;
+  }
+ }
  return '';
 }
 
@@ -171,6 +210,8 @@ function removeSteps(root,tx,record,{force}){
 
 export function apply(root,pkgDir,{update=false,runTests=true,log=console.log}={}){
  root=resolve(root);const pkg=readPackage(pkgDir),installed=readInstalled(root),current=installed.find(x=>x?.id===pkg.id);
+ const placeholder=pkg.outbound.filter(o=>/\.invalid$/.test(new URL(o).hostname));// bayit-new-extension writes these
+ if(placeholder.length)refuse('extension.json "outbound" still lists the placeholder '+placeholder.join(', ')+'. Put the real https origin(s) it calls, or [] when it calls none.');
  if(current&&!update)refuse('"'+pkg.id+'" is already installed (version '+current.version+'). To replace it with version '+pkg.version+', apply with --update.');
  if(!current&&update)refuse('"'+pkg.id+'" is not installed, so there is nothing to update. Apply without --update.');
  const version=bayitVersion(root);if(cmpVersion(version,pkg.minBayit)<0)refuse('"'+pkg.id+'" needs Bayit '+pkg.minBayit+' or newer; this copy is '+version+'. Update Bayit first (bayit-update).');
@@ -189,7 +230,7 @@ export function apply(root,pkgDir,{update=false,runTests=true,log=console.log}={
   for(const f of pkg.files){tx.save(f);tx.mkdirs(f);copyFileSync(pkg.source(f),join(root,f))}
   addLines(root,pkg,lines);
   const record={id:pkg.id,version:pkg.version,name:pkg.name,seam:pkg.seam,source:relative(root,pkg.dir).split(sep).join('/'),minBayit:pkg.minBayit,
-   entries:Object.fromEntries([...new Set(lines.map(l=>l.seam))].map(s=>[s,lines.filter(l=>l.seam===s).map(l=>l.id)])),
+   entries:Object.fromEntries([...new Set(lines.filter(l=>!registryOf(l.seam).client).map(l=>l.seam))].map(s=>[s,lines.filter(l=>l.seam===s).map(l=>l.id)])),
    files:[...pkg.files],hashes:Object.fromEntries(pkg.files.map(f=>[f,sha(readFileSync(join(root,f)))])),
    registry:lines.map(({seam,id,file,export:e,alias:a})=>({seam,id,file,export:e,alias:a})),outbound:pkg.outbound,dependencies:pkg.dependencies};
   writeInstalled(root,[...others,record]);
@@ -240,6 +281,7 @@ if(process.argv[1]&&existsSync(process.argv[1])&&realpathSync(process.argv[1])==
   if(cmd==='apply'&&arg)apply(root,arg,{update,runTests:!noTests});
   else if(cmd==='remove'&&arg)remove(root,arg,{force});
   else if(cmd==='check'){const r=check(root);for(const x of r.installed)console.log('✓ '+x.id+' '+x.version+' · '+Object.entries(x.entries||{}).map(([s,ids])=>s+': '+ids.join(', ')).join(' · '));if(!r.installed.length)console.log('No extensions installed.');for(const n of r.notes)console.log('! '+n);for(const p of r.problems)console.error('✗ '+p);process.exit(r.problems.length?1:0)}
-  else{console.error('Usage: bayit-extension.mjs apply <package-folder> [--update] [--no-tests] | remove <id> [--force] | check   [--root <folder>]');process.exit(2)}
+  else if((cmd==='keep'||cmd==='restore')&&arg){const k=await import('./bayit-extension-keep.mjs');try{const tools={apply,remove,check};if(cmd==='keep')k.keep(root,arg,{tools});else{const r=k.restore(root,arg,{tools});process.exit(r.unfit.length||r.problems.length?1:0)}}catch(e){if(k.isKeepRefusal(e)){console.error(e.message);process.exit(1)}throw e}}
+  else{console.error('Usage: bayit-extension.mjs apply <package-folder> [--update] [--no-tests] | remove <id> [--force] | check | keep <folder> | restore <folder>   [--root <folder>]');process.exit(2)}
  }catch(e){if(e instanceof Refusal){console.error(e.message);process.exit(1)}throw e}
 }

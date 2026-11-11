@@ -3,7 +3,7 @@
 // • Today: "Bayit AI suggests checking" below your tasks, task rows with a real checkbox (tick = checked, OK; undo).
 // • Tapping a row opens the window: amounts, recent months, two lines why, details, and three answers.
 // • Tasks › "Bayit AI": To check / Checked (the history), with what was decided, by whom and what it saved.
-// • Settings › Accounts & connections: the family switch (parents), Settings › Notifications: my digest.
+// • Bayit AI › Settings (one place, 2026-11-11): the family switch (parents) and my digest.
 // Only the server creates findings, so the AI flag is never set by a person. Adults only; money rows' own visibility.
 import React,{useEffect,useId,useMemo,useRef,useState,useSyncExternalStore} from 'react';
 import {createPortal} from 'react-dom';
@@ -14,6 +14,7 @@ import {HouseholdForm} from './household-form';
 import {PriorityChoice} from './priority';
 import {PersonChip} from './person-chip';
 import {DateField} from './date-field';
+import {TimeField} from './time-field';
 import {useConfirmedSave} from './confirmed-save';
 import {anchor} from './data';
 import {findingTitle,findingWhy,findingDelta,findingShort,evidenceRoute,shekels,monthName,moneyFindings,audienceFor,cleanSettings,cleanPrefs,suppressKey,BAI_OUTCOMES} from '../../shared/bayit-ai.mjs';
@@ -81,7 +82,7 @@ export function BayitAIMark({size=24,className=''}){
  return <span className={'bai-mark '+className} style={{width:size,height:size}} aria-hidden="true"><img className="bai-mark-day" src={'/assets/generated/bayit-ai-mark-'+file+'.png'} alt="" width={size} height={size}/><img className="bai-mark-night" src={'/assets/generated/bayit-ai-mark-'+file+'-dark.png'} alt="" width={size} height={size}/></span>;
 }
 // The mark as a section icon (FormSection renders <Icon size={24}/> inside its soft circle).
-const MarkIcon=({size=24})=><BayitAIMark size={size+4}/>;
+export const MarkIcon=({size=24})=><BayitAIMark size={size+4}/>;
 export const BayitAIChip=({a})=><span className="bai-chip"><BayitAIMark size={16}/>{a.T('Bayit AI','בית AI')}</span>;
 const LEVELS={3:['Check soon','לבדוק בקרוב'],2:['Worth a look','כדאי להציץ'],1:['For your information','לידיעה']};
 export function AILevel({a,level,label=true}){
@@ -92,8 +93,8 @@ const OUTCOME={ok:[Check,'OK','תקין'],action:[Wrench,'Became a task','הפך
 function OutcomePill({a,f}){const [Glyph,en,he]=OUTCOME[f.status]||OUTCOME.ok;return <span className={'bai-outcome o-'+f.status}><Glyph size={13} weight="bold"/>{a.T(en,he)}</span>}
 const areaIcon=f=>PROVIDER_AREA[f.finding?.providerArea]?.icon||'1F4B0';
 const fmtDay=(a,ms)=>ms?new Date(ms).toLocaleDateString(a.lang==='he'?'he-IL':'en-US',{day:'numeric',month:'short'}):'';
-function Seg({items,value,onChange,label}){return <div className="tabs nav-filter bai-seg" role="group" aria-label={label}>{items.map(([key,text,count])=><button type="button" key={key} aria-pressed={value===key} className={value===key?'active':''} onClick={()=>onChange(key)}><span className="nav-label">{text}</span>{count!=null&&<em className="nav-count">{count}</em>}</button>)}</div>}
-function SwitchRow({checked,onChange,label,hint,disabled}){return <div className="bai-switch-row"><span><b>{label}</b>{hint&&<small>{hint}</small>}</span><button type="button" role="switch" aria-label={label} aria-checked={!!checked} disabled={disabled} className={'switch '+(checked?'on':'')} onClick={()=>onChange(!checked)}><span/></button></div>}
+export function Seg({items,value,onChange,label}){return <div className="tabs nav-filter bai-seg" role="group" aria-label={label}>{items.map(([key,text,count])=><button type="button" key={key} aria-pressed={value===key} className={value===key?'active':''} onClick={()=>onChange(key)}><span className="nav-label">{text}</span>{count!=null&&<em className="nav-count">{count}</em>}</button>)}</div>}
+export function SwitchRow({checked,onChange,label,hint,disabled}){return <div className="bai-switch-row"><span><b>{label}</b>{hint&&<small>{hint}</small>}</span><button type="button" role="switch" aria-label={label} aria-checked={!!checked} disabled={disabled} className={'switch '+(checked?'on':'')} onClick={()=>onChange(!checked)}><span/></button></div>}
 
 // A recommendation as a task row (the Today row anatomy: checkbox · icon · title + meta · faces).
 export function BayitAIRow({a,f,ui:{Checkbox,Icon,Avatar},onOpen,onToggle,busy}){
@@ -150,7 +151,7 @@ export function BayitAIListCard({a,listId,onPick,Icon}){
 export function BayitAIList({a,ui}){
  const bai=useBayitAI(a),rows=useRowActions(a,bai),[view,setView]=useState('open');
  if(!bai.data)return <p className="muted bai-loading">{a.T('Loading…','טוען…')}</p>;
- if(!bai.ready||!bai.enabled)return <section className="bai-list"><div className="bai-empty"><BayitAIMark size={64}/><p>{!bai.data.adult?a.T('Bayit AI recommendations are for adults.','המלצות בית AI מיועדות למבוגרים.'):a.T('Bayit AI is off. A parent can turn it on in Settings → Accounts & connections.','בית AI כבוי. הורה יכול להפעיל אותו בהגדרות ← חשבונות וחיבורים.')}</p>{bai.data.canManage&&<button type="button" className="button secondary" onClick={()=>a.go('settings/connections')}>{a.T('Open Settings','פתיחת ההגדרות')}</button>}</div></section>;
+ if(!bai.ready||!bai.enabled)return <section className="bai-list"><div className="bai-empty"><BayitAIMark size={64}/><p>{!bai.data.adult?a.T('Bayit AI recommendations are for adults.','המלצות בית AI מיועדות למבוגרים.'):a.T('Bayit AI recommendations are off. A parent can turn them on in Bayit AI › Settings.','המלצות בית AI כבויות. הורה יכול להפעיל אותן בבית AI › הגדרות.')}</p>{bai.data.canManage&&<button type="button" className="button secondary" onClick={()=>a.go('ai/settings')}>{a.T('Open Bayit AI settings','פתיחת הגדרות בית AI')}</button>}</div></section>;
  const checked=bai.findings.filter(f=>f.status!=='open'),since=bai.findings.map(f=>f.createdAt).sort((x,y)=>x-y)[0];
  const handled=checked.filter(f=>f.status==='action'),saved=handled.reduce((n,f)=>n+(f.finding.yearly||0),0);
  const shown=view==='open'?bai.open:view==='checked'?checked:bai.findings;
@@ -248,7 +249,7 @@ export function BayitAIActionForm({a,f,bai,ui,onClose,onDone}){
 }
 
 // ---- Settings ----
-// AI › Daily suggestions (the AI feature's settings; moved from Accounts & connections 2026-11-10): the family switch (parents change it; other adults see it).
+// Bayit AI › Settings (one place for every AI setting, user decision 2026-11-11): the family switch (parents change it; other adults see it).
 export function BayitAISettings({a}){
  const bai=useBayitAI(a),[busy,setBusy]=useState(false),[error,setError]=useState('');
  if(!bai.data||bai.data.available===false||bai.data.adult===false||a.features?.on?.('ai')===false)return null;
@@ -269,16 +270,16 @@ export function BayitAISettings({a}){
  </FormSection>;
 }
 
-// Settings → Notifications: my own digest (off / daily / weekly, time, Push, Telegram). Quiet hours always apply.
+// Bayit AI › Settings › My notifications: my own digest (off / daily / weekly, time, Push, Telegram). Quiet hours always apply.
 export function BayitAINotify({a}){
  const bai=useBayitAI(a),[busy,setBusy]=useState(false);
  if(!bai.data||!bai.ready||!bai.enabled)return null;
  const p=bai.data.prefs,save=async next=>{setBusy(true);try{await bai.savePrefs({...p,...next})}catch{a.notify?.(a.T('Not saved.','לא נשמר.'))}finally{setBusy(false)}};
  const days=a.lang==='he'?['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת']:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
- return <div className="settings-v2 bai-notify"><FormSection T={a.T} icon={MarkIcon} tone="yellow" className="settings-wide" title={a.T('Bayit AI recommendations','המלצות בית AI')} note={a.T('Only mine','רק שלי')}>
+ return <div className="settings-v2 bai-notify"><FormSection T={a.T} icon={MarkIcon} tone="yellow" className="settings-wide" title={a.T('My recommendation summary','סיכום ההמלצות שלי')} note={a.T('Only mine','רק שלי')}>
   <p className="settings-section-intro">{a.T('One short summary of new recommendations, never during your quiet hours. Recommendations always appear on Today and in Tasks.','סיכום קצר אחד של המלצות חדשות, אף פעם לא בשעות השקט שלכם. ההמלצות תמיד מופיעות ב„היום שלנו” ובמשימות.')}</p>
   <Seg label={a.T('Summary','סיכום')} value={p.digest} onChange={v=>!busy&&save({digest:v})} items={[['off',a.T('Off','כבוי')],['daily',a.T('Daily','יומי')],['weekly',a.T('Weekly','שבועי')]]}/>
-  {p.digest!=='off'&&<div className="bai-notify-row"><label>{a.T('At','בשעה')}<input type="time" value={p.time} disabled={busy} onChange={e=>e.target.value&&save({time:e.target.value})}/></label>{p.digest==='weekly'&&<label>{a.T('On','ביום')}<select value={p.weekday} disabled={busy} onChange={e=>save({weekday:Number(e.target.value)})}>{days.map((d,i)=><option key={i} value={i}>{d}</option>)}</select></label>}</div>}
+  {p.digest!=='off'&&<div className="bai-notify-row"><label>{a.T('At','בשעה')}<TimeField value={p.time} disabled={busy} onChange={e=>e.target.value&&save({time:e.target.value})}/></label>{p.digest==='weekly'&&<label>{a.T('On','ביום')}<select value={p.weekday} disabled={busy} onChange={e=>save({weekday:Number(e.target.value)})}>{days.map((d,i)=><option key={i} value={i}>{d}</option>)}</select></label>}</div>}
   {p.digest!=='off'&&<><SwitchRow label="Push" hint={a.T('On this and your other signed-in devices','במכשיר הזה ובשאר המכשירים שלכם')} checked={p.push} disabled={busy} onChange={v=>save({push:v})}/><SwitchRow label={a.T('Telegram','טלגרם')} hint={a.T('To your linked Bayit bot','לבוט של הבית שקישרתם')} checked={p.telegram} disabled={busy} onChange={v=>save({telegram:v})}/></>}
  </FormSection></div>;
 }

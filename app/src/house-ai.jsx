@@ -8,13 +8,16 @@
 //   After sending: Sent → Bayit AI is thinking → the answer (answer-text.jsx); proposed changes wait for approval.
 // • Voice: the microphone records, the household's speech service writes it down, and it is sent as a question.
 // The Today card ("Ask Bayit AI") opens this same chat instead of jumping to the Ask AI page.
+// • One בית AI (2026-11-11): four tabs everywhere, Chat · Suggestions · History · Settings (bayit-ai-hub.jsx); the
+//   menu item opens it full screen (#ai, #ai/suggestions, #ai/history, #ai/settings), the bubble over the screen.
 import React,{useEffect,useId,useMemo,useRef,useState,useSyncExternalStore} from 'react';
 import {createPortal} from 'react-dom';
-import {X,PaperPlaneTilt,CheckCircle,Check,ArrowSquareOut,UsersThree,LockSimple,ClockCounterClockwise,PencilSimple,Paperclip,Lightning,ListChecks,CalendarDots,ShoppingCart,Wallet,Sun,Sparkle,Microphone,CaretDown,ArrowCounterClockwise,ChatCircleText,MagnifyingGlass,Plus,Trash,ClipboardText,CheckSquare,Note} from '@phosphor-icons/react';
+import {X,PaperPlaneTilt,CheckCircle,Check,ArrowSquareOut,UsersThree,LockSimple,ClockCounterClockwise,PencilSimple,Paperclip,Lightning,ListChecks,CalendarDots,ShoppingCart,Wallet,Sun,Sparkle,Microphone,CaretDown,ArrowCounterClockwise,ChatCircleText,MagnifyingGlass,Plus,Trash,ClipboardText,CheckSquare,Note,Lightbulb,Gear} from '@phosphor-icons/react';
 import {cloudHeaders} from './cloud-transport';
 import {api,makeContext,recordRoute} from './ai';
 import {AnswerText} from './answer-text';
 import {VoiceInput} from './voice-input';
+import {VoiceBadge} from './voice-badge';
 import {BayitAIMark,useBayitAI,AILevel,BAYIT_AI_LIST} from './bayit-ai';
 import {FormSection} from './form-section.jsx';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
@@ -22,18 +25,19 @@ import {useOnline} from './offline-ui';
 import {MessageReview,planAvailable} from './message-to-plan';
 import {describeAction} from '../../shared/ai-actions.mjs';
 import {findingTitle} from '../../shared/bayit-ai.mjs';
+import {HubSuggestions,HubSettings,HUB_VIEWS} from './bayit-ai-hub';
 import './house-ai.css';
 
 export const AI_BUTTON_PLACES=['bubble','edge','corner','off'];
 export const aiButtonPlace=a=>{const v=a.data?.preferences?.appearanceByUser?.[a.user]?.aiButton;return AI_BUTTON_PLACES.includes(v)?v:'bubble'};
 
 // ---- One conversation shared by the launcher, the Today card and every screen ----
-const chat={open:false,messages:[],scope:'family',busy:false,error:'',ready:false,listeners:new Set(),send:null,conversationId:null,view:'chat'};
+const chat={open:false,messages:[],scope:'family',busy:false,error:'',ready:false,conn:null,listeners:new Set(),send:null,conversationId:null,view:'chat'};
 const emit=()=>{for(const l of chat.listeners)l()};
 const set=patch=>{Object.assign(chat,patch);chat.v=(chat.v||0)+1;emit()};
 const useChat=()=>{useSyncExternalStore(l=>{chat.listeners.add(l);return()=>chat.listeners.delete(l)},()=>chat.v||0,()=>0);return chat};
 // Opens the chat (and asks `query` when given). Returns false when no launcher is mounted, so callers can fall back.
-export function openBayitAI(query,meta){if(!chat.send)return false;set({open:true});if(query&&query.trim())chat.send(query.trim(),meta);return true}
+export function openBayitAI(query,meta){if(!chat.send)return false;set({open:true,view:'chat'});if(query&&query.trim())chat.send(query.trim(),meta);return true}
 export const bayitAIReady=()=>!!chat.send&&chat.ready;
 
 // The menu icon for the Ask AI route (the mark; night copy on dark menus via CSS).
@@ -57,7 +61,7 @@ function starters(a,root){
  return S[root]||S.today;
 }
 
-function Intro({a,root,ui,onAsk,onClose,onPlan}){
+function Intro({a,root,ui,onAsk,onClose,onPlan,onSuggestions}){
  const bai=useBayitAI(a),mine=bai.ready?bai.open.filter(f=>f.assignees.includes(a.user)):[];
  const first=(a.name(a.user)||'').split(' ')[0],h=Number(new Date().toLocaleTimeString('en-GB',{hour:'2-digit',hour12:false,timeZone:'Asia/Jerusalem'}).slice(0,2));
  const hello=h<12?a.T('Good morning','בוקר טוב'):h<18?a.T('Good afternoon','צהריים טובים'):a.T('Good evening','ערב טוב');
@@ -66,7 +70,7 @@ function Intro({a,root,ui,onAsk,onClose,onPlan}){
   <p className="hai-hello">{hello}{first?', '+first:''}! {a.T('I’m here on every screen. Ask, request or plan:','אני כאן בכל מסך. שאלו, בקשו או תכננו:')}</p>
   {mine.length>0&&<section className="hai-waiting" aria-label={a.T('Waiting for a check','מחכה לבדיקה')}>
    <h3><BayitAIMark size={22}/>{a.T('Waiting for a check','מחכה לבדיקה')}<b className="hai-count">{mine.length}</b></h3>
-   {mine.slice(0,3).map(f=><button type="button" key={f.scopeKey+f.id} className="hai-rec" onClick={()=>{onClose();a.go('tasks?list='+BAYIT_AI_LIST)}}><span>{findingTitle(f.finding,a.lang)}</span><AILevel a={a} level={f.level} label={false}/></button>)}
+   {mine.slice(0,3).map(f=><button type="button" key={f.scopeKey+f.id} className="hai-rec" onClick={onSuggestions}><span>{findingTitle(f.finding,a.lang)}</span><AILevel a={a} level={f.level} label={false}/></button>)}
   </section>}
   <section className="hai-starters" aria-label={a.T('Questions for this screen','שאלות למסך הזה')}><h3>{a.T('For this screen','על המסך הזה')}</h3>
    <div className="hai-chips">{starters(a,root).map(([G,q])=><button type="button" key={q} className="hai-chip" onClick={()=>onAsk(q)}><G size={17} aria-hidden="true"/>{q}</button>)}{onPlan&&<button type="button" className="hai-chip hai-chip-plan" onClick={onPlan}><ClipboardText size={17} aria-hidden="true"/>{a.T('Prepare a plan from a message','להכין תוכנית מהודעה')}</button>}</div></section>
@@ -86,12 +90,16 @@ function Plan({a,ui,m,onApply,onUndo,onDismiss,pending}){
  </div>;
 }
 
-function ChatWindow({a,ui,place,root,onClose,connected,embedded=false}){
+function ChatWindow({a,ui,place,root,onClose,connected,embedded=false,onView}){
  const c=useChat(),uid=useId(),[text,setText]=useState(''),[pending,setPending]=useState(null),[intake,setIntake]=useState(null),end=useRef(null),closeRef=useRef(null);
  useEffect(()=>{if(!embedded)closeRef.current?.focus({preventScroll:true})},[]);
+ // Escape closes the window wherever focus is (Safari does not focus a tapped button), unless a window opened over it.
+ useEffect(()=>{if(embedded)return;const k=e=>{if(e.key==='Escape'&&!e.defaultPrevented&&document.documentElement.dataset.bayitDialogOpen!=='true'){e.preventDefault();onClose()}};document.addEventListener('keydown',k);return()=>document.removeEventListener('keydown',k)},[embedded]);
  const canPlan=planAvailable(a);
  useEffect(()=>{if(c.messages.length)end.current?.scrollIntoView({block:'nearest',behavior:'smooth'})},[c.messages.length,c.busy]);
  const ask=(q,meta)=>{if(!q.trim())return;setText('');chat.send(q.trim(),meta)};
+ const go=k=>{set({view:k});onView?.(k)},bai=useBayitAI(a),waiting=bai.ready?bai.open.filter(f=>f.assignees.includes(a.user)).length:0;
+ const leave=route=>{onClose();if(route)a.go(route)};
  const apply=async m=>{if(pending)return;setPending(m.plan.id);try{const preview=structuredClone(a.data),receipt=applyAIPlan(preview,m.plan,a.user,a.members,a.catalog);await a.update(d=>{applyAIPlan(d,m.plan,a.user,a.members,a.catalog)});set({messages:chat.messages.map(x=>x===m?{...x,receipt}:x)})}catch{set({error:a.T('Not saved. Review the proposal and try again.','לא נשמר. אפשר לבדוק את ההצעה ולנסות שוב.')})}finally{setPending(null)}};
  const undo=async m=>{if(pending)return;setPending(m.plan.id);try{const preview=structuredClone(a.data),receipt=undoAIPlan(preview,m.plan.id,a.user);await a.update(d=>{undoAIPlan(d,m.plan.id,a.user)});set({messages:chat.messages.map(x=>x===m?{...x,receipt}:x)})}catch{set({error:a.T('Not saved. Try again.','לא נשמר. נסו שוב.')})}finally{setPending(null)}};
  const dismiss=m=>set({messages:chat.messages.map(x=>x===m?{...x,plan:null}:x)});
@@ -101,19 +109,22 @@ function ChatWindow({a,ui,place,root,onClose,connected,embedded=false}){
   ...a.visible(a.data.shopping||[]).filter(r=>!r.done).map(r=>({id:r.id,type:'shopping',title:a.text(r),listId:r.listId}))];
   return title=>{const t=norm(title);if(!t)return null;const hit=pool.find(r=>norm(r.title)===t)||pool.find(r=>t.length>5&&norm(r.title).includes(t));return hit?recordRoute(hit,c.scope):null}};
  const loadConversation=async id=>{try{const r=await fetch('/api/ai-history/'+encodeURIComponent(id),{headers:cloudHeaders(),cache:'no-store'}),j=await r.json();if(!r.ok)throw Error(j.error);
-  set({view:'chat',scope:j.conversation.scope==='private'?'private':'family',conversationId:j.conversation.id,error:'',messages:j.turns.map(t=>({query:t.question,answer:t.answer,plan:t.plan,sources:t.sources,voice:t.voice,status:'answered',fromHistory:true}))})}
+  go('chat');set({scope:j.conversation.scope==='private'?'private':'family',conversationId:j.conversation.id,error:'',messages:j.turns.map(t=>({query:t.question,answer:t.answer,plan:t.plan,sources:t.sources,voice:t.voice,status:'answered',fromHistory:true}))})}
   catch(e){set({error:e.message||a.T('This conversation could not be opened.','לא הצלחנו לפתוח את השיחה.')})}};
  const body=<section className={'hai-chat'+(embedded?' hai-embedded':'')} role={embedded?'region':'dialog'} aria-modal={embedded?undefined:'false'} aria-labelledby={uid} dir={a.lang==='he'?'rtl':'ltr'}>
    <header className="hai-head" hidden={embedded}><BayitAIMark size={36}/><div><h2 id={uid}>{a.T('Bayit AI','בית AI')}</h2><small>{a.T('Ask, request, plan · only what you may see','שואלים, מבקשים, מתכננים · רק מה שמותר לכם לראות')}</small></div>
     {!embedded&&<button ref={closeRef} type="button" className="icon-button" onClick={onClose} aria-label={a.T('Close Bayit AI','סגירת בית AI')}><X size={24}/></button>}</header>
-   {a.cloud&&<div className="hai-tabs"><div className="hai-seg" role="group" aria-label={a.T('Bayit AI','בית AI')}>{[['chat',a.T('Conversation','שיחה'),ChatCircleText],['history',a.T('History','היסטוריה'),ClockCounterClockwise]].map(([k,t,G])=><button type="button" key={k} aria-pressed={c.view===k} className={c.view===k?'on':''} onClick={()=>set({view:k})}><G size={17}/>{t}</button>)}</div>
-    {c.view==='chat'&&c.messages.length>0&&<button type="button" className="button secondary hai-new" onClick={()=>set({messages:[],conversationId:null,error:''})}><Plus size={18}/>{a.T('New','חדשה')}</button>}</div>}
-   {c.view==='history'?<div className="hai-body"><History a={a} onOpen={loadConversation}/></div>:<div className="hai-body">
-    <div className="hai-seg hai-scope" role="group" aria-label={a.T('Whose records','רישומים של')}>{[['family',a.T('Family','משפחתי'),UsersThree],['private',a.T('Mine','שלי'),LockSimple]].map(([k,t,G])=><button type="button" key={k} aria-pressed={c.scope===k} className={c.scope===k?'on':''} onClick={()=>set({scope:k,messages:[],error:'',conversationId:null})}><G size={17}/>{t}</button>)}</div>
+   <div className="hai-tabs"><div className="hai-seg hai-views" role="tablist" aria-label={a.T('Bayit AI','בית AI')}>{[['chat',a.T('Chat','שיחה'),ChatCircleText],['suggestions',a.T('Suggestions','הצעות'),Lightbulb],['history',a.T('History','היסטוריה'),ClockCounterClockwise],['settings',a.T('Settings','הגדרות'),Gear]].map(([k,t,G])=><button type="button" role="tab" key={k} aria-selected={c.view===k} className={c.view===k?'on':''} onClick={()=>go(k)}><G size={17} aria-hidden="true"/>{t}{k==='suggestions'&&waiting>0&&<b className="hai-tab-count" aria-label={a.T(waiting+' waiting',waiting+' מחכות')}>{waiting}</b>}</button>)}</div></div>
+   {c.view==='history'?<div className="hai-body" role="tabpanel">{a.cloud?<History a={a} onOpen={loadConversation}/>:<p className="hai-empty">{a.T('Sample household: your own Bayit keeps your conversations here.','בית לדוגמה: ב־Bayit שלכם השיחות נשמרות כאן.')}</p>}</div>
+   :c.view==='suggestions'?<div className="hai-body" role="tabpanel"><HubSuggestions a={a} ui={ui} onNavigate={leave} onSettings={()=>go('settings')}/></div>
+   :c.view==='settings'?<div className="hai-body" role="tabpanel"><HubSettings a={a} ui={ui} conn={c.conn} connected={connected} buttonSettings={<BayitAIButtonSettings a={a}/>} onNavigate={leave}/></div>
+   :<div className="hai-body" role="tabpanel">
+    <div className="hai-scope-row"><div className="hai-seg hai-scope" role="group" aria-label={a.T('Whose records','רישומים של')}>{[['family',a.T('Family','משפחתי'),UsersThree],['private',a.T('Mine','שלי'),LockSimple]].map(([k,t,G])=><button type="button" key={k} aria-pressed={c.scope===k} className={c.scope===k?'on':''} onClick={()=>set({scope:k,messages:[],error:'',conversationId:null})}><G size={17}/>{t}</button>)}</div>
+     {c.messages.length>0&&<button type="button" className="button secondary hai-new" onClick={()=>set({messages:[],conversationId:null,error:''})}><Plus size={18}/>{a.T('New chat','שיחה חדשה')}</button>}</div>
     {!connected&&<div className="hai-connect" role="note"><Sparkle size={20}/><span>{a.cloud?a.T('Connect your household’s AI in Settings → Accounts & connections to ask.','כדי לשאול, חברו את ה־AI של הבית בהגדרות ← חשבונות וחיבורים.'):a.T('Sample household: connect a real AI in your own Bayit to ask.','בית לדוגמה: כדי לשאול, חברו AI אמיתי ב־Bayit שלכם.')}</span>{a.cloud&&<button type="button" className="text-link" onClick={()=>{onClose();a.go('settings/ai')}}>{a.T('Open','פתיחה')}</button>}</div>}
-    {!c.messages.length&&<Intro a={a} root={root} ui={ui} onAsk={q=>connected&&ask(q)} onClose={onClose} onPlan={canPlan?()=>setIntake(text.trim()):null}/>}
+    {!c.messages.length&&<Intro a={a} root={root} ui={ui} onAsk={q=>connected&&ask(q)} onClose={onClose} onPlan={canPlan?()=>setIntake(text.trim()):null} onSuggestions={()=>go('suggestions')}/>}
     {c.messages.map((m,i)=><div key={i} className="hai-pair">
-     <div className="hai-mine">{m.voice&&<span className="hai-voice"><Microphone size={14} weight="fill"/>{a.T('Voice','הקלטה')} · {Math.floor(m.voice/60)}:{String(m.voice%60).padStart(2,'0')}</span>}{String(m.query).split(/\n+|(?<=[.?!])\s+(?=\S)/).filter(Boolean).map((line,j)=><span key={j} dir="auto" className="hai-line">{line}</span>)/* each sentence keeps its own language's direction */}</div>
+     <div className="hai-mine"><VoiceBadge a={a} seconds={m.voice}/>{String(m.query).split(/\n+|(?<=[.?!])\s+(?=\S)/).filter(Boolean).map((line,j)=><span key={j} dir="auto" className="hai-line">{line}</span>)/* each sentence keeps its own language's direction */}</div>
      {m.status==='sent'&&<div className="hai-steps" aria-live="polite"><span className="hai-step done"><CheckCircle size={16} weight="fill"/>{a.T('Sent','נשלח')}</span><span className="hai-step now"><BayitAIMark size={18}/>{a.T('Bayit AI is thinking…','בית AI חושב…')}<i/><i/><i/></span></div>}
      {m.answer&&<div className="hai-answer"><AnswerText text={m.answer} a={a} Avatar={ui.Avatar} linkFor={linkFor(m)} onNavigate={route=>{onClose();a.go(route)}}/>
       {m.sources?.length>0&&<div className="hai-sources"><span className="hai-sources-title">{a.T('Records used','רישומים שנעזרתי בהם')}</span>{m.sources.slice(0,6).map(s=>{const G=s.type==='shopping'?ShoppingCart:s.type==='event'?CalendarDots:s.type==='task'?CheckSquare:Note;return <button type="button" className="hai-source" key={s.id} onClick={()=>{onClose();a.go(recordRoute(s,c.scope))}}><G size={17} aria-hidden="true"/><span dir="auto">{s.title}</span>{s.date&&<small dir="ltr">{s.date.slice(5).split('-').reverse().join('.')}</small>}</button>})}</div>}
@@ -123,16 +134,16 @@ function ChatWindow({a,ui,place,root,onClose,connected,embedded=false}){
     {c.error&&<p className="hai-error" role="alert">{c.error}</p>}
     <div ref={end}/>
    </div>}
-   <form className="hai-composer" onSubmit={e=>{e.preventDefault();if(connected)ask(text)}}>
+   {c.view==='chat'&&<form className="hai-composer" onSubmit={e=>{e.preventDefault();if(connected)ask(text)}}>
     <input value={text} onChange={e=>setText(e.target.value)} maxLength={2000} dir={text?'auto':undefined} placeholder={a.T('Ask Bayit AI…','לשאול את בית AI…')} aria-label={a.T('Question or request','שאלה או בקשה')} disabled={!connected}/>
     <VoiceInput a={a} disabled={!connected||c.busy} value={text} onChange={setText} onText={(t,meta)=>ask(t,meta)}/>
     {canPlan&&<button type="button" className="icon-button hai-plan-btn" onClick={()=>setIntake(text.trim())} aria-label={a.T('Prepare a plan from a message, photo or PDF','להכין תוכנית מהודעה, צילום או PDF')} title={a.T('Prepare a plan','להכין תוכנית')}><ClipboardText size={22}/></button>}
     <button type="submit" className="hai-send" disabled={!connected||c.busy||!text.trim()} aria-label={a.T('Send to Bayit AI','שליחה לבית AI')}><PaperPlaneTilt size={22} weight="fill"/></button>
-   </form>
+   </form>}
    {intake!==null&&<MessageReview a={a} Avatar={ui.Avatar} initialSource={intake} close={()=>setIntake(null)}/>}
   </section>;
  if(embedded)return body;
- return createPortal(<div className={'hai-layer hai-at-'+place} onKeyDown={e=>{if(e.key==='Escape'){e.preventDefault();onClose()}}}>{body}</div>,document.body);
+ return createPortal(<div className={'hai-layer hai-at-'+place}>{body}</div>,document.body);
 }
 
 // The launcher: one per app. Also owns sending, so the Today card and the AI page can open the same chat.
@@ -143,29 +154,31 @@ export function BayitAILauncher({a,ui}){
  const latest=useRef(a);latest.current=a;
  useEffect(()=>{
   if(!aiOn){chat.send=null;return}
-  if(chat.ready!==connected)set({ready:connected});
+  if(chat.ready!==connected||chat.conn!==conn)set({ready:connected,conn});
   chat.send=async(query,meta)=>{
    const A=latest.current;if(chat.busy)return;
-   if(!connected){set({open:true});return}
-   const msg={query,voice:meta?.voice?meta.seconds:0,status:'sent'};const prior=chat.messages,cid=chat.conversationId||crypto.randomUUID();set({open:true,view:'chat',busy:true,error:'',messages:[...prior,msg],conversationId:cid});
+   const onPage=(A.route||'').split(/[/?]/)[0]==='ai'; // on the בית AI page the chat is the page itself, so nothing pops open later
+   if(!connected){set({open:!onPage});return}
+   const msg={query,voice:meta?.voice?meta.seconds:0,status:'sent'};const prior=chat.messages,cid=chat.conversationId||crypto.randomUUID();set({open:!onPage,view:'chat',busy:true,error:'',messages:[...prior,msg],conversationId:cid});
    try{const r=await api('chat',{question:query,context:makeContext(A,chat.scope),scope:chat.scope,conversationId:cid,voice:msg.voice,turns:prior.filter(m=>m.answer).slice(-6).flatMap(m=>[{role:'user',content:m.query},{role:'assistant',content:m.answer}])});
     set({messages:chat.messages.map(m=>m===msg?{...m,...r,status:'answered'}:m)})}
    catch(e){set({messages:chat.messages.map(m=>m===msg?{...m,status:'failed',error:e.status===429?A.T('Too many questions right now. Wait a minute and try again.','יותר מדי שאלות כרגע. חכו דקה ונסו שוב.'):e.message||A.T('Bayit AI could not answer. Try again.','בית AI לא הצליח לענות. נסו שוב.')}:m)})}
    finally{set({busy:false})}
   };
   return()=>{chat.send=null};
- },[aiOn,connected]);
- useEffect(()=>{set({messages:[],open:false,conversationId:null,view:'chat'})},[a.user,a.data?.householdId]);
- const bubbleShown=show&&!c.open&&root!=='ai'&&place==='bubble';
+ },[aiOn,connected,conn]);
+ useEffect(()=>{set({messages:[],open:false,conversationId:null})},[a.user,a.data?.householdId]); // the tab follows the page's route (BayitAIChatInline) or opens on Chat
+ const away=useStepAside(show&&!c.open&&root!=='ai'&&(place==='bubble'||place==='edge'),place);
+ const bubbleShown=show&&!c.open&&root!=='ai'&&place==='bubble'&&!away;
  // Lets toasts sit above the bubble instead of on it (floating.css).
  useEffect(()=>{const el=document.documentElement;if(bubbleShown)el.dataset.aiBubble='';else delete el.dataset.aiBubble;return()=>{delete el.dataset.aiBubble}},[bubbleShown]);
  if(!aiOn)return null;
- const open=()=>set({open:true}),close=()=>set({open:false});
+ const open=()=>set({open:true,view:'chat'}),close=()=>set({open:false});
  const label=a.T('Open Bayit AI','פתיחת בית AI')+(count?a.T(' · '+count+' waiting',' · '+count+' מחכות'):'');
  let button=null;
  if(show&&!c.open&&root!=='ai'&&place!=='off'){
-  if(place==='bubble')button=<button type="button" className="hai-bubble" onClick={open} aria-label={label}><BayitAIMark size={38}/><Sparkle className="hai-twinkle" size={14} weight="fill" aria-hidden="true"/>{count>0&&<b className="hai-badge" aria-hidden="true">{count}</b>}</button>;
-  else if(place==='edge')button=<EdgeTab a={a} label={label} count={count} onOpen={open}/>;
+  if(place==='bubble')button=<button type="button" className={'hai-bubble'+(away?' hai-away':'')} onClick={open} aria-label={label} aria-hidden={away||undefined} tabIndex={away?-1:undefined}><BayitAIMark size={38}/><Sparkle className="hai-twinkle" size={14} weight="fill" aria-hidden="true"/>{count>0&&<b className="hai-badge" aria-hidden="true">{count}</b>}</button>;
+  else if(place==='edge')button=<EdgeTab a={a} label={label} count={count} onOpen={open} away={away}/>;
   else if(place==='corner'){const slot=document.querySelector('.bayit-shell-utility');button=slot?createPortal(<button type="button" className="hai-corner" onClick={open} aria-label={label}><BayitAIMark size={30}/>{count>0&&<b className="hai-badge" aria-hidden="true">{count}</b>}</button>,slot):null}
  }
  return <>{place==='corner'?button:button&&createPortal(button,document.body)}{c.open&&root!=='ai'&&<ChatWindow a={a} ui={ui} place={place==='edge'?'edge':place==='corner'?'corner':'bubble'} root={root} onClose={close} connected={connected}/>}</>;
@@ -194,21 +207,48 @@ function History({a,onOpen}){
 }
 
 // The Ask Bayit AI page shows the same conversation inline (user report 2026-11-10: the page had its own older chat).
-export function BayitAIChatInline({a,ui}){
+export function BayitAIChatInline({a,ui,view='chat'}){
  useChat();
- return <ChatWindow a={a} ui={ui} place="bubble" root="ai" embedded connected={!!chat.ready} onClose={()=>{}}/>;
+ useEffect(()=>{if(HUB_VIEWS.includes(view)&&chat.view!==view)set({view})},[view]);
+ return <ChatWindow a={a} ui={ui} place="bubble" root="ai" embedded connected={!!chat.ready} onClose={()=>{}} onView={k=>a.go(k==='chat'?'ai':'ai/'+k)}/>;
+}
+
+// The launcher steps aside (fades out, takes no taps) while a window is open, or while a save bar, sheet footer or
+// another fixed/sticky bar would sit under it (orchestrator report 2026-11-10: the bubble covered Save on form pages).
+// It measures what is on screen instead of a list of forms, so new forms are covered too.
+const BARS='.form-sticky-actions,.tasks-sheet-actions,.money-manual-form-actions,.transaction-actions,.document-editor-footer,[class*="sticky-actions"],[class*="form-actions"],[class*="-actions"],footer';
+function useStepAside(active,place){
+ const [away,setAway]=useState(false);
+ useEffect(()=>{
+  if(!active){setAway(false);return}
+  let frame=0;
+  const check=()=>{frame=0;
+   const root=document.documentElement;if(root.dataset.bayitDialogOpen==='true'){setAway(true);return}
+   const me=document.querySelector(place==='edge'?'.hai-edge':'.hai-bubble');if(!me){setAway(false);return}
+   const r=me.getBoundingClientRect(),pad=8,box={l:r.left-pad,r:r.right+pad,t:r.top-pad,b:r.bottom+pad};
+   const hit=[...document.querySelectorAll(BARS)].some(e=>{if(e.closest('.hai-chat,.bayit-shell-nav,.bayit-shell-header,.toast,.offline-banner'))return false;const s=getComputedStyle(e);if(s.display==='none'||s.visibility==='hidden')return false;
+    if(!/sticky|fixed/.test(s.position)&&!e.closest('[role="dialog"]'))return false;const q=e.getBoundingClientRect();if(!q.width||!q.height)return false;return !(q.right<=box.l||q.left>=box.r||q.bottom<=box.t||q.top>=box.b)});
+   setAway(hit);
+  };
+  const schedule=()=>{if(!frame)frame=requestAnimationFrame(check)};
+  const mo=new MutationObserver(schedule);mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','hidden','open']});
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-bayit-dialog-open']});
+  addEventListener('scroll',schedule,true);addEventListener('resize',schedule);schedule();
+  return()=>{mo.disconnect();removeEventListener('scroll',schedule,true);removeEventListener('resize',schedule);cancelAnimationFrame(frame)};
+ },[active,place]);
+ return away;
 }
 
 // The edge tab can be dragged up or down; the position is a per-device convenience.
-function EdgeTab({a,label,count,onOpen}){
+function EdgeTab({a,label,count,onOpen,away}){
  const [top,setTop]=useState(()=>{try{return Number(localStorage.getItem('bayit-ai-edge'))||50}catch{return 50}}),drag=useRef(null);
  const down=e=>{drag.current={y:e.clientY,top,moved:false};e.currentTarget.setPointerCapture?.(e.pointerId)};
  const move=e=>{const d=drag.current;if(!d)return;const dy=e.clientY-d.y;if(Math.abs(dy)>6)d.moved=true;if(d.moved)setTop(Math.min(80,Math.max(20,d.top+dy/innerHeight*100)))};
  const up=()=>{const d=drag.current;drag.current=null;if(!d)return;if(d.moved){try{localStorage.setItem('bayit-ai-edge',String(Math.round(top)))}catch{}}else onOpen()};
- return <button type="button" className="hai-edge" style={{top:top+'%'}} aria-label={label} onPointerDown={down} onPointerMove={move} onPointerUp={up} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onOpen()}}}><BayitAIMark size={32}/>{count>0&&<b className="hai-badge" aria-hidden="true">{count}</b>}</button>;
+ return <button type="button" className={'hai-edge'+(away?' hai-away':'')} style={{top:top+'%'}} aria-label={label} aria-hidden={away||undefined} tabIndex={away?-1:undefined} onPointerDown={down} onPointerMove={move} onPointerUp={up} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onOpen()}}}><BayitAIMark size={32}/>{count>0&&<b className="hai-badge" aria-hidden="true">{count}</b>}</button>;
 }
 
-// Settings › General: where my בית AI button sits (mine only).
+// בית AI › Settings: where my בית AI button sits (mine only).
 export function BayitAIButtonSettings({a}){
  if(a.features?.on?.('ai')===false)return null;
  const place=aiButtonPlace(a),save=v=>a.update(d=>{d.preferences.appearanceByUser={...d.preferences.appearanceByUser,[a.user]:{...d.preferences.appearanceByUser?.[a.user],aiButton:v}}});

@@ -66,8 +66,7 @@ label>.date-field,.form-stack .date-field,.two-fields .date-field{display:flex;w
 .two-fields.date-time-fields{align-items:end}
 .two-fields.date-time-fields>label{display:grid;gap:8px;align-content:end}
 .two-fields.date-time-fields>label>.date-field{margin-top:0}
-.two-fields.date-time-fields .date-field-button,.two-fields.date-time-fields input[type=time]{height:52px;min-height:52px;box-sizing:border-box;margin:0}
-.two-fields.date-time-fields input[type=time]{border-radius:16px;font-size:max(16px,calc(17px * var(--text-scale,1)));font-weight:700;padding:0 14px}
+.two-fields.date-time-fields .date-field-button,.two-fields.date-time-fields .time-field{height:52px;min-height:52px;box-sizing:border-box;margin:0}
 .created-by{display:flex;align-items:center;gap:8px;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--border);color:var(--muted);font-size:calc(14px * var(--text-scale,1));font-weight:650}
 .created-by .avatar{border-radius:50%}
 .created-by strong{color:var(--text)}

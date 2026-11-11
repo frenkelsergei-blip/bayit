@@ -17,6 +17,8 @@ import {applyHeroCommand,publicHero} from '../../shared/hero-home.mjs';
 import {receiptFilter} from '../../shared/private-snapshots.mjs';
 import {validateInsurancePolicy} from '../../shared/insurance.mjs';
 import {resolveFeatures} from '../../shared/features.mjs';
+import {visibleModules,applyModuleOp} from '../../shared/feature-modules.mjs';
+import {extKeys,parseExtKey,recordList} from '../../shared/record-paths.mjs';
 import {boundedValue,validateRecord,validateProfile,safePhoto,displayable,imageData,validatePreference} from '../../shared/state-validation.mjs';
 export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists','places','insurances'];
 const personalMaps=['featuresByUser','appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser'];
@@ -34,6 +36,7 @@ export function visibleState(state,actorId){
  state=normalizeStateAudience(state); // Assignees always see their records (assignment and visibility model, 2026-11-08).
  const result=structuredClone(state),lists=(state.shoppingLists||[]).filter(l=>canAccessList(l,actorId)),taskLists=(state.taskLists||[]).filter(l=>canAccessList(l,actorId));
  delete result.insuranceIdentityVaults; // Server-only encrypted, actor-scoped ID matching; never sync to clients/AI.
+ delete result.extensions; // Feature modules: rebuilt from scratch below (installed modules, declared lists, this member's records only).
  for(const key of collections)result[key]=['expenses','bills','insurances'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(result[key]||[]).filter(r=>displayable(r,key)&&canSeeRecord(r,actorId,key)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)||key==='tasks'&&assignedTo(r,actorId,key)&&delete r.listId));
  for(const [derived,source,reference]of [['history','tasks','taskId'],['purchases','shopping','id']])result[derived]=result[derived].filter(r=>{const original=(state[source]||[]).find(s=>s.id===r[reference]);return original?(result[source]||[]).some(s=>s.id===original.id):r.ownerId===actorId});
  for(const key of ['notes','events','expenses'])for(const record of result[key])record.date??='';
@@ -53,11 +56,14 @@ export function visibleState(state,actorId){
  if(result.preferences.turnOverrides){const names=new Set(result.tasks.filter(t=>t.routine).map(t=>t.title));result.preferences.turnOverrides=Object.fromEntries(Object.entries(result.preferences.turnOverrides).filter(([key])=>names.has(key.split('|').slice(1).join('|'))))}
  result.customIcons=(state.customIcons||[]).filter(r=>canSee(r,actorId));const maySeeReceipt=receiptFilter(state,result,collections,actorId);result.aiOperations=Object.fromEntries(Object.entries(state.aiOperations||{}).filter(([,r])=>maySeeReceipt(r)));
  result.changeNotices=(state.changeNotices||[]).filter(n=>n.recipientId===actorId); // Each person reads only their own change notices.
- result.favoriteIcons=state.profiles[actorId]?.favoriteIcons||[];return result;
+ result.favoriteIcons=state.profiles[actorId]?.favoriteIcons||[];
+ {const extensions=visibleModules(state,actorId);if(Object.keys(extensions).length)result.extensions=extensions;}
+ return result;
 }
 export function diffState(before,after){
  const ops=[];for(const collection of collections){const old=new Map((before[collection]||[]).map(r=>[r.id,r])),next=new Map((after[collection]||[]).map(r=>[r.id,r]));for(const [id,value]of next)if(!equal(old.get(id),value))ops.push({collection,id,value,before:old.get(id)??null});for(const [id]of old)if(!next.has(id))ops.push({collection,id,delete:true,before:old.get(id)})}
  for(const key of ['profiles','preferences','aiOperations'])for(const id of new Set([...Object.keys(before[key]||{}),...Object.keys(after[key]||{})]))if(!equal(before[key]?.[id],after[key]?.[id]))ops.push({collection:key,id,value:after[key]?.[id],before:before[key]?.[id]??null});
+ for(const key of new Set([...extKeys(before),...extKeys(after)])){const old=new Map((recordList(before,key)||[]).map(r=>[r.id,r])),next=new Map((recordList(after,key)||[]).map(r=>[r.id,r]));for(const [id,value]of next)if(!equal(old.get(id),value))ops.push({collection:key,id,value,before:old.get(id)??null});for(const [id]of old)if(!next.has(id))ops.push({collection:key,id,delete:true,before:old.get(id)})}
  if(!equal(before.members,after.members))ops.push({collection:'members',value:after.members,before:before.members});if(!equal(before.customIcons,after.customIcons))ops.push({collection:'customIcons',value:after.customIcons,before:before.customIcons});if(!equal(before.favoriteIcons,after.favoriteIcons))ops.push({collection:'favorites',value:after.favoriteIcons,before:before.favoriteIcons});return ops;
 }
 export function applyChanges(state,ops,actorId,role){
@@ -84,6 +90,7 @@ export function applyChanges(state,ops,actorId,role){
   if(op.collection==='favorites'){if(!Array.isArray(op.value)||op.value.length>300||op.value.some(v=>typeof v!=='string'||v.length>180))throw Error('Choose valid favorite icons.');next.profiles[actorId].favoriteIcons=(op.value||[]).slice(0,300);continue}
   if(op.collection==='customIcons'){for(const icon of op.value||[])if(icon.ownerId===actorId&&!imageData(icon.src,{png:true}))throw Error('Upload a small PNG or JPEG icon.');const mine=(op.value||[]).filter(i=>i.ownerId===actorId);next.customIcons=[...(next.customIcons||[]).filter(i=>i.ownerId!==actorId),...mine.map(i=>({...i,ownerId:actorId,visibility:'private',allowedIds:[]}))];continue}
   if(op.collection==='aiOperations'){const existing=next.aiOperations?.[op.id];if(op.value?.ownerId!==actorId||(existing&&existing.ownerId!==actorId))throw Error('This AI receipt belongs to someone else.');next.aiOperations={...next.aiOperations,[op.id]:op.value};continue}
+  if(parseExtKey(op.collection)){applyModuleOp(next,op,{state,actorId,role,memberIds,members:state.members,canEditContent,validateEditAccess});continue} // feature modules (shared/feature-modules.mjs)
   if(op.collection==='events'&&[...birthdayProfiles].some(id=>op.id===birthdayEventId(id)))continue; // The profile branch synchronizes birthdays without widening hidden audiences.
   if(!collections.includes(op.collection)||!text(op.id,140))throw Error('Unsupported record change.');const list=next[op.collection]||[],index=list.findIndex(r=>r.id===op.id),old=index>=0?list[index]:null,value=structuredClone(op.value||{});
   if(old&&!canSeeRecord(old,actorId,op.collection))throw Error('This record is private.');

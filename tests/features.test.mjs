@@ -26,7 +26,8 @@ test('every app route, Household tab and Kids/Settings page belongs to a feature
  assert.ok(household.includes('expenses')&&household.includes('meals'));
  for(const tab of household)assert.notEqual(routeFeature('household/'+tab),'household','Household tab '+tab+' has no feature');
  const switchRoots=[...app.match(/const subview=\(\)=>\{(.*?)\};/s)[1].matchAll(/root==='(\w+)'/g)].map(m=>m[1]);
- for(const r of switchRoots)assert.ok(routeFeature(r)||NEUTRAL_ROUTES.includes(r),'route '+r+' is neither a feature nor neutral');
+ // 'x' is the feature-module namespace: x/<id> belongs to that module's own feature (tests/feature-modules.test.mjs).
+ for(const r of switchRoots)assert.ok(routeFeature(r)||NEUTRAL_ROUTES.includes(r)||r==='x','route '+r+' is neither a feature nor neutral');
 });
 
 test('every Today widget, Statistics tab, Telegram command and AI tool is mapped',()=>{
@@ -126,14 +127,17 @@ test('journal off keeps one’s own private notes for My space only',()=>{
 });
 
 test('server code paths are wired to the registry',()=>{
- const telegram=src('app/cloud/telegram.mjs'),assistant=src('app/cloud/assistant.mjs'),push=src('app/cloud/push.mjs');
+ const telegram=src('app/cloud/telegram.mjs'),delivery=src('app/cloud/channel-delivery.mjs'),assistant=src('app/cloud/assistant.mjs'),push=src('app/cloud/push.mjs');
  assert.match(telegram,/if\(cmd!=='stop'&&!features\.on\('telegram'\)\)/);
  assert.match(telegram,/telegramCallbackFeature\(payload\.type\)/);
- assert.match(telegram,/if\(!visible\.features\.on\('telegram'\)\)continue/);
+ // Scheduled delivery moved to core (channel-delivery.mjs, Modular Bayit 2.3); Telegram declares its feature there.
+ assert.match(delivery,/if\(!visible\.features\.on\(channel\.feature\)\)continue/);
+ assert.match(telegram,/feature:'telegram',/);
  assert.match(assistant,/if\(!visible\.features\.on\('ai'\)\)throw fail/);
  assert.match(assistant,/aiTools\.filter\(t=>\{const f=aiToolFeature\(t\.name\)/);
  assert.match(push,/deliveryView\(visibleState\(state,memberId\),memberId\)/);
  assert.doesNotMatch(telegram,/[^(]visibleState\(home\.state,memberId\)[^,]/,'every Telegram read goes through deliveryView');
+ assert.doesNotMatch(delivery,/[^(]visibleState\(home\.state,memberId\)[^,]/,'every channel delivery read goes through deliveryView');
 });
 
 test('the app gates places, routes, Today, Statistics and links through the registry',()=>{

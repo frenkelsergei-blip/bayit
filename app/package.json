@@ -1,6 +1,6 @@
 {
   "name": "bayit",
-  "version": "1.56.0",
+  "version": "1.64.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,6 +13,7 @@
     "build:cloud": "node cloud/build.mjs",
     "deploy:cloud": "npm run build:pages && wrangler deploy --config wrangler.pdf.jsonc && wrangler pages deploy dist/pages --project-name bayit --branch main --force",
     "test:domain": "node --test ../tests/*.test.mjs",
+    "test:extensions": "node scripts/bayit-extension-ci.mjs",
     "build:pages": "npm run build:cloud && node cloud/prepare-pages.mjs",
     "deploy:reminders": "wrangler deploy --config wrangler.cron.jsonc",
     "test:telegram": "node ../tests/e2e/test-telegram-api.mjs",
@@ -24,6 +25,7 @@
     "@auth/core": "^0.41.3",
     "@auth/d1-adapter": "^1.11.3",
     "@phosphor-icons/react": "^2.1.10",
+    "@simplewebauthn/server": "14.0.3",
     "@vitejs/plugin-react": "5.0.4",
     "@zxing/library": "0.23.0",
     "bwip-js": "4.11.4",
@@ -37,6 +39,11 @@
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "wrangler": "^4.157.0"
+  },
+  "overrides": {
+    "@auth/core": {
+      "@simplewebauthn/server": "$@simplewebauthn/server"
+    }
   },
   "license": "MIT",
   "description": "Bayit: a bilingual (Hebrew/English) family home app you host yourself on Cloudflare or Docker"

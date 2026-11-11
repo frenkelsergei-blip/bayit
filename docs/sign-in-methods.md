@@ -1,6 +1,6 @@
 # Sign-in methods
 
-Bayit signs people in through **registered sign-in methods**. Google is the first and, today, the only one. An installation can add another method as an extension: new files plus one line in `app/cloud/extensions/signin.mjs` (see `docs/extensions-registry.md`). Upstream ships that file empty and never edits it.
+Bayit signs people in through **registered sign-in methods**. Google is the first Auth.js method; passkeys are a core ceremony method (below). An installation can add another method as an extension: new files plus one line in `app/cloud/extensions/signin.mjs` (see `docs/extensions-registry.md`). Upstream ships that file empty and never edits it.
 
 - Core registry: `app/cloud/signin-methods.mjs` (`SIGNIN_METHODS`, Google first, then `EXTRA_SIGNIN`).
 - Wiring: `app/cloud/auth.mjs` builds the Auth.js providers from the configured methods and runs every sign-in through core admission.
@@ -40,9 +40,16 @@ A method only proves who someone is. Everything below runs in core for every met
 - **Rate limits** — `limit()` per user and per bucket, the AI limits, and the invitation permit's origin and size checks.
 - **Sign-out** and the offline-data clean-up on the device.
 
-## What a passkey method (package 4.1) will need from core
+## Core ceremony methods: passkeys (built 2026-11-10)
 
-None of this exists yet. 2.4 only built the seam; 4.1 needs the user's approval of each item and a security review.
+Passkeys ("מפתח גישה") are a **core** method, not an extension (user decision 2026-11-10; design `docs/passkey-sign-in-design.md`, build log `docs/passkey-implementation-log.md`). They are not an Auth.js provider, so they are **not** in `SIGNIN_METHODS`:
+
+- `WEBAUTHN_METHODS` in `signin-methods.mjs` holds core-only methods with `start:'webauthn'` and `recentIdentity:'assertion'` (`webauthnMethodProblem` checks them). An extension still cannot register one: `signInMethodProblem` refuses any `start` other than `'authjs'`.
+- `signInChoices` lists configured passkeys first, then the Auth.js methods. `authReady` is true when either kind is configured; Auth.js still reads, extends and signs out every session.
+- `PASSKEY_SIGNIN.configured(env)`: on unless `BAYIT_PASSKEYS=off`, and only when `BAYIT_ORIGIN` is an https name or `http://localhost` (the relying party, `relyingParty(env)`).
+- Ceremonies, admission, setup code, recovery and sessions: `app/cloud/passkeys.mjs` (`/api/passkeys/*`), `family-join.mjs` (the one join both methods use), `passkey-recovery.mjs`. What each of the ten items below became is in the build log.
+
+## What a passkey method needed from core (written for package 4.1; all built)
 
 1. **Credential storage per user.** A table for passkey credentials (credential id, public key, counter, transports, user id, created/last used), plus listing and removing them in Account security. Auth.js's WebAuthn provider expects an `authenticators` table in the adapter, and is marked experimental.
 2. **An identity without Google.** Today a person is a verified email. A passkey proves possession of a key, not an email. Core needs a rule for what `verifiedAccount` returns: an email verified some other way (an invitation sent to it, or the owner's setup code), or admission that is keyed on the invitation itself rather than an email. This changes who can sign in, so it is the user's decision.

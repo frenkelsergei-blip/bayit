@@ -77,6 +77,8 @@ function featureProblem(f,all){
   for(const v of f[key]){
    const owner=all.slice(0,all.indexOf(f)).find(o=>o[key]?.includes(v));if(owner)return key+' "'+v+'" already belongs to "'+owner.id+'".';
    if(key==='routes'&&NEUTRAL_ROUTES.includes(v))return 'route "'+v+'" is a neutral core route.';
+   // Feature modules live under x/<id> (docs/feature-module-design.md §2.3); no other feature may use that namespace.
+   if(key==='routes'&&(v==='x'||v.startsWith('x/'))&&v!=='x/'+f.id&&!v.startsWith('x/'+f.id+'/'))return 'route "'+v+'" must be "x/'+f.id+'" or "x/'+f.id+'/<view>".';
   }
  }
  return '';
@@ -180,6 +182,7 @@ export function routeFeature(route){
  if(root==='settings')return view==='kids'?'kids':null;
  if(NEUTRAL_ROUTES.includes(root))return null;
  if(root==='household')return view&&lookup('routes','household/'+view)||'household';
+ if(root==='x')return view?lookup('routes','x/'+view):null; // feature modules (shared/feature-modules.mjs)
  return lookup('routes',root);
 }
 export function routeAllowed(ctx,route){
@@ -200,6 +203,8 @@ export function deliveryView(visible,memberId){
  if(!visible||typeof visible!=='object')return visible;
  const ctx=featureContext(visible.preferences||{},memberId,(visible.members||[]).find(m=>m.id===memberId)?.role,visible),out={...visible};
  for(const c of DELIVERY_COLLECTIONS)if(Array.isArray(visible[c]))out[c]=visible[c].filter(r=>recordOn(ctx,c,r,memberId));
+ // Feature modules: a module whose feature is off for this member is dropped (stored data is untouched).
+ if(visible.extensions&&typeof visible.extensions==='object')out.extensions=Object.fromEntries(Object.entries(visible.extensions).filter(([id])=>featureOn(ctx,id)));
  if(Array.isArray(visible.changeNotices))out.changeNotices=visible.changeNotices.filter(n=>{const f=recordFeature(n.collection,n.record||n.value||{});return !f||ctx.on(f)});
  Object.defineProperty(out,'features',{value:ctx,enumerable:false});
  return out;

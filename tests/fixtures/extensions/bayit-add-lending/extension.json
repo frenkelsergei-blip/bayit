@@ -1,0 +1,21 @@
+{
+ "id": "lending",
+ "version": "1.0.0",
+ "name": {"en": "Lent & borrowed", "he": "השאלות"},
+ "description": "What the family lent or borrowed, and from whom. A test fixture for the feature-module seam; never install it in a family's copy.",
+ "seam": "modules",
+ "minBayit": "1.56.0",
+ "files": [
+  "shared/extensions/lending.mjs",
+  "app/src/extensions/lending.jsx",
+  "app/src/extensions/lending/lending-screen.jsx",
+  "tests/extension-lending.test.mjs"
+ ],
+ "registry": [
+  {"seam": "features", "id": "lending", "file": "shared/extensions/lending.mjs", "export": "LENDING_FEATURE"},
+  {"seam": "modules", "id": "lending", "file": "shared/extensions/lending.mjs", "export": "LENDING_MODULE"},
+  {"seam": "screens", "id": "lending", "file": "app/src/extensions/lending.jsx", "export": "LENDING_SCREEN"}
+ ],
+ "outbound": [],
+ "dependencies": {}
+}

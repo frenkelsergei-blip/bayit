@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import {CalendarDots, ClipboardText, Plus, Sparkle, Trash} from '@phosphor-icons/react';
 import {DateField} from './date-field';
+import {TimeField} from './time-field';
 import {FormSection} from './form-section';
 import {HouseholdForm} from './household-form';
 import {ReminderListEditor} from './item-reminder';
@@ -138,10 +139,7 @@ export function MessageReview({a,Avatar,close,initialSource=''}) {
     title={item.kind==='event'?T('Draft event','טיוטת אירוע'):T('Draft task','טיוטת משימה')} tone="peach" T={T}>
    <label>{T('Title','כותרת')}<input required value={item.title} maxLength={160} onChange={e=>change(item.key,{title:e.target.value})}/></label>
    <div className="two-fields"><div><span className="field-label">{T('Date','תאריך')}</span><DateField value={item.date} aria-label={T('Date','תאריך')} onChange={e=>change(item.key,{date:e.target.value})}/></div>
-    <label>{T('Time','שעה')}<span className="message-plan-time" data-empty={!item.time||item.allDay}>
-     <input type="time" dir="ltr" disabled={item.allDay} value={item.allDay?'':item.time} onChange={e=>changeSchedule(item,{time:e.target.value})}/>
-     {(!item.time||item.allDay)&&<span aria-hidden="true">{T('No time set','ללא שעה')}</span>}
-    </span></label></div>
+    <label>{T('Time','שעה')}<TimeField disabled={item.allDay} value={item.allDay?'':item.time} placeholder={T('No time set','ללא שעה')} onChange={e=>changeSchedule(item,{time:e.target.value})}/></label></div>
    {item.kind==='event'&&<label className="checkbox-label"><input type="checkbox" checked={item.allDay} onChange={e=>changeSchedule(item,{allDay:e.target.checked})}/>{T('All day','כל היום')}</label>}
    <div className="message-plan-reminders">
     <strong>{T('Reminders','תזכורות')}</strong>
