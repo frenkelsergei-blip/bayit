@@ -26,7 +26,7 @@
     "@auth/d1-adapter": "^1.11.3",
     "@phosphor-icons/react": "^2.1.10",
     "@simplewebauthn/server": "14.0.3",
-    "@vitejs/plugin-react": "5.0.4",
+    "@vitejs/plugin-react": "6.2.1",
     "@zxing/library": "0.23.0",
     "bwip-js": "4.11.4",
     "react": "19.2.0",
