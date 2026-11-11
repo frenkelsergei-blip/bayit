@@ -12,48 +12,88 @@ const store = {get: k => { try { return localStorage.getItem(k); } catch { retur
 const HE = {
   skip: 'דילוג לתוכן', navFeatures: 'מה יש', navScreens: 'מסכים', navTelegram: 'טלגרם', navOwn: 'המפתחות שלכם', navInstall: 'התקנה',
   kicker: 'קוד פתוח · עברית ואנגלית · התקנה משלכם', h1a: 'קצת יותר', h1b: 'ביחד.',
-  lead: 'Bayit היא אפליקציית בית חמה לכל המשפחה: התוכנית של היום, לוח השנה, משימות ושגרות, קניות, הגיבורים של הילדים, כסף ובוט טלגרם. כל אחד רואה את מה שצריך, ולא יותר.',
+  
   ctaDemo: 'לנסות את ההדגמה', ctaInstall: 'להתקין אצלכם', factLicense: 'חינמי וקוד פתוח', factLang: 'מימין לשמאל ומשמאל לימין', factKeysB: 'המפתחות שלכם', factKeys: 'Cloudflare או Docker',
-  filmLabel: 'Bayit בדקה אחת', captions: 'כתוביות', soundOn: 'הפעלת קול', soundOff: 'השתקה', play: 'הפעלת הסרטון', pause: 'השהיית הסרטון', chaptersLabel: 'מעבר לחלק בסרטון',
-  chToday: 'היום', chCalendar: 'לוח שנה', chTasks: 'משימות', chShopping: 'קניות', chKids: 'ילדים', chTelegram: 'טלגרם', chKeys: 'המפתחות שלכם',
-  filmTextSummary: 'מה בסרטון', filmText: 'סיור מקריין עם מוזיקה מקורית. הקריינות בקול סינתטי (Azure AI Speech). הלוגו של Bayit מצויר בעיפרון ומתקפל מנייר. אחר כך סיור: מסך היום עם תזכורת שמגיעה לטלפון, לוח השבוע, משימות ושגרות, רשימת קניות משותפת, גיבורי הפיקסלים של הילדים, תזכורת בטלגרם שעונים עליה ב„בוצע”, הודעה לבוט שמוסיפה חלב וביצים אחרי „החלה”, וההתקנה והמפתחות של המשפחה. כל המסכים מציגים משפחה בדיונית.',
+  filmLabel: 'Bayit בסרטון קצר', captions: 'כתוביות', soundOn: 'הפעלת מוזיקה', soundOff: 'השתקת המוזיקה', play: 'הפעלת הסרטון', pause: 'השהיית הסרטון', chaptersLabel: 'מעבר לחלק בסרטון',
+  chToday: 'היום', chCalendar: 'לוח שנה', chTasks: 'משימות', chShopping: 'קניות', chTelegram: 'טלגרם', 
+  filmTextSummary: 'מה בסרטון', 
   featTitleA: 'כל מה שבית', featTitleB: 'מלהטט.', featLead: 'מקום משותף אחד לכל המשפחה, בעברית או באנגלית, בטלפון, בטאבלט ובמחשב, ביום ובלילה.',
-  f1t: 'היום', f1d: 'סדר היום של המשפחה, הדברים הקטנים לעשות והשגרות של הילדים, בעמוד רגוע אחד שאתם מסדרים.',
-  f2t: 'לוח שנה', f2d: 'שבוע, סדר יום וחודש, עם הצבע והתמונה של כל אחד, ואירועים חוזרים.',
+  f1t: 'היום', 
+  f2t: 'לוח שנה', 
   f3t: 'משימות ושגרות', f3d: 'לכל משימה יש אחראי, עדיפות ועד חמש תזכורות, ולילדים שגרות עם תורות, אישורים ונקודות.',
   f4t: 'קניות', f4d: 'כמה רשימות משותפות עם קטגוריות וכמויות, והצעות ממה שאתם קונים בדרך כלל.',
-  f5t: 'ילדים · הגיבור שלי', f5d: 'גיבורים בפיקסלים לטפל בהם, גינה לגדל, משחקים ומתלבשים, שמרוויחים עם השגרות.',
+  f5t: 'ילדים · הגיבור שלי', 
   f6t: 'תזכורות בכל מקום', f6d: 'התראות בטלפון או במחשב, ובטלגרם, עם שעות שקטות ובלי כפילויות.',
-  f7t: 'כסף ובית', f7d: 'ייבוא דפי חשבון של בנק לאומי ו־Max, עם בדיקה של כל סכום. ארוחות, מזווה, תחזוקה ומסמכים פרטיים.',
-  f8t: 'לשאול את ה־AI', f8d: 'לבחירתכם Claude, OpenAI, Gemini, Grok או שירות תואם. הוא מכין שינויים, ושום דבר לא נשמר עד שלוחצים „החלה”.',
-  f9t: 'פרטי מהיסוד', f9d: 'כל פתק, משימה ואירוע הם פרטיים, למשפחה או לאנשים שבחרתם. השרת אוכף את זה, וה־AI פועל לפי אותם כללים.',
-  scrTitleA: 'רואים את זה', scrTitleB: 'בשפה שלכם.', scrLead: 'מסכים אמיתיים עם משפחה בדיונית. הם עוקבים אחרי השפה של הדף ומצב יום או לילה.', screensLabel: 'מסכים',
-  tabToday: 'היום', tabCalendar: 'לוח שנה', tabTasks: 'משימות', tabShopping: 'קניות', tabKids: 'הגיבור שלי', tabMoney: 'הוצאות', tabAi: 'לשאול AI',
+  f7t: 'כסף ובית', 
+  
+  f9t: 'פרטי מהיסוד', 
+  scrTitleA: 'רואים את זה', scrTitleB: 'בשפה שלכם.', screensLabel: 'מסכים',
+  tabToday: 'היום', tabCalendar: 'לוח שנה', tabTasks: 'משימות', tabShopping: 'קניות', tabKids: 'הגיבור שלי', tabMoney: 'הוצאות', 
   tgTitleA: 'בוט משפחתי', tgTitleB: 'משלכם.', tgLead: 'מחברים בוט טלגרם משלכם, וכל אחד מקשר את הצ׳אט שלו. הבוט מדבר בשפה שבחרתם ב־Bayit.',
-  tg1t: 'תזכורות שמוצאות אתכם', tg1d: 'משימות ואירועים מגיעים עם כפתורי „בוצע” ו„נודניק”, וסיכום בוקר של היום.',
-  tg2t: 'פשוט תגידו לו', tg2d: 'בטקסט, בתמונה או בהודעה קולית הוא מוסיף, מזיז או מסיים משימות, אירועים, פריטי קניות ופתקים. כל שינוי ממתין ל„החלה” ואפשר לבטל אותו.',
+  tg1t: 'תזכורות שמוצאות אתכם', tg1d: 'משימות ואירועים מגיעים עם כפתורי "בוצע" ו"נודניק", וסיכום בוקר של היום.',
+  tg2t: 'פשוט תגידו לו', tg2d: 'בטקסט, בתמונה או בקול הוא מוסיף, מזיז או מסיים משימות, אירועים, פריטי קניות ופתקים. כל שינוי מחכה לאישור שלכם, ואפשר לבטל אותו.',
   tg3t: 'שינויים, בזמן', tg3d: 'כשמישהו מזיז, משנה שם או מוחק משהו שמשויך אליכם, Bayit מספר לכם בטלגרם.', watch: 'לצפות בחלק הזה',
   kidsTitleA: 'גם בשביל', kidsTitleB: 'הקטנים.', kidsLead: 'לחצו על גיבור כדי למדוד את הכובע ואת גלימת הירח. הבגדים מופיעים בכל המסכים.',
   kNoa: 'נועה', kItai: 'איתי', kMaya: 'מאיה', kAri: 'ארי', kLia: 'ליה', kTom: 'תום',
-  ownTitleA: 'הבית שלכם.', ownTitleB: 'המפתחות שלכם.', ownLead: 'אין שרת של חברת Bayit. כל משפחה מריצה עותק משלה עם החשבונות שלה. המפתחות מוצפנים בשרת שלכם ולא נשלחים בחזרה לדפדפן.',
+  ownTitleA: 'הבית שלכם.', ownTitleB: 'המפתחות שלכם.', 
   k1t: 'ההתקנה שלכם', k1d: 'בתוכנית החינמית של Cloudflare, או ב־Docker על מחשב בבית, NAS, ‏Raspberry Pi או שרת.',
-  k2t: 'כניסה עם Google שלכם', k2d: 'כל אחד נכנס עם Google. הורה מזמין את השאר בקישורים חד־פעמיים.',
-  k3t: 'מפתח AI משלכם', k3d: 'לא חובה. Claude, ‏OpenAI, ‏Gemini, ‏Grok או כל שירות תואם OpenAI, על חשבונכם.',
+  
+  k3t: 'מפתח AI משלכם', 
   k4t: 'בוט טלגרם משלכם', k4d: 'לא חובה. בוט משלכם, כך שההודעות של המשפחה עוברות רק דרכו.',
-  insTitleA: 'מתקינים', insTitleB: 'בצהריים אחד.', insLead: 'בחרו איפה ה־Bayit של המשפחה יגור. בשני המקרים זו אותה אפליקציה, עם אותם כללי פרטיות והצפנה.', installLabel: 'דרכי התקנה', tabAgent: 'עם סוכן AI',
+  installLabel: 'דרכי התקנה', tabAgent: 'עם סוכן AI',
   cfLead: 'ברירת המחדל: אין שרת לתחזק, והתוכנית החינמית מספיקה למשפחה. צריך חשבון Cloudflare ולקוח כניסה של Google.',
-  cf1: 'מורידים את הקוד', cf2: 'יוצרים מסד נתונים, אחסון קבצים ואתר', cf3: 'מוסיפים סודות ומפרסמים', cfGuide: 'המדריך המלא ל־Cloudflare',
+  cf1: 'מורידים את הקוד', cf2: 'יוצרים מסד נתונים, אחסון קבצים ואתר', cf3: 'מוסיפים סודות ומפרסמים', 
   dkLead: 'רץ על כל דבר עם Docker ‏(amd64 או arm64): מחשב בבית, NAS, ‏Raspberry Pi 4 או 5, או שרת קטן. הכול עובד, כולל הודעות קוליות דרך מפתח OpenAI או Gemini שלכם.',
-  dk1: 'מפעילים', dk2: 'מסתכלים מסביב עם מידע לדוגמה', dk3: 'נותנים לו כתובת https בשביל כניסה עם Google וטלגרם', dk3d: 'דומיין משלכם עם HTTPS אוטומטי, או מנהרה. המדריך מסביר את שתי הדרכים.', dkGuide: 'המדריך המלא ל־Docker',
+  dk1: 'מפעילים', dk2: 'מסתכלים מסביב עם מידע לדוגמה', dk3: 'נותנים לו כתובת https בשביל כניסה עם Google וטלגרם', dk3d: 'דומיין משלכם עם HTTPS אוטומטי, או מנהרה. המדריך מסביר את שתי הדרכים.', 
   agLead: 'במאגר יש כישורים (skills) לסוכני קוד. פתחו אותו ב־Claude Code, ב־Codex או בסוכן אחר שקורא כישורים, ובקשו:',
-  ag1: '„תתקין את Bayit על ה־Cloudflare שלי”', ag2: '„תריץ את Bayit עם Docker על ה־Raspberry Pi שלי”', ag3: '„תעזור לי לחבר את טלגרם”', ag4: '„תעדכן את ה־Bayit שלי”', agLink: 'לכישורים',
+  ag1: '"תתקין את Bayit על ה־Cloudflare שלי"', ag2: '"תריץ את Bayit עם Docker על ה־Raspberry Pi שלי"', ag3: '"תעזור לי לחבר את טלגרם"', ag4: '"תעדכן את ה־Bayit שלי"', agLink: 'לכישורים',
   footer: 'Bayit חינמית וקוד פתוח ברישיון MIT. נבנתה למשפחות עמוסות.', credits: 'קרדיטים ורישיונות', fictional: 'המסכים והסרטון מציגים משפחה בדיונית.',
+  // 2026-11-11 refresh
+  navAi: 'בית AI', navYours: 'רק מה שצריך',
+  lead: 'Bayit היא אפליקציית בית חמה לכל המשפחה: התוכנית של היום, לוח השנה, משימות, קניות, הגיבורים של הילדים, כסף ובוט טלגרם, עם בית AI שמכיר את הבית שלכם. כל אחד רואה את מה שצריך, ולא יותר.',
+  chAi: 'בית AI', chTalk: 'פשוט תגידו', chMoney: 'כסף', chKids: 'ילדים', chYours: 'רק מה שצריך', chKeys: 'המפתחות שלכם',
+  filmText: 'סרטון עם מוזיקה מקורית וכיתובים בעברית, בלי קריינות. הלוגו של Bayit מצויר בעיפרון ומתקפל מנייר. אחר כך סיור: מסך היום עם תזכורת שמגיעה לטלפון, לוח השבוע, משימות ושגרות, בית AI שעונה על "מה קורה היום?", תזכורת בטלגרם שעונים עליה ב"בוצע", הודעה לבוט שמוסיפה חלב וביצים אחרי אישור, רשימת הקניות המשותפת שממלאת את העגלה, חשבון שהתייקר במסך ההוצאות, גיבורי הפיקסלים של הילדים, בחירת התכונות שהמשפחה משתמשת בהן, וההתקנה ומפתח ה־AI של המשפחה. כל המסכים מציגים משפחה בדיונית; התשובה של בית AI מגיעה מ־AI לצורך הדגמה, לא מספק אמיתי.',
+  aiKicker: 'בית AI', aiTitleA: 'תשאלו את', aiTitleB: 'הבית.',
+  aiLead: 'בית AI מכיר את היום של המשפחה. שואלים בכל מסך או בטלגרם, בכתיבה או בקול. הוא עונה מהרשומות שלכם ומכין שינויים שאתם מאשרים.',
+  ai1t: 'שואלים על הבית', ai1d: '"מה קורה היום?" "מה עוד פתוח אצלי?" התשובה מגיעה מלוח השנה, מהמשימות ומהקניות שלכם, עם קישור לכל פריט שהוא מזכיר.',
+  ai2t: 'הוא מכין, אתם מאשרים', ai2d: 'הופכים הודעה, תמונה או PDF לתוכנית של אירועים ומשימות, או פשוט אומרים "תוסיף חלב". שום דבר לא נשמר בלי האישור שלכם, ואפשר לבטל.',
+  ai3t: 'מבט שני על הכסף', ai3d: 'רק למבוגרים: Bayit מראה חיוב קבוע חדש, מחיר שעלה או חיוב כפול, ובית AI מסביר אותו במשפט.',
+  ai4t: 'רק מה שמותר לכם לראות', ai4d: 'הוא קורא רק את מה שמותר לכם לראות. רשומות פרטיות של אחרים נשארות בחוץ, ילדים לא מקבלים מידע על כסף, והורה בוחר מה מותר לו לקרוא.',
+  aiShotNote: 'מסכים אמיתיים של Bayit עם המשפחה הבדיונית. התשובה מ־AI לצורך הדגמה, כי בהדגמה באינטרנט אין מפתח AI.',
+  keyT: 'מפתח AI משלכם. לא מנוי לצ׳אט.',
+  keyD: 'בית AI משתמש בחשבון AI שהמשפחה מחברת: Claude, ‏OpenAI, ‏Gemini, ‏Grok או כל שירות תואם OpenAI. משלמים לספק על מה שמשתמשים, מקרדיט שטוענים מראש. מנוי ChatGPT Plus או Claude Pro נועד לצ׳אט באתר שלהם, ואי אפשר להשתמש בו כאן. מדריך צעד־אחר־צעד בתוך Bayit עוזר להשיג את המפתח, והורה רואה כמה ה־AI עולה, לפי אדם ולפי תכונה.',
+  keyNo: 'אין מפתח? כל השאר ב־Bayit עובד גם בלעדיו.',
+  f1d: 'סדר היום של המשפחה, הדברים הקטנים לעשות ושורה אחת קצרה לשגרות של הילדים, בעמוד רגוע שאתם מסדרים.',
+  f2d: 'שבוע, סדר יום וחודש, עם הצבע והתמונה של כל אחד, אירועים חוזרים, מאות אייקונים של Bayit לחגים ולבית הספר, וחיבור לא חובה ל־Google Calendar.',
+  f5d: 'גיבורים בפיקסלים לטפל בהם, גינה לגדל, פאזלים, משחקים ומתלבשים, שמרוויחים עם השגרות.',
+  f7d: 'דפי חשבון של בנק לאומי ו־Max עם בדיקה של כל סכום, למי משלמים כל חודש, כרטיסים לפי אדם, שוברים, קבצי ביטוח ומסמכים פרטיים.',
+  f8t: 'עובד גם בלי אינטרנט', f8d: 'Bayit נפתח גם בלי חיבור ומראה את היום האחרון שלכם. סימונים ופריטים חדשים מחכים בטלפון ומסתנכרנים כשהחיבור חוזר.',
+  f9d: 'כל פתק, משימה ואירוע הם פרטיים, למשפחה או לאנשים שבחרתם. השרת אוכף את זה, ובית AI פועל לפי אותם כללים.',
+  scrLead: 'מסכים אמיתיים עם משפחה בדיונית. הם עוקבים אחרי השפה של הדף ומצב יום או לילה.', tabAi: 'בית AI',
+  yrTitleA: 'רק מה שהמשפחה', yrTitleB: 'צריכה.', yrLead: 'Bayit בנויה מחלקים. מדליקים את מה שהמשפחה משתמשת בו, ומוסיפים יכולות חדשות כהרחבות.',
+  yr1t: 'מדליקים ומכבים תכונות', yr1d: 'בהגדרות › תכונות הורה בוחר במה המשפחה משתמשת, וכל אחד יכול להסתיר את מה שהוא לא צריך. שום דבר לא נמחק: מדליקים שוב, והכול חוזר.',
+  yr2t: 'מוסיפים יכולת עם הרחבה', yr2d: 'הרחבה היא חבילה קטנה ליד הקוד של Bayit, כך שעדכונים שומרים עליה והסרה מחזירה הכול למקום. היום הרחבה יכולה להוסיף:',
+  x1: 'דפי חשבון של בנק או כרטיס אחר', x2: 'ספק AI אחר', x3: 'שירות המרת דיבור לטקסט', x4: 'מסך חדש עם רשומות משלו',
+  yrAsk: 'מבקשים מסוכן הקוד שלכם, למשל:', ag5: '"תוסיף ל־Bayit שלי דפי חשבון של בנק דיסקונט"',
+  yrNote: 'הוספה דורשת סוכן קוד AI או טרמינל, ואחר כך עדכון של ההתקנה; עדיין אין כפתור התקנה. במאגר יש דוגמאות ורשימה של הרחבות שמחכות שמישהו יבנה אותן.',
+  agExt: 'הרחבות', yrWanted: 'הרחבות מבוקשות',
+  ownLead: 'אין שרת של חברת Bayit ואין Bayit מאוחסנת. כל משפחה מריצה עותק משלה עם החשבונות שלה. המפתחות מוצפנים בשרת שלכם ולא נשלחים בחזרה לדפדפן.',
+  k2t: 'הכניסה שלכם', k2d: 'מפתח גישה (Face ID, טביעת אצבע או נעילת המסך) לא צריך הגדרה ב־Google Cloud, או כניסה עם Google. מפתחות גישה חדשים ועדיין נבדקים בטלפונים אמיתיים. הורה מזמין את השאר בקישורים חד־פעמיים.',
+  k3d: 'לא חובה. Claude, ‏OpenAI, ‏Gemini, ‏Grok או כל שירות תואם OpenAI, בתשלום לספק, לא דרך מנוי לצ׳אט.',
+  insTitleA: 'איפה ה־Bayit', insTitleB: 'שלכם יגור?', insLead: 'שלוש דרכים, אותה אפליקציה ואותם כללי פרטיות. בכל אחת המידע של המשפחה נשאר בחשבון שלכם.',
+  cfTag: 'מומלץ', cfSub: 'בלי שרת לתחזק', cfB1: 'התוכנית החינמית של Cloudflare מספיקה למשפחה, והטלפונים עובדים מכל מקום', cfB2: 'כניסה עם מפתחות גישה, בלי צורך בפרויקט Google Cloud', cfB3: 'בערך 45 דקות בטרמינל עם המדריך, או בעזרת סוכן AI',
+  cfNext: 'אחר כך המדריך יוצר בחשבון שלכם מסד נתונים, אחסון קבצים ואתר, מוסיף את הסודות ואת מתזמן התזכורות, ומפרסם.', cfGuide: 'המדריך ל־Cloudflare',
+  dkTag: 'מתקדם', dkSub: 'על מחשב משלכם', dkB1: 'ההתחלה הכי מהירה, על מחשב אחד: בערך 5 דקות. amd64 או arm64: מחשב, NAS, ‏Raspberry Pi 4 או 5, או שרת', dkB2: 'כדי שהטלפונים של המשפחה יגיעו, צריך כתובת https ציבורית, למשל דומיין משלכם. מפתחות הגישה שייכים לכתובת הזו, אז בוחרים אותה פעם אחת.', dkB3: 'עדכונים וגיבויים באחריותכם',
+  dkNext: 'הפקודה האחרונה מציגה קוד הקמה חד־פעמי. פותחים את localhost:8080 במחשב הזה, בוחרים "מתחילים להקים" ויוצרים מפתח גישה ומשפחה. רק להציץ? localhost:8080/?demo=1.', dkGuide: 'המדריך ל־Docker',
+  agTag: 'עם סוכן AI', agTitle: 'Claude Code או Codex', agSub: 'הסוכן עושה, אתם מאשרים', agB1: 'במאגר יש כישורים (skills) שמריצים את הפקודות ומסבירים כל צעד', agB2: 'מתאים גם לדומיין משלכם, לעדכונים ולבדיקה של התקנה',
+  waysWizard: 'התקנה חדשה מלווה אתכם מהפתיחה הראשונה: Bayit בודק את הכתובת, את מסד הנתונים ואת הדפדפן, אחר כך השם, מפתח הגישה והמשפחה, ובסוף רשימת "להתחלה" קצרה.',
+  waysNote: 'בכל דרך: בית AI ובוט הטלגרם הם לא חובה. מחברים אותם בתוך Bayit, בהגדרות › חשבונות וחיבורים, עם מדריך, מתי שרוצים.', waysDemo: 'רק להציץ? התנסות עם מידע לדוגמה, בלי חשבון',
   themeToDark: 'מעבר למצב לילה', themeToLight: 'מעבר למצב יום',
 };
-const EN_ARIA = {captions: 'Captions', filmLabel: 'Bayit in one minute', soundOn: 'Sound on', soundOff: 'Mute', play: 'Play the video', pause: 'Pause the video', chaptersLabel: 'Jump to a part of the video', screensLabel: 'Screens', installLabel: 'Ways to install', themeToDark: 'Switch to night mode', themeToLight: 'Switch to day mode'};
+const EN_ARIA = {captions: 'Captions', filmLabel: 'Bayit in a short film', soundOn: 'Sound on', soundOff: 'Mute', play: 'Play the video', pause: 'Pause the video', chaptersLabel: 'Jump to a part of the video', screensLabel: 'Screens', installLabel: 'Ways to install', themeToDark: 'Switch to night mode', themeToLight: 'Switch to day mode'};
 const SHOT_ALT = {
-  en: {today: 'Today', calendar: 'Calendar week', tasks: 'Tasks', shopping: 'Shopping list', kids: 'My Hero', money: 'Expenses', ai: 'Ask AI', desktop: 'on a computer', phone: 'on a phone'},
-  he: {today: 'היום', calendar: 'לוח שבועי', tasks: 'משימות', shopping: 'רשימת קניות', kids: 'הגיבור שלי', money: 'הוצאות', ai: 'לשאול AI', desktop: 'במחשב', phone: 'בטלפון'},
+  en: {today: 'Today', calendar: 'Calendar week', tasks: 'Tasks', shopping: 'Shopping list', kids: 'My Hero', money: 'Expenses', ai: 'Bayit AI answer', aihub: 'Bayit AI', features: 'Settings › Features', desktop: 'on a computer', phone: 'on a phone'},
+  he: {today: 'היום', calendar: 'לוח שבועי', tasks: 'משימות', shopping: 'רשימת קניות', kids: 'הגיבור שלי', money: 'הוצאות', ai: 'תשובה של בית AI', aihub: 'בית AI', features: 'הגדרות › תכונות', desktop: 'במחשב', phone: 'בטלפון'},
 };
 
 // Keep the English text that is in the HTML so switching back needs no second dictionary.
@@ -93,7 +133,8 @@ function syncFilm() {
   filmVariant = variant;
   film.poster = `media/bayit-${variant}-poster.jpg`;
   film.innerHTML = `<source src="media/bayit-${variant}.mp4" type="video/mp4">` +
-    `<track kind="captions" src="media/bayit-${lang()}.vtt" srclang="${lang()}" label="${lang() === 'he' ? 'עברית' : 'English'}">`;
+    (lang() === 'he' ? '' : `<track kind="captions" src="media/bayit-en.vtt" srclang="en" label="English">`);
+  document.getElementById('film-cc').hidden = lang() === 'he';
   film.load();
   if (time) film.addEventListener('loadedmetadata', () => { film.currentTime = time; }, {once: true});
   if (wasPlaying) film.play().catch(() => {});
@@ -138,11 +179,12 @@ new IntersectionObserver(([entry]) => {
 }, {threshold: .35}).observe(film);
 
 const chapterButtons = [...document.querySelectorAll('.chapters button')];
+const chapterTime = b => +(lang() === 'he' && b.dataset.tHe ? b.dataset.tHe : b.dataset.t);
 function seek(t) { film.currentTime = t; userPaused = false; film.play().catch(() => {}); film.scrollIntoView({behavior: reduced() ? 'auto' : 'smooth', block: 'center'}); }
-document.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => seek(+b.dataset.t)));
+document.querySelectorAll('[data-t]').forEach(b => b.addEventListener('click', () => seek(chapterTime(b))));
 film.addEventListener('timeupdate', () => {
   const t = film.currentTime; let current = null;
-  chapterButtons.forEach(b => { if (t >= +b.dataset.t) current = b; });
+  chapterButtons.forEach(b => { if (t >= chapterTime(b)) current = b; });
   chapterButtons.forEach(b => b.setAttribute('aria-current', String(b === current)));
 });
 
@@ -156,6 +198,9 @@ function syncShots(animate = false) {
     d.src = `assets/shots/${shot}-desktop-${l}-${th}.webp`; d.alt = `Bayit · ${alt[shot]} ${alt.desktop}`;
     p.src = `assets/shots/${shot}-phone-${l}-${th}.webp`; p.alt = `Bayit · ${alt[shot]} ${alt.phone}`;
   };
+  document.querySelectorAll('img[data-shot][data-view]').forEach(im => {
+    const k = im.dataset.shot, v = im.dataset.view; im.src = `assets/shots/${k}-${v}-${l}-${th}.webp`; im.alt = `Bayit · ${alt[k]} ${alt[v]}`;
+  });
   if (!animate || reduced()) return swap();
   stage.classList.remove('flip'); void stage.offsetWidth; stage.classList.add('flip');
   setTimeout(swap, 190);
@@ -171,7 +216,7 @@ function tabs(list, onSelect) {
   });
 }
 tabs(document.querySelector('.screens .tabs'), b => { shot = b.dataset.shot; syncShots(true); });
-tabs(document.querySelector('.install .tabs'), b => { document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'pane-' + b.dataset.pane; }); });
+if (document.querySelector('.install .tabs')) tabs(document.querySelector('.install .tabs'), b => { document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'pane-' + b.dataset.pane; }); });
 
 // ---------- kids: outfits swap frame by frame ----------
 const outfits = ['', '-cap', '-cape'];

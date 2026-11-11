@@ -223,6 +223,80 @@ footer .small{font-size:15px}
   .chapters button{font-size:14px;min-height:38px;padding:0 12px}
 }
 
+
+/* ---------- Bayit AI (2026-11-11) ---------- */
+.ai{max-width:var(--maxw);margin:0 auto;text-align:center}
+.ai-kicker{margin-bottom:18px}
+.ai-kicker img{width:26px;height:26px}
+.mark-night{display:none}
+:root[data-theme=dark] .mark-day{display:none}:root[data-theme=dark] .mark-night{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .mark-day{display:none}:root:not([data-theme=light]) .mark-night{display:block}}
+.ai-body{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(24px,4vw,56px);align-items:center;margin-top:52px;text-align:start}
+.ai-points{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+.ai-points li{display:flex;gap:26px;align-items:flex-start;padding:20px 22px;background:linear-gradient(90deg,var(--tint) 0 70px,var(--surface) 70px)}
+html[dir=rtl] .ai-points li{background:linear-gradient(270deg,var(--tint) 0 70px,var(--surface) 70px)}
+.ai-points li:nth-child(odd){rotate:-.4deg}.ai-points li:nth-child(even){rotate:.35deg}
+.ai-points img{flex:none;width:44px;height:44px;margin-top:2px}
+.ai-points h3{font-size:21px;margin-bottom:6px}
+.ai-points p{margin:0;color:var(--muted);font-size:16.5px}
+.ai-stage{position:relative;margin:0;padding-bottom:36px}
+.ai-stage .shot.desktop{width:88%}
+.ai-stage .shot.phone{width:30%}
+.ai-stage figcaption{margin-top:18px;color:var(--muted);font-size:14.5px;max-width:62%}
+.keynote{display:flex;gap:22px;align-items:flex-start;text-align:start;margin:56px auto 0;max-width:980px;padding:clamp(22px,3vw,34px);background:#FEEDC1;color:#000024;rotate:-.4deg}
+.keynote img{flex:none}
+.keynote h3{font-size:clamp(22px,2.4vw,28px);margin-bottom:10px}
+.keynote p{margin:0;color:#3d4258;font-size:17px}
+.keynote p.small{margin-top:10px;font-weight:800;color:#000024;font-size:16px}
+.own .paper::after,.keynote.paper::after{border-color:#000024}
+
+/* ---------- only what your family needs ---------- */
+.yours{max-width:var(--maxw);margin:0 auto}
+.yours-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:26px;margin-top:52px;align-items:stretch}
+.yours .pane h3{font-size:24px;margin-bottom:10px}
+.yours .pane > p{margin:0 0 18px}
+.yours-features{rotate:-.5deg;display:flex;flex-direction:column}
+.yours-features .shot.phone{position:relative;inset:auto;width:min(62%,260px);margin:auto auto 0;rotate:1.6deg}
+.yours-ext{rotate:.4deg}
+.kinds{list-style:none;padding:0;margin:0 0 20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kinds li{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:16px;padding:10px 12px;font-weight:800;font-size:16px}
+.kinds img{flex:none}
+.asks-lead{margin:0 0 10px;color:var(--muted)}
+.yours .asks{margin-bottom:14px}
+.pane-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+
+/* ---------- install: where will your Bayit live ---------- */
+.install{max-width:var(--maxw)}
+.ways{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:24px;margin-top:48px;align-items:start}
+.way{padding:26px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.way:nth-child(2){rotate:.5deg}.way:nth-child(3){rotate:-.4deg}
+.way.recommended{box-shadow:0 0 0 3px var(--primary),2px 6px 14px rgb(var(--shadow)/.14),1px 18px 34px -18px rgb(var(--shadow)/.3)}
+.way h3{font-size:26px;margin-top:10px}
+.way-sub{margin:2px 0 10px;font-weight:800}
+.tag{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--primary);color:var(--on-primary);font-weight:800;font-size:14px}
+.tag.adv{background:var(--peach);color:var(--text)}.tag.agent{background:var(--lilac);color:var(--text)}
+.checks{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:8px;color:var(--muted);font-size:16px}
+.checks li{position:relative;padding-inline-start:26px}
+.checks li::before{content:"";position:absolute;inset-inline-start:0;top:.32em;width:16px;height:16px;border-radius:50%;border:2px solid var(--primary);background:radial-gradient(circle,var(--primary) 0 3px,transparent 4px)}
+.way pre{width:100%;margin:4px 0 10px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.way .step-note{margin:0 0 16px}
+.way .asks{margin:0 0 18px}
+.ways-note{text-align:center;color:var(--muted);margin:22px auto 0;max-width:720px}
+.ways-note a{font-weight:800}
+
+@media (max-width:1100px){
+  .ai-body,.yours-grid{grid-template-columns:1fr}
+  .ways{grid-template-columns:1fr;max-width:640px;margin-inline:auto}
+  .ai-stage figcaption{max-width:none}
+}
+@media (max-width:700px){
+  .ai-points li,.keynote,.way,.yours-features,.yours-ext{rotate:0deg!important}
+  .ai-stage .shot.desktop{width:100%}
+  .ai-stage .shot.phone{position:relative;width:58%;margin:-16% auto 0;inset:auto}
+  .keynote{flex-direction:column;gap:12px}
+  .kinds{grid-template-columns:1fr}
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

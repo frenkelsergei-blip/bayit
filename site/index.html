@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bayit · A little more together</title>
-<meta name="description" content="Bayit is an open-source family home app in Hebrew and English: your day, calendar, tasks, shopping, kids, money and a Telegram bot. Each family runs its own copy on Cloudflare or Docker, with its own keys.">
+<meta name="description" content="Bayit is an open-source family home app in Hebrew and English: your day, calendar, tasks, shopping, kids, money, a Telegram bot and Bayit AI, which knows your home. Each family runs its own copy on Cloudflare or Docker, with its own keys.">
 <meta property="og:title" content="Bayit · A little more together">
-<meta property="og:description" content="The open-source family home app. Your day, calendar, tasks, shopping, kids and a Telegram bot. Your own installation, your own keys.">
+<meta property="og:description" content="The open-source family home app, with Bayit AI that knows your home. Your own installation, your own AI key.">
 <meta property="og:image" content="media/bayit-en-light-poster.jpg">
 <meta name="theme-color" content="#FEFAF5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#10152A" media="(prefers-color-scheme: dark)">
@@ -38,9 +38,10 @@
     <img class="logo-night" src="assets/brand/logo-dark-alpha.png" alt="Bayit" width="114" height="38">
   </a>
   <nav aria-label="Sections" class="nav-links">
+    <a href="#ai" data-i18n="navAi">Bayit AI</a>
     <a href="#features" data-i18n="navFeatures">Features</a>
     <a href="#screens" data-i18n="navScreens">Screens</a>
-    <a href="#telegram" data-i18n="navTelegram">Telegram</a>
+    <a href="#yours" data-i18n="navYours">Make it yours</a>
     <a href="#own" data-i18n="navOwn">Your keys</a>
     <a href="#install" data-i18n="navInstall">Install</a>
   </nav>
@@ -60,7 +61,7 @@
   <div class="hero-copy">
     <span class="kicker pop"><img src="assets/art/house.png" alt="" width="26" height="26"><span data-i18n="kicker">Open source · Hebrew &amp; English · Your own installation</span></span>
     <h1 class="pop"><span data-i18n="h1a">A little more</span> <span class="accent-word"><span data-i18n="h1b">together.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""><img class="rays" src="assets/art/title-rays-96.png" alt=""></span></h1>
-    <p class="lead pop" data-i18n="lead">Bayit is a warm home app for the whole family: today’s plan, the calendar, tasks and routines, shopping, the kids’ heroes, money and a Telegram bot. Everyone sees what they should, and nothing more.</p>
+    <p class="lead pop" data-i18n="lead">Bayit is a warm home app for the whole family: today’s plan, the calendar, tasks, shopping, the kids’ heroes, money and a Telegram bot, with Bayit AI that knows your home. Everyone sees what they should, and nothing more.</p>
     <div class="cta pop">
       <a class="btn" href="https://bayit-8n0.pages.dev/?demo=1" data-i18n="ctaDemo">Try the live demo</a>
       <a class="btn ghost" href="#install" data-i18n="ctaInstall">Install your own</a>
@@ -73,7 +74,7 @@
   </div>
   <figure class="film pop">
     <div class="film-frame paper">
-      <video id="film" controls muted playsinline loop preload="metadata" poster="media/bayit-en-light-poster.jpg" aria-describedby="film-text" data-i18n-aria="filmLabel" aria-label="Bayit in one minute">
+      <video id="film" controls muted playsinline loop preload="metadata" poster="media/bayit-en-light-poster.jpg" aria-describedby="film-text" data-i18n-aria="filmLabel" aria-label="Bayit in a short film">
         <source src="media/bayit-en-light.mp4" type="video/mp4">
         <track kind="captions" src="media/bayit-en.vtt" srclang="en" label="English">
       </video>
@@ -91,35 +92,64 @@
     </div>
     <figcaption>
       <div class="chapters" role="group" aria-label="Jump to a part of the video" data-i18n-aria="chaptersLabel">
-        <button type="button" data-t="7.6" data-i18n="chToday">Today</button>
-        <button type="button" data-t="15.17" data-i18n="chCalendar">Calendar</button>
-        <button type="button" data-t="20.25" data-i18n="chTasks">Tasks</button>
-        <button type="button" data-t="25.22" data-i18n="chShopping">Shopping</button>
-        <button type="button" data-t="30.11" data-i18n="chKids">Kids</button>
-        <button type="button" data-t="35.47" data-i18n="chTelegram">Telegram</button>
-        <button type="button" data-t="48.86" data-i18n="chKeys">Your keys</button>
+        <button type="button" data-t="9.8" data-t-he="9.8" data-i18n="chToday">Today</button>
+        <button type="button" data-t="17.37" data-t-he="15.8" data-i18n="chCalendar">Calendar</button>
+        <button type="button" data-t="29.97" data-t-he="28.4" data-i18n="chAi">Bayit AI</button>
+        <button type="button" data-t="40.27" data-t-he="38.7" data-i18n="chTelegram">Telegram</button>
+        <button type="button" data-t="53.73" data-t-he="50.9" data-i18n="chShopping">Shopping</button>
+        <button type="button" data-t="59.63" data-t-he="56.8" data-i18n="chMoney">Money</button>
+        <button type="button" data-t="65.55" data-t-he="62.7" data-i18n="chKids">Kids</button>
+        <button type="button" data-t="71.45" data-t-he="68.6" data-i18n="chYours">Make it yours</button>
+        <button type="button" data-t="77.35" data-t-he="74.5" data-i18n="chKeys">Your keys</button>
       </div>
       <details class="film-text" id="film-text">
         <summary data-i18n="filmTextSummary">What’s in the video</summary>
-        <p data-i18n="filmText">A narrated tour with original music. The narrator is a synthetic voice (Azure AI Speech). The Bayit logo is drawn in pencil and folds together from paper. Then a tour: Today with a reminder arriving on the phone, the week calendar, tasks and routines, a shared shopping list, the kids’ pixel heroes, a Telegram reminder answered with Done, a message to the bot that adds milk and eggs after Apply, and the family’s own installation and keys. All screens show a fictional sample family.</p>
+        <p data-i18n="filmText">A narrated tour with original music. The narrator is a synthetic voice (Azure AI Speech). The Bayit logo is drawn in pencil and folds together from paper. Then a tour: Today with a reminder arriving on the phone, the week calendar, tasks and routines, Bayit AI answering a spoken “What’s on today?”, a Telegram reminder answered with Done, a message to the bot that adds milk and eggs after Apply, the shared shopping list filling the cart, a bill that went up on the Expenses screen, the kids’ pixel heroes, choosing the features a family uses, and the family’s own installation and AI key. All screens show a fictional sample family; the Bayit AI answer comes from a test AI, not a real provider.</p>
       </details>
     </figcaption>
   </figure>
+</section>
+
+<section class="ai" id="ai">
+  <span class="kicker reveal ai-kicker"><img class="mark-day" src="assets/art/bayit-ai-mark.png" alt="" width="26" height="26"><img class="mark-night" src="assets/art/bayit-ai-mark-dark.png" alt="" width="26" height="26"><span data-i18n="aiKicker">Bayit AI</span></span>
+  <h2 class="reveal"><span data-i18n="aiTitleA">Ask your</span> <span class="accent-word sm"><span data-i18n="aiTitleB">home.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="aiLead">Bayit AI knows your family’s day. Ask on any screen or on Telegram, by typing or by voice. It answers from your own records and prepares changes for you to approve.</p>
+  <div class="ai-body">
+    <ul class="ai-points">
+      <li class="paper reveal" style="--tint:var(--lilac)"><img src="assets/art/note.png" alt="" width="48" height="48" loading="lazy"><div><h3 data-i18n="ai1t">Ask about your home</h3><p data-i18n="ai1d">“What’s on today?” “What’s still open for me?” The answer comes from your calendar, tasks and shopping, with a link to every item it mentions.</p></div></li>
+      <li class="paper reveal" style="--tint:var(--green)"><img src="assets/art/clipboard-check.png" alt="" width="48" height="48" loading="lazy"><div><h3 data-i18n="ai2t">It prepares, you approve</h3><p data-i18n="ai2d">Turn a message, a photo or a PDF into a plan of events and tasks, or just say “add milk”. Nothing is saved until you tap Apply, and you can undo it.</p></div></li>
+      <li class="paper reveal" style="--tint:var(--yellow)"><img src="assets/art/coin.png" alt="" width="48" height="48" loading="lazy"><div><h3 data-i18n="ai3t">A second look at money</h3><p data-i18n="ai3d">For grown-ups only: Bayit points out a new recurring charge, a price that went up or a charge made twice, and Bayit AI explains it in a sentence.</p></div></li>
+      <li class="paper reveal" style="--tint:var(--peach)"><img src="assets/art/envelope-lock.png" alt="" width="48" height="48" loading="lazy"><div><h3 data-i18n="ai4t">Only what you may see</h3><p data-i18n="ai4d">It reads only what you’re allowed to see. Other people’s private records stay out, children never get money, and a parent chooses what it may read.</p></div></li>
+    </ul>
+    <figure class="ai-stage reveal">
+      <div class="shot desktop paper"><img data-shot="ai" data-view="desktop" src="assets/shots/ai-desktop-en-light.webp" alt="Bayit AI answering “What’s on today?” on a computer" width="1200" height="750" loading="lazy"></div>
+      <div class="shot phone paper"><img data-shot="ai" data-view="phone" src="assets/shots/ai-phone-en-light.webp" alt="Bayit AI answering on a phone" width="520" height="872" loading="lazy"></div>
+      <figcaption data-i18n="aiShotNote">Real Bayit screens with the fictional sample family. The answer comes from a test AI, because the online demo has no AI key.</figcaption>
+    </figure>
+  </div>
+  <div class="keynote paper reveal">
+    <img src="assets/art/bolt.png" alt="" width="56" height="56" loading="lazy">
+    <div>
+      <h3 data-i18n="keyT">Your own AI key. Not a chat subscription.</h3>
+      <p data-i18n="keyD">Bayit AI uses an AI account your family connects: Claude, OpenAI, Gemini, Grok or any OpenAI-compatible service. You pay that provider for what you use, from credit you add. A ChatGPT Plus or Claude Pro subscription is for chatting on their website and can’t be used here. A step-by-step guide in Bayit helps you get the key, and a parent can see what the AI costs, by person and feature.</p>
+      <p class="small" data-i18n="keyNo">No key? Everything else in Bayit works without one.</p>
+    </div>
+  </div>
 </section>
 
 <section class="features" id="features">
   <h2 class="reveal"><span data-i18n="featTitleA">Everything a home</span> <span class="accent-word sm"><span data-i18n="featTitleB">juggles.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
   <p class="section-lead reveal" data-i18n="featLead">One shared place for the whole family, in Hebrew or English, on phone, tablet and desktop, in light or night.</p>
   <div class="grid">
-    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/smiling-sun.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f1t">Today</h3><p data-i18n="f1d">The family’s agenda, little things to do and the kids’ routines on one calm page you arrange yourself.</p></article>
-    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/calendar-check.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f2t">Calendar</h3><p data-i18n="f2d">Week, agenda and month, with each person’s colour and portrait, and events that repeat.</p></article>
+    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/smiling-sun.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f1t">Today</h3><p data-i18n="f1d">The family’s agenda, little things to do and one short line for the kids’ routines, on a calm page you arrange yourself.</p></article>
+    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/calendar-check.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f2t">Calendar</h3><p data-i18n="f2d">Week, agenda and month, with each person’s colour and portrait, repeating events, hundreds of Bayit icons for holidays and school, and an optional Google Calendar link.</p></article>
     <article class="card paper reveal" style="--tint:var(--green)"><img src="assets/art/clipboard-check.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f3t">Tasks &amp; routines</h3><p data-i18n="f3d">An owner for every task, priorities, up to five reminders, and kids’ routines with turns, approvals and XP.</p></article>
     <article class="card paper reveal" style="--tint:var(--peach)"><img src="assets/art/cart.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f4t">Shopping</h3><p data-i18n="f4d">Several shared lists with categories and quantities, and suggestions from what you usually buy.</p></article>
-    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/yellow-star.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f5t">Kids · My Hero</h3><p data-i18n="f5d">Pixel heroes to care for, a garden to grow, games and dress-up, earned with routines.</p></article>
+    <article class="card paper reveal" style="--tint:var(--yellow)"><img src="assets/art/yellow-star.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f5t">Kids · My Hero</h3><p data-i18n="f5d">Pixel heroes to care for, a garden to grow, puzzles, games and dress-up, earned with routines.</p></article>
     <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/bell.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f6t">Reminders everywhere</h3><p data-i18n="f6d">Notifications on your phone or computer, and on Telegram, with quiet hours and no duplicates.</p></article>
-    <article class="card paper reveal" style="--tint:var(--green)"><img src="assets/art/coin.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f7t">Money &amp; household</h3><p data-i18n="f7d">Import Bank Leumi and Max statements, with every total checked. Meals, pantry, maintenance and private documents.</p></article>
-    <article class="card paper reveal" style="--tint:var(--peach)"><img src="assets/art/note.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f8t">Ask AI</h3><p data-i18n="f8d">Your choice of Claude, OpenAI, Gemini, Grok or a compatible service. It prepares changes; nothing is saved until you tap Apply.</p></article>
-    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/envelope-lock.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f9t">Private by design</h3><p data-i18n="f9d">Every note, task and event is private, for the family or for chosen people. The server enforces it, and AI follows the same rules.</p></article>
+    <article class="card paper reveal" style="--tint:var(--green)"><img src="assets/art/coin.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f7t">Money &amp; household</h3><p data-i18n="f7d">Bank Leumi and Max statements with every total checked, who you pay each month, cards by person, vouchers, insurance files and private documents.</p></article>
+    <article class="card paper reveal" style="--tint:var(--peach)"><img src="assets/art/cloud-up.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f8t">Works offline</h3><p data-i18n="f8d">Bayit opens without a connection and shows your latest day. Ticks and new items wait on your phone and sync when you’re back.</p></article>
+    <article class="card paper reveal" style="--tint:var(--lilac)"><img src="assets/art/envelope-lock.png" alt="" width="64" height="64" loading="lazy"><h3 data-i18n="f9t">Private by design</h3><p data-i18n="f9d">Every note, task and event is private, for the family or for chosen people. The server enforces it, and Bayit AI follows the same rules.</p></article>
   </div>
 </section>
 
@@ -128,12 +158,12 @@
   <p class="section-lead reveal" data-i18n="scrLead">Real screens with a fictional family. They follow this page’s language and light or night mode.</p>
   <div class="tabs reveal" role="tablist" aria-label="Screens" data-i18n-aria="screensLabel">
     <button role="tab" type="button" data-shot="today" aria-selected="true" data-i18n="tabToday">Today</button>
+    <button role="tab" type="button" data-shot="aihub" aria-selected="false" data-i18n="tabAi">Bayit AI</button>
     <button role="tab" type="button" data-shot="calendar" aria-selected="false" data-i18n="tabCalendar">Calendar</button>
     <button role="tab" type="button" data-shot="tasks" aria-selected="false" data-i18n="tabTasks">Tasks</button>
     <button role="tab" type="button" data-shot="shopping" aria-selected="false" data-i18n="tabShopping">Shopping</button>
     <button role="tab" type="button" data-shot="kids" aria-selected="false" data-i18n="tabKids">My Hero</button>
     <button role="tab" type="button" data-shot="money" aria-selected="false" data-i18n="tabMoney">Expenses</button>
-    <button role="tab" type="button" data-shot="ai" aria-selected="false" data-i18n="tabAi">Ask AI</button>
   </div>
   <div class="stage reveal" role="tabpanel" aria-live="polite">
     <div class="shot desktop paper"><img id="shot-desktop" src="assets/shots/today-desktop-en-light.webp" alt="Bayit Today screen on a computer" width="1200" height="750" loading="lazy"></div>
@@ -147,10 +177,36 @@
     <p class="section-lead" data-i18n="tgLead">Connect your own Telegram bot and each person links their own chat. It speaks your Bayit language.</p>
   </div>
   <ol class="tg-steps">
-    <li class="paper reveal" style="--tint:var(--yellow)"><img src="assets/art/bell.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg1t">Reminders that find you</h3><p data-i18n="tg1d">Tasks and events arrive with Done and Snooze buttons, and a morning summary of the day.</p><button type="button" class="text-link" data-t="35.47" data-i18n="watch">Watch this part</button></li>
-    <li class="paper reveal" style="--tint:var(--lilac)"><img src="assets/art/note.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg2t">Just tell it</h3><p data-i18n="tg2d">By text, photo or voice it adds, moves or completes tasks, events, shopping items and notes. Every change waits for Apply and can be undone.</p><button type="button" class="text-link" data-t="41.61" data-i18n="watch">Watch this part</button></li>
+    <li class="paper reveal" style="--tint:var(--yellow)"><img src="assets/art/bell.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg1t">Reminders that find you</h3><p data-i18n="tg1d">Tasks and events arrive with Done and Snooze buttons, and a morning summary of the day.</p><button type="button" class="text-link" data-t="40.27" data-t-he="38.7" data-i18n="watch">Watch this part</button></li>
+    <li class="paper reveal" style="--tint:var(--lilac)"><img src="assets/art/note.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg2t">Just tell it</h3><p data-i18n="tg2d">By text, photo or voice it adds, moves or completes tasks, events, shopping items and notes. Every change waits for Apply and can be undone.</p><button type="button" class="text-link" data-t="46.41" data-t-he="44.5" data-i18n="watch">Watch this part</button></li>
     <li class="paper reveal" style="--tint:var(--green)"><img src="assets/art/check-badge.png" alt="" width="56" height="56" loading="lazy"><h3 data-i18n="tg3t">Changes, told</h3><p data-i18n="tg3d">When someone moves, renames or deletes something assigned to you, Bayit tells you on Telegram.</p></li>
   </ol>
+</section>
+
+<section class="yours" id="yours">
+  <h2 class="reveal"><span data-i18n="yrTitleA">Only what your family</span> <span class="accent-word sm"><span data-i18n="yrTitleB">needs.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="yrLead">Bayit is built from parts. Turn on the ones your family uses, and add new abilities as extensions.</p>
+  <div class="yours-grid">
+    <div class="pane paper reveal yours-features">
+      <h3 data-i18n="yr1t">Turn features on or off</h3>
+      <p data-i18n="yr1d">In Settings › Features a parent chooses what the family uses, and each person can hide what they don’t need. Nothing is deleted: turn a feature back on and everything returns.</p>
+      <div class="shot phone paper"><img data-shot="features" data-view="phone" src="assets/shots/features-phone-en-light.webp" alt="Bayit Settings › Features on a phone" width="520" height="872" loading="lazy"></div>
+    </div>
+    <div class="pane paper reveal yours-ext">
+      <h3 data-i18n="yr2t">Add an ability with an extension</h3>
+      <p data-i18n="yr2d">An extension is a small package next to Bayit’s own code, so updates keep it and removing it puts everything back. Today an extension can add:</p>
+      <ul class="kinds">
+        <li><img src="assets/art/coin.png" alt="" width="34" height="34" loading="lazy"><span data-i18n="x1">Another bank’s or card’s statements</span></li>
+        <li><img src="assets/art/note.png" alt="" width="34" height="34" loading="lazy"><span data-i18n="x2">Another AI provider</span></li>
+        <li><img src="assets/art/bell.png" alt="" width="34" height="34" loading="lazy"><span data-i18n="x3">A speech-to-text service</span></li>
+        <li><img src="assets/art/house.png" alt="" width="34" height="34" loading="lazy"><span data-i18n="x4">A new screen with its own records</span></li>
+      </ul>
+      <p class="asks-lead" data-i18n="yrAsk">Ask your AI coding agent, for example:</p>
+      <ul class="asks"><li data-i18n="ag5">“Add Discount Bank statements to my Bayit”</li></ul>
+      <p class="step-note" data-i18n="yrNote">Adding one takes an AI coding agent or a terminal, then an update of your installation; there is no install button yet. The repository has examples and a list of extensions waiting for someone to build them.</p>
+      <div class="pane-links"><a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/extensions.md" data-i18n="agExt">Extensions</a><a class="btn ghost" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/extensions-wanted.md" data-i18n="yrWanted">Wanted extensions</a></div>
+    </div>
+  </div>
 </section>
 
 <section class="kids">
@@ -171,12 +227,12 @@
   <div class="own-inner">
     <div class="own-copy reveal">
       <h2><span data-i18n="ownTitleA">Your home.</span> <span class="accent-word sm"><span data-i18n="ownTitleB">Your keys.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
-      <p data-i18n="ownLead">There is no Bayit company server. Each family runs its own copy and brings its own accounts. Keys are encrypted on your server and never sent back to the browser.</p>
+      <p data-i18n="ownLead">There is no Bayit company server and no hosted Bayit. Each family runs its own copy and brings its own accounts. Keys are encrypted on your server and never sent back to the browser.</p>
     </div>
     <ul class="keys">
       <li class="paper reveal"><img src="assets/art/cloud-check.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k1t">Your installation</b><span data-i18n="k1d">Cloudflare’s free plan, or Docker on a home computer, NAS, Raspberry Pi or server.</span></li>
-      <li class="paper reveal"><img src="assets/art/house.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k2t">Your Google sign-in</b><span data-i18n="k2d">Each person signs in with Google. A parent invites the others with single-use links.</span></li>
-      <li class="paper reveal"><img src="assets/art/note.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k3t">Your AI key</b><span data-i18n="k3d">Optional. Claude, OpenAI, Gemini, Grok or any OpenAI-compatible service, paid by you.</span></li>
+      <li class="paper reveal"><img src="assets/art/house.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k2t">Your sign-in</b><span data-i18n="k2d">A passkey (Face ID, fingerprint or screen lock) needs no Google Cloud setup, or use Google. Passkeys are new and still being tried on real phones. A parent invites the others with single-use links.</span></li>
+      <li class="paper reveal"><img src="assets/art/note.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k3t">Your AI key</b><span data-i18n="k3d">Optional. Claude, OpenAI, Gemini, Grok or any OpenAI-compatible service, paid to the provider, not through a chat subscription.</span></li>
       <li class="paper reveal"><img src="assets/art/bell.png" alt="" width="52" height="52" loading="lazy"><b data-i18n="k4t">Your Telegram bot</b><span data-i18n="k4d">Optional. Your own bot, so your family’s messages go only through it.</span></li>
     </ul>
   </div>
@@ -184,50 +240,60 @@
 </section>
 
 <section class="install" id="install">
-  <h2 class="reveal"><span data-i18n="insTitleA">Install it in an</span> <span class="accent-word sm"><span data-i18n="insTitleB">afternoon.</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
-  <p class="section-lead reveal" data-i18n="insLead">Pick where your family’s Bayit lives. Both run the same app, with the same privacy rules and encryption.</p>
-  <div class="tabs reveal" role="tablist" aria-label="Ways to install" data-i18n-aria="installLabel">
-    <button role="tab" type="button" data-pane="cf" aria-selected="true" aria-controls="pane-cf" id="tab-cf">Cloudflare</button>
-    <button role="tab" type="button" data-pane="docker" aria-selected="false" aria-controls="pane-docker" id="tab-docker">Docker</button>
-    <button role="tab" type="button" data-pane="agent" aria-selected="false" aria-controls="pane-agent" id="tab-agent" data-i18n="tabAgent">With your AI agent</button>
-  </div>
-  <div class="panes reveal">
-    <div class="pane paper" role="tabpanel" id="pane-cf" aria-labelledby="tab-cf">
-      <p data-i18n="cfLead">The default: no server to look after, and the free plan is enough for a family. You need a Cloudflare account and a Google sign-in client.</p>
-      <ol class="steps">
-        <li><b data-i18n="cf1">Get the code</b><pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
-cd bayit/app &amp;&amp; npm install &amp;&amp; npx wrangler login</code></pre></li>
-        <li><b data-i18n="cf2">Create the database, file storage and site</b><pre><code>npx wrangler d1 create bayit-home
-npx wrangler r2 bucket create bayit-home-files
-npx wrangler pages project create bayit</code></pre></li>
-        <li><b data-i18n="cf3">Add your secrets and deploy</b><pre><code>npx wrangler d1 migrations apply bayit-home --remote
-npm run deploy:cloud</code></pre></li>
-      </ol>
-      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting.md" data-i18n="cfGuide">Full Cloudflare guide</a>
-    </div>
-    <div class="pane paper" role="tabpanel" id="pane-docker" aria-labelledby="tab-docker" hidden>
-      <p data-i18n="dkLead">Run it on anything with Docker (amd64 or arm64): a computer at home, a NAS, a Raspberry Pi 4 or 5, or a small server. Everything works, including voice messages through your own OpenAI or Gemini key.</p>
-      <ol class="steps">
-        <li><b data-i18n="dk1">Start it</b><pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
+  <h2 class="reveal"><span data-i18n="insTitleA">Where will your</span> <span class="accent-word sm"><span data-i18n="insTitleB">Bayit live?</span><img class="underline" src="assets/art/title-underline-clean-480.png" alt=""></span></h2>
+  <p class="section-lead reveal" data-i18n="insLead">Three ways, the same app and the same privacy rules. In every one, your family’s data stays in your own account.</p>
+  <div class="ways">
+    <article class="way paper reveal recommended">
+      <span class="tag" data-i18n="cfTag">Recommended</span>
+      <h3>Cloudflare</h3>
+      <p class="way-sub" data-i18n="cfSub">No server to look after</p>
+      <ul class="checks">
+        <li data-i18n="cfB1">Cloudflare’s free plan is enough for a family, and phones work everywhere</li>
+        <li data-i18n="cfB2">Sign in with passkeys, so no Google Cloud project is needed</li>
+        <li data-i18n="cfB3">About 45 minutes in a terminal with the guide, or ask your AI agent</li>
+      </ul>
+      <pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
+cd bayit/app &amp;&amp; npm install &amp;&amp; npx wrangler login</code></pre>
+      <p class="step-note" data-i18n="cfNext">Then the guide creates the database, file storage and site in your account, adds your secrets and the reminder scheduler, and deploys.</p>
+      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting.md" data-i18n="cfGuide">Cloudflare guide</a>
+    </article>
+    <article class="way paper reveal">
+      <span class="tag adv" data-i18n="dkTag">Advanced</span>
+      <h3>Docker</h3>
+      <p class="way-sub" data-i18n="dkSub">On your own computer</p>
+      <ul class="checks">
+        <li data-i18n="dkB1">The quickest start, on one computer: about 5 minutes. amd64 or arm64: a computer, NAS, Raspberry Pi 4 or 5, or a server</li>
+        <li data-i18n="dkB2">For the family’s phones it needs a public https address, such as your own domain. Passkeys belong to that address, so choose it once.</li>
+        <li data-i18n="dkB3">Updates and backups are yours to do</li>
+      </ul>
+      <pre><code>git clone https://github.com/frenkelsergei-blip/bayit.git
 cd bayit &amp;&amp; cp .env.example .env
-docker compose up -d --build</code></pre></li>
-        <li><b data-i18n="dk2">Look around with sample data</b><pre><code>http://localhost:8080/?demo=1</code></pre></li>
-        <li><b data-i18n="dk3">Give it an https address for Google sign-in and Telegram</b><span class="step-note" data-i18n="dk3d">Your own domain with automatic HTTPS, or a tunnel. The guide walks through both.</span></li>
-      </ol>
-      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting-docker.md" data-i18n="dkGuide">Full Docker guide</a>
-    </div>
-    <div class="pane paper" role="tabpanel" id="pane-agent" aria-labelledby="tab-agent" hidden>
-      <p data-i18n="agLead">The repository includes skills for AI coding agents. Open it in Claude Code, Codex or another agent that reads skills, and ask:</p>
+docker compose up -d --build
+docker compose logs bayit</code></pre>
+      <p class="step-note" data-i18n="dkNext">The last command shows a one-time setup code. Open localhost:8080 on this computer, choose Start setting up, and create your passkey and family. Just looking? localhost:8080/?demo=1.</p>
+      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/blob/main/docs/self-hosting-docker.md" data-i18n="dkGuide">Docker guide</a>
+    </article>
+    <article class="way paper reveal">
+      <span class="tag agent" data-i18n="agTag">With an AI agent</span>
+      <h3 data-i18n="agTitle">Claude Code or Codex</h3>
+      <p class="way-sub" data-i18n="agSub">The agent does it, you approve</p>
+      <ul class="checks">
+        <li data-i18n="agB1">The repository has skills that run the commands and explain each step</li>
+        <li data-i18n="agB2">Also for your own domain, updates and checking an installation</li>
+      </ul>
       <ul class="asks">
         <li data-i18n="ag1">“Install Bayit on my Cloudflare”</li>
         <li data-i18n="ag2">“Run Bayit with Docker on my Raspberry Pi”</li>
         <li data-i18n="ag3">“Help me connect Telegram”</li>
-        <li data-i18n="ag4">“Update my Bayit”</li>
       </ul>
-      <a class="btn" href="https://github.com/frenkelsergei-blip/bayit/tree/main/.agents/skills" data-i18n="agLink">See the skills</a>
-    </div>
+      <a class="btn ghost" href="https://github.com/frenkelsergei-blip/bayit/tree/main/.agents/skills" data-i18n="agLink">See the skills</a>
+    </article>
   </div>
+  <p class="ways-note reveal" data-i18n="waysWizard">A new installation guides you from the first open: Bayit checks the address, the database and your browser, then your name, passkey and family, and ends with a short To start list.</p>
+  <p class="ways-note reveal" data-i18n="waysNote">Whichever way: Bayit AI and the Telegram bot are optional. You connect them inside Bayit, in Settings › Accounts &amp; connections, with a guide, whenever you like.</p>
+  <p class="ways-note reveal"><a href="https://bayit-8n0.pages.dev/?demo=1" data-i18n="waysDemo">Just looking? Explore with sample data, no account</a></p>
 </section>
+
 </main>
 
 <footer>

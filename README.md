@@ -106,10 +106,11 @@ With Docker, one Node.js server does all of this, with SQLite and a folder in a 
 
 ## Make it yours
 
-- **Country settings:** `shared/home-config.mjs` sets the home timezone and currency (Israel and ₪ by default). Another language? See [extending.md](docs/extending.md).
-- **AI providers:** adapters are in `app/cloud/ai-providers.mjs`, and speech providers are in `app/cloud/speech.mjs`.
-- **Banks and cards:** add a statement format in `shared/finance-parse.mjs`. Each parser must reconcile against the totals printed on the statement.
-- **Widgets and categories:** see [extending.md](docs/extending.md).
+**Extensions** add one ability to your own Bayit: another bank's statements, another AI provider or speech service, a new screen for something your family keeps track of. Each is a small package next to Bayit's own code, so updates don't break it and removing it puts everything back. Ask your AI agent, for example "Add Mistral as an AI provider to my Bayit". Today this needs an agent or a terminal.
+
+- [Extensions](docs/extensions.md): what exists, how to add, check and remove one, and what happens to your data.
+- [Building extensions](docs/building-extensions.md) and [Wanted extensions](docs/extensions-wanted.md), if you want to make one.
+- **Country, timezone, currency and language:** the `bayit-localize` skill, or `shared/home-config.mjs`.
 
 ## Project layout
 
