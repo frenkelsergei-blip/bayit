@@ -1,6 +1,6 @@
 import {allowInitialTextFocus} from './form-focus';
 import React,{useState,useEffect,useRef} from 'react';
-import {Plus,ListChecks,PencilSimple,CheckCircle,Archive,ArrowCounterClockwise,X,ShoppingCart,Copy,Link,Trash,LockSimple,DotsThree,Check,GearSix,Camera,Receipt} from '@phosphor-icons/react';
+import {Plus,ListChecks,PencilSimple,CheckCircle,Archive,ArrowCounterClockwise,X,ShoppingCart,Copy,Link,Trash,LockSimple,DotsThree,Check,GearSix,Camera,Scan,Receipt} from '@phosphor-icons/react';
 import {AvatarStack} from './avatar-stack';
 import {SwipeRow} from './swipe-row';
 import {fxBus,fxQuiet} from './motion-fx';
@@ -14,8 +14,8 @@ import {FormSection} from './form-section.jsx';
 // "+ New list" at the end), a header for the open list with its actions in one row (secondary ones fold into "⋯" when
 // the column is narrow), and the "All lists" manager / new list / reuse dialog.
 // Only in the ⋯ menu, also on wide screens (where the other actions are buttons): delete and the smart-shopping extras.
-const MENU_ONLY=['delete','smart','receipt','prices'];
-export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt,onPrices,ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}}){
+const MENU_ONLY=['delete','smart','receipt','prices','note'];
+export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt,onPrices,onNote,ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}}){
  const [manager,setManager]=useState(false),[view,setView]=useState('active'),[draft,setDraft]=useState(null),[copyRemaining,setCopyRemaining]=useState(false),[menu,setMenu]=useState(false),menuRef=useRef(null),stripRef=useRef(null);
  const {saving,saveError,commit}=useConfirmedSave(a),guard=useDraftGuard(a,draft,{enabled:!!draft,key:draft?.id||draft?.mode||null});
  const lists=(a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),active=lists.filter(l=>l.status==='active'),current=lists.find(l=>l.id===tab),listName=l=>a.lang==='he'?l.he||l.name:l.name,scopeOf=l=>l?.visibility==='private'?'private':'family';
@@ -50,6 +50,7 @@ export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt
   current.ownerId===a.user&&['rename',PencilSimple,a.T('Rename list','שינוי שם הרשימה'),()=>{setDraft({...current,mode:'new',from:'page'});setManager(true)}],
   ['all',ListChecks,a.T('All lists','כל הרשימות'),()=>{setDraft(null);setManager(true)}],
   onSettings&&['smart',GearSix,a.T('Shopping settings','הגדרות קניות'),onSettings],
+  onNote&&['note',Scan,a.T('Photograph a list','צילום רשימה'),onNote],
   onReceipt&&['receipt',Camera,a.T('Photograph receipt','צילום קבלה'),onReceipt],
   onPrices&&['prices',Receipt,a.T('Prices and spending','מחירים והוצאות'),onPrices],
   canDelete(current)&&['delete',Trash,a.T('Delete list','מחיקת רשימה'),()=>askRemove(current)]].filter(Boolean):[];

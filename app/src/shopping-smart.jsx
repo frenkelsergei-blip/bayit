@@ -4,16 +4,17 @@
 // no AI. A quiet date line shows the next shop; while someone shops, items added since then sit on top.
 // Styles: shopping-smart.css. Everything is written as ordinary household records and synced like the rest.
 import React,{useMemo,useState} from 'react';
-import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown} from '@phosphor-icons/react';
+import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
 import {PersonChip} from './person-chip';
 import {purchaseRecords} from './statistics';
 import {anchor} from './data';
 import {cloudHeaders} from './cloud-transport.js';
-import {matchLines,priceHistory,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
+import {matchLines,rememberedNames,priceHistory,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 import {tripFor,ShoppingTripControl} from './shopping-trip';
 import {matchItem} from '../../shared/item-dictionary.mjs';
+import {noteRows} from '../../shared/shopping-note.mjs';
 import {shoppingSuggestions,explainSuggestion,explainDates,markFor,productKey,shopInProgress,sameAudience} from '../../shared/shopping-rhythm.mjs';
 
 const DEFAULTS={suggest:true,liked:true,requests:true,dayMessage:true,addsMessage:true};
@@ -36,7 +37,8 @@ export function useShoppingSmart(a,list,items){
   [list,items,a.data.purchases,a.data.shoppingMarks,a.data.favourites,prefs.suggest,prefs.liked,shopDate]);
  const requests=parent&&prefs.requests&&list?favourites.filter(f=>f.status==='requested'&&a.member(f.memberId)?.role==='child'&&sameAudience(f,list)):[];
  const shop=list?shopInProgress(items):null;
- return {prefs,child,parent,trip,shopDate,suggestions,requests,shop,favourites,marks};
+ const free=child&&(a.data.preferences?.shoppingNoApproval||[]).includes(a.user);
+ return {prefs,child,parent,free,trip,shopDate,suggestions,requests,shop,favourites,marks};
 }
 
 const newItem=(a,list,s,quantity,extra={})=>{const match=matchItem(s.title||''),unit=s.unit||'items';return {id:crypto.randomUUID(),title:s.title,he:s.he||s.title,listId:list.id,quantityValue:quantity,unit,quantity:quantity+' '+unit,group:s.group||match.group,icon:s.icon||match.icon,done:false,memberId:a.user,ownerId:a.user,visibility:list.visibility,allowedIds:list.allowedIds||[],createdAt:new Date().toISOString(),createdBy:a.user,...extra}};
@@ -44,7 +46,7 @@ const onList=(d,list,key)=>(d.shopping||[]).some(i=>(i.listId||'week')===list.id
 
 // ---------- the card above the list ----------
 export function SmartCard({a,smart,onOpen,onAsk}){
- if(smart.child)return <button type="button" className="ss-card ss-card-ask" data-keep-clear onClick={onAsk}><HandWaving size={26} weight="bold" aria-hidden="true"/><span><strong>{a.T('Would you like something?','בא לך משהו?')}</strong><small>{a.T('Ask, and a parent says yes or no.','מבקשים, והורה מאשר.')}</small></span><span className="button ss-small">{a.T('Ask','לבקש')}</span></button>;
+ if(smart.child)return <button type="button" className="ss-card ss-card-ask" data-keep-clear onClick={onAsk}><HandWaving size={26} weight="bold" aria-hidden="true"/><span><strong>{a.T('Would you like something?','בא לך משהו?')}</strong><small>{smart.free?a.T('What you choose is suggested before the next shop.','מה שבוחרים כאן יוצע לפני הקנייה הבאה.'):a.T('Ask, and a parent says yes or no.','מבקשים, והורה מאשר.')}</small></span><span className="button ss-small">{smart.free?a.T('Choose','לבחור'):a.T('Ask','לבקש')}</span></button>;
  const n=smart.suggestions.length+smart.requests.length;if(!n)return null;
  const names=smart.suggestions.slice(0,3).map(s=>a.lang==='he'?s.he||s.title:s.title),more=smart.suggestions.length-names.length;
  const req=smart.requests.length?(a.lang==='he'?(smart.requests.length===1?'בקשה אחת':smart.requests.length+' בקשות')+' של '+[...new Set(smart.requests.map(r=>a.name(r.memberId)))].join(' ו'):(smart.requests.length===1?'one request':smart.requests.length+' requests')+' from '+[...new Set(smart.requests.map(r=>a.name(r.memberId)))].join(' and ')):'';
@@ -102,11 +104,13 @@ export function ReviewWindow({a,ui,list,smart,onClose,onSettings}){
 }
 
 // ---------- Settings › Shopping (personal switches, and what we no longer suggest) ----------
+const OnlyMe=({a})=><span className="badge lilac ss-only"><LockSimple size={14} weight="bold" aria-hidden="true"/>{a.T('Only me','רק אני')}</span>;
 const Switch=({on,label,onChange})=><button type="button" role="switch" aria-checked={on} aria-label={label} className={'switch'+(on?' on':'')} onClick={()=>onChange(!on)}><span/></button>;
 export function SettingsWindow({a,ui,list,smart,onClose,onFavourites}){
  const {Icon,Button}=ui,p=smart.prefs;
  const row=(key,title,sub)=><div className="ss-sw" key={key}><span><strong>{title}</strong>{sub&&<small>{sub}</small>}</span><Switch on={p[key]} label={title} onChange={v=>setShoppingPref(a,key,v)}/></div>;
  const stopped=smart.marks.filter(m=>m.kind==='stop'&&(!list||sameAudience(m,list)));
+ const kids=a.members.filter(m=>m.role==='child'),noOK=a.data.preferences?.shoppingNoApproval||[];
  return <Window a={a} title={a.T('Settings · Shopping','הגדרות · קניות')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Done','סיום')}</Button>}>
   <FormSection T={a.T} icon={Cards} tone="green" title={a.T('Suggestions before the shop','הצעות לפני הקנייה')}>
    {row('suggest',a.T('Suggest what to buy','להציע מה לקנות'),a.T('From what you usually buy. No AI. Off: no card on the list at all.','לפי מה שאתם קונים בדרך כלל. בלי AI. כבוי: אין כרטיס ברשימה בכלל.'))}
@@ -114,6 +118,10 @@ export function SettingsWindow({a,ui,list,smart,onClose,onFavourites}){
    {smart.parent&&row('requests',a.T('Children’s requests','בקשות של הילדים'),a.T('A child asks, a parent decides','ילד מבקש, הורה מאשר'))}
    <button type="button" className="text-link ss-fav-link" onClick={onFavourites}><Heart size={18}/>{a.T('Liked at home','אהובים בבית')}</button>
   </FormSection>
+  {smart.parent&&kids.length>0&&<FormSection T={a.T} icon={HandWaving} tone="yellow" title={a.T('What the children ask for','מה הילדים מבקשים')}>
+   {kids.map(k=>{const needs=!noOK.includes(k.id),n=a.name(k.id);return <div className="ss-sw ss-sw-face" key={k.id}><span className="ss-line-face"><ui.Avatar who={k.id} size={34}/></span><span><strong>{a.T(n+': needs a parent’s OK',n+': צריך אישור של הורה')}</strong><small>{needs?a.T('What '+n+' asks for waits for a parent','הבקשות של '+n+' מחכות שהורה יאשר'):a.T('Off: what '+n+' asks for goes straight into their favourites and is suggested before the shop','כבוי: הבקשות של '+n+' נכנסות ישר לאהובים ומוצעות לפני הקנייה')}</small></span><Switch on={needs} label={a.T(n+': needs a parent’s OK',n+': צריך אישור של הורה')} onChange={v=>a.update(d=>{const cur=(d.preferences.shoppingNoApproval||[]).filter(id=>id!==k.id);d.preferences.shoppingNoApproval=v?cur:[...cur,k.id]})}/></div>})}
+   <p className="ss-fine">{a.T('Only a parent changes this. A child never sees prices or receipts.','רק הורה משנה את זה. ילד אף פעם לא רואה מחירים וקבלות.')}</p>
+  </FormSection>}
   <FormSection T={a.T} icon={BellSlash} tone="lilac" title={a.T('Not suggested','לא מציעים')}>
    {stopped.length?stopped.map(m=><div className="ss-like" key={m.id}><Icon code={m.icon||matchItem(m.title||'').icon} size={36}/><span className="ss-text"><strong>{a.lang==='he'?m.he||m.title:m.title}</strong><small>{a.T('Stopped by '+a.name(m.ownerId)+' · '+m.date,'הופסק על ידי '+a.name(m.ownerId)+' · '+new Date(m.date+'T12:00:00Z').toLocaleDateString('he-IL',{timeZone:'UTC',day:'numeric',month:'long'}))}</small></span><Button secondary className="button secondary ss-small" onClick={()=>a.remove('shoppingMarks',m.id,a.lang==='he'?m.he||m.title:m.title)}>{a.T('Bring back','להחזיר')}</Button></div>)
    :<p className="ss-fine">{a.T('Nothing yet. "Stop suggesting" in the review puts a product here.','עוד אין. "להפסיק להציע" בבדיקה שם מוצר כאן.')}</p>}
@@ -128,33 +136,35 @@ export function SettingsWindow({a,ui,list,smart,onClose,onFavourites}){
 // ---------- Liked at home: each person's likes and "doesn't eat"; children ask ----------
 export function FavouritesWindow({a,ui,list,smart,onClose}){
  const {Icon,Button,Avatar}=ui,members=a.members,me=a.user;
- const [who,setWho]=useState(smart.child?me:(members.find(m=>m.role==='child')?.id||me)),[text,setText]=useState(''),[kind,setKind]=useState('likes');
+ const [who,setWho]=useState(smart.child?me:(members.find(m=>m.role==='child')?.id||me)),[text,setText]=useState(''),[kind,setKind]=useState('likes'),[onlyMe,setOnlyMe]=useState(false);
+ const canHide=!smart.child&&who===me;
  const mine=smart.favourites.filter(f=>f.memberId===who),requests=mine.filter(f=>f.status==='requested'),likes=mine.filter(f=>f.status==='approved'&&f.kind==='likes'),avoid=mine.filter(f=>f.status==='approved'&&f.kind==='avoid');
  const vis=list?{visibility:list.visibility==='private'?'family':list.visibility,allowedIds:list.visibility==='selected'?list.allowedIds||[]:[]}:{visibility:'family',allowedIds:[]};
  const name=f=>a.lang==='he'?f.he||f.title:f.title;
- const save=e=>{e.preventDefault();const t=text.trim();if(!t)return;const m=matchItem(t);a.update(d=>{(d.favourites??=[]).push({id:crypto.randomUUID(),kind:smart.child?'likes':kind,status:smart.child?'requested':'approved',memberId:who,ownerId:me,...vis,title:t,he:t,key:productKey({title:t}),icon:m.icon,group:m.group,createdAt:new Date().toISOString()})});setText('');a.notify(smart.child?a.T('Asked. A parent will decide.','ביקשת. הורה יחליט.'):a.T('Saved.','נשמר.'))};
+ const save=e=>{e.preventDefault();const t=text.trim();if(!t)return;const m=matchItem(t);a.update(d=>{(d.favourites??=[]).push({id:crypto.randomUUID(),kind:smart.child?'likes':kind,status:smart.child&&!smart.free?'requested':'approved',memberId:who,ownerId:me,...(canHide&&onlyMe?{visibility:'private',allowedIds:[]}:vis),title:t,he:t,key:productKey({title:t}),icon:m.icon,group:m.group,createdAt:new Date().toISOString()})});setText('');a.notify(smart.child&&!smart.free?a.T('Asked. A parent will decide.','ביקשת. הורה יחליט.'):smart.child?a.T('Saved. It will be suggested before the shop.','נשמר. יוצע לפני הקנייה.'):a.T('Saved.','נשמר.'))};
  const addToList=f=>{if(!list)return;a.update(d=>{if(!onList(d,list,f.key||productKey(f)))d.shopping.push(newItem(a,list,f,1,{memberId:f.memberId}))});a.notify(a.T('Added to the list.','נוסף לרשימה.'))};
  const decide=(f,yes)=>a.update(d=>{const x=(d.favourites||[]).find(r=>r.id===f.id);if(!x)return;if(yes)x.status='approved';else d.favourites=d.favourites.filter(r=>r.id!==f.id)});
  const remove=f=>{if(smart.child&&f.memberId!==me)return;a.remove('favourites',f.id,name(f))};
  const line=f=>{const last=(a.data.purchases||[]).filter(p=>p.done&&productKey(p)===(f.key||productKey(f))).map(p=>p.date).sort().at(-1);if(!last)return a.T('Not bought yet','עוד לא נקנה');const n=Math.round((Date.parse(anchor+'T12:00:00Z')-Date.parse(last+'T12:00:00Z'))/86400000);return n<=0?a.T('Bought today','נקנה היום'):a.T('Bought '+n+' days ago',n===1?'נקנה אתמול':n===7?'נקנה לפני שבוע':'נקנה לפני '+n+' ימים')};
  const person=a.name(who);
  return <Window a={a} title={smart.child?a.T('My favourites','האהובים שלי'):a.T('Liked at home','אהובים בבית')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
-  {!smart.child&&<><p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{a.T('What each person likes is suggested when it hasn’t been bought for a week. The whole family sees it.','מה שכל אחד אוהב מוצע כשלא נקנה שבוע. כל המשפחה רואה.')}</span></p>
+  {!smart.child&&<><p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{a.T('What each person likes is suggested when it hasn’t been bought for a week. The whole family sees it, except what you marked "only me".','מה שכל אחד אוהב מוצע כשלא נקנה שבוע. כל המשפחה רואה, חוץ ממה שסימנתם "רק אני".')}</span></p>
    <div className="tasks-sheet-people ss-people" role="radiogroup" aria-label={a.T('Whose','של מי')}>{members.map(m=><PersonChip key={m.id} role="radio" who={m.id} name={a.name(m.id)} Avatar={Avatar} tone={m.color} size={40} selected={who===m.id} onClick={()=>setWho(m.id)}/>)}</div></>}
   <FormSection T={a.T} icon={Heart} tone="peach" title={smart.child?a.T('Mine','שלי'):a.T(person+' likes','אהוב על '+person)}>
    {requests.map(f=><div className="ss-like ss-pending" key={f.id}><Icon code={f.icon} size={40}/><span className="ss-text"><strong>{name(f)}</strong><small>{a.T('Asked · waiting for a parent','בקשה · מחכה לאישור של הורה')}</small></span>{smart.parent?<span className="ss-acts"><Button secondary className="button secondary ss-small" onClick={()=>decide(f,false)}>{a.T('No','לא')}</Button><Button className="button ss-small" icon={Check} onClick={()=>decide(f,true)}>{a.T('Approve','אישור')}</Button></span>:<span className="badge yellow">{a.T('Waiting','מחכה')}</span>}</div>)}
-   {likes.map(f=><div className="ss-like" key={f.id}><Icon code={f.icon} size={40}/><span className="ss-text"><strong>{name(f)}</strong><small>{line(f)}</small></span><span className="ss-acts">{list&&!smart.child&&<button type="button" className="ss-add" aria-label={a.T('Add to the list','הוספה לרשימה')} onClick={()=>addToList(f)}><Plus size={22} weight="bold"/></button>}<button type="button" className="icon-button ss-heart" aria-label={a.T('Remove from favourites','הסרה מהאהובים')} onClick={()=>remove(f)}><Heart size={22} weight="fill"/></button></span></div>)}
+   {likes.map(f=><div className="ss-like" key={f.id}><Icon code={f.icon} size={40}/><span className="ss-text"><strong>{name(f)}{f.visibility==='private'&&<OnlyMe a={a}/>}</strong><small>{line(f)}{f.visibility==='private'?a.T(' · only you see it, suggested in "My shopping"',' · גלוי רק לך, מוצע ב"הקניות שלי"'):''}</small></span><span className="ss-acts">{list&&!smart.child&&<button type="button" className="ss-add" aria-label={a.T('Add to the list','הוספה לרשימה')} onClick={()=>addToList(f)}><Plus size={22} weight="bold"/></button>}<button type="button" className="icon-button ss-heart" aria-label={a.T('Remove from favourites','הסרה מהאהובים')} onClick={()=>remove(f)}><Heart size={22} weight="fill"/></button></span></div>)}
    {!requests.length&&!likes.length&&<p className="ss-fine">{a.T('Nothing yet.','עוד אין.')}</p>}
   </FormSection>
   {!smart.child&&<FormSection T={a.T} icon={ProhibitInset} tone="lilac" title={a.T('Not for '+person,'לא בשביל '+person)}>
-   {avoid.map(f=><div className="ss-like" key={f.id}><Icon code={f.icon} size={40}/><span className="ss-text"><strong>{name(f)}</strong></span><button type="button" className="icon-button" aria-label={a.T('Remove','הסרה')} onClick={()=>remove(f)}><X size={20}/></button></div>)}
+   {avoid.map(f=><div className="ss-like" key={f.id}><Icon code={f.icon} size={40}/><span className="ss-text"><strong>{name(f)}{f.visibility==='private'&&<OnlyMe a={a}/>}</strong></span><button type="button" className="icon-button" aria-label={a.T('Remove','הסרה')} onClick={()=>remove(f)}><X size={20}/></button></div>)}
    <p className="ss-fine">{a.T('A preference, not medical information. Bayit does not check allergies.','זו העדפה, לא מידע רפואי. Bayit לא בודק אלרגיות.')}</p>
   </FormSection>}
   <form className="ss-addlike" onSubmit={save}>
    {!smart.child&&<div className="shop2-seg ss-kind" role="group">{[['likes',a.T('Likes','אהוב')],['avoid',a.T('Not for','לא בשביל')]].map(([k,t])=><button type="button" key={k} className={kind===k?'on':''} aria-pressed={kind===k} onClick={()=>setKind(k)}>{t}</button>)}</div>}
    <input maxLength={80} value={text} onChange={e=>setText(e.target.value)} placeholder={smart.child?a.T('What would you like? e.g. cornflakes','מה בא לך? למשל קורנפלקס'):a.T('e.g. bananas','למשל בננות')} aria-label={a.T('Product','מוצר')}/>
-   <Button type="submit" icon={Plus}>{smart.child?a.T('Ask','לבקש'):a.T('Add','הוספה')}</Button>
+   <Button type="submit" icon={Plus}>{smart.child&&!smart.free?a.T('Ask','לבקש'):a.T('Add','הוספה')}</Button>
   </form>
+  {canHide&&<div className="ss-sw ss-onlyme"><span><strong>{a.T('Only me','רק אני')}</strong><small>{a.T('Not shown to the rest of the family. Suggested only on "My shopping".','לא מוצג לשאר המשפחה. מוצע רק ברשימה "הקניות שלי".')}</small></span><Switch on={onlyMe} label={a.T('Only me','רק אני')} onChange={setOnlyMe}/></div>}
  </Window>;
 }
 
@@ -168,10 +178,12 @@ export function DoneCard({a,onReceipt}){return <div className="ss-donecard" data
 
 export function ReceiptWindow({a,ui,list,items,onClose}){
  const {Icon,Button}=ui,tx=useGroceries(a),[busy,setBusy]=useState(false),[error,setError]=useState(''),[draft,setDraft]=useState(null),[pair,setPair]=useState(true),file=React.useRef(null);
- const read=async f=>{if(!f)return;setBusy(true);setError('');try{const r=await fetch('/api/shopping/receipt',{method:'POST',headers:{...cloudHeaders(),'Content-Type':'application/octet-stream','X-Bayit-Language':a.lang},body:f});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||a.T('The receipt could not be read.','לא הצלחנו לקרוא את הקבלה.'));setDraft({...d,lines:matchLines(d.lines,items)})}catch(e){setError(e.message)}finally{setBusy(false)}};
+ const read=async f=>{if(!f)return;setBusy(true);setError('');try{const r=await fetch('/api/shopping/receipt',{method:'POST',headers:{...cloudHeaders(),'Content-Type':'application/octet-stream','X-Bayit-Language':a.lang},body:f});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||a.T('The receipt could not be read.','לא הצלחנו לקרוא את הקבלה.'));setDraft({...d,lines:matchLines(d.lines,items,rememberedNames(a.visible(a.data.receipts||[])))})}catch(e){setError(e.message)}finally{setBusy(false)}};
  const expense=draft&&tx?matchExpense({total:draft.total,date:draft.date||anchor},tx):null;
- const save=()=>{const shopDate=draft.date||anchor;a.update(d=>{(d.receipts??=[]).push({id:crypto.randomUUID(),title:a.T('Receipt','קבלה')+(draft.store?' · '+draft.store:''),listId:list.id,ownerId:a.user,visibility:list.visibility,allowedIds:list.allowedIds||[],store:draft.store,total:draft.total,currency:draft.currency,shopDate,lines:draft.lines.map(({raw,name,key,quantity,unit,unitPrice,price})=>({raw,name,key,quantity,unit,...(unitPrice!=null?{unitPrice}:{}),price})),...(expense&&pair?{matchedExpenseId:String(expense.id||'')}:{}),createdAt:new Date().toISOString()})});a.notify(a.T('Receipt saved. Prices are in Shopping › Prices.','הקבלה נשמרה. המחירים ב"מחירים והוצאות".'));onClose()};
+ const save=()=>{const shopDate=draft.date||anchor;a.update(d=>{(d.receipts??=[]).push({id:crypto.randomUUID(),title:a.T('Receipt','קבלה')+(draft.store?' · '+draft.store:''),listId:list.id,ownerId:a.user,visibility:list.visibility,allowedIds:list.allowedIds||[],store:draft.store,total:draft.total,currency:draft.currency,shopDate,lines:draft.lines.map(({raw,name,key,quantity,unit,unitPrice,price,confirmed})=>({raw,name,key,quantity,unit,...(unitPrice!=null?{unitPrice}:{}),price,...(confirmed?{confirmed:true}:{})})),...(expense&&pair?{matchedExpenseId:String(expense.id||'')}:{}),createdAt:new Date().toISOString()})});a.notify(a.T('Receipt saved. Prices are in Shopping › Prices.','הקבלה נשמרה. המחירים ב"מחירים והוצאות".'));onClose()};
  const removeLine=i=>setDraft(d=>({...d,lines:d.lines.filter((_,n)=>n!==i)}));
+ const [asking,setAsking]=useState(null),[answer,setAnswer]=useState('');
+ const confirm=i=>{const name=answer.trim();if(!name)return;setDraft(d=>({...d,lines:d.lines.map((l,n)=>n===i?{...l,name,key:productKey({title:name}),confirmed:true,sure:true}:l)}));setAsking(null)};
  return <Window a={a} title={a.T('The receipt of this shop','הקבלה של הקנייה')} onClose={onClose} actions={draft?<><Button secondary onClick={onClose}>{a.T('Cancel','ביטול')}</Button><Button onClick={save}>{a.T('Save','שמירה')}</Button></>:<Button secondary onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
   {!draft&&<>{!a.cloud?<p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{a.T('Reading receipts works in your own installation with an AI helper connected.','קריאת קבלות עובדת בהתקנה שלכם, כשעוזר AI מחובר.')}</span></p>
    :<><p className="tasks-sheet-hint ss-hint"><Camera size={18}/><span>{a.T('The photo goes only to your own AI helper, uses a little of your AI credit, and is not stored. You check everything before saving.','התמונה נשלחת רק לעוזר ה־AI שלכם, משתמשת קצת בקרדיט ה־AI, ולא נשמרת. בודקים הכל לפני השמירה.')}</span></p>
@@ -187,7 +199,9 @@ export function ReceiptWindow({a,ui,list,items,onClose}){
     {!draft.checked&&<p className="ss-fine ss-warn"><Warning size={16} weight="fill"/>{a.T('The lines add up to '+money(a,draft.sum)+', not the total. Some lines may be missing.','השורות מסתכמות ב־'+money(a,draft.sum)+' ולא בסה"כ. אולי חסרות שורות.')}</p>}
    </FormSection>
    <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('Item by item','מוצר מוצר')}>
-    {draft.lines.map((l,i)=><div className={'ss-rline'+(l.sure?'':' ss-ask')} key={i}><span className="ss-raw">{l.raw}</span><Icon code={matchItem(l.name).icon} size={32}/><span className="ss-text"><strong>{l.name}</strong><small>{(l.quantity!==1?l.quantity+(l.unit==='kg'?a.T(' kg',' ק"ג'):''):'')+(l.unitPrice!=null&&l.unit==='kg'?' · '+money(a,l.unitPrice)+a.T(' per kg',' לק"ג'):'')+(l.sure?'':(l.quantity!==1?' · ':'')+a.T('not on the list','לא ברשימה'))}</small></span><b className="ss-price">{money(a,l.price)}</b><button type="button" className="icon-button" aria-label={a.T('Remove line','הסרת שורה')} onClick={()=>removeLine(i)}><X size={18}/></button></div>)}
+    {draft.lines.map((l,i)=><div className={'ss-rline'+(l.sure?'':' ss-ask')} key={i}><span className="ss-raw">{l.raw}</span><Icon code={matchItem(l.name).icon} size={32}/><span className="ss-text"><strong>{l.name}</strong><small>{(l.quantity!==1?l.quantity+(l.unit==='kg'?a.T(' kg',' ק"ג'):''):'')+(l.unitPrice!=null&&l.unit==='kg'?' · '+money(a,l.unitPrice)+a.T(' per kg',' לק"ג'):'')+''}</small>{!l.sure&&asking!==i&&<button type="button" className="ss-q" onClick={()=>{setAsking(i);setAnswer(l.name)}}><Question size={18} weight="bold"/>{a.T('Correct?','נכון?')}</button>}</span><b className="ss-price">{money(a,l.price)}</b><button type="button" className="icon-button" aria-label={a.T('Remove line','הסרת שורה')} onClick={()=>removeLine(i)}><X size={18}/></button>
+     {asking===i&&<form className="ss-qform" onSubmit={e=>{e.preventDefault();confirm(i)}}><label><span>{a.T('What is it?','מה זה?')}</span><input autoFocus maxLength={80} value={answer} onChange={e=>setAnswer(e.target.value)}/></label><Button type="submit" icon={Check}>{a.T('Yes, remember','כן, לזכור')}</Button></form>}</div>)}
+    {draft.lines.some(l=>!l.sure)&&<p className="ss-fine">{a.T('A line with "Correct?" waits for you to confirm it once; after that Bayit remembers.','שורה עם "נכון?" מחכה שתאשרו פעם אחת, ואחר כך Bayit זוכר.')}</p>}
    </FormSection>
    {expense&&<FormSection T={a.T} icon={CreditCard} tone="blue" title={a.T('In Expenses','בהוצאות')}>
     <div className="ss-sw"><span><strong>{money(a,-Number(expense.amount)/100)+' · '+(expense.description||'')+' · '+longDate(a,expense.date)}</strong><small>{a.T('Same amount, same day or the next. Link it to this shop?','אותו סכום, באותו יום או למחרת. לחבר לקנייה הזו?')}</small></span><Switch on={pair} label={a.T('Link','חיבור')} onChange={setPair}/></div>
@@ -210,5 +224,33 @@ export function PricesWindow({a,ui,list,onClose}){
     {open===p.key&&<div className="ss-history">{p.h.rows.map((r,i)=><div className="ss-prow" key={i}><span><strong>{longDate(a,r.date)}</strong><small><bdi>{r.store}</bdi></small></span><span className="ss-bar"><i className={r===p.h.cheapest?'lo':r===p.h.dearest?'hi':''} style={{width:Math.max(8,Math.round(r.per/p.h.dearest.per*100))+'%'}}/></span><b>{per(p,r.per)}</b></div>)}{p.h.stores.length>1&&p.h.stores.map(s=><div className="ss-kv" key={s.store}><span><bdi>{s.store}</bdi>{' · '+a.T(s.count===1?'1 receipt':s.count+' receipts',s.count===1?'קבלה אחת':s.count+' קבלות')}</span><b>{a.T('average ','ממוצע ')+per(p,s.average)}</b></div>)}</div>}
    </div>)}
   </FormSection>
+ </Window>;
+}
+
+// ---------- a photographed shopping note (adults; reading needs the household's own AI helper) ----------
+// Concept C round 2 (r2q3-snap): the photo goes to the household's provider only, is not stored, and the answer is a
+// draft. Nothing is added until the person ticks items and presses Add. No key: the window says so and sends nothing.
+export function NoteWindow({a,ui,list,items,quantityText,onClose}){
+ const {Icon,Button}=ui,[status,setStatus]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[rows,setRows]=useState(null),file=React.useRef(null);
+ const parent=a.member(a.user)?.role==='parent';
+ React.useEffect(()=>{if(!a.cloud)return;let on=true;fetch('/api/ai/status',{headers:cloudHeaders()}).then(r=>r.ok?r.json():null).then(s=>{if(on)setStatus(s||{connected:false})}).catch(()=>{if(on)setStatus({connected:false,unknown:true})});return()=>{on=false}},[a.cloud]);
+ const read=async f=>{if(!f)return;setBusy(true);setError('');try{const r=await fetch('/api/shopping/note',{method:'POST',headers:{...cloudHeaders(),'Content-Type':'application/octet-stream','X-Bayit-Language':a.lang},body:f});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||a.T('The list could not be read.','לא הצלחנו לקרוא את הרשימה.'));if(!d.draftOnly||!Array.isArray(d.items))throw Error(a.T('The list could not be read.','לא הצלחנו לקרוא את הרשימה.'));setRows(noteRows(d.items,items))}catch(e){setError(e.message)}finally{setBusy(false);if(file.current)file.current.value=''}};
+ const picked=rows?rows.filter(r=>r.picked):[];
+ const qty=r=>r.quantity!=null?r.quantity+(r.unit==='kg'?a.T(' kg',' ק"ג'):r.unit==='packs'?a.T(r.quantity===1?' pack':' packs',r.quantity===1?' חבילה':' חבילות'):''):'';
+ const add=()=>{a.update(d=>{for(const r of picked){if(onList(d,list,r.key))continue;const q=r.quantity||1,unit=r.unit||'items';d.shopping.push({...newItem(a,list,{title:r.title,icon:r.icon,group:r.group,unit},q),source:'note'})}});a.notify(a.T(picked.length===1?'1 item added.':picked.length+' items added.',picked.length===1?'נוסף פריט אחד.':'נוספו '+picked.length+' פריטים.'));onClose()};
+ const listName=list?(a.lang==='he'?list.he||list.name:list.name):'';
+ return <Window a={a} title={rows?a.T('From the list you photographed','מהרשימה שצילמתם'):a.T('Photograph a list','צילום רשימה')} onClose={onClose} actions={rows?<><Button secondary onClick={onClose}>{a.T('Cancel','ביטול')}</Button><Button icon={Plus} disabled={!picked.length} onClick={add}>{a.T(picked.length===1?'Add 1 item':'Add '+picked.length+' items',picked.length===1?'הוספת פריט אחד':'הוספת '+picked.length+' פריטים')}</Button></>:<Button secondary onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
+  {!rows&&<>{!a.cloud?<p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{a.T('Reading a photographed list works in your own installation with an AI helper connected.','קריאת רשימה מצולמת עובדת בהתקנה שלכם, כשעוזר AI מחובר.')}</span></p>
+   :status&&!status.connected?<p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{status.unknown?a.T('We could not check the AI helper right now. Try again in a moment.','לא הצלחנו לבדוק את עוזר ה־AI כרגע. נסו שוב בעוד רגע.'):parent?a.T('Reading a photographed list needs your AI helper. Connect one in Settings › Accounts & connections. Typing items with commas works without AI.','קריאת רשימה מצולמת צריכה עוזר AI. מחברים אותו בהגדרות › חשבונות וחיבורים. הקלדה עם פסיקים עובדת גם בלי AI.'):a.T('Reading a photographed list needs the AI helper, which a parent connects. Typing items with commas works without AI.','קריאת רשימה מצולמת צריכה עוזר AI, והורה מחבר אותו. הקלדה עם פסיקים עובדת גם בלי AI.')}</span></p>
+   :<><p className="tasks-sheet-hint ss-hint"><Camera size={18}/><span>{a.T('A handwritten or printed note. The photo goes only to your own AI helper, uses a little of your AI credit, and is not stored. You choose what to add.','פתק בכתב יד או מודפס. התמונה נשלחת רק לעוזר ה־AI שלכם, משתמשת קצת בקרדיט ה־AI, ולא נשמרת. אתם בוחרים מה להוסיף.')}</span></p>
+    <input ref={file} type="file" accept="image/jpeg,image/png,image/webp" capture="environment" hidden onChange={e=>read(e.target.files?.[0])}/>
+    <Button icon={Camera} disabled={busy||!status} onClick={()=>file.current?.click()}>{busy?a.T('Reading…','קוראים…'):a.T('Photograph or choose a list','לצלם או לבחור רשימה')}</Button></>}
+   {error&&<p className="save-error" role="alert">{error}</p>}</>}
+  {rows&&<>
+   <p className="tasks-sheet-hint ss-hint"><Camera size={18}/><span>{a.T('Handwritten note · read by '+(status?.providerName||'your AI helper')+' · the photo was not stored','פתק בכתב יד · נקרא על ידי '+(status?.providerName||'עוזר ה־AI שלכם')+' · התמונה לא נשמרה')}</span></p>
+   <FormSection T={a.T} icon={ListChecks} tone="yellow" title={a.T('Add to "'+listName+'"','להוסיף לרשימה "'+listName+'"')} note={a.T(picked.length+' of '+rows.length+' ticked',picked.length+' מתוך '+rows.length+' מסומנים')}>
+    {rows.map((r,i)=><label className="ss-pickrow" key={r.key}><span className="checkbox-control"><input type="checkbox" checked={r.picked} onChange={e=>setRows(rs=>rs.map((x,n)=>n===i?{...x,picked:e.target.checked}:x))}/><Check size={21} weight="bold" aria-hidden="true"/></span><Icon code={r.icon} size={36}/><span className="ss-text"><strong><bdi>{r.title}</bdi>{qty(r)&&<span className="ss-q2"><bdi>{qty(r)}</bdi></span>}</strong><small>{r.onList?a.T('Already on the list','כבר ברשימה')+(quantityText?.(r.onList)?': '+quantityText(r.onList):''):<bdi>{'"'+r.written+'"'}</bdi>}</small></span></label>)}
+   </FormSection>
+  </>}
  </Window>;
 }

@@ -24,10 +24,18 @@ export function normalizeReceipt(value){
   total:total??sum,sum,currency:str(value.currency,8)||'ILS',lines,checked:total===undefined||Math.abs(total-sum)<=Math.max(1,total*.02)};
 }
 
-// Which list item each line belongs to: the same product key; otherwise left for a person to confirm once.
-export function matchLines(lines,items){
+// Which list item each line belongs to: the same product key; otherwise left for a person to confirm once ("Correct?").
+// A confirmed line is saved with confirmed:true; the next receipt with the same printed text takes that name without
+// asking again (2026-11-12). `memory` comes from rememberedNames over the receipts this adult can already see.
+export const rawKey=raw=>String(raw||'').toLowerCase().replace(/[\s"'`׳״.,*\-]+/g,' ').trim();
+export function rememberedNames(receipts){
+ const m=new Map();for(const r of [...(receipts||[])].sort((x,y)=>String(x.createdAt||'').localeCompare(String(y.createdAt||''))))for(const l of r.lines||[])if(l?.confirmed&&l.raw&&l.name)m.set(rawKey(l.raw),{name:l.name,key:l.key||productKey({title:l.name})});
+ return m;
+}
+export function matchLines(lines,items,memory=new Map()){
  const keys=new Map(items.map(i=>[productKey(i),i]));
- return lines.map(l=>({...l,itemId:keys.get(l.key)?.id||null,sure:keys.has(l.key)}));
+ return lines.map(l=>{const known=memory.get(rawKey(l.raw)),line=known?{...l,name:known.name,key:known.key,confirmed:true}:l;
+  return {...line,itemId:keys.get(line.key)?.id||null,onList:keys.has(line.key),sure:Boolean(known)||keys.has(line.key)}});
 }
 
 // Price history of one product from saved receipts (newest first), with the cheapest, the dearest and per shop.

@@ -11,7 +11,7 @@ import {deliveryView} from '../../shared/features.mjs';
 import {visibleState} from './state.mjs';
 
 const MAX=5*1024*1024;
-async function readBytes(request){const reader=request.body?.getReader();if(!reader)throw fail('Choose a photo.');let total=0;const chunks=[];for(;;){const {done,value}=await reader.read();if(done)break;total+=value.length;if(total>MAX){await reader.cancel();throw fail('Receipt photos can be up to 5 MB.',413)}chunks.push(value)}if(!total)throw fail('Choose a photo.');const bytes=new Uint8Array(total);let p=0;for(const c of chunks){bytes.set(c,p);p+=c.length}return bytes}
+export async function readBytes(request,tooBig='Receipt photos can be up to 5 MB.'){const reader=request.body?.getReader();if(!reader)throw fail('Choose a photo.');let total=0;const chunks=[];for(;;){const {done,value}=await reader.read();if(done)break;total+=value.length;if(total>MAX){await reader.cancel();throw fail(tooBig,413)}chunks.push(value)}if(!total)throw fail('Choose a photo.');const bytes=new Uint8Array(total);let p=0;for(const c of chunks){bytes.set(c,p);p+=c.length}return bytes}
 
 export async function handleReceiptAnalysis(request,env,home){
  if(request.method!=='POST')throw fail('Method not allowed.',405);

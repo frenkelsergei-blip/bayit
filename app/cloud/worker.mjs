@@ -12,6 +12,7 @@ import {runReminderTick} from './scheduler.mjs';
 import {handleFinanceAPI} from './finance.mjs';
 import {handleDocumentAnalysis} from './document-analysis.mjs';
 import {handleReceiptAnalysis} from './receipt-analysis.mjs';
+import {handleNoteAnalysis} from './note-analysis.mjs';
 import {handleInsuranceReview} from './insurance-review.mjs';
 import {handleAIUsage} from './ai-usage.mjs';
 import {handleInsuranceIdentities} from './insurance-identities.mjs';
@@ -101,6 +102,7 @@ async function handle(request,env){const url=new URL(request.url),path=url.pathn
  if(path==='/api/family/join'&&request.method==='POST'){const body=await bodyJSON(request),tokenHash=await hash(String(body.token||''));return json({id:(await joinHousehold(env,user,tokenHash)).id})} // one join for every sign-in method (family-join.mjs)
  if(/^\/api\/insurance\/identities(?:\/lookup)?$/.test(path)){const home=await chosenHousehold(request,env,user);return request.method==='GET'||path.endsWith('/lookup')?handleInsuranceIdentities(request,env,home):audited(env,{home:home.id,actor:home.membership.member_id,action:'state.change'},()=>handleInsuranceIdentities(request,env,home))}
  if(path==='/api/shopping/receipt'){await limit(env,'ai-minute:'+user.id,{max:10});await limit(env,'ai-day:'+user.id,{max:60,period:86400000});return handleReceiptAnalysis(request,env,await chosenHousehold(request,env,user))}
+ if(path==='/api/shopping/note'){await limit(env,'ai-minute:'+user.id,{max:10});await limit(env,'ai-day:'+user.id,{max:60,period:86400000});return handleNoteAnalysis(request,env,await chosenHousehold(request,env,user))}
  if(path==='/api/documents/analyze'){await limit(env,'ai-minute:'+user.id,{max:10});await limit(env,'ai-day:'+user.id,{max:60,period:86400000});return handleDocumentAnalysis(request,env,await chosenHousehold(request,env,user))}
  if(path==='/api/vouchers'||path.startsWith('/api/vouchers/'))return handleVouchers(request,env,await chosenHousehold(request,env,user),path);
  if(path==='/api/message-plan/extract'||path==='/api/message-plan/apply')return handleMessagePlan(request,env,await chosenHousehold(request,env,user),path.split('/').at(-1));

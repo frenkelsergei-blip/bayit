@@ -130,6 +130,7 @@ export function validatePreference(key,value){
  if(key==='privacyDefaults'&&(!value||typeof value!=='object'||Object.entries(value).some(([k,v])=>!['noteVisibility','eventVisibility'].includes(k)||!['private','family'].includes(v))))throw Error('Choose valid privacy defaults.');
  if(key==='shoppingByUser'&&value&&typeof value==='object'&&Object.values(value).some(v=>v&&typeof v==='object'&&Object.entries(v).some(([k,x])=>!['suggest','liked','requests','dayMessage','addsMessage'].includes(k)||typeof x!=='boolean')))throw Error('Choose valid shopping settings.');
  if(['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser','turnOverrides','shoppingByUser'].includes(key)&&(!value||typeof value!=='object'||Array.isArray(value)))throw Error('Choose valid personal settings.');
+ if(key==='shoppingNoApproval'&&(!Array.isArray(value)||value.length>50||value.some(v=>typeof v!=='string'||!v||v.length>100)))throw Error('Choose valid children.');
  if(key==='features')validateFeatures(value);
  if(key==='familyProfile')normalizeFamilyProfile(value);
  if(key==='featuresByUser')validateFeaturesByUser(value);

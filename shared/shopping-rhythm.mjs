@@ -58,6 +58,7 @@ export function shoppingSuggestions({list,purchases=[],marks=[],favourites=[],it
   const seen=new Set(out.map(s=>s.key));
   for(const f of favourites){
    if(f.kind!=='likes'||f.status!=='approved')continue;
+   if(f.visibility==='private'&&!sameAudience(f,list))continue; // "only me" (2026-11-12): only on that person's own private list
    const key=f.key||productKey(f);if(blocked(key)||seen.has(key))continue;
    const last=purchaseDays(byKey.get(key)||[]).at(-1),since=last?daysBetween(last,shopDate):null;
    if(since!==null&&since<RHYTHM.likedDays)continue;

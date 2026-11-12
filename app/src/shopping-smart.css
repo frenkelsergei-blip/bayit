@@ -90,6 +90,12 @@
 .ss-rline>.ss-raw{grid-area:raw;font-size:calc(13px * var(--font-adjust,1));font-weight:700;color:var(--muted);margin-bottom:4px}
 .ss-rline>svg,.ss-rline>img,.ss-rline>.color-icon{grid-area:i}.ss-rline>.ss-text{grid-area:t}.ss-rline>.ss-price{grid-area:p;white-space:nowrap}.ss-rline>.icon-button{grid-area:x}
 .ss-ask{background:var(--yellow);border-radius:14px;padding:10px}
+/* Receipt "Correct?" (2026-11-12): asked once per printed line, then remembered. */
+.ss-rline{grid-template-areas:"raw raw raw raw" "i t p x" "f f f f"}
+.ss-q{display:inline-flex;justify-self:start;width:max-content;align-items:center;gap:5px;margin-top:4px;min-height:32px;padding:0 10px 0 8px;border:0;border-radius:999px;background:var(--surface);color:var(--text);font:inherit;font-weight:800;font-size:calc(14px * var(--font-adjust,1));cursor:pointer}
+.ss-qform{grid-area:f;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-top:10px}
+.ss-qform label{display:grid;gap:4px;font-weight:800;font-size:calc(13.5px * var(--font-adjust,1))}
+.ss-qform input{min-height:44px}
 .ss-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .ss-stats>div{background:var(--bg);border-radius:16px;padding:12px;display:grid;gap:2px}
 .ss-stats small{color:var(--muted);font-weight:700}.ss-stats b{font-size:calc(22px * var(--font-adjust,1))}.ss-stats span{color:var(--muted);font-size:calc(12.5px * var(--font-adjust,1));font-weight:600;line-height:1.35}
@@ -115,3 +121,14 @@
 .ss-quickdays{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
 .ss-quickday{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:800;cursor:pointer}
 .ss-quickday.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary,#fff)}
+
+/* A photographed shopping note (2026-11-12, concept r2q3-snap). */
+.ss-snap{flex-basis:100%;width:100%;justify-content:center;margin-top:6px}
+.ss-pickrow{display:grid;grid-template-columns:auto auto 1fr;gap:12px;align-items:center;min-height:56px;padding:10px 0;cursor:pointer}
+.ss-pickrow+.ss-pickrow{border-top:1px solid var(--border)}
+.ss-q2{margin-inline-start:10px;color:var(--muted);font-weight:800}
+
+/* Only me and per-child approval (2026-11-12, concepts r3a / r3b). */
+.ss-only{display:inline-flex;gap:4px;align-items:center;font-size:calc(12.5px * var(--font-adjust,1));padding:2px 8px;vertical-align:middle;margin-inline-start:8px}
+.ss-sw-face{grid-template-columns:auto 1fr auto}
+.ss-onlyme{margin-top:6px}

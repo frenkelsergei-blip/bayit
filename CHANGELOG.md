@@ -4,6 +4,13 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.69.0 · 2026-11-12
+
+- Shopping: photograph a handwritten note. Your household's AI helper turns it into a list to tick; items already on the list start unticked, and nothing is added until you press "Add N items". The photo is not kept. For adults, from the list's ⋯ menu.
+- Receipts: a line Bayit doesn't recognise asks "Correct?" once. Tell it what the line is and it remembers the name for the next receipt.
+- Liked at home: an adult can keep a favourite to themselves with "Only me"; it is suggested only on their own private list.
+- Parents can let a child's likes go straight in, child by child, in Shopping settings. By default every child still asks.
+
 ## 1.68.0 · 2026-11-12
 
 - The shopping list now suggests what to buy. One card above the list, "Before the shop", based on what you usually buy. Go through the suggestions one at a time: add, already bought, not this time, or stop suggesting. It works without AI, and you can turn it off in Shopping settings.

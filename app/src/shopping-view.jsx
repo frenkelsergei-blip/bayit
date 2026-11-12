@@ -5,11 +5,11 @@ import {PersonChip} from './person-chip';
 import React,{useState,useEffect,useLayoutEffect,useRef} from 'react';
 import {createPortal} from 'react-dom';
 import {DensityToggle} from './density';
-import {Plus,MagnifyingGlass,PencilSimple,X,Check,Trash,Tag,ArrowCounterClockwise,Basket,LockSimple,CaretDown,GearSix,BellRinging} from '@phosphor-icons/react';
+import {Plus,MagnifyingGlass,PencilSimple,X,Check,Trash,Tag,ArrowCounterClockwise,Basket,LockSimple,CaretDown,GearSix,BellRinging,Camera} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
 import {SwipeRow} from './swipe-row';
 import {Select} from './Select';
-import {SmartCard,DateLine,ReviewWindow,SettingsWindow,FavouritesWindow,ReceiptWindow,PricesWindow,DoneCard,useShoppingSmart} from './shopping-smart';
+import {SmartCard,DateLine,ReviewWindow,SettingsWindow,FavouritesWindow,ReceiptWindow,PricesWindow,NoteWindow,DoneCard,useShoppingSmart} from './shopping-smart';
 import {isNewItem,parseQuickAdd} from '../../shared/shopping-rhythm.mjs';
 import {useShoppingLists} from './shopping-lists';
 import {matchItem,SHOPPING_CATEGORIES,SHOPPING_CATEGORY_KEYS} from '../../shared/item-dictionary.mjs';
@@ -42,7 +42,7 @@ export function ShoppingView({app:a,ui}){
  const shown=items.filter(i=>(filter==='remaining'?!i.done:filter==='bought'?i.done:true)&&(groupFilter==='all'||i.group===groupFilter)&&(!search||a.text(i).toLowerCase().includes(search.toLowerCase())||String(i.title||'').toLowerCase().includes(search.toLowerCase())));
  const smart=useShoppingSmart(a,currentList,items),quick=parseQuickAdd(value),many=quick.length>1;
  const newIds=new Set(items.filter(i=>isNewItem(i,smart.shop)).map(i=>i.id)),duringShop=smart.shop?shown.filter(i=>newIds.has(i.id)):[];
- const lists=useShoppingLists({app:a,tab,onSelect:selectList,counts:[done,items.length],onSettings:()=>setSmartWindow(smart.child?'favourites':'settings'),onReceipt:smart.child?null:()=>setSmartWindow('receipt'),onPrices:smart.child?null:()=>setSmartWindow('prices'),ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}});
+ const lists=useShoppingLists({app:a,tab,onSelect:selectList,counts:[done,items.length],onSettings:()=>setSmartWindow(smart.child?'favourites':'settings'),onReceipt:smart.child?null:()=>setSmartWindow('receipt'),onPrices:smart.child?null:()=>setSmartWindow('prices'),onNote:smart.child?null:()=>setSmartWindow('note'),ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}});
  useEffect(()=>{if(focusNext.current&&input.current){focusNext.current=false;input.current.focus({preventScroll:false})}},[tab,currentList?.id]);
  // Keep the add bar under the phone top bar while scrolling.
  useEffect(()=>{const set=()=>{const top=document.querySelector('.mobile-top'),h=top&&getComputedStyle(top).display!=='none'?top.getBoundingClientRect().height:0;addBar.current?.style.setProperty('--shop2-sticky',Math.round(h)+'px')};set();addEventListener('resize',set);return()=>removeEventListener('resize',set)},[]);
@@ -80,7 +80,7 @@ export function ShoppingView({app:a,ui}){
      <input ref={input} id="add-shopping" className="shop2-add-name" autoComplete="off" enterKeyHint="done" maxLength={80} aria-label={a.T('Add an item to ','הוספת פריט לרשימה ')+listName} placeholder={a.T('Add an item, e.g. milk','הוסיפו פריט, למשל חלב')} value={value} onChange={e=>setValue(e.target.value)}/>
      <span className="shop2-add-qty"><input type="number" inputMode="decimal" min="0.01" step="0.01" aria-label={a.T('Quantity','כמות')} value={quantity} onChange={e=>setQuantity(e.target.value)}/><Select aria-label={a.T('Unit','יחידה')} value={unit} onChange={e=>setUnit(e.target.value)}>{UNITS.map(([en,he])=><option value={en} key={en}>{a.T(en,he)}</option>)}</Select></span>
      <button type="submit" className="shop2-add-submit" aria-label={many?a.T('Add '+quick.length+' items','הוספת '+quick.length+' פריטים'):a.T('Add item to list','הוספה לרשימה')}><Plus size={22} weight="bold"/><span>{many?a.T('Add '+quick.length,'הוספת '+quick.length):a.T('Add','הוספה')}</span></button>
-     <p className="shop2-add-hint" aria-live="polite">{many?<span className="ss-preview"><b>{a.T(quick.length+' items:',quick.length+' פריטים:')}</b>{quick.map((q,i)=><span className="ss-pv" key={i}><Icon code={guess(q.name).icon} size={22}/>{q.name}{q.quantity!==1?' · '+q.quantity:''}</span>)}</span>:live?<><Icon code={categoryOf(live.group)[2]} size={20}/>{a.T('Category: ','קטגוריה: ')}<b>{a.T(...categoryOf(live.group).slice(0,2))}</b>{live.learned?' · '+a.T('as you chose before','כמו שבחרתם בעבר'):''}</>:a.T('The picture and category are chosen for you. You can change them later.','התמונה והקטגוריה נבחרות אוטומטית. אפשר לשנות אחר כך.')}</p>
+     <p className="shop2-add-hint" aria-live="polite">{many?<span className="ss-preview"><b>{a.T(quick.length+' items:',quick.length+' פריטים:')}</b>{quick.map((q,i)=><span className="ss-pv" key={i}><Icon code={guess(q.name).icon} size={22}/>{q.name}{q.quantity!==1?' · '+q.quantity:''}</span>)}{!smart.child&&<button type="button" className="button secondary ss-snap" onClick={()=>setSmartWindow('note')}><Camera size={20}/>{a.T('Photograph a list','צילום רשימה')}</button>}</span>:live?<><Icon code={categoryOf(live.group)[2]} size={20}/>{a.T('Category: ','קטגוריה: ')}<b>{a.T(...categoryOf(live.group).slice(0,2))}</b>{live.learned?' · '+a.T('as you chose before','כמו שבחרתם בעבר'):''}</>:a.T('The picture and category are chosen for you. You can change them later.','התמונה והקטגוריה נבחרות אוטומטית. אפשר לשנות אחר כך.')}</p>
     </form>:<div className="shop2-closed"><p>{a.T('This list is closed. Reopen it, or reuse it for a new trip, to add items.','הרשימה סגורה. פתחו אותה מחדש או השתמשו בה לקנייה חדשה כדי להוסיף פריטים.')}</p></div>)}
     {duplicate&&<div className="shopping-duplicate" role="status"><p>{a.T('Already on this list: ','כבר ברשימה הזו: ')}<strong>{a.text(duplicate)}</strong> · {quantityText(duplicate)}</p><div className="actions"><Button disabled={saving||unitOf(duplicate)!==unit} onClick={()=>add({preventDefault(){}},'merge')}>{a.T('Add to its quantity','הוספה לכמות הקיימת')}</Button><Button secondary disabled={saving} onClick={()=>add({preventDefault(){}},'separate')}>{a.T('Add a separate item','הוספת פריט נפרד')}</Button><Button quiet onClick={()=>setDuplicate(null)}>{a.T('Cancel','ביטול')}</Button></div>{unitOf(duplicate)!==unit&&<small>{a.T('Different units: edit the existing item or add separately.','היחידות שונות: אפשר לערוך את הפריט הקיים או להוסיף בנפרד.')}</small>}</div>}
     <DateLine a={a} list={currentList} smart={smart} ui={{Button,Avatar}}/>
@@ -110,6 +110,7 @@ export function ShoppingView({app:a,ui}){
   {smartWindow==='review'&&<ReviewWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} smart={smart} onClose={()=>setSmartWindow(null)} onSettings={()=>setSmartWindow('settings')}/>}
   {smartWindow==='settings'&&<SettingsWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} smart={smart} onClose={()=>setSmartWindow(null)} onFavourites={()=>setSmartWindow('favourites')}/>}
   {smartWindow==='receipt'&&<ReceiptWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} items={items} onClose={()=>setSmartWindow(null)}/>}
+  {smartWindow==='note'&&<NoteWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} items={items} quantityText={quantityText} onClose={()=>setSmartWindow(null)}/>}
   {smartWindow==='prices'&&<PricesWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} onClose={()=>setSmartWindow(null)}/>}
   {smartWindow==='favourites'&&<FavouritesWindow a={a} ui={{Icon,Button,Avatar}} list={currentList} smart={smart} onClose={()=>setSmartWindow(null)}/>}
   {editor&&<div className="modal-backdrop tasks-sheet-backdrop shop-item-backdrop" onMouseDown={e=>e.target===e.currentTarget&&!saving&&guard(()=>setEditor(null))}><form className="tasks-sheet shop-item-sheet" role="dialog" aria-modal="true" aria-label={a.T('Edit item','עריכת פריט')} onSubmit={save}>
