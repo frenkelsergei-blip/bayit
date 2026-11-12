@@ -176,7 +176,7 @@ export function whoWePay(rows,{policies=[],settings={},today,until}={}){
   if(NOT_PROVIDERS.has(r.category))return true;
   if(isRetail(raw))return !(r.standingOrder&&r.installmentsLeft==null);
   return !canon.has(r.description)&&r.installmentsLeft!=null&&!INSTALMENTS_COUNT.has(r.category)};
- const recurring=recurringPayments(series).filter(r=>!notProvider(r));
+ const recurring=recurringPayments(series,{partial:until?null:(today||'').slice(0,7)||null}).filter(r=>!notProvider(r));
  // recurringPayments groups by source + normalized description; find each group's latest row and statement names.
  // Each group's rows are kept as its payment history (id, date, month, amount), so the page can list them and open
  // them in Transactions.

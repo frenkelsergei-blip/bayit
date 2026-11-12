@@ -11,7 +11,11 @@ async function readUpload(request){
  if(!size)throw fail('Choose a nonempty file.');const bytes=new Uint8Array(size);let offset=0;for(const part of parts){bytes.set(part,offset);offset+=part.length}return bytes;
 }
 export async function releaseReservation(env,id){await env.DB.batch([env.DB.prepare('UPDATE file_quotas SET reserved_bytes=MAX(0,reserved_bytes-COALESCE((SELECT size FROM file_reservations WHERE id=?),0)) WHERE household_id=(SELECT household_id FROM file_reservations WHERE id=?)').bind(id,id),env.DB.prepare('DELETE FROM file_reservations WHERE id=?').bind(id)])}
-const referenced="EXISTS(SELECT 1 FROM household_data hd,json_each(hd.state,'$.documents') d WHERE hd.household_id=files.household_id AND json_extract(d.value,'$.fileId')=files.id)";
+// A file stays while a document or a receipt (its photo, 2026-11-12) uses it.
+const referenced="(EXISTS(SELECT 1 FROM household_data hd,json_each(hd.state,'$.documents') d WHERE hd.household_id=files.household_id AND json_extract(d.value,'$.fileId')=files.id) OR EXISTS(SELECT 1 FROM household_data hd,json_each(hd.state,'$.receipts') r WHERE hd.household_id=files.household_id AND json_extract(r.value,'$.fileId')=files.id))";
+// Receipt photos (owner's request 2026-11-12): adults only, an image, re-encoded by the app and at most RECEIPT_MAX.
+export const RECEIPT_MAX=1536*1024;
+const adult=(home,actor)=>home.state.members.find(m=>m.id===actor)?.role!=='child';
 export async function removeFile(env,row){
  await env.FILES.delete(row.object_key);
  await env.DB.batch([env.DB.prepare('UPDATE file_quotas SET used_bytes=MAX(0,used_bytes-COALESCE((SELECT size FROM files WHERE id=? AND deleting_at IS NOT NULL),0)) WHERE household_id=?').bind(row.id,row.household_id),env.DB.prepare('DELETE FROM files WHERE id=? AND household_id=? AND deleting_at IS NOT NULL').bind(row.id,row.household_id)]);
@@ -21,7 +25,8 @@ export async function handleFiles(request,env,home,id){
  const actor=home.membership.member_id,existing=await env.DB.prepare('SELECT * FROM files WHERE id=? AND household_id=?').bind(id,home.id).first();
  if(request.method==='GET'){
   const attached=home.state.documents.some(d=>d.fileId===id&&!d.deletedAt&&displayable(d,'documents')&&canSee(d,actor));
-  if(!existing||existing.deleting_at||existing.owner_id!==actor&&!attached)throw fail('This file is unavailable.',404);
+  const receipt=(home.state.receipts||[]).some(r=>r.fileId===id),seesReceipt=receipt&&adult(home,actor)&&(home.state.receipts||[]).some(r=>r.fileId===id&&!r.deletedAt&&canSee(r,actor));
+  if(!existing||existing.deleting_at||receipt&&!adult(home,actor)||existing.owner_id!==actor&&!attached&&!seesReceipt)throw fail('This file is unavailable.',404);
   const object=await env.FILES.get(existing.object_key);if(!object)throw fail('This file is unavailable.',404);
   const filename=existing.filename.replace(/["\\\r\n]/g,'');return new Response(object.body,{headers:{'Content-Type':existing.mime,'Content-Disposition':"attachment; filename=\""+filename.replace(/[^\x20-\x7e]/g,'_')+"\"; filename*=UTF-8''"+encodeURIComponent(filename),"Content-Security-Policy":"sandbox; default-src 'none'",'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});
  }
@@ -32,7 +37,9 @@ export async function handleFiles(request,env,home,id){
  }
  if(request.method!=='PUT')throw fail('Method not allowed.',405);if(existing)throw fail('This file already exists. Upload a new version.',409);
  const release=await uploadSlot(env);if(!release)throw fail('The attachment service is busy. Try again shortly.',429);
- try{const bytes=await readUpload(request);let mime;try{mime=uploadType(bytes,request.headers.get('Content-Type')||'application/octet-stream')}catch(e){throw fail(e.message)}
+ try{const purpose=request.headers.get('X-Bayit-Purpose');if(purpose==='receipt'&&!adult(home,actor))throw fail('Receipts are available to adult accounts.',403);
+ const bytes=await readUpload(request);let mime;try{mime=uploadType(bytes,request.headers.get('Content-Type')||'application/octet-stream')}catch(e){throw fail(e.message)}
+ if(purpose==='receipt'&&(!['image/jpeg','image/png','image/webp'].includes(mime)||bytes.length>RECEIPT_MAX))throw fail('Use a receipt photo under 1.5 MB (JPEG, PNG or WebP).',413);
  let filename;try{filename=decodeURIComponent(request.headers.get('X-File-Name')||'document')}catch{throw fail('Choose a valid filename.')}filename=filename.replace(/[\x00-\x1f\x7f"\\]/g,'').slice(0,200)||'document';
  const reservation=crypto.randomUUID(),size=bytes.length,key=home.id+'/'+id+'/'+reservation;
  const reserved=await env.DB.batch([

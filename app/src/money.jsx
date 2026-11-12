@@ -10,6 +10,7 @@ import {CategoryCards,CategorySheet} from './money-detail';
 import {TransactionSheet} from './money-transaction';
 import {MoneyGoalCard} from './money-goals';
 import {ProvidersView,useProviderSettings,usePayees} from './providers-view';
+import {MoneyCategories} from './money-categories';
 import {manualMoneyRow} from '../../shared/money-records.mjs';
 import {paymentSources,matchesSources,ownerOfRow,sourceDigits,sourceName,memberNames} from '../../shared/payment-sources.mjs';
 import {SourceFilter,SourceLabel,SourcesEditor} from './payment-sources';
@@ -34,9 +35,11 @@ export function MoneyView({app:a,ui}){
  const {Button,Icon,Avatar,Tabs,Select,Empty}=ui;
  const routeParams=new URLSearchParams(a.route.split('?')[1]||'');
  const [data,setData]=useState(null),[error,setError]=useState(''),[tab,setTab]=useState('overview'),[scope,setScope]=useState(routeParams.get('scope')==='private'?'private':'family'),[month,setMonth]=useState(/^\d{4}-\d{2}$/.test(routeParams.get('month')||'')?routeParams.get('month'):anchor.slice(0,7)),[importing,setImporting]=useState(false),[insights,setInsights]=useState(null),[insightBusy,setInsightBusy]=useState(false),[insightError,setInsightError]=useState(''),[sheet,setSheet]=useState(null),[ledgerCategory,setLedgerCategory]=useState('all');
- const [refreshing,setRefreshing]=useState(false),[loadedAt,setLoadedAt]=useState(null),[freshnessError,setFreshnessError]=useState(''),[transactionId,setTransactionId]=useState(null),[manualEdit,setManualEdit]=useState(null);
+ const [refreshing,setRefreshing]=useState(false),[loadedAt,setLoadedAt]=useState(null),[freshnessError,setFreshnessError]=useState(''),[transactionId,setTransactionId]=useState(null),[manualEdit,setManualEdit]=useState(null),[openCategory,setOpenCategory]=useState(null);
  useEffect(()=>{const p=new URLSearchParams(a.route.split('?')[1]||'');if(p.has('scope'))setScope(p.get('scope')==='private'?'private':'family');if(/^\d{4}-\d{2}$/.test(p.get('month')||''))setMonth(p.get('month'));
   // Deep link to Who we pay (and one provider's details): household/expenses?view=providers&provider=<key>&month=YYYY-MM
+  // Deep link to Categories (Statistics opens a category here): household/expenses?view=categories&category=car&month=YYYY-MM
+  if(p.get('view')==='categories'){setTab('categories');const c=p.get('category');if(c&&CATEGORY[c])setOpenCategory(c)}
   if(p.get('view')==='providers'){setTab('recurring');const key=p.get('provider');if(key&&/^(p|m|ins|add):[\p{L}\p{N}_-]{1,80}$/u.test(key))setProviderReturn(key)}},[a.route]);
  const he=a.lang==='he',T=a.T,money=(agorot,{sign=false,fraction}={})=>{const v=agorot/100;return '\u2066'+(sign&&v>0?'+':v<0&&sign?'−':'')+'₪'+Math.abs(v).toLocaleString(he?'he-IL':'en-US',{maximumFractionDigits:fraction??(Math.abs(v)>=1000?0:2)})+'\u2069'}; // An amount always reads left-to-right (−₪55), also inside Hebrew text.
  const catName=id=>he?CATEGORY[id]?.he:CATEGORY[id]?.en,monthName=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'long',year:'numeric'}),shortMonth=m=>new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'short'});
@@ -97,7 +100,7 @@ export function MoneyView({app:a,ui}){
   <Tabs variant="filter" value={scope} onChange={setScope} items={[["family",T('Together','ביחד')],["private",T('Just me','רק אני')]]}/>
   <button type="button" className="button money-income money-controls-end" aria-label={T('Income / expense','הכנסה / הוצאה')} onClick={()=>{setManualEdit({id:crypto.randomUUID(),title:'',he:'',flow:'expense',category:'Groceries',icon:'1F6D2',amount:'',date:anchor,memberId:a.user,ownerId:a.user,visibility:scope==='private'||!a.members.some(m=>m.role!=='child'&&m.id!==a.user)?'private':'selected',allowedIds:scope==='private'?[]:a.members.filter(m=>m.role!=='child'&&m.id!==a.user).map(m=>m.id)});setTab('manual')}}><PencilSimple size={20}/><span className="money-income-long">{T('Income / expense','הכנסה / הוצאה')}</span><span className="money-income-short">{T('Add','הוספה')}</span></button>
  </>;
- const nav=<Tabs variant="view" value={tab} onChange={v=>{setTab(v);setProviderLink(null);setProviderReturn(null);if(v!=='transactions')setLedgerCategory('all')}} items={[["overview",T('Summary','סיכום'),null],["transactions",T('Transactions','תנועות'),null,rows.filter(t=>monthOf(t)===current).length],["recurring",T('Who we pay','למי משלמים'),null,payees.count]]}/>;
+ const nav=<Tabs variant="view" value={tab} onChange={v=>{setTab(v);setProviderLink(null);setProviderReturn(null);if(v!=='transactions')setLedgerCategory('all')}} items={[["overview",T('Summary','סיכום'),null],["transactions",T('Transactions','תנועות'),null,rows.filter(t=>monthOf(t)===current).length],["categories",T('Categories','קטגוריות'),null,summary.byCategory.length],["recurring",T('Who we pay','למי משלמים'),null,payees.count]]}/>;
  const noData=!all.length,transaction=rows.find(t=>t.id===transactionId);
 
  return <div className={'money-page money-tab-'+tab}>
@@ -128,6 +131,7 @@ export function MoneyView({app:a,ui}){
     <div className="money-span-5 money-sources"><Connections a={a} T={T} data={data} Avatar={Avatar} onOpen={()=>a.go('settings/connections?open=riseup')}/><Statements a={a} T={T} data={data} onRemove={async id=>{if(!window.confirm(T('Remove this statement and its transactions?','להסיר את הדף ואת התנועות שלו?')))return;try{await api('imports/'+id,{method:'DELETE'});await load()}catch(e){setError(e.message)}}}/></div>
    </div>}
    {tab==='transactions'&&<Ledger key={ledgerCategory+'|'+scope+'|'+(providerLink?.key||'')} only={providerLink} onBack={backToProviders} onClearOnly={()=>setProviderLink(null)} initialCategory={ledgerCategory} a={a} ui={ui} T={T} money={money} catName={catName} rows={rows} sources={sourceIndex} onEditSources={()=>setEditingSources(true)} month={current} links={links} data={data} reload={load} onSelect={t=>setTransactionId(t.id)}/>}
+   {tab==='categories'&&<MoneyCategories a={a} Icon={Icon} T={T} money={money} catName={catName} rows={rows} groups={groups} month={current} payees={payees} selected={openCategory} onSelectCategory={setOpenCategory} onSelect={t=>setTransactionId(t.id)}/>}
    {tab==='recurring'&&<ProvidersView a={a} ui={ui} summary={payees} store={providerStore} scope={scope} onTransactions={showProviderPayments} reopen={providerReturn}/>}
    {/* Coverage note sits below the numbers, not between the controls and the data (user, 2026-11-09). */}
    {partial&&tab!=='recurring'&&!(tab==='transactions'&&providerLink)?<p className="money-partial money-note money-note-end"><Info size={18}/>{current===(a.today||anchor).slice(0,7)?T('This month is still in progress, so its totals will grow.','החודש עדיין בעיצומו, ולכן הסכומים עוד יגדלו.'):<>{T('Partial month: your bank statements cover only part of ','חודש חלקי: דפי הבנק מכסים רק חלק מ')}{monthName(current)}.</>}</p>:null}

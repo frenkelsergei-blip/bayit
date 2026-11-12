@@ -3,7 +3,7 @@ import React,{useEffect,useMemo,useState} from 'react';
 import {X,TrendUp,TrendDown,ArrowRight,ArrowLeft,Receipt,Storefront,ChartBar} from '@phosphor-icons/react';
 import {ResponsiveContainer,BarChart,Bar,XAxis,Cell,Tooltip} from 'recharts';
 import {cloudHeaders} from './cloud-transport';
-import {CATEGORY,monthOf,shiftMonth,monthSummary,normalizeName,forecast,recurringPayments} from '../../shared/finance.mjs';
+import {CATEGORY,monthOf,shiftMonth,monthSummary,monthExpenseRows,normalizeName,forecast,recurringPayments} from '../../shared/finance.mjs';
 import {WidgetSkeleton} from './skeleton';
 
 const tint=(hex,alpha)=>{const h=(hex||'#cccccc').replace('#','');const n=parseInt(h.length===3?h.split('').map(c=>c+c).join(''):h,16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${alpha})`};
@@ -31,7 +31,8 @@ export function CategoryCards({a,T,money,catName,summary,previous,Icon,onOpen}){
 // Everything about one category in one place: history, top merchants and every transaction.
 export function CategorySheet({a,T,money,catName,rows,groups,month,item,Icon,Avatar,onClose,onOpenLedger,onSelect}){
  const he=a.lang==='he',categories=item.members||[item.category],match=t=>categories.includes(t.category);
- const list=rows.filter(t=>monthOf(t)===month&&match(t)&&t.amount<0&&t.kind!=='card_payment').sort((x,y)=>x.amount-y.amount);
+ // The same rows the category card counts (refunds subtract, card payments without details included), so the totals agree.
+ const list=monthExpenseRows(rows,groups,month).filter(match).sort((x,y)=>x.amount-y.amount);
  const history=[5,4,3,2,1,0].map(i=>shiftMonth(month,-i)).map(m=>({m,label:new Date(m+'-15T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{month:'short'}),v:monthSummary(rows,groups,m).byCategory.filter(c=>categories.includes(c.category)).reduce((n,c)=>n+c.amount,0)/100})).map(x=>({...x,v:Math.max(0,x.v)})).filter((x,i,arr)=>arr.slice(0,i+1).some(y=>y.v>0));
  const total=list.reduce((n,t)=>n-t.amount,0),spent=monthSummary(rows,groups,month).expenses||1,last=history.length>1?history.at(-2).v*100:0,d=pct(total,last);
  const merchants=Object.values(list.reduce((acc,t)=>{const k=normalizeName(t.description);acc[k]=acc[k]||{name:t.description,total:0,count:0};acc[k].total-=t.amount;acc[k].count++;return acc},{})).sort((x,y)=>y.total-x.total).slice(0,5);

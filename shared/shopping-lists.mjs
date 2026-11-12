@@ -7,11 +7,23 @@ export function canDeleteShoppingItem(item,lists,actorId){
  if(!item)return false;if(item.ownerId===actorId)return true;if(item.visibility==='private'||!canAccessList(item,actorId))return false;
  const list=(lists||[]).find(l=>l.id===(item.listId||'week'));return !list||canAccessList(list,actorId);
 }
+// Who sees an item on a list (owner report 2026-11-12): the list's own people. On a list shared with chosen people that
+// includes the list's owner, also when someone else adds the item; items used to copy only the list's allowedIds, so
+// what one parent added to the other's list was hidden from the list's owner, and renaming it could not find a list with the same audience.
+export function itemAudience(list,ownerId){
+ if(!list||list.visibility==='family')return {visibility:'family',allowedIds:[]};if(list.visibility==='private')return {visibility:'private',allowedIds:[]};
+ return {visibility:'selected',allowedIds:[...new Set([list.ownerId,...(list.allowedIds||[])])].filter(id=>id&&id!==ownerId)};
+}
+export function includeListOwner(item,list){
+ if(list?.visibility==='selected'&&item?.visibility==='selected'&&item.ownerId!==list.ownerId&&Array.isArray(item.allowedIds)&&!item.allowedIds.includes(list.ownerId))item.allowedIds=[...item.allowedIds,list.ownerId];
+ return item;
+}
 export const canDeleteShoppingList=(list,actorId)=>!!list&&list.ownerId===actorId&&list.id!==personalShoppingListId(list.ownerId);
 export function upgradeShoppingLists(data,members){
  const owner=members.find(m=>m.role==='parent')?.id||members[0]?.id;
  if(!Array.isArray(data.shoppingLists))data.shoppingLists=[['week','This week','השבוע'],['school','School supplies','ציוד לבית הספר'],['home','Household','לבית']].map(([id,name,he])=>({id,name,he,ownerId:owner,visibility:'family',allowedIds:[],status:'active',createdAt:'2026-11-04T00:00:00Z'}));
  for(const item of data.shopping||[]){if(item.visibility==='private'&&['week','school','home'].includes(item.listId||'week'))item.listId='private-'+item.ownerId+'-'+(item.listId||'week');const listId=item.listId||'week';if(!data.shoppingLists.some(l=>l.id===listId))data.shoppingLists.push({id:listId,name:item.visibility==='private'?'My shopping':'Shopping list',he:item.visibility==='private'?'הקניות שלי':'רשימת קניות',ownerId:item.ownerId||owner,visibility:item.visibility||'family',allowedIds:item.allowedIds||[],status:'active',createdAt:'2026-11-04T00:00:00Z'})}
+ for(const item of data.shopping||[])includeListOwner(item,data.shoppingLists.find(l=>l.id===(item.listId||'week')));
  for(const member of members){const id='private-'+member.id+'-week';if(!data.shoppingLists.some(l=>l.id===id))data.shoppingLists.push({id,name:'My shopping',he:'הקניות שלי',ownerId:member.id,visibility:'private',allowedIds:[],status:'active',createdAt:'2026-11-04T00:00:00Z'})}
  return data;
 }

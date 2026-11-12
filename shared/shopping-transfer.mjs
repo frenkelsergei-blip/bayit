@@ -1,5 +1,5 @@
 import {matchItem,words} from './item-dictionary.mjs';
-import {canAccessList,createShoppingList} from './shopping-lists.mjs';
+import {canAccessList,createShoppingList,itemAudience} from './shopping-lists.mjs';
 export const shoppingIdentity=name=>matchItem(name).key||words(name).join(' ');
 const audience=r=>r.visibility==='family'?'family':r.visibility==='private'?'private:'+r.ownerId:'selected:'+Array.from(new Set([r.ownerId,...(r.allowedIds||[])])).sort().join(',');
 export function shoppingTarget(data,source,actor,{preferredId,name='Home essentials'}={}){
@@ -13,7 +13,7 @@ export function transferShoppingItems(data,items,source,actor,options){
  for(const item of items){const title=String(item.title||item.name||'').trim();if(!title)continue;const key=shoppingIdentity(title);
   if(data.shopping.some(r=>r.listId===list.id&&!r.done&&shoppingIdentity(r.title)===key)){skipped++;continue}
   const match=matchItem(title),quantityValue=Number(item.quantityValue??item.quantity)||1,unit=item.unit||'items';
-  data.shopping.push({id:crypto.randomUUID(),title,he:item.he||title,icon:item.icon||match.icon,quantityValue,quantity:quantityValue+' '+unit,unit,group:item.group||match.group,memberId:actor,ownerId:actor,visibility:list.visibility,allowedIds:list.allowedIds||[],listId:list.id,done:false});added++;
+  data.shopping.push({id:crypto.randomUUID(),title,he:item.he||title,icon:item.icon||match.icon,quantityValue,quantity:quantityValue+' '+unit,unit,group:item.group||match.group,memberId:actor,ownerId:actor,...itemAudience(list,actor),listId:list.id,done:false});added++;
  }
  return {added,skipped,listId:list.id};
 }

@@ -113,6 +113,8 @@ export function shopInProgress(items,now=Date.now()){
  for(let i=all.indexOf(start)-1;i>=0&&Date.parse(start)-Date.parse(all[i])<=NEW_MINUTES*60000;i--)start=all[i];
  return {startedAt:start,by:ticks.at(-1).by,lastAt:ticks.at(-1).at};
 }
+// Added after this shop began: the "Added during the shop" group (not what was added before the first tick).
+export const addedDuringShop=(item,shop)=>!!shop&&!item.done&&!!item.createdAt&&item.createdAt>=shop.startedAt;
 export function isNewItem(item,shop,now=Date.now()){
  if(item.done||!item.createdAt)return false;
  if(shop&&item.createdAt>=shop.startedAt)return true;

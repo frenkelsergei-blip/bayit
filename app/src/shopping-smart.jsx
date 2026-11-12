@@ -4,17 +4,19 @@
 // no AI. A quiet date line shows the next shop; while someone shops, items added since then sit on top.
 // Styles: shopping-smart.css. Everything is written as ordinary household records and synced like the rest.
 import React,{useMemo,useState} from 'react';
-import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple} from '@phosphor-icons/react';
+import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
 import {PersonChip} from './person-chip';
 import {purchaseRecords} from './statistics';
 import {anchor} from './data';
 import {cloudHeaders} from './cloud-transport.js';
-import {matchLines,rememberedNames,priceHistory,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
+import {matchLines,rememberedNames,priceHistory,productId,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 import {tripFor,ShoppingTripControl} from './shopping-trip';
 import {matchItem} from '../../shared/item-dictionary.mjs';
 import {noteRows} from '../../shared/shopping-note.mjs';
+import {itemAudience,canAccessList} from '../../shared/shopping-lists.mjs';
+import {shopsOf,shopSummary,PAGE} from '../../shared/shopping-history.mjs';
 import {shoppingSuggestions,explainSuggestion,explainDates,markFor,productKey,shopInProgress,sameAudience} from '../../shared/shopping-rhythm.mjs';
 
 const DEFAULTS={suggest:true,liked:true,requests:true,dayMessage:true,addsMessage:true};
@@ -41,7 +43,7 @@ export function useShoppingSmart(a,list,items){
  return {prefs,child,parent,free,trip,shopDate,suggestions,requests,shop,favourites,marks};
 }
 
-const newItem=(a,list,s,quantity,extra={})=>{const match=matchItem(s.title||''),unit=s.unit||'items';return {id:crypto.randomUUID(),title:s.title,he:s.he||s.title,listId:list.id,quantityValue:quantity,unit,quantity:quantity+' '+unit,group:s.group||match.group,icon:s.icon||match.icon,done:false,memberId:a.user,ownerId:a.user,visibility:list.visibility,allowedIds:list.allowedIds||[],createdAt:new Date().toISOString(),createdBy:a.user,...extra}};
+const newItem=(a,list,s,quantity,extra={})=>{const match=matchItem(s.title||''),unit=s.unit||'items';return {id:crypto.randomUUID(),title:s.title,he:s.he||s.title,listId:list.id,quantityValue:quantity,unit,quantity:quantity+' '+unit,group:s.group||match.group,icon:s.icon||match.icon,done:false,memberId:a.user,ownerId:a.user,...itemAudience(list,a.user),createdAt:new Date().toISOString(),createdBy:a.user,...extra}};
 const onList=(d,list,key)=>(d.shopping||[]).some(i=>(i.listId||'week')===list.id&&!i.done&&productKey(i)===key);
 
 // ---------- the card above the list ----------
@@ -55,10 +57,10 @@ export function SmartCard({a,smart,onOpen,onAsk}){
 }
 
 // ---------- the quiet line: next shop, or someone shopping now ----------
-export function DateLine({a,list,smart,ui}){
+export function DateLine({a,list,smart,ui,onFinish}){
  if(!list||list.status!=='active')return null;
  if(smart.shop){const t=new Date(smart.shop.startedAt).toLocaleTimeString('en-GB',{timeZone:HOME_TIMEZONE,hour:'2-digit',minute:'2-digit'});
-  return <div className="ss-line ss-line-now" role="status" data-keep-clear><span className="ss-line-face"><ui.Avatar who={smart.shop.by} size={30}/></span><span><b>{smart.shop.by===a.user?a.T('You started shopping','התחלת קנייה'):a.T(a.name(smart.shop.by)+' is shopping now',a.name(smart.shop.by)+' בקניות עכשיו')}</b> · {a.T('since '+t,'מ־'+t)}</span><i className="ss-live" aria-hidden="true"/></div>}
+  return <div className="ss-line ss-line-now" role="status" data-keep-clear><span className="ss-line-face"><ui.Avatar who={smart.shop.by} size={30}/></span><span><b>{smart.shop.by===a.user?a.T('You started shopping','התחלת קנייה'):a.T(a.name(smart.shop.by)+' is shopping now',a.name(smart.shop.by)+' בקניות עכשיו')}</b> · {a.T('since '+t,'מ־'+t)}</span>{onFinish?<button type="button" className="button ss-small" onClick={onFinish}>{a.T('Finish','לסיים')}</button>:<i className="ss-live" aria-hidden="true"/>}</div>}
  const trip=smart.trip;if(!trip||!trip.date||trip.date<anchor)return null;
  return <div className="ss-line" data-keep-clear><CalendarCheck size={24} aria-hidden="true"/><span><b>{a.T('Next shop: ','הקנייה הבאה: ')+dayWord(a,trip.date)+(trip.time?', '+trip.time:'')}</b>{trip.memberId&&<small className="ss-line-who">{a.T('Who goes: ','מי הולך: ')+a.name(trip.memberId)}</small>}</span><ShoppingTripControl app={a} list={list} anchor={anchor} className="text-link ss-line-change" text={a.T('Change','שינוי')} ui={ui}/></div>;
 }
@@ -174,19 +176,24 @@ const useGroceries=a=>{const [tx,setTx]=useState(null);React.useEffect(()=>{if(!
 const money=(a,n)=>(Math.round(n*100)/100).toLocaleString(a.lang==='he'?'he-IL':'en-GB',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' ₪';
 const longDate=(a,d)=>d?new Date(d+'T12:00:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{timeZone:'UTC',day:'numeric',month:'long'}):'';
 
-export function DoneCard({a,onReceipt}){return <div className="ss-donecard" data-keep-clear><CheckCircle size={30} weight="fill" aria-hidden="true"/><span><strong>{a.T('Everything is in the bag','הכל נאסף')}</strong><small>{a.T('Photograph the receipt to keep the prices of this shop.','אפשר לצלם את הקבלה ולשמור את המחירים של הקנייה הזו.')}</small></span><button type="button" className="button ss-small" onClick={onReceipt}><Camera size={20}/>{a.T('Photograph receipt','לצלם קבלה')}</button></div>}
+export function DoneCard({a,onReceipt,title}){return <div className="ss-donecard" data-keep-clear><CheckCircle size={30} weight="fill" aria-hidden="true"/><span><strong>{title||a.T('Everything is in the bag','הכל נאסף')}</strong><small>{a.T('Photograph the receipt to keep the prices of this shop.','אפשר לצלם את הקבלה ולשמור את המחירים של הקנייה הזו.')}</small></span><button type="button" className="button ss-small" onClick={onReceipt}><Camera size={20}/>{a.T('Photograph receipt','לצלם קבלה')}</button></div>}
 
-export function ReceiptWindow({a,ui,list,items,onClose}){
- const {Icon,Button}=ui,tx=useGroceries(a),[busy,setBusy]=useState(false),[error,setError]=useState(''),[draft,setDraft]=useState(null),[pair,setPair]=useState(true),file=React.useRef(null);
- const read=async f=>{if(!f)return;setBusy(true);setError('');try{const r=await fetch('/api/shopping/receipt',{method:'POST',headers:{...cloudHeaders(),'Content-Type':'application/octet-stream','X-Bayit-Language':a.lang},body:f});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||a.T('The receipt could not be read.','לא הצלחנו לקרוא את הקבלה.'));setDraft({...d,lines:matchLines(d.lines,items,rememberedNames(a.visible(a.data.receipts||[])))})}catch(e){setError(e.message)}finally{setBusy(false)}};
- const expense=draft&&tx?matchExpense({total:draft.total,date:draft.date||anchor},tx):null;
- const save=()=>{const shopDate=draft.date||anchor;a.update(d=>{(d.receipts??=[]).push({id:crypto.randomUUID(),title:a.T('Receipt','קבלה')+(draft.store?' · '+draft.store:''),listId:list.id,ownerId:a.user,visibility:list.visibility,allowedIds:list.allowedIds||[],store:draft.store,total:draft.total,currency:draft.currency,shopDate,lines:draft.lines.map(({raw,name,key,quantity,unit,unitPrice,price,confirmed})=>({raw,name,key,quantity,unit,...(unitPrice!=null?{unitPrice}:{}),price,...(confirmed?{confirmed:true}:{})})),...(expense&&pair?{matchedExpenseId:String(expense.id||'')}:{}),createdAt:new Date().toISOString()})});a.notify(a.T('Receipt saved. Prices are in Shopping › Prices.','הקבלה נשמרה. המחירים ב"מחירים והוצאות".'));onClose()};
+export function ReceiptWindow({a,ui,list:asked,items,onClose,shop:forShop}){
+ // Which shop the receipt belongs to: the one it is attached to from History, or the shop just finished on this list without
+ // a receipt yet; otherwise the list (a receipt photographed before finishing moves with the shop).
+ const recent=forShop?null:recentShop(a,asked),list=forShop||(recent&&!summaryOf(a,recent).receipt?recent:asked),shopItems=forShop||list!==asked?summaryOf(a,list).bought:items;
+ const {Icon,Button}=ui,tx=useGroceries(a),[busy,setBusy]=useState(false),[error,setError]=useState(''),[draft,setDraft]=useState(null),[pair,setPair]=useState(true),[photo,setPhoto]=useState(null),file=React.useRef(null);
+ const read=async f=>{if(!f)return;setBusy(true);setError('');try{const small=await receiptPhoto(f).catch(()=>f);setPhoto(small instanceof Blob&&small!==f?small:null);const r=await fetch('/api/shopping/receipt',{method:'POST',headers:{...cloudHeaders(),'Content-Type':'application/octet-stream','X-Bayit-Language':a.lang},body:small});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||a.T('The receipt could not be read.','לא הצלחנו לקרוא את הקבלה.'));setDraft({...d,lines:matchLines(d.lines,shopItems,rememberedNames(a.visible(a.data.receipts||[])))})}catch(e){setError(e.message)}finally{setBusy(false)}};
+ const expense=draft&&tx?matchExpense({total:draft.total,charged:draft.charged,date:draft.date||anchor},tx):null;
+ // The photo is kept with the receipt (owner's request 2026-11-12); if that fails, the reading is still saved and the photo can be attached later.
+ const save=async()=>{const shopDate=draft.date||anchor;let fileId=null;if(photo){setBusy(true);try{fileId=await storeReceiptPhoto(photo)}catch{a.notify(a.T('The receipt is saved without its photo. You can attach it from Shopping history.','הקבלה נשמרה בלי התמונה. אפשר לצרף אותה מהיסטוריית הקניות.'))}finally{setBusy(false)}}
+  a.update(d=>{(d.receipts??=[]).push({id:crypto.randomUUID(),...(fileId?{fileId}:{}),title:a.T('Receipt','קבלה')+(draft.store?' · '+draft.store:''),listId:list.id,ownerId:a.user,...itemAudience(list,a.user),store:draft.store,total:draft.total,...(draft.paidOther?{paidOther:draft.paidOther,charged:draft.charged}:{}),currency:draft.currency,shopDate,lines:draft.lines.map(({raw,name,key,quantity,unit,unitPrice,price,discount,y,confirmed})=>({raw,name,key,quantity,unit,...(unitPrice!=null?{unitPrice}:{}),price,...(discount?{discount}:{}),...(y!=null?{y}:{}),...(confirmed?{confirmed:true}:{})})),...(expense&&pair?{matchedExpenseId:String(expense.id||'')}:{}),createdAt:new Date().toISOString()})});a.notify(a.T('Receipt saved. Prices are in Shopping › Prices.','הקבלה נשמרה. המחירים ב"מחירים והוצאות".'));onClose()};
  const removeLine=i=>setDraft(d=>({...d,lines:d.lines.filter((_,n)=>n!==i)}));
  const [asking,setAsking]=useState(null),[answer,setAnswer]=useState('');
  const confirm=i=>{const name=answer.trim();if(!name)return;setDraft(d=>({...d,lines:d.lines.map((l,n)=>n===i?{...l,name,key:productKey({title:name}),confirmed:true,sure:true}:l)}));setAsking(null)};
- return <Window a={a} title={a.T('The receipt of this shop','הקבלה של הקנייה')} onClose={onClose} actions={draft?<><Button secondary onClick={onClose}>{a.T('Cancel','ביטול')}</Button><Button onClick={save}>{a.T('Save','שמירה')}</Button></>:<Button secondary onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
+ return <Window a={a} title={a.T('The receipt of this shop','הקבלה של הקנייה')} onClose={onClose} actions={draft?<><Button secondary onClick={onClose}>{a.T('Cancel','ביטול')}</Button><Button disabled={busy} onClick={save}>{a.T('Save','שמירה')}</Button></>:<Button secondary onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
   {!draft&&<>{!a.cloud?<p className="tasks-sheet-hint ss-hint"><Info size={18}/><span>{a.T('Reading receipts works in your own installation with an AI helper connected.','קריאת קבלות עובדת בהתקנה שלכם, כשעוזר AI מחובר.')}</span></p>
-   :<><p className="tasks-sheet-hint ss-hint"><Camera size={18}/><span>{a.T('The photo goes only to your own AI helper, uses a little of your AI credit, and is not stored. You check everything before saving.','התמונה נשלחת רק לעוזר ה־AI שלכם, משתמשת קצת בקרדיט ה־AI, ולא נשמרת. בודקים הכל לפני השמירה.')}</span></p>
+   :<><p className="tasks-sheet-hint ss-hint"><Camera size={18}/><span>{a.T('The photo goes only to your own AI helper and uses a little of your AI credit. When you save, it is kept with the receipt in your own Bayit, for adults only, so you can compare it with what the AI read. Deleting the receipt deletes the photo.','התמונה נשלחת רק לעוזר ה־AI שלכם ומשתמשת קצת בקרדיט ה־AI. כששומרים, היא נשמרת עם הקבלה ב־Bayit שלכם, רק למבוגרים, כדי שאפשר יהיה להשוות לקריאה של ה־AI. מחיקת הקבלה מוחקת גם את התמונה.')}</span></p>
     <input ref={file} type="file" accept="image/jpeg,image/png,image/webp" capture="environment" hidden onChange={e=>read(e.target.files?.[0])}/>
     <Button icon={Camera} disabled={busy} onClick={()=>file.current?.click()}>{busy?a.T('Reading…','קוראים…'):a.T('Photograph or choose a receipt','לצלם או לבחור קבלה')}</Button></>}
    {error&&<p className="save-error" role="alert">{error}</p>}</>}
@@ -196,10 +203,11 @@ export function ReceiptWindow({a,ui,list,items,onClose}){
     <div className="ss-kv"><span>{a.T('Shop','חנות')}</span><b>{draft.store||a.T('Not printed','לא כתוב')}</b></div>
     <div className="ss-kv"><span>{a.T('Date','תאריך')}</span><b>{longDate(a,draft.date)||a.T('Not printed · today','לא כתוב · היום')}</b></div>
     <div className="ss-kv ss-total"><span>{a.T('Total','סה"כ')}</span><b>{money(a,draft.total)}</b></div>
+    {draft.checked&&draft.paidOther>0&&<p className="ss-fine">{a.T('Paid in part by meal card or voucher ('+money(a,draft.paidOther)+'), the rest by card or cash ('+money(a,draft.charged)+'). The total is what the shop cost.','שולם בחלקו בסיבוס, תן ביס או תו ('+money(a,draft.paidOther)+'), והשאר בכרטיס או במזומן ('+money(a,draft.charged)+'). הסה"כ הוא מה שהקנייה עלתה.')}</p>}
     {!draft.checked&&<p className="ss-fine ss-warn"><Warning size={16} weight="fill"/>{a.T('The lines add up to '+money(a,draft.sum)+', not the total. Some lines may be missing.','השורות מסתכמות ב־'+money(a,draft.sum)+' ולא בסה"כ. אולי חסרות שורות.')}</p>}
    </FormSection>
    <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('Item by item','מוצר מוצר')}>
-    {draft.lines.map((l,i)=><div className={'ss-rline'+(l.sure?'':' ss-ask')} key={i}><span className="ss-raw">{l.raw}</span><Icon code={matchItem(l.name).icon} size={32}/><span className="ss-text"><strong>{l.name}</strong><small>{(l.quantity!==1?l.quantity+(l.unit==='kg'?a.T(' kg',' ק"ג'):''):'')+(l.unitPrice!=null&&l.unit==='kg'?' · '+money(a,l.unitPrice)+a.T(' per kg',' לק"ג'):'')+''}</small>{!l.sure&&asking!==i&&<button type="button" className="ss-q" onClick={()=>{setAsking(i);setAnswer(l.name)}}><Question size={18} weight="bold"/>{a.T('Correct?','נכון?')}</button>}</span><b className="ss-price">{money(a,l.price)}</b><button type="button" className="icon-button" aria-label={a.T('Remove line','הסרת שורה')} onClick={()=>removeLine(i)}><X size={18}/></button>
+    {draft.lines.map((l,i)=><div className={'ss-rline'+(l.sure?'':' ss-ask')} key={i}><span className="ss-raw">{l.raw}</span><Icon code={matchItem(l.name).icon} size={32}/><span className="ss-text"><strong>{l.name}</strong><small>{(l.quantity!==1?l.quantity+(l.unit==='kg'?a.T(' kg',' ק"ג'):''):'')+(l.unitPrice!=null&&l.unit==='kg'?' · '+money(a,l.unitPrice)+a.T(' per kg',' לק"ג'):'')+(l.discount?' · '+a.T('after a discount of ','אחרי הנחה של ')+money(a,l.discount):'')}</small>{!l.sure&&asking!==i&&<button type="button" className="ss-q" onClick={()=>{setAsking(i);setAnswer(l.name)}}><Question size={18} weight="bold"/>{a.T('Correct?','נכון?')}</button>}</span><b className="ss-price">{money(a,l.price)}</b><button type="button" className="icon-button" aria-label={a.T('Remove line','הסרת שורה')} onClick={()=>removeLine(i)}><X size={18}/></button>
      {asking===i&&<form className="ss-qform" onSubmit={e=>{e.preventDefault();confirm(i)}}><label><span>{a.T('What is it?','מה זה?')}</span><input autoFocus maxLength={80} value={answer} onChange={e=>setAnswer(e.target.value)}/></label><Button type="submit" icon={Check}>{a.T('Yes, remember','כן, לזכור')}</Button></form>}</div>)}
     {draft.lines.some(l=>!l.sure)&&<p className="ss-fine">{a.T('A line with "Correct?" waits for you to confirm it once; after that Bayit remembers.','שורה עם "נכון?" מחכה שתאשרו פעם אחת, ואחר כך Bayit זוכר.')}</p>}
    </FormSection>
@@ -212,16 +220,19 @@ export function ReceiptWindow({a,ui,list,items,onClose}){
 
 export function PricesWindow({a,ui,list,onClose}){
  const {Icon,Button}=ui,tx=useGroceries(a),receipts=a.visible(a.data.receipts||[]).filter(r=>!list||r.listId===list.id||sameAudience(r,list)),[open,setOpen]=useState(null);
- const month=tx?groceriesMonth(tx,anchor):null,keys=[...new Set(receipts.flatMap(r=>(r.lines||[]).map(l=>l.key)).filter(Boolean))];
- const products=keys.map(key=>{const h=priceHistory(receipts,key),line=receipts.flatMap(r=>r.lines||[]).find(l=>l.key===key);return {key,name:line?.name||key,h}}).filter(p=>p.h).sort((x,y)=>y.h.rows.length-x.h.rows.length||x.name.localeCompare(y.name));
- const per=(p,v)=>money(a,v)+(p.h.last.unit==='kg'?a.T(' per kg',' לק"ג'):'');
+ // One row per product (its barcode or printed text), not per list item or category (2026-11-12).
+ const month=tx?groceriesMonth(tx,anchor):null,keys=[...new Set(receipts.flatMap(r=>(r.lines||[]).map(productId)))];
+ const products=keys.map(key=>{const h=priceHistory(receipts,key);return {key,name:h?.last.name||key,h}}).filter(p=>p.h).sort((x,y)=>y.h.rows.length-x.h.rows.length||x.name.localeCompare(y.name));
+ const per=(p,v,unit=p.h.last.unit)=>money(a,v)+(unit==='kg'?a.T(' per kg',' לק"ג'):'');
+ // One purchase: its price and date. Cheapest and dearest only from two purchases on.
+ const summary=p=>p.h.rows.length<2?per(p,p.h.last.per)+' · '+longDate(a,p.h.last.date):a.T('Last ','בפעם האחרונה ')+per(p,p.h.last.per)+' · '+a.T('cheapest ','הכי זול ')+per(p,p.h.cheapest.per,p.h.cheapest.unit)+' · '+a.T('dearest ','הכי יקר ')+per(p,p.h.dearest.per,p.h.dearest.unit);
  return <Window a={a} title={a.T('Prices and spending','מחירים והוצאות')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
   {month&&<div className="ss-stats ss-two"><div><small>{a.T('This month at the supermarket','בסופר החודש')}</small><b>{money(a,month.thisMonth)}</b><span>{a.T('From your statements · updated to '+longDate(a,month.updatedTo),'מהדוחות · עודכן ל־'+longDate(a,month.updatedTo))}</span></div><div><small>{a.T('Last month, same days','חודש שעבר, אותם ימים')}</small><b>{money(a,month.lastMonthToDate)}</b><span>{a.T('Small card purchases count too','גם קניות קטנות בכרטיס נספרות')}</span></div></div>}
   {!month&&a.cloud&&<p className="ss-fine">{a.T('Spending appears here once bank or card statements are imported in Expenses.','ההוצאות יופיעו כאן אחרי שמייבאים דוחות בנק או אשראי בהוצאות.')}</p>}
   <FormSection T={a.T} icon={Receipt} tone="yellow" title={a.T('Prices from your receipts','מחירים מהקבלות שלכם')} note={receipts.length?a.T(receipts.length+' receipts',receipts.length===1?'קבלה אחת':receipts.length+' קבלות'):''}>
    {!products.length&&<p className="ss-fine">{a.T('No receipts yet. Photograph one when everything is in the bag; shops without a receipt have no prices.','עוד אין קבלות. מצלמים קבלה כשהכל נאסף; לקניות בלי קבלה אין מחירים.')}</p>}
-   {products.map(p=><div key={p.key} className="ss-product"><button type="button" className="ss-product-head" aria-expanded={open===p.key} onClick={()=>setOpen(open===p.key?null:p.key)}><Icon code={matchItem(p.name).icon} size={32}/><span className="ss-text"><strong>{p.name}</strong><small>{a.T('Last ','בפעם האחרונה ')+per(p,p.h.last.per)+' · '+a.T('cheapest ','הכי זול ')+per(p,p.h.cheapest.per)+' · '+a.T('dearest ','הכי יקר ')+per(p,p.h.dearest.per)}</small></span><CaretDown size={18}/></button>
-    {open===p.key&&<div className="ss-history">{p.h.rows.map((r,i)=><div className="ss-prow" key={i}><span><strong>{longDate(a,r.date)}</strong><small><bdi>{r.store}</bdi></small></span><span className="ss-bar"><i className={r===p.h.cheapest?'lo':r===p.h.dearest?'hi':''} style={{width:Math.max(8,Math.round(r.per/p.h.dearest.per*100))+'%'}}/></span><b>{per(p,r.per)}</b></div>)}{p.h.stores.length>1&&p.h.stores.map(s=><div className="ss-kv" key={s.store}><span><bdi>{s.store}</bdi>{' · '+a.T(s.count===1?'1 receipt':s.count+' receipts',s.count===1?'קבלה אחת':s.count+' קבלות')}</span><b>{a.T('average ','ממוצע ')+per(p,s.average)}</b></div>)}</div>}
+   {products.map(p=><div key={p.key} className="ss-product"><button type="button" className="ss-product-head" aria-expanded={open===p.key} onClick={()=>setOpen(open===p.key?null:p.key)}><Icon code={matchItem(p.name).icon} size={32}/><span className="ss-text"><strong>{p.name}</strong><small>{summary(p)}</small></span><CaretDown size={18}/></button>
+    {open===p.key&&<div className="ss-history">{p.h.rows.map((r,i)=><div className="ss-prow" key={i}><span><strong>{longDate(a,r.date)}</strong><small><bdi>{r.store}</bdi></small></span><span className="ss-bar"><i className={r===p.h.cheapest?'lo':r===p.h.dearest?'hi':''} style={{width:Math.max(8,Math.round(r.per/p.h.dearest.per*100))+'%'}}/></span><b>{per(p,r.per,r.unit)}</b></div>)}{p.h.stores.length>1&&p.h.stores.map(s=><div className="ss-kv" key={s.store}><span><bdi>{s.store}</bdi>{' · '+a.T(s.count===1?'1 receipt':s.count+' receipts',s.count===1?'קבלה אחת':s.count+' קבלות')}</span><b>{a.T('average ','ממוצע ')+per(p,s.average)}</b></div>)}</div>}
    </div>)}
   </FormSection>
  </Window>;
@@ -252,5 +263,103 @@ export function NoteWindow({a,ui,list,items,quantityText,onClose}){
     {rows.map((r,i)=><label className="ss-pickrow" key={r.key}><span className="checkbox-control"><input type="checkbox" checked={r.picked} onChange={e=>setRows(rs=>rs.map((x,n)=>n===i?{...x,picked:e.target.checked}:x))}/><Check size={21} weight="bold" aria-hidden="true"/></span><Icon code={r.icon} size={36}/><span className="ss-text"><strong><bdi>{r.title}</bdi>{qty(r)&&<span className="ss-q2"><bdi>{qty(r)}</bdi></span>}</strong><small>{r.onList?a.T('Already on the list','כבר ברשימה')+(quantityText?.(r.onList)?': '+quantityText(r.onList):''):<bdi>{'"'+r.written+'"'}</bdi>}</small></span></label>)}
    </FormSection>
   </>}
+ </Window>;
+}
+
+// ---------- finishing a shop, the shopping history, the receipt photo (owner's choices, 2026-11-12) ----------
+// B: a new list for each shop. The last tick or Finish moves what was bought into a shop in the history; the list is new
+// and empty. The person who finished can undo it. History lives in the list's ⋯ menu. A receipt keeps its photo in the
+// installation's own file store (adults only), so it can be compared with what the AI read.
+const RECENT_MS=12*3600e3,photoUrl=id=>'/api/files/'+encodeURIComponent(id);
+const dayOf=iso=>iso?new Date(iso).toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE}):'';
+const timeOf=iso=>iso?new Date(iso).toLocaleTimeString('en-GB',{timeZone:HOME_TIMEZONE,hour:'2-digit',minute:'2-digit'}):'';
+const shortDay=(a,iso)=>iso?new Date(iso).toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{timeZone:HOME_TIMEZONE,weekday:'short',day:'numeric',month:'short'}):'';
+export const recentShop=(a,list)=>{if(!list)return null;const s=shopsOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id)[0];return s&&Date.now()-Date.parse(s.archivedAt)<RECENT_MS?s:null};
+const visibleReceipts=a=>a.member(a.user)?.role==='child'?[]:a.visible(a.data.receipts||[]);
+const summaryOf=(a,shop)=>shopSummary(shop,{shopping:a.visible(a.data.shopping||[]),receipts:visibleReceipts(a)});
+
+// A receipt photo is made smaller (about 1 MB at most) and re-encoded as JPEG before it is read or stored.
+export async function receiptPhoto(file){
+ const url=URL.createObjectURL(file);try{const img=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=url});
+  for(const [side,q] of [[1800,.82],[1400,.75],[1100,.7]]){const k=Math.min(1,side/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+   const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',q));if(blob&&blob.size<=1400*1024)return blob}
+  throw Error('This photo is too large.')}finally{URL.revokeObjectURL(url)}
+}
+export async function storeReceiptPhoto(blob){const id=crypto.randomUUID(),r=await fetch(photoUrl(id),{method:'PUT',headers:{...cloudHeaders(),'Content-Type':'image/jpeg','X-File-Name':'receipt.jpg','X-Bayit-Purpose':'receipt'},body:blob});if(!r.ok)throw Error((await r.json().catch(()=>({}))).error||'The photo was not kept.');return id}
+const dropPhoto=id=>id&&fetch(photoUrl(id),{method:'DELETE',headers:cloudHeaders()}).catch(()=>{});
+
+// After a shop: one quiet line on the new, empty list. Open goes to the shop; Undo (who finished it) puts it back.
+export function ShopDoneLine({a,list,onOpen}){
+ const shop=recentShop(a,list);if(!shop||list.status!=='active')return null;const s=summaryOf(a,shop),name=a.lang==='he'?shop.he||shop.name:shop.name,mine=shop.ownerId===a.user;
+ return <div className="ss-line ss-line-done" data-keep-clear><ClockCounterClockwise size={24} aria-hidden="true"/><span><b>{a.T('“'+name+' · '+shortDay(a,shop.archivedAt)+'” was archived','„'+name+' · '+shortDay(a,shop.archivedAt)+'” עברה לארכיון')}</b><small className="ss-line-who">{(mine?'':a.name(shop.finishedBy)+' · ')+a.T(s.bought.length+' bought',s.bought.length+' נקנו')+(s.leftCount?a.T(' · '+s.leftCount+' left for next time',' · '+s.leftCount+' נשארו לפעם הבאה'):'')}</small></span>
+  <button type="button" className="text-link ss-line-change" onClick={()=>onOpen(shop)}>{a.T('Open','פתיחה')}</button>{mine&&<button type="button" className="text-link ss-line-change" onClick={()=>a.undoShopping(shop.id)}>{a.T('Undo','ביטול')}</button>}</div>;
+}
+
+// Finish with items left: what happens, and the left items stay for next time unless the person says otherwise.
+export function FinishWindow({a,ui,list,items,onClose}){
+ const {Button}=ui,bought=items.filter(i=>i.done),left=items.filter(i=>!i.done),[keep,setKeep]=useState(true),[error,setError]=useState('');
+ const names=left.slice(0,3).map(i=>a.text(i)),more=left.length-names.length,leftText=names.join(a.lang==='he'?', ':', ')+(more>0?a.T(' and '+more+' more',' ועוד '+more):'');
+ const finish=async()=>{try{await a.finishShopping(list.id,{keepLeft:keep});a.notify(a.T('Shop finished. It is in Shopping history.','הקנייה הסתיימה ונשמרה בהיסטוריית הקניות.'));onClose()}catch(e){setError(e.message)}};
+ return <Window a={a} title={a.T('Finish this shop?','לסיים את הקנייה?')} onClose={onClose} actions={<><Button secondary onClick={onClose}>{a.T('Keep shopping','להמשיך לקנות')}</Button><Button disabled={!bought.length} onClick={finish}>{a.T('Finish shop','לסיים קנייה')}</Button></>}>
+  <p className="ss-lead"><b>{a.T(bought.length+' bought.',bought.length+' נקנו.')}</b> {left.length?a.T(leftText+(left.length===1?' was':' were')+' not bought.','לא נקנו: '+leftText+'.'):''}</p>
+  <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('What happens','מה קורה')}>
+   <p className="ss-fine">{a.T('• The shop is saved in Shopping history, with the receipt if you photograph it.','• הקנייה נשמרת בהיסטוריית הקניות, עם הקבלה אם מצלמים אותה.')}</p>
+   <p className="ss-fine">{a.T('• What was bought leaves the list, and the list is ready for the next shop.','• מה שנקנה יורד מהרשימה, והרשימה מוכנה לקנייה הבאה.')}</p>
+   {left.length>0&&<label className="checkbox-label ss-keep"><input type="checkbox" checked={keep} onChange={e=>setKeep(e.target.checked)}/><span>{a.T('Keep the '+(left.length===1?'item':left.length+' items')+' not bought on the list for next time','להשאיר ברשימה לפעם הבאה את '+(left.length===1?'הפריט שלא נקנה':left.length+' הפריטים שלא נקנו'))}</span></label>}
+  </FormSection>{error&&<p className="save-error" role="alert">{error}</p>}
+ </Window>;
+}
+
+// Shopping history of a list: newest first, by month, PAGE at a time.
+export function HistoryWindow({a,ui,list,onOpen,onClose}){
+ const {Button}=ui,[shown,setShown]=useState(PAGE),shops=shopsOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id),page=shops.slice(0,shown);
+ const months=[...new Set(page.map(s=>dayOf(s.archivedAt).slice(0,7)))],monthName=m=>new Date(m+'-15T12:00:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{month:'long',year:'numeric',timeZone:'UTC'});
+ const listName=a.lang==='he'?list.he||list.name:list.name;
+ return <Window a={a} title={a.T('Shopping history','היסטוריית קניות')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
+  <p className="ss-fine">{shops.length?a.T('Every finished shop of “'+listName+'”, newest first.','כל הקניות שהסתיימו של „'+listName+'”, מהחדשה לישנה.'):a.T('No finished shops yet. When the last item is ticked, or you press Finish, the shop is saved here.','עוד אין קניות שהסתיימו. כשמסמנים את הפריט האחרון, או לוחצים "לסיים", הקנייה נשמרת כאן.')}</p>
+  {months.map(m=><FormSection key={m} T={a.T} icon={ClockCounterClockwise} tone="yellow" title={monthName(m)}>{page.filter(s=>dayOf(s.archivedAt).slice(0,7)===m).map(s=>{const sum=summaryOf(a,s);
+   return <div key={s.id} className="ss-product"><button type="button" className="ss-product-head" onClick={()=>onOpen(s)}><span className="ss-text"><strong>{shortDay(a,s.archivedAt)+(sum.receipt?.store?' · '+sum.receipt.store:'')}</strong><small>{[a.name(s.finishedBy),a.T(sum.bought.length+' bought',sum.bought.length+' נקנו'),sum.leftCount?a.T(sum.leftCount+' left',sum.leftCount+' נשארו'):'',a.member(a.user)?.role==='child'?'':sum.receipt?a.T('receipt','קבלה'):a.T('no receipt','בלי קבלה')].filter(Boolean).join(' · ')}</small></span><b className="ss-price">{sum.total!=null&&a.member(a.user)?.role!=='child'?money(a,sum.total):'—'}</b></button></div>})}</FormSection>)}
+  {shops.length>shown&&<Button secondary onClick={()=>setShown(shown+PAGE)}>{a.T('Show '+Math.min(PAGE,shops.length-shown)+' more','להציג עוד '+Math.min(PAGE,shops.length-shown))}</Button>}
+ </Window>;
+}
+
+// One shop: its receipt (adults), what was bought and for how much, what was left, who and when.
+export function ShopWindow({a,ui,shop,onClose,onAttach,onReceipt}){
+ const {Button}=ui,s=summaryOf(a,shop),adult=a.member(a.user)?.role!=='child',mine=shop.ownerId===a.user,[busy,setBusy]=useState(false);
+ const priced=s.receipt?matchLines(s.receipt.lines||[],s.bought):[],priceOf=i=>priced.find(l=>l.itemId===i.id)?.price;
+ const remove=async()=>{if(!window.confirm(a.T('Delete this shop from the history? Its receipt and photo are deleted too.','למחוק את הקנייה מההיסטוריה? גם הקבלה והתמונה שלה יימחקו.')))return;setBusy(true);const photos=visibleReceipts(a).filter(r=>r.listId===shop.id&&r.ownerId===a.user).map(r=>r.fileId).filter(Boolean);
+  try{await a.update(d=>{d.receipts=(d.receipts||[]).filter(r=>!(r.listId===shop.id&&r.ownerId===a.user));d.shopping=d.shopping.filter(i=>i.listId!==shop.id);d.shoppingLists=d.shoppingLists.filter(l=>l.id!==shop.id)});photos.forEach(dropPhoto);onClose()}finally{setBusy(false)}};
+ return <Window a={a} title={shortDay(a,shop.archivedAt)+(s.receipt?.store?' · '+s.receipt.store:'')} onClose={onClose} actions={<>{mine&&<Button secondary disabled={busy} onClick={remove}>{a.T('Delete','מחיקה')}</Button>}<Button onClick={onClose}>{a.T('Close','סגירה')}</Button></>}>
+  {adult&&<FormSection T={a.T} icon={Receipt} tone="yellow" title={a.T('Receipt','קבלה')}>{s.receipt?<>
+   <div className="ss-kv ss-total"><span>{a.T('Total','סה"כ')}</span><b>{money(a,s.receipt.total)}</b></div>
+   {s.receipt.paidOther>0&&<div className="ss-kv"><span>{a.T('Paid','שולם')}</span><b>{a.T('meal card or voucher '+money(a,s.receipt.paidOther)+' · card '+money(a,s.receipt.charged),'סיבוס או תו '+money(a,s.receipt.paidOther)+' · כרטיס '+money(a,s.receipt.charged))}</b></div>}
+   <p className="ss-act"><Button secondary onClick={()=>onReceipt(s.receipt)}>{a.T('View the receipt','לראות את הקבלה')}</Button></p></>
+   :<><p className="ss-fine">{a.T('No receipt for this shop yet. Add it now and its prices join Prices.','עוד אין קבלה לקנייה הזו. מוסיפים אותה עכשיו, והמחירים שלה נכנסים ל"מחירים".')}</p>{a.cloud&&<Button icon={Camera} onClick={()=>onAttach(shop)}>{a.T('Attach a receipt','לצרף קבלה')}</Button>}</>}</FormSection>}
+  <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('Bought · '+s.bought.length,'נקנו · '+s.bought.length)}>{s.bought.map(i=><div className="ss-kv" key={i.id}><span>{a.text(i)}</span><b>{priceOf(i)!=null?money(a,priceOf(i)):''}</b></div>)}</FormSection>
+  {s.leftCount>0&&<FormSection T={a.T} icon={BagSimple} tone="blue" title={a.T('Left for next time · '+s.leftCount,'נשארו לפעם הבאה · '+s.leftCount)}>{s.left.length?s.left.map(i=><div className="ss-kv" key={i.id}><span>{a.text(i)}</span></div>):<p className="ss-fine">{a.T('They stayed on the list.','הם נשארו ברשימה.')}</p>}</FormSection>}
+  <FormSection T={a.T} icon={Clock} tone="lilac" title={a.T('Who and when','מי ומתי')}><div className="ss-kv"><span>{a.T('Shopped by','קנה/תה')}</span><b>{a.name(shop.finishedBy)}</b></div><div className="ss-kv"><span>{a.T('Time','שעה')}</span><b dir="ltr">{timeOf(shop.startedAt)+'–'+timeOf(shop.archivedAt)}</b></div></FormSection>
+ </Window>;
+}
+
+// The receipt itself: the photo, and what the AI read under it. Tapping a line marks it on the photo (when the reading
+// says where it is). The person who saved it can correct a line, or attach the photo to a receipt read before photos were kept.
+export function ReceiptView({a,ui,receipt,onClose}){
+ const {Button}=ui,[src,setSrc]=useState(''),[error,setError]=useState(''),[on,setOn]=useState(null),[edit,setEdit]=useState(null),[busy,setBusy]=useState(false),file=React.useRef(null),mine=receipt.ownerId===a.user;
+ const live=visibleReceipts(a).find(r=>r.id===receipt.id)||receipt;
+ React.useEffect(()=>{if(!live.fileId)return setSrc('');let url='';fetch(photoUrl(live.fileId),{headers:cloudHeaders()}).then(r=>r.ok?r.blob():Promise.reject()).then(b=>{url=URL.createObjectURL(b);setSrc(url)}).catch(()=>setError(a.T('The photo could not be loaded.','לא הצלחנו לטעון את התמונה.')));return()=>url&&URL.revokeObjectURL(url)},[live.fileId]);
+ const attach=async f=>{if(!f)return;setBusy(true);setError('');try{const id=await storeReceiptPhoto(await receiptPhoto(f));await a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===live.id);if(r)r.fileId=id})}catch(e){setError(e.message)}finally{setBusy(false)}};
+ const saveLine=async e=>{e.preventDefault();const price=Number(edit.price);if(!edit.name.trim()||!Number.isFinite(price)||price<0)return;await a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===live.id),l=r?.lines?.[edit.i];if(l){l.name=edit.name.trim();l.key=productKey({title:l.name});l.price=Math.round(price*100)/100;l.confirmed=true}});setEdit(null)};
+ const lines=live.lines||[];
+ return <Window a={a} className="ss-receipt-view" title={a.T('Receipt','קבלה')+(live.shopDate?' · '+longDate(a,live.shopDate):'')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
+  {src?<div className="ss-photo">{<img src={src} alt={a.T('The receipt photo','תמונת הקבלה')}/>}{on!=null&&lines[on]?.y!=null&&<i className="ss-photo-mark" style={{top:(lines[on].y*100)+'%'}}/>}</div>
+   :<div className="ss-photo-none"><p className="ss-fine">{live.fileId?(error||a.T('Loading the photo…','טוענים את התמונה…')):a.T('This receipt was read before photos were kept.','הקבלה הזו נקראה לפני שתמונות נשמרו.')}</p>{!live.fileId&&mine&&a.cloud&&<><input ref={file} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e=>attach(e.target.files?.[0])}/><Button icon={Camera} disabled={busy} onClick={()=>file.current?.click()}>{busy?a.T('Saving…','שומרים…'):a.T('Attach the photo','לצרף את התמונה')}</Button></>}</div>}
+  {error&&src&&<p className="save-error" role="alert">{error}</p>}
+  <p className="ss-fine">{a.T('Tap a line to find it on the photo. If the AI got one wrong, correct it here.','לוחצים על שורה כדי למצוא אותה בתמונה. אם ה־AI טעה בשורה, מתקנים אותה כאן.')}</p>
+  <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('What the AI read','מה ה־AI קרא')}>
+   {lines.map((l,i)=><div key={i} className={'ss-rline ss-rline-view'+(on===i?' on':'')}><button type="button" className="ss-rline-pick" onClick={()=>setOn(on===i?null:i)}><span className="ss-raw"><bdi>{'"'+l.raw+'"'}</bdi></span><span className="ss-text"><strong>{l.name}</strong>{l.discount?<small>{a.T('after a discount of ','אחרי הנחה של ')+money(a,l.discount)}</small>:null}</span><b className="ss-price">{money(a,l.price)}</b></button>
+    {mine&&edit?.i!==i&&<button type="button" className="icon-button" aria-label={a.T('Correct this line','תיקון השורה')} onClick={()=>setEdit({i,name:l.name,price:String(l.price)})}><PencilSimple size={18}/></button>}
+    {edit?.i===i&&<form className="ss-qform" onSubmit={saveLine}><label><span>{a.T('Name','שם')}</span><input autoFocus maxLength={80} value={edit.name} onChange={e=>setEdit({...edit,name:e.target.value})}/></label><label><span>{a.T('Price','מחיר')}</span><input inputMode="decimal" value={edit.price} onChange={e=>setEdit({...edit,price:e.target.value})}/></label><Button type="submit" icon={Check}>{a.T('Save','שמירה')}</Button></form>}</div>)}
+   <div className="ss-kv ss-total"><span>{a.T('Total','סה"כ')}</span><b>{money(a,live.total)}</b></div>
+  </FormSection>
  </Window>;
 }

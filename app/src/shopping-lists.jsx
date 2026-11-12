@@ -1,6 +1,6 @@
 import {allowInitialTextFocus} from './form-focus';
 import React,{useState,useEffect,useRef} from 'react';
-import {Plus,ListChecks,PencilSimple,CheckCircle,Archive,ArrowCounterClockwise,X,ShoppingCart,Copy,Link,Trash,LockSimple,DotsThree,Check,GearSix,Camera,Scan,Receipt} from '@phosphor-icons/react';
+import {Plus,ListChecks,PencilSimple,CheckCircle,Archive,ArrowCounterClockwise,X,ShoppingCart,Copy,Link,Trash,LockSimple,DotsThree,Check,GearSix,Camera,Scan,Receipt,ClockCounterClockwise} from '@phosphor-icons/react';
 import {AvatarStack} from './avatar-stack';
 import {SwipeRow} from './swipe-row';
 import {fxBus,fxQuiet} from './motion-fx';
@@ -14,11 +14,11 @@ import {FormSection} from './form-section.jsx';
 // "+ New list" at the end), a header for the open list with its actions in one row (secondary ones fold into "⋯" when
 // the column is narrow), and the "All lists" manager / new list / reuse dialog.
 // Only in the ⋯ menu, also on wide screens (where the other actions are buttons): delete and the smart-shopping extras.
-const MENU_ONLY=['delete','smart','receipt','prices','note'];
-export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt,onPrices,onNote,ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}}){
+const MENU_ONLY=['delete','smart','receipt','prices','note','history'];
+export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt,onPrices,onNote,onHistory,ui:{Button,Badge,Tabs,Visibility,Avatar,Icon}}){
  const [manager,setManager]=useState(false),[view,setView]=useState('active'),[draft,setDraft]=useState(null),[copyRemaining,setCopyRemaining]=useState(false),[menu,setMenu]=useState(false),menuRef=useRef(null),stripRef=useRef(null);
  const {saving,saveError,commit}=useConfirmedSave(a),guard=useDraftGuard(a,draft,{enabled:!!draft,key:draft?.id||draft?.mode||null});
- const lists=(a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),active=lists.filter(l=>l.status==='active'),current=lists.find(l=>l.id===tab),listName=l=>a.lang==='he'?l.he||l.name:l.name,scopeOf=l=>l?.visibility==='private'?'private':'family';
+ const lists=(a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)&&!l.shopOf)/* finished shops live in History (2026-11-12) */,active=lists.filter(l=>l.status==='active'),current=lists.find(l=>l.id===tab),listName=l=>a.lang==='he'?l.he||l.name:l.name,scopeOf=l=>l?.visibility==='private'?'private':'family';
  const strip=[...active.filter(l=>l.visibility!=='private'),...active.filter(l=>l.visibility==='private')];if(current&&current.status!=='active')strip.unshift(current);
  useEffect(()=>{if(!current&&!new URLSearchParams(a.route.split('?')[1]||'').get('list')&&active[0])onSelect(active[0].id,scopeOf(active[0]))},[tab,a.data.shoppingLists]);
  useEffect(()=>{stripRef.current?.querySelector('[aria-pressed="true"]')?.scrollIntoView?.({block:'nearest',inline:'nearest'})},[tab]);
@@ -52,6 +52,7 @@ export function useShoppingLists({app:a,tab,onSelect,counts,onSettings,onReceipt
   onSettings&&['smart',GearSix,a.T('Shopping settings','הגדרות קניות'),onSettings],
   onNote&&['note',Scan,a.T('Photograph a list','צילום רשימה'),onNote],
   onReceipt&&['receipt',Camera,a.T('Photograph receipt','צילום קבלה'),onReceipt],
+  onHistory&&['history',ClockCounterClockwise,a.T('Shopping history','היסטוריית קניות'),onHistory],
   onPrices&&['prices',Receipt,a.T('Prices and spending','מחירים והוצאות'),onPrices],
   canDelete(current)&&['delete',Trash,a.T('Delete list','מחיקת רשימה'),()=>askRemove(current)]].filter(Boolean):[];
  const headerEl=current?<header className="shop2-head">

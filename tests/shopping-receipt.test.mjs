@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {normalizeReceipt,matchLines,priceHistory,groceriesMonth,matchExpense} from '../shared/shopping-receipt.mjs';
+import {normalizeReceipt,matchLines,priceHistory,productId,groceriesMonth,matchExpense} from '../shared/shopping-receipt.mjs';
 
 test('a read receipt is checked: lines need a price, the total is compared with the sum',()=>{
  const r=normalizeReceipt({store:'Supermarket',date:'2026-11-04',total:31.7,lines:[{raw:'עגבניה שרי מארז',name:'עגבניות',quantity:2,unit:'kg',unitPrice:8.9,price:17.8},{raw:'ביצים L 12',name:'ביצים',price:13.9},{raw:'??',price:'x'}]});
@@ -11,7 +11,7 @@ test('lines match list items by product; prices over time per product and shop',
  const r=normalizeReceipt({lines:[{raw:'עגבניה',name:'עגבניות',price:9}]});
  assert.equal(matchLines(r.lines,[{id:'i1',title:'עגבניות'}])[0].itemId,'i1');
  const key=r.lines[0].key,receipts=[{store:'השוק',date:'2026-10-08',lines:[{key,price:6.9,quantity:1,unit:'kg'}]},{store:'סופר הגבעה',date:'2026-10-23',lines:[{key,price:19.8,quantity:2,unit:'kg'}]},{store:'סופר הגבעה',date:'2026-11-04',lines:[{key,price:8.9,quantity:1,unit:'kg'}]}];
- const h=priceHistory(receipts,key);assert.equal(h.cheapest.per,6.9);assert.equal(h.dearest.per,9.9);assert.equal(h.last.date,'2026-11-04');assert.equal(h.stores.find(s=>s.store==='סופר הגבעה').average,9.4);
+ const h=priceHistory(receipts,productId(receipts[0].lines[0]));assert.equal(h.cheapest.per,6.9);assert.equal(h.dearest.per,9.9);assert.equal(h.last.date,'2026-11-04');assert.equal(h.stores.find(s=>s.store==='סופר הגבעה').average,9.4);
  assert.equal(priceHistory(receipts,'nothing'),null);
 });
 test('supermarket spending this month against the same days last month, and the matching statement row',()=>{

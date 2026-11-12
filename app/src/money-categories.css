@@ -1,0 +1,42 @@
+/* Household › Expenses › Categories (concept B, owner's choice 2026-11-12). Own stylesheet; tokens only. */
+.money-cats{display:grid;grid-template-columns:minmax(300px,5fr) minmax(0,7fr);gap:22px;align-items:start}
+.money-cats .money-card{border-radius:28px;padding:22px 24px;box-shadow:0 10px 28px rgba(19,31,74,.06)}
+.money-cats h2{margin:0;font-size:1.35rem}.money-cats h3{margin:0;font-size:1.05rem}
+.money-cats-list ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.money-cats-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:4px 12px;align-items:center;width:100%;padding:10px 14px;border-radius:18px;border:1px solid transparent;background:none;color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.money-cats-row:hover{background:var(--bg)}
+.money-cats-row.on{background:var(--cat-soft);border-color:var(--cat)}
+.money-cats-row:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.money-cats-name{min-width:0;display:flex;flex-direction:column}.money-cats-name strong{font-size:1rem}
+.money-cats-name small,.money-cats-payees small{color:var(--muted);font-size:.84rem}
+.money-cats-row b{font-size:1.02rem;white-space:nowrap}
+.money-cats-bar{grid-column:2/4;height:6px;border-radius:99px;background:var(--bg);overflow:hidden}.money-cats-bar i{display:block;height:100%;border-radius:99px;background:var(--cat)}
+.money-cats-total{display:flex;justify-content:space-between;gap:10px;padding:12px 14px 0;border-top:2px solid var(--border);font-weight:900}
+.money-cats-head{display:flex;gap:14px;align-items:center}
+.money-cats-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.money-cats-stats div{background:var(--bg);border-radius:16px;padding:10px 12px;min-width:0}.money-cats-stats span{display:block;color:var(--muted);font-size:.82rem}.money-cats-stats strong{font-size:1.2rem}
+.money-cats-bars{display:flex;align-items:flex-end;gap:14px;height:96px;padding:0 6px}
+.money-cats-bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.78rem;color:var(--muted)}
+.money-cats-bars i{display:block;width:100%;max-width:44px;border-radius:10px;background:var(--cat);opacity:.45}.money-cats-bars div.now i{opacity:1}
+.money-cats-payees,.money-cats-tx{list-style:none;margin:0;padding:0}
+.money-cats-payees li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:9px 16px;border-bottom:1px solid var(--border)}
+.money-cats-payees li:last-child{border-bottom:0}
+.money-cats-payees strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.money-cats-payees small{grid-column:1}.money-cats-payees b{grid-row:1/3;grid-column:2;white-space:nowrap}
+.money-cats-payees li.unknown strong{color:var(--muted);font-style:italic}
+.money-cats-badge{display:inline-block;margin-inline-start:8px;padding:1px 8px;border-radius:99px;background:var(--selected);color:var(--primary);font-size:.75rem;font-weight:800;vertical-align:middle;font-style:normal}
+.money-cats-tx button{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:10px;width:100%;padding:8px 0;border:0;border-bottom:1px solid var(--border);background:none;color:var(--text);font:inherit;font-size:.95rem;text-align:start;cursor:pointer}
+.money-cats-tx button:hover{background:var(--bg)}.money-cats-tx button:focus-visible{outline:3px solid var(--primary);outline-offset:-2px}
+.money-cats-tx span:first-child{color:var(--muted)}.money-cats-tx span:nth-child(2){min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.money-cats-tx b{white-space:nowrap}
+.money-cats-detail{scroll-margin-top:150px} /* clears the header and a menu on top */
+@media(max-width:900px){.money-cats{grid-template-columns:1fr}}
+@media(max-width:760px){.money-cats .money-card{padding:16px;border-radius:22px}.money-cats-stats strong{font-size:1.02rem}}
+/* Statistics › Expenses by category: each row opens Expenses › Categories (same anatomy as the plain row). */
+.household-category-bars>li.household-category-link{display:block}
+.household-category-link>button{display:grid;grid-template-columns:minmax(0,1fr) auto 18px;gap:8px 16px;align-items:baseline;width:100%;padding:6px 8px;margin:-6px -8px;box-sizing:content-box;border:0;border-radius:14px;background:none;color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.household-category-link>button:hover{background:var(--surfaceSoft)}
+.household-category-link>button:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.household-category-link>button>svg{grid-column:3;grid-row:1;color:var(--muted);align-self:center}
+.household-category-link .household-category-track{grid-column:1/-1}
+/* Four view tabs on a phone (Summary, Transactions, Categories, Who we pay): the count badges stay on wider screens and the labels step down to 13px, so
+   every label fits without sideways scrolling; larger text sizes still scroll the strip. */
+@media(max-width:430px){html:root .money-nav .tabs.nav-view.nav-view>button{padding-inline:6px;gap:4px;font-size:calc(13px * var(--font-adjust,1))}.money-nav .tabs.nav-view .nav-count{display:none}}

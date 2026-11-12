@@ -12,7 +12,7 @@ export function useConfirmedSave(a){
   catch(error){
    // Offline: the change is kept on this device and marked “Waiting to sync”; it is sent when the connection returns.
    if(error?.queued){if(mounted.current)accepted?.();return true}
-   if(mounted.current)setSaveError(a.T('Not saved. Your draft is still here. You can try again.','לא נשמר. הטיוטה נשארה כאן ואפשר לנסות שוב.'));return false}
+   if(mounted.current)setSaveError(a.T('Not saved. What you entered is still here. Try again.','לא נשמר. מה שכתבת עדיין כאן. אפשר לנסות שוב.'))/* "draft" (טיוטה) confused the owner, 2026-11-12 */;return false}
   finally{if(surface)surface.inert=wasInert;lock.current=false;if(mounted.current){setSaving(false);requestAnimationFrame(()=>{if(trigger?.isConnected&&surface?.isConnected&&!surface.inert)trigger.focus({preventScroll:true})})}}
  };
  return {saving,saveError,commit};

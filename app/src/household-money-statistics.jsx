@@ -1,5 +1,5 @@
 import React,{useEffect,useRef,useState} from 'react';
-import {ArrowClockwise,ChartBar,Info,Receipt,Wallet,Gauge,BookOpenText} from '@phosphor-icons/react';
+import {ArrowClockwise,ChartBar,Info,Receipt,Wallet,Gauge,BookOpenText,CaretLeft,CaretRight} from '@phosphor-icons/react';
 import {StatisticsSummary,StatisticsFooter,downloadCSV,DownloadSimple} from './statistics-summary';
 import {ChartCard,BarsChart} from './statistics-charts';
 import {monthlySpending} from './statistics-data';
@@ -7,6 +7,7 @@ import {CATEGORY} from '../../shared/finance.mjs';
 import {cloudHeaders} from './cloud-transport';
 import {householdMoneyStatistics} from './household-money-statistics.mjs';
 import './household-money-statistics.css';
+import './money-categories.css';
 import {SourcePanels} from './payment-sources';
 import {Select} from './Select';
 import {memberNames} from '../../shared/payment-sources.mjs';
@@ -27,6 +28,8 @@ export const moneyModel=(a,remote,{range,scope='family',person='all',source='all
 // The Money tab (adults only; the view never renders it for a child).
 export function HouseholdMoneyStatistics({a,range,scope='family',person='all',source='all',sourceKeys=[],end,Button,Avatar,remote:given}){
  const own=useStatisticsMoney(a,!given),remote=given||own,T=a.T,locale=a.lang==='he'?'he-IL':'en-US',rtl=a.lang==='he';
+ // Only the signed-in Expenses page has the Categories tab (the sample household uses its own ledger).
+ const openable=!!a.cloud&&a.features?.route?.('household/expenses')!==false;
  const model=moneyModel(a,remote,{range,scope,person,source,sourceKeys,end}),history=moneyModel(a,remote,{range:'all',scope,person,source,sourceKeys,end});
  const months=monthlySpending(history.rows,end,6),monthName=m=>new Date(m+'-15T12:00:00Z').toLocaleDateString(locale,{month:'short'});
  const money=n=>moneyFormat(a,n),label=id=>CATEGORY[id]?.[a.lang==='he'?'he':'en']||id,maximum=Math.max(1,...model.categories.map(r=>Math.abs(r.amount)));
@@ -42,8 +45,10 @@ export function HouseholdMoneyStatistics({a,range,scope='family',person='all',so
    <ChartCard title={T('Spending against the limit','הוצאות חודשיות מול התקרה')} note={T('Last six months, by transaction date','ששת החודשים האחרונים, לפי תאריך העסקה')} footer={model.budget?T('Limit used this month: ','ניצול התקרה החודש: ')+(model.used??'—')+'%':T('No monthly limit set yet. Set one in Expenses to see it here.','עוד לא הוגדרה תקרה חודשית. אפשר להגדיר בהוצאות ולראות אותה כאן.')}>
     {!remote.ready?waiting:months.some(m=>m.total)?<BarsChart rtl={rtl} rows={months.map(m=>({date:m.month,spent:m.total}))} keys={[{id:'spent',color:'var(--stats-c1)',label:T('Spent','הוצאות')}]} xTick={monthName} yTick={v=>moneyFormat(a,v,0)} valueFormat={v=>v?moneyFormat(a,v,0):''} tooltipLabel={m=>new Date(m+'-15T12:00:00Z').toLocaleDateString(locale,{month:'long',year:'numeric'})} tooltipValue={v=>money(v)} yLabel={T('Spent','הוצאות')} xLabel={T('Month','חודש')} reference={model.budget?{y:model.budget,label:T('Monthly limit ','תקרה חודשית ')+moneyFormat(a,model.budget,0)}:null}/>:<div className="household-stat-empty"><ChartBar size={36}/><p>{T('No recorded expenses in the last six months.','אין הוצאות מתועדות בששת החודשים האחרונים.')}</p></div>}
    </ChartCard>
-   <ChartCard title={T('Expenses by category','הוצאות לפי קטגוריה')} note={T('In the selected period.','בתקופה שנבחרה.')} action={a.cloud&&<button type="button" className="icon-button" aria-label={T('Refresh statistics expenses','רענון ההוצאות בסטטיסטיקה')} disabled={remote.busy} onClick={remote.load}><ArrowClockwise size={22}/></button>}>
-    {!remote.ready?waiting:model.categories.length?<ul className="household-category-bars">{model.categories.map(row=><li key={row.category}><strong>{label(row.category)}</strong><bdi dir="ltr">{money(row.amount)}</bdi><span className={'household-category-track'+(row.amount<0?' refund':'')} aria-hidden="true"><i style={{width:Math.abs(row.amount)/maximum*100+'%'}}/></span></li>)}</ul>:<div className="household-stat-empty"><ChartBar size={36}/><p>{T('No net recorded expenses to chart for this period. Choose another period or open the expense ledger.','אין הוצאות נטו מתועדות להצגה בתקופה הזאת. אפשר לבחור תקופה אחרת או לפתוח את רישום ההוצאות.')}</p></div>}
+   <ChartCard title={T('Expenses by category','הוצאות לפי קטגוריה')} note={openable?T('In the selected period. Tap a category to see its month in Expenses.','בתקופה שנבחרה. הקישו על קטגוריה כדי לראות את החודש שלה בהוצאות.'):T('In the selected period.','בתקופה שנבחרה.')} action={a.cloud&&<button type="button" className="icon-button" aria-label={T('Refresh statistics expenses','רענון ההוצאות בסטטיסטיקה')} disabled={remote.busy} onClick={remote.load}><ArrowClockwise size={22}/></button>}>
+    {!remote.ready?waiting:model.categories.length?<ul className="household-category-bars">{model.categories.map(row=>{const bar=<><strong>{label(row.category)}</strong><bdi dir="ltr">{money(row.amount)}</bdi><span className={'household-category-track'+(row.amount<0?' refund':'')} aria-hidden="true"><i style={{width:Math.abs(row.amount)/maximum*100+'%'}}/></span></>;
+     // Owner request 2026-11-12: a category opens Expenses › Categories on that category, for the period's last month.
+     return openable?<li key={row.category} className="household-category-link"><button type="button" aria-label={label(row.category)+', '+money(row.amount)+'. '+T('Open in Expenses','פתיחה בהוצאות')} onClick={()=>a.go('household/expenses?view=categories&category='+row.category+'&month='+end.slice(0,7)+(scope==='private'?'&scope=private':''))}>{bar}{a.lang==='he'?<CaretLeft size={18} weight="bold" aria-hidden="true"/>:<CaretRight size={18} weight="bold" aria-hidden="true"/>}</button></li>:<li key={row.category}>{bar}</li>})}</ul>:<div className="household-stat-empty"><ChartBar size={36}/><p>{T('No net recorded expenses to chart for this period. Choose another period or open the expense ledger.','אין הוצאות נטו מתועדות להצגה בתקופה הזאת. אפשר לבחור תקופה אחרת או לפתוח את רישום ההוצאות.')}</p></div>}
     {remote.ready&&model.budget>0&&<p className="household-stat-note">{T('Monthly limit use includes all sources in the selected sharing view.','ניצול התקרה החודשית כולל את כל המקורות בתצוגת השיתוף שנבחרה.')}</p>}
     {model.invalid>0&&<p className="household-stat-note" role="status">{T('Incomplete expense records are excluded from these totals.','רשומות הוצאה שחסרים בהן פרטים אינן נכללות בסכומים האלה.')}</p>}
     {model.unattributed>0&&<p className="household-stat-note">{T('Records without an assigned person are excluded from this person filter.','רשומות ללא שיוך לאדם אינן נכללות בסינון לפי אדם.')}</p>}

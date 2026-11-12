@@ -4,6 +4,15 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.71.0 · 2026-11-12
+
+- Expenses has a new Categories tab: each category of the month with its total, the places you paid and every transaction. In Statistics, tapping a category opens it there.
+- "Who we pay" keeps regular payees during the month, so it may list a few more providers mid-month and its monthly total may be a little higher.
+- Shopping: when a shop is finished, what was bought moves to Shopping history and the list starts empty, with Undo. To finish with items left, press Finish on the green shopping line. A planned shop finished early counts for today.
+- Receipt photos are now kept with the receipt in your installation's own file store (R2 on Cloudflare, the host file store on Docker). Only adults can see them, and deleting the receipt deletes the photo. This changes 1.68.0, where the photo was not kept.
+- Items someone adds to a shared list are now visible to the list's owner, including items added earlier. Renaming such an item saves again.
+- Prices: one row per product, "per kg" only for weighed items, and cheapest/dearest once there are two purchases. A receipt paid partly by meal card or voucher now shows the full total.
+
 ## 1.70.0 · 2026-11-12
 
 - Telegram: the morning message shows the shopping list only on a planned shop day, with its time and who is going. On other days, /shopping still shows any list.

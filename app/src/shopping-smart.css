@@ -132,3 +132,20 @@
 .ss-only{display:inline-flex;gap:4px;align-items:center;font-size:calc(12.5px * var(--font-adjust,1));padding:2px 8px;vertical-align:middle;margin-inline-start:8px}
 .ss-sw-face{grid-template-columns:auto 1fr auto}
 .ss-onlyme{margin-top:6px}
+
+/* Finishing a shop, shopping history, the receipt photo (owner's choices, 2026-11-12). */
+.ss-line-done{flex-wrap:wrap;column-gap:6px}.ss-line-done>span{flex:1 1 60%}
+.ss-line-now .button.ss-small{flex:none}
+.ss-lead{margin:2px 0 12px;font-size:calc(16px * var(--font-adjust,1));line-height:1.45}
+.ss-act{margin:10px 0 2px}
+.ss-keep{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-weight:700}
+.ss-photo{position:relative;flex:none;min-height:min(320px,50vh);margin:0 0 12px;border-radius:14px;overflow:auto;max-height:62vh;background:var(--surface-2,#f3efe7);-webkit-overflow-scrolling:touch}
+.ss-photo img{display:block;width:100%;height:auto}
+.ss-photo-mark{position:absolute;inset-inline:0;height:9%;min-height:28px;transform:translateY(-50%);border-radius:6px;background:color-mix(in srgb,var(--yellow,#ffd451) 55%,transparent);outline:2px solid var(--accent,#ffd451);pointer-events:none}
+.ss-photo-none{margin:0 0 12px;padding:14px;border:1.5px dashed var(--border);border-radius:14px}
+.ss-rline-view{display:flex;align-items:center;gap:8px}
+.ss-rline-view .ss-rline-pick{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"raw raw" "t p";column-gap:10px;text-align:start;background:none;border:0;padding:6px 8px;border-radius:10px;color:inherit;font:inherit;min-height:44px}
+.ss-rline-view .ss-rline-pick>.ss-raw{grid-area:raw}.ss-rline-view .ss-rline-pick>.ss-text{grid-area:t}.ss-rline-view .ss-rline-pick>.ss-price{grid-area:p;align-self:center}
+.ss-rline-view.on .ss-rline-pick{background:var(--yellow,#ffd451)}
+.ss-rline-view .ss-qform{flex-basis:100%}
+.ss-rline-view{flex-wrap:wrap}

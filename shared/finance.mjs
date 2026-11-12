@@ -120,7 +120,18 @@ export function monthSummary(transactions,groups,month){
 }
 
 // Payments that repeat monthly or every two months (for example electricity), found from at least two months of history.
-export function recurringPayments(transactions,{until}={}){
+// The rows that make up one month's spending, exactly as monthSummary counts them (refunds on a card subtract, a bank
+// card payment whose card statement is loaded is skipped, a card payment without details counts as "cards"). Every
+// view that lists a category's or a payee's rows uses this, so its total always equals the Summary (owner report
+// 2026-11-12: the views did not add up).
+export function monthExpenseRows(transactions,groups,month,links=linkCardPayments(transactions,groups)){
+ return transactions.filter(t=>monthOf(t)===month&&!(t.kind==='card_payment'&&links.has(t.id))&&flowOf(t.category)==='expense'&&!(t.amount>0&&t.kind==='bank'));
+}
+
+// partial ("YYYY-MM", optional): the month still in progress. While its total is below the usual one it is not judged
+// (with two finished months or more), so a regular payment does not drop out (or look cheaper) halfway through the month (owner report
+// 2026-11-12: the weekly fuel station vanished from Who we pay on the 12th of the month).
+export function recurringPayments(transactions,{until,partial}={}){
  const groups=new Map();
  for(const t of transactions){
   if(t.amount>=0||t.kind==='card_payment')continue;
@@ -131,7 +142,10 @@ export function recurringPayments(transactions,{until}={}){
   const byMonth=new Map();for(const t of list){const m=monthOf(t);byMonth.set(m,(byMonth.get(m)||0)+(-t.amount))}
   const months=[...byMonth.keys()].sort();if(months.length<2&&!list.some(t=>t.standingOrder||t.installmentOf))continue;
   const gaps=months.slice(1).map((m,i)=>monthsBetween(months[i],m)),period=gaps.length?median(gaps):1;if(period>2)continue;
-  const amounts=months.map(m=>byMonth.get(m)),typical=median(amounts.slice(-3)),last=amounts.at(-1),previous=amounts.at(-2);
+  // The month in progress is set aside only while it is still below the usual amount (more charges may come); a
+  // bill already in at its full or a higher amount counts, so a price rise shows at once.
+  const before=months.slice(0,-1),settled=partial&&months.at(-1)===partial&&months.length>2&&byMonth.get(partial)<median(before.slice(-3).map(m=>byMonth.get(m)))?before:months;
+  const amounts=settled.map(m=>byMonth.get(m)),typical=median(amounts.slice(-3)),last=amounts.at(-1),previous=amounts.at(-2);
   const spread=Math.max(...amounts)-Math.min(...amounts);if(amounts.length>=2&&spread>typical*0.6&&!list.some(t=>t.standingOrder))continue;
   const sample=list.at(-1),lastMonth=months.at(-1),nextMonth=shiftMonth(lastMonth,period),installmentsLeft=sample.installmentOf?sample.installmentOf-sample.installmentN:null;
   if(installmentsLeft===0)continue;
