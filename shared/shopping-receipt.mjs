@@ -98,6 +98,19 @@ export function shopRows(lines,items,memory){
   other:m.filter(l=>!l.itemId),sum:cents(m.reduce((s,l)=>s+(+l.price||0),0))};
 }
 
+// The receipt is what was bought (owner 2026-11-12): a line that matched no item of its shop is still a purchase. These
+// records feed the rhythm suggestions like ticked items do (same audience as the receipt, the receipt's shop day), so a
+// product bought without being written down is suggested once it has the same steady rhythm any item needs (3 shop days).
+// Bags, deposits, discounts, delivery and lines without a positive price are never products.
+export const NOT_A_PRODUCT=/שקית|שקיות|פיקדון|פקדון|הנחה|קופון|עיגול|משלוח|דמי |\bbags?\b|deposit|discount|coupon|rounding|delivery/i;
+export function receiptPurchases(receipts,shopping=[],memory){
+ const out=[];for(const r of receipts||[]){const date=r.shopDate||String(r.createdAt||'').slice(0,10);if(!date)continue;
+  const items=shopping.filter(i=>(i.listId||'week')===r.listId);
+  for(const l of matchLines(r.lines||[],items,memory))if(!l.itemId&&l.price>0&&l.name&&!NOT_A_PRODUCT.test(l.raw+' '+l.name))
+   out.push({id:r.id+':'+(l.raw||l.name),title:l.name,he:l.name,key:productKey({title:l.name}),date,done:true,fromReceipt:true,ownerId:r.ownerId,visibility:r.visibility,allowedIds:r.allowedIds||[]})}
+ return out;
+}
+
 // Which product a receipt line is, for prices over time (owner report 2026-11-12: kebab, hamburgers and picanha were one
 // "beef" row, portobello and champignon one "mushrooms" row). The printed barcode when there is one, otherwise the printed
 // text without prices and shop codes; never the list item, icon or category the line was matched to. Computed when read,

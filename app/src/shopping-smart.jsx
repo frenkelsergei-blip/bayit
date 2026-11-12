@@ -4,13 +4,13 @@
 // no AI. A quiet date line shows the next shop; while someone shops, items added since then sit on top.
 // Styles: shopping-smart.css. Everything is written as ordinary household records and synced like the rest.
 import React,{useMemo,useState} from 'react';
-import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple,ShoppingCart} from '@phosphor-icons/react';
+import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple,ShoppingCart,DownloadSimple} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
 import {PersonChip} from './person-chip';
 import {purchaseRecords} from './statistics';
 import {anchor} from './data';
 import {cloudHeaders} from './cloud-transport.js';
-import {matchLines,shopRows,rememberedNames,priceHistory,productId,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
+import {matchLines,shopRows,rememberedNames,priceHistory,productId,groceriesMonth,matchExpense,receiptPurchases} from '../../shared/shopping-receipt.mjs';
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 import {tripFor,ShoppingTripControl} from './shopping-trip';
 import {matchItem} from '../../shared/item-dictionary.mjs';
@@ -35,8 +35,8 @@ export function useShoppingSmart(a,list,items){
  const prefs=shoppingPrefs(a),child=a.member(a.user)?.role==='child',parent=a.member(a.user)?.role==='parent';
  const trip=list?tripFor(a.data,list.id):null,shopDate=trip?.date&&trip.date>=anchor?trip.date:anchor;
  const favourites=a.visible(a.data.favourites||[]),marks=a.visible(a.data.shoppingMarks||[]);
- const suggestions=useMemo(()=>!list||!prefs.suggest||list.status!=='active'?[]:shoppingSuggestions({list,purchases:purchaseRecords(a.data,a.user,list.visibility==='private'?'private':'family','all',anchor),marks,favourites,items,today:anchor,shopDate,options:{liked:prefs.liked}}),
-  [list,items,a.data.purchases,a.data.shoppingMarks,a.data.favourites,prefs.suggest,prefs.liked,shopDate]);
+ const suggestions=useMemo(()=>!list||!prefs.suggest||list.status!=='active'?[]:shoppingSuggestions({list,purchases:[...purchaseRecords(a.data,a.user,list.visibility==='private'?'private':'family','all',anchor),...receiptPurchases(visibleReceipts(a),a.visible(a.data.shopping||[]),rememberedNames(visibleReceipts(a))).map(p=>({...p,icon:matchItem(p.title).icon,group:matchItem(p.title).group}))],marks,favourites,items,today:anchor,shopDate,options:{liked:prefs.liked}}),
+  [list,items,a.data.purchases,a.data.receipts,a.data.shoppingMarks,a.data.favourites,prefs.suggest,prefs.liked,shopDate]);
  const requests=parent&&prefs.requests&&list?favourites.filter(f=>f.status==='requested'&&a.member(f.memberId)?.role==='child'&&sameAudience(f,list)):[];
  const shop=list?shopInProgress(items,Date.now(),openShopOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id)):null;
  const free=child&&(a.data.preferences?.shoppingNoApproval||[]).includes(a.user);
@@ -219,7 +219,9 @@ export function ReceiptWindow({a,ui,list:asked,items,onClose,shop:forShop}){
 }
 
 export function PricesWindow({a,ui,list,onClose}){
- const {Icon,Button}=ui,tx=useGroceries(a),receipts=a.visible(a.data.receipts||[]).filter(r=>!list||r.listId===list.id||sameAudience(r,list)),[open,setOpen]=useState(null);
+ // Every receipt this adult may see, from every list and every finished shop (owner report 2026-11-12: a finished shop
+ // keeps its receipt under the shop record, so a per-list filter showed "No receipts yet"). Children never see prices.
+ const {Icon,Button}=ui,tx=useGroceries(a),receipts=visibleReceipts(a),[open,setOpen]=useState(null);
  // One row per product (its barcode or printed text), not per list item or category (2026-11-12).
  const month=tx?groceriesMonth(tx,anchor):null,keys=[...new Set(receipts.flatMap(r=>(r.lines||[]).map(productId)))];
  const products=keys.map(key=>{const h=priceHistory(receipts,key);return {key,name:h?.last.name||key,h}}).filter(p=>p.h).sort((x,y)=>y.h.rows.length-x.h.rows.length||x.name.localeCompare(y.name));
@@ -402,26 +404,36 @@ const lineText=(a,l)=>{const printed=String(l.raw||'').replace(/(?:^|\s)(?:\d{4,
 function ShopItemRow({a,row,receipt,editable}){
  const {item,lines,price,sure}=row;
  const answer=yes=>a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===receipt.id);if(!r)return;for(const l of r.lines||[])if(lines.some(m=>m.raw===l.raw&&m.price===l.price)){if(yes){l.name=a.text(item);l.key=productKey(item);l.confirmed=true}else l.skip=[...new Set([...(l.skip||[]),item.id])]}});
- if(lines.length>1&&sure)return lines.map((l,n)=><div className="ss-kv ss-kv-item" key={n}><span>{lineText(a,l)}</span><b>{money(a,l.price)}</b><small className="ss-kv-for">{a.T('From the list: ','מהרשימה: ')+a.text(item)}</small></div>);
+ // Receipt first (owner 2026-11-12: "the receipt proves what I bought"): each row is what the receipt says, with what the
+ // list said under it when the words differ ("Your list said: mushrooms"). The same in every case, one line or several.
+ const listWord=a.text(item),said=l=>{const t=lineText(a,l);return t&&!t.includes(listWord)};
+ if(!lines.length)return <div className="ss-kv ss-kv-item"><span>{listWord}</span><small className="ss-none">{a.T('Not on the receipt','לא בקבלה')}</small></div>;
+ if(sure)return lines.map((l,n)=><div className="ss-kv ss-kv-item" key={n}><span>{lineText(a,l)||listWord}</span><b>{money(a,l.price)}</b>{said(l)&&<small className="ss-kv-for">{a.T('Your list said: ','ברשימה היה כתוב: ')+listWord}</small>}</div>);
  return <div className="ss-kv ss-kv-item">
-  <span>{a.text(item)}</span>
-  {price!=null?<b>{money(a,price)}</b>:<small className="ss-none">{a.T('Not on the receipt','לא בקבלה')}</small>}
-  {price!=null&&!sure&&<span className="ss-kv-ask"><small>{a.T('On the receipt: ','בקבלה: ')}<bdi>{lines.map(l=>lineText(a,l)).join(', ')}</bdi></small>{editable&&<><b>{a.T('Correct?','נכון?')}</b><button type="button" className="ss-q" onClick={()=>answer(true)}><Check size={16} weight="bold"/>{a.T('Yes','כן')}</button><button type="button" className="ss-q" onClick={()=>answer(false)}><X size={16} weight="bold"/>{a.T('No','לא')}</button></>}</span>}
+  <span><bdi>{lines.map(l=>lineText(a,l)).join(', ')}</bdi></span><b>{money(a,price)}</b>
+  <span className="ss-kv-ask"><small>{a.T('Your list said: ','ברשימה היה כתוב: ')+listWord}</small>{editable&&<><b>{a.T('Correct?','נכון?')}</b><button type="button" className="ss-q" onClick={()=>answer(true)}><Check size={16} weight="bold"/>{a.T('Yes','כן')}</button><button type="button" className="ss-q" onClick={()=>answer(false)}><X size={16} weight="bold"/>{a.T('No','לא')}</button></>}</span>
  </div>;
 }
 
 // The receipt itself: the photo, and what the AI read under it. Tapping a line marks it on the photo (when the reading
 // says where it is). The person who saved it can correct a line, or attach the photo to a receipt read before photos were kept.
 export function ReceiptView({a,ui,receipt,onClose}){
- const {Button}=ui,[src,setSrc]=useState(''),[error,setError]=useState(''),[on,setOn]=useState(null),[edit,setEdit]=useState(null),[busy,setBusy]=useState(false),file=React.useRef(null),mine=receipt.ownerId===a.user;
+ const {Button}=ui,[src,setSrc]=useState(''),[error,setError]=useState(''),[on,setOn]=useState(null),[edit,setEdit]=useState(null),[busy,setBusy]=useState(false),file=React.useRef(null),mine=receipt.ownerId===a.user,[kind,setKind]=useState('');
  const live=visibleReceipts(a).find(r=>r.id===receipt.id)||receipt;
- React.useEffect(()=>{if(!live.fileId)return setSrc('');let url='';fetch(photoUrl(live.fileId),{headers:cloudHeaders()}).then(r=>r.ok?r.blob():Promise.reject()).then(b=>{url=URL.createObjectURL(b);setSrc(url)}).catch(()=>setError(a.T('The photo could not be loaded.','לא הצלחנו לטעון את התמונה.')));return()=>url&&URL.revokeObjectURL(url)},[live.fileId]);
+ React.useEffect(()=>{if(!live.fileId)return setSrc('');let url='';fetch(photoUrl(live.fileId),{headers:cloudHeaders()}).then(r=>r.ok?r.blob():Promise.reject()).then(b=>{url=URL.createObjectURL(b);setKind(b.type);setSrc(url)}).catch(()=>setError(a.T('The photo could not be loaded.','לא הצלחנו לטעון את התמונה.')));return()=>url&&URL.revokeObjectURL(url)},[live.fileId]);
  const attach=async f=>{if(!f)return;setBusy(true);setError('');try{const id=await storeReceiptPhoto(await receiptPhoto(f));await a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===live.id);if(r)r.fileId=id})}catch(e){setError(e.message)}finally{setBusy(false)}};
  const saveLine=async e=>{e.preventDefault();const price=Number(edit.price);if(!edit.name.trim()||!Number.isFinite(price)||price<0)return;await a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===live.id),l=r?.lines?.[edit.i];if(l){l.name=edit.name.trim();l.key=productKey({title:l.name});l.price=Math.round(price*100)/100;l.confirmed=true}});setEdit(null)};
  const lines=live.lines||[];
+ // Download (owner request 2026-11-12): the photo already fetched for viewing (same adult-only access), and the lines as
+ // CSV. The file name says the day and the shop.
+ const fileName=ext=>(a.T('Receipt','קבלה')+' '+(live.shopDate||String(live.createdAt||'').slice(0,10))+(live.store?' '+live.store:'')).replace(/[\\/:*?"<>|\x00-\x1f]+/g,' ').replace(/\s+/g,' ').trim().slice(0,90)+ext;
+ const save=(href,name)=>{const l=document.createElement('a');l.href=href;l.download=name;document.body.appendChild(l);l.click();l.remove()};
+ const csv=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',rows=[[a.T('Printed line','השורה בקבלה'),a.T('Item','מוצר'),a.T('Quantity','כמות'),a.T('Discount','הנחה'),a.T('Price','מחיר')],...lines.map(l=>[l.raw,l.name,l.quantity??'',l.discount||'',l.price]),['',a.T('Total','סה"כ'),'','',live.total]];
+  const url=URL.createObjectURL(new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));save(url,fileName('.csv'));setTimeout(()=>URL.revokeObjectURL(url),1000)};
  return <Window a={a} className="ss-receipt-view" title={a.T('Receipt','קבלה')+(live.shopDate?' · '+longDate(a,live.shopDate):'')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
   {src?<div className="ss-photo">{<img src={src} alt={a.T('The receipt photo','תמונת הקבלה')}/>}{on!=null&&lines[on]?.y!=null&&<i className="ss-photo-mark" style={{top:(lines[on].y*100)+'%'}}/>}</div>
-   :<div className="ss-photo-none"><p className="ss-fine">{live.fileId?(error||a.T('Loading the photo…','טוענים את התמונה…')):a.T('This receipt was read before photos were kept.','הקבלה הזו נקראה לפני שתמונות נשמרו.')}</p>{!live.fileId&&mine&&a.cloud&&<><input ref={file} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e=>attach(e.target.files?.[0])}/><Button icon={Camera} disabled={busy} onClick={()=>file.current?.click()}>{busy?a.T('Saving…','שומרים…'):a.T('Attach the photo','לצרף את התמונה')}</Button></>}</div>}
+   :<div className="ss-photo-none"><p className="ss-fine">{live.fileId?(error||a.T('Loading the photo…','טוענים את התמונה…')):a.T('This receipt was read before photos were kept, so there is no photo to download.','הקבלה הזו נקראה לפני שתמונות נשמרו, ולכן אין תמונה להורדה.')}</p>{!live.fileId&&mine&&a.cloud&&<><input ref={file} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e=>attach(e.target.files?.[0])}/><Button icon={Camera} disabled={busy} onClick={()=>file.current?.click()}>{busy?a.T('Saving…','שומרים…'):a.T('Attach the photo','לצרף את התמונה')}</Button></>}</div>}
+  <div className="ss-downloads">{src&&<Button secondary icon={DownloadSimple} onClick={()=>save(src,fileName(kind==='image/png'?'.png':kind==='image/webp'?'.webp':'.jpg'))}>{a.T('Download','הורדה')}</Button>}{lines.length>0&&<Button secondary icon={DownloadSimple} onClick={csv}>{a.T('Lines as CSV','השורות כ־CSV')}</Button>}</div>
   {error&&src&&<p className="save-error" role="alert">{error}</p>}
   <p className="ss-fine">{a.T('Tap a line to find it on the photo. If the AI got one wrong, correct it here.','לוחצים על שורה כדי למצוא אותה בתמונה. אם ה־AI טעה בשורה, מתקנים אותה כאן.')}</p>
   <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('What the AI read','מה ה־AI קרא')}>

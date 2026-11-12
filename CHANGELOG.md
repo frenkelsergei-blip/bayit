@@ -4,6 +4,15 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.74.0 · 2026-11-12
+
+- Shopping › Prices and spending now shows prices from every receipt you can see, from all your lists and finished shops. Before, it could say "No receipts yet" after a shop was finished.
+- A receipt in Shopping history can be downloaded: the photo (adults only, the same people who can view it), or its lines as a CSV file.
+- Products you buy without writing them on the list are learned from your receipts, so they can come up in suggestions. Bags, deposits, discounts and similar lines are not counted.
+- In a finished shop, each row shows what the receipt says. When the list used a different word, a small line says "Your list said: …".
+- A receipt saved before version 1.71 on a list shared with chosen people is now visible to everyone on that list, including the list's owner. It is never shared wider than the list.
+- No migration. The receipt sharing repair runs when the household's data loads (`upgradeShoppingLists` in `shared/shopping-lists.mjs`), adding only the list's own people; the stored record takes that form on the next save.
+
 ## 1.73.0 · 2026-11-12
 
 - Today has a Cards | List switch, like Calendar, Tasks and Shopping.

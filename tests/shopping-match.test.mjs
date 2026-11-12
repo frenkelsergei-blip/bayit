@@ -51,5 +51,5 @@ test('Yes is remembered: the next receipt with the same printed line matches for
 test('the shop window shows every item, the lines of each, and what is not on the list',()=>{
  const src=readFileSync(new URL('../app/src/shopping-smart.jsx',import.meta.url),'utf8');
  assert.match(src,/shopRows\(s\.receipt\.lines,s\.bought/);assert.match(src,/'Not on the receipt','לא בקבלה'/);
- assert.match(src,/'On the receipt, not on the list · '/);assert.match(src,/if\(lines\.length>1&&sure\)return lines\.map/,'two lines for one item are two rows (owner 2026-11-12)');assert.match(src,/'Correct\?','נכון\?'/);
+ assert.match(src,/'On the receipt, not on the list · '/);assert.match(src,/if\(sure\)return lines\.map\(\(l,n\)=>/,'each sure line is its own row, so two lines for one item are two rows (owner 2026-11-12)');assert.match(src,/'Correct\?','נכון\?'/);
 });

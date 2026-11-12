@@ -24,6 +24,11 @@ export function upgradeShoppingLists(data,members){
  if(!Array.isArray(data.shoppingLists))data.shoppingLists=[['week','This week','השבוע'],['school','School supplies','ציוד לבית הספר'],['home','Household','לבית']].map(([id,name,he])=>({id,name,he,ownerId:owner,visibility:'family',allowedIds:[],status:'active',createdAt:'2026-11-04T00:00:00Z'}));
  for(const item of data.shopping||[]){if(item.visibility==='private'&&['week','school','home'].includes(item.listId||'week'))item.listId='private-'+item.ownerId+'-'+(item.listId||'week');const listId=item.listId||'week';if(!data.shoppingLists.some(l=>l.id===listId))data.shoppingLists.push({id:listId,name:item.visibility==='private'?'My shopping':'Shopping list',he:item.visibility==='private'?'הקניות שלי':'רשימת קניות',ownerId:item.ownerId||owner,visibility:item.visibility||'family',allowedIds:item.allowedIds||[],status:'active',createdAt:'2026-11-04T00:00:00Z'})}
  for(const item of data.shopping||[])includeListOwner(item,data.shoppingLists.find(l=>l.id===(item.listId||'week')));
+ // Receipts saved by 1.70.0 copied the list's allowedIds as they were, so on a list another parent owns the receipt was the
+ // saver's alone (owner report 2026-11-12). Healed on load like items: a receipt on a list shared with chosen people (or on
+ // a finished shop of one) includes that list's people. Never wider than the list.
+ for(const r of data.receipts||[]){let list=data.shoppingLists.find(l=>l.id===r.listId);for(let n=0;list?.shopOf&&n<5;n++)list=data.shoppingLists.find(l=>l.id===list.shopOf)||null;
+  if(list?.visibility==='selected'&&r.visibility==='selected'&&Array.isArray(r.allowedIds)){const missing=[list.ownerId,...(list.allowedIds||[])].filter(id=>id&&id!==r.ownerId&&!r.allowedIds.includes(id));if(missing.length)r.allowedIds=[...r.allowedIds.filter(id=>id!==r.ownerId),...missing]}}
  for(const member of members){const id='private-'+member.id+'-week';if(!data.shoppingLists.some(l=>l.id===id))data.shoppingLists.push({id,name:'My shopping',he:'הקניות שלי',ownerId:member.id,visibility:'private',allowedIds:[],status:'active',createdAt:'2026-11-04T00:00:00Z'})}
  return data;
 }
