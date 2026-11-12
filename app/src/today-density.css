@@ -1,0 +1,106 @@
+/* Today density (owner's choice 2026-11-12, direction A, concept work/today-compact-20261112/concepts).
+   Cards (the default) is a tighter version of the designed cards. List (data-density=compact, from the page's
+   Cards | List toggle or the person's Settings › Lists default) puts every item on one 44px line; nothing is hidden.
+   The "Ask Bayit AI" card is deliberately untouched in both modes (owner, 2026-11-12). */
+
+/* ---- Cards (both modes start from this) ---- */
+html:root .view-today{--scale-avatar-row:40px;--scale-gap-section:16px}
+@media(max-width:700px){html:root .view-today{--scale-avatar-row:36px;--scale-gap-section:14px}}
+html:root .view-today>.page-actions{margin-top:12px!important}
+html:root .view-today>.week-strip{margin-top:12px!important}
+html:root .view-today .today-widget>h2,html:root .view-today .today-widget .section-title h2,html:root .view-today .household-home-widget>h2{font-size:calc(19px * var(--font-adjust,1))!important;margin-bottom:6px!important}
+html:root .view-today .agenda-row{padding:4px 0!important;min-height:calc(var(--scale-avatar-row) + 8px)!important}
+html:root .view-today .agenda-row p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+html:root .view-today .agenda-row .avatar-stack{margin-top:2px!important}
+html:root .view-today .agenda-row .avatar-stack .avatar{width:24px!important;height:24px!important}
+html:root .view-today .today-tasks .today-task-row{min-height:calc(var(--scale-avatar-row) + 8px)!important;padding-block:6px!important}
+html:root .view-today .today-task-row>.color-icon,html:root .view-today .today-task-row>img{width:28px!important;height:28px!important}
+html:root .view-today .today-task-people .avatar{width:30px!important;height:30px!important}
+html:root .view-today .prio-widget-row{padding:8px 12px!important;min-height:52px!important}
+html:root .view-today .prio-widget-row .avatar{width:32px!important;height:32px!important}
+html:root .view-today .prio-widget-list{gap:8px!important}
+html:root .view-today .widget-item{min-height:48px!important;padding-block:4px!important}
+html:root .view-today .widget-item .color-icon,html:root .view-today .widget-item>img{width:30px!important;height:30px!important}
+html:root .view-today .household-home-widget li button{padding-block:6px!important;min-height:48px!important}
+html:root .view-today .household-home-widget li .color-icon,html:root .view-today .household-home-widget li img{width:28px!important;height:28px!important}
+html:root .view-today .widget-note{padding-block:6px!important;min-height:48px!important}
+html:root .view-today .widget-note>.avatar{width:34px!important;height:34px!important}
+html:root .view-today .widget-note p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+html:root .view-today .widget-more{margin-top:6px!important}
+html:root .view-today .widget-empty{display:flex!important;align-items:center;gap:10px;padding:8px 0!important;text-align:start!important;flex-direction:row!important}
+html:root .view-today .widget-empty svg{width:24px!important;height:24px!important;flex:none}
+html:root .view-today .widget-empty p{margin:0!important;flex:1}
+html:root .view-today .household-widget-empty{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0!important}
+html:root .view-today .bai-today{margin-top:8px!important}
+html:root .view-today .bai-row{padding-block:6px!important}
+/* Cards | List sits in the action row on phones, never on a row of its own (design rule 4). */
+@media(max-width:700px){html:root .view-today>.page-actions{flex-wrap:nowrap!important;gap:8px!important}
+ html:root .view-today>.page-actions .heading-actions{flex:1;min-width:0;display:flex;gap:8px}
+ html:root .view-today>.page-actions .heading-actions>.button:not(.today-customize-button){flex:1;min-width:0;padding-inline:12px!important}
+ html:root .view-today>.page-actions .page-density-slot{flex:none}}
+
+/* ---- List ---- */
+html:root[data-density=compact] .view-today>.week-strip button{flex-direction:row!important;gap:4px!important;min-height:44px!important;padding:0 2px!important}
+html:root[data-density=compact] .view-today>.week-strip .week-day{font-size:calc(12px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today>.week-strip .week-date{font-size:calc(15px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .today-widget{position:relative}
+html:root[data-density=compact] .view-today .today-widget>h2,html:root[data-density=compact] .view-today .today-widget .section-title h2,html:root[data-density=compact] .view-today .household-home-widget>h2{font-size:calc(17px * var(--font-adjust,1))!important;margin:0 0 2px!important;min-height:36px;display:flex;align-items:center;gap:8px}
+html:root[data-density=compact] .view-today .household-home-widget>h2 svg{width:20px;height:20px}
+html:root[data-density=compact] .view-today .section-title{margin:0!important;min-height:36px}
+html:root[data-density=compact] .view-today .today-widget-grid>.today-widget:not(.wide)~.today-widget:not(.wide){padding-block-start:8px!important}
+html:root[data-density=compact] .view-today .today-widget-grid{row-gap:8px!important}
+html:root[data-density=compact] .view-today .widget-more{position:absolute;inset-block-start:0;inset-inline-end:0;margin:0!important;min-height:36px;font-size:calc(14px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .widget-more svg{width:15px;height:15px}
+html:root[data-density=compact] .view-today .household-home-widget{position:static}
+/* rows */
+html:root[data-density=compact] .view-today :is(.agenda-row,.today-task-row,.widget-item,.widget-note,.prio-widget-row,.household-home-widget li button,.today-kids-routines){min-height:44px!important;padding-block:2px!important}
+html:root[data-density=compact] .view-today .agenda-row{grid-template-columns:44px 10px 26px minmax(0,1fr)!important;column-gap:8px!important;--scale-avatar-row:26px}
+html:root[data-density=compact] .view-today .agenda-row:before{inset-inline-start:56px!important}
+html:root[data-density=compact] .view-today .agenda-row>.avatar{width:26px!important;height:26px!important}
+html:root[data-density=compact] .view-today .agenda-row>div{display:flex;align-items:center;gap:6px;min-width:0}
+html:root[data-density=compact] .view-today .agenda-row strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:calc(15px * var(--font-adjust,1))!important;min-width:0}
+html:root[data-density=compact] .view-today .agenda-row p{display:none!important}
+html:root[data-density=compact] .view-today .agenda-row .avatar-stack{margin:0!important;flex:none}
+html:root[data-density=compact] .view-today .agenda-row .avatar-stack .avatar{width:22px!important;height:22px!important}
+html:root[data-density=compact] .view-today .today-task-row{min-height:44px!important;padding-block:0!important;column-gap:8px!important}
+html:root[data-density=compact] .view-today .today-task-row>.color-icon,html:root[data-density=compact] .view-today .today-task-row>img{width:22px!important;height:22px!important}
+html:root[data-density=compact] .view-today .today-task-row .task-title{flex-direction:row!important;align-items:baseline!important;gap:8px!important;white-space:nowrap;overflow:hidden;font-size:calc(15px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .today-task-row .task-title>:first-child{overflow:hidden;text-overflow:ellipsis}
+html:root[data-density=compact] .view-today .today-task-meta{flex-wrap:nowrap!important;font-size:calc(12px * var(--font-adjust,1))!important;flex:none}
+html:root[data-density=compact] .view-today .today-task-meta .task-priority-label{font-size:0}
+html:root[data-density=compact] .view-today .today-task-people .avatar,html:root[data-density=compact] .view-today .today-task-people img{width:26px!important;height:26px!important}
+html:root[data-density=compact] .view-today .today-kids{margin-top:4px!important}
+html:root[data-density=compact] .view-today .today-kids-heading{margin:4px 0 0!important}
+html:root[data-density=compact] .view-today .today-kids-routines{padding-block:4px!important;border-radius:12px!important}
+html:root[data-density=compact] .view-today .today-kids-routines .avatar{width:26px!important;height:26px!important}
+html:root[data-density=compact] .view-today .bai-today{margin-top:6px!important}
+html:root[data-density=compact] .view-today .bai-row{border-width:1px!important;padding:2px 8px!important;min-height:44px!important}
+html:root[data-density=compact] .view-today .bai-row .today-task-meta,html:root[data-density=compact] .view-today .bai-row .bai-meta{display:none!important}
+html:root[data-density=compact] .view-today .bai-heading{margin:0!important;font-size:calc(14px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .prio-widget-list{gap:0!important}
+html:root[data-density=compact] .view-today .prio-widget-row{background:transparent!important;border:0!important;border-inline-start:3px solid var(--prio-high)!important;border-radius:0!important;box-shadow:none!important;padding-inline:8px!important;margin-block:2px}
+html:root[data-density=compact] .view-today .prio-widget-row .prio-mark svg{width:18px;height:18px}
+html:root[data-density=compact] .view-today .prio-widget-text{flex-direction:row!important;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden}
+html:root[data-density=compact] .view-today .prio-widget-text strong{overflow:hidden;text-overflow:ellipsis;font-size:calc(15px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .prio-widget-row .avatar{width:26px!important;height:26px!important}
+html:root[data-density=compact] .view-today .widget-item .color-icon,html:root[data-density=compact] .view-today .widget-item>img{width:22px!important;height:22px!important}
+html:root[data-density=compact] .view-today .widget-item strong{font-size:calc(15px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .household-home-widget ul{margin:0!important;gap:0!important}
+html:root[data-density=compact] .view-today .household-home-widget li button{gap:8px!important}
+html:root[data-density=compact] .view-today .household-home-widget li button>span{flex-direction:row!important;align-items:baseline;gap:8px;display:flex}
+html:root[data-density=compact] .view-today .household-home-widget li .color-icon,html:root[data-density=compact] .view-today .household-home-widget li img{width:22px!important;height:22px!important}
+html:root[data-density=compact] .view-today .household-home-widget li button>svg:last-child{display:none}
+html:root[data-density=compact] .view-today .widget-note{gap:8px!important}
+html:root[data-density=compact] .view-today .widget-note>.avatar,html:root[data-density=compact] .view-today .widget-note>span.avatar{width:26px!important;height:26px!important}
+html:root[data-density=compact] .view-today .widget-note>div{display:flex;align-items:baseline;gap:8px;white-space:nowrap;overflow:hidden;min-width:0}
+html:root[data-density=compact] .view-today .widget-note>div strong{flex:none;font-size:calc(15px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .widget-note>div p{margin:0!important;overflow:hidden;text-overflow:ellipsis;display:block!important;color:var(--muted)}
+html:root[data-density=compact] .view-today .widget-note>svg{width:16px;height:16px}
+/* An empty section keeps its button (nothing is hidden in List); only the big picture goes. */
+html:root[data-density=compact] .view-today .widget-empty>svg{display:none!important}
+html:root[data-density=compact] .view-today .widget-empty .button{min-height:44px;flex:none}
+html:root[data-density=compact] .view-today :is(.widget-empty p,.household-widget-empty){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block!important;color:var(--muted);font-size:calc(14px * var(--font-adjust,1))!important;min-height:32px;line-height:32px;margin:0!important}
+html:root[data-density=compact] .view-today .today-whose-note{margin-top:2px!important;font-size:calc(13px * var(--font-adjust,1))!important}
+html:root[data-density=compact] .view-today .section-title{justify-content:flex-start!important;gap:8px}
+html:root[data-density=compact] .view-today .prio-widget-row .prio-widget-text{display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important;min-width:0;flex:1}
+html:root[data-density=compact] .view-today .prio-widget-row .prio-widget-text small{flex:none;margin:0!important}

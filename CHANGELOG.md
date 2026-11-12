@@ -4,6 +4,16 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.73.0 · 2026-11-12
+
+- Today has a Cards | List switch, like Calendar, Tasks and Shopping.
+- Cards on Today is more compact for everyone: smaller faces and icons, one-line event notes and shorter gaps, so more of your day fits on the screen.
+- List shows each event, task and item on one line, and hides nothing: the same items and links as in Cards.
+- The "Ask Bayit AI" card stays exactly as it was, in both views.
+- If you already chose List under Settings › Lists, Today opens as a list after this update. Today's own switch changes it back.
+- Children get the switch too, and their choice is their own.
+- No data or migration change. The styles are in `app/src/today-density.css`, scoped to the Today page.
+
 ## 1.72.0 · 2026-11-12
 
 - Shopping: ticking an item no longer tells the family that you are shopping. A shop starts when you press "Start shopping", or answer "Yes, I am shopping" when your first tick asks.
