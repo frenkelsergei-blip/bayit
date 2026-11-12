@@ -11,6 +11,8 @@ import {createRequire} from 'node:module';
 import {openD1,migrate} from '../app/host/d1-sqlite.mjs';
 import {encryptKey,hash,localDate} from '../app/cloud/util.mjs';
 import {blankState} from '../app/cloud/state.mjs';
+// Telegram tidy-up (2026-11-12): every line starts with a direction mark (English too), Hebrew in English text is isolated.
+const plain=s=>String(s).replace(/\u200e/g,'').replace(/\u2068([^\u2069]*)\u2069/g,'$1');
 import {FEATURE_IDS} from '../shared/features.mjs';
 import {whenLabel} from '../shared/item-reminders.mjs';
 import {snoozable,snoozeStillDue} from '../app/cloud/reminders.mjs';
@@ -58,7 +60,7 @@ test('user report: a snoozed reminder for an event that was then moved 4 days la
  const today=localDate(),f=await fixture(s=>{s.events=[record('cut',{title:'Family haircut',he:'תספורת משפחתית',date:today,time:'18:00',memberIds:['dad'],reminders:[120]})]});
  try{
   let mark=f.sent.length;await f.tick(today,'16:00');const first=f.messages('dad',mark)[0];
-  assert.match(first.text,/<b>18:00<\/b> · in 2 h/);const snooze=f.buttons(first).find(b=>/Snooze 10 min/.test(b.text));assert.ok(snooze,'a same-day event two hours away may be snoozed');
+  assert.match(first.text,/<code>18:00<\/code>  <i>📅 Event reminder · in 2 h<\/i>/);const snooze=f.buttons(first).find(b=>/Snooze 10 min/.test(b.text));assert.ok(snooze,'a same-day event two hours away may be snoozed');
   await f.press('dad',snooze.callback_data);assert.equal((await f.DB.prepare('SELECT COUNT(*) n FROM telegram_snoozes').first()).n,1);
   const moved=await f.load();moved.events[0].date=shift(today,4);await f.save(moved);
   await f.DB.prepare('UPDATE telegram_snoozes SET due_at=0').run();
@@ -66,7 +68,7 @@ test('user report: a snoozed reminder for an event that was then moved 4 days la
   assert.deepEqual(f.messages('dad',mark).map(m=>m.text),[],'before the fix: "18:00 · in 1 h 49 min" for an event now 4 days away');
   assert.equal(result.suppressed,1);
   // The moved event keeps its own correct reminders on its new date.
-  mark=f.sent.length;await f.tick(shift(today,4),'16:00');assert.match(f.messages('dad',mark)[0].text,/<b>18:00<\/b> · in 2 h/);
+  mark=f.sent.length;await f.tick(shift(today,4),'16:00');assert.match(f.messages('dad',mark)[0].text,/<code>18:00<\/code>  <i>📅 Event reminder · in 2 h<\/i>/);
  }finally{f.DB.close()}
 });
 
@@ -75,12 +77,12 @@ test('a reminder days ahead states the real distance and offers no 10-minute sno
  try{
   let mark=f.sent.length;await f.tick('2026-11-06','16:00');
   const en=f.messages('dad',mark)[0],he=f.messages('mom',mark)[0];
-  assert.equal(en.text,'🔔 <b>Family haircut</b>\n📅 Event reminder · <b>In 4 days · Tue 10 Nov at 16:00</b>');
-  assert.equal(he.text,'‏🔔 <b>תספורת משפחתית</b>\n‏📅 תזכורת לאירוע · <b>בעוד 4 ימים · יום ג׳, 10 בנוב׳ ב־16:00</b>');
+  assert.equal(plain(en.text),'🔔 <b>Family haircut</b>\n<blockquote><b>In 4 days · Tue 10 Nov at 16:00</b>  <i>📅 Event reminder</i></blockquote>');
+  assert.equal(he.text,'‏🔔 <b>תספורת משפחתית</b>\n<blockquote>‏<b>בעוד 4 ימים · יום ג׳, 10 בנוב׳ ב־16:00</b>  <i>📅 תזכורת לאירוע</i></blockquote>');
   for(const m of [en,he,f.messages('kid',mark)[0]]){assert.deepEqual(f.buttons(m),[],'no snooze for a later day');assert.doesNotMatch(m.text,/in \d+ h|בעוד שעתיים|בעוד \d+ שעות/)}
   mark=f.sent.length;await f.tick(day,'14:00');
-  assert.equal(f.messages('dad',mark)[0].text,'🔔 <b>Family haircut</b>\n📅 Event reminder · <b>16:00</b> · in 2 h');
-  assert.equal(f.messages('mom',mark)[0].text,'‏🔔 <b>תספורת משפחתית</b>\n‏📅 תזכורת לאירוע · <b>16:00</b> · בעוד שעתיים');
+  assert.equal(plain(f.messages('dad',mark)[0].text),'🔔 <b>Family haircut</b>\n<blockquote><code>16:00</code>  <i>📅 Event reminder · in 2 h</i></blockquote>');
+  assert.equal(f.messages('mom',mark)[0].text,'‏🔔 <b>תספורת משפחתית</b>\n<blockquote>‏<code>16:00</code>  <i>📅 תזכורת לאירוע · בעוד שעתיים</i></blockquote>');
   assert.deepEqual(f.buttons(f.messages('mom',mark)[0]).map(b=>b.text),['נודניק 10 דק׳']);
  }finally{f.DB.close()}
 });
@@ -131,7 +133,7 @@ test('a snoozed event that has already started is not re-sent; a snoozed task ar
   for(const [kind,id] of [['event','meet'],['task','bins']])await f.DB.prepare('INSERT INTO telegram_snoozes(id,household_id,member_id,payload,due_at) VALUES(?,?,?,?,0)').bind(id+'-snooze','home','dad',JSON.stringify({kind,id,date:today,category:kind+'s'})).run();
   const mark=f.sent.length,result=await f.tick(today,'10:20'),got=f.messages('dad',mark);
   assert.equal(result.suppressed,1);assert.equal(got.length,1);
-  assert.equal(got[0].text,'🔔 <b>Bins</b>\n✅ Task reminder · <b>09:00</b> · 1 h 20 min ago');
+  assert.equal(plain(got[0].text),'🔔 <b>Bins</b>\n<blockquote><code>09:00</code>  <i>✅ Task reminder · 1 h 20 min ago</i></blockquote>');
   assert.deepEqual(f.buttons(got[0]).map(b=>b.text),['✓ Done']);
  }finally{f.DB.close()}
 });
@@ -164,15 +166,16 @@ test('access: private items, money and insurance never reach someone who cannot 
 test('money alerts keep merchant names whole, start parts with a capital and say when a limit is exceeded',()=>{
  const report={month:'2026-11',alerts:[{type:'category',category:'groceries',value:120050,target:100000,level:100},{type:'remaining',value:90000,target:150000,level:'warn'},{type:'price',merchant:'Netflix Israel Ltd.',value:5490,changePercent:12}]};
  const [category,remaining,price]=goalMessages(report,'family','en').map(m=>alertCard('en',{icon:'💰',title:m.title,detail:m.detail}));
- assert.match(category,/• Over by ⁦₪200\.50⁩$/);
- assert.match(remaining,/• Goal ⁦₪1,500\.00⁩\n• Projected remainder ⁦₪900\.00⁩\n• Gap ⁦₪600\.00⁩$/);
- assert.match(price,/• Netflix Israel Ltd\n• ⁦₪54\.90⁩\n• \+12% vs its previous recorded month$/);assert.doesNotMatch(price,/• ·/);
+ // One fact per line in a box; money keeps its own isolate (LRI…PDI), which the English direction pass must not strip.
+ assert.match(plain(category),/\nOver by \u2066₪200\.50\u2069<\/blockquote>$/);
+ assert.match(plain(remaining),/Goal \u2066₪1,500\.00\u2069\nProjected remainder \u2066₪900\.00\u2069\nGap \u2066₪600\.00\u2069<\/blockquote>$/);
+ assert.match(plain(price),/<blockquote>Netflix Israel Ltd\n\u2066₪54\.90\u2069\n\+12% vs its previous recorded month<\/blockquote>$/);assert.doesNotMatch(price,/• ·/);
  assert.match(alertCard('he',{icon:'💰',title:'x',detail:goalMessages(report,'family','he')[0].detail}),/חריגה של/);
 });
 
 test('the day report and /tasks mark a high-priority task the same way (star with the title, after the time)',()=>{
  const date='2026-11-10',visible={events:[],tasks:[record('t',{title:'Trash',date,time:'19:00',memberId:'dad',memberIds:['dad'],priority:'high'})],shopping:[],shoppingLists:[],preferences:{}};
- assert.match(dayReport(visible,{memberId:'dad',role:'parent',date,lang:'en',members:[{id:'dad',name:'Dan'}]}).text,/• <b>19:00<\/b> · ⭐ Trash/);
+ assert.match(plain(dayReport(visible,{memberId:'dad',role:'parent',date,lang:'en',members:[{id:'dad',name:'Dan'}]}).text),/<blockquote>⭐ <code>19:00<\/code>  <b>Trash<\/b><\/blockquote>/);
 });
 
 test('linking replies and insurance choices are in the person’s own language and names',async()=>{
@@ -186,7 +189,7 @@ test('linking replies and insurance choices are in the person’s own language a
   const plain=f.env.OUTBOUND_FETCH,objects=new Map();f.env.OUTBOUND_FETCH=async(url,o)=>String(url).includes('/file/bot')?new Response(bytes):String(url).endsWith('/getFile')?Response.json({ok:true,result:{file_path:'files/r.xlsx',file_size:bytes.length}}):plain(url,o);
   f.env.FILES={async put(k,b){objects.set(k,new Uint8Array(b))},async get(k){const b=objects.get(k);return b?{body:new Response(b).body}:null},async delete(k){objects.delete(k)}};
   mark=f.sent.length;await f.upload('mom',{file_id:'f1',file_name:'report.xlsx'});const preview=f.messages('mom',mark)[0];
-  assert.match(preview.text,/‏• 2 שורות כיסוי\n‏• מספר פוליסה אחד\n/);
+  assert.match(preview.text,/<blockquote>‏2 שורות כיסוי\n‏מספר פוליסה אחד\n/);
   assert.deepEqual(f.buttons(preview).map(b=>b.text).sort(),['הדוח עבור: מאיה','הדוח עבור: דן','הדוח עבור: נועה','ביטול הדוח'].sort());
   assert.equal((await f.load()).insurances.length,0,'nothing is saved before the insured person is chosen and confirmed');
  }finally{f.DB.close()}
@@ -203,11 +206,11 @@ test('production case: a 2-hour reminder belongs to the stored occurrence only; 
  try{
   let mark=f.sent.length;await f.tick('2026-11-08','14:40');assert.deepEqual(f.sent.slice(mark).filter(x=>x.method==='sendMessage'),[]);
   mark=f.sent.length;await f.tick('2026-11-12','14:40');
-  assert.equal(f.messages('dad',mark)[0].text,'🔔 <b>Haircut</b>\n📅 Event reminder · <b>16:40</b> · in 2 h','English for a profile whose language is English');
-  assert.equal(f.messages('mom',mark)[0].text,'‏🔔 <b>תספורת</b>\n‏📅 תזכורת לאירוע · <b>16:40</b> · בעוד שעתיים');
+  assert.equal(plain(f.messages('dad',mark)[0].text),'🔔 <b>Haircut</b>\n<blockquote><code>16:40</code>  <i>📅 Event reminder · in 2 h</i></blockquote>','English for a profile whose language is English');
+  assert.equal(f.messages('mom',mark)[0].text,'‏🔔 <b>תספורת</b>\n<blockquote>‏<code>16:40</code>  <i>📅 תזכורת לאירוע · בעוד שעתיים</i></blockquote>');
   // Dated "today" (the New event form's default date), the same reminder is due at 14:40 and its text is right for that record.
   const today=await f.load();today.events[0].date='2026-11-08';await f.save(today);await f.DB.prepare('DELETE FROM notification_deliveries').run();
-  mark=f.sent.length;await f.tick('2026-11-08','14:40');assert.match(f.messages('dad',mark)[0].text,/<b>16:40<\/b> · in 2 h/);
+  mark=f.sent.length;await f.tick('2026-11-08','14:40');assert.match(f.messages('dad',mark)[0].text,/<code>16:40<\/code>  <i>📅 Event reminder · in 2 h<\/i>/);
  }finally{f.DB.close()}
 });
 
@@ -236,18 +239,18 @@ test('changes by someone else reach the assignee on Telegram and correct the rem
   let mark=f.sent.length;await after(30000);assert.equal(f.sent.slice(mark).filter(x=>x.method==='sendMessage').length,0,'held while Maya may still be editing');
   mark=f.sent.length;const result=await after(3*60000);
   const moved=f.messages('dad',mark);assert.equal(moved.length,1);
-  assert.equal(moved[0].text,'✏️ <b>Haircut</b>\nMoved by Maya · '+changeWhen({date:later,time:'16:40'},'en')+' (was '+changeWhen({date:today,time:'16:40'},'en')+')');
+  assert.equal(plain(moved[0].text),'✏️ <b>Haircut</b>\n<i>Moved by Maya · '+changeWhen({date:later,time:'16:40'},'en')+' (was '+changeWhen({date:today,time:'16:40'},'en')+')</i>');
   assert.deepEqual(f.messages('mom',mark),[],'the person who made the change gets no message');
   const edits=f.sent.slice(mark).filter(x=>x.method==='editMessageText');assert.equal(edits.length,2,'both sent reminders are corrected');assert.equal(result.corrected,2);
   const dadEdit=edits.find(e=>e.chat_id===String(200));assert.equal(dadEdit.message_id,firstDad.message_id||dadEdit.message_id);
-  assert.match(dadEdit.text,/^🔔 <b><s>Haircut<\/s><\/b>\n📅 Event reminder · <b>Moved to .*16:40<\/b>$/);assert.deepEqual(dadEdit.reply_markup,{inline_keyboard:[]},'no Snooze on a corrected reminder');
+  assert.match(plain(dadEdit.text),/^🔔 <b><s>Haircut<\/s><\/b>\n<i>📅 Event reminder · <b>Moved to .*16:40<\/b><\/i>$/);assert.deepEqual(dadEdit.reply_markup,{inline_keyboard:[]},'no Snooze on a corrected reminder');
   assert.match(edits.find(e=>e.chat_id===String(100)).text,/<s>תספורת<\/s>.*הועבר ל־/s);
   mark=f.sent.length;await after(4*60000);assert.equal(f.sent.slice(mark).filter(x=>/sendMessage|editMessageText/.test(x.method)).length,0,'each change is told and corrected once');
   // Dan deletes nothing he does not own; Maya deletes: Dan is told in English, nothing for Maya.
   {const s=await f.load();for(const n of s.changeNotices)n.at=new Date(Date.now()-10*60000).toISOString();await f.save(s)} // Time passes.
   await commit('mom',()=>[{collection:'events',id:'cut',delete:true}]);
   mark=f.sent.length;await after(6*60000);
-  assert.equal(f.messages('dad',mark)[0].text,'🗑️ <b>Haircut</b>\nDeleted by Maya · Was '+changeWhen({date:later,time:'16:40'},'en'));
+  assert.equal(plain(f.messages('dad',mark)[0].text),'🗑️ <b>Haircut</b>\n<i>Deleted by Maya · Was '+changeWhen({date:later,time:'16:40'},'en')+'</i>');
  }finally{f.DB.close()}
 });
 
@@ -258,10 +261,61 @@ test('Hebrew change message, "removed from", and the switch in Settings',async()
  try{
   await commit('dad',s=>[{collection:'events',id:'trip',value:{...s.events[0],time:'09:30',memberIds:['mom','dad']}}]);
   let mark=f.sent.length;await after(3*60000);
-  assert.match(f.messages('mom',mark)[0].text,/^‏✏️ <b>טיול<\/b>\n‏הועבר על ידי דן · .* ב־09:30 \(היה .* ב־08:00\)$/);
-  assert.match(f.messages('kid',mark)[0].text,/^‏👤 <b>טיול<\/b>\n‏הוסרתם · על ידי דן · /);
+  assert.match(f.messages('mom',mark)[0].text,/^‏✏️ <b>טיול<\/b>\n‏<i>הועבר על ידי דן · .* ב־09:30 \(היה .* ב־08:00\)<\/i>$/);
+  assert.match(f.messages('kid',mark)[0].text,/^‏👤 <b>טיול<\/b>\n‏<i>הוסרתם · על ידי דן · /);
   const s=await f.load();s.profiles.mom.notificationPrefs={...s.profiles.mom.notificationPrefs,itemChanges:false};await f.save(s);
   await commit('dad',s=>[{collection:'events',id:'trip',value:{...s.events[0],time:'10:00'}}]);
   mark=f.sent.length;await after(10*60000);assert.deepEqual(f.messages('mom',mark),[],'“Changes to things assigned to me” switched off');
  }finally{f.DB.close()}
+});
+
+// Telegram tidy-up (2026-11-12, owner chose "D · Boxes, nicer"): what a child finishes and what waits for a parent's OK
+// is ONE message per child and day that updates itself, instead of a new "🎉 … Completed by Noa" for each.
+test('a child’s day is one message that updates itself; a message that can no longer be edited is sent again',async()=>{
+ const today=localDate(),done=(id,taskId,title,he,time)=>({id,taskId,memberId:'kid',actorId:'kid',ownerId:'mom',visibility:'family',allowedIds:[],title,he,date:today,time,done:true});
+ const f=await fixture(s=>{s.history=[done('h1','bed','Make the bed','לסדר את המיטה','07:40')];
+  s.tasks=[...['bed','cat','room','read'].map(id=>record(id,{title:id,date:today,memberId:'kid',memberIds:['kid'],routine:true,repeat:'daily'})),record('teeth',{title:'Brush teeth',he:'לצחצח שיניים',date:today,memberId:'kid',memberIds:['kid'],routine:true,repeat:'daily',parentConfirm:true,completions:{[today]:{state:'pending',actorId:'kid',time:'07:55'}}})]});
+ try{
+  // What dad's chat shows now: the last text sent or edited into that message.
+  const shown=(chat,since)=>{const xs=f.sent.slice(since).filter(x=>/sendMessage|editMessageText/.test(x.method)&&x.chat_id===chat);return xs.at(-1)};
+  let mark=f.sent.length;await f.tick(today,'08:00');
+  const first=f.messages('dad',mark);assert.equal(first.length,1,'one message, not one per item (the second item edits it)');
+  assert.equal(plain(shown('200',mark).text),'🎉 <b>Noa today</b>  <i>1 done · 1 needs your OK</i>\n<blockquote><code>07:40</code>  <b>Make the bed</b>\n<code>07:55</code>  <b>Brush teeth</b>  <i>⏳ needs your OK</i></blockquote>\n<i>This message updates itself during the day.</i>');
+  assert.deepEqual(f.buttons(shown('200',mark)).map(b=>b.text),['Approve: Brush teeth']);
+  assert.match(f.messages('mom',mark)[0].text,/^‏🎉 <b>נועה היום<\/b>/,'Hebrew for Maya');
+  // Later: one more done → the same message is edited, nothing new is sent.
+  {const s=await f.load();s.history.push(done('h2','cat','Feed the cat','להאכיל את החתול','08:10'));await f.save(s)}
+  mark=f.sent.length;await f.tick(today,'08:15');
+  assert.deepEqual(f.messages('dad',mark),[]);const edit=f.sent.slice(mark).find(x=>x.method==='editMessageText'&&x.chat_id==='200');
+  assert.equal(edit.message_id,first[0].message_id||edit.message_id);assert.match(plain(edit.text),/2 done · 1 needs your OK[\s\S]*Make the bed[\s\S]*Brush teeth[\s\S]*Feed the cat/);
+  assert.deepEqual(edit.reply_markup.inline_keyboard.flat().map(b=>b.text),['Approve: Brush teeth'],'the Approve button stays');
+  // Deleted in the chat (or too old): Telegram refuses the edit → a new message with everything, remembered for next time.
+  const real=f.env.OUTBOUND_FETCH;f.env.OUTBOUND_FETCH=async(url,o)=>/editMessageText$/.test(new URL(url).pathname)?Response.json({ok:false,error_code:400,description:'Bad Request: message to edit not found'},{status:400}):real(url,o);
+  {const s=await f.load();s.history.push(done('h3','room','Tidy the room','לסדר את החדר','16:45'));await f.save(s)}
+  mark=f.sent.length;await f.tick(today,'16:50');
+  const again=f.messages('dad',mark);assert.equal(again.length,1);assert.match(plain(again[0].text),/3 done · 1 needs your OK[\s\S]*Tidy the room/);
+  f.env.OUTBOUND_FETCH=real;
+  {const s=await f.load();s.history.push(done('h4','read','Read a book','לקרוא ספר','17:00'));await f.save(s)}
+  mark=f.sent.length;await f.tick(today,'17:05');assert.deepEqual(f.messages('dad',mark),[]);
+  assert.equal(f.sent.slice(mark).find(x=>x.method==='editMessageText'&&x.chat_id==='200').message_id,again[0].message_id||f.sent.indexOf(again[0])+1,'the new message is the one edited next');
+  assert.deepEqual(f.messages('kid',0).filter(m=>/today|היום/.test(m.text)&&/🎉/.test(m.text)),[],'the child gets no report about themselves');
+ }finally{f.DB.close()}
+});
+
+// Bot picture (owner, 2026-11-12; Bot API 9.4 setMyProfilePhoto): the Bayit logo once, only when the bot has none.
+test('the bot gets the Bayit logo once when it has no picture, never over a picture the family chose',async()=>{
+ for(const [count,expected] of [[0,'set'],[1,'kept']]){
+  const f=await fixture(),calls=[];
+  f.env.OUTBOUND_FETCH=async(url,o)=>{const method=new URL(url).pathname.split('/').at(-1);calls.push({method,body:o.body});
+   if(method==='getUserProfilePhotos')return Response.json({ok:true,result:{total_count:count,photos:[]}});
+   if(method==='setMyProfilePhoto')return Response.json({ok:true,result:true});
+   return Response.json({ok:true,result:method==='sendMessage'?{message_id:calls.length}:true})};
+  try{
+   await f.tick(localDate(),'12:00');await f.tick(localDate(),'12:01');
+   const sets=calls.filter(c=>c.method==='setMyProfilePhoto');assert.equal(calls.filter(c=>c.method==='getUserProfilePhotos').length,1,'checked once, not every minute');
+   assert.equal(sets.length,expected==='set'?1:0);
+   if(sets[0]){const form=sets[0].body;assert.ok(form instanceof FormData);assert.deepEqual(JSON.parse(form.get('photo')),{type:'static',photo:'attach://bayit'});const jpg=new Uint8Array(await form.get('bayit').arrayBuffer());assert.deepEqual([...jpg.slice(0,3)],[0xff,0xd8,0xff],'a JPEG');assert.equal(form.get('bayit').type,'image/jpeg')}
+   assert.equal((await f.DB.prepare("SELECT detail FROM service_heartbeats WHERE name='tg-photo:home'").first()).detail,expected);
+  }finally{f.DB.close()}
+ }
 });

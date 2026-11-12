@@ -55,11 +55,25 @@ test('the morning summary says there is a shop today, with the time and who goes
  const date=localDate(),visible={members:[{id:'mom',name:'Dana'}],preferences:{},events:[],tasks:[{id:'t',kind:'shopping-trip',shoppingListId:'week',date,time:'17:30',memberId:'mom',ownerId:'mom',title:'Shopping: This week',visibility:'family',allowedIds:[]}],
   shoppingLists:[{id:'week',name:'This week',he:'השבוע',status:'active',visibility:'family',ownerId:'mom'}],shopping:[{id:'m',listId:'week',title:'Milk',he:'חלב',done:false}]};
  const en=dayReport(visible,{memberId:'mom',role:'parent',date,lang:'en',members:[{id:'mom',name:'Dana',he:'דנה'}],greeting:true}).text;
- assert.match(en,/Shopping today · 17:30 · Dana · This week · 1 left/);
+ const plainEn=en.replace(/[\u200e\u2068\u2069]/g,'');assert.match(plainEn,/🛒 <b>Shopping today<\/b>  <i>17:30 · Dana<\/i>\n<blockquote><b>This week<\/b>  <i>1 left<\/i>\nMilk<\/blockquote>/);
  const he=dayReport(visible,{memberId:'mom',role:'parent',date,lang:'he',members:[{id:'mom',name:'Dana',he:'דנה'}],greeting:true}).text;
- assert.match(he,/היום יש קניות · 17:30 · דנה · השבוע · נותרו 1/);
+ assert.match(he,/🛒 <b>היום יש קניות<\/b>  <i>17:30 · דנה<\/i>\n<blockquote>‏<b>השבוע<\/b>  <i>נותרו 1<\/i>\n‏חלב<\/blockquote>/);
+ assert.doesNotMatch(plainEn,/To do/,'the trip is not repeated under To do');
  const off=dayReport({...visible,preferences:{shoppingByUser:{mom:{dayMessage:false}}}},{memberId:'mom',role:'parent',date,lang:'en',members:[{id:'mom',name:'Dana'}],greeting:true}).text;
  assert.doesNotMatch(off,/Shopping today/);
+});
+
+// Owner, 2026-11-12: "it still sends me today's shopping list even though we asked for it by date". Live data had no
+// planned trip at all; the morning message showed the first active list every day. Now: only on the planned day.
+test('the shopping list is in the morning message only on the day a shop is planned, never for a list with no date',()=>{
+ const date=localDate(),tomorrow=new Date(Date.parse(date+'T12:00:00Z')+86400000).toISOString().slice(0,10),members=[{id:'mom',name:'Dana',he:'דנה'},{id:'dad',name:'Avi',he:'אבי'}];
+ const base={members,preferences:{activeShoppingListByUser:{mom:'week'}},events:[],shoppingLists:[{id:'week',name:'This week',status:'active',visibility:'family',ownerId:'mom'}],shopping:[{id:'m',listId:'week',title:'Milk',done:false}]};
+ const day=(tasks,memberId='mom')=>dayReport({...base,tasks},{memberId,role:'parent',date,lang:'en',members,greeting:true}).text;
+ const trip=d=>({id:'t',kind:'shopping-trip',shoppingListId:'week',date:d,time:'17:30',memberId:'mom',ownerId:'mom',title:'Shopping: This week',visibility:'family',allowedIds:[]});
+ assert.doesNotMatch(day([]),/Shopping|Milk/,'no date: not in the morning message');
+ assert.doesNotMatch(day([trip(tomorrow)]),/Shopping|Milk/,'planned for tomorrow: not today');
+ assert.match(day([trip(date)]),/Shopping today[\s\S]*Milk/,'on the day');
+ assert.match(day([trip(date)],'dad'),/Shopping today[\s\S]*Milk/,'also to the other adults who see the trip, as before');
 });
 
 test('"Add cucumbers and tomatoes" in Telegram without an AI key adds them at once, with Undo',async()=>{

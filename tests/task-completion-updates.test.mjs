@@ -100,7 +100,9 @@ test('confirmed shared completion is delivered once to each linked assignee on T
   const sent=calls.filter(c=>c.method==='sendMessage');assert.deepEqual(sent.map(c=>c.body.chat_id).sort(),['second-chat','third-chat']);assert.ok(sent.every(c=>c.body.text.includes('Creator')&&c.body.text.includes('Fictional shared task')));
   assert.deepEqual(pushCalls.sort(),['https://fcm.googleapis.com/fixture/second','https://fcm.googleapis.com/fixture/third']);
   const deliveries=(await DB.prepare('SELECT member_id,channel,delivery_key,status FROM notification_deliveries ORDER BY member_id,channel').all()).results;
-  assert.equal(deliveries.length,4);assert.ok(deliveries.every(d=>d.status==='sent'&&d.delivery_key==='done:shared:'+date));
+  // Telegram tidy-up (2026-11-12): Telegram also keeps one "group:<who>:<date>" row per reader for the one message that updates itself.
+  const own=deliveries.filter(d=>!d.delivery_key.startsWith('group:'));assert.equal(own.length,4);assert.ok(own.every(d=>d.status==='sent'&&d.delivery_key==='done:shared:'+date));
+  assert.deepEqual(deliveries.filter(d=>d.delivery_key.startsWith('group:')).map(d=>d.channel+':'+d.member_id).sort(),['telegram:second','telegram:third']);
   assert.equal((await deliverReminders(env,morning)).sent,0);assert.equal((await deliverPush(env,morning,options)).sent,0);assert.equal(calls.filter(c=>c.method==='sendMessage').length,2);assert.equal(pushCalls.length,2);
  }finally{DB.close()}
 });

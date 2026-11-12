@@ -4,6 +4,13 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.70.0 · 2026-11-12
+
+- Telegram: the morning message shows the shopping list only on a planned shop day, with its time and who is going. On other days, /shopping still shows any list.
+- All bot messages have a new layout: a heading over a quote box, each line starting with the time and the name, with details in italics. Hebrew items in an English chat no longer jump between sides.
+- What a child finishes during the day, and what waits for your OK, now arrives as one message that updates itself instead of a new message each time. The Approve buttons stay on it.
+- A bot with no picture gets the Bayit logo (Bot API `setMyProfilePhoto`). A picture you chose is kept; a parent can switch to the logo in Settings › Telegram › Manage the bot.
+
 ## 1.69.0 · 2026-11-12
 
 - Shopping: photograph a handwritten note. Your household's AI helper turns it into a list to tick; items already on the list start unticked, and nothing is added until you press "Add N items". The photo is not kept. For adults, from the list's ⋯ menu.
