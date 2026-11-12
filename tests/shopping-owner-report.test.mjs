@@ -62,9 +62,10 @@ test('Telegram and other transfers add items that the list’s owner sees',()=>{
 test('“Added during the shop” holds only what was added after the first tick',()=>{
  const items=[item('built-10:15',{createdAt:'2026-11-12T10:15:02Z'}),item('built-10:24',{createdAt:'2026-11-12T10:24:52Z'}),
   item('ticked',{createdAt:'2026-11-12T10:15:16Z',done:true,boughtAt:'2026-11-12T10:25:00Z',boughtBy:'daniel'}),item('added-later',{createdAt:'2026-11-12T10:26:00Z',createdBy:'hila'})];
- const now=Date.parse('2026-11-12T10:27:00Z'),shop=shopInProgress(items,now);assert.equal(shop.startedAt,'2026-11-12T10:25:00Z');
+ // Since the shopping flow (2026-11-12) a shop is one someone started; here Daniel pressed Start at 10:25.
+ const now=Date.parse('2026-11-12T10:27:00Z'),shop=shopInProgress(items,now,{id:'s',ownerId:'daniel',startedAt:'2026-11-12T10:25:00Z'});assert.equal(shop.startedAt,'2026-11-12T10:25:00Z');
  assert.deepEqual(items.filter(i=>addedDuringShop(i,shop)).map(i=>i.id),['added-later']);
- assert.ok(isNewItem(items[1],shop,now),'the “New” tag still shows on what was just added');
+ assert.ok(isNewItem(items[3],'daniel','2026-11-12T10:25:30Z'),'“New” on what Hila added since Daniel last looked');
  assert.equal(addedDuringShop(items[3],null),false,'no shop, no group');
 });
 

@@ -18,7 +18,8 @@ import {withPDFSlot} from './pdf-budget.mjs';
 import {telegramLinkIdentity,authorizeTelegramClaim,claimTelegramLink,ownAccountInvitation} from './child-identity.mjs';
 import {externalFetch,boundedBytes,boundedJSON} from './outbound.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
-import {parseQuickAdd,shopInProgress} from '../../shared/shopping-rhythm.mjs';
+import {parseQuickAdd} from '../../shared/shopping-rhythm.mjs';
+import {openShopOf} from '../../shared/shopping-history.mjs';
 import {matchItem} from '../../shared/item-dictionary.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
 import {searchVouchers,voucherLink} from './voucher-delivery.mjs';
@@ -369,7 +370,7 @@ const QUICK_ADD=/^\s*(?:תוסיפ[וי]?|תוסיף|להוסיף|הוסף|הו�
 // The list the words go to: the one being shopped now, else today's planned shop, else this person's active list.
 function quickAddList(visible,memberId,date){
  const lists=(visible.shoppingLists||[]).filter(l=>l.status==='active');if(!lists.length)return null;
- const shopping=lists.find(l=>shopInProgress((visible.shopping||[]).filter(i=>(i.listId||'week')===l.id)));if(shopping)return shopping;
+ const shopping=lists.find(l=>openShopOf(visible.shoppingLists,l.id));if(shopping)return shopping;
  const trip=(visible.tasks||[]).find(t=>t.kind==='shopping-trip'&&t.date===date&&lists.some(l=>l.id===t.shoppingListId));if(trip)return lists.find(l=>l.id===trip.shoppingListId);
  return lists.find(l=>l.id===visible.preferences?.activeShoppingListByUser?.[memberId])||lists.find(l=>l.visibility==='family')||lists[0];
 }

@@ -3,6 +3,7 @@
 // 80% of that interval has passed. Unrecorded small purchases only make gaps longer, so Bayit suggests later, never early.
 // "Already bought", "not this time" and "stop suggesting" are shoppingMarks records; favourites feed suggestions too.
 import {shoppingIdentity} from './shopping-transfer.mjs';
+import {openShopOf} from './shopping-history.mjs';
 
 export const RHYTHM={maxDays:6,minDays:3,band:.4,minBand:2,due:.8,maxInterval:60,quietFactor:3,quietMinDays:21,mergeDays:2,likedDays:7};
 const DAY=86400000;
@@ -102,24 +103,18 @@ export function markFor(kind,suggestion,{list,actorId,today,shopDate}){
  return base;
 }
 
-// "New" for items: added in the last 30 minutes, or during the current shop. A shop is running while someone who can see
-// the list ticked something in the last 30 minutes; it started at the first of those ticks.
+// "Shopping now" (the shopping flow, 2026-11-12): only a shop someone STARTED (openShopOf). The shopper is who started it;
+// others who tick since are shown as joining. Ticks alone no longer announce a shop (a tick at home is just a tick).
 export const NEW_MINUTES=30;
-export function shopInProgress(items,now=Date.now()){
- const ticks=items.filter(i=>i.done&&i.boughtAt&&now-Date.parse(i.boughtAt)<=NEW_MINUTES*60000).map(i=>({at:i.boughtAt,by:i.boughtBy})).sort((x,y)=>x.at.localeCompare(y.at));
- if(!ticks.length)return null;
- // Walk back while ticks keep coming within 30 minutes of each other: the start of this shop.
- const all=items.filter(i=>i.done&&i.boughtAt).map(i=>i.boughtAt).sort();let start=ticks[0].at;
- for(let i=all.indexOf(start)-1;i>=0&&Date.parse(start)-Date.parse(all[i])<=NEW_MINUTES*60000;i--)start=all[i];
- return {startedAt:start,by:ticks.at(-1).by,lastAt:ticks.at(-1).at};
+export function shopInProgress(items,now=Date.now(),open=null){
+ if(!open)return null;
+ const ticks=items.filter(i=>i.done&&i.boughtAt&&i.boughtAt>=open.startedAt).sort((x,y)=>x.boughtAt.localeCompare(y.boughtAt));
+ return {shopId:open.id,startedAt:open.startedAt,by:open.ownerId,with:[...new Set(ticks.map(i=>i.boughtBy).filter(id=>id&&id!==open.ownerId))],lastAt:ticks.at(-1)?.boughtAt||open.startedAt};
 }
 // Added after this shop began: the "Added during the shop" group (not what was added before the first tick).
 export const addedDuringShop=(item,shop)=>!!shop&&!item.done&&!!item.createdAt&&item.createdAt>=shop.startedAt;
-export function isNewItem(item,shop,now=Date.now()){
- if(item.done||!item.createdAt)return false;
- if(shop&&item.createdAt>=shop.startedAt)return true;
- return now-Date.parse(item.createdAt)<=NEW_MINUTES*60000;
-}
+// "New": only what someone else added since my last visit to this list (not what I just added myself).
+export const isNewItem=(item,me,since)=>!item.done&&!!item.createdAt&&!!since&&item.createdAt>since&&(item.createdBy||item.ownerId)!==me;
 
 // Quick add without AI: "עגבניות, ביצים, 2 פיתות" or "תוסיף מלפפונים ועגבניות" → [{name, quantity}].
 const LEAD=/^(?:\/add\b|תוסיפ[וי]?|תוסיף|להוסיף|הוסף|הוסיפי|הוסיפו|add)\s*/i,TAIL=/\s*(?:ל|אל\s+)?(?:רשימת\s+ה?קניות|ה?רשימה|לקניות)\s*$|\s+to\s+(?:the\s+)?(?:shopping\s+)?list\s*$/i;
@@ -139,8 +134,8 @@ export function shopUpdates(visible,memberId,{now=Date.now(),role='parent'}={}){
  if(visible.preferences?.shoppingByUser?.[memberId]?.addsMessage===false)return [];
  const out=[];
  for(const list of (visible.shoppingLists||[]).filter(l=>l.status==='active')){
-  const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id),shop=shopInProgress(items,now);if(!shop)continue;
-  const shoppers=new Set(items.filter(i=>i.done&&i.boughtAt&&now-Date.parse(i.boughtAt)<=NEW_MINUTES*60000).map(i=>i.boughtBy));
+  const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id),shop=shopInProgress(items,now,openShopOf(visible.shoppingLists,list.id,now));if(!shop)continue;
+  const shoppers=new Set([shop.by,...shop.with]);
   if(shoppers.has(memberId)){for(const item of items)if(!item.done&&item.createdAt&&item.createdAt>=shop.startedAt&&item.createdBy&&item.createdBy!==memberId)out.push({key:'shopadd:'+item.id,type:'shopping',kind:'added',list,item,by:item.createdBy})}
   else if(role!=='child'&&now-Date.parse(shop.startedAt)<=10*60000)out.push({key:'shopstart:'+list.id+':'+shop.startedAt,type:'shopping',kind:'started',list,by:shop.by,left:items.filter(i=>!i.done).length});
  }

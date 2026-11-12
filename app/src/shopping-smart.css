@@ -149,3 +149,23 @@
 .ss-rline-view.on .ss-rline-pick{background:var(--yellow,#ffd451)}
 .ss-rline-view .ss-qform{flex-basis:100%}
 .ss-rline-view{flex-wrap:wrap}
+
+/* A finished shop's bought items (2026-11-12): one row per receipt line, "Not on the receipt", "Correct?". */
+.ss-none{color:var(--muted);font-weight:700;font-size:calc(13.5px * var(--font-adjust,1))}
+.ss-kv-for{flex-basis:100%;margin-top:-6px;color:var(--muted);font-weight:600;font-size:calc(13px * var(--font-adjust,1))}
+.ss-kv-ask{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.ss-kv-ask small{flex-basis:100%;color:var(--muted);font-weight:600}.ss-kv-ask .ss-q{margin-top:0}
+
+/* The shopping flow (2026-11-12): the state in words, "When do we shop?" with Start, the last shop, stacked questions. */
+.ss-state{display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:999px;background:color-mix(in srgb,var(--primary) 12%,var(--surface,#fff));color:var(--primary);font-weight:800;font-size:calc(14px * var(--font-adjust,1));white-space:nowrap}
+.ss-state-now{background:var(--green);color:var(--text)}
+.ss-plan{margin:12px 0 0}.ss-plan .ss-line{margin:0}
+.ss-plan-when{flex-wrap:wrap;column-gap:8px}.ss-plan-when>span{flex:1 1 60%}
+.ss-muted{color:var(--muted);font-weight:700}
+.ss-start{display:flex;width:100%;justify-content:center;gap:8px;margin:10px 0 0;min-height:52px;font-size:calc(16.5px * var(--font-adjust,1))}
+.ss-line-last{background:var(--surface-2,color-mix(in srgb,var(--text) 5%,transparent));flex-wrap:wrap;column-gap:6px}.ss-line-last>span{flex:1 1 60%}.ss-line-last>svg{color:var(--muted)}
+.ss-line-now{flex-wrap:wrap;column-gap:8px}.ss-line-now>span:not(.ss-line-face){flex:1 1 50%}
+.ss-stack{display:flex;flex-direction:column;gap:10px;flex:1 1 100%;width:100%}.ss-stack>.button{width:100%;max-width:none;justify-content:center;white-space:normal}
+.tasks-sheet.ss-ask-window .tasks-sheet-actions{display:flex!important;flex-direction:column;align-items:stretch;grid-template-columns:none!important}
+.tasks-sheet.ss-ask-window .ss-stack>.button{flex:none!important;min-height:52px;height:auto}
+.ss-hfilter{margin:0 0 4px}

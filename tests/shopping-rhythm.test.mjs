@@ -82,15 +82,20 @@ test('quick add without AI', ()=>{
 test('a shop in progress and new items', ()=>{
  const now=Date.parse('2026-11-04T18:10:00Z');
  const items=[{done:true,boughtAt:'2026-11-04T17:40:00Z',boughtBy:'hila'},{done:true,boughtAt:'2026-11-04T18:02:00Z',boughtBy:'hila'},{done:false,createdAt:'2026-11-04T17:52:00Z'},{done:false,createdAt:'2026-11-04T09:00:00Z'}];
- const shop=shopInProgress(items,now);assert.equal(shop.startedAt,'2026-11-04T17:40:00Z');assert.equal(shop.by,'hila');
- assert.equal(isNewItem(items[2],shop,now),true);assert.equal(isNewItem(items[3],shop,now),false);
- assert.equal(shopInProgress(items,Date.parse('2026-11-04T19:00:00Z')),null);
+ // The shopping flow (2026-11-12): only a started shop counts; ticks alone are not a shop. The shopper is who started it.
+ assert.equal(shopInProgress(items,now),null,'ticks without Start are not a shop');
+ const shop=shopInProgress(items,now,{id:'s',ownerId:'daniel',startedAt:'2026-11-04T17:35:00Z'});assert.equal(shop.startedAt,'2026-11-04T17:35:00Z');assert.equal(shop.by,'daniel');assert.deepEqual(shop.with,['hila']);
+ items[2].createdBy='hila';items[3].createdBy='hila';
+ assert.equal(isNewItem(items[2],'daniel','2026-11-04T17:50:00Z'),true);assert.equal(isNewItem(items[3],'daniel','2026-11-04T17:50:00Z'),false);
+ assert.equal(isNewItem(items[2],'hila','2026-11-04T17:50:00Z'),false,'not my own');assert.equal(isNewItem(items[2],'daniel',null),false,'first visit: nothing is new');
 });
 
 test('while someone shops: the shopper gets what others add; the others get one "is shopping now"', async()=>{
  const {shopUpdates,shopToday}=await import('../shared/shopping-rhythm.mjs');
  const now=Date.parse('2026-11-04T18:10:00Z'),list={id:'week',status:'active',visibility:'family',ownerId:'daniel'};
- const visible={shoppingLists:[list],preferences:{},shopping:[
+ const open={id:'s1',shopOf:'week',status:'shopping',ownerId:'hila',startedBy:'hila',startedAt:'2026-11-04T18:03:00Z',visibility:'family'};
+ assert.deepEqual(shopUpdates({shoppingLists:[list],preferences:{},shopping:[{id:'a',listId:'week',done:true,boughtAt:'2026-11-04T18:04:00Z',boughtBy:'hila'}]},'daniel',{now}),[],'a tick alone announces nothing');
+ const visible={shoppingLists:[list,open],preferences:{},shopping:[
   {id:'a',listId:'week',done:true,boughtAt:'2026-11-04T18:04:00Z',boughtBy:'hila'},
   {id:'b',listId:'week',done:false,createdAt:'2026-11-04T18:06:00Z',createdBy:'daniel',title:'Cheese'},
   {id:'c',listId:'week',done:false,createdAt:'2026-11-04T18:07:00Z',createdBy:'hila',title:'Own'}]};

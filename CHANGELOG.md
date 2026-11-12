@@ -4,6 +4,16 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.72.0 · 2026-11-12
+
+- Shopping: ticking an item no longer tells the family that you are shopping. A shop starts when you press "Start shopping", or answer "Yes, I am shopping" when your first tick asks.
+- Lists no longer finish by themselves. The last tick, or Finish, asks "Finished shopping?" with what was bought and what was not, and you choose whether to finish, with or without a receipt photo.
+- The list says where it stands: "Planning" with the number of items, or "Shopping now · 2 of 5" with Finish always there.
+- After a shop, one quiet "Last shop" line replaces the old banners. To undo a finish, open the shop in Shopping history (in the ⋯ menu) and press "Undo finish".
+- Shopping history now shows the shops of all your lists in one place. "Complete list" and "Reuse for a new trip" are gone from the ⋯ menu, and each person's own private list stays hidden while it is empty.
+- The planned shop's checkbox in Today and Tasks now opens the list, and the task is done when the shop is finished. A shop in History shows every receipt line with its price, and asks "Correct?" when it is not sure which item a line belongs to.
+- No database migration: a started shop is a new shopping-list record with `status: 'shopping'` and `startedBy`. A phone still on 1.71 during the switch finishes a list on its last tick, as before.
+
 ## 1.71.0 · 2026-11-12
 
 - Expenses has a new Categories tab: each category of the month with its total, the places you paid and every transaction. In Statistics, tapping a category opens it there.

@@ -106,7 +106,10 @@ export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,char
   if(type==='failed'){setCard(null);setFailed(true);setTimeout(()=>setFailed(false),4500);return}
   if(type!=='celebrate')return;
   const s=fx.style||styleRef.current;
-  if(s==='calm'){if(fx.preview||CREATE_KINDS.has(fx.kind)){const k=KINDS[fx.kind]||KINDS.task,r=fx.record||{},n=T(r.title||'',r.he||r.title||'');setPreviewToast(fx.preview?T('Saved.','נשמר.'):T(k.en,k.he)+(n?' '+n:''))}return}
+  // Several shopping items at once (a comma add): say how many, not the first one's name (owner report 2026-11-12). On the
+  // Shopping page its own message ("5 items added") already says it.
+  if(s==='calm'){if(fx.kind==='shopping'&&fx.count>1&&!fx.preview){if(!String(routeRef.current||'').startsWith('shopping'))setPreviewToast(T(fx.count+' items added to shopping','נוספו '+fx.count+' פריטים לקניות'));return}
+   if(fx.preview||CREATE_KINDS.has(fx.kind)){const k=KINDS[fx.kind]||KINDS.task,r=fx.record||{},n=T(r.title||'',r.he||r.title||'');setPreviewToast(fx.preview?T('Saved.','נשמר.'):T(k.en,k.he)+(n?' '+n:''))}return}
   if(!fx.preview&&(CREATE_KINDS.has(fx.kind)?appearance?.fxCreate===false:appearance?.fxComplete===false))return;
   // Adding items on the Shopping page itself: the new row is the feedback; no pop-up covering the add bar.
   if(!fx.preview&&fx.kind==='shopping'&&String(routeRef.current||'').startsWith('shopping'))return;

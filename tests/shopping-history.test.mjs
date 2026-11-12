@@ -76,9 +76,7 @@ test('history: newest first, PAGE at a time, never in the list strip or the AI l
  const sum=shopSummary({id:'s',leftCount:2},{shopping:[{id:'a',listId:'s',done:true}],receipts:[{id:'r',listId:'s',total:10,createdAt:'1'}]});assert.equal(sum.bought.length,1);assert.equal(sum.leftCount,2);assert.equal(sum.total,10);
 });
 
-test('the last tick finishes the shop; Finish with items left asks first; Undo reopens the planned shop',()=>{
+test('Undo of a finish restores the planned shop (App)',()=>{
  const src=readFileSync(new URL('../app/src/App.jsx',import.meta.url),'utf8');
- assert.match(src,/if\(item\.done&&!d\.shopping\.some\(i=>\(i\.listId\|\|'week'\)===listKey&&!i\.done\)\)closeShop\(d,listKey\)/);
- assert.match(src,/const undoShopping=shopId=>update\(d=>\{const shop=undoShop\(d,shopId,user\),trip=shop\.tripId/);
- assert.match(readFileSync(new URL('../app/src/shopping-view.jsx',import.meta.url),'utf8'),/onFinish=\{left>0&&done>0\?\(\)=>setSmartWindow\('finish'\):null\}/);
+ assert.match(src,/const undoShopping=shopId=>update\(d=>\{const shop=undoShop\(d,shopId,user,id\(\)\),trip=shop\.tripId/);
 });

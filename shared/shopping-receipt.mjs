@@ -59,10 +59,43 @@ export function rememberedNames(receipts){
  const m=new Map();for(const r of [...(receipts||[])].sort((x,y)=>String(x.createdAt||'').localeCompare(String(y.createdAt||''))))for(const l of r.lines||[])if(l?.confirmed&&l.raw&&l.name)m.set(rawKey(l.raw),{name:l.name,key:l.key||productKey({title:l.name})});
  return m;
 }
+// Matching lines to list items (owner report 2026-11-12: the dictionary key put kebab, hamburgers and picanha under one
+// "beef", so the vegan hamburger took the kebab's price, and "ציפס" missed "צ'יפס"). Right before generous:
+// - words, normalised: geresh and quotes dropped, final letters, doubled yod/vav, plural endings (ים/ות, -s), -יה/-יות;
+// - a line goes to the ONE item it fits best (a tie goes to nobody); an item may take several lines (two kinds of mushrooms);
+// - all the item's words on the line is sure; at least half of them is a match that asks "Correct?";
+// - the dictionary key counts only when one item and one line share it (cabbage misread as "כדוב");
+// - otherwise the line stays unmatched rather than wrong.
+const FINAL={'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ'},NOISE=new Set(['קג','קג׳','יח','ג','גר','מ','ק','ח','רק','ליטר','מל','kg','g','pcs','pc','x']);
+export function matchWord(w){
+ let t=String(w||'').toLowerCase().replace(/["'`׳״]/g,'').replace(/[ךםןףץ]/g,c=>FINAL[c]).replace(/יי+/g,'י').replace(/וו+/g,'ו');
+ if(/[א-ת]/.test(t)){if(t.length>=5&&/(ימ|ות)$/.test(t))t=t.slice(0,-2);else if(t.length>=4&&t.endsWith('יה'))t=t.slice(0,-1)}else if(t.length>=4&&/[^s]s$/.test(t))t=t.slice(0,-1);
+ return t;
+}
+const wordsOf=text=>String(text||'').split(/[\s,.;:()\/+*\-]+/).filter(w=>w&&!/\d/.test(w)).map(matchWord).filter(w=>w.length>=2&&!NOISE.has(w));
+function fit(item,line){
+ const own=wordsOf(item.he||item.title),alt=wordsOf(item.title),seen=new Set([...wordsOf(line.raw),...wordsOf(line.name)]);
+ let best=0;for(const ws of [own,alt])if(ws.length){const hit=ws.filter(w=>seen.has(w)).length;if(hit)best=Math.max(best,hit/ws.length)}
+ return best;
+}
 export function matchLines(lines,items,memory=new Map()){
- const keys=new Map(items.map(i=>[productKey(i),i]));
- return lines.map(l=>{const known=memory.get(rawKey(l.raw)),line=known?{...l,name:known.name,key:known.key,confirmed:true}:l;
-  return {...line,itemId:keys.get(line.key)?.id||null,onList:keys.has(line.key),sure:Boolean(known)||keys.has(line.key)}});
+ const named=lines.map(l=>{const known=memory.get(rawKey(l.raw));return known?{...l,name:known.name,key:known.key,confirmed:true,known:true}:l});
+ const keyCount=(list,f)=>list.reduce((m,x)=>{const k=f(x);if(k)m.set(k,(m.get(k)||0)+1);return m},new Map());
+ const itemKeys=keyCount(items,productKey),lineKeys=keyCount(named,l=>l.key);
+ return named.map(({known,...line})=>{
+  // line.skip: items the person said this line is not ("Correct?" → No in a finished shop).
+  const scored=items.filter(i=>!(line.skip||[]).includes(i.id)).map(i=>({i,s:fit(i,line)})).filter(x=>x.s>=.5).sort((x,y)=>y.s-x.s);
+  let pick=null,sure=false;
+  if(scored.length&&(scored.length===1||scored[0].s>scored[1].s)){pick=scored[0].i;sure=scored[0].s===1}
+  else if(!scored.length&&line.key&&itemKeys.get(line.key)===1&&lineKeys.get(line.key)===1){pick=items.find(i=>productKey(i)===line.key);sure=true}
+  return {...line,itemId:pick?.id||null,onList:!!pick,sure:pick?sure:Boolean(known)}});
+}
+// The rows of a finished shop: every item bought with its lines and their sum (null: no line), then the receipt lines that
+// match no item. All lines appear exactly once, so the rows add up to the lines' sum.
+export function shopRows(lines,items,memory){
+ const m=matchLines(lines||[],items||[],memory);
+ return {items:(items||[]).map(i=>{const own=m.filter(l=>l.itemId===i.id);return {item:i,lines:own,price:own.length?cents(own.reduce((s,l)=>s+l.price,0)):null,sure:own.every(l=>l.sure)}}),
+  other:m.filter(l=>!l.itemId),sum:cents(m.reduce((s,l)=>s+(+l.price||0),0))};
 }
 
 // Which product a receipt line is, for prices over time (owner report 2026-11-12: kebab, hamburgers and picanha were one

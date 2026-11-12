@@ -31,7 +31,9 @@ test('while Dana shops, what Avi adds reaches Dana once, and Avi hears once that
  const {env,sends}=await household(s=>{const fam={ownerId:'mom',visibility:'family',allowedIds:[],listId:'week'};
   s.shopping=[{...fam,id:'a',title:'Bread',he:'Bread',quantity:'1',quantityValue:1,done:true,boughtAt:ago(4),boughtBy:'mom'},
    {...fam,id:'b',title:'Yellow cheese',he:'Yellow cheese',quantity:'1',quantityValue:1,done:false,ownerId:'dad',createdAt:ago(2),createdBy:'dad'},
-   {...fam,id:'c',title:'Milk',he:'Milk',quantity:'1',quantityValue:1,done:false,createdAt:ago(600),createdBy:'mom'}]});
+   {...fam,id:'c',title:'Milk',he:'Milk',quantity:'1',quantityValue:1,done:false,createdAt:ago(600),createdBy:'mom'}];
+  // The shopping flow (2026-11-12): Dana said "Yes, I am shopping" five minutes ago (a started shop record).
+  s.shoppingLists=[...(s.shoppingLists||[]),{id:'shop-dana',name:'Week',he:'Week',ownerId:'mom',visibility:'family',allowedIds:[],status:'shopping',shopOf:'week',startedBy:'mom',startedAt:ago(5),createdAt:ago(5)}]});
  await deliverChannels(env,now,CHANNELS);
  const toMom=sends.filter(s=>s.to==='mom'),toDad=sends.filter(s=>s.to==='dad');
  assert.equal(toMom.filter(s=>s.text.includes('Yellow cheese')).length,1,'Dana gets the new item');
@@ -42,7 +44,7 @@ test('while Dana shops, what Avi adds reaches Dana once, and Avi hears once that
  assert.equal(sends.slice(before).filter(s=>s.text.includes('Yellow cheese')||s.text.includes('shopping now')).length,0,'each is sent once');
 });
 
-test('nothing while nobody is shopping, and the switch turns it off',async()=>{
+test('nothing while nobody is shopping (a tick alone is not a shop), and the switch turns it off',async()=>{
  const now=noonToday(),ago=m=>new Date(now.getTime()-m*60000).toISOString();
  const {env,sends}=await household(s=>{const fam={ownerId:'mom',visibility:'family',allowedIds:[],listId:'week'};
   s.preferences.shoppingByUser={dad:{addsMessage:false}};

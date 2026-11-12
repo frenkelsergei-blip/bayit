@@ -15,7 +15,7 @@ export function DensityToggle({a,page,className='',central=false}){
  if(!central&&page!=='notifications')return null;
  const mode=densityOf(a.data,a.user,page);
  return <div className={'density-toggle '+className} role="group" aria-label={a.T('List style','סגנון תצוגה')}>
-  {[['comfortable',SquaresFour,a.T('Cards','כרטיסים')],['compact',Rows,a.T('List','רשימה')]].map(([id,Icon,label])=><button type="button" key={id} aria-pressed={mode===id} className={mode===id?'on':''} title={label} onClick={()=>mode!==id&&setPageDensity(a,page,id)}><Icon size={18} weight={mode===id?'bold':'regular'}/><span>{label}</span></button>)}
+  {[['comfortable',SquaresFour,a.T('Cards','כרטיסים')],['compact',Rows,a.T('List','רשימה')]].map(([id,Icon,label])=><button type="button" key={id} aria-pressed={mode===id} className={mode===id?'on':''} title={label} aria-label={label} onClick={()=>mode!==id&&setPageDensity(a,page,id)}><Icon size={18} weight={mode===id?'bold':'regular'}/><span>{label}</span></button>)}
  </div>;
 }
 

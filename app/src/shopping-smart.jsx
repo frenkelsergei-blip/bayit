@@ -4,19 +4,19 @@
 // no AI. A quiet date line shows the next shop; while someone shops, items added since then sit on top.
 // Styles: shopping-smart.css. Everything is written as ordinary household records and synced like the rest.
 import React,{useMemo,useState} from 'react';
-import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple} from '@phosphor-icons/react';
+import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple,ShoppingCart} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
 import {PersonChip} from './person-chip';
 import {purchaseRecords} from './statistics';
 import {anchor} from './data';
 import {cloudHeaders} from './cloud-transport.js';
-import {matchLines,rememberedNames,priceHistory,productId,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
+import {matchLines,shopRows,rememberedNames,priceHistory,productId,groceriesMonth,matchExpense} from '../../shared/shopping-receipt.mjs';
 import {HOME_TIMEZONE} from '../../shared/home-config.mjs';
 import {tripFor,ShoppingTripControl} from './shopping-trip';
 import {matchItem} from '../../shared/item-dictionary.mjs';
 import {noteRows} from '../../shared/shopping-note.mjs';
 import {itemAudience,canAccessList} from '../../shared/shopping-lists.mjs';
-import {shopsOf,shopSummary,PAGE} from '../../shared/shopping-history.mjs';
+import {shopsOf,shopSummary,PAGE,openShopOf} from '../../shared/shopping-history.mjs';
 import {shoppingSuggestions,explainSuggestion,explainDates,markFor,productKey,shopInProgress,sameAudience} from '../../shared/shopping-rhythm.mjs';
 
 const DEFAULTS={suggest:true,liked:true,requests:true,dayMessage:true,addsMessage:true};
@@ -38,7 +38,7 @@ export function useShoppingSmart(a,list,items){
  const suggestions=useMemo(()=>!list||!prefs.suggest||list.status!=='active'?[]:shoppingSuggestions({list,purchases:purchaseRecords(a.data,a.user,list.visibility==='private'?'private':'family','all',anchor),marks,favourites,items,today:anchor,shopDate,options:{liked:prefs.liked}}),
   [list,items,a.data.purchases,a.data.shoppingMarks,a.data.favourites,prefs.suggest,prefs.liked,shopDate]);
  const requests=parent&&prefs.requests&&list?favourites.filter(f=>f.status==='requested'&&a.member(f.memberId)?.role==='child'&&sameAudience(f,list)):[];
- const shop=list?shopInProgress(items):null;
+ const shop=list?shopInProgress(items,Date.now(),openShopOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id)):null;
  const free=child&&(a.data.preferences?.shoppingNoApproval||[]).includes(a.user);
  return {prefs,child,parent,free,trip,shopDate,suggestions,requests,shop,favourites,marks};
 }
@@ -288,37 +288,87 @@ export async function receiptPhoto(file){
 export async function storeReceiptPhoto(blob){const id=crypto.randomUUID(),r=await fetch(photoUrl(id),{method:'PUT',headers:{...cloudHeaders(),'Content-Type':'image/jpeg','X-File-Name':'receipt.jpg','X-Bayit-Purpose':'receipt'},body:blob});if(!r.ok)throw Error((await r.json().catch(()=>({}))).error||'The photo was not kept.');return id}
 const dropPhoto=id=>id&&fetch(photoUrl(id),{method:'DELETE',headers:cloudHeaders()}).catch(()=>{});
 
-// After a shop: one quiet line on the new, empty list. Open goes to the shop; Undo (who finished it) puts it back.
-export function ShopDoneLine({a,list,onOpen}){
- const shop=recentShop(a,list);if(!shop||list.status!=='active')return null;const s=summaryOf(a,shop),name=a.lang==='he'?shop.he||shop.name:shop.name,mine=shop.ownerId===a.user;
- return <div className="ss-line ss-line-done" data-keep-clear><ClockCounterClockwise size={24} aria-hidden="true"/><span><b>{a.T('“'+name+' · '+shortDay(a,shop.archivedAt)+'” was archived','„'+name+' · '+shortDay(a,shop.archivedAt)+'” עברה לארכיון')}</b><small className="ss-line-who">{(mine?'':a.name(shop.finishedBy)+' · ')+a.T(s.bought.length+' bought',s.bought.length+' נקנו')+(s.leftCount?a.T(' · '+s.leftCount+' left for next time',' · '+s.leftCount+' נשארו לפעם הבאה'):'')}</small></span>
-  <button type="button" className="text-link ss-line-change" onClick={()=>onOpen(shop)}>{a.T('Open','פתיחה')}</button>{mine&&<button type="button" className="text-link ss-line-change" onClick={()=>a.undoShopping(shop.id)}>{a.T('Undo','ביטול')}</button>}</div>;
+// ---------- the shopping flow (audit 2026-11-12, owner's go-ahead) ----------
+// One list, three moments, said in words: Planning → Shopping now → back to Planning with "Last shop". A shop starts only
+// when someone says so (Start, or "Yes, I am shopping" on a first tick) and ends with "Finished shopping?"; nothing ends
+// by itself. History has its own button with a word. Undo of a finish lives in that shop's page in History.
+const LAST_MS=24*3600e3;
+export function StateChip({a,shop,done,total}){
+ return shop?<span className="ss-state ss-state-now">{a.T('Shopping now · '+done+' of '+total,'בקנייה עכשיו · '+done+' מתוך '+total)}</span>
+  :<span className="ss-state">{a.T('Planning','מכינים רשימה')+(total?a.T(' · '+total+(total===1?' item':' items'),' · '+(total===1?'פריט אחד':total+' פריטים')):'')}</span>;
+}
+// "When do we shop?" in words, with the plan window behind Change / Set a day; Start shopping under it once there are items.
+export function PlanLine({a,list,smart,ui,left,onStart}){
+ if(!list||list.status!=='active')return null;const trip=smart.trip;
+ return <div className="ss-plan" data-keep-clear><div className="ss-line ss-plan-when"><CalendarCheck size={24} aria-hidden="true"/><span><b>{a.T('When do we shop? ','מתי קונים? ')}</b>{trip?.date?<>{dayWord(a,trip.date)+(trip.time?', '+trip.time:'')}{trip.memberId&&<small className="ss-line-who">{a.T('Who goes: ','מי הולך: ')+a.name(trip.memberId)}</small>}</>:<span className="ss-muted">{a.T('Not set yet','עוד לא נקבע')}</span>}</span>
+  <ShoppingTripControl app={a} list={list} anchor={anchor} className="text-link ss-line-change" text={trip?a.T('Change','שינוי'):a.T('Set a day','לקבוע יום')} ui={ui}/></div>
+  {left>0&&onStart&&<button type="button" className="button ss-start" onClick={onStart}><ShoppingCart size={22} weight="bold" aria-hidden="true"/>{a.T('Start shopping','מתחילים לקנות')}</button>}</div>;
+}
+// While shopping: who started and since when, who joined, the planned day as a small line, Finish always there.
+export function ShopNowLine({a,smart,ui,onFinish}){
+ const shop=smart.shop;if(!shop)return null;const t=timeOf(shop.startedAt),me=shop.by===a.user,trip=smart.trip;
+ const joined=shop.with.filter(id=>id!==shop.by).map(id=>id===a.user?a.T('you','את/ה'):a.name(id));
+ return <div className="ss-line ss-line-now" role="status" data-keep-clear><span className="ss-line-face"><ui.Avatar who={shop.by} size={30}/></span><span><b>{me?a.T('You are shopping','את/ה בקנייה'):a.T(a.name(shop.by)+' is shopping',a.name(shop.by)+' בקנייה')}</b>{' · '+a.T('since '+t,'מ־'+t)}
+  {(joined.length>0||trip?.date)&&<small className="ss-line-who">{[joined.length?a.T('With '+joined.join(', '),'יחד עם '+joined.join(', ')):'',trip?.date?a.T('Planned: '+dayWord(a,trip.date)+(trip.time?', '+trip.time:''),'תוכנן: '+dayWord(a,trip.date)+(trip.time?', '+trip.time:'')):''].filter(Boolean).join(' · ')}</small>}</span>
+  <button type="button" className="button ss-small" onClick={onFinish}>{a.T('Finish','לסיים')}</button></div>;
+}
+// The last shop of this list, until the first item is added for the next one (or a day passes). View opens it in History.
+export function lastShopOf(a,list,items){
+ if(!list)return null;const s=shopsOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id)[0];
+ return s&&Date.now()-Date.parse(s.archivedAt)<LAST_MS&&!items.some(i=>i.createdAt&&i.createdAt>s.archivedAt)?s:null;
+}
+export function LastShopLine({a,shop,onOpen}){
+ if(!shop)return null;const sum=summaryOf(a,shop),day=dayOf(shop.archivedAt)===anchor?a.T('today','היום'):shortDay(a,shop.archivedAt),adult=a.member(a.user)?.role!=='child';
+ return <div className="ss-line ss-line-last" data-keep-clear><ClockCounterClockwise size={24} aria-hidden="true"/><span><b>{a.T('Last shop: ','הקנייה האחרונה: ')+day+' '+timeOf(shop.archivedAt)}</b><small className="ss-line-who">{[a.T(sum.bought.length+(sum.bought.length===1?' item':' items'),sum.bought.length===1?'פריט אחד':sum.bought.length+' פריטים'),adult&&sum.total!=null?money(a,sum.total):'',a.T('saved in Shopping history','נשמרה בהיסטוריית הקניות')].filter(Boolean).join(' · ')}</small></span>
+  <button type="button" className="text-link ss-line-change" onClick={()=>onOpen(shop)}>{a.T('View','לצפייה')}</button></div>;
+}
+// Everything is ticked and nobody finished (the last tick came from Telegram, the assistant, another phone offline, or it
+// was ticked before 1.72): the same question as Finish.
+export function AllTickedLine({a,done,onFinish}){
+ return <div className="ss-line" data-keep-clear><CheckCircle size={24} aria-hidden="true"/><span><b>{a.T('Everything is ticked. Finished shopping?','הכול סומן. סיימת לקנות?')}</b><small className="ss-line-who">{a.T(done+' bought · finishing saves the shop in Shopping history',done+' נקנו · סיום שומר את הקנייה בהיסטוריית הקניות')}</small></span><button type="button" className="button ss-small" onClick={onFinish}>{a.T('Finish','לסיים')}</button></div>;
 }
 
-// Finish with items left: what happens, and the left items stay for next time unless the person says otherwise.
-export function FinishWindow({a,ui,list,items,onClose}){
- const {Button}=ui,bought=items.filter(i=>i.done),left=items.filter(i=>!i.done),[keep,setKeep]=useState(true),[error,setError]=useState('');
+// A first tick without a started shop asks once: only Yes tells the family (and Telegram) that someone is at the shop.
+export function StartWindow({a,ui,onYes,onTick,onClose}){
+ const {Button}=ui;
+ return <Window a={a} className="ss-ask-window" title={a.T('Started shopping?','התחלת לקנות?')} onClose={onClose} actions={<div className="ss-stack"><Button onClick={onYes}>{a.T('Yes, I am shopping','כן, אני בקנייה')}</Button><Button secondary onClick={onTick}>{a.T('Just ticking an item','רק מסמן/ת פריט')}</Button></div>}>
+  <p className="ss-lead">{a.T('If yes, the family sees that you are at the shop, and what they add now jumps to the top of your list.','אם כן, המשפחה רואה שאת/ה בקנייה, ומה שיוסיפו עכשיו יקפוץ לראש הרשימה שלך.')}</p>
+  <p className="ss-fine">{a.T('Just ticking: the item is marked as bought and nobody is told.','רק מסמן/ת: הפריט מסומן כנקנה ואף אחד לא מקבל הודעה.')}</p>
+ </Window>;
+}
+
+// "Finished shopping?": one summary. What was bought, what was not (kept for next time unless unticked), then the receipt
+// and finish, finish without a receipt, or not yet. A started shop with nothing bought can be stopped instead.
+export function FinishWindow({a,ui,list,items,shop,onClose,onReceipt}){
+ const {Button}=ui,bought=items.filter(i=>i.done),left=items.filter(i=>!i.done),[keep,setKeep]=useState(true),[error,setError]=useState(''),[busy,setBusy]=useState(false);
  const names=left.slice(0,3).map(i=>a.text(i)),more=left.length-names.length,leftText=names.join(a.lang==='he'?', ':', ')+(more>0?a.T(' and '+more+' more',' ועוד '+more):'');
- const finish=async()=>{try{await a.finishShopping(list.id,{keepLeft:keep});a.notify(a.T('Shop finished. It is in Shopping history.','הקנייה הסתיימה ונשמרה בהיסטוריית הקניות.'));onClose()}catch(e){setError(e.message)}};
- return <Window a={a} title={a.T('Finish this shop?','לסיים את הקנייה?')} onClose={onClose} actions={<><Button secondary onClick={onClose}>{a.T('Keep shopping','להמשיך לקנות')}</Button><Button disabled={!bought.length} onClick={finish}>{a.T('Finish shop','לסיים קנייה')}</Button></>}>
+ const receipt=a.cloud&&a.member(a.user)?.role!=='child';
+ const finish=async withReceipt=>{setBusy(true);try{const done=await a.finishShopping(list.id,{keepLeft:keep});a.notify(a.T('Shop finished. It is in Shopping history.','הקנייה הסתיימה ונשמרה בהיסטוריית הקניות.'));onClose();if(withReceipt&&done)onReceipt(done)}catch(e){setError(e.message)}finally{setBusy(false)}};
+ const stop=async()=>{try{await a.stopShopping(shop.id);onClose()}catch(e){setError(e.message)}};
+ if(!bought.length)return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{shop?.by===a.user&&<Button onClick={stop}>{a.T('Stop shopping','להפסיק את הקנייה')}</Button>}<Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
+  <p className="ss-lead">{a.T('Nothing is ticked yet, so there is nothing to save.','עוד לא סומן כלום, אז אין מה לשמור.')}</p>{shop?.by===a.user&&<p className="ss-fine">{a.T('Stopping tells the family you are no longer shopping. The list stays as it is.','הפסקה אומרת למשפחה שאת/ה כבר לא בקנייה. הרשימה נשארת כמו שהיא.')}</p>}{error&&<p className="save-error" role="alert">{error}</p>}</Window>;
+ return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{receipt&&<Button icon={Camera} disabled={busy} onClick={()=>finish(true)}>{a.T('Photograph the receipt and finish','לצלם קבלה ולסיים')}</Button>}<Button secondary={receipt} disabled={busy} onClick={()=>finish(false)}>{receipt?a.T('Finish without a receipt','לסיים בלי קבלה'):a.T('Finish','לסיים')}</Button><Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
   <p className="ss-lead"><b>{a.T(bought.length+' bought.',bought.length+' נקנו.')}</b> {left.length?a.T(leftText+(left.length===1?' was':' were')+' not bought.','לא נקנו: '+leftText+'.'):''}</p>
   <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('What happens','מה קורה')}>
-   <p className="ss-fine">{a.T('• The shop is saved in Shopping history, with the receipt if you photograph it.','• הקנייה נשמרת בהיסטוריית הקניות, עם הקבלה אם מצלמים אותה.')}</p>
-   <p className="ss-fine">{a.T('• What was bought leaves the list, and the list is ready for the next shop.','• מה שנקנה יורד מהרשימה, והרשימה מוכנה לקנייה הבאה.')}</p>
+   <p className="ss-fine">{a.T('• The shop is saved in Shopping history, with what you bought and the receipt.','• הקנייה נשמרת בהיסטוריית הקניות, עם מה שנקנה והקבלה.')}</p>
+   <p className="ss-fine">{a.T('• The list goes back to planning, ready for next time.','• הרשימה חוזרת למצב הכנה, מוכנה לפעם הבאה.')}</p>
    {left.length>0&&<label className="checkbox-label ss-keep"><input type="checkbox" checked={keep} onChange={e=>setKeep(e.target.checked)}/><span>{a.T('Keep the '+(left.length===1?'item':left.length+' items')+' not bought on the list for next time','להשאיר ברשימה לפעם הבאה את '+(left.length===1?'הפריט שלא נקנה':left.length+' הפריטים שלא נקנו'))}</span></label>}
   </FormSection>{error&&<p className="save-error" role="alert">{error}</p>}
  </Window>;
 }
 
-// Shopping history of a list: newest first, by month, PAGE at a time.
+// Shopping history: one history for all lists, with a filter by list. Each shop: day and time, list, shop name and total
+// (adults), what was bought and left. Newest first, by month, PAGE at a time.
 export function HistoryWindow({a,ui,list,onOpen,onClose}){
- const {Button}=ui,[shown,setShown]=useState(PAGE),shops=shopsOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id),page=shops.slice(0,shown);
+ const {Button}=ui,mine=(a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),all=shopsOf(mine,null),[which,setWhich]=useState('all'),[shown,setShown]=useState(PAGE);
+ const lists=mine.filter(l=>!l.shopOf&&all.some(s=>s.shopOf===l.id)),shops=which==='all'?all:all.filter(s=>s.shopOf===which),page=shops.slice(0,shown),adult=a.member(a.user)?.role!=='child';
  const months=[...new Set(page.map(s=>dayOf(s.archivedAt).slice(0,7)))],monthName=m=>new Date(m+'-15T12:00:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-GB',{month:'long',year:'numeric',timeZone:'UTC'});
- const listName=a.lang==='he'?list.he||list.name:list.name;
+ const nameOf=id=>{const l=mine.find(x=>x.id===id);return l?(a.lang==='he'?l.he||l.name:l.name):''};
  return <Window a={a} title={a.T('Shopping history','היסטוריית קניות')} onClose={onClose} actions={<Button onClick={onClose}>{a.T('Close','סגירה')}</Button>}>
-  <p className="ss-fine">{shops.length?a.T('Every finished shop of “'+listName+'”, newest first.','כל הקניות שהסתיימו של „'+listName+'”, מהחדשה לישנה.'):a.T('No finished shops yet. When the last item is ticked, or you press Finish, the shop is saved here.','עוד אין קניות שהסתיימו. כשמסמנים את הפריט האחרון, או לוחצים "לסיים", הקנייה נשמרת כאן.')}</p>
+  {lists.length>1&&<div className="category-chips ss-hfilter" role="group" aria-label={a.T('Which list','איזו רשימה')}>{[['all',a.T('All lists','כל הרשימות')],...lists.map(l=>[l.id,nameOf(l.id)])].map(([id,t])=><button type="button" key={id} aria-pressed={which===id} onClick={()=>{setWhich(id);setShown(PAGE)}}>{t}</button>)}</div>}
+  {!shops.length&&<p className="ss-fine">{a.T('No finished shops yet. When you finish a shop, it is saved here with what you bought and the receipt.','עוד אין קניות שהסתיימו. כשמסיימים קנייה, היא נשמרת כאן עם מה שנקנה והקבלה.')}</p>}
   {months.map(m=><FormSection key={m} T={a.T} icon={ClockCounterClockwise} tone="yellow" title={monthName(m)}>{page.filter(s=>dayOf(s.archivedAt).slice(0,7)===m).map(s=>{const sum=summaryOf(a,s);
-   return <div key={s.id} className="ss-product"><button type="button" className="ss-product-head" onClick={()=>onOpen(s)}><span className="ss-text"><strong>{shortDay(a,s.archivedAt)+(sum.receipt?.store?' · '+sum.receipt.store:'')}</strong><small>{[a.name(s.finishedBy),a.T(sum.bought.length+' bought',sum.bought.length+' נקנו'),sum.leftCount?a.T(sum.leftCount+' left',sum.leftCount+' נשארו'):'',a.member(a.user)?.role==='child'?'':sum.receipt?a.T('receipt','קבלה'):a.T('no receipt','בלי קבלה')].filter(Boolean).join(' · ')}</small></span><b className="ss-price">{sum.total!=null&&a.member(a.user)?.role!=='child'?money(a,sum.total):'—'}</b></button></div>})}</FormSection>)}
+   return <div key={s.id} className="ss-product"><button type="button" className="ss-product-head" onClick={()=>onOpen(s)}><span className="ss-text"><strong>{shortDay(a,s.archivedAt)+' · '+timeOf(s.archivedAt)+' · '}<bdi>{nameOf(s.shopOf)}</bdi></strong><small>{[adult&&sum.receipt?.store?sum.receipt.store:'',a.T(sum.bought.length+' bought',sum.bought.length+' נקנו'),sum.leftCount?a.T(sum.leftCount+' left',sum.leftCount+' נשארו'):'',a.name(s.finishedBy)].filter(Boolean).join(' · ')}</small></span><b className="ss-price">{adult&&sum.total!=null?money(a,sum.total):''}</b></button></div>})}</FormSection>)}
   {shops.length>shown&&<Button secondary onClick={()=>setShown(shown+PAGE)}>{a.T('Show '+Math.min(PAGE,shops.length-shown)+' more','להציג עוד '+Math.min(PAGE,shops.length-shown))}</Button>}
  </Window>;
 }
@@ -326,19 +376,38 @@ export function HistoryWindow({a,ui,list,onOpen,onClose}){
 // One shop: its receipt (adults), what was bought and for how much, what was left, who and when.
 export function ShopWindow({a,ui,shop,onClose,onAttach,onReceipt}){
  const {Button}=ui,s=summaryOf(a,shop),adult=a.member(a.user)?.role!=='child',mine=shop.ownerId===a.user,[busy,setBusy]=useState(false);
- const priced=s.receipt?matchLines(s.receipt.lines||[],s.bought):[],priceOf=i=>priced.find(l=>l.itemId===i.id)?.price;
+ const rows=s.receipt&&adult?shopRows(s.receipt.lines,s.bought,rememberedNames(visibleReceipts(a))):null,editable=s.receipt?.ownerId===a.user;
  const remove=async()=>{if(!window.confirm(a.T('Delete this shop from the history? Its receipt and photo are deleted too.','למחוק את הקנייה מההיסטוריה? גם הקבלה והתמונה שלה יימחקו.')))return;setBusy(true);const photos=visibleReceipts(a).filter(r=>r.listId===shop.id&&r.ownerId===a.user).map(r=>r.fileId).filter(Boolean);
   try{await a.update(d=>{d.receipts=(d.receipts||[]).filter(r=>!(r.listId===shop.id&&r.ownerId===a.user));d.shopping=d.shopping.filter(i=>i.listId!==shop.id);d.shoppingLists=d.shoppingLists.filter(l=>l.id!==shop.id)});photos.forEach(dropPhoto);onClose()}finally{setBusy(false)}};
- return <Window a={a} title={shortDay(a,shop.archivedAt)+(s.receipt?.store?' · '+s.receipt.store:'')} onClose={onClose} actions={<>{mine&&<Button secondary disabled={busy} onClick={remove}>{a.T('Delete','מחיקה')}</Button>}<Button onClick={onClose}>{a.T('Close','סגירה')}</Button></>}>
+ const undo=async()=>{setBusy(true);try{await a.undoShopping(shop.id);a.notify(a.T('The shop is back on the list.','הקנייה חזרה לרשימה.'));onClose()}finally{setBusy(false)}},undoable=mine&&Date.now()-Date.parse(shop.archivedAt)<RECENT_MS;
+ return <Window a={a} title={shortDay(a,shop.archivedAt)+' '+timeOf(shop.archivedAt)+(s.receipt?.store?' · '+s.receipt.store:'')} onClose={onClose} actions={<>{mine&&<Button secondary disabled={busy} onClick={remove}>{a.T('Delete','מחיקה')}</Button>}{undoable&&<Button secondary disabled={busy} onClick={undo}>{a.T('Undo finish','ביטול הסיום')}</Button>}<Button onClick={onClose}>{a.T('Close','סגירה')}</Button></>}>
   {adult&&<FormSection T={a.T} icon={Receipt} tone="yellow" title={a.T('Receipt','קבלה')}>{s.receipt?<>
    <div className="ss-kv ss-total"><span>{a.T('Total','סה"כ')}</span><b>{money(a,s.receipt.total)}</b></div>
    {s.receipt.paidOther>0&&<div className="ss-kv"><span>{a.T('Paid','שולם')}</span><b>{a.T('meal card or voucher '+money(a,s.receipt.paidOther)+' · card '+money(a,s.receipt.charged),'סיבוס או תו '+money(a,s.receipt.paidOther)+' · כרטיס '+money(a,s.receipt.charged))}</b></div>}
    <p className="ss-act"><Button secondary onClick={()=>onReceipt(s.receipt)}>{a.T('View the receipt','לראות את הקבלה')}</Button></p></>
    :<><p className="ss-fine">{a.T('No receipt for this shop yet. Add it now and its prices join Prices.','עוד אין קבלה לקנייה הזו. מוסיפים אותה עכשיו, והמחירים שלה נכנסים ל"מחירים".')}</p>{a.cloud&&<Button icon={Camera} onClick={()=>onAttach(shop)}>{a.T('Attach a receipt','לצרף קבלה')}</Button>}</>}</FormSection>}
-  <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('Bought · '+s.bought.length,'נקנו · '+s.bought.length)}>{s.bought.map(i=><div className="ss-kv" key={i.id}><span>{a.text(i)}</span><b>{priceOf(i)!=null?money(a,priceOf(i)):''}</b></div>)}</FormSection>
+  <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('Bought · '+s.bought.length,'נקנו · '+s.bought.length)}>{rows?rows.items.map(r=><ShopItemRow key={r.item.id} a={a} row={r} receipt={s.receipt} editable={editable}/>)
+   :s.bought.map(i=><div className="ss-kv" key={i.id}><span>{a.text(i)}</span></div>)}</FormSection>
+  {rows&&rows.other.length>0&&<FormSection T={a.T} icon={Receipt} tone="yellow" title={a.T('On the receipt, not on the list · '+rows.other.length,'בקבלה, לא ברשימה · '+rows.other.length)}>{rows.other.map((l,n)=><div className="ss-kv" key={n}><span>{lineText(a,l)}</span><b>{money(a,l.price)}</b></div>)}
+   {Math.abs(rows.sum-s.receipt.total)>.05&&<p className="ss-fine">{a.T('The lines add up to '+money(a,rows.sum)+'.','השורות מסתכמות ב־'+money(a,rows.sum)+'.')}</p>}</FormSection>}
   {s.leftCount>0&&<FormSection T={a.T} icon={BagSimple} tone="blue" title={a.T('Left for next time · '+s.leftCount,'נשארו לפעם הבאה · '+s.leftCount)}>{s.left.length?s.left.map(i=><div className="ss-kv" key={i.id}><span>{a.text(i)}</span></div>):<p className="ss-fine">{a.T('They stayed on the list.','הם נשארו ברשימה.')}</p>}</FormSection>}
   <FormSection T={a.T} icon={Clock} tone="lilac" title={a.T('Who and when','מי ומתי')}><div className="ss-kv"><span>{a.T('Shopped by','קנה/תה')}</span><b>{a.name(shop.finishedBy)}</b></div><div className="ss-kv"><span>{a.T('Time','שעה')}</span><b dir="ltr">{timeOf(shop.startedAt)+'–'+timeOf(shop.archivedAt)}</b></div></FormSection>
  </Window>;
+}
+
+// A bought item in a finished shop (2026-11-12): its price from the receipt, "Not on the receipt" when no line matched, and
+// "Correct?" when the match is a guess. Several lines for one item (two kinds of mushrooms) are separate rows, each a product
+// of its own in Prices, marked with the list item they were bought for (owner's choice 2026-11-12, no shared sum). The receipt's owner answers: Yes keeps the item's name on the line (remembered for the next receipt), No frees the line.
+const lineText=(a,l)=>{const printed=String(l.raw||'').replace(/(?:^|\s)(?:\d{4,}|\d+[.,]\d+)(?=\s|$)/g,' ').replace(/\s+/g,' ').trim();return a.lang==='he'?printed||l.name:l.name||printed};
+function ShopItemRow({a,row,receipt,editable}){
+ const {item,lines,price,sure}=row;
+ const answer=yes=>a.update(d=>{const r=(d.receipts||[]).find(x=>x.id===receipt.id);if(!r)return;for(const l of r.lines||[])if(lines.some(m=>m.raw===l.raw&&m.price===l.price)){if(yes){l.name=a.text(item);l.key=productKey(item);l.confirmed=true}else l.skip=[...new Set([...(l.skip||[]),item.id])]}});
+ if(lines.length>1&&sure)return lines.map((l,n)=><div className="ss-kv ss-kv-item" key={n}><span>{lineText(a,l)}</span><b>{money(a,l.price)}</b><small className="ss-kv-for">{a.T('From the list: ','מהרשימה: ')+a.text(item)}</small></div>);
+ return <div className="ss-kv ss-kv-item">
+  <span>{a.text(item)}</span>
+  {price!=null?<b>{money(a,price)}</b>:<small className="ss-none">{a.T('Not on the receipt','לא בקבלה')}</small>}
+  {price!=null&&!sure&&<span className="ss-kv-ask"><small>{a.T('On the receipt: ','בקבלה: ')}<bdi>{lines.map(l=>lineText(a,l)).join(', ')}</bdi></small>{editable&&<><b>{a.T('Correct?','נכון?')}</b><button type="button" className="ss-q" onClick={()=>answer(true)}><Check size={16} weight="bold"/>{a.T('Yes','כן')}</button><button type="button" className="ss-q" onClick={()=>answer(false)}><X size={16} weight="bold"/>{a.T('No','לא')}</button></>}</span>}
+ </div>;
 }
 
 // The receipt itself: the photo, and what the AI read under it. Tapping a line marks it on the photo (when the reading

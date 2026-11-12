@@ -113,9 +113,10 @@ export function applyChanges(state,ops,actorId,role){
   if(op.collection==='insurances')validateInsurancePolicy(value,memberIds,new Set(next.members.filter(m=>m.role!=='child').map(m=>m.id)));
   if(['events','tasks','places'].includes(op.collection)){const location=normalizeLocation(value.location);if(location){if(typeof value.location!=='string')value.location=location}else delete value.location;if(op.collection==='places'&&!location)throw Error('Choose a location to save.');}
   if(op.collection==='taskLists')validateTaskList(value,memberIds);
-  // A finished shop (shopping history, 2026-11-12): archived, of a list this person uses, shared no wider than that list.
+  // A shop (shopping history, 2026-11-12): finished (archived) or started and not yet finished ("shopping", the shopping flow),
+  // of a list this person uses, shared no wider than that list. A finished shop does not go back to "shopping".
   if(op.collection==='shoppingLists'&&(value.shopOf||old?.shopOf)){const of=(next.shoppingLists||[]).find(l=>l.id===value.shopOf);
-   if(old&&value.shopOf!==old.shopOf||value.status!=='archived'||!of||of.shopOf||!canAccessList(of,actorId))throw Error('This shopping list is unavailable.');
+   if(old&&value.shopOf!==old.shopOf||!['archived','shopping'].includes(value.status)||old?.status==='archived'&&value.status!=='archived'||value.status==='shopping'&&value.startedBy!==actorId||!of||of.shopOf||!canAccessList(of,actorId))throw Error('This shopping list is unavailable.');
    const people=new Set([of.ownerId,...(of.allowedIds||[])]);if(of.visibility==='private'&&(value.visibility!=='private'||of.ownerId!==actorId)||of.visibility==='selected'&&(value.visibility==='family'||(value.allowedIds||[]).some(id=>!people.has(id))))throw Error('A shop cannot be shared more widely than its list.');}
   if(op.collection==='events')validateEventTime(value);
   if(op.collection==='meals'){if((value.ingredients||[]).length>100)throw Error('Use up to 100 ingredients.');value.ingredients=normalizeIngredients(value.ingredients||[])}

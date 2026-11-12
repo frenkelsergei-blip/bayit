@@ -18,7 +18,7 @@ const fields={
  receipts:'listId store total charged paidOther currency fileId lines status matchedExpenseId shopDate',
  documents:'fileId filename mime size category categories purchased expires validFrom supersededAt contactId description sourceKind importChannel importedAt sourceSha256',
  contacts:'phone email category description address notes',
- shoppingLists:'name status completedAt archivedAt sourceListId tripDate shopOf finishedBy startedAt leftCount tripId',
+ shoppingLists:'name status completedAt archivedAt sourceListId tripDate shopOf finishedBy startedAt startedBy leftCount tripId',
  taskLists:'name color description',
  meals:'ingredients day mealType type source recipe servings dish dishHe',
  pantry:'quantity quantityValue minimum unit group category expires location autoSuggest',
@@ -28,7 +28,7 @@ const fields={
  insurances:'insurer policyNumber insuredName type status premiumCents premiumPeriod currency startDate endDate source sourceFile sourceSheet sourceRow sourcePremiumText reportDate importedAt documentIds paymentIds importWarnings coverageMain coverageSub productType coveragePeriodText additionalDetails classification coverageVariant sourcePolicyNumber policyNumberFormat sourceDocumentIds',
 };
 const profileFields=words('name he photo displayMode badgeIcon character equipped xp color birthday birthdayInCalendar locale notificationPrefs financePlans financeNotifications favoriteIcons hero heroRequest readNotifications dismissedNotifications documentCategories pinnedRecords');
-const stringFields=words('shopOf finishedBy startedAt restoredFrom tripId key decidedBy decidedAt store currency shopDate matchedExpenseId receiptId fileId id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
+const stringFields=words('shopOf finishedBy startedAt startedBy restoredFrom tripId key decidedBy decidedAt store currency shopDate matchedExpenseId receiptId fileId id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
 const numericFields=words('total charged paidOther leftCount xp quantityValue minimum amount size durationMinutes intervalMonths servings reminderDays');
 const booleans=words('done routine parentConfirm notifyOwnerOnDone paid turnEnabled rotating approvalRequired autoSuggest');
 export function boundedValue(value,{depth=0,budget={nodes:0}}={}){
