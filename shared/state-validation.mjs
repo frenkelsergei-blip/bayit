@@ -12,7 +12,10 @@ const fields={
  tasks:'priority routineId done completedAt completedBy repeat repeatDays repeatUntil weekdays days xp routine parentConfirm completions kind category listId shoppingListId subtasks notifyOwnerOnDone overdueAlert durationMinutes location turnOrder turnMemberIds turnEvery turnEnabled rotating rotation intervalMonths serviceHistory nextServiceDate serviceRequest repeatEvery approvalRequired reward assigneeIds turns reminderDays linkedShoppingTitle contactId documentId',
  events:'repeat repeatDays repeatUntil weekdays durationMinutes location color birthdayOf editPolicy editorIds endTime turnOrder parentConfirm category',
  notes:'text textHe type editPolicy editorIds tags',
- shopping:'quantity quantityValue unit group category done boughtAt boughtBy listId order source',
+ shopping:'quantity quantityValue unit group category done boughtAt boughtBy listId order source receiptId',
+ shoppingMarks:'kind key group listId',
+ favourites:'kind key group status decidedBy decidedAt',
+ receipts:'listId store total currency fileId lines status matchedExpenseId shopDate',
  documents:'fileId filename mime size category categories purchased expires validFrom supersededAt contactId description sourceKind importChannel importedAt sourceSha256',
  contacts:'phone email category description address notes',
  shoppingLists:'name status completedAt archivedAt sourceListId tripDate',
@@ -25,8 +28,8 @@ const fields={
  insurances:'insurer policyNumber insuredName type status premiumCents premiumPeriod currency startDate endDate source sourceFile sourceSheet sourceRow sourcePremiumText reportDate importedAt documentIds paymentIds importWarnings coverageMain coverageSub productType coveragePeriodText additionalDetails classification coverageVariant sourcePolicyNumber policyNumberFormat sourceDocumentIds',
 };
 const profileFields=words('name he photo displayMode badgeIcon character equipped xp color birthday birthdayInCalendar locale notificationPrefs financePlans financeNotifications favoriteIcons hero heroRequest readNotifications dismissedNotifications documentCategories pinnedRecords');
-const stringFields=words('id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
-const numericFields=words('xp quantityValue minimum amount size durationMinutes intervalMonths servings reminderDays');
+const stringFields=words('key decidedBy decidedAt store currency shopDate matchedExpenseId receiptId fileId id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
+const numericFields=words('total xp quantityValue minimum amount size durationMinutes intervalMonths servings reminderDays');
 const booleans=words('done routine parentConfirm notifyOwnerOnDone paid turnEnabled rotating approvalRequired autoSuggest');
 export function boundedValue(value,{depth=0,budget={nodes:0}}={}){
  if(++budget.nodes>16000||depth>12)throw Error('This record is too complex.');
@@ -125,7 +128,8 @@ export function validatePreference(key,value){
  if(['householdName','weekStarts','palette','maintenanceDate','maintenanceRepeat','quietStart','quietEnd'].includes(key)&&(typeof value!=='string'||value.length>(key==='householdName'?80:300)))throw Error('Choose valid household text.');
  if(['monthlyBudget','turnInterval','maxSuggestions'].includes(key)&&(!Number.isFinite(value)||value<0||value>100000000))throw Error('Choose a valid setting value.');
  if(key==='privacyDefaults'&&(!value||typeof value!=='object'||Object.entries(value).some(([k,v])=>!['noteVisibility','eventVisibility'].includes(k)||!['private','family'].includes(v))))throw Error('Choose valid privacy defaults.');
- if(['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser','turnOverrides'].includes(key)&&(!value||typeof value!=='object'||Array.isArray(value)))throw Error('Choose valid personal settings.');
+ if(key==='shoppingByUser'&&value&&typeof value==='object'&&Object.values(value).some(v=>v&&typeof v==='object'&&Object.entries(v).some(([k,x])=>!['suggest','liked','requests','dayMessage','addsMessage'].includes(k)||typeof x!=='boolean')))throw Error('Choose valid shopping settings.');
+ if(['appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser','turnOverrides','shoppingByUser'].includes(key)&&(!value||typeof value!=='object'||Array.isArray(value)))throw Error('Choose valid personal settings.');
  if(key==='features')validateFeatures(value);
  if(key==='familyProfile')normalizeFamilyProfile(value);
  if(key==='featuresByUser')validateFeaturesByUser(value);

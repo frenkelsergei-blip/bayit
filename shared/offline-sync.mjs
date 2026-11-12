@@ -6,7 +6,7 @@ import {moduleById,offlineModules} from './feature-modules.mjs';
 
 // Never kept on the device for offline use: money, insurance, documents, and AI receipts (saved plans keep their outline).
 // Connection secrets are never part of household state in the first place (they live server-side).
-export const OFFLINE_EXCLUDED=['expenses','bills','insurances','documents'];
+export const OFFLINE_EXCLUDED=['expenses','bills','insurances','documents','receipts'];
 const PRIVATE_PROFILE_FIELDS=['financePlans','financeNotifications','insuranceMatches'];
 const PRIVATE_PREFERENCES=['monthlyBudget','privateGoals'];
 
@@ -14,7 +14,7 @@ const PRIVATE_PREFERENCES=['monthlyBudget','privateGoals'];
 // `data` is already the server's visibleState for this member, so a child's copy never holds parent-only records.
 export function offlineSnapshot(data){
  const copy=structuredClone(data||{});
- for(const key of OFFLINE_EXCLUDED)if(key in copy)copy[key]=[];
+ for(const key of OFFLINE_EXCLUDED)copy[key]=[];
  // AI receipts stay online, except the member's saved plans ("message → one plan"): only their title and item references.
  copy.aiOperations=Object.fromEntries(Object.entries(copy.aiOperations||{}).flatMap(([id,r])=>r?.status==='intake'&&Array.isArray(r.items)
   ?[[id,{id:r.id,ownerId:r.ownerId,scope:r.scope,status:'intake',title:r.title,appliedAt:r.appliedAt,items:r.items.map(({collection,id})=>({collection,id}))}]]:[]));

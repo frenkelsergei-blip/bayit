@@ -61,6 +61,7 @@ Core decides *what* is sent; `render(message, ctx)` decides how it looks. `messa
 | `completed` | `task`, `by` (member) | 🎉 card |
 | `finance`, `insurance` | `message` `{title, detail, icon?}` | alert card |
 | `bayit-ai`, `voucher` | `message` `{title, body, url}` | alert card with an "Open" link to `ctx.origin` |
+| `shopping` | `kind` (`added`: `item`, `list`, `by` · `started`: `list`, `by`, `left`) | 🆕 card with ✓ Bought and The list, to whoever is shopping; 🛒 "X is shopping now" to the other adults (`shared/shopping-rhythm.mjs` `shopUpdates`) |
 
 `ctx` = `{env, connection, recipient, householdId, memberId, role, lang, date, time, origin, visible, members, nameOf}`. `visible` is already the person's delivery view; a channel never reads `home.state` for content.
 

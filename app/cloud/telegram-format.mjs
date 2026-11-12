@@ -1,4 +1,5 @@
 import {isMine} from '../../shared/record-audience.mjs';
+import {shopToday} from '../../shared/shopping-rhythm.mjs';
 // Tidy, sectioned Telegram messages (HTML parse mode): a header, short sections with an icon and a title,
 // one "•" line per item ("08:00 · Title · Who"), empty sections left out. Hebrew lines start with a
 // right-to-left mark so bullets and times sit on the right. Every builder receives the recipient's own
@@ -34,7 +35,9 @@ export function dayReport(visible,{memberId,role,date,lang,members=[],greeting=f
  const overdue=[];for(let i=1;i<=7;i++){const day=shift(date,-i);for(const t of mine)if(!t.routine&&t.date&&t.date<=day&&occursOn(t,day)&&completionState(t,day)==='open'&&(t.repeat||'once')==='once')overdue.push({t,day})}
  const overdueLines=overdue.slice(0,6).map(({t,day})=>line(lang,[star(t)+esc(titleOf(t,lang)),esc(dayLabel(day,lang,{weekday:'short',day:'numeric',month:'short'}))]));
  const anytime=mine.filter(t=>!t.date&&taskStateNow(t,date)==='open').sort(byPriorityThenTime),anytimeLines=anytime.slice(0,4).map(t=>line(lang,[star(t)+esc(titleOf(t,lang))]));
- const lists=(visible.shoppingLists||[]).filter(l=>l.status==='active'),chosen=visible.preferences?.activeShoppingListByUser?.[memberId],list=lists.find(l=>l.id===chosen)||lists[0];
+ // A shop planned for today leads the shopping part of the morning summary (2026-11-11).
+ const planned=greeting?shopToday(visible,memberId,date):null;
+ const lists=(visible.shoppingLists||[]).filter(l=>l.status==='active'),chosen=visible.preferences?.activeShoppingListByUser?.[memberId],list=planned?.list||lists.find(l=>l.id===chosen)||lists[0];
  const left=list?(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id&&!i.done):[];
  const shoppingLine=left.length?[line(lang,[esc(left.slice(0,8).map(i=>titleOf(i,lang)).join(', '))+(left.length>8?L(lang,' and '+(left.length-8)+' more',' ועוד '+(left.length-8)):'')])]:[];
  const approvals=role==='parent'?(visible.tasks||[]).filter(t=>t.memberId!==memberId&&occursOn(t,date)&&completionState(t,date)==='pending'):[];
@@ -45,7 +48,7 @@ export function dayReport(visible,{memberId,role,date,lang,members=[],greeting=f
   section(lang,'✅',L(lang,'To do today','לעשות היום')+(today.length?' · '+L(lang,doneCount+'/'+today.length+' done',doneCount+'/'+today.length+' בוצעו'):''),todoLines),
   section(lang,'⏰',L(lang,'Overdue','באיחור'),overdueLines),
   section(lang,'📋',L(lang,'Anytime','בכל זמן'),anytimeLines,anytime.length>4?L(lang,'…and '+(anytime.length-4)+' more','…ועוד '+(anytime.length-4)):''),
-  list?section(lang,'🛒',L(lang,'Shopping','קניות')+' · '+titleOf(list,lang)+' · '+L(lang,left.length+' left','נותרו '+left.length),shoppingLine):'',
+  list?section(lang,'🛒',(planned?L(lang,'Shopping today','היום יש קניות')+(planned.trip.time?' · '+planned.trip.time:'')+(planned.trip.memberId?' · '+nameOf(planned.trip.memberId):''):L(lang,'Shopping','קניות'))+' · '+titleOf(list,lang)+' · '+L(lang,left.length+' left','נותרו '+left.length),shoppingLine):'',
   section(lang,'⏳',L(lang,'Waiting for your approval','ממתין לאישורכם'),approvalLines)
  ]);
  const empty=!events.length&&!today.length&&!overdue.length&&!anytime.length&&!left.length&&!approvals.length;

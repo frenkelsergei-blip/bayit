@@ -216,7 +216,9 @@ export function BayitAIChatInline({a,ui,view='chat'}){
 // The launcher steps aside (fades out, takes no taps) while a window is open, or while a save bar, sheet footer or
 // another fixed/sticky bar would sit under it (orchestrator report 2026-11-10: the bubble covered Save on form pages).
 // It measures what is on screen instead of a list of forms, so new forms are covered too.
-const BARS='.form-sticky-actions,.tasks-sheet-actions,.money-manual-form-actions,.transaction-actions,.document-editor-footer,[class*="sticky-actions"],[class*="form-actions"],[class*="-actions"],footer';
+// Elements marked data-keep-clear (a primary card with its button, e.g. Shopping's "Before the shop") count too, wherever
+// they scroll, so the bubble never covers their button (orchestrator review 2026-11-11).
+const BARS='[data-keep-clear],.form-sticky-actions,.tasks-sheet-actions,.money-manual-form-actions,.transaction-actions,.document-editor-footer,[class*="sticky-actions"],[class*="form-actions"],[class*="-actions"],footer';
 function useStepAside(active,place){
  const [away,setAway]=useState(false);
  useEffect(()=>{
@@ -227,7 +229,7 @@ function useStepAside(active,place){
    const me=document.querySelector(place==='edge'?'.hai-edge':'.hai-bubble');if(!me){setAway(false);return}
    const r=me.getBoundingClientRect(),pad=8,box={l:r.left-pad,r:r.right+pad,t:r.top-pad,b:r.bottom+pad};
    const hit=[...document.querySelectorAll(BARS)].some(e=>{if(e.closest('.hai-chat,.bayit-shell-nav,.bayit-shell-header,.toast,.offline-banner'))return false;const s=getComputedStyle(e);if(s.display==='none'||s.visibility==='hidden')return false;
-    if(!/sticky|fixed/.test(s.position)&&!e.closest('[role="dialog"]'))return false;const q=e.getBoundingClientRect();if(!q.width||!q.height)return false;return !(q.right<=box.l||q.left>=box.r||q.bottom<=box.t||q.top>=box.b)});
+    if(!/sticky|fixed/.test(s.position)&&!e.closest('[role="dialog"]')&&!e.hasAttribute('data-keep-clear'))return false;const q=e.getBoundingClientRect();if(!q.width||!q.height)return false;return !(q.right<=box.l||q.left>=box.r||q.bottom<=box.t||q.top>=box.b)});
    setAway(hit);
   };
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(check)};

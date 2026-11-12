@@ -1,4 +1,4 @@
-// Today widget: the current person's open high-priority tasks (assigned to them or created by them) for the
+// Today widget: the current person's open high-priority tasks (assigned to them, or their own private ones: isMine) for the
 // chosen day, plus overdue and anytime ones. Uses a.visible(...) so it follows the same access rules as Tasks.
 import React from 'react';
 import {Clock,WarningCircle,ArrowRight,Infinity as Anytime} from '@phosphor-icons/react';

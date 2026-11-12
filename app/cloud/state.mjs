@@ -10,7 +10,7 @@ import {canEditContent,validateEditAccess} from '../../shared/permissions.mjs';
 import {canSee} from '../src/data.js';
 import {AUDIENCE_COLLECTIONS,canSeeRecord,normalizeStateAudience,assignedTo,enforceAudience} from '../../shared/record-audience.mjs';
 import {changeNoticesFor,pruneChangeNotices} from '../../shared/change-notices.mjs';
-import {upgradeShoppingLists,canAccessList} from '../../shared/shopping-lists.mjs';
+import {upgradeShoppingLists,canAccessList,canDeleteShoppingItem} from '../../shared/shopping-lists.mjs';
 import {taskFitsList,validateTaskList} from '../../shared/task-lists.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
 import {applyHeroCommand,publicHero} from '../../shared/hero-home.mjs';
@@ -20,8 +20,8 @@ import {resolveFeatures} from '../../shared/features.mjs';
 import {visibleModules,applyModuleOp} from '../../shared/feature-modules.mjs';
 import {extKeys,parseExtKey,recordList} from '../../shared/record-paths.mjs';
 import {boundedValue,validateRecord,validateProfile,safePhoto,displayable,imageData,validatePreference} from '../../shared/state-validation.mjs';
-export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists','places','insurances'];
-const personalMaps=['featuresByUser','appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser'];
+export const collections=['tasks','events','notes','shopping','history','purchases','documents','contacts','shoppingLists','meals','expenses','pantry','bills','taskLists','places','insurances','shoppingMarks','favourites','receipts'];
+const personalMaps=['featuresByUser','appearanceByUser','todayByUser','privateGoals','suggestionsByUser','activeShoppingListByUser','shoppingByUser'];
 const sharedPreferences=['features','familyProfile','householdName','familyPhoto','weekStarts','palette','familyChallenge','goals','inventory','maintenanceDate','maintenanceRepeat','shoppingCategories','turnOverrides','turnInterval','monthlyBudget'];
 const personalFlat=['aiSources','reminder','notifications','quietStart','quietEnd','smartSuggestions','maxSuggestions','parentUpdates','milkWeekly','privacyDefaults'];
 const profilePublic=['name','he','photo','displayMode','badgeIcon','character','equipped','xp','color','birthday','birthdayInCalendar'];
@@ -37,7 +37,7 @@ export function visibleState(state,actorId){
  const result=structuredClone(state),lists=(state.shoppingLists||[]).filter(l=>canAccessList(l,actorId)),taskLists=(state.taskLists||[]).filter(l=>canAccessList(l,actorId));
  delete result.insuranceIdentityVaults; // Server-only encrypted, actor-scoped ID matching; never sync to clients/AI.
  delete result.extensions; // Feature modules: rebuilt from scratch below (installed modules, declared lists, this member's records only).
- for(const key of collections)result[key]=['expenses','bills','insurances'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(result[key]||[]).filter(r=>displayable(r,key)&&canSeeRecord(r,actorId,key)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)||key==='tasks'&&assignedTo(r,actorId,key)&&delete r.listId));
+ for(const key of collections)result[key]=['expenses','bills','insurances','receipts'].includes(key)&&state.members.find(m=>m.id===actorId)?.role==='child'?[]:(result[key]||[]).filter(r=>displayable(r,key)&&canSeeRecord(r,actorId,key)&&(!r.listId||(key==='tasks'?taskLists:lists).some(l=>l.id===r.listId)||key==='tasks'&&assignedTo(r,actorId,key)&&delete r.listId));
  for(const [derived,source,reference]of [['history','tasks','taskId'],['purchases','shopping','id']])result[derived]=result[derived].filter(r=>{const original=(state[source]||[]).find(s=>s.id===r[reference]);return original?(result[source]||[]).some(s=>s.id===original.id):r.ownerId===actorId});
  for(const key of ['notes','events','expenses'])for(const record of result[key])record.date??='';
  for(const document of result.documents)delete document.sampleUrl;
@@ -69,6 +69,7 @@ export function diffState(before,after){
 export function applyChanges(state,ops,actorId,role){
  state=normalizeStateAudience(state); // Older records are stored in their consistent form on the next save.
  if(!Array.isArray(ops)||ops.length>250)throw Error('Too many changes in one request.');const next=structuredClone(state),parent=role==='parent',memberIds=new Set(state.members.map(m=>m.id)),derivedHistory=[],xpDeltas=new Map();
+ const cascaded=new Set(); // Items removed with their shopping list; a separate delete for them in the same request is then a no-op.
  const birthdayProfiles=new Set(ops.filter(op=>op.collection==='profiles'&&op.value?.birthday!==undefined).map(op=>op.id));
  const priority={members:0,shoppingLists:1,taskLists:1,tasks:2,profiles:4};
  for(const op of [...ops].sort((a,b)=>(priority[a.collection]??3)-(priority[b.collection]??3))){
@@ -96,7 +97,11 @@ export function applyChanges(state,ops,actorId,role){
   if(old&&!canSeeRecord(old,actorId,op.collection))throw Error('This record is private.');
   if(op.collection==='insurances'&&role==='child')throw Error('Insurance is available to adult accounts.');
   if(op.collection==='history'||op.collection==='purchases')continue; // Derived from the corresponding task/item change below.
-  if(op.delete){if(!old||old.ownerId!==actorId&&!(op.collection==='shopping'&&old.visibility==='family'))throw Error('Only the owner can remove this record.');if(op.collection==='taskLists')for(const t of next.tasks||[])if(t.listId===op.id)delete t.listId;list.splice(index,1);continue}
+  if(op.delete){if(!old&&cascaded.has(op.collection+':'+op.id))continue;if(!old||old.ownerId!==actorId&&!(op.collection==='shopping'&&canDeleteShoppingItem(old,next.shoppingLists,actorId))&&!(op.collection==='shoppingMarks'&&old.visibility!=='private')&&!(op.collection==='favourites'&&(parent||old.memberId===actorId)))throw Error('Only the owner can remove this record.');if(op.collection==='taskLists')for(const t of next.tasks||[])if(t.listId===op.id)delete t.listId;
+   // A deleted shopping list takes its items with it (also ones its owner cannot see), or they would bring the list back
+   // as an unnamed one; shopping trips keep their task and lose the link.
+   if(op.collection==='shoppingLists'){next.shopping=(next.shopping||[]).filter(i=>(i.listId||'week')!==op.id||!cascaded.add('shopping:'+i.id));for(const t of next.tasks||[])if(t.shoppingListId===op.id)delete t.shoppingListId}
+   list.splice(index,1);continue}
   if(value.id!==op.id||value.ownerId!==(old?.ownerId||actorId))throw Error('Record ownership cannot be changed.');validateRecord(op.collection,value);
   if(AUDIENCE_COLLECTIONS.includes(op.collection)&&op.collection!=='history'){const fixed=enforceAudience(op.collection,value,{old,actorId,members:next.members,memberIds,taskLists:next.taskLists,shoppingLists:next.shoppingLists});value.visibility=fixed.visibility;value.allowedIds=fixed.allowedIds}
   if(!['private','family','selected'].includes(value.visibility)||value.visibility==='selected'&&(!Array.isArray(value.allowedIds)||!value.allowedIds.length||value.allowedIds.some(id=>!memberIds.has(id))))throw Error('Choose valid visibility and people.');
@@ -113,7 +118,18 @@ export function applyChanges(state,ops,actorId,role){
   if(['events','notes'].includes(op.collection)){validateEditAccess(value,memberIds);if(old&&!canEditContent(old,actorId,state.members,op.collection==='notes'?'note':'event'))throw Error('Only the owner or a permitted editor can edit this record.');}
   if(['expenses','bills'].includes(op.collection)){if(role==='child')throw Error('Expenses are available to adult accounts.');if(!Number.isFinite(value.amount)||value.amount<=0||value.amount>100000000)throw Error('Choose a valid expense amount.');if(op.collection==='expenses'&&value.flow!==undefined&&!['expense','income','savings'].includes(value.flow))throw Error('Choose income or expense.');}
   if(op.collection==='pantry'){if(!text(value.title,160)||!Number.isFinite(value.quantityValue)||value.quantityValue<0||!Number.isFinite(value.minimum)||value.minimum<0)throw Error('Choose valid inventory quantities.');value.updatedBy=actorId;value.updatedAt=new Date().toISOString();}
+  // Smarter shopping (2026-11-11): marks are "already bought", "not this time" and "stop suggesting"; favourites are each
+  // person's likes and "doesn't eat". A child only asks (status requested) for itself; a parent decides. Receipts: adults only.
+  if(op.collection==='shoppingMarks'||op.collection==='receipts'){const target=(next.shoppingLists||[]).find(l=>l.id===value.listId);if(!target||!canAccessList(target,actorId))throw Error('This shopping list is unavailable.');if(target.visibility==='private'&&value.visibility!=='private'||target.visibility==='selected'&&value.visibility==='family')throw Error('This cannot be shared more widely than its list.');
+   if(op.collection==='shoppingMarks'&&!['bought','later','stop'].includes(value.kind))throw Error('Choose a valid answer.');
+   if(op.collection==='receipts'){if(role==='child')throw Error('Receipts are available to adult accounts.');if(value.total!=null&&(!Number.isFinite(value.total)||value.total<0||value.total>10000000))throw Error('Choose a valid total.');if(value.lines!=null&&(!Array.isArray(value.lines)||value.lines.length>200||value.lines.some(l=>!l||typeof l!=='object'||typeof l.raw!=='string'||l.raw.length>200||l.price!=null&&!Number.isFinite(l.price))))throw Error('Choose valid receipt lines.');}
+   if(!old){value.createdAt=new Date().toISOString();value.createdBy=actorId}}
+  if(op.collection==='favourites'){if(!['likes','avoid'].includes(value.kind)||!['approved','requested'].includes(value.status)||!memberIds.has(value.memberId))throw Error('Choose a valid favourite.');
+   if(role==='child'&&(value.memberId!==actorId||(old?value.status==='approved'&&old.status!=='approved':value.status!=='requested')))throw Error('A parent approves what a child asks for.');
+   if(old&&old.ownerId!==actorId){if(!parent||Object.keys({...old,...value}).some(k=>!['status','decidedBy','decidedAt','updatedAt'].includes(k)&&JSON.stringify(old[k])!==JSON.stringify(value[k])))throw Error('Only a parent decides on a request.');value.decidedBy=actorId;value.decidedAt=new Date().toISOString()}
+   if(!old){value.createdAt=new Date().toISOString();value.createdBy=actorId}}
   if(op.collection==='shopping'){
+    if(!old){value.createdAt=new Date().toISOString();value.createdBy=actorId}else{value.createdAt=old.createdAt;value.createdBy=old.createdBy}
    const target=(next.shoppingLists||[]).find(l=>l.id===(value.listId||'week'));if(!target||!canAccessList(target,actorId))throw Error('This shopping list is unavailable.');if(target.visibility==='private'&&value.visibility!=='private'||target.visibility==='selected'&&(value.visibility==='family'||value.allowedIds.some(id=>!target.allowedIds.includes(id)&&id!==target.ownerId)))throw Error('An item cannot be shared more widely than its list.');if(!text(value.title,160)||!Number.isFinite(value.quantityValue||parseFloat(value.quantity))||Number(value.quantityValue||parseFloat(value.quantity))<=0)throw Error('Invalid shopping item.');
    if(value.done!==!!old?.done){value.boughtAt=value.done?new Date().toISOString():null;value.boughtBy=value.done?actorId:null;next.purchases.push({...value,purchaseId:crypto.randomUUID(),date:new Date().toLocaleDateString('en-CA',{timeZone:HOME_TIMEZONE})})}
   }

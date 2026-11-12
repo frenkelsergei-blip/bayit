@@ -4,6 +4,30 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.68.0 · 2026-11-12
+
+- The shopping list now suggests what to buy. One card above the list, "Before the shop", based on what you usually buy. Go through the suggestions one at a time: add, already bought, not this time, or stop suggesting. It works without AI, and you can turn it off in Shopping settings.
+- Liked at home: what each person likes is suggested when it hasn't been bought for a week. Children can ask, and a parent approves.
+- The next shop's date shows on the list. When someone starts ticking, everyone sees they're shopping, and what is added meanwhile appears on top.
+- Telegram: on shop day the morning summary says "Shopping today". Whoever is shopping gets each new item; each person can turn these messages off in Shopping settings. "Add cucumbers and tomatoes" adds at once, with Undo, even without AI.
+- Photograph a receipt (adults, with an AI helper): your AI helper reads the prices, you check and save, and the photo is not kept. Then see prices over time and this month's supermarket spending from your statements.
+
+## 1.67.0 · 2026-11-11
+
+- Shopping: swipe an item left to delete it, like notifications, and delete a whole list from its ⋯ menu or edit window. Everyone who shares a list can remove its items, and Undo always brings them back.
+
+## 1.66.0 · 2026-11-11
+
+- Bayit AI (in the app and on Telegram) now knows whose turn it is today and tomorrow, for the shower and other activities that take turns, including when a parent swapped the order. Turns that rotate daily now really change from one day to the next.
+
+## 1.65.1 · 2026-11-11
+
+- Kids › Turns now lists only activities that take turns. Activities set to Together, like meals or getting dressed, no longer show a turn order, and the child's history still includes them.
+
+## 1.65.0 · 2026-11-11
+
+- Tasks, Today and Calendar now open on what's yours: tasks and events assigned to you, plus whole-family ones, unassigned ones and birthdays. One tap on "Show everyone" shows the whole family, and Bayit remembers that choice on this device.
+
 ## 1.64.1 · 2026-11-11
 
 - **Docker: the quick start works again.** A typo in `compose.yaml` (an unquoted comma in the `/tmp` mount) stopped `docker compose up` on every machine with `invalid mount path: 'mode=1777'`. It is fixed, a test checks the file, and CI now runs the exact documented quick start (`cp .env.example .env`, `docker compose up -d --build`, the health check and the setup-code line).

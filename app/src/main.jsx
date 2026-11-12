@@ -78,6 +78,7 @@ import './item-reminders.css';
 import './field-title.css';
 import './settings-layout.css';
 import './shopping-layout.css';
+import './shopping-smart.css';
 import './window-fit.css';
 import './journal-layout.css';
 import './input-modality.js';

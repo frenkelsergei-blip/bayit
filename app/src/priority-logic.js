@@ -1,4 +1,5 @@
 import {taskAssignedTo,taskMemberIds} from '../../shared/task-assignment.mjs';
+import {isMine} from '../../shared/record-audience.mjs';
 // Task priority: pure helpers shared by the Tasks page, the Today widget and tests.
 // A task may carry priority 'high' | 'medium' | 'low'; anything else means no priority.
 import {occursOn,completionState} from './domain.js';
@@ -25,7 +26,7 @@ const anytimeState=t=>{const last=Object.entries(t.completions||{}).sort(([x],[y
 // overdue one-time tasks first, then the day's tasks by time, then anytime tasks. Pass only records the
 // person may already see (a.visible(...)); this never widens access.
 export function topPriorities(tasks,{userId,date,today=date,level='high'}={}){
- const mine=(tasks||[]).filter(t=>!t.routine&&normalizePriority(t.priority)===level&&(taskAssignedTo(t,userId)||t.ownerId===userId));
+ const mine=(tasks||[]).filter(t=>!t.routine&&normalizePriority(t.priority)===level&&isMine(t,userId,'tasks')/* yours: assigned to you or your own private task, like Today's list (2026-11-11) */);
  const overdue=mine.filter(t=>t.date&&t.date<today&&(t.repeat||'once').toLowerCase()==='once'&&completionState(t,t.date)!=='done').map(t=>({t,date:t.date,when:'overdue'}));
  const seen=new Set(overdue.map(r=>r.t.id));
  const onDay=mine.filter(t=>!seen.has(t.id)&&t.date&&occursOn(t,date)&&completionState(t,date)!=='done').map(t=>({t,date,when:'day'})).sort((a,b)=>(a.t.time||'99').localeCompare(b.t.time||'99'));

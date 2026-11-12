@@ -19,7 +19,7 @@ export const DELIVERY_HOOKS=['targets','recipients','open','render','send','bloc
 export const OPTIONAL_DELIVERY_HOOKS=['prepare','dueSnoozes','snoozeSent','correct'];
 // Core's own /api/ areas (worker.mjs). A channel's paths may never fall inside one of them; tests/channels.test.mjs
 // checks this list against worker.mjs.
-export const RESERVED_API=['ai','ai-history','ai-usage','auth','bayit-ai','channels','config','documents','family','files','finance','google-calendar','health','home-suggestions','households','insurance','internal','kids-parent','maps','message-plan','passkeys','push','registration','security','session','voice','vouchers'];
+export const RESERVED_API=['ai','ai-history','ai-usage','auth','bayit-ai','channels','config','documents','family','files','finance','google-calendar','health','home-suggestions','households','insurance','internal','kids-parent','maps','message-plan','passkeys','push','registration','security','session','shopping','voice','vouchers'];
 export function channelProblem(c){
  const extra=Object.keys(c).filter(k=>!CHANNEL_FIELDS.includes(k));
  if(extra.length)return 'may not carry '+extra.join(', ')+'. Access rules, delivery records and the scheduler stay in core.';

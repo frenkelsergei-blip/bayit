@@ -42,7 +42,7 @@ function eventTone(event,a){
  return a.member(event.responsibleId||event.memberIds?.[0]||event.ownerId).color||'lilac';
 }
 
-function DayEvents({a,day,events,onChoose,Avatar,listRef,onScroll,selectedId}){
+function DayEvents({a,day,events,onChoose,Avatar,listRef,onScroll,selectedId,emptyText}){
  const Chevron=a.lang==='he'?CaretLeft:CaretRight;
  return <div ref={listRef} className="month-day-events" onScroll={onScroll}>
   {events.map(event=><button type="button" key={event.id} data-event-id={event.id} className={'month-day-event-row '+eventTone(event,a)+(selectedId===event.id?' focused-event':'')} onClick={()=>onChoose(event.id,day)}>
@@ -51,11 +51,11 @@ function DayEvents({a,day,events,onChoose,Avatar,listRef,onScroll,selectedId}){
    {Avatar&&<AvatarStack ids={event.memberIds?.length?event.memberIds:[event.ownerId]} Avatar={Avatar} name={a.name} size={30} max={2}/>}
    <Chevron size={16} aria-hidden="true"/>
   </button>)}
-  {!events.length&&<div className="month-day-empty"><CalendarDots size={36} weight="duotone" aria-hidden="true"/><p>{a.T('Nothing planned for this day yet.','עוד לא נקבעו אירועים ליום הזה.')}</p></div>}
+  {!events.length&&<div className="month-day-empty"><CalendarDots size={36} weight="duotone" aria-hidden="true"/><p>{emptyText||a.T('Nothing planned for this day yet.','עוד לא נקבעו אירועים ליום הזה.')}</p></div>}
  </div>;
 }
 
-function DaySurface({a,day,events,modal,onClose,onChoose,onAdd,Avatar,scrollPositions,selectedId}){
+function DaySurface({a,day,events,modal,onClose,onChoose,onAdd,Avatar,scrollPositions,selectedId,emptyText}){
  const id=useId(),panel=useRef(null),heading=useRef(null),list=useRef(null);
  useMonthModal(modal,panel,heading,onClose);
  useLayoutEffect(()=>{
@@ -74,14 +74,14 @@ function DaySurface({a,day,events,modal,onClose,onChoose,onAdd,Avatar,scrollPosi
  const date=new Date(day+'T12:00:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
  const content=<>
   <header className="month-day-heading"><div><p>{a.T('Your day','אירועי היום')}</p><h2 ref={heading} tabIndex={-1} id={id}>{date}</h2><span>{events.length===1?a.T('1 event','אירוע אחד'):a.T(events.length+' events',events.length+' אירועים')}</span></div>{modal&&<button type="button" className="icon-button" aria-label={a.T('Close day events','סגירת אירועי היום')} onClick={onClose}><X size={24}/></button>}</header>
-  <DayEvents a={a} day={day} events={events} onChoose={onChoose} Avatar={Avatar} selectedId={selectedId} listRef={list} onScroll={event=>scrollPositions.current.set(day,event.currentTarget.scrollTop)}/>
+  <DayEvents a={a} day={day} events={events} emptyText={emptyText} onChoose={onChoose} Avatar={Avatar} selectedId={selectedId} listRef={list} onScroll={event=>scrollPositions.current.set(day,event.currentTarget.scrollTop)}/>
   <footer className="month-day-footer"><button type="button" className="button" onClick={()=>onAdd(day)}><Plus size={20}/>{a.T('Add event on this day','אירוע ביום הזה')}</button></footer>
  </>;
  if(!modal)return <aside ref={panel} className="month-day-panel" aria-labelledby={id}>{content}</aside>;
  return createPortal(<div className="calendar-month-modal-backdrop" onPointerDown={event=>event.target===event.currentTarget&&onClose()}><section ref={panel} className="calendar-month-day-sheet" role="dialog" aria-modal="true" aria-labelledby={id}>{content}</section></div>,document.body);
 }
 
-export function CalendarMonth({app:a,items,cursor,weekStarts,onChoose,onDay,onAdd,onDayClose,dayOpen,detailOpen,Avatar}){
+export function CalendarMonth({app:a,items,cursor,weekStarts,onChoose,onDay,onAdd,onDayClose,dayOpen,detailOpen,Avatar,emptyText}){
  const sheet=useMedia(sheetQuery),scrollPositions=useRef(new Map()),grid=useRef(null),dates=monthDates(cursor,weekStarts),events=monthDayEvents(items,cursor),locale=a.lang==='he'?'he-IL':'en-US';
  const choose=(id,day)=>onChoose(id,day);
  const keyboard=(event,day)=>{
@@ -105,8 +105,8 @@ export function CalendarMonth({app:a,items,cursor,weekStarts,onChoose,onDay,onAd
    })}</div>
    {sheet&&<p className="month-touch-hint">{a.T('Tap a day to see its events','לחצו על יום להצגת האירועים')}</p>}
   </section>
-  {!sheet&&<DaySurface a={a} day={cursor} events={events} onChoose={choose} onAdd={onAdd} Avatar={Avatar} scrollPositions={scrollPositions}/>}
-  {sheet&&dayOpen&&!detailOpen&&<DaySurface a={a} day={cursor} events={events} modal onClose={onDayClose} onChoose={choose} onAdd={onAdd} Avatar={Avatar} scrollPositions={scrollPositions}/>}
+  {!sheet&&<DaySurface a={a} day={cursor} events={events} emptyText={emptyText} onChoose={choose} onAdd={onAdd} Avatar={Avatar} scrollPositions={scrollPositions}/>}
+  {sheet&&dayOpen&&!detailOpen&&<DaySurface a={a} day={cursor} events={events} emptyText={emptyText} modal onClose={onDayClose} onChoose={choose} onAdd={onAdd} Avatar={Avatar} scrollPositions={scrollPositions}/>}
  </div>;
 }
 

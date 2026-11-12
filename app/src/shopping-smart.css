@@ -1,0 +1,117 @@
+/* Smarter shopping, concept C (2026-11-11): the card above the list, the date line, items added during a shop,
+   the one-at-a-time review, Settings · Shopping and Liked at home. Tokens only; rows keep the shop2 anatomy. */
+.shop2-layout.ss-one{grid-template-columns:minmax(0,1fr)}
+
+/* The card: one invitation, never the suggestions themselves. */
+.ss-card{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;width:100%;margin:12px 0 4px;padding:14px 16px;border:0;border-radius:20px;background:var(--yellow);color:var(--text);font:inherit;text-align:start;cursor:pointer}
+.ss-card>svg{flex:none}
+.ss-card strong{display:block;font-size:calc(17px * var(--font-adjust,1));line-height:1.3}
+.ss-card small{display:block;color:var(--muted);font-weight:600;font-size:calc(14px * var(--font-adjust,1));line-height:1.4;margin-top:2px}
+.ss-card .button{pointer-events:none}
+.ss-small{min-height:44px;padding:0 18px;font-size:calc(15px * var(--font-adjust,1))}
+@media (max-width:700px){.ss-card{grid-template-columns:auto 1fr}.ss-card .button{grid-column:1/-1;justify-content:center;width:100%}}
+
+/* The date line: its own clear colour, one line, "Change" at the end. While someone shops it turns green. */
+.ss-line{display:flex;align-items:center;gap:10px;min-height:52px;margin:12px 0 0;padding:6px 14px;border-radius:16px;background:var(--selected);color:var(--text);font-size:calc(15.5px * var(--font-adjust,1));font-weight:600;line-height:1.35}
+.ss-line>svg{color:var(--primary);flex:none}
+.ss-line>span:not(.ss-line-face){flex:1;min-width:0}
+.ss-line b{font-weight:800}
+.ss-line .ss-line-change{font-weight:800;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;background:none;border:0;padding:0 4px}
+.ss-line-now{background:var(--green)}
+.ss-line-face{display:inline-flex;flex:none}
+.ss-live{width:10px;height:10px;border-radius:50%;background:var(--success,#2f9e55);box-shadow:0 0 0 4px color-mix(in srgb,var(--success,#2f9e55) 22%,transparent);flex:none}
+
+/* Items added during the shop: the same rows, on top, tinted; the heading chip in the accent colour. */
+.ss-newgroup h3{background:var(--accent);color:#000024}
+.ss-newgroup .shop2-row{background:var(--yellow)}
+.ss-new{display:inline-block;margin-inline-start:8px;padding:0 8px;border-radius:999px;background:var(--accent);color:#000024;font-weight:800;font-size:.9em;line-height:1.6;white-space:nowrap}
+
+/* Quick add: what will be added, before adding. */
+.ss-preview{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ss-pv{display:inline-flex;gap:6px;align-items:center;padding:2px 10px 2px 6px;border-radius:999px;background:var(--surface);font-weight:700}
+.ss-gear{flex:none}
+
+/* Windows */
+.ss-window .tasks-sheet-body{display:grid;gap:14px;align-content:start}
+.ss-review .tasks-sheet-body{gap:10px}
+.ss-hint{display:flex;gap:8px;align-items:flex-start;margin:0}
+.ss-fine{margin:0;color:var(--muted);font-weight:600;font-size:calc(13.5px * var(--font-adjust,1));line-height:1.45}
+.ss-text{display:grid;gap:2px;min-width:0}
+.ss-text strong{font-size:calc(16px * var(--font-adjust,1));line-height:1.3}
+.ss-text small{color:var(--muted);font-weight:600;font-size:calc(13.5px * var(--font-adjust,1));line-height:1.35}
+.ss-acts{display:flex;gap:6px;align-items:center;justify-content:flex-end}
+
+.ss-dots{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap}
+.ss-dots i{width:22px;height:6px;border-radius:9px;background:var(--border)}
+.ss-dots i.done{background:var(--primary)}.ss-dots i.now{background:var(--accent)}
+.ss-dots b{margin-inline-start:8px;font-size:calc(14px * var(--font-adjust,1))}
+.ss-big{display:grid;justify-items:center;text-align:center;gap:6px;padding:0 8px}
+.ss-big h3{margin:0;font-size:calc(28px * var(--font-adjust,1))}
+.ss-big p{margin:0;font-weight:700;font-size:calc(17px * var(--font-adjust,1));line-height:1.4}
+.ss-dates{color:var(--muted);font-weight:600;font-size:calc(14px * var(--font-adjust,1));line-height:1.4}
+.ss-qty{display:flex;gap:14px;align-items:center;margin-top:6px;background:var(--bg);border-radius:999px;padding:2px}
+.ss-qty .icon-button{font-size:24px;font-weight:700;width:44px;height:44px}
+.ss-qty b{min-width:28px;font-size:calc(18px * var(--font-adjust,1))}
+.ss-big-acts{display:grid;gap:8px}
+.ss-big-acts .button{min-height:50px;justify-content:center;font-size:calc(17px * var(--font-adjust,1))}
+.ss-stop,.ss-settings-link,.ss-fav-link{justify-self:center;display:inline-flex;gap:6px;align-items:center;min-height:44px}
+.ss-stop{color:var(--muted)}
+.ss-done svg{color:var(--success,#2f9e55)}
+.ss-sum{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 4px;border-top:1px solid var(--border)}
+.ss-sum strong{display:block}.ss-sum small{color:var(--muted);font-weight:600}
+
+.ss-sw{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 0;min-height:44px}
+.ss-sw+.ss-sw{border-top:1px solid var(--border)}
+.ss-sw strong{display:block;font-size:calc(16px * var(--font-adjust,1))}
+.ss-sw small{display:block;color:var(--muted);font-weight:600;line-height:1.4;font-size:calc(13.5px * var(--font-adjust,1))}
+.ss-fav-link{justify-self:start}
+
+.ss-people{margin:0}
+.ss-like{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0}
+.ss-like+.ss-like{border-top:1px solid var(--border)}
+.ss-pending{grid-template-columns:auto 1fr;background:var(--yellow);border-radius:16px;padding:10px 12px}
+.ss-pending .ss-acts,.ss-pending .badge{grid-column:1/-1;justify-self:end}
+.ss-add{width:44px;height:44px;border-radius:50%;border:0;background:var(--primary);color:var(--on-primary,#fff);display:grid;place-items:center;cursor:pointer}
+.ss-heart{color:#d94b62}
+.ss-addlike{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.ss-addlike .ss-kind{grid-column:1/-1;justify-self:start}
+.ss-addlike input{min-height:48px;font-size:16px;border:1.5px solid var(--border);border-radius:15px;padding:0 14px;background:var(--surface);color:var(--text);font-family:inherit}
+
+/* Receipts and prices (adults only) */
+.ss-donecard{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:12px 0 4px;padding:14px 16px;border-radius:20px;background:var(--green)}
+.ss-donecard>svg{color:var(--success,#2f9e55)}
+.ss-donecard strong{display:block;font-size:calc(17px * var(--font-adjust,1))}.ss-donecard small{display:block;color:var(--muted);font-weight:600;line-height:1.4}
+@media (max-width:700px){.ss-donecard{grid-template-columns:auto 1fr}.ss-donecard .button{grid-column:1/-1;justify-content:center}}
+.ss-kv{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;flex-wrap:wrap}
+.ss-kv+.ss-kv{border-top:1px solid var(--border)}.ss-kv span{color:var(--muted);font-weight:700}.ss-total b{font-size:1.25em}
+.ss-warn{display:flex;gap:6px;align-items:center;color:var(--danger)}
+.ss-rline{display:grid;grid-template-columns:auto 1fr auto auto;grid-template-areas:"raw raw raw raw" "i t p x";column-gap:10px;align-items:center;padding:10px 0}
+.ss-rline+.ss-rline{border-top:1px solid var(--border)}
+.ss-rline>.ss-raw{grid-area:raw;font-size:calc(13px * var(--font-adjust,1));font-weight:700;color:var(--muted);margin-bottom:4px}
+.ss-rline>svg,.ss-rline>img,.ss-rline>.color-icon{grid-area:i}.ss-rline>.ss-text{grid-area:t}.ss-rline>.ss-price{grid-area:p;white-space:nowrap}.ss-rline>.icon-button{grid-area:x}
+.ss-ask{background:var(--yellow);border-radius:14px;padding:10px}
+.ss-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ss-stats>div{background:var(--bg);border-radius:16px;padding:12px;display:grid;gap:2px}
+.ss-stats small{color:var(--muted);font-weight:700}.ss-stats b{font-size:calc(22px * var(--font-adjust,1))}.ss-stats span{color:var(--muted);font-size:calc(12.5px * var(--font-adjust,1));font-weight:600;line-height:1.35}
+.ss-product+.ss-product{border-top:1px solid var(--border)}
+.ss-product-head{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;width:100%;min-height:56px;padding:8px 0;background:none;border:0;font:inherit;color:var(--text);text-align:start;cursor:pointer}
+.ss-product-head[aria-expanded=true]>svg:last-child{transform:rotate(180deg)}
+.ss-history{padding:0 0 10px}
+.ss-prow{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;padding:7px 0}
+.ss-prow strong{display:block;font-size:calc(14.5px * var(--font-adjust,1))}.ss-prow small{color:var(--muted);font-weight:600}
+.ss-bar{height:10px;border-radius:9px;background:var(--border);overflow:hidden}.ss-bar i{display:block;height:100%;background:var(--primary);border-radius:9px}
+.ss-bar i.lo{background:var(--success,#2f9e55)}.ss-bar i.hi{background:#d9822b}
+
+/* The ⋯ menu stays on wide screens for delete and the smart-shopping extras; the other actions are buttons there. */
+.shop2-more{display:block}
+@container shoppanel (min-width:641px){.shop2-menu .ss-core{display:none}}
+
+.ss-line-who{display:block;font-size:calc(13.5px * var(--font-adjust,1));color:var(--muted);font-weight:700}
+.shop2-add.ss-many .shop2-add-qty{display:none}
+.shop2-add.ss-many .shop2-add-hint{grid-area:auto/1/auto/-1;width:100%;display:flex}
+.ss-preview{width:100%}
+
+/* Quick dates in the "Plan a trip" window */
+.ss-quickdays{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
+.ss-quickday{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font:inherit;font-weight:800;cursor:pointer}
+.ss-quickday.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary,#fff)}

@@ -11,6 +11,7 @@ import {financeDeliveryMessages} from './finance-goals.mjs';
 import {insuranceAlerts} from '../../shared/insurance-lifecycle.mjs';
 import {voucherDeliveryMessages} from './voucher-delivery.mjs';
 import {bayitAIDeliveryMessages} from './bayit-ai.mjs';
+import {shopUpdates} from '../../shared/shopping-rhythm.mjs';
 import {dueReminders,digestDue,approvalRequests,childUpdates,taskDoneUpdates,overdueAlerts,notificationPrefs,inQuietHours,snoozeStillDue,reminderMatchesOccurrence,changeUpdates} from './reminders.mjs';
 
 export const MAX_PER_MEMBER_TICK=10;
@@ -36,6 +37,8 @@ async function plan(env,channel,ctx,{home,childPrefs,snoozes,now,deadline,summar
  if(d.correct)for(const burst of changes.corrections){if(Date.now()>=deadline)break;const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,?,?,'sent',?)").bind(householdId,memberId,channel.id,'fix:'+burst.key,now.getTime()).run();if(claim.meta.changes)summary.corrected=(summary.corrected||0)+await d.correct(env,connection,recipient,burst,ctx)}
  for(const item of dueReminders(visible,memberId,{date,time}))if(!reminderMatchesOccurrence(item,{date,time}))summary.suppressed++;else outbox.push({key:item.key,type:'reminder',item});
  const digest=digestDue(visible,memberId,{date,time});if(digest)outbox.push({key:digest.key,type:'digest'});
+ // While someone shops (2026-11-11): what others add goes to the shopper; the others hear once that a shop began.
+ if(!quiet&&visible.features.on('shopping'))for(const m of shopUpdates(visible,memberId,{now:now.getTime(),role}))outbox.push(m);
  const updates=quiet?[]:childUpdates(visible,memberId,{date,time},role,childPrefs),reported=new Set(updates.map(u=>u.entry.taskId+':'+u.entry.date));
  if(!quiet){
   for(const request of approvalRequests(visible,memberId,{date},role))outbox.push({key:request.key,type:'approval',task:request.task,by:members.find(m=>m.id===request.task.memberId)});

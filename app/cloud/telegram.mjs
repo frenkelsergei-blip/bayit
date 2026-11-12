@@ -17,6 +17,8 @@ import {withPDFSlot} from './pdf-budget.mjs';
 import {telegramLinkIdentity,authorizeTelegramClaim,claimTelegramLink,ownAccountInvitation} from './child-identity.mjs';
 import {externalFetch,boundedBytes,boundedJSON} from './outbound.mjs';
 import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
+import {parseQuickAdd,shopInProgress} from '../../shared/shopping-rhythm.mjs';
+import {matchItem} from '../../shared/item-dictionary.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
 import {searchVouchers,voucherLink} from './voucher-delivery.mjs';
 import {stageInsuranceReport,readInsurancePreview,insurancePreviewSummary,applyInsurancePreview,discardInsurancePreview} from './insurance-import.mjs';
@@ -339,10 +341,31 @@ async function saveNote(env,bot,home,memberId,chatId,lang,raw){
  return send(env,bot,chatId,card(lang,{icon:'📝',title:L(lang,'Saved to the home journal','נשמר ביומן הבית'),context:esc(titleText)}),[[await button(env,home.id,memberId,L(lang,'Undo','ביטול השינוי'),{type:'undo',operationId:receipt.id})]],lang);
 }
 
+const QUICK_ADD=/^\s*(?:תוסיפ[וי]?|תוסיף|להוסיף|הוסף|הוסיפי|הוסיפו|add)(?=\s|$)/i;
+// The list the words go to: the one being shopped now, else today's planned shop, else this person's active list.
+function quickAddList(visible,memberId,date){
+ const lists=(visible.shoppingLists||[]).filter(l=>l.status==='active');if(!lists.length)return null;
+ const shopping=lists.find(l=>shopInProgress((visible.shopping||[]).filter(i=>(i.listId||'week')===l.id)));if(shopping)return shopping;
+ const trip=(visible.tasks||[]).find(t=>t.kind==='shopping-trip'&&t.date===date&&lists.some(l=>l.id===t.shoppingListId));if(trip)return lists.find(l=>l.id===trip.shoppingListId);
+ return lists.find(l=>l.id===visible.preferences?.activeShoppingListByUser?.[memberId])||lists.find(l=>l.visibility==='family')||lists[0];
+}
+async function quickAdd(env,bot,home,link,lang,parts){
+ const memberId=link.member_id,visible=deliveryView(visibleState(home.state,memberId),memberId);
+ if(!visible.features.on('shopping'))return send(env,bot,link.chat_id,aiOff(lang),undefined,lang);
+ const list=quickAddList(visible,memberId,localDate());if(!list)return send(env,bot,link.chat_id,notice(lang,'🛒',L(lang,'You have no active shopping list.','אין לכם רשימת קניות פעילה.')),undefined,lang);
+ const actions=parts.map(p=>{const m=matchItem(p.name);return {kind:'shopping.add',title:p.name,quantity:p.quantity,quantityMode:'ensure',unit:'items',group:m.group,icon:m.icon,listId:list.id}});
+ const plan={id:crypto.randomUUID(),actorId:memberId,scope:list.visibility==='private'?'private':'family',actions};
+ const {result:receipt}=await asMember(env,home.id,memberId,data=>applyAIPlan(data,plan,memberId,home.state.members,catalog));
+ const lines=parts.map(p=>'• '+esc(p.name)+(p.quantity!==1?' · '+p.quantity:'')).join('\n');
+ return send(env,bot,link.chat_id,card(lang,{icon:'✅',title:L(lang,'Added to “'+title(list,lang)+'”','נוסף לרשימה "'+title(list,lang)+'"'),context:lines}),[[await button(env,home.id,memberId,L(lang,'Undo','ביטול'),{type:'undo',operationId:receipt.id}),await button(env,home.id,memberId,'🛒 '+L(lang,'The list','לרשימה'),{type:'shoplist',listId:list.id,keep:true})]],lang);
+}
 const aiOff=lang=>notice(lang,'🤖',L(lang,'AI is not connected for this household yet.','ה־AI עדיין לא מחובר לבית הזה.'),L(lang,'A parent can connect a provider in Settings → Accounts & connections.','הורה יכול לחבר ספק בהגדרות ← חשבונות וחיבורים.'));
 async function askAI(env,bot,home,link,role,lang,question,scope,{images=[],label}={}){
- const stored=await aiStatusRecord(env,home.id);
- if(!stored?.ciphertext||!stored.verified||!stored.model)return send(env,bot,link.chat_id,aiOff(lang),undefined,lang);
+ const stored=await aiStatusRecord(env,home.id),aiReady=!!(stored?.ciphertext&&stored.verified&&stored.model);
+ // Quick add without AI (2026-11-11): "תוסיף מלפפונים ועגבניות", "add milk", or a comma list when no AI is connected.
+ // The person's own words are added at once, with Undo; free text with AI still goes through prepare → Apply.
+ if(!images.length&&(QUICK_ADD.test(question)||!aiReady&&/[,،]/.test(question))){const parts=parseQuickAdd(question);if(parts.length)return quickAdd(env,bot,home,link,lang,parts)}
+ if(!aiReady)return send(env,bot,link.chat_id,aiOff(lang),undefined,lang);
  if(!question.trim())return send(env,bot,link.chat_id,helpText(lang),undefined,lang);
  try{await tg(env,bot.token,'sendChatAction',{chat_id:link.chat_id,action:'typing'})}catch{}
  const turns=link.turns&&link.turns_scope===scope&&link.turns_revision===home.revision&&link.turns_at>Date.now()-TURN_MINUTES*60000?JSON.parse(link.turns):[];
@@ -489,6 +512,9 @@ async function render(message,ctx){
  if(message.type==='bayit-ai')return [alertCard(lang,{icon:'✨',title:esc(m.title),detail:esc(m.body)}),origin?[[{text:L(lang,'Open in Bayit','פתיחה בבית'),url:origin+'/'+m.url}]]:[]];
  if(message.type==='insurance')return [alertCard(lang,{icon:'🛡',title:m.title,detail:m.detail})];
  if(message.type==='voucher')return [alertCard(lang,{icon:'🎟',title:m.title,detail:esc(m.body)}),origin?[[{text:L(lang,'Open voucher','פתיחת השובר'),url:origin+'/'+m.url}]]:[]];
+ if(message.type==='shopping'){const listName=title(message.list,lang),by=nameOf(message.by);
+  if(message.kind==='added'){const it=message.item,amount=quantityText(it.quantity,undefined,lang);return [card(lang,{icon:'🆕',title:esc(title(it,lang))+(amount?' · '+esc(amount):''),context:L(lang,'Added to “'+listName+'” by '+by+' while you shop','נוסף לרשימה "'+listName+'" בזמן הקנייה שלך · '+by)}),[[await button(env,householdId,memberId,L(lang,'✓ Bought','✓ נקנה'),{type:'buy',itemId:it.id,keep:true}),await button(env,householdId,memberId,'🛒 '+L(lang,'The list','לרשימה'),{type:'shoplist',listId:message.list.id,keep:true})]]]}
+  return [card(lang,{icon:'🛒',title:esc(L(lang,by+' is shopping now',by+' בקניות עכשיו')),context:esc(L(lang,'“'+listName+'” · '+message.left+' left. Need something? Write it here, e.g. milk, eggs','"'+listName+'" · נותרו '+message.left+'. צריך עוד משהו? כתבו כאן, למשל: חלב, ביצים'))}),[[await button(env,householdId,memberId,'🛒 '+L(lang,'The list','לרשימה'),{type:'shoplist',listId:message.list.id,keep:true})]]]}
  throw fail('Unsupported message.');
 }
 

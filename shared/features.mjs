@@ -160,7 +160,7 @@ export const notificationCategoryFeature=category=>lookup('notificationCategorie
 // Which feature owns a stored record (for AI context, Telegram, pins, reminders and links).
 export function recordFeature(collection,record={}){
  if(collection==='tasks'||collection==='history')return record.routine?'kids':record.category==='maintenance'?'maintenance':'tasks';
- return ({events:'calendar',notes:'journal',shopping:'shopping',purchases:'shopping',shoppingLists:'shopping',taskLists:'tasks',documents:'documents',contacts:'documents',meals:'meals',pantry:'pantry',expenses:'expenses',bills:'expenses',insurances:'insurance',vouchers:'vouchers'})[collection]||null;
+ return ({events:'calendar',notes:'journal',shopping:'shopping',purchases:'shopping',shoppingLists:'shopping',shoppingMarks:'shopping',favourites:'shopping',receipts:'shopping',taskLists:'tasks',documents:'documents',contacts:'documents',meals:'meals',pantry:'pantry',expenses:'expenses',bills:'expenses',insurances:'insurance',vouchers:'vouchers'})[collection]||null;
 }
 // Notes are shown by the Home journal and, for one's own private notes, by My space.
 export function recordOn(ctx,collection,record={},actorId){

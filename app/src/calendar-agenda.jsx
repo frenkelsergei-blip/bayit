@@ -9,7 +9,7 @@ import {AvatarStack} from './avatar-stack';
 
 const addDays=(v,n)=>{const d=new Date(v+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 
-export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avatar,EventIcon,Icon,limitDays,showEmpty=false}){
+export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avatar,EventIcon,Icon,limitDays,showEmpty=false,emptyText}){
  const [weeks,setWeeks]=useState(4),locale=a.lang==='he'?'he-IL':'en-US';
  const days=Array.from({length:limitDays||weeks*7},(_,i)=>addDays(start,i)).map(day=>({day,events:items.filter(e=>occursOn(e,day)).sort((x,y)=>(x.time||'').localeCompare(y.time||''))}));
  const shown=days.filter(d=>showEmpty||d.events.length||d.day===today);
@@ -26,7 +26,7 @@ export function CalendarAgenda({a,items,start,today,selected,onChoose,onAdd,Avat
     <span className="agenda-text"><strong>{a.text(e).split(' · ')[0]}</strong>{(e.note||e.noteHe)&&<small>{a.lang==='he'?e.noteHe||e.note:e.note}</small>}</span>
     {e.memberIds?.length>1?<AvatarStack ids={e.memberIds} Avatar={Avatar} name={a.name} size={30} max={3}/>:<Avatar who={e.memberIds?.[0]||e.ownerId} size={34}/>}
     {e.visibility==='private'&&<LockSimple size={18} className="agenda-lock"/>}
-   </button>)}</div>:<p className="agenda-empty">{a.T('Nothing planned yet.','עוד לא תוכנן כלום.')}</p>}
+   </button>)}</div>:<p className="agenda-empty">{emptyText||a.T('Nothing planned yet.','עוד לא תוכנן כלום.')}</p>}
   </article>})}
   {slot&&createPortal(<DensityToggle a={a} page="calendar" className="agenda-density"/>,slot)}
   {!limitDays&&<button type="button" className="button secondary agenda-more" onClick={()=>setWeeks(weeks+4)}><CaretDown size={20}/>{a.T('Show the next 4 weeks','הצגת 4 השבועות הבאים')}</button>}

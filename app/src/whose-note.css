@@ -1,0 +1,4 @@
+/* Whose note (whose-filter.jsx): the one line that says a list shows only your own items and switches to Everyone.
+   Same anatomy as the Tasks filter summary: muted bold text, then a 44px text link. Tokens only. */
+.whose-note{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;margin:0;color:var(--muted);font-weight:700;font-size:calc(14.5px * var(--font-adjust,1))}
+.whose-note .text-link{min-height:44px}
