@@ -74,7 +74,7 @@ test('Telegram: whoever heard "X is shopping now" hears once that it ended; the 
 
 test('Start by button has Undo on the toast; the start question does not',()=>{
  const v=src('shopping-view.jsx');
- assert.match(v,/if\(then\)a\.toggleShopping\(then\);else fxBus\.emit\('deleted',\{text:a\.T\('You started shopping\. The family can see it\.','התחלת קנייה\. המשפחה רואה את זה\.'\),restore:stopNow\}\)/);
+ assert.match(v,/if\(then\)a\.toggleShopping\(then\);else fxBus\.emit\('deleted',\{id:'shop-start',text:a\.T\('You started shopping\. The family can see it\.','התחלת קנייה\. המשפחה רואה את זה\.'\),restore:undoStart\}\)/);
  assert.match(v,/onStop=\{done===0\?notShopping:null\}/);
  assert.match(src('motion-fx.jsx'),/<span>\{removed\.text\|\|\(removed\.label\?/);
 });
@@ -85,6 +85,6 @@ test('stopped records of the starter are cleared after a day, on the next start 
 });
 
 test('the Finish window stops the started shop by its id (1.74.0 passed shop.id, which the shop in progress does not have)',()=>{
- const w=src('shopping-smart.jsx');assert.match(w,/const stop=async\(\)=>\{try\{await a\.stopShopping\(shop\.shopId\);/);
+ const w=src('shopping-smart.jsx');assert.match(w,/const stop=async\(\)=>\{fxBus\.emit\('dismiss','shop-start'\);try\{await a\.stopShopping\(shop\.shopId\);/);
  assert.doesNotMatch(w,/stopShopping\(shop\.id\)/);
 });

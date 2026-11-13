@@ -8,6 +8,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import * as H from './passkey-harness.mjs';
+import {steadyClock} from './fixtures/steady-clock.mjs';
 import {authConfig,sessionFor} from '../app/cloud/auth.mjs';
 import {SESSION_MAX_AGE_MS,sessionCookieName,normalizeCode,makeCode,codeDigest,CHALLENGE_MS} from '../app/cloud/passkeys.mjs';
 import {signInChoices,WEBAUTHN_METHODS,webauthnMethodProblem,relyingParty,SIGNIN_METHODS} from '../app/cloud/signin-methods.mjs';
@@ -35,6 +36,9 @@ async function addKid(env,householdId,id='kid-1'){const row=await env.DB.prepare
 for(const host of H.HOSTS){
  const t=(name,fn)=>test(host.name+': '+name,{skip:host.skip},async()=>fn(H.makeEnv(await host.database())));
  const tEnv=(name,extra,fn)=>test(host.name+': '+name,{skip:host.skip},async()=>fn(H.makeEnv(await host.database(),extra)));
+ // Tests that count requests in a rate-limit window run on a held clock (fixtures/steady-clock.mjs), so a window change
+ // during the run cannot restart the count.
+ const tClock=(name,fn)=>t(name,env=>steadyClock(()=>fn(env)));
 
  // ---- C1 / §5A: schema ----
  t('the passkey migration is required before the API runs (schema check)',async env=>{
@@ -78,7 +82,7 @@ for(const host of H.HOSTS){
  });
 
  // ---- §10.7 / C6: setup code ----
- t('setup: the code is compared by digest, wrong codes count down, the right one makes the owner and then dies',async env=>{
+ tClock('setup: the code is compared by digest, wrong codes count down, the right one makes the owner and then dies',async env=>{
   assert.equal(normalizeCode('k7q2m 9xrta-4hn6p wc3zd'),normalizeCode(SETUP_CODE));assert.equal(normalizeCode('O0-IL'),'0011');
   assert.match(makeCode(),/^[0-9A-HJKMNP-TV-Z]{5}(-[0-9A-HJKMNP-TV-Z]{5}){3}$/);
   const b=H.browser(env),wrong=await b.call('/api/passkeys/setup/code',{body:{code:'AAAAA-AAAAA-AAAAA-AAAAA'}});
@@ -107,11 +111,11 @@ for(const host of H.HOSTS){
   assert.equal(await count(env,'SELECT COUNT(*) n FROM passkey_credentials'),1);assert.equal(await count(env,'SELECT COUNT(*) n FROM sessions'),1);
   assert.equal(results.filter(r=>H.sessionCookieOf({jar:new Map(r.setCookies.filter(c=>c.includes('authjs.session-token=')&&!c.includes('Max-Age=0')).map(c=>[c.split('=')[0],1]))})).length,1,'only the winner gets a session cookie');
  });
- t('setup: 5 tries per address per 15 minutes, then refused even with the right code',async env=>{
+ tClock('setup: 5 tries per address per 15 minutes, then refused even with the right code',async env=>{
   const b=H.browser(env);for(let i=0;i<5;i++)assert.equal((await b.call('/api/passkeys/setup/code',{body:{code:'WRONG-'+i}})).status,403);
   const blocked=await b.call('/api/passkeys/setup/code',{body:{code:SETUP_CODE}});assert.equal(blocked.status,429);assert.match(blocked.json.error,/still safe/);
  });
- t('setup: 30 failed codes in a day close setup for the day, whatever the address',async env=>{
+ tClock('setup: 30 failed codes in a day close setup for the day, whatever the address',async env=>{
   for(let i=0;i<30;i++)await H.browser(env).call('/api/passkeys/setup/code',{body:{code:'WRONG'},headers:{'CF-Connecting-IP':'198.51.100.'+i}});
   assert.equal((await H.browser(env).call('/api/passkeys/setup/code',{body:{code:SETUP_CODE},headers:{'CF-Connecting-IP':'203.0.113.9'}})).status,429);
  });
@@ -455,7 +459,7 @@ for(const host of H.HOSTS){
  });
 
  // ---- C12: rate limits ----
- t('rate limits: sign-in ceremonies per address per minute, invitation lookups per address',async env=>{
+ tClock('rate limits: sign-in ceremonies per address per minute, invitation lookups per address',async env=>{
   const b=H.browser(env);let last;for(let i=0;i<31;i++)last=await b.call('/api/passkeys/signin/options',{body:{}});assert.equal(last.status,429);
   const c=H.browser(env);for(let i=0;i<31;i++)last=await c.call('/api/passkeys/invitation',{body:{token:'t'+i},headers:{'CF-Connecting-IP':'198.51.100.7'}});assert.equal(last.status,429);
  });

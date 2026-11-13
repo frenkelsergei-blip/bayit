@@ -4,6 +4,13 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.77.0 · 2026-11-13
+
+- Tasks on a computer or wide tablet (from 1024 pixels wide): the task you open sits beside the list instead of in a window, and New task and Cards | List are in the title row. In List, each task is one line.
+- Stopping a shop right after Start now shows that it stopped, and Undo always says what happened.
+- Tests: rate-limit tests run on a held clock (`tests/fixtures/steady-clock.mjs`), so a run that crosses a minute change no longer fails them. The limiter and its limits are unchanged.
+- No migration, no server change.
+
 ## 1.76.0 · 2026-11-13
 
 - On a computer or a wide tablet (from 1024 pixels wide), Today shows its sections in two columns, with Expenses and Bills side by side.

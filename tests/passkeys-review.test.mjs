@@ -5,6 +5,7 @@
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import * as H from './passkey-harness.mjs';
+import {steadyClock} from './fixtures/steady-clock.mjs';
 import {encryptKey,hash} from '../app/cloud/util.mjs';
 import {ownAccountInvitation} from '../app/cloud/child-identity.mjs';
 import {loadHousehold} from '../app/cloud/assistant.mjs';
@@ -41,6 +42,7 @@ const pastHold=env=>env.DB.prepare("UPDATE invitations SET usable_at=? WHERE pur
 
 for(const host of H.HOSTS){
  const t=(name,fn,extra={})=>test(host.name+': '+name,{skip:host.skip},async()=>fn(H.makeEnv(await host.database(),{APP_ENCRYPTION_KEY:KEY,...extra})));
+ const tClock=(name,fn,extra)=>t(name,env=>steadyClock(()=>fn(env)),extra); // counts inside one rate-limit window
 
  // ---- Finding 1 (A5): recovery must not reach another household ----
  t('F1 a parent cannot recover someone who also belongs to another household, at creation or at use',async env=>{
@@ -148,7 +150,7 @@ for(const host of H.HOSTS){
  });
 
  // ---- Finding 7 (A1c): rotating the code reopens setup and operator recovery after the daily cap ----
- t('F7 the daily failure caps follow the configured code, so a new code reopens setup and operator recovery',async env=>{
+ tClock('F7 the daily failure caps follow the configured code, so a new code reopens setup and operator recovery',async env=>{
   for(let i=0;i<30;i++)await H.browser(env).call('/api/passkeys/setup/code',{body:{code:'WRONG-'+i},headers:{'CF-Connecting-IP':'10.0.0.'+i}});
   assert.equal((await H.browser(env).call('/api/passkeys/setup/code',{body:{code:SETUP_CODE},headers:{'CF-Connecting-IP':'10.9.9.9'}})).status,429);
   const NEW='M4QPZ-7WRTH-2KD9N-XC5BA';env.BAYIT_SETUP_CODE=NEW;

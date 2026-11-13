@@ -5,6 +5,7 @@ import {openD1,migrate} from '../app/host/d1-sqlite.mjs';
 import {handleMapsAPI} from '../app/cloud/maps.mjs';
 import {blankState} from '../app/cloud/state.mjs';
 import {decryptKey} from '../app/cloud/util.mjs';
+import {steadyClock} from './fixtures/steady-clock.mjs';
 
 // Synthetic keys and a loopback provider only. No real Google account, location or credential is used.
 const placesKey='fixture-places-key-000000000',embedKey='fixture-embed-key-000000000';
@@ -51,7 +52,8 @@ test('map frame uses only the Embed key; record access, encoding and no-store ar
 });
 test('request shape and rate limits stop unbounded provider calls; disconnect leaves activity data intact',async()=>{
  const f=await fixture();try{await f.call('credentials',{placesKey,embedKey});await assert.rejects(f.call('autocomplete',{input:'A',sessionToken:crypto.randomUUID()}),e=>e.code==='MAPS_QUERY');await assert.rejects(f.call('autocomplete',{input:'Address',sessionToken:'bad'}),e=>e.code==='MAPS_SESSION');
-  await f.env.DB.prepare('INSERT INTO maps_usage VALUES(?,?,?,?)').bind('h','parent',Math.floor(Date.now()/60000),60).run();const before=f.calls.length;await assert.rejects(f.call('autocomplete',{input:'Address',sessionToken:crypto.randomUUID()}),e=>e.status===429);assert.equal(f.calls.length,before);
+  // The usage row and the refused call must fall in the same minute (fixtures/steady-clock.mjs).
+  await steadyClock(async()=>{await f.env.DB.prepare('INSERT INTO maps_usage VALUES(?,?,?,?)').bind('h','parent',Math.floor(Date.now()/60000),60).run();const before=f.calls.length;await assert.rejects(f.call('autocomplete',{input:'Address',sessionToken:crypto.randomUUID()}),e=>e.status===429);assert.equal(f.calls.length,before)});
   f.home.state.events=[{id:'e',location:{label:'Home',placeId:'fixture-place'}}];const result=await(await f.call('credentials',undefined,'DELETE')).json();assert.equal(result.configured,false);assert.equal(f.home.state.events[0].location.placeId,'fixture-place');
  }finally{f.close()}
 });

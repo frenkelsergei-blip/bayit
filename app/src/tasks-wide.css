@@ -1,0 +1,22 @@
+/* Tasks on wide screens, direction A (owner's choice 2026-11-13; rules W1, W2, W4, W7, W8 in
+   work/wide-screens-20261112/RULES.md). From 1024px wide (at least 521px high), as on Today and Calendar:
+   - frame 1296 with gutters 32 (48 from 1280); New task and Cards/List stay in the title row;
+   - the task list and the selected task's details side by side (pane at least 360px, 38%); tasks-view.jsx opens the
+     details as a window only up to 1023 (was 1280);
+   - List: one line per task at reading size, the title at the start and its time, priority and list at the row's end;
+     the avatar already says who, so "Assigned to" is not repeated.
+   Below 1024 nothing changes. */
+@media(min-width:1024px) and (min-height:521px){
+ :root[data-shell=horizontal] .shell-v2>.main-content.view-tasks{max-width:1360px!important;padding-inline:32px!important}
+ html:root .view-tasks .tasks-v2{grid-template-columns:minmax(0,1fr) auto!important}
+ html:root .view-tasks .tasks-v2>.page-heading{grid-column:1!important;grid-row:1!important}
+ html:root .view-tasks .tasks-v2>.page-actions{grid-column:2!important;grid-row:1!important;margin-top:0!important;justify-self:end!important}
+ html .task-list-layout.tasks-v2-layout{grid-template-columns:minmax(0,1fr) minmax(360px,38%)!important;column-gap:24px!important}
+ /* W8 List: one line per task at reading size (centred, not baseline: WebKit takes the baseline of an empty time span); title start, details (time, priority, list) at the row's end; the avatar already says who */
+ html[data-density=compact] .tasks-v2 .task-list-layout .task-row.tasks-row{min-height:48px!important}
+ html[data-density=compact] .tasks-v2 .task-list-layout .tasks-row-main{display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important;text-align:start!important;min-width:0}
+ html[data-density=compact] .tasks-v2 .task-list-layout .tasks-row-main>strong{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(var(--scale-item,17px) * var(--font-adjust,1))!important}
+ html[data-density=compact] .tasks-v2 .task-list-layout .tasks-row-main>.tasks-meta{flex:none;margin-inline-start:auto!important;display:flex!important;align-items:center;gap:10px;justify-content:flex-end!important;font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))!important;white-space:nowrap}
+ html[data-density=compact] .tasks-v2 .task-list-layout .tasks-row-main>.tasks-meta>.tasks-meta-assignees{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}/* hidden on screen, still read aloud */
+}
+@media(min-width:1280px) and (min-height:521px){:root[data-shell=horizontal] .shell-v2>.main-content.view-tasks{max-width:1392px!important;padding-inline:48px!important}}

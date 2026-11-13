@@ -1,5 +1,6 @@
 import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
+import {steadyClock} from './fixtures/steady-clock.mjs';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -126,7 +127,7 @@ test('SEC-03/17/22: private installation registration, invitation permits, secur
 });
 
 test('SEC-20: scheduler leases, request quotas and PDF bounds fail closed and release parser resources',async()=>{
- const f=await fixture();try{const first=await lease(f.env,'tick');assert.ok(first);assert.equal(await lease(f.env,'tick'),null);await first();assert.ok(await lease(f.env,'tick'));await limit(f.env,'test',{max:1});await assert.rejects(limit(f.env,'test',{max:1}),e=>e.status===429)}finally{f.close()}
+ const f=await fixture();try{const first=await lease(f.env,'tick');assert.ok(first);assert.equal(await lease(f.env,'tick'),null);await first();assert.ok(await lease(f.env,'tick'));await steadyClock(async()=>{await limit(f.env,'test',{max:1});await assert.rejects(limit(f.env,'test',{max:1}),e=>e.status===429)}) /* same minute (fixtures/steady-clock.mjs) */}finally{f.close()}
  const bytes=new TextEncoder().encode('%PDF-fixture');let destroyed=0;await assert.rejects(boundedPDFRows(bytes,async()=>({numPages:41,destroy:async()=>destroyed++})),/pages/);assert.equal(destroyed,1);await assert.rejects(boundedPDFRows(bytes,async()=>({numPages:1,getPage:async()=>({getTextContent:async()=>{throw Error('bad content')}}),destroy:async()=>destroyed++})));assert.equal(destroyed,2);
 });
 

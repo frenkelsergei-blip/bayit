@@ -97,7 +97,8 @@ function Celebration({fx,style,T,go,undo,characterSrc,characterNode,avatar,close
 // Renders toasts and celebrations. Replaces the plain bottom toast in App.
 export function FxLayer({toast,appearance,role,T,go,undo,route,characterSrc,characterNode,avatar}){
  const [removed,setRemoved]=useState(null),[undoBusy,setUndoBusy]=useState(false);
- useEffect(()=>fxBus.on((type,payload)=>{if(type==='deleted')setRemoved({...payload,key:Date.now()})}),[]);
+ // 'dismiss' closes an Undo toast by its id once what it would undo is already undone another way (2026-11-13).
+ useEffect(()=>fxBus.on((type,payload)=>{if(type==='deleted')setRemoved({...payload,key:Date.now()});if(type==='dismiss')setRemoved(v=>v&&v.id===payload?null:v)}),[]);
  useEffect(()=>{if(!removed||undoBusy)return;const t=setTimeout(()=>setRemoved(null),6000);return()=>clearTimeout(t)},[removed,undoBusy]);
  const style=fxStyleFor(appearance,role),[card,setCard]=useState(null),[party,setParty]=useState(0),[failed,setFailed]=useState(false),[previewToast,setPreviewToast]=useState(''),shownAt=useRef(0),styleRef=useRef(style);
  styleRef.current=style;

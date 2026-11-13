@@ -6,6 +6,7 @@
 import React,{useMemo,useState} from 'react';
 import {Cards,Plus,BagSimple,Clock,BellSlash,X,CheckCircle,HandWaving,Heart,ProhibitInset,GearSix,CalendarCheck,Info,Check,Camera,Storefront,ListChecks,CreditCard,Receipt,Warning,CaretDown,Question,LockSimple,ClockCounterClockwise,PencilSimple,ShoppingCart,DownloadSimple} from '@phosphor-icons/react';
 import {FormSection} from './form-section.jsx';
+import {fxBus} from './motion-fx';
 import {PersonChip} from './person-chip';
 import {purchaseRecords} from './statistics';
 import {anchor} from './data';
@@ -347,7 +348,7 @@ export function FinishWindow({a,ui,list,items,shop,onClose,onReceipt}){
  const receipt=a.cloud&&a.member(a.user)?.role!=='child';
  const finish=async withReceipt=>{setBusy(true);try{const done=await a.finishShopping(list.id,{keepLeft:keep});a.notify(a.T('Shop finished. It is in Shopping history.','הקנייה הסתיימה ונשמרה בהיסטוריית הקניות.'));onClose();if(withReceipt&&done)onReceipt(done)}catch(e){setError(e.message)}finally{setBusy(false)}};
  // "I'm not shopping" (2026-11-12): ends a started shop without saving anything; ticks stay as they are.
- const stop=async()=>{try{await a.stopShopping(shop.shopId);a.notify(a.T('OK, you are not shopping. The list is back to planning.','בסדר, את/ה לא בקנייה. הרשימה חזרה להכנה.'));onClose()}catch(e){setError(e.message)}};
+ const stop=async()=>{fxBus.emit('dismiss','shop-start');try{await a.stopShopping(shop.shopId);a.notify(a.T('OK, you are not shopping. The list is back to planning.','בסדר, את/ה לא בקנייה. הרשימה חזרה להכנה.'));onClose()}catch(e){setError(e.message)}};
  if(!bought.length)return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{shop?.by===a.user&&<Button onClick={stop}>{a.T("I'm not shopping",'אני לא בקנייה')}</Button>}<Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
   <p className="ss-lead">{a.T('Nothing is ticked yet, so there is nothing to save.','עוד לא סומן כלום, אז אין מה לשמור.')}</p>{shop?.by===a.user&&<p className="ss-fine">{a.T('Nothing goes to Shopping history. The family sees you are no longer shopping, and the list stays as it is.','שום דבר לא נשמר בהיסטוריה. המשפחה רואה שאת/ה כבר לא בקנייה, והרשימה נשארת כמו שהיא.')}</p>}{error&&<p className="save-error" role="alert">{error}</p>}</Window>;
  return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{receipt&&<Button icon={Camera} disabled={busy} onClick={()=>finish(true)}>{a.T('Photograph the receipt and finish','לצלם קבלה ולסיים')}</Button>}<Button secondary={receipt} disabled={busy} onClick={()=>finish(false)}>{receipt?a.T('Finish without a receipt','לסיים בלי קבלה'):a.T('Finish','לסיים')}</Button><Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
