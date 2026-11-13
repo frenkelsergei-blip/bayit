@@ -1,0 +1,42 @@
+/* Today on wide screens, direction A (owner's choice 2026-11-13; rules W1–W3, W7, W8 in
+   work/wide-screens-20261112/RULES.md). One wide layout from 1024px wide (tablet landscape, laptop,
+   desktop; at least 521px high): page frame 1296 with 32px gutters (48px from 1280), title and actions on
+   one row, and the sections in two columns that stack independently. today-wide.jsx places each section in
+   the shorter column, spans the wide one (Top priorities in Cards) and starts Expenses this month + Coming up:
+   bills together at equal height. Below 1024 nothing changes (today-tablet.css keeps one column).
+   Without the script the sections still sit in a plain two-column grid. */
+@media(min-width:1024px) and (min-height:521px){
+ /* W2: frame. Only Today: other pages keep the shell's frame until their own pass. */
+ :root[data-shell=horizontal] .shell-v2>.main-content.view-today{max-width:1360px!important;padding-inline:max(32px,env(safe-area-inset-left)) max(32px,env(safe-area-inset-right))!important}
+ html:root .main-content.view-today{grid-template-columns:minmax(0,1fr) auto!important}
+ /* W7: Customize and Add stay in the title row (also 1024–1100). */
+ html:root .main-content.view-today>.page-heading{grid-column:1!important}
+ html:root .main-content.view-today>.page-actions{grid-column:2!important;grid-row:1!important;margin:0!important;align-self:start!important;justify-self:end!important}
+ /* W3: two columns of sections. */
+ html .view-today .today-widget-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:32px!important;align-items:start!important;--today-columns:2}
+ html .view-today .today-widget-grid>.today-widget{min-width:0}
+ html .view-today .today-widget-grid>.today-widget:not(.today-money,.today-bills){border-block-start:0!important;padding-block-start:0!important;border-inline-start:0!important;padding-inline-start:0!important}
+ html .view-today .today-widget-grid>.today-widget.wide{grid-column:1/-1}
+ /* Placed by today-wide.jsx: 4px rows, each section spans its own height, the gap is its margin. */
+ html:root .view-today .today-widget-grid[data-today-columns]{grid-auto-rows:4px!important;row-gap:0!important}
+ html:root .view-today .today-widget-grid[data-today-columns]>.today-widget{margin:0 0 var(--scale-gap-section)!important}
+ /* W8 Cards: priorities fill the row, up to three. */
+ html:root:not([data-density=compact]) .view-today .prio-widget-list{grid-template-columns:repeat(auto-fit,minmax(max(280px,calc((100% - 32px)/3)),1fr))!important}
+ /* W8 List: priorities are an ordinary column section, one per line; rows at reading size
+    (item 17, details 13, rows 48 high; agenda columns as the Today session's List rows). */
+ html:root[data-density=compact] .view-today .today-widget-grid>.today-widget.wide.today-priorities{grid-column:auto}
+ html:root[data-density=compact] .view-today .prio-widget-list{grid-template-columns:minmax(0,1fr)!important}
+ html:root[data-density=compact] .view-today :is(.agenda-row,.today-task-row,.widget-item,.widget-note,.prio-widget-row,.household-home-widget li button){min-height:48px!important}
+ html:root[data-density=compact] .view-today :is(.agenda-row strong,.today-task-row .task-title,.prio-widget-text strong,.widget-item strong,.widget-note>div strong){font-size:calc(var(--scale-item,17px) * var(--font-adjust,1))!important}
+ html:root[data-density=compact] .view-today :is(.today-task-meta,.prio-widget-text small){font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1))!important}
+ html:root[data-density=compact] .view-today .prio-widget-row .prio-widget-text{justify-content:space-between}
+ html:root[data-density=compact] .view-today .today-task-row .task-title{justify-content:space-between;width:100%}
+ html:root[data-density=compact] .view-today .today-task-row .task-title>:first-child{flex:0 1 auto;min-width:0}
+ html:root[data-density=compact] .view-today .today-task-row .today-task-meta{flex:none}
+ html:root[data-density=compact] .view-today .agenda-row{grid-template-columns:56px 10px 30px minmax(0,1fr)!important}
+ html:root[data-density=compact] .view-today .agenda-row:before{inset-inline-start:68px!important}
+ html:root[data-density=compact] .view-today .agenda-row time{font-size:calc(16px * var(--font-adjust,1))!important}
+}
+@media(min-width:1280px) and (min-height:521px){
+ :root[data-shell=horizontal] .shell-v2>.main-content.view-today{max-width:1392px!important;padding-inline:max(48px,env(safe-area-inset-left)) max(48px,env(safe-area-inset-right))!important}
+}

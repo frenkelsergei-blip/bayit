@@ -7,7 +7,7 @@ import {anchor} from './data';
 import {MONTH_PREVIEW_LIMIT,monthDates,monthDayEvents} from './calendar-month-model.mjs';
 import './calendar-event-wide.css';
 
-const sheetQuery='(max-width:1100px), (max-height:520px) and (orientation:landscape)';
+const sheetQuery='(max-width:1023px), (max-height:520px) and (orientation:landscape)';// Your day beside the month from 1024 (wide screens A, 2026-11-13)
 
 function useMonthModal(open,panel,initialFocus,onClose){
  const close=useRef(onClose);close.current=onClose;

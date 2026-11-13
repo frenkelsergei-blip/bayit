@@ -1,0 +1,33 @@
+/* Calendar on wide screens, direction A (owner's choice 2026-11-13, "תלך לפי ההמלצות"; rules W1, W2, W4, W7 in
+   work/wide-screens-20261112/RULES.md). From 1024px wide (at least 521px high), as on Today:
+   - frame 1296 with gutters 32 (48 from 1280); New event and Cards/List stay in the title row;
+   - Agenda: the selected event's details beside the list (calendar-view.jsx opens them as a window only up to 1023);
+   - Month: Your day beside the grid (calendar-month.jsx sheetQuery ends at 1023);
+   - Week keeps its full width up to 1279 (its three time-of-day columns need it) and opens an event as a window;
+     from 1280 it has the side pane, as before.
+   Below 1024 nothing changes. */
+@media(min-width:1024px) and (min-height:521px){
+ :root[data-shell=horizontal] .shell-v2>.main-content.view-calendar{max-width:1360px!important;padding-inline:32px!important}
+ /* W7: New event and Cards/List beside the title */
+ html:root .view-calendar .calendar-reference{grid-template-columns:minmax(0,1fr) auto!important}
+ html:root .view-calendar .calendar-reference>.page-heading{grid-column:1!important}
+ html:root .view-calendar .calendar-reference>.page-actions{grid-column:2!important;grid-row:1!important;margin:0!important;justify-self:end!important}
+ /* the period sits right after the view tabs, not at the far end */
+ html:root .view-calendar .calendar-reference-controls{justify-content:flex-start!important;flex-wrap:nowrap!important}
+ html:root .view-calendar .calendar-reference-controls>.calendar-period-control{margin-inline-start:auto!important;width:auto!important}
+ /* W4: calendar + details */
+ html:root .view-calendar .calendar-reference-layout{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(320px,36%)!important;gap:24px!important;align-items:start}
+ html:root .view-calendar .calendar-in-month>.calendar-reference-layout{display:block!important}
+ html:root .view-calendar .calendar-month-layout{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(300px,34%)!important;gap:24px!important}
+ html:root .view-calendar .calendar-event-details{padding-inline-start:0}
+ /* event cards: tighter, as on a tablet */
+ html:root .view-calendar .calendar-reference-event{gap:6px;padding-inline:8px}
+ html:root .view-calendar .calendar-reference-event>.avatar-stack{--stack-size:24px}
+}
+@media(min-width:1024px) and (max-width:1279px) and (min-height:521px){
+ html:root .view-calendar .calendar-reference.calendar-mode-week .calendar-reference-layout{grid-template-columns:minmax(0,1fr)!important}
+ html:root .view-calendar .calendar-reference.calendar-mode-week :is(.calendar-period-headings,.calendar-reference-day){grid-template-columns:85px repeat(3,minmax(0,1fr))!important}
+}
+@media(min-width:1280px) and (min-height:521px){
+ :root[data-shell=horizontal] .shell-v2>.main-content.view-calendar{max-width:1392px!important;padding-inline:48px!important}
+}

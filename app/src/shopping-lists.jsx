@@ -39,7 +39,7 @@ export function useShoppingLists({app:a,tab,onSelect,counts,stateEl,shopping,onS
  const countOf=l=>{const items=a.visible(a.data.shopping).filter(i=>inList(i,l));return [items.filter(i=>i.done).length,items.length]};
  // The counter in words (owner report 2026-11-12: "0/0 collected" on an empty list): Empty, "5 items" while planning, and
  // "2/5 collected" only while a shop is in progress (someone started it).
- const shoppingNow=l=>!!openShopOf((a.data.shoppingLists||[]).filter(x=>canAccessList(x,a.user)),l.id);
+ const shoppingNow=l=>!!openShopOf((a.data.shoppingLists||[]).filter(x=>canAccessList(x,a.user)),l.id,Date.now(),a.data.shopping);
  const countText=(l,done,total)=>!total?a.T('Empty','ריקה'):shoppingNow(l)?<><b>{done}/{total}</b> {a.T('collected','נאספו')}</>:a.T(total===1?'1 item':total+' items',total===1?'פריט אחד':total+' פריטים');
  const stripEl=<div className="list-selector-layout"><div className="tasks-lists shop2-lists" ref={stripRef} role="group" aria-label={a.T('Shopping lists','רשימות קניות')}>
   {strip.map(l=>{const [done,total]=countOf(l),chosen=l.id===tab;return <button type="button" key={l.id} aria-pressed={chosen} className={'tasks-list-card shop2-list-card'+(chosen?' chosen':'')+(l.status!=='active'?' closed':'')} onClick={()=>onSelect(l.id,scopeOf(l))}>

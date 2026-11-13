@@ -1,0 +1,11 @@
+/* Today: done tasks leave the list (owner, 2026-11-13). A just-ticked row fades out; one quiet line opens what was done. */
+html:root .view-today .today-task-row.today-task-leaving{opacity:0;transform:translateY(-4px);transition:opacity .4s ease,transform .4s ease}
+@media (prefers-reduced-motion:reduce){html:root .view-today .today-task-row.today-task-leaving{transform:none;transition:opacity .2s linear}}
+html:root .view-today .today-done{margin:4px 0 2px}
+html:root .view-today .today-done-toggle{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:6px 4px;border:0;background:none;color:var(--muted);font:inherit;font-size:calc(var(--scale-meta,13px) * var(--font-adjust,1));font-weight:750;cursor:pointer;border-radius:12px}
+html:root .view-today .today-done-toggle>svg:first-child{color:var(--success,#2f9e44)}
+html:root .view-today .today-done-toggle:hover{color:var(--text)}
+html:root .view-today .today-done-toggle:focus-visible{outline:3px solid var(--focus,var(--primary));outline-offset:2px}
+html:root .view-today .today-done-caret{transition:transform .2s ease}
+html:root .view-today .today-done.open .today-done-caret{transform:rotate(180deg)}
+html:root .view-today .today-done-list{display:grid;gap:0}

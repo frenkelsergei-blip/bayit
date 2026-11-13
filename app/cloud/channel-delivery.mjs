@@ -72,6 +72,8 @@ export async function deliverChannels(env,now,channels,{deadline=Date.now()+4500
     const ctx={env,connection,recipient,householdId,memberId,role,lang,date,time,origin,visible,members:home.state.members,nameOf};
     const outbox=await plan(env,channel,ctx,{home,childPrefs,snoozes,now,deadline,summary});
     for(const message of outbox.slice(0,MAX_PER_MEMBER_TICK)){if(Date.now()>=deadline)break;
+     // A follow-up ("X is not shopping after all") goes only to people who really got the message it follows.
+     if(message.requires&&!(await env.DB.prepare("SELECT 1 FROM notification_deliveries WHERE household_id=? AND member_id=? AND channel=? AND delivery_key=? AND status='sent'").bind(householdId,memberId,channel.id,message.requires).first()))continue;
      const claim=await env.DB.prepare("INSERT OR IGNORE INTO notification_deliveries(household_id,member_id,channel,delivery_key,status,created_at) VALUES(?,?,?,?,'sending',?)").bind(householdId,memberId,channel.id,message.key,now.getTime()).run();if(!claim.meta.changes)continue;
      const mark=(status,detail='')=>env.DB.prepare("UPDATE notification_deliveries SET status=?,detail=? WHERE household_id=? AND member_id=? AND channel=? AND delivery_key=?").bind(status,detail,householdId,memberId,channel.id,message.key).run();
      try{const sent=await d.send(env,connection,recipient,await d.render(message,ctx),lang);await mark('sent',sent?.messageId?'m:'+sent.messageId:'');summary.sent++} // The message id lets a later change correct this reminder.

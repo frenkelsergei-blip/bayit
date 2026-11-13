@@ -371,7 +371,7 @@ const QUICK_ADD=/^\s*(?:תוסיפ[וי]?|תוסיף|להוסיף|הוסף|הו�
 // The list the words go to: the one being shopped now, else today's planned shop, else this person's active list.
 function quickAddList(visible,memberId,date){
  const lists=(visible.shoppingLists||[]).filter(l=>l.status==='active');if(!lists.length)return null;
- const shopping=lists.find(l=>openShopOf(visible.shoppingLists,l.id));if(shopping)return shopping;
+ const shopping=lists.find(l=>openShopOf(visible.shoppingLists,l.id,Date.now(),visible.shopping));if(shopping)return shopping;
  const trip=(visible.tasks||[]).find(t=>t.kind==='shopping-trip'&&t.date===date&&lists.some(l=>l.id===t.shoppingListId));if(trip)return lists.find(l=>l.id===trip.shoppingListId);
  return lists.find(l=>l.id===visible.preferences?.activeShoppingListByUser?.[memberId])||lists.find(l=>l.visibility==='family')||lists[0];
 }
@@ -567,6 +567,7 @@ async function render(message,ctx){
  if(message.type==='voucher')return [alertCard(lang,{icon:'🎟',title:m.title,detail:esc(m.body)}),origin?[[{text:L(lang,'Open voucher','פתיחת השובר'),url:origin+'/'+m.url}]]:[]];
  if(message.type==='shopping'){const listName=title(message.list,lang),by=nameOf(message.by);
   if(message.kind==='added'){const it=message.item,amount=quantityText(it.quantity,undefined,lang);return [card(lang,{icon:'🆕',title:esc(title(it,lang))+(amount?' · '+esc(amount):''),context:L(lang,'Added to “'+listName+'” by '+by+' while you shop','נוסף לרשימה "'+listName+'" בזמן הקנייה שלך · '+by)}),[[await button(env,householdId,memberId,L(lang,'✓ Bought','✓ נקנה'),{type:'buy',itemId:it.id,keep:true}),await button(env,householdId,memberId,'🛒 '+L(lang,'The list','לרשימה'),{type:'shoplist',listId:message.list.id,keep:true})]]]}
+  if(message.kind==='stopped')return [card(lang,{icon:'🛒',title:esc(L(lang,by+' is not shopping after all',by+' לא בקניות בסוף')),context:esc(L(lang,'“'+listName+'” is back to planning.','"'+listName+'" חזרה להכנה.'))})];
   return [card(lang,{icon:'🛒',title:esc(L(lang,by+' is shopping now',by+' בקניות עכשיו')),context:esc(L(lang,'“'+listName+'” · '+message.left+' left. Need something? Write it here, e.g. milk, eggs','"'+listName+'" · נותרו '+message.left+'. צריך עוד משהו? כתבו כאן, למשל: חלב, ביצים'))}),[[await button(env,householdId,memberId,'🛒 '+L(lang,'The list','לרשימה'),{type:'shoplist',listId:message.list.id,keep:true})]]]}
  throw fail('Unsupported message.');
 }

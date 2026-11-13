@@ -207,3 +207,21 @@ html:root .view-shopping .shop2-layout{margin-top:10px}
  html:root .view-shopping .shop2-group{margin-top:0}
  html:root .view-shopping .shop2-group>h3{padding-block:2px}
 }
+
+/* ---------- Wide screens (from 1024px wide and 521px high, owner 2026-11-13; was 1101px): list + a side column for the shop ----------
+   Owner report 2026-11-12: the phone layout stretched across a wide screen (edge-to-edge bars, controls far from their
+   text). Choice B: the list at a comfortable width and, beside it, what is about the shop rather than the items (when,
+   who, Start/Finish, last shop, suggestions), as in Tasks and Expenses. Values from the existing grid: side 290–350px,
+   gap 26px (shopping-v2.css .shop2-layout); the page is 1136px at most (list 760px + 26 + 350) and centred; buttons keep
+   their normal size (--scale-control). Phones and tablets are unchanged. */
+@media(min-width:1024px) and (min-height:521px){
+ html:root main.main-content.view-shopping .shop2{max-width:1136px!important;margin-inline:auto}
+ html:root .view-shopping .shop2-layout.ss-two{grid-template-columns:minmax(0,1fr) minmax(290px,350px);gap:26px;align-items:start}
+ html:root .view-shopping .shop2-aside{position:sticky;top:calc(var(--shop2-sticky,0px) + 16px);display:flex;flex-direction:column;gap:12px;min-width:0}
+ html:root .view-shopping .shop2-aside>*{margin:0!important}
+ html:root .view-shopping .shop2-aside .ss-plan{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+ html:root .view-shopping .shop2-aside .ss-start{width:auto;align-self:flex-start;margin:0;min-height:var(--scale-control,44px);padding-inline:20px}
+ html:root .view-shopping .shop2-aside .ss-card{grid-template-columns:auto minmax(0,1fr)}
+ html:root .view-shopping .shop2-aside .ss-card .button{grid-column:1/-1;justify-self:start}
+ html:root .view-shopping .shop2-toolbar .shop2-search{flex:0 1 360px}
+}

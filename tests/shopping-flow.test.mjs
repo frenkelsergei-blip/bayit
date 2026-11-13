@@ -52,12 +52,12 @@ test('Finish turns my started shop into the finished one, keeps its start time a
  assert.equal(openShopOf(s.shoppingLists,'home',T0+11*60000),null,'back to Planning');
 });
 
-test('someone else finishes: a new finished shop, and the started one stops counting (its owner removes it)',()=>{
+test('someone else finishes: a new finished shop, and the started one stops counting (its owner stops it)',()=>{
  let s=send(home(),'daniel',d=>startShop(d,{listId:'home',actorId:'daniel',shopId:'shop-1',now:at(0)}));
  s=send(s,'hila',d=>{tick(d,'milk','hila',3);finishShop(d,{listId:'home',actorId:'hila',shopId:'shop-h',now:at(6)})});
  assert.equal(s.shoppingLists.find(l=>l.id==='shop-h').startedAt,at(0),'the shop started when Daniel started');
  assert.equal(openShopOf(s.shoppingLists,'home',T0+7*60000),null);
- s=send(s,'daniel',d=>stopShop(d,'shop-1','daniel'));assert.ok(!s.shoppingLists.some(l=>l.id==='shop-1'));
+ s=send(s,'daniel',d=>stopShop(d,'shop-1','daniel'));assert.equal(s.shoppingLists.find(l=>l.id==='shop-1').status,'stopped','kept as stopped (for Telegram), not in History');
  assert.throws(()=>stopShop(structuredClone(s),'shop-h','daniel'),/Only the person who started/);
 });
 

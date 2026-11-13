@@ -38,7 +38,7 @@ export function useShoppingSmart(a,list,items){
  const suggestions=useMemo(()=>!list||!prefs.suggest||list.status!=='active'?[]:shoppingSuggestions({list,purchases:[...purchaseRecords(a.data,a.user,list.visibility==='private'?'private':'family','all',anchor),...receiptPurchases(visibleReceipts(a),a.visible(a.data.shopping||[]),rememberedNames(visibleReceipts(a))).map(p=>({...p,icon:matchItem(p.title).icon,group:matchItem(p.title).group}))],marks,favourites,items,today:anchor,shopDate,options:{liked:prefs.liked}}),
   [list,items,a.data.purchases,a.data.receipts,a.data.shoppingMarks,a.data.favourites,prefs.suggest,prefs.liked,shopDate]);
  const requests=parent&&prefs.requests&&list?favourites.filter(f=>f.status==='requested'&&a.member(f.memberId)?.role==='child'&&sameAudience(f,list)):[];
- const shop=list?shopInProgress(items,Date.now(),openShopOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id)):null;
+ const shop=list?shopInProgress(items,Date.now(),openShopOf((a.data.shoppingLists||[]).filter(l=>canAccessList(l,a.user)),list.id,Date.now(),items)):null;
  const free=child&&(a.data.preferences?.shoppingNoApproval||[]).includes(a.user);
  return {prefs,child,parent,free,trip,shopDate,suggestions,requests,shop,favourites,marks};
 }
@@ -307,12 +307,12 @@ export function PlanLine({a,list,smart,ui,left,onStart}){
   {left>0&&onStart&&<button type="button" className="button ss-start" onClick={onStart}><ShoppingCart size={22} weight="bold" aria-hidden="true"/>{a.T('Start shopping','מתחילים לקנות')}</button>}</div>;
 }
 // While shopping: who started and since when, who joined, the planned day as a small line, Finish always there.
-export function ShopNowLine({a,smart,ui,onFinish}){
+export function ShopNowLine({a,smart,ui,onFinish,onStop}){
  const shop=smart.shop;if(!shop)return null;const t=timeOf(shop.startedAt),me=shop.by===a.user,trip=smart.trip;
  const joined=shop.with.filter(id=>id!==shop.by).map(id=>id===a.user?a.T('you','את/ה'):a.name(id));
  return <div className="ss-line ss-line-now" role="status" data-keep-clear><span className="ss-line-face"><ui.Avatar who={shop.by} size={30}/></span><span><b>{me?a.T('You are shopping','את/ה בקנייה'):a.T(a.name(shop.by)+' is shopping',a.name(shop.by)+' בקנייה')}</b>{' · '+a.T('since '+t,'מ־'+t)}
   {(joined.length>0||trip?.date)&&<small className="ss-line-who">{[joined.length?a.T('With '+joined.join(', '),'יחד עם '+joined.join(', ')):'',trip?.date?a.T('Planned: '+dayWord(a,trip.date)+(trip.time?', '+trip.time:''),'תוכנן: '+dayWord(a,trip.date)+(trip.time?', '+trip.time:'')):''].filter(Boolean).join(' · ')}</small>}</span>
-  <button type="button" className="button ss-small" onClick={onFinish}>{a.T('Finish','לסיים')}</button></div>;
+  {me&&onStop&&<button type="button" className="text-link ss-line-change" onClick={onStop}>{a.T("I'm not shopping",'אני לא בקנייה')}</button>}<button type="button" className="button ss-small" onClick={onFinish}>{a.T('Finish','לסיים')}</button></div>;
 }
 // The last shop of this list, until the first item is added for the next one (or a day passes). View opens it in History.
 export function lastShopOf(a,list,items){
@@ -346,16 +346,18 @@ export function FinishWindow({a,ui,list,items,shop,onClose,onReceipt}){
  const names=left.slice(0,3).map(i=>a.text(i)),more=left.length-names.length,leftText=names.join(a.lang==='he'?', ':', ')+(more>0?a.T(' and '+more+' more',' ועוד '+more):'');
  const receipt=a.cloud&&a.member(a.user)?.role!=='child';
  const finish=async withReceipt=>{setBusy(true);try{const done=await a.finishShopping(list.id,{keepLeft:keep});a.notify(a.T('Shop finished. It is in Shopping history.','הקנייה הסתיימה ונשמרה בהיסטוריית הקניות.'));onClose();if(withReceipt&&done)onReceipt(done)}catch(e){setError(e.message)}finally{setBusy(false)}};
- const stop=async()=>{try{await a.stopShopping(shop.id);onClose()}catch(e){setError(e.message)}};
- if(!bought.length)return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{shop?.by===a.user&&<Button onClick={stop}>{a.T('Stop shopping','להפסיק את הקנייה')}</Button>}<Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
-  <p className="ss-lead">{a.T('Nothing is ticked yet, so there is nothing to save.','עוד לא סומן כלום, אז אין מה לשמור.')}</p>{shop?.by===a.user&&<p className="ss-fine">{a.T('Stopping tells the family you are no longer shopping. The list stays as it is.','הפסקה אומרת למשפחה שאת/ה כבר לא בקנייה. הרשימה נשארת כמו שהיא.')}</p>}{error&&<p className="save-error" role="alert">{error}</p>}</Window>;
+ // "I'm not shopping" (2026-11-12): ends a started shop without saving anything; ticks stay as they are.
+ const stop=async()=>{try{await a.stopShopping(shop.shopId);a.notify(a.T('OK, you are not shopping. The list is back to planning.','בסדר, את/ה לא בקנייה. הרשימה חזרה להכנה.'));onClose()}catch(e){setError(e.message)}};
+ if(!bought.length)return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{shop?.by===a.user&&<Button onClick={stop}>{a.T("I'm not shopping",'אני לא בקנייה')}</Button>}<Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
+  <p className="ss-lead">{a.T('Nothing is ticked yet, so there is nothing to save.','עוד לא סומן כלום, אז אין מה לשמור.')}</p>{shop?.by===a.user&&<p className="ss-fine">{a.T('Nothing goes to Shopping history. The family sees you are no longer shopping, and the list stays as it is.','שום דבר לא נשמר בהיסטוריה. המשפחה רואה שאת/ה כבר לא בקנייה, והרשימה נשארת כמו שהיא.')}</p>}{error&&<p className="save-error" role="alert">{error}</p>}</Window>;
  return <Window a={a} className="ss-ask-window" title={a.T('Finished shopping?','סיימת לקנות?')} onClose={onClose} actions={<div className="ss-stack">{receipt&&<Button icon={Camera} disabled={busy} onClick={()=>finish(true)}>{a.T('Photograph the receipt and finish','לצלם קבלה ולסיים')}</Button>}<Button secondary={receipt} disabled={busy} onClick={()=>finish(false)}>{receipt?a.T('Finish without a receipt','לסיים בלי קבלה'):a.T('Finish','לסיים')}</Button><Button secondary onClick={onClose}>{a.T('Not yet','עוד לא')}</Button></div>}>
   <p className="ss-lead"><b>{a.T(bought.length+' bought.',bought.length+' נקנו.')}</b> {left.length?a.T(leftText+(left.length===1?' was':' were')+' not bought.','לא נקנו: '+leftText+'.'):''}</p>
   <FormSection T={a.T} icon={ListChecks} tone="green" title={a.T('What happens','מה קורה')}>
    <p className="ss-fine">{a.T('• The shop is saved in Shopping history, with what you bought and the receipt.','• הקנייה נשמרת בהיסטוריית הקניות, עם מה שנקנה והקבלה.')}</p>
    <p className="ss-fine">{a.T('• The list goes back to planning, ready for next time.','• הרשימה חוזרת למצב הכנה, מוכנה לפעם הבאה.')}</p>
    {left.length>0&&<label className="checkbox-label ss-keep"><input type="checkbox" checked={keep} onChange={e=>setKeep(e.target.checked)}/><span>{a.T('Keep the '+(left.length===1?'item':left.length+' items')+' not bought on the list for next time','להשאיר ברשימה לפעם הבאה את '+(left.length===1?'הפריט שלא נקנה':left.length+' הפריטים שלא נקנו'))}</span></label>}
-  </FormSection>{error&&<p className="save-error" role="alert">{error}</p>}
+  </FormSection>
+  {shop?.by===a.user&&<p className="ss-fine ss-notshop">{a.T('Started by mistake? ','התחלת בטעות? ')}<button type="button" className="text-link" onClick={stop}>{a.T("I'm not shopping",'אני לא בקנייה')}</button>{a.T(' saves nothing; what you ticked stays ticked.',' לא שומר כלום; מה שסימנת נשאר מסומן.')}</p>}{error&&<p className="save-error" role="alert">{error}</p>}
  </Window>;
 }
 

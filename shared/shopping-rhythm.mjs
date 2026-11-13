@@ -134,7 +134,10 @@ export function shopUpdates(visible,memberId,{now=Date.now(),role='parent'}={}){
  if(visible.preferences?.shoppingByUser?.[memberId]?.addsMessage===false)return [];
  const out=[];
  for(const list of (visible.shoppingLists||[]).filter(l=>l.status==='active')){
-  const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id),shop=shopInProgress(items,now,openShopOf(visible.shoppingLists,list.id,now));if(!shop)continue;
+  // "I'm not shopping" (2026-11-12): whoever heard "X is shopping now" hears once that it ended. `requires` lets the
+  // channel send it only to people who really got the start message.
+  for(const st of (visible.shoppingLists||[]).filter(l=>l.shopOf===list.id&&l.status==='stopped'&&l.startedBy!==memberId&&now-Date.parse(l.updatedAt||l.startedAt)<=10*60000))if(role!=='child')out.push({key:'shopstop:'+list.id+':'+st.startedAt,requires:'shopstart:'+list.id+':'+st.startedAt,type:'shopping',kind:'stopped',list,by:st.startedBy});
+  const items=(visible.shopping||[]).filter(i=>(i.listId||'week')===list.id),shop=shopInProgress(items,now,openShopOf(visible.shoppingLists,list.id,now,items));if(!shop)continue;
   const shoppers=new Set([shop.by,...shop.with]);
   if(shoppers.has(memberId)){for(const item of items)if(!item.done&&item.createdAt&&item.createdAt>=shop.startedAt&&item.createdBy&&item.createdBy!==memberId)out.push({key:'shopadd:'+item.id,type:'shopping',kind:'added',list,item,by:item.createdBy})}
   else if(role!=='child'&&now-Date.parse(shop.startedAt)<=10*60000)out.push({key:'shopstart:'+list.id+':'+shop.startedAt,type:'shopping',kind:'started',list,by:shop.by,left:items.filter(i=>!i.done).length});

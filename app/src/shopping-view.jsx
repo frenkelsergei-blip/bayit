@@ -2,6 +2,9 @@ import {allowInitialTextFocus} from './form-focus';
 // Shopping page v2 (styles: shopping-v2.css). One list strip, a clear header for the open list, ONE add bar
 // (icon and category picked automatically from the bilingual item dictionary), one compact filter row, compact rows.
 import {PersonChip} from './person-chip';
+import {useMedia} from './detail-panel';
+import {fxBus} from './motion-fx';
+import {openShopOf} from '../../shared/shopping-history.mjs';
 import React,{useState,useEffect,useLayoutEffect,useRef} from 'react';
 import {createPortal} from 'react-dom';
 import {DensityToggle} from './density';
@@ -73,7 +76,12 @@ export function ShoppingView({app:a,ui}){
  const toggle=item=>{if(!isActive)return a.notify(a.T('Restore this list to update it.','שחזרו את הרשימה כדי לעדכן אותה.'));
   if(!item.done&&!smart.shop&&currentList.visibility!=='private'&&!asked.current.has(tab)){setPending(item.id);setSmartWindow('start');return}
   const lastOne=!item.done&&smart.shop&&left===1;a.toggleShopping(item.id);if(lastOne)setSmartWindow('finish')};
- const startShop=async(then)=>{asked.current.add(tab);try{await a.startShopping(tab)}catch(e){return a.notify(e.message)}if(then)a.toggleShopping(then)};
+ // Start by button (2026-11-12): starts at once, with Undo on the toast for a few seconds (a press by mistake said
+ // "You are shopping" for hours). "I'm not shopping" on the line ends it later; neither leaves anything in History.
+ const latest=useRef(a);latest.current=a;
+ const stopNow=async()=>{const d=latest.current.data,s=openShopOf(d.shoppingLists,tab,Date.now(),d.shopping);if(!s||s.ownerId!==latest.current.user)return;await latest.current.stopShopping(s.id)};
+ const notShopping=async()=>{try{await stopNow();a.notify(a.T('OK, you are not shopping. The list is back to planning.','בסדר, את/ה לא בקנייה. הרשימה חזרה להכנה.'))}catch(e){a.notify(e.message)}};
+ const startShop=async(then)=>{asked.current.add(tab);try{await a.startShopping(tab)}catch(e){return a.notify(e.message)}if(then)a.toggleShopping(then);else fxBus.emit('deleted',{text:a.T('You started shopping. The family can see it.','התחלת קנייה. המשפחה רואה את זה.'),restore:stopNow})};
  const quantityText=item=>{const parts=String(item.quantity||'').match(/^([\d.]+)\s*(.*)$/),value=item.quantityValue||parts?.[1],unitKey=item.unit||({'bottle':'bottles','bag':'bags','loaf':'loaves','pack':'packs','liter':'liters'}[parts?.[2]]||parts?.[2]||'items');if(!value)return item.quantity||'';const u=UNITS.find(u=>u[0]===unitKey);const en=+value===1?({loaves:'loaf',liters:'liter',bottles:'bottle',bags:'bag',packs:'pack'}[unitKey]||unitKey):unitKey;return value+(unitKey==='items'?'':(' '+(a.lang==='he'?u?.[1]||unitKey:en)))};
  const addCategory=async e=>{e.preventDefault();const name=categoryName.trim();if(!name)return;if(categories.some(([en,he])=>en.toLocaleLowerCase()===name.toLocaleLowerCase()||he===name))return a.notify(a.T('That category already exists.','הקטגוריה כבר קיימת.'));await commit(()=>a.update(d=>{d.preferences.shoppingCategories=[...(d.preferences.shoppingCategories||[]),name]}),()=>{setCategoryName('');a.notify(a.T('Category created. Choose it in the item editor.','הקטגוריה נוצרה. בחרו אותה בעריכת הפריט.'))})};
  // Cards | List: in the filter row; on phones it moves up beside the open list's actions (the filter row has no room).
@@ -87,10 +95,20 @@ export function ShoppingView({app:a,ui}){
       <span className="shop2-row-avatar" title={a.name(who)}><Avatar who={who} size={30}/></span>
       <button type="button" className="icon-button shop2-row-edit" aria-label={a.T('Edit details for ','עריכת פרטים עבור ')+a.text(item)} onClick={()=>edit(item)}><PencilSimple size={19}/></button>
      </div></SwipeRow>};
+ // On a wide screen (from 1024px wide and 521px high: tablet landscape, laptop, desktop; wide screens A 2026-11-13) what is about the shop (when, who, Start/Finish, last shop,
+ // suggestions) is a side column beside the list (owner's choice B, 2026-11-12); phones and tablets keep it in the list.
+ const wide=useMedia('(min-width:1024px) and (min-height:521px)'),aside=wide&&!!currentList&&isActive;
+  const shopLines=<>
+  {currentList&&isActive&&(smart.shop?<ShopNowLine a={a} smart={smart} ui={{Avatar}} onFinish={()=>setSmartWindow('finish')} onStop={done===0?notShopping:null}/>
+  :done>0&&left===0?<AllTickedLine a={a} done={done} onFinish={()=>setSmartWindow('finish')}/>
+  :<PlanLine a={a} list={currentList} smart={smart} ui={{Button,Avatar}} left={left} onStart={()=>startShop()}/>)}
+  {currentList&&isActive&&!smart.shop&&<LastShopLine a={a} shop={last} onOpen={s=>{setShopOpen(s);setSmartWindow('shop')}}/>}
+  {currentList&&isActive&&!smart.shop&&!(items.length>0&&left===0)&&<SmartCard a={a} smart={smart} onOpen={()=>setSmartWindow('review')} onAsk={()=>setSmartWindow('favourites')}/>}
+  </>;
  return <div className="shop2">
   <Heading title={a.T('Good things for home.','דברים טובים לבית.')} subtitle={new Date(anchor+'T12:00Z').toLocaleDateString(a.lang==='he'?'he-IL':'en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}/>
   {!editor&&saveError&&<p className="save-error" role="alert">{saveError}</p>}{lists.strip}
-  <div className="shop2-layout ss-one">
+  <div className={"shop2-layout "+(aside?"ss-two":"ss-one")}>
    <section className="shop2-panel" aria-label={listName}>
     {lists.header}
     {currentList&&(isActive?<form ref={addBar} className={'shop2-add'+(value.trim()?' typing':'')+(many?' ss-many':'')} onSubmit={add}>
@@ -101,11 +119,7 @@ export function ShoppingView({app:a,ui}){
      <p className="shop2-add-hint" aria-live="polite">{many?<span className="ss-preview"><b>{a.T(quick.length+' items:',quick.length+' פריטים:')}</b>{quick.map((q,i)=><span className="ss-pv" key={i}><Icon code={guess(q.name).icon} size={22}/>{q.name}{q.quantity!==1?' · '+q.quantity:''}</span>)}{!smart.child&&<button type="button" className="button secondary ss-snap" onClick={()=>setSmartWindow('note')}><Camera size={20}/>{a.T('Photograph a list','צילום רשימה')}</button>}</span>:live?<><Icon code={categoryOf(live.group)[2]} size={20}/>{a.T('Category: ','קטגוריה: ')}<b>{a.T(...categoryOf(live.group).slice(0,2))}</b>{live.learned?' · '+a.T('as you chose before','כמו שבחרתם בעבר'):''}</>:a.T('The picture and category are chosen for you. You can change them later.','התמונה והקטגוריה נבחרות אוטומטית. אפשר לשנות אחר כך.')}</p>
     </form>:<div className="shop2-closed"><p>{a.T('This list is in the archive. Restore it from ⋯ to add items.','הרשימה בארכיון. משחזרים אותה מתוך ⋯ כדי להוסיף פריטים.')}</p></div>)}
     {duplicate&&<div className="shopping-duplicate" role="status"><p>{a.T('Already on this list: ','כבר ברשימה הזו: ')}<strong>{a.text(duplicate)}</strong> · {quantityText(duplicate)}</p><div className="actions"><Button disabled={saving||unitOf(duplicate)!==unit} onClick={()=>add({preventDefault(){}},'merge')}>{a.T('Add to its quantity','הוספה לכמות הקיימת')}</Button><Button secondary disabled={saving} onClick={()=>add({preventDefault(){}},'separate')}>{a.T('Add a separate item','הוספת פריט נפרד')}</Button><Button quiet onClick={()=>setDuplicate(null)}>{a.T('Cancel','ביטול')}</Button></div>{unitOf(duplicate)!==unit&&<small>{a.T('Different units: edit the existing item or add separately.','היחידות שונות: אפשר לערוך את הפריט הקיים או להוסיף בנפרד.')}</small>}</div>}
-    {currentList&&isActive&&(smart.shop?<ShopNowLine a={a} smart={smart} ui={{Avatar}} onFinish={()=>setSmartWindow('finish')}/>
-     :done>0&&left===0?<AllTickedLine a={a} done={done} onFinish={()=>setSmartWindow('finish')}/>
-     :<PlanLine a={a} list={currentList} smart={smart} ui={{Button,Avatar}} left={left} onStart={()=>startShop()}/>)}
-    {currentList&&isActive&&!smart.shop&&<LastShopLine a={a} shop={last} onOpen={s=>{setShopOpen(s);setSmartWindow('shop')}}/>}
-    {currentList&&isActive&&!smart.shop&&!(items.length>0&&left===0)&&<SmartCard a={a} smart={smart} onOpen={()=>setSmartWindow('review')} onAsk={()=>setSmartWindow('favourites')}/>}
+    {!wide&&shopLines}
     {currentList&&items.length>0&&<div className="shop2-toolbar">
      {smart.shop&&<div className="shop2-seg" role="group" aria-label={a.T('Show','הצגה')}>{[['remaining',a.T('Left','נשארו'),left],['bought',a.T('Bought','נקנו'),done],['all',a.T('All','הכל'),items.length]].map(([k,t,n])=><button type="button" key={k} aria-pressed={filter===k} className={filter===k?'on':''} onClick={()=>setFilter(k)}>{t}<em>{n}</em></button>)}</div>}
      <label className={'shop2-search'+(searchOpen||search?' open':'')}><MagnifyingGlass size={20}/><input aria-label={a.T('Search shopping','חיפוש בקניות')} placeholder={a.T('Find an item…','חיפוש פריט…')} value={search} onChange={e=>setSearch(e.target.value)}/>{search&&<button type="button" className="shop2-clear" aria-label={a.T('Clear search','ניקוי חיפוש')} onClick={()=>setSearch('')}><X size={16}/></button>}</label>
@@ -123,6 +137,7 @@ export function ShoppingView({app:a,ui}){
     </section>})}
     {currentList&&!shown.length&&<div className="shop2-empty" data-keep-clear><Empty text={filter==='remaining'&&items.length?a.T('All packed. You’re ready to go!','הכל נאסף. אפשר לצאת לדרך!'):search||groupFilter!=='all'?a.T('Nothing matches. Try another word or category.','לא נמצא פריט. נסו מילה או קטגוריה אחרת.'):a.T('This list is empty. Type the first item above.','הרשימה ריקה. כתבו למעלה את הפריט הראשון.')}/>{(search||groupFilter!=='all'||filter!=='all')&&items.length>0&&<button type="button" className="shop2-tool" onClick={()=>{setSearch('');setGroupFilter('all');setFilter('all')}}><ArrowCounterClockwise size={18}/>{a.T('Show all items','הצגת כל הפריטים')}</button>}</div>}
    </section>
+   {aside&&<aside className="shop2-aside" aria-label={a.T('This shop','הקנייה הזו')}>{shopLines}</aside>}
    
   </div>
   {headSlot&&createPortal(<DensityToggle central a={a} page="shopping" className="shop2-density-head"/>,headSlot)}

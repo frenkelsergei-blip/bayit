@@ -85,6 +85,7 @@ import './input-modality.js';
 import './page-header.css';
 import './controls.css';
 import './tab-fade.css';
+import './calendar-wide.css'; // Calendar on wide screens, direction A (2026-11-13)
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode><RenderBoundary>

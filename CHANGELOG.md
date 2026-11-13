@@ -4,6 +4,16 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.76.0 · 2026-11-13
+
+- On a computer or a wide tablet (from 1024 pixels wide), Today shows its sections in two columns, with Expenses and Bills side by side.
+- Calendar on wide screens: Agenda opens an event's details beside the list, Month shows Your day beside the grid, and New event and Cards | List sit in the title row.
+- Shopping shows the list with its side column (when you shop, Start, Finish, last shop) from 1024 pixels wide, and Start is a normal button.
+- Started shopping by mistake? "I'm not shopping" puts the list back to planning and saves nothing; your ticks stay. Whoever was told on Telegram that you are shopping gets one short message that you are not. A started shop with no tick for 90 minutes ends by itself.
+- Tasks opened from Today now shows all your tasks, with Overdue and Anytime, instead of only one day. Tasks, Today's week strip and Calendar go back to today when the date changes, even if the app stayed open.
+- A task you tick on Today leaves the list after a moment. A quiet "✓ 2 done today" line opens what you finished, and unticking a task there puts it back.
+- No migration. Wide layouts start at 1024px wide and 521px high (`breakpoints.wideLayout` in `design-system/tokens.json`); below that nothing changes. A stopped shop is kept as status `stopped` (never in History), and its Telegram follow-up goes out through the existing reminders path only to people who got the start message. The reminder cron Worker needs no redeploy.
+
 ## 1.75.0 · 2026-11-13
 
 - Calendar and Tasks: repeat on your own schedule. Choose Repeats → Custom for "every 42 days", "every 6 weeks" or "every 3 months", and see the next dates before you save. Bayit AI can set these up too.

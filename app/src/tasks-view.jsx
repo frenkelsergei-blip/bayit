@@ -9,7 +9,8 @@ import {PinToToday} from './household-pins';
 import {DetailTitle} from './detail-title';
 import {RecordLocation} from './location-field';
 import {RecordShare} from './record-share';
-import React,{useMemo,useState,useEffect} from 'react';
+import React,{useMemo,useState,useEffect,useRef} from 'react';
+import {linkRange} from './day-follow.mjs';
 import {Bell,ShoppingCart,Plus,MagnifyingGlass,LockSimple,Users,Repeat,Clock,CalendarDots,UserCircle,Stack,PencilSimple,Trash,X,Check,ListChecks,NotePencil,CaretDown,SortAscending} from '@phosphor-icons/react';
 import {occursOn,completionState} from './domain';
 import {DateField} from './date-field';
@@ -42,7 +43,7 @@ const uid=()=>crypto.randomUUID();
 
 export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Checkbox,DetailPanel,Empty}}){
  const q=new URLSearchParams(a.route.split('?')[1]||''),parent=a.member(a.user).role==='parent',he=a.lang==='he',locale=he?'he-IL':'en-US';
- const [filtersOpen,setFiltersOpen]=useState(false),[listId,setListId]=useState(q.get('list')||'all'),[range,setRange]=useState(q.get('date')?'day':'today'),[day,setDay]=useState(q.get('date')||anchor),[person,setPerson]=useState(()=>storedWhose('tasks',a.user)),[status,setStatus]=useState('open'),[search,setSearch]=useState(''),[selected,setSelected]=useState(q.get('task')?{id:q.get('task'),date:q.get('date')||anchor}:null),[detailOpen,setDetailOpen]=useState(!!q.get('task')),[sheet,setSheet]=useState(null);
+ const [filtersOpen,setFiltersOpen]=useState(false),[listId,setListId]=useState(q.get('list')||'all'),[range,setRange]=useState(linkRange(q.get('date'),anchor)),[day,setDay]=useState(q.get('date')||anchor),[person,setPerson]=useState(()=>storedWhose('tasks',a.user)),[status,setStatus]=useState('open'),[search,setSearch]=useState(''),[selected,setSelected]=useState(q.get('task')?{id:q.get('task'),date:q.get('date')||anchor}:null),[detailOpen,setDetailOpen]=useState(!!q.get('task')),[sheet,setSheet]=useState(null);
  const [prio,setPrio]=useState(()=>{const v=q.get('priority')||storedView().priority;return normalizePriority(v)||'all'}),[order,setOrder]=useState(()=>(q.get('order')||storedView().order)==='priority'?'priority':'time');
  useEffect(()=>{try{localStorage.setItem('bayit-tasks-view',JSON.stringify({priority:prio,order}))}catch{}},[prio,order]);
  const [kidsRoutines,setKidsRoutines]=useState(()=>storedKidsRoutines(a.user));
@@ -51,6 +52,10 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
  const choosePerson=who=>{setPerson(who);storeWhose('tasks',a.user,who)};
  useEffect(()=>{storeKidsRoutines(a.user,kidsRoutines)},[a.user,kidsRoutines]);
  useEffect(()=>{const link=new URLSearchParams(a.route.split('?')[1]||'');if(link.get('task')){const date=link.get('date')||anchor;setSelected({id:link.get('task'),date});setDetailOpen(true)}else setDetailOpen(false)},[a.route]);
+ /* A day from a link or the picker lasts until the household date changes; a new link (or Tasks in the menu after one) shows its day or today (day-follow.mjs, 2026-11-13). */
+ const linkDate=useRef(q.get('date')),seenDay=useRef(anchor);
+ useEffect(()=>{const date=new URLSearchParams(a.route.split('?')[1]||'').get('date');if(date===linkDate.current)return;linkDate.current=date;setDay(date||anchor);setRange(linkRange(date,anchor))},[a.route]);
+ useEffect(()=>{if(seenDay.current===anchor)return;seenDay.current=anchor;setDay(anchor);setRange(r=>r==='day'?'today':r)},[anchor]);
  const lists=(a.data.taskLists||[]).filter(l=>canAccessList(l,a.user));
  /* Tasks shows what you may see, filtered by whose: yours by default (shared/whose-filter.mjs inMyView), Everyone or one person (2026-11-11). */
  /* Kids' routines live on the Kids screen; grown-ups see them here only with the "Kids' routines" filter (2026-11-11). */

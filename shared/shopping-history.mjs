@@ -10,11 +10,17 @@ export const isShop=l=>!!l?.shopOf;
 // whoever pressed Start or answered "Yes, I am shopping". Only that starts "X is shopping" for the family and Telegram; a
 // plain tick is a plain tick. It ends when a shop of the same list is finished after it, when its owner stops it, or after
 // OPEN_MS (a shop nobody finished does not say "shopping now" forever).
-export const OPEN_MS=12*3600e3;
+// Idle (owner report 2026-11-12: a Start pressed by mistake said "You are shopping" for hours): with the list's items, a shop
+// is open only until IDLE_MS after its start or its last tick, whichever is later. When it lapses the list simply shows
+// Planning again; ticks stay ticks. Without items (older callers) only OPEN_MS applies.
+export const OPEN_MS=12*3600e3,IDLE_MS=90*60e3;
 export const isOpenShop=l=>isShop(l)&&l.status==='shopping';
-export function openShopOf(lists,listId,now=Date.now()){
+export function lastActivity(shop,items,listId){
+ let last=Date.parse(shop.startedAt);for(const i of items||[])if((i.listId||'week')===listId&&i.done&&i.boughtAt){const t=Date.parse(i.boughtAt);if(t>last)last=t}return last;
+}
+export function openShopOf(lists,listId,now=Date.now(),items){
  const all=lists||[],done=all.filter(l=>isShop(l)&&l.status==='archived'&&l.shopOf===listId);
- return all.filter(l=>isOpenShop(l)&&l.shopOf===listId&&now-Date.parse(l.startedAt)<OPEN_MS&&!done.some(s=>String(s.archivedAt)>=String(l.startedAt)))
+ return all.filter(l=>isOpenShop(l)&&l.shopOf===listId&&now-Date.parse(l.startedAt)<OPEN_MS&&(!items||now-lastActivity(l,items,listId)<IDLE_MS)&&!done.some(s=>String(s.archivedAt)>=String(l.startedAt)))
   .sort((x,y)=>String(y.startedAt).localeCompare(String(x.startedAt)))[0]||null;
 }
 const at=(i,listId)=>(i.listId||'week')===listId;
@@ -33,14 +39,20 @@ function usable(data,listId,actorId){
 }
 // Start (or join) the shop of a list. Someone already shopping: nothing new is made, the second person is shown as joining.
 export function startShop(data,{listId,actorId,shopId,now=new Date().toISOString()}){
- const list=usable(data,listId,actorId),open=openShopOf(data.shoppingLists,listId,Date.parse(now));if(open)return open;
+ const list=usable(data,listId,actorId),open=openShopOf(data.shoppingLists,listId,Date.parse(now),data.shopping);if(open)return open;
+ prune(data,actorId,now);
  const shop={id:shopId,name:list.name,he:list.he||list.name,ownerId:actorId,...shopAudience(list,actorId),status:'shopping',shopOf:list.id,startedBy:actorId,startedAt:now,createdAt:now};
  data.shoppingLists.push(shop);return shop;
 }
-// Stop a started shop without finishing it (nothing bought, or started by mistake): its owner removes it.
-export function stopShop(data,shopId,actorId){
+// Stop a started shop without finishing it ("I'm not shopping", 2026-11-12): nothing goes to History and ticks stay plain
+// ticks. The record stays as status 'stopped' (stop time in updatedAt) so Telegram can tell whoever heard "X is shopping
+// now" that it ended; the starter's stopped records older than a day are removed on the next start or stop.
+export function stopShop(data,shopId,actorId,now=new Date().toISOString()){
  const shop=(data.shoppingLists||[]).find(l=>l.id===shopId);if(!isOpenShop(shop)||shop.ownerId!==actorId)throw Error('Only the person who started this shop can stop it.');
- data.shoppingLists=data.shoppingLists.filter(l=>l.id!==shopId);
+ shop.status='stopped';shop.updatedAt=now;prune(data,actorId,now);
+}
+function prune(data,actorId,now){
+ data.shoppingLists=(data.shoppingLists||[]).filter(l=>!(isShop(l)&&l.status==='stopped'&&l.ownerId===actorId&&Date.parse(now)-Date.parse(l.updatedAt||l.startedAt)>864e5));
 }
 
 // keepLeft (default): what was not bought stays on the list for next time; otherwise it goes into the shop as "left".
@@ -49,7 +61,7 @@ export function finishShop(data,{listId,actorId,shopId,now=new Date().toISOStrin
  const list=usable(data,listId,actorId);
  const items=(data.shopping||[]).filter(i=>at(i,listId)),bought=items.filter(i=>i.done),left=items.filter(i=>!i.done);
  if(!bought.length)throw Error('Nothing was bought yet.');
- const open=openShopOf(data.shoppingLists,listId,Date.parse(now)),first=bought.map(i=>i.boughtAt).filter(Boolean).sort()[0]||now;
+ const open=openShopOf(data.shoppingLists,listId,Date.parse(now),data.shopping),first=bought.map(i=>i.boughtAt).filter(Boolean).sort()[0]||now;
  const started=open&&open.startedAt<first?open.startedAt:first,mine=open&&open.ownerId===actorId?open:null;
  const shop=mine||{id:shopId,name:list.name,he:list.he||list.name,ownerId:actorId,...shopAudience(list,actorId),shopOf:list.id,createdAt:now};
  Object.assign(shop,{status:'archived',archivedAt:now,finishedBy:actorId,startedAt:started,leftCount:left.length});
