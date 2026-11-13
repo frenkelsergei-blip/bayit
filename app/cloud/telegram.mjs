@@ -22,6 +22,7 @@ import {parseQuickAdd} from '../../shared/shopping-rhythm.mjs';
 import {openShopOf} from '../../shared/shopping-history.mjs';
 import {matchItem} from '../../shared/item-dictionary.mjs';
 import {completeTask,completionState,occursOn} from '../src/domain.js';
+import {everyLabel} from '../../shared/repeat.mjs';
 import {searchVouchers,voucherLink} from './voucher-delivery.mjs';
 import {stageInsuranceReport,readInsurancePreview,insurancePreviewSummary,applyInsurancePreview,discardInsurancePreview} from './insurance-import.mjs';
 import {snoozable} from './reminders.mjs';
@@ -140,7 +141,7 @@ function planText(plan,lang,lists){return plan.actions.map(a=>{
  if(a.kind==='shopping.list.create')return bullet(L(lang,'New list: ','רשימה חדשה: ')+esc(a.title));
  if(a.kind==='shopping.add'){const list=lists.find(l=>l.id===a.listId);return bullet([L(lang,'Add: ','הוספה: ')+esc(a.title),esc(quantityText(a.quantity,a.unit,lang)),list&&esc(title(list,lang))])}
  const what=a.kind==='event.create'?L(lang,'New event: ','אירוע חדש: '):a.kind==='task.create'?L(lang,'New task: ','משימה חדשה: '):'';
- return bullet([what+esc(a.title),a.date&&esc(shortDay(a.date,lang)),a.time&&esc(a.time)]);
+ return bullet([what+esc(a.title),a.date&&esc(shortDay(a.date,lang)),a.time&&esc(a.time),a.repeat&&a.repeat!=='once'&&!a.routine&&esc(everyLabel(a.repeat,a.repeatEvery,lang))]);
 }).join('\n')}
 const insuranceGuideText=lang=>card(lang,{icon:'🛡',title:L(lang,'Import insurance','ייבוא ביטוחים'),context:L(lang,'From the Har HaBituach website, in four steps:','מאתר הר הביטוח, בארבעה צעדים:'),
  blocks:[L(lang,['Open https://harb.cma.gov.il/ and choose insured-person login.','Complete the government identification yourself.','Open your insurance portfolio (all insurance) and download the detailed Excel report.','Send the original Excel file here, choose who is insured, review the summary and confirm.'],

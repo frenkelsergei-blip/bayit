@@ -5,12 +5,13 @@ import {validatePins} from './household-pins.mjs';
 import {mediaType} from './safe-media.mjs';
 import {validateInsuranceDocument,validateInsuranceAlertPrefs} from './insurance-lifecycle.mjs';
 import {validateReminderList} from './item-reminders.mjs';
+import {repeatProblem} from './repeat.mjs';
 const forbidden=new Set(['__proto__','prototype','constructor']);
 const words=s=>new Set(s.split(/\s+/));
 const common=words('id title he ownerId visibility allowedIds icon date time createdAt updatedAt createdBy updatedBy note noteHe reminder reminders memberId memberIds responsibleId deletedAt aiOperationId until');
 const fields={
  tasks:'priority routineId done completedAt completedBy repeat repeatDays repeatUntil weekdays days xp routine parentConfirm completions kind category listId shoppingListId subtasks notifyOwnerOnDone overdueAlert durationMinutes location turnOrder turnMemberIds turnEvery turnEnabled rotating rotation intervalMonths serviceHistory nextServiceDate serviceRequest repeatEvery approvalRequired reward assigneeIds turns reminderDays linkedShoppingTitle contactId documentId',
- events:'repeat repeatDays repeatUntil weekdays durationMinutes location color birthdayOf editPolicy editorIds endTime turnOrder parentConfirm category',
+ events:'repeat repeatEvery repeatDays repeatUntil weekdays durationMinutes location color birthdayOf editPolicy editorIds endTime turnOrder parentConfirm category',
  notes:'text textHe type editPolicy editorIds tags',
  shopping:'quantity quantityValue unit group category done boughtAt boughtBy listId order source receiptId restoredFrom',
  shoppingMarks:'kind key group listId',
@@ -29,7 +30,7 @@ const fields={
 };
 const profileFields=words('name he photo displayMode badgeIcon character equipped xp color birthday birthdayInCalendar locale notificationPrefs financePlans financeNotifications favoriteIcons hero heroRequest readNotifications dismissedNotifications documentCategories pinnedRecords');
 const stringFields=words('shopOf finishedBy startedAt startedBy restoredFrom tripId key decidedBy decidedAt store currency shopDate matchedExpenseId receiptId fileId id title he ownerId visibility date time createdAt updatedAt createdBy updatedBy note noteHe memberId responsibleId deletedAt completedAt completedBy repeat repeatUntil kind category listId shoppingListId group unit boughtAt boughtBy name status archivedAt sourceListId tripDate fileId filename mime purchased expires contactId description phone email address day mealType type source recipe payment currency dueDate endTime birthdayOf text textHe aiOperationId until priority routineId turnOrder receiptDocumentId notes documentId billId dish dishHe color sourceKind importChannel importedAt sourceSha256 linkedShoppingTitle');
-const numericFields=words('total charged paidOther leftCount xp quantityValue minimum amount size durationMinutes intervalMonths servings reminderDays');
+const numericFields=words('total charged paidOther leftCount xp quantityValue minimum amount size durationMinutes intervalMonths repeatEvery servings reminderDays');
 const booleans=words('done routine parentConfirm notifyOwnerOnDone paid turnEnabled rotating approvalRequired autoSuggest');
 export function boundedValue(value,{depth=0,budget={nodes:0}}={}){
  if(++budget.nodes>16000||depth>12)throw Error('This record is too complex.');
@@ -45,10 +46,18 @@ export function validIcon(value,depth=0){
  return depth===0&&value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(k=>['base','badge'].includes(k))&&validIcon(value.base,1)&&(!value.badge||validIcon(value.badge,1));
 }
 function date(value){if(value==='')return true;if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;const n=Date.parse(value+'T12:00:00Z');return Number.isFinite(n)&&new Date(n).toISOString().slice(0,10)===value}
+// Every read of a household checks each stored photo again (visibleState). Decoding a 100 KB photo cost most of a request's
+// CPU on Cloudflare's 10 ms free tier (2026-11-12: saves and Expenses failing with exceededResources), so the verdict for a
+// photo is remembered while the server runs, and the bytes are decoded with a plain loop.
+const imageVerdicts=new Map();
 export function imageData(value,{png=false}={}){
  if(typeof value!=='string'||value.length>180000)return false;
+ const key=(png?'p':'j')+value,known=imageVerdicts.get(key);if(known!==undefined)return known;
+ const verdict=checkImageData(value,png);if(imageVerdicts.size>=64)imageVerdicts.delete(imageVerdicts.keys().next().value);imageVerdicts.set(key,verdict);return verdict;
+}
+function checkImageData(value,png){
  const match=/^data:image\/(jpeg|png);base64,([A-Za-z0-9+/]+={0,2})$/.exec(value);if(!match||match[1]==='png'&&!png)return false;
- let bytes;try{bytes=Uint8Array.from(atob(match[2]),c=>c.charCodeAt(0))}catch{return false}
+ let bytes;try{const raw=atob(match[2]);bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i)}catch{return false}
  if(mediaType(bytes)!=='image/'+match[1])return false;
  if(match[1]==='png'){if(bytes.length<24)return false;const dv=new DataView(bytes.buffer);const w=dv.getUint32(16),h=dv.getUint32(20);return w>0&&h>0&&w<=2048&&h<=2048}
  let i=2,steps=0;while(i+8<bytes.length&&steps++<512){if(bytes[i++]!==255)return false;while(bytes[i]===255)i++;const marker=bytes[i++];if(marker===217||marker===218)break;const n=bytes[i]*256+bytes[i+1];if(n<2||i+n>bytes.length)return false;if([192,193,194,195,197,198,199,201,202,203,205,206,207].includes(marker)){const h=bytes[i+3]*256+bytes[i+4],w=bytes[i+5]*256+bytes[i+6];return w>0&&h>0&&w<=2048&&h<=2048}i+=n}
@@ -93,6 +102,7 @@ export function validateRecord(collection,value){
  if(value.time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time))throw Error('Choose a complete time.');
  for(const key of ['allowedIds','memberIds','editorIds','turnMemberIds','assigneeIds'])if(value[key]!==undefined&&(!Array.isArray(value[key])||value[key].length>100||value[key].some(v=>typeof v!=='string'||v.length>140)))throw Error('Choose valid people.');
  if(value.fileId!==undefined&&!/^[0-9a-f-]{36}$/i.test(value.fileId))throw Error('Choose an uploaded document.');
+ if(collection==='tasks'||collection==='events'){const problem=repeatProblem(value);if(problem)throw Error(problem)} // custom repeat (2026-11-12)
  for(const key of ['weekdays','repeatDays','days'])if(value[key]!==undefined&&(!Array.isArray(value[key])||value[key].length>7||value[key].some(d=>!Number.isInteger(d)||d<0||d>6)))throw Error('Choose valid weekdays.');
  if(value.completions!==undefined){if(!value.completions||typeof value.completions!=='object'||Array.isArray(value.completions)||Object.entries(value.completions).some(([day,c])=>!date(day)||!c||typeof c!=='object'||!['open','pending','done'].includes(c.state)))throw Error('Choose a valid completion.');}
  if(value.overdueAlert!==undefined&&(!value.overdueAlert||typeof value.overdueAlert!=='object'||!Number.isFinite(value.overdueAlert.afterMinutes)||value.overdueAlert.afterMinutes<0||value.overdueAlert.afterMinutes>10080))throw Error('Choose a valid overdue interval.');

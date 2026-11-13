@@ -58,6 +58,16 @@ export function pendingKeys(entries){
  return keys;
 }
 
+// What the queue holds, so the sync bar can say it plainly: only a page's Cards | List or layout choice, only settings,
+// or other changes (2026-11-12, the owner saw "1 change waiting to sync" for a Cards | List switch).
+const LAYOUT_PREFERENCES=new Set(['appearanceByUser','todayByUser']);
+export function waitingKind(entries){
+ const ops=(entries||[]).flatMap(e=>e.changes||[]);if(!ops.length)return '';
+ if(ops.every(op=>op.collection==='preferences'&&LAYOUT_PREFERENCES.has(op.id)))return 'layout';
+ if(ops.every(op=>op.collection==='preferences'))return 'settings';
+ return 'changes';
+}
+
 // Retry delays after a connection failure: 2s, 4s, 8s ... capped at 60s, with up to 20% jitter.
 export function retryDelay(attempt,random=Math.random){
  const base=Math.min(60000,2000*2**Math.max(0,Math.min(attempt,10)));

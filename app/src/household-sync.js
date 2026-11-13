@@ -5,7 +5,7 @@
 import {diffState} from '../cloud/state.mjs';
 import {cloudHeaders} from './cloud-transport.js';
 import {rebaseChanges} from '../../shared/change-merge.mjs';
-import {pendingKeys,retryDelay,newOpId,describeConflict,keepMine,offlineSnapshot} from '../../shared/offline-sync.mjs';
+import {pendingKeys,retryDelay,newOpId,describeConflict,keepMine,offlineSnapshot,waitingKind} from '../../shared/offline-sync.mjs';
 import {network} from './offline-state.js';
 
 // Household sync, session and config requests never hang the app on a flaky network: they give up and the app falls
@@ -24,14 +24,17 @@ export async function request(path,body,extraHeaders={},{timeout}={}){
 // Background Sync where the browser has it (not iPhone Safari); the app's own retries never depend on it.
 const requestBackgroundSync=()=>{try{globalThis.navigator?.serviceWorker?.ready?.then(r=>r.sync?.register('bayit-queue')).catch(()=>{})}catch{}};
 const transient=error=>!error.status||error.status>=500||error.status===408||error.status===429;
-const connectionMessage=error=>error.network||/^(Failed to fetch|Load failed|NetworkError)/.test(error.message||'')||error instanceof TypeError?'No connection to Bayit right now.':error.message;
+// A server error, an overloaded or stopped request (Cloudflare answers 503 HTML when a request runs out of CPU) or a
+// timeout is not the person's doing: say the server could not be reached; the change is kept and retried.
+const SERVER_UNREACHABLE='Bayit’s server could not be reached. Trying again.';
+const connectionMessage=error=>error.network||/^(Failed to fetch|Load failed|NetworkError)/.test(error.message||'')||error instanceof TypeError?'No connection to Bayit right now.':!error.status||error.status>=500||error.status===408||error.status===429?SERVER_UNREACHABLE:error.message;
 export class HouseholdClient{
  // options: {store, actorId, role, account, queue (entries restored from this device), syncedAt, fromSnapshot, extras}
  constructor(id,initial,transport=request,options={}){this.request=transport;this.id=id;this.revision=initial.revision;this.data=initial.data;this.options=options;this.store=options.store||null;this.queue=(options.queue||[]).map(e=>({...e,queuedOnce:true}));this.seq=Math.max(0,...this.queue.map(e=>e.seq||0));this.syncedAt=options.syncedAt||(options.fromSnapshot?0:Date.now());this.fromSnapshot=!!options.fromSnapshot;this.pending=0;this.attempt=0;this.conflicts=[];this.lastError=this.queue.length&&options.fromSnapshot?'No connection to Bayit right now.':'';this.waitingForConnection=!!this.queue.length;this.retryTimer=null;this.snapshotTimer=null;this.chain=Promise.resolve();this.listeners={};this.statusListeners=new Set();if(!this.fromSnapshot&&options.store)this.saveSnapshot()}
  // Older callers and tests read the queued record changes as one list.
  get failed(){return this.queue.flatMap(e=>e.changes)}
  // failed: changes the server keeps refusing or erroring on (not a missing connection); waiting: kept until the connection returns.
- status(){const waiting=!!this.queue.length&&this.waitingForConnection;return {pending:this.pending,failed:this.queue.length&&this.lastError&&!waiting?this.queue.length:0,queued:this.queue.length,waiting,error:this.lastError,conflicts:this.conflicts,syncedAt:this.syncedAt}}
+ status(){const waiting=!!this.queue.length&&this.waitingForConnection;return {pending:this.pending,failed:this.queue.length&&this.lastError&&!waiting?this.queue.length:0,queued:this.queue.length,kind:waitingKind(this.queue),waiting,error:this.lastError,conflicts:this.conflicts,syncedAt:this.syncedAt}}
  emit(){const status=this.status();for(const fn of this.statusListeners)fn(status);network.queue({pending:pendingKeys(this.queue),queued:this.queue.length,conflicts:this.conflicts});if(!this.pending&&!this.queue.length)this.listeners.data?.(this.data)}
  subscribeStatus(fn){this.statusListeners.add(fn);fn(this.status());return()=>this.statusListeners.delete(fn)}
  connect(listeners){this.listeners=listeners;const interval=setInterval(()=>this.poll(),5000),wake=()=>{if(document.visibilityState==='hidden')return;if(this.queue.length){this.attempt=0;this.flush().catch(()=>{})}else this.poll()},online=()=>{this.attempt=0;this.flush().catch(()=>{});this.poll()},update=e=>{if(this.pending||this.queue.length)e.preventDefault()},message=e=>{if(e.data?.type==='bayit-flush')online()},offReconnect=network.onReconnect(online);window.addEventListener('bayit-before-update',update);window.addEventListener('focus',wake);document.addEventListener?.('visibilitychange',wake);navigator.serviceWorker?.addEventListener?.('message',message);this.emit();if(this.queue.length)this.flush().catch(()=>{});else this.poll();return()=>{clearInterval(interval);clearTimeout(this.retryTimer);clearTimeout(this.snapshotTimer);offReconnect();window.removeEventListener('focus',wake);document.removeEventListener?.('visibilitychange',wake);navigator.serviceWorker?.removeEventListener?.('message',message);window.removeEventListener('bayit-before-update',update);this.listeners={}}}
@@ -67,7 +70,7 @@ export class HouseholdClient{
  save(before,after){const changes=diffState(before,after);if(!changes.length)return this.pending?this.chain:this.queue.length?this.flush():Promise.resolve();return this.run(changes)}
  scheduleRetry(){clearTimeout(this.retryTimer);this.retryTimer=setTimeout(()=>this.flush().catch(()=>{}),retryDelay(this.attempt++))}
  flush(){if(this.pending||!this.queue.length)return Promise.resolve();return this.run([])}
- async retry(){if(!this.queue.length)return;this.attempt=0;return this.run([])}
+ async retry(){if(!this.queue.length)return;clearTimeout(this.retryTimer);return this.run([])} // keeps this.attempt: a failed retry backs off further
  async discard(){clearTimeout(this.retryTimer);for(const e of this.queue)this.store?.deleteEntry(e.opId);this.queue=[];this.lastError='';await this.latest();this.emit()}
  dismissConflict(opId){this.conflicts=this.conflicts.filter(c=>c.opId!==opId);this.emit()}
  // "Use mine": reapply only the fields this person changed, on the latest version. Server rules still decide.

@@ -4,6 +4,8 @@ import {AssignedPeople} from './assigned-people';
 import {taskMemberIds} from '../../shared/task-assignment.mjs';
 import {normalizeAudience} from '../../shared/record-audience.mjs';
 import {repeatLabel} from './repeat-label';
+import {nextOccurrences,repeatEveryOf,addDays} from '../../shared/repeat.mjs';
+import {anchor} from './data';
 import {ReminderSummary,reminderListLabel,myDefaultReminders} from './item-reminder';
 import './record-assignment.css';
 
@@ -28,7 +30,7 @@ export function RecordAudience({a,record:stored,showEditors=false}){
 export function RecordRecurrence({a,record}){
  const locale=a.lang==='he'?'he-IL':'en-US',repeat=(record.repeat||(record.routine?'daily':'once')).toLowerCase();
  const days=record.routine&&record.weekdays?.length?record.weekdays.map(d=>new Date(Date.UTC(2026,10,1+d)).toLocaleDateString(locale,{weekday:'short',timeZone:'UTC'})).join(', '):'';
- return <div className="calendar-detail-row record-recurrence"><Repeat size={27}/><span><strong>{a.T('Repeats: ','חזרה: ')}</strong>{repeatLabel(repeat,a.T,record.weekdays)}{days&&<small>{days}</small>}{record.until&&repeat!=='once'&&<small>{a.T('Until ','עד ')}{new Date(record.until+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',day:'numeric',month:'short',year:'numeric'})}</small>}</span></div>;
+ return <div className="calendar-detail-row record-recurrence"><Repeat size={27}/><span><strong>{a.T('Repeats: ','חזרה: ')}</strong>{repeatLabel(repeat,a.T,record.weekdays,record.repeatEvery)}{days&&<small>{days}</small>}{!record.routine&&repeatEveryOf(record)>1&&(()=>{const next=nextOccurrences(record,addDays(anchor,1),1)[0];return next&&<small className="record-recurrence-next">{a.T('Next: ','הבא: ')}{new Date(next+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'})}</small>})()}{record.until&&repeat!=='once'&&<small>{a.T('Until ','עד ')}{new Date(record.until+'T12:00:00Z').toLocaleDateString(locale,{timeZone:'UTC',day:'numeric',month:'short',year:'numeric'})}</small>}</span></div>;
 }
 
 export function TaskReminderDetails({a,task}){

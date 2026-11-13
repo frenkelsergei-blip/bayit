@@ -83,7 +83,7 @@ export function TasksView({app:a,anchor,ui:{Heading,Button,Badge,Avatar,Icon,Che
  const current=selected?(base.find(t=>t.id===selected.id)||linkedTask?.id===selected.id&&linkedTask?{t:base.find(t=>t.id===selected.id)||linkedTask,date:selected.date}:null):groups[0]?.rows[0];
  const canEdit=t=>parent||t.ownerId===a.user;
  const listOf=t=>lists.find(l=>l.id===t.listId)||(!knownList(t.listId)&&!t.routine?generalTaskList:null);
- const repeatLabel=t=>{const r=(t.repeat||(t.routine?'daily':'once')).toLowerCase();return r==='once'?'':describeRepeat(r,a.T,t.weekdays)};
+ const repeatLabel=t=>{const r=(t.repeat||(t.routine?'daily':'once')).toLowerCase();return r==='once'?'':describeRepeat(r,a.T,t.weekdays,t.repeatEvery)};
  const subProgress=t=>t.subtasks?.length?(t.subtasks.filter(s=>s.done).length+'/'+t.subtasks.length):'';
  const countIn=id=>base.filter(t=>whoseOk(t)&&(id==='all'||(id===GENERAL_TASK_LIST_ID?!knownList(t.listId)&&!t.routine:t.listId===id))&&(!t.date||completionState(t,t.date>anchor?t.date:anchor)!=='done')).length;
  const shareText=l=>l.visibility==='family'?a.T('Family','כל המשפחה'):l.visibility==='private'?a.T('Only me','רק אני'):a.T('Shared','משותף');

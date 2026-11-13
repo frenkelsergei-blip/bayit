@@ -49,7 +49,8 @@ const reasonText=(c,T)=>{
 // Sync status for the signed-in app. `status` comes from HouseholdClient.subscribeStatus.
 export function SyncBanner({client,status,T,error,setError}){
  const state=useNetwork(),offline=isOffline(state),when=syncedLabel(state.syncedAt||status.syncedAt),queued=status.queued||0;
- const waiting=queued?T(queued===1?'1 change waiting to sync':queued+' changes waiting to sync',queued===1?'שינוי אחד ממתין לסנכרון':queued+' שינויים ממתינים לסנכרון'):'';
+ const waiting=!queued?'':status.kind==='layout'?T('Your layout choice is waiting to be saved','בחירת התצוגה שלך ממתינה לשמירה'):status.kind==='settings'?T('Your settings are waiting to be saved','ההגדרות שלך ממתינות לשמירה'):T(queued===1?'1 change waiting to sync':queued+' changes waiting to sync',queued===1?'שינוי אחד ממתין לסנכרון':queued+' שינויים ממתינים לסנכרון');
+ const serverText=status.error==='Bayit’s server could not be reached. Trying again.'?T('Bayit’s server could not be reached. It is kept on this device and we keep trying.','לא הצלחנו להגיע לשרת של Bayit. זה נשמר במכשיר הזה ואנחנו ממשיכים לנסות.'):'';
  const conflicts=status.conflicts||[];
  return <>
   {offline&&<div className="offline-banner" role="status" aria-live="polite">
@@ -57,7 +58,7 @@ export function SyncBanner({client,status,T,error,setError}){
    <span><strong>{T('Offline','אין חיבור')}</strong>{when&&<> · {T('showing data from '+when,'מוצג מידע מ-'+when)}</>}{waiting&&<> · {waiting}</>}</span>
   </div>}
   {!offline&&queued>0&&!status.failed&&<div className="offline-banner syncing" role="status" aria-live="polite"><ArrowsClockwise size={18} weight="bold" aria-hidden="true"/><span>{T('Syncing your changes…','מסנכרנים את השינויים שלך…')}</span></div>}
-  {!offline&&status.failed>0&&<div className="cloud-sync-banner" role="alert"><strong>{waiting}</strong><span>{error||T('Kept on this device. We retry automatically.','נשמר במכשיר הזה. ננסה שוב אוטומטית.')}</span><button onClick={async()=>{try{await client.retry();setError('')}catch(e){setError(T('Could not retry. Your changes are still kept.','לא ניתן לנסות שוב כרגע. השינויים נשמרים.'))}}}>{T('Retry now','לנסות שוב עכשיו')}</button><button onClick={()=>client.exportDraft()}>{T('Download draft','הורדת טיוטה')}</button><button onClick={()=>client.discard().catch(()=>setError(T('Could not discard the draft yet. Try again.','עדיין לא ניתן לבטל את הטיוטה. אפשר לנסות שוב.')))}>{T('Discard draft','ביטול טיוטה')}</button></div>}
+  {!offline&&status.failed>0&&<div className="cloud-sync-banner" role="alert"><strong>{waiting}</strong><span>{error||serverText||T('Kept on this device. We retry automatically.','נשמר במכשיר הזה. ננסה שוב אוטומטית.')}</span><button onClick={async()=>{try{await client.retry();setError('')}catch(e){setError(T('Still not reached. It is kept on this device; we try again a little later.','עדיין לא הצלחנו. זה נשמר במכשיר הזה, וננסה שוב בעוד רגע.'))}}}>{T('Retry now','לנסות שוב עכשיו')}</button><button onClick={()=>client.exportDraft()}>{T('Download draft','הורדת טיוטה')}</button><button onClick={()=>client.discard().catch(()=>setError(T('Could not discard the draft yet. Try again.','עדיין לא ניתן לבטל את הטיוטה. אפשר לנסות שוב.')))}>{T('Discard draft','ביטול טיוטה')}</button></div>}
   {conflicts.length>0&&<div className="sync-conflicts" role="alert">{conflicts.map(c=><div className="sync-conflict" key={c.opId}>
    <WarningCircle size={20} weight="bold" aria-hidden="true"/>
    <p>{reasonText(c,T)}</p>

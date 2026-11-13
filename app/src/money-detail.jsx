@@ -54,18 +54,23 @@ export function CategorySheet({a,T,money,catName,rows,groups,month,item,Icon,Ava
 
 // Today widgets share one request per household.
 let financeCache={id:null,promise:null};
+// A server error (for example Cloudflare's CPU limit, 2026-11-12) is tried once more before the widget says it could not
+// load; a failed answer is never kept in the shared cache, so "Try again" and the next visit ask the server again.
+const financeRequest=()=>fetch('/api/finance/data',{headers:cloudHeaders()}).then(async r=>{if(r.status>=500){await new Promise(done=>setTimeout(done,1200));r=await fetch('/api/finance/data',{headers:cloudHeaders()})}return r.ok?r.json():Promise.reject(new Error('unavailable'))});
 function useFinance(a){
- const [data,setData]=useState(null),[failed,setFailed]=useState(false);
- useEffect(()=>{const id=a.data.householdId||'';if(financeCache.id!==id||!financeCache.promise){financeCache={id,promise:fetch('/api/finance/data',{headers:cloudHeaders()}).then(r=>r.ok?r.json():Promise.reject(new Error('unavailable')))};setTimeout(()=>{if(financeCache.id===id)financeCache.promise=null},60000)}financeCache.promise.then(setData).catch(()=>setFailed(true))},[a.data.householdId]);
+ const [data,setData]=useState(null),[failed,setFailed]=useState(false),[attempt,setAttempt]=useState(0);
+ useEffect(()=>{const id=a.data.householdId||'';if(financeCache.id!==id||!financeCache.promise){const promise=financeRequest();financeCache={id,promise};promise.catch(()=>{if(financeCache.promise===promise)financeCache.promise=null});setTimeout(()=>{if(financeCache.promise===promise)financeCache.promise=null},60000)}financeCache.promise.then(d=>{setData(d);setFailed(false)}).catch(()=>setFailed(true))},[a.data.householdId,attempt]);
  const view=useMemo(()=>{if(!data?.transactions?.length)return null;const rows=data.transactions.filter(t=>t.visibility!=='private'||t.ownerId===data.me);if(!rows.length)return null;const months=[...new Set(rows.map(monthOf))].sort(),bank=(data.imports||[]).filter(i=>i.kind==='bank'),thisMonth=new Date().toISOString().slice(0,7),live=new Set(rows.filter(t=>t.source==='riseup'&&t.month<thisMonth).map(t=>t.month)),complete=m=>live.has(m)||bank.some(i=>i.periodFrom<=m+'-01'&&i.periodTo>=m+'-28'),month=[...months].reverse().find(complete)||months.at(-1);return {rows,groups:data.groups,month,s:monthSummary(rows,data.groups,month),f:forecast(rows,data.groups,shiftMonth(month,1))}},[data]);
- return {data,failed,view};
+ return {data,failed,view,retry:()=>{setFailed(false);setAttempt(n=>n+1)}};
 }
 const shekel=(v,he)=>'\u2066'+(v<0?'−':'')+'₪'+Math.abs(Math.round(v/100)).toLocaleString(he?'he-IL':'en-US')+'\u2069'; // left-to-right even in Hebrew
 
+const LoadFailed=({T,text,retry})=><div className="widget-load-failed" role="status"><p>{text}</p><button type="button" className="text-link" onClick={retry}>{T('Try again','לנסות שוב')}</button></div>;
 // Today: this month's money at a glance (adults on a signed-in household).
 export function MoneyWidget({app:a,ui:{Button}}){
- const {data,failed,view}=useFinance(a),T=a.T,he=a.lang==='he',money=v=>shekel(v,he);
- if(failed)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><p className="muted">{T('Expenses are available after signing in.','ההוצאות זמינות לאחר התחברות.')}</p></>;
+ const {data,failed,view,retry}=useFinance(a),T=a.T,he=a.lang==='he',money=v=>shekel(v,he);
+ // Only a signed-in adult sees this widget, so a failure is never "sign in first".
+ if(failed)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><LoadFailed T={T} text={T('Bayit’s server could not be reached, so expenses did not load.','לא הצלחנו להגיע לשרת של Bayit, ולכן ההוצאות לא נטענו.')} retry={retry}/></>;
  if(!data)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><WidgetSkeleton hero rows={2} label={T('Loading expenses…','טוענים הוצאות…')}/></>;
  if(!view)return <><h2>{T('Expenses this month','ההוצאות החודש')}</h2><div className="widget-empty"><img src="/assets/generated/money-hero-320.png" alt="" width="84" height="84"/><p>{T('Import a bank or card statement to see your month.','ייבאו דף חשבון או כרטיס כדי לראות את החודש.')}</p><Button secondary onClick={()=>a.go('household/expenses')}>{T('Import statement','ייבוא דף חשבון')}</Button></div></>;
  const {s,f,month}=view,income=Math.max(s.income,1);
@@ -83,11 +88,11 @@ export function MoneyWidget({app:a,ui:{Button}}){
 
 // Today: the next fixed bills, found from imported statements.
 export function BillsWidget({app:a,ui:{Icon}}){
- const {data,failed,view}=useFinance(a),T=a.T,he=a.lang==='he';
+ const {data,failed,view,retry}=useFinance(a),T=a.T,he=a.lang==='he';
  // Bills expected in the coming month (the same forecast the Money page uses), in date order from today.
  const bills=useMemo(()=>{if(!view)return [];const today=new Date().toISOString().slice(0,10),list=view.f.due.filter(r=>(CATEGORY[r.category]?.flow||'expense')==='expense').map(r=>({...r,due:view.f.month+'-'+String(Math.min(28,r.nextDay||1)).padStart(2,'0')}));const upcoming=list.filter(r=>r.due>=today);return (upcoming.length?upcoming:list).sort((x,y)=>x.due.localeCompare(y.due)).slice(0,4)},[view]);
  return <div className="bills-widget"><div className="section-title"><h2>{T('Coming up: bills','חשבונות קרובים')}</h2></div>
-  {failed?<p className="muted">{T('Available after signing in.','זמין לאחר התחברות.')}</p>:!data?<WidgetSkeleton rows={3} label={T('Loading bills…','טוענים חשבונות…')}/>:!bills.length?<p className="muted">{T('Fixed bills appear after two months of statements.','חיובים קבועים יופיעו אחרי חודשיים של דפי חשבון.')}</p>:<ul>{bills.map(r=><li key={r.key}><Icon code={CATEGORY[r.category]?.icon} size={34}/><strong>{r.description}</strong><b>{shekel(r.typical,he)}</b><span className="money-due">{new Date(r.due+'T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{day:'numeric',month:'short'})}</span></li>)}</ul>}
+  {failed?<LoadFailed T={T} text={T('Bayit’s server could not be reached, so bills did not load.','לא הצלחנו להגיע לשרת של Bayit, ולכן החשבונות לא נטענו.')} retry={retry}/>:!data?<WidgetSkeleton rows={3} label={T('Loading bills…','טוענים חשבונות…')}/>:!bills.length?<p className="muted">{T('Fixed bills appear after two months of statements.','חיובים קבועים יופיעו אחרי חודשיים של דפי חשבון.')}</p>:<ul>{bills.map(r=><li key={r.key}><Icon code={CATEGORY[r.category]?.icon} size={34}/><strong>{r.description}</strong><b>{shekel(r.typical,he)}</b><span className="money-due">{new Date(r.due+'T12:00Z').toLocaleDateString(he?'he-IL':'en-US',{day:'numeric',month:'short'})}</span></li>)}</ul>}
   <button className="text-link widget-more" onClick={()=>a.go('household/expenses')}>{T('All fixed bills','כל החיובים הקבועים')}{he?<ArrowLeft size={18}/>:<ArrowRight size={18}/>}</button>
  </div>;
 }

@@ -104,3 +104,10 @@ html:root[data-density=compact] .view-today .today-whose-note{margin-top:2px!imp
 html:root[data-density=compact] .view-today .section-title{justify-content:flex-start!important;gap:8px}
 html:root[data-density=compact] .view-today .prio-widget-row .prio-widget-text{display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important;min-width:0;flex:1}
 html:root[data-density=compact] .view-today .prio-widget-row .prio-widget-text small{flex:none;margin:0!important}
+
+/* Money and bills that could not load (2026-11-12): one honest line and "Try again", readable on the money gradient. */
+html:root .view-today .widget-load-failed{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+html:root .view-today .widget-load-failed p{margin:0;color:var(--muted);font-weight:650}
+html:root .view-today .widget-load-failed .text-link{min-height:44px}
+html:root .view-today .today-money :is(.widget-load-failed p,.widget-empty p,.muted){color:rgba(255,255,255,.92)}
+html:root .view-today .today-money .widget-load-failed .text-link{color:#fff;text-decoration-color:rgba(255,255,255,.7)}

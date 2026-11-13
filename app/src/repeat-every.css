@@ -1,0 +1,15 @@
+/* Custom repeat row (choice A, 2026-11-12): sits right under the Repeats field, like the concept board.
+   Number + unit select reuse the form's own input/select styles; only the row layout lives here. */
+.repeat-every{margin-top:-10px}
+.repeat-every-row{display:flex;align-items:center;gap:10px;margin-top:10px;min-width:0}
+.repeat-every-row>span{font-weight:700;min-width:max-content}
+.repeat-every-row>input[type=number]{width:76px;flex:none;text-align:center;padding-inline:8px;font-variant-numeric:tabular-nums}
+.repeat-every-row>.select-control{flex:1;min-width:0}
+.repeat-every-row>input[aria-invalid=true]{border-color:var(--danger,#c43d3d)}
+.repeat-every-hint{display:block;margin-top:8px}
+.repeat-every-hint.invalid{color:var(--danger,#c43d3d)}
+/* Phones: no spin arrows on touch, like the notification rows (item-reminders.css). */
+@media(max-width:700px){
+ .repeat-every-row>input[type=number]{-moz-appearance:textfield;appearance:textfield}
+ .repeat-every-row>input[type=number]::-webkit-inner-spin-button,.repeat-every-row>input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+}

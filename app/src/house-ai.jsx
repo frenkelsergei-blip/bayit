@@ -24,6 +24,7 @@ import {applyAIPlan,undoAIPlan} from '../../shared/ai-contract.mjs';
 import {useOnline} from './offline-ui';
 import {MessageReview,planAvailable} from './message-to-plan';
 import {describeAction} from '../../shared/ai-actions.mjs';
+import {everyLabel} from '../../shared/repeat.mjs';
 import {findingTitle} from '../../shared/bayit-ai.mjs';
 import {HubSuggestions,HubSettings,HUB_VIEWS} from './bayit-ai-hub';
 import './house-ai.css';
@@ -84,7 +85,7 @@ function Plan({a,ui,m,onApply,onUndo,onDismiss,pending}){
  const receipt=a.data.aiOperations?.[m.plan.id]||m.receipt;
  if(m.fromHistory&&!receipt)return <div className="hai-plan"><ul>{m.plan.actions.map((x,j)=><li key={j}><ui.Icon code={x.icon} size={30}/><span><b>{x.title}</b><small>{describeAction(x,a.lang)||''}</small></span></li>)}</ul></div>;
  return <div className="hai-plan"><p className="hai-step"><span>{a.T('Check and approve','לבדוק ולאשר')}</span><small>{a.T('Nothing is saved before you approve','שום דבר לא נשמר לפני שמאשרים')}</small></p>
-  <ul>{m.plan.actions.map((x,j)=><li key={j}><ui.Icon code={x.icon} size={30}/><span><b>{x.title}</b><small>{describeAction(x,a.lang)||[x.date,x.time,(x.memberIds||[]).map(a.name).join(', ')].filter(Boolean).join(' · ')}</small></span></li>)}</ul>
+  <ul>{m.plan.actions.map((x,j)=><li key={j}><ui.Icon code={x.icon} size={30}/><span><b>{x.title}</b><small>{describeAction(x,a.lang)||[x.date,x.time,x.repeat&&x.repeat!=='once'&&!x.routine&&everyLabel(x.repeat,x.repeatEvery,a.lang),(x.memberIds||[]).map(a.name).join(', ')].filter(Boolean).join(' · ')}</small></span></li>)}</ul>
   {receipt?<p className="hai-receipt"><CheckCircle size={20} weight="fill"/>{receipt.status==='undone'?a.T('Undone','בוטל'):a.T('Saved','נשמר')}{receipt.status!=='undone'&&<button type="button" className="text-link" disabled={pending} onClick={()=>onUndo(m)}><ArrowCounterClockwise size={16}/>{a.T('Undo','ביטול')}</button>}</p>
    :<div className="hai-plan-actions"><button type="button" className="button secondary" disabled={pending} onClick={()=>onDismiss(m)}>{a.T('Not now','לא עכשיו')}</button><button type="button" className="button" disabled={pending} onClick={()=>onApply(m)}><Check size={19}/>{a.T('Approve and save','לאשר ולשמור')}</button></div>}
  </div>;

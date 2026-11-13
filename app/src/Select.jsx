@@ -4,7 +4,7 @@ import {CaretDown,Check} from '@phosphor-icons/react';
 
 const plain=(value)=>React.Children.toArray(value).map(v=>typeof v==='string'||typeof v==='number'?v:React.isValidElement(v)?plain(v.props.children):'').join('');
 export function Select({children,value,defaultValue,onChange,disabled=false,className='',name,...props}){
-  const options=React.Children.toArray(children).filter(React.isValidElement).map(child=>({value:String(child.props.value??plain(child.props.children)),label:child.props.children,text:plain(child.props.children),disabled:!!child.props.disabled}));
+  const options=React.Children.toArray(children).filter(React.isValidElement).map(child=>({value:String(child.props.value??plain(child.props.children)),label:child.props.children,text:plain(child.props.children),disabled:!!child.props.disabled,shown:child.props['data-selected-label']}));
   const [internal,setInternal]=useState(String(defaultValue??options[0]?.value??''));
   const selected=String(value??internal),index=Math.max(0,options.findIndex(o=>o.value===selected));
   const [open,setOpen]=useState(false),[active,setActive]=useState(index),[position,setPosition]=useState({}),[label,setLabel]=useState('');
@@ -38,7 +38,7 @@ export function Select({children,value,defaultValue,onChange,disabled=false,clas
   };
   return <div className={'select-control '+className}>
     <button type="button" ref={trigger} className="select-button" role="combobox" aria-label={props['aria-label']||label||props.title||'Select option'} aria-expanded={open} aria-haspopup="listbox" aria-controls={open?listId:undefined} aria-activedescendant={open?uid+'-option-'+active:undefined} disabled={disabled} onKeyDown={keydown} onClick={event=>{event.preventDefault();event.stopPropagation();setActive(index);setOpen(previous=>!previous)}}>
-      <span>{options[index]?.label}</span><CaretDown size={20}/>
+      <span>{options[index]?.shown??options[index]?.label}</span><CaretDown size={20}/>
     </button>
     {name&&<input type="hidden" name={name} value={selected}/>}
     {open&&createPortal(<div ref={popup} role="listbox" id={listId} aria-label={props['aria-label']||label||'Options'} className="select-menu" style={position}>

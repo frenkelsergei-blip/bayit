@@ -4,6 +4,14 @@ All notable changes to Bayit. Newest first. The same notes, in English and Hebre
 
 Bayit uses [semantic versioning](https://semver.org): minor versions add features, patch versions fix things. Database changes ship as migrations in `app/cloud/migrations/`; see [Updating and backups](docs/updating-and-backups.md).
 
+## 1.75.0 · 2026-11-13
+
+- Calendar and Tasks: repeat on your own schedule. Choose Repeats → Custom for "every 42 days", "every 6 weeks" or "every 3 months", and see the next dates before you save. Bayit AI can set these up too.
+- Saving is lighter on Bayit's server, so changes and the 5-second refresh are stopped less often on Cloudflare's free plan. A save can still sometimes take a second try; nothing is lost.
+- When Bayit's server can't be reached, the bar says so plainly and what is waiting ("Your layout choice is waiting to be saved"). The change stays on this device and is retried until it goes through.
+- Today's Expenses and Bills cards no longer say "available after signing in" when you are signed in and the server didn't answer. They say the server could not be reached, try once more by themselves and offer Try again.
+- No migration. Custom repeat adds an optional whole number `repeatEvery` to events and tasks (absent means 1); the rule is in `shared/repeat.mjs`, and existing events and tasks fall on exactly the same dates. The server answers an unchanged poll (`If-None-Match`) from the membership and revision alone, with the same membership check. The reminder cron Worker needs no redeploy.
+
 ## 1.74.0 · 2026-11-12
 
 - Shopping › Prices and spending now shows prices from every receipt you can see, from all your lists and finished shops. Before, it could say "No receipts yet" after a shop was finished.
